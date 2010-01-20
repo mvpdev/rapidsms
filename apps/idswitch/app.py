@@ -6,7 +6,7 @@
 
 import rapidsms
 
-from idswitch.utils import *
+from apps.utils import *
 
 
 def import_function(func):

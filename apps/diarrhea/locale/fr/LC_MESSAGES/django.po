@@ -1,0 +1,65 @@
+# Diarrhea App
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ukang'a Dickson <ukanga@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-30 11:17+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sylvia Musula <smusula@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:37
+#, python-format
+msgid "Sorry, only registered users can access this program.%(msg)s"
+msgstr ""
+"Désolé,seulement les membres inscrits peuvent accéder le programme.%(msg)s"
+
+#: app.py:86
+#, python-format
+msgid "An error occurred. Please call %(mobile)s"
+msgstr "Une erreur s'est présentée. Veuillez appeler %(mobile)s"
+
+#: app.py:117
+#, python-format
+msgid "Case +%s not found."
+msgstr "Le cas +%(ref_id)s n'est pas trouvé."
+
+#: app.py:148 app.py:227
+#, fuzzy, python-format
+msgid ""
+"%(diagnosis_msg)s. +%(ref_id)s %(last_name)s, %(first_name_short)s, %(gender)"
+"s/%(months)s (%(guardian)s). %(days)s, %(ors)s"
+msgstr ""
+"%(diagnosis_msg)s. +%(ref_id)s %(last_name)s, %(first_name_short)s, %(gender)"
+"s/%(months)s (%(guardian)s). %(days)s, %(ors)s"
+
+#: models.py:48
+msgid "Moderate"
+msgstr "Modéré"
+
+#: models.py:49
+msgid "Danger"
+msgstr "Le risque "
+
+#: models.py:50
+msgid "Severe"
+msgstr "Sévère"
+
+#: models.py:51
+msgid "Healthy"
+msgstr "En bonne santé "
+
+#: models.py:58
+msgid "Number of days"
+msgstr "Les nombres de jours"
+
+#~ msgid "%s"
+#~ msgstr "%s"

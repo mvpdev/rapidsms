@@ -1,0 +1,149 @@
+[
+  {
+    "pk": 7, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Acute Respiratory Infections (460-466)"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Asthma"
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Dehydration**  "
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "HIV"
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Helminths (otherwise unspecified)"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Influenza"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Intestinal Infectious Diseases (excludes helminthiasis) (001-009)"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Malaria"
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Malnutrition"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Measles"
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Meningitis"
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Otitis Externa"
+    }
+  }, 
+  {
+    "pk": 16, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Otitis Media"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Pneumonia (480-488)"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Pulmonary Tuberculosis"
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Schistosomiasis "
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Sepsis"
+    }
+  }, 
+  {
+    "pk": 19, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Skin Infection"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Streptococcal Pharyngitis"
+    }
+  }, 
+  {
+    "pk": 13, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Trauma"
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "childcount.diagnosiscategory", 
+    "fields": {
+      "name": "Urinary Tract Infection"
+    }
+  }
+]

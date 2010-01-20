@@ -1,0 +1,843 @@
+Numero,first_name,last_name,gender,date_of_birth,age,guardian_first_name,guardian_last_name,Sites nutrition,Adresse,PB,Poids (kg),oedemes
+1,Guortel,NIANG,M,,4 mois,Nene,NIANG,Darou Salam,Darou Salam,148,,0
+2,Awa,FALL,F,,3 mois,Fatou ,MBAYE,Darou Salam,Darou Salam,156,,0
+3,Fatou,NDIAYE,F,,3 mois,Daba,TOURE,Darou Salam,Darou Salam,134,,0
+4,Samata,KA,F,10/12/2008,13 mois,Dienaba,KA,Darou Salam,Darou Salam,134,,0
+5,Mamadou,NDIAYE,M,,19 mois,Fatimata,KA,Darou Salam,Darou Salam,115,,0
+6,Rokhaya ,SEYE,F,1/21/2007,34 mois,Fama,KARARA,Darou Salam,Darou Salam,158,,0
+7,Fatou,SENE,F,,22 mois,Yacine,DIOP,Darou Salam,Darou Salam,154,,0
+8,Mame Diarra,DIOP,F,,43 mois,Ngone,DIOP,Darou Salam,Darou Salam,151,,0
+9,Ngouda,DIOP,M,,18 mois,Ngone,DIOP,Darou Salam,Darou Salam,138,,0
+10,Alima,SARR,F,,13 mois,Bineta,DIOP,Darou Salam,Darou Salam,184,,0
+11,Mansa,SARR,F,,54,Bineta,DIOP,Darou Salam,Darou Salam,157,,0
+12,Makhoudia,DIOP,M,,54 mois,Khady,SARRY,Darou Salam,Darou Salam,171,,
+13,Niaga,DIOP,M,,34 mois,Khady,SARRY,Darou Salam,Darou Salam,170,,0
+14,Ndelle,SECK,F,12/3/2008,48mois,Khady,POUYE,Darou Salam,Darou Salam,149,,0
+15,Malick ,FALL,M,,40 mois,Binetou,DIOP,Darou Salam,Darou Salam,141,,0
+16,Serigne,FALL,M,,22 mois,Binetou,DIOP,Darou Salam,Darou Salam,142,,0
+17,Ndeye,FALL,F,,20 mois,Fena,FALL,Darou Salam,Darou Salam,154,,0
+18,Yakh,FALL,F,,40 mois,Anta,NDOYE,Darou Salam,Darou Salam,167,,0
+19,Tiane,FALL,F,,58 mois,Lena,FALL,Darou Salam,Darou Salam,157,,0
+21,Fatou Bintou,NDIAYE,F,,15 mois,Fatou ,DIENE,Darou Salam,Darou Salam,152,,0
+22,Fallou,NDAO,M,,22 mois,Seynabou,WADE,Darou Salam,Darou Salam,156,,0
+23,Aida,NDIAYE,F,,53 mois,Fatou ,DIENE,Darou Salam,Darou Salam,166,,0
+24,Mamadou Moustafa,THIAM,M,,11 mois,Rokhaya,THIAM,Darou Salam,Darou Salam,149,,0
+25,Fatou M,THIAM,F,,44 mois,Rok,THIAM,Darou Salam,Darou Salam,153,,0
+26,Astou,DIOUF,F,,27 mois,Marieme,,Darou Salam,Darou Salam,151,,0
+27,Bouba,BA,M,,40 mois,Ousseye,DIALLO,Darou Salam,Darou Salam,163,,0
+28,Khady,BA,F,,52mois,Ousseye,DIALLO,Darou Salam,Darou Salam,148,,0
+29,Ahmed,BA,M,,28 mois,Ousseye,DIALLO,Darou Salam,Darou Salam,159,,0
+30,Mactar,NDOYE,M,,46 mois,Fatou ,CISS,Darou Salam,Darou Salam,161,,0
+31,Thioro,NDOYE,F,,10 mois,Fatou ,CISS,Darou Salam,Darou Salam,145,,0
+32,Daouda,NDOYE,M,,53 mois,Ngone,SARRY,Darou Salam,Darou Salam,166,,0
+33,Samba,NDOYE,M,,13 mois,Ngone,SARRY,Darou Salam,Darou Salam,172,,0
+34,Ndongo,THIAM,M,,44 mois,Marieme,DIOP,Darou Salam,Darou Salam,148,,0
+35,Boubacar,LEYE,M,,12 mois,Deguene,DIOP,Darou Salam,Darou Salam,151,,0
+37,Soukeye,SARR,F,,7 mois,Amy,DIOP,Darou Salam,Darou Salam,152,,0
+38,Fallou,SARR,M,,40 mois,Amy,DIOP,Darou Salam,Darou Salam,157,,0
+39,Moussa,NDOYE,M,,24 mois,Aida,DIOP,Darou Salam,Darou Salam,156,,0
+40,Mamadou ,NDOYE,M,,15 mois,Yacine,NDOUMBE,Darou Salam,Darou Salam,146,,0
+41,Arame,SARR,F,,40 mois,Soukeye,NDIAYE,Darou Salam,Darou Salam,154,,0
+42,Yeri,SECK,F,,51 mois,Sene,NDIAYE,Darou Salam,Darou Salam,170,,0
+43,Mari,KA,F,,48 mois,Ami Colle,FALL,Darou Salam,Darou Salam,140,,0
+44,Khadim,SEYE,M,,52 mois,Mada,FALL,Darou Salam,Darou Salam,160,,0
+45,Abdou,DIEYE,M,,52 mois,Ndeye,DIOP,Darou Salam,Darou Salam,160,,0
+46,Mada,DIEYE,F,,40 mois,Anna,NDOYE,Darou Salam,Darou Salam,151,,0
+47,Aminata,DIEYE,F,,40 mois,Aida,MBAYE,Darou Salam,Darou Salam,147,,0
+48,Serigne F,DIEYE,M,,40 mois,Ndeye,DIOP,Darou Salam,Darou Salam,156,,0
+49,Pape ,DIOP,M,,56 mois,Diagna,FALL,Darou Salam,Darou Salam,150,,0
+50,Aliaira,DIEYE,M,,11 mois,Mada,FALL,Darou Salam,Darou Salam,164,,0
+51,Mame Diarra,DIOP,F,,54 mois,Awa,KONATE,Darou Salam,Darou Salam,164,,0
+52,Aby,BOYE,F,,55 mois,Anta,NDIAYE,Darou Salam,Darou Salam,156,,0
+53,Pape ,BOYE,M,,55 mois,Awa,MBAYE,Darou Salam,Darou Salam,161,,0
+54,El Hadji,BOYE,M,8/31/2005,59 mois,Aby,DIEYE,Darou Salam,Darou Salam,164,,0
+55,Amy,BOYE,F,10/7/2007,25 mois,Aby,DIEYE,Darou Salam,Darou Salam,146,,0
+56,Amy,THIAM,F,,52 mois,Khady,FAYE,Darou Salam,Darou Salam,152,,0
+57,Abdou Aziz,THIAM,M,,19 mois,Khady,FAYE,Darou Salam,Darou Salam,146,,0
+58,Habib,SECK,M,3/22/2006,44 mois,Absa,SALL,Darou Salam,Darou Salam,140,,0
+59,M. Diarra,SECK,F,1/20/2007,34 mois,Oumy,SANE,Darou Salam,Darou Salam,156,,0
+60,Babacar,CISSE,F,,20 mois,Nar ,Ndoo,Darou Salam,Darou Salam,171,,0
+61,Sada,DIOP,M,,24 mois,Fatou ,DIOP,Darou Salam,Darou Salam,147,,0
+62,Marie,FALL,F,10/11/2005,49 mois,Rama ,DIOP,Darou Salam,Darou Salam,145,,0
+63,Astou,SENE,F,,48 mois,Dial,DIOP,Darou Salam,Darou Salam,157,,0
+64,Ndeye Fatou ,DIAO,F,,14 mois,Ndeye Bineta,GUEYE,Darou Salam,Darou Salam,145,,0
+65,Siny,DIOP,M,,57 mois,Fatou ,DIOP,Darou Salam,Darou Salam,155,,0
+66,Fallou ,DIOP,M,,51 mois,Yakhara,DIOUF,Darou Salam,Darou Salam,138,,0
+67,Mamour ,NDOYE,M,,36 mois,Yakhara,DIOUF,Darou Salam,Darou Salam,150,,0
+68,Fatou,SECK,F,,22 mois,Yacine,DIOP,Darou Salam,Darou Salam,163,,0
+69,S. Saliou,NDIAYE,M,,22 mois,Nogoye,NDOYE,Darou Salam,Darou Salam,160,,0
+70,Diarra,NDIAYE,F,,21 mois,Ndeye,YADE,Darou Salam,Darou Salam,140,,0
+71,Diarra,SECK,F,,23 mois,Absa,FALL,Darou Salam,Darou Salam,140,,0
+72,Fallou ,SECK,M,7/9/2008,15 mois,Marieme,GUEYE,Darou Salam,Darou Salam,150,,0
+73,Bineta,LO,F,,43 mois,Rama ,FALL,Darou Salam,Darou Salam,170,,0
+74,Baye Mary,LO,M,,13 mois,Bineta,LO,Darou Salam,Darou Salam,130,,0
+75,Ibrahima,LO,M,,41 mois,Bineta,LO,Darou Salam,Darou Salam,150,,0
+76,Yague,LO,M,,41 mois,Bineta,LO,Darou Salam,Darou Salam,160,,0
+77,More Talla,SEYE,M,,10 mois,Aissatou,SOW,Darou Salam,Darou Salam,148,,0
+78,Penda,SEYE,F,,30 mois,Aissatou,SOW,Darou Salam,Darou Salam,173,,0
+79,Anta ,SONKO,F,,14 mois,Arame ,SECK,Darou Salam,Darou Salam,162,,0
+80,Sdouhou,DIATTA,M,,56 mois,Fatou ,GUEYE,Darou Salam,Darou Salam,155,,0
+81,Marie,MEBIALLA,F,,29 mois,Fatou ,GUEYE,Darou Salam,Darou Salam,153,,0
+82,Libasse,DIOP,M,,31 mois,Nogoye,MBENGUE,Darou Salam,Darou Salam,147,,0
+83,Rokhaya ,SECK,M,,20 mois,Mareme,NIANG,Darou Salam,Darou Salam,145,,0
+84,Samba,NIANG,M,,53 mois,Sophie,GUEYE,Darou Salam,Darou Salam,159,,0
+85,Moutar,BA,M,,40 mois,Maimouna ,BA,Darou Salam,Darou Salam,156,,0
+1,Khady,SAMB,F,,38,Maty,MBENGUE,Darou Salam,Darou Salam,,,0
+87,Moussa,SECK,M,,7 mois,Abassa ,SALL,Darou Salam,Darou Salam,142,,0
+88,Babacar,DIOP,M,,24 mois,M'Benda ,NDIAYE,Darou Salam,Darou Salam,136,,0
+89,Daouda,DIOP,M,,31 mois,Khady,SAMB,Darou Salam,Darou Salam,142,,0
+90,Maty ,DIOp,F,,52 mois,Khady,SAMB,Darou Salam,Darou Salam,154,,0
+91,Khadim,NDIAYE,M,,27 mois,Ramata ,DIOP,Darou Salam,Darou Salam,141,,0
+92,Khalifa ,DIOP,M,,57 mois,M'Benda ,DIEYE,Darou Salam,Darou Salam,149,,0
+93,Ngone,DIOP,F,,33 mois,Madjiguene ,DIOP,Darou Salam,Darou Salam,153,,0
+94,N'Doya,FALL,F,,32 mois,Khady,THIOYE,Darou Salam,Darou Salam,151,,0
+95,Mame Diarra,SALE,F,,36 mois,Khady,THIOYE,Darou Salam,Darou Salam,162,,0
+96,Awa,DIOP,F,,23 mois,Amy,TALL,Darou Salam,Darou Salam,159,,0
+97,Maimouna ,MBAYE,F,,20 mois,Astou,NDIAYE,Darou Salam,Darou Salam,152,,0
+98,Fallou,NDIAYE,M,,49 mois,Awa,NDAW,Darou Salam,Darou Salam,159,,0
+99,Astou,SOUGOU,F,,37 mois,Rokhaya,DIOUF,Darou Salam,Darou Salam,143,,0
+100,Diarra,DIOP,F,,37 mois,Astou,MOR,Darou Salam,Darou Salam,148,,0
+101,Youssou,WADE,M,,23 mois,Fama ,NDIAYE,Darou Salam,Darou Salam,146,,0
+102,Saliou,WADE,M,,7 mois,Seynabou,FALL,Darou Salam,Darou Salam,149,,0
+103,Fallou,NIANG,M,,53 mois,Coumba ,NDOYE,Darou Salam,Darou Salam,157,,0
+104,Mor,DIA,M,,54 mois,Khady,NIANG,Darou Salam,Darou Salam,150,,0
+105,Yacine,NIANG,F,,53 mois,Daba,POXEYE,Darou Salam,Darou Salam,150,,0
+106,Woguo,NIANG,M,,29 mois,Coumba ,NIANG,Darou Salam,Darou Salam,161,,0
+107,Assane,NIANG,M,,24 mois,Daba,PAYE,Darou Salam,Darou Salam,150,,0
+108,Sokhna,NINGUE,F,,17 mois,Fatou,MBAYE,Darou Salam,Darou Salam,140,,0
+109,Bathe,WINGUE,M,,55 mois,Alina,DIOUF,Darou Salam,Darou Salam,163,,0
+110,Fatou,BAYE,F,,35 mois,Astou,MAGER,Darou Salam,Darou Salam,146,,0
+111,Seynabou,BAYE,F,,24 mois,Amsatou,NIANG,Darou Salam,Darou Salam,145,,0
+112,Maguette,FALL,F,,35 mois,Sokhna,BAYE,Darou Salam,Darou Salam,140,,0
+113,Ngoma,BAYE,F,,28 mois,Marieme,FAYE,Darou Salam,Darou Salam,154,,0
+114,Fatou,MBAYE,F,,57 mois,Bella,DIOP,Darou Salam,Darou Salam,152,,0
+115,Astou,FALL,F,,10 mois,Sokhna,BAYE,Darou Salam,Darou Salam,145,,0
+116,Anta,NIANG,F,,41 mois,Kine,DIOP,Darou Salam,Darou Salam,161,,0
+117,Khadim,NIANG,M,,12 mois,Mbeye,NIANG,Darou Salam,Darou Salam,143,,0
+118,Dior,BOYE,F,11/10/2006,37 mois,Seynabou,NIANG,Darou Salam,Darou Salam,165,,0
+119,Maty,DIOP,F,,22 mois,Kine,TOURE,Darou Salam,Darou Salam,149,,0
+120,Diodio,NIASS,F,,34 mois,Kine,TOURE,Darou Salam,Darou Salam,152,,0
+121,Baye L.,NIAN,M,,13 mois,Kine,TOURE,Darou Salam,Darou Salam,153,,0
+122,Fatou,SOW,F,,35 mois,Amy,DIOUF,Darou Salam,Darou Salam,153,,0
+123,Mowda,SY,M,,13 mois,Diarra,SOW,Darou Salam,Darou Salam,152,,0
+124,Modou,DIOP,M,,7 mois,Absa,KOULI,Darou Salam,Darou Salam,150,,0
+125,Amy ,NDOYE,F,,22 mois,Khady,DIOP,Darou Salam,Darou Salam,150,,0
+126,Fallou,MBAYE,F,,11 mois,Ngone,MBAYE,Darou Salam,Darou Salam,,,0
+127,Ousmane,SECK,M,,48 mois,Rokhaya,MIGARA,Darou Salam,Darou Salam,,,0
+128,Kine,SECK,F,,20 mois,Rokhaya,MIGARA,Darou Salam,Darou Salam,146,,0
+129,Pathe,DIALLO,M,,11 mois,Maguette ,TOURE,Darou Salam,Darou Salam,149,,0
+130,Saliou,NIANG,M,,21 mois,Awa,MBAYE,Darou Salam,Darou Salam,173,,0
+131,Saliou,DIOP,M,,15 mois,Fatou,DIOP,Darou Salam,Darou Salam,156,,0
+132,Yague,MBAYE,M,,18 mois,Yacine,MBAYE,Darou Salam,Darou Salam,168,,0
+133,Pape,MBAYE,M,,24 mois,Seynabou,NDIAYE,Darou Salam,Darou Salam,148,,0
+134,Nafi,MBAYE,F,,28 mois,Mbene,NDIAYE,Darou Salam,Darou Salam,130,,0
+135,Mor,DJITE,M,,34 mois,Maty,DIOP,Darou Salam,Darou Salam,187,,0
+136,Ma,DIALLO,F,,34 mois,Maguette ,TOURE,Darou Salam,Darou Salam,157,,0
+137,Fallou,DIOP,M,,57 mois,Seynabou,NDIAYE,Darou Salam,Darou Salam,160,,0
+138,Fatou,DIOP,F,,15 mois,Fatou,SECK,Darou Salam,Darou Salam,110,,0
+139,Fallou,DIOP,M,,23 mois,Marieme,DIOP,Darou Salam,Darou Salam,141,,0
+140,Balla,SALL,M,,15 mois,Ndeye,NGUER,Darou Salam,Darou Salam,146,,0
+141,Fatou,LEYE,F,,42,Codou,FALL,Darou Salam,Darou Salam,167,,0
+142,Ahmeth,NIANG,M,,45,Awa,MBAYE,Darou Salam,Darou Salam,163,,0
+143,Gorgui,MBAYE,M,,58,Mbene,NDIAYE,Darou Salam,Darou Salam,169,,0
+144,Sokhna,KHOUMA,F,,8 mois,Amy,THIAM,Darou Salam,Darou Salam,146,,0
+145,Abdou,DIOP,M,,48,Maty,MBAYE,Darou Salam,Darou Salam,163,,0
+146,Abdou S,DIOP,M,,56 mois,Ndeye,SECK,Darou Salam,Darou Salam,168,,0
+147,Codou,DIOUF,F,,22 mois,Marieme,DIOP,Darou Salam,Darou Salam,167,,0
+148,Fallou,DIOP,M,,17 mois,Sada,NDIAYE,Darou Salam,Darou Salam,155,,0
+149,Diarra,DIOP,F,,44 mois,Sada,NDIAYE,Darou Salam,Darou Salam,150,,0
+150,Ibrahima,NDIAYE,M,,51 mois,Binta,BEYE,Darou Salam,Darou Salam,152,,0
+151,Astou,GUEYE,F,,54 mois,Ndeye,DIOP,Darou Salam,Darou Salam,168,,0
+152,Maguette,GUEYE,F,,33 mois,Ndeye,DIOP,Darou Salam,Darou Salam,163,,0
+153,Fama,GUEYE,F,,23 mois,ndiate,DIALLO,Darou Salam,Darou Salam,147,,0
+154,Ibrahima,FALL,M,,46 mois,Fatou,NDIAYE,Darou Salam,Darou Salam,161,,0
+155,Sophie,DIOP,F,,50 mois,Diarra,DIENG,Darou Salam,Darou Salam,140,,0
+156,Mously,NDIAYE,F,,58 mois,Nogaye,NDIAYE,Darou Salam,Darou Salam,167,,0
+157,Thierno,NDIAYE,F,4/12/2004,53 mois,Ndeye,Wade,Darou Salam,Darou Salam,165,,0
+158,Diarra,NDIAYE,F,,40 mois,Astou,MBAYE,Darou Salam,Darou Salam,166,,0
+159,Khadim,GUEYE,M,,12 mois,Mbayang,SECK,Darou Salam,Darou Salam,170,,0
+160,Diarra,GUEYE,F,,38 mois,Mbayang,SECK,Darou Salam,Darou Salam,140,,0
+161,Fatou,NDIAYE,F,,48 mois,Ndeye,YADE,Darou Salam,Darou Salam,165,,0
+162,Aminata,NDIAYE,F,,12 mois,Maguette ,SECK,Darou Salam,Darou Salam,143,,0
+163,Fallou,NDIAYE,M,,35 mois,Maguette ,SECK,Darou Salam,Darou Salam,166,,0
+164,Abdoulaye,BA,M,,27 mois,Ouleye,NIANG,Darou Salam,Darou Salam,154,,0
+165,Diarra,NDIAYE,F,,35 mois,Aida,SARR,Darou Salam,Darou Salam,159,,0
+166,Awa,SOW,F,,16 mois,Fatoumata,DIA,Darou Salam,Darou Salam,141,,0
+167,Abdou,SOW,M,,56 moid,Fatoumata,DIA,Darou Salam,Darou Salam,155,,0
+168,Amadou,SOW,M,,43 mois,Fatoumata,DIA,Darou Salam,Darou Salam,161,,0
+169,Maty,NGUER,F,,31 mois,Ndeye,SEYE,Darou Salam,Darou Salam,154,,0
+170,Marieme,FALL,F,,13 mois,Daba,DIOP,Darou Salam,Darou Salam,135,,0
+171,Khady,FALL,F,4/12/2005,49,Marieme,KANE,Darou Salam,Darou Salam,140,,0
+172,Diarra,NIANG,F,,40 mois,Aida,LO,Darou Salam,Darou Salam,153,,0
+173,Assane,FALL,M,12/12/2006,35 mois,Marieme,KANE,Darou Salam,Darou Salam,150,,0
+174,Diarra,LO,F,,42 mois,Rama,FALL,Darou Salam,Darou Salam,156,,0
+175,Modou,DIOUF,M,,42 mois,Coumba ,DJITE,Darou Salam,Darou Salam,148,,0
+176,Fatou,NIANG,F,,22 mois,Aida,LO,Darou Salam,Darou Salam,143,,0
+177,Amy ,DIOUF,F,,42 mois,Coumba ,DJITE,Darou Salam,Darou Salam,150,,0
+178,ousmane,NGUER,F,,17 mois,Khady,SEYE,Darou Salam,Darou Salam,140,,0
+179,Moustapha,LO,M,,52 mois,Mama,FALL,Darou Salam,Darou Salam,171,,0
+180,Marieme,FALL,F,,32 mois,Codou,DIOP,Darou Salam,Darou Salam,145,,0
+181,Fatou,FALL,F,,36 mois,Maguiguene,NDOYE,Darou Salam,Darou Salam,135,,0
+182,Diarra,DIA,F,,40 mois,Bineta,FALL,Darou Salam,Darou Salam,155,,0
+183,Fatou,GUEYE,F,,40 mois,Ndeye,FALL,Darou Salam,Darou Salam,140,,0
+184,Ngoma,DIOUF,F,,44 mois,Fatou Ndoye,BOYE,Darou Salam,Darou Salam,150,,0
+185,Khady,KEBE,F,,15 mois,Diatou,SECK,Darou Salam,Darou Salam,154,,0
+186,Fama,KEBE,F,,53 mois,Diatou,SECK,Darou Salam,Darou Salam,148,,0
+187,Fallou,MAGARD,M,,7 mois,Wouly,MBAYE,Darou Salam,Darou Salam,166,,0
+188,Khadim,DIOP,M,,30 mois,Diombe,THIAM,Darou Salam,Darou Salam,135,,0
+189,Diarra,DIOP,F,,30 mois,Diombe,THIAM,Darou Salam,Darou Salam,150,,0
+190,Fama,MBAYE,F,,14 mois,Amy,NDIAYE,Darou Salam,Darou Salam,149,,0
+192,Cheickh,MBAYE,M,,35 mois,Amy,NDIAYE,Darou Salam,Darou Salam,178,,0
+193,Anta,MBAYE,F,,15 mois,Amy,NDIAYE,Darou Salam,Darou Salam,135,,0
+194,Amy ,MBAYE,F,,38 mois,Fatou,MBAYE,Darou Salam,Darou Salam,160,,0
+195,Talla,DIOUF,M,,42 mois,Diakhou,DIA,Darou Salam,Darou Salam,152,,0
+196,Diouma,BA,F,,34 mois,Khoudia,SOW,Darou Salam,Darou Salam,156,,0
+197,Astou,B A,F,,1 mois,Khoudia,SOW,Darou Salam,Darou Salam,0,,0
+198,Ndeye,DIONE,F,, mois,Thioro,SOW,Darou Salam,Darou Salam,140,,0
+199,Sokhna,SOUGOU,F,,12 mois,Awa,DIENG,Darou Salam,Darou Salam,154,,0
+200,Alassane,SOW,M,,12 mois,Daba,SOW,Darou Salam,Darou Salam,165,,0
+201,Abdou ,Niang,M,,26mois,Anta,Mangara,Darou Salam,Darou Salam,152,,0
+202,Youssou,Fall,M,,26mois,Ndack,Ndoye,Darou Salam,Darou Salam,150,,0
+203,Oumou,Ndoye,F,,10mois,Astou ,Diouf,Darou Salam,Darou Salam,146,,0
+204,CHEIKH,GUEYE,M,,52MOIS,Astou ,Diouf,Darou Salam,Darou Salam,158,,0
+207,COUMBA,MBAYE,F,,52MOIS,NDOYA,SAMB,Darou Salam,Darou Salam,148,,0
+208,MOUHAMED,NDIAYE,M,,26MOIS,ADJI ,DIOP,Darou Salam,Darou Salam,180,,0
+209,SALIOU,DIOUF,M,,22MOIS,ROKHAYA ,LOUM,Darou Salam,Darou Salam,146,,0
+210,YACINE,DIOUF,F,,52MOIS,ROKHAYA ,LOUM,Darou Salam,Darou Salam,152,,0
+211,PAPE,DIOP,M,,49MOIS,Astou ,NDOYE,Darou Salam,Darou Salam,150,,0
+212,DAME,SOW,M,,36MOIS,DABA,SOW,Darou Salam,Darou Salam,154,,0
+213,OUSMANE,SOW,M,,52MOIS,BINETA,DIOP,Darou Salam,Darou Salam,156,,0
+214,CHEIKH,NDIAYE,M,,52MOIS,MARIEME,SOW,Darou Salam,Darou Salam,180,,0
+215,DIAKHOU,NDOYE,F,,14MOIS,SAFIETOU,NDIAYE,Darou Salam,Darou Salam,139,,0
+216,MOUSTAPHA,NDOYE,M,,38MOIS,SAFIETOU,NDIAYE,Darou Salam,Darou Salam,164,,0
+217,DIARRA,DIOP,F,,27MOIS,COUMBA,DIA,Darou Salam,Darou Salam,163,,0
+218,ASTOU,DIOUF,F,,39MOIS,ANTA ,DIALLO,Darou Salam,Darou Salam,151,,0
+219,NDOYA,KA,M,,46MOIS,NDELLA,NIANG,Darou Salam,Darou Salam,158,,0
+220,KHADIM,NDOYE,M,,28MOIS,AMY,SAMB,Darou Salam,Darou Salam,145,,0
+221,NDEYE,DIOUF,M,,14MOIS,Astou ,NDOYE,Darou Salam,Darou Salam,163,,0
+222,FALLOU,DIOUF,M,,16MOIS,ANTA ,DIALLO,Darou Salam,Darou Salam,155,,0
+223,OMAR,DIOUF,M,,28MOIS,PENDA,THIAW,Darou Salam,Darou Salam,162,,0
+224,DIARRA,DIOP,M,,48MOIS,PENDA,DIAW,Darou Salam,Darou Salam,149,,0
+225,FATOU,SECK,F,,58MOIS,BOURY,SAMB,Darou Salam,Darou Salam,170,,0
+226,GORGUI,SECK,M,,36MOIS,ANTA ,MBENGUE,Darou Salam,Darou Salam,149,,0
+227,SALIMATA,DIOUF,F,,56MOIS,DAGUA,MAR,Darou Salam,Darou Salam,170,,0
+228, CHEIKH TIDIANE,SECK,M,,57MOIS,ANTA ,MBAYE,Darou Salam,Darou Salam,140,,0
+229,IBRAHIMA,SECK,M,,24MOIS,NGONE,GUEYE,Darou Salam,Darou Salam,140,,0
+230,AHMET,SECK,M,5/14/2005,54MOIS,DIARRA,GUEYE,Darou Salam,Darou Salam,160,,0
+231,AMY,DIOP,F,,23MOIS,PENDA,DIOUF,Darou Salam,Darou Salam,152,,0
+232,RACKY,NDOYE,F,,23 MOIS,KOURA,MBENGUE,Darou Salam,Darou Salam,158,,0
+233,ABDOU,DIOP,M,,10MOIS,ANTA ,SOW,Darou Salam,Darou Salam,178,,0
+234,AWA,BA,F,,10MOIS,AIDA,NDIAYE,Darou Salam,Darou Salam,158,,0
+235,FATOU,THIAM,F,,39MOIS,NDEYE,NIANG,Darou Salam,Darou Salam,158,,0
+236,MBAYE,THIAM,M,,10MOIS,NDEYE,NIANG,Darou Salam,Darou Salam,130,,0
+237,PAPE,NDIAYE,M,,13MOIS,Astou ,FAYE,Darou Salam,Darou Salam,154,,0
+238,SALIOU,DIOP,M,,23MOIS,Astou ,NDOYE,Darou Salam,Darou Salam,144,,0
+239,FALLOU,FALL,M,,11MOIS,FATOU,NDIAYE,Darou Salam,Darou Salam,142,,0
+240,MAGUEYE,FALL,M,,21MOIS,NDEYE FATOU ,FALL,Darou Salam,Darou Salam,138,,0
+241,AWA,KA,F,,10MOIS,DIARRY,NDIAYE,Darou Salam,Darou Salam,145,,0
+242,MALICK,POUYE,M,,44MOIS,AISSATOU,SECK,Darou Salam,Darou Salam,136,,0
+243,OUSMANE,SECK,M,,50MOIS,NENE,MBAYE,Darou Salam,Darou Salam,150,,0
+244,FALLOU,BA,M,,18MOIS,MAGUETTE,BA,Darou Salam,Darou Salam,158,,0
+245,DIARRA,DIOP,F,,23MOIS,DABA,SAMB,Darou Salam,Darou Salam,152,,0
+246,BARA,DIOP,M,,43MOIS,LAOBE,DIENG,Darou Salam,Darou Salam,154,,0
+247,KHADY,MBAYE,F,,24MOIS,SEYNABOU,SENE,Darou Salam,Darou Salam,152,,0
+248,RACKY,BA,F,,53MOIS,SELBE,DIOUF,Darou Salam,Darou Salam,146,,0
+249,SEYNABOU,FALL,F,,59MOIS,MARIEME,DIA,Darou Salam,Darou Salam,168,,0
+250,PAPE,GUEYE,M,,22MOIS,SALIMATA,DIALLO,Darou Salam,Darou Salam,161,,0
+251,NDEYE,THIAM,F,,52MOIS,KINE,LO,Darou Salam,Darou Salam,161,,0
+252,Moussa,MBAYE,M,,15 mois,Ndeye,NDIAYE,Darou Salam,Darou Salam,150,,0
+253,Gansiry,MBAYE,F,,52 mois,Diarra,GUEYE,Darou Salam,Darou Salam,160,,0
+254,Aby,DIOP,F,,30 mois,Adama,NDIAYE,Darou Salam,Darou Salam,145,,0
+255,Badara,CISS,M,,16 mois,AMY,BARRY,Darou Salam,Darou Salam,132,,0
+256,Talla,CISS,M,,16 mois,AMY,BARRY,Darou Salam,Darou Salam,160,,0
+257,Ahmet,BOYE,M,,25 mois,Awa,MBAYE,Darou Salam,Darou Salam,145,,0
+258,Maodo,DIOP,M,,52 mois,Adama,NDIAYE,Darou Salam,Darou Salam,145,,0
+259,Ibra ,BOYE,M,,49 mois,ANTA ,NDIAYE,Darou Salam,Darou Salam,156,,0
+260,Ngadiaga,DIOP,F,,24 mois,Sabel,WADE,Darou Salam,Darou Salam,178,,0
+261,Moda,DIOP,M,,52 mois,Seye,DIEYE,Darou Salam,Darou Salam,142,,0
+262,Ibra,DJITE,M,,28 mois,Bineta,DIAW,Darou Salam,Darou Salam,165,,0
+263,Khalifa,MANDIANG,M,,15 mois,Adama,DIOP,Darou Salam,Darou Salam,152,,0
+264,Diama,Fall,F,,18 mois,Amineta,NDOYE,Darou Salam,Darou Salam,136,,0
+265,Omar,SADIO,M,,11 mois,Fatoumata,MBENGUE,Darou Salam,Darou Salam,168,,0
+266,Fatou Binetou,DJITE,F,,59 mois,Bineta,DIAW,Darou Salam,Darou Salam,161,,0
+267,Maty,NDOYE,F,,59 mois,Deguere,DIOP,Darou Salam,Darou Salam,170,,0
+268,Mareme,SARRY,F,,21 mois,Ndeye,MANDIANG,Darou Salam,Darou Salam,147,,0
+269,Assane,TALL,M,,35 mois,Ndeye,TOUTY,Darou Salam,Darou Salam,159,,0
+270,Cheikh,DIOP,M,,56 mois,Marieme,MBAYE,Darou Salam,Darou Salam,157,,0
+271,Abdou ,KHADRE,M,,59 mois,Aminata,NDOYE,Darou Salam,Darou Salam,152,,0
+272,Moussa,FALL,M,,56 mois,Absa,DIOP,Darou Salam,Darou Salam,143,,0
+273,Marieme,NGOM,F,,11 mois,Dial,DIOP,Darou Salam,Darou Salam,163,,0
+274,Khady,NDOUR,F,,22 mois,Penda,FALL,Darou Salam,Darou Salam,146,,0
+275,Nafi,FALL,F,,12 mois,Diarra,NGOM,Darou Salam,Darou Salam,153,,0
+276,Tacko,FALL,F,,34 mois,Diarra,NGOM,Darou Salam,Darou Salam,164,,0
+277,Braya,DIOUF,M,,12 mois,Diarra,KEBE,Darou Salam,Darou Salam,151,,0
+278,Ndack,NGOM,F,,34 mois,Ndiole,LO,Darou Salam,Darou Salam,160,,0
+279,Codou,DIOUF,F,,45 mois,Diarra,KEBE,Darou Salam,Darou Salam,158,,0
+280,Ndiaga,THIAW,M,,18 mois,Mareme,DIOP,Darou Salam,Darou Salam,161,,0
+281,Baye,FALLOU,M,,52 mois,Fatou,DIEYE,Darou Salam,Darou Salam,147,,0
+282,Anta,DIOP,F,,59 mois,Khady,DIAW,Darou Salam,Darou Salam,155,,0
+283,Maguette,THIAW,F,,57 mois,Aida,SEYE,Darou Salam,Darou Salam,155,,0
+284,Awa,THIAW,F,,40 mois,Aida,SEYE,Darou Salam,Darou Salam,154,,0
+285,Ass,FALL,M,,35 mois,Aicha,DIOP,Darou Salam,Darou Salam,137,,0
+286,Fallou,SARRY,M,,12 mois,Awa,NIANG,Darou Salam,Darou Salam,145,,0
+287,Yery,SECK,M,,28 mois,Mada,GUEYE,Darou Salam,Darou Salam,173,,0
+288,Amy,MBENGUE,F,,20 mois,Rama,THIOMBANE,Darou Salam,Darou Salam,154,,0
+289,Ndeye,NDIAYE,F,,50,ANTA ,SY,Darou Salam,Darou Salam,145,,0
+290,Diebou,SARRY,F,,40 mois,Awa,NIANG,Darou Salam,Darou Salam,148,,0
+291,Aissata,NDOUR,F,,52 mois,Penda,FALL,Darou Salam,Darou Salam,160,,0
+292,Mohamed,DIAGNE,M,,11 mois,Soukeye,DIAGNE,Darou Salam,Darou Salam,146,,0
+293,Maguette,DIOUF,M,,50 mois,Amy,THIAM,Darou Salam,Darou Salam,156,,0
+294,Mamadou ,DIOUF,M,,59 mois,Marieme,DIOP,Darou Salam,Darou Salam,145,,0
+295,Coguitte,FALL,F,,22 mois,Fatou,DIOP,Darou Salam,Darou Salam,146,,0
+296,Galaye,FALL,M,,31 mois,Fatou,MBAYE,Darou Salam,Darou Salam,166,,0
+297,Fatou,DIOP,F,,52 mois,Awa,THIAW,Darou Salam,Darou Salam,163,,0
+298,Khadim,FALL,M,,20 mois,Yama,NDIAYE,Darou Salam,Darou Salam,158,,0
+299,Maty,FALL,F,,33 mois,Yama,NDIAYE,Darou Salam,Darou Salam,163,,0
+300,Aicha,NDOUR,F,,14 mois,Seynabou,NDIAYE,Darou Salam,Darou Salam,156,,0
+301,Ndiaga,NDOUR,M,,49 mois,Seynabou,NDIAYE,Darou Salam,Darou Salam,166,,0
+302,Saliou,MBAYE,M,,24 mois,Fatou,FALL,Darou Salam,Darou Salam,154,,0
+303,Bineta,NDIAYE,F,,33 mois,ANTA ,SEYE,Darou Salam,Darou Salam,154,,0
+304,Samba ,KA,M,3/26/2008,16 mois,Awa ,KA,Keur A NDOYE,Keur A Ndoye,220,,0
+305,Rougiatou ,KA,F,2/20/2009,5 mois,Diarietou ,KA,Keur A NDOYE,Keur A Ndoye,160,,0
+306,Aissata ,KA,F,12/17/2008,7 mois,Awa ,SOW,Keur A NDOYE,Keur A Ndoye,140,,0
+307,Ali,KA,F,10/31/2008,9 mois,Khady,DIA,Keur A NDOYE,Keur A Ndoye,150,,0
+308,Baba,Sow,M,14 mois,14 mois,Dado,SOW,Keur A NDOYE,Keur A Ndoye,,,
+309,Adama ,KA,M,12/29/2007,8 mois,Aminata,BA,Keur A NDOYE,Keur A Ndoye,130,,0
+310,Awa,KA,F,12/29/2009,7 mois,Amina ,BA,Keur A NDOYE,Keur A Ndoye,150,,0
+311,Fatimata ,DIONE,F,12/6/2008,18 mois,Ami,CISS,Keur A NDOYE,Keur A Ndoye,160,,0
+312,Woury ,KA,F,1/12/2009,6 mois,Diary,BA,Keur A NDOYE,Keur A Ndoye,140,,0
+313,Ibrahima ,KA,F,12/25/2008,7 mois,Aby,BA,Keur A NDOYE,Keur A Ndoye,157,,0
+314,Ousseynou,KA,M,10/24/2008,9 mois,Awa ,KA,Keur A NDOYE,Keur A Ndoye,150,,0
+315,Aby,KA,F,8/27/2008,11 mois,Khardiata ,KA,Keur A NDOYE,Keur A Ndoye,,,0
+316,Souleymane,KA,M,1/15/2008,18 mois,Khoudia,KA,Keur A NDOYE,Keur A Ndoye,14,,0
+317,Ablaye ,KA,M,4/10/2009,3 mois,Khadidiatou,KA,Keur A NDOYE,Keur A Ndoye,13,,0
+318,Dior  ,DIOP,F,3/20/2009,4 mois,Khady,NIANG,Keur A NDOYE,Keur A Ndoye,13,,0
+319,Daouda,DIENE,M,5/24/2008,14 mois,Astou,GUEYE,Keur A NDOYE,Keur A Ndoye,14,,0
+320,Marie,BA,F,8/30/2008,11 mois,Ndeye ,FALL,Keur A NDOYE,Keur A Ndoye,15,,0
+321,Diarietou,KA,F,3/9/2008,16 mois,Sala,KA,Keur A NDOYE,Keur A Ndoye,15,,0
+322,Rougiatou ,BA,F,4/8/2009,3 mois,Aminata,KA,Keur A NDOYE,Keur A Ndoye,13,,0
+323,Aissata ,Sow,F,12/24/2009,7 mois,Rouguiatou ,SOW,Keur A NDOYE,Keur A Ndoye,13,,0
+324,Aida,BA,F,3/13/2009,,Ndeye ,SOW,Keur A NDOYE,Keur A Ndoye,14,,
+325,Babacar ,Sow,M,1/19/2009,6 mois,Binta,SOW,Keur A NDOYE,Keur A Ndoye,15,,0
+326,Thierno,Sow,M,11/19/2008,8 mois,Aminata ,KA,Keur A NDOYE,Keur A Ndoye,15.8,,0
+327,Seynabou ,KA,F,1/11/2008,18 mois,Khardiata ,KA,Keur A NDOYE,Keur A Ndoye,13.5,,0
+328,Thierno,KA,M,1/24/2009,6 mois,Khady,DIOUF,Keur A NDOYE,Keur A Ndoye,13,,0
+329,Seynabou ,KA,F,10/11/2008,9 mois,Aida,SOW,Keur A NDOYE,Keur A Ndoye,15,,0
+330,Djibi ,KA,M,9/6/2008,10 mois,Maimouna ,BA,Keur A NDOYE,Keur A Ndoye,14,,0
+331,Amy,Toure,F,1/28/2009,6 mois,Aissata,DIA,Keur A NDOYE,Keur A Ndoye,16,,0
+332,Maimouna ,BA,F,2/8/2009,5 mois,Awa ,DIALLO,Keur A NDOYE,Keur A Ndoye,13,,0
+333,Adama ,Gueye,F,9/10/2008,10 mois,Binta,BA,Keur A NDOYE,Keur A Ndoye,13,,0
+334,Awa,Gueye,F,9/10/2008,10 mois,Binta,BA,Keur A NDOYE,Keur A Ndoye,13,,0
+335,Kine,NIANG,F,9/30/2008,10 mois,Sokhna,SOW,Keur A NDOYE,Keur A Ndoye,16,,0
+336,Woury ,KA,F,3/10/2009,4 mois,Absa,SOW,Keur A NDOYE,Keur A Ndoye,15,,0
+337,Babacar ,DIENG,F,8/2/2008,11 mois,Amy,NDIAYE,Keur A NDOYE,Keur A Ndoye,13,,0
+338,Ablaye ,KA,M,1/23/2009,6 mois,Khady,SOW,Keur A NDOYE,Keur A Ndoye,15,,0
+339,Arona ,KA,F,2/7/2009,5 mois,Sala,BA,Keur A NDOYE,Keur A Ndoye,14.5,,0
+340,Aida,DIALLO,F,11/27/2008,8 mois,Fatou,BA,Keur A NDOYE,Keur A Ndoye,13,,0
+341,Awa,BA,F,10/7/2008,9 mois,Djenaba,KA,Keur A NDOYE,Keur A Ndoye,13.5,,0
+342,Moussa ,DIA,M,1/16/2009,6 mois,Adji,DIA,Keur A NDOYE,Keur A Ndoye,15,,0
+343,Gorgui,Sow,M,o1/11/08,8 mois,Khardiata ,KA,Keur A NDOYE,Keur A Ndoye,15,,0
+344,Assane,KA,M,5/22/2008,14 mois,Fatou,BA,Keur A NDOYE,Keur A Ndoye,14,,0
+345,Diadia,KA,F,2/26/2008,17 mois,Diatou,SOW,Keur A NDOYE,Keur A Ndoye,13.5,,0
+346,Aly,KA,M,9/2/2007,22 mois,Aminata,BA,Keur A NDOYE,Keur A Ndoye,14,,0
+347,Kolle,BA,F,1/11/2009,6 mois,Thioro,SOW,Keur A NDOYE,Keur A Ndoye,12,,0
+348,Ndeye,BA,F,3/5/2009,4 mois,Aissata,BA,Keur A NDOYE,Keur A Ndoye,14,,0
+349,El Hadj,BA,M,4/1/2009,3 mois,Aida,BA,Keur A NDOYE,Keur A Ndoye,13.5,,0
+350,Khoudia ,KA,F,2/8/2009,5 mois,Marie,DIA,Keur A NDOYE,Keur A Ndoye,13,,0
+351,Dado,BA,F,12/7/2008,7 mois,Colle,BA,Keur A NDOYE,Keur A Ndoye,13,,0
+352,Fallou,Sow,M,4/7/2008,15 mois,Aida,BA,Keur A NDOYE,Keur A Ndoye,13.2,,0
+353,Ousseynou,Dione,M,4/16/2009,3 mois,Sala,KA,Keur A NDOYE,Keur A Ndoye,13,,0
+354,Awa,DIA,F,12/13/2008,7 mois,Maimouna,KA,Keur A NDOYE,Keur A Ndoye,12.5,,0
+355,Youssou,DIOUF,M,11/21/2008,8 mois,Dianke,BADJI,Diamaguene,Diamaguene,14,,0
+356,Salif,KA,M,10/21/2007,20 mois,Khady,DIENG,Keur A NDOYE,Keur A Ndoye,13,,0
+357,Adama ,BA,F,2/10/2009,5 mois,Fatou,BA,Keur A NDOYE,Keur A Ndoye,10.9,,0
+358,Djiby,KA,M,9/4/2008,10 mois,Awa ,KA,Keur A NDOYE,Keur A Ndoye,15.5,,0
+359,Tabara,DIENE,F,1/25/2009,6 mois,Adama,SEYE,Keur A NDOYE,Keur A Ndoye,15,,0
+360,Gayo,KA,M,11/10/2008,8 mois,Aida,BA,Keur A NDOYE,Keur A Ndoye,14,,0
+361,Ablaye ,BA,M,6/20/2009,1 mois,Khardiata ,BA,Keur A NDOYE,Keur A Ndoye,13,,0
+362,Aida,BA,F,11/1/2008,8 mois,Djenaba,KA,Keur A NDOYE,Keur A Ndoye,14,,0
+363,Ndeye,KA,F,6/12/2008,13 mois,Diewo,KA,Keur A NDOYE,Keur A Ndoye,14,,0
+364,Ahmed,DIOP,M,2/20/2009,5 mois,Fama,DIOP,Keur A NDOYE,Keur A Ndoye,15,,0
+365,Birame ,DIOP,M,3/3/2008,16 mois,Fatou,DIOP,Mbawane,Mbawane,13,,0
+366,Djienaba,BA,F,5/22/2008,14 mois,Diatou,KA,Keur A NDOYE,keur A Ndoye,14,,0
+367,El Hadj ,NDOYE,M,7/26/2008,12 mois,Mareme,FALL,Keur A NDOYE,Keur A Ndoye,12,,0
+368,Mbene,KA,F,8/3/2008,11 mois,Maimouna,KA,Keur A NDOYE,Keur A Ndoye,12,,0
+369,Ndeye,NDOYE,F,11/11/2008,8 mois,Amy,NDOYE,Keur A NDOYE,Keur A Ndoye,12.4,,0
+370,Ablaye ,BADJI,M,6/6/2009,1 mois,Anta,KA,Keur A NDOYE,Keur A Ndoye,0,,0
+371,Samba ,DIOP,M,7/10/2008,12 mois,Fatou,FALL,Mbawane,Mbawane,14.5,,0
+372,Salif ,Sow,M,11/23/2008,7 mois,Khady,DIA,Mbawane,Mbawane,14.6,,0
+373,Oumar,NDIAYE,M,12/8/2008,7 mois,Mama,NIANG,Mbawane,Mbawane,14.4,,0
+374,Djiby,KA,M,7/5/2008,12 mois,Penda,BA,Keur A NDOYE,Keur A Ndoye,12.9,,0
+375,Aidayel,KA,F,11/17/2007,20 mois,Maiyes,BA,Keur A NDOYE,Keur A Ndoye,14.7,,0
+376,Ousmane,KA,M,12/27/2007,19 mois,Yacky,BA,Keur A NDOYE,Keur A Ndoye,13.5,,0
+377,Diaba,KA,M,11/11/2007,20 mois,Fatimata,BA,Keur A NDOYE,Keur A Ndoye,12.3,,0
+378,Diata,BA,F,3/12/2009,4 mois,Khadel,BA,Keur A NDOYE,Keur A Ndoye,0,,0
+379,Babacar ,DIA,M,3/12/2009,4 mois,Mariam,KEITA,Mbawane,Mbawane,13,,0
+380,Ibrahima ,DIA,M,9/29/2007,22 mois,Dior,DIA,Mbawane,Mbawane,12.5,,0
+381,Mouhamat,,M,3/26/2008,16 mois,Mareme,DIOP,Mbawane,Mbawane,13,,0
+382,Alpha,KA,M,12/5/2008,8 mois,Dioulde,KA,Mbawane,Mbawane,13.5,,0
+383,Mbaye,DEME,M,4/23/2009,3 mois,Baida,DIOP,Mbawane,Mbawane,0,,0
+384,Mamouda,KA,M,12/29/2008,19 mois,Awa ,KA,Keur A NDOYE,Keur A Ndoye,14,,0
+385,Mbayak,MBAYE,M,7/18/2007,24 mois,Mareme,DIOP,Keur A NDOYE,Keur A Ndoye,13.3,,0
+386,Serigne Bara,DIOP,M,1/23/2009,6 mois,Yacine,GUEYE,Mbawane,Mbawane,15,,0
+387,Amy ,FAYE,F,2/22/2007,29 mois,Fatou,DIENG,Keur A NDOYE,Keur A Ndoye,14.3,,0
+388,Demba ,NIANG,M,2/18/2008,17 mois,Mairam,SOW,Mbawane,Mbawane,16,,0
+389,Khady,DEME,F,9/26/2008,10 mois,Astou,DIEME,Mbawane,Mbawane,15.7,,0
+390,Modou,DEME,M,7/11/2008,12 mois,Astou,NIANG,Mbawane,Mbawane,13.2,,0
+391,Fatou,KA,F,9/4/2007,22 mois,Aissatou,BA,Mbawane,Mbawane,13,,0
+392,Tine,Gueye,F,11/13/2008,8 mois,Awa ,DIAKHATE,Keur A NDOYE,Keur A Ndoye,14,,0
+393,Deguene,Sow,F,3/16/2009,4 mois,Mbene,,Keur A NDOYE,Keur A Ndoye,0,,0
+394,Ibra ,BA ,M,3/21/2009,4 mois,Adji,BA,Keur A NDOYE,Keur A Ndoye,0,,0
+394,Fatou,KA,F,9/13/2007,22 mois,Aissata,KA,Mbawane,Mbawane,13,,0
+395,Ibrahima ,KA,M,5/18/2008,14 mois,Maimouna,DIOUF,Keur A NDOYE,Keur A Ndoye,14,,0
+396,Ablaye ,DIOUF,M,9/14/2008,10 mois,Meya ,KA,Keur A NDOYE,Keur A Ndoye,15.8,,0
+397,Ndeye,DIALLO,F,4/9/2008,14 mois,Borso,SOW,Mbawane,Mbawane,9.2,,0
+398,Deguene,SAKHO,F,3/16/2009,4 mois,Mbene,DIALLO,Keur A NDOYE,Keur A Ndoye,0,,0
+399,Adama ,Sow,F,4/5/2009,3 mois,Aby,DIOP,Mbawane,Mbawane,0,,0
+400,Anta ,Ndiaye,F,10/3/2007,17 mois,Dianke,,Mbawane,Mbawane,14.5,,0
+401,Mansou ,KA,M,1/25/2009,,Rocky,,Keur A NDOYE,Keur A Ndoye,0,,0
+402,Aissatou,WADE,F,12/14/2008,,Binta,DIAW,Mbawane,Mbawane,0,,0
+403,Khardiata,BA,F,11/11/2008,,Diariatou,KA,Keur A NDOYE,Keur A NDOYE,0,,0
+404,Mouhamet,KA,M,1/16/2009,,Salla ,KA,Keur A NDOYE,Keur A NDOYE,0,,0
+405,Binta ,LO,F,5/6/2009,,Adama,SIDIBE,KAYAR,KAYAR,0,,0
+406,Abo,KA,M,2/20/2009,,Fary,KA,Keur A NDOYE,Keur A NDOYE,0,,0
+407,Dama,KA,M,2/2/2008,,Aissata,BA,Keur A NDOYE,Keur A NDOYE,0,,0
+408,Ablaye,DIA,M,,24 mois,Awa,DIA,Mbawane,Mbawanw,12,,0
+409,Mamadou,SOW,M,10/9/2008,9 mois,Khoumba,SOW,Keur A NDOYE,Keur A NDOYE,9,,0
+410,Aida,KA,F,4/17/2008,15 mois,Aminata,BA,Keur A NDOYE,Keur A NDOYE,13,,0
+411,Daouda,BA,M,2/5/2008,17 mois,Aissata,KA,Keur A NDOYE,Keur A NDOYE,15,,0
+412,Tamsir,NDOYE,M,9/4/2008,10 mois,Astou,CISS,Keur A NDOYE,Keur A NDOYE,14,,0
+413,Arona ,BA,M,10/10/2008,9 mois,Diatou,BA,Keur A NDOYE,Keur A NDOYE,13.5,,0
+414,Ablaye,BA,M,1/1/2009,6 mois,Penda,SOW,Keur A NDOYE,Keur A NDOYE,17,,0
+415,Amadou,KA,M,4/17/2009,3 mois,djeynaba,KA,Keur A NDOYE,Keur A NDOYE,12,,0
+416,Arona ,KA,M,10/31/2008,8 mois,Penda,NIANG,Keur A NDOYE,Keur A NDOYE,16,,0
+417,Bara,FALL,M,6/20/2008,13 mois,Awa,GUEYE,Keur A NDOYE,Keur A NDOYE,12,,0
+418,Aissata ,BA,F,7/11/2008,12 moia,Ndeye,SOW,Keur A NDOYE,Keur A NDOYE,15,,0
+419,Adama ,KA,F,9/12/2008,10 mois,Awa,KA,Keur A NDOYE,Keur A NDOYE,11,,0
+420,Babacar,KA,M,12/25/2008,7 mois,Fatou,KA,Keur A NDOYE,Keur A NDOYE,14,,0
+421,Aby,SOW,F,5/20/2008,14 mois,Ouleye,BA,Keur A NDOYE,Keur A NDOYE,14.5,,0
+422,Abdourahmane,NDIAYE,M,11/9/2007,18 mois,Oumy,DIOP,Mbawane,Mbawanw,0,,0
+423,Khardiata,DIA,F,10/31/2007,19 mois,Awa,SOW,Mbawane,Mbawanw,15,,0
+424,Marie,DIOP,F,11/23/2007,18 mois,Adama,COLY,Mbawane,Mbawanw,12.3,,0
+425,Mamadou,BA,M,12/17/2008,7 mois,Dado,KA,Keur A NDOYE,Keur A NDOYE,14,,0
+426,Pape,DIAKHATE,M,10/9/2008,9,5 mois,Fatou,NDIAYE,Keur A NDOYE,Keur A NDOYE,14,,0
+427,Ndeye marieme,DIAKHATE,F,7/4/2008,17 mois,Awa,DIACK,Keur A NDOYE,Keur A NDOYE,9.5,,0
+428,Ndeye  ,CISSE,F,10/19/2008,9 mois,Khady,DIAKHATE,Keur A NDOYE,Keur A NDOYE,13,,0
+429,Seynabou ,NDIAYE,F,6/19/2009,1 mois,Ndeye,SALL,Mbawane,Mbawanw,0,,0
+430,Aby,BA,F,3/7/2009,4 mois,Marie,BA,Keur A NDOYE,Keur A NDOYE,15,,0
+431,Kine,SOW,F,9/23/2008,10 mois,Dior ,BA,Ndiokhopgedj,Ndiokhopgedj,14,,
+432,Moussa ,KA,M,6/2/2009,2 mois,Abibatou,BA,Keur A NDOYE,Keur A NDOYE,0,,0
+433,Ousmane,DIALLO,M,9/22/2009,1 mois,Khardiata,DIALLO,Diamaguene,Diamaguene,14,,0
+434,Mahel ,DIALLO,F,12/31/2008,8 mois,Aby,DIALLO,Diamaguene,Diamaguene,14,,0
+435,Khardiata,SOW,F,,18 mois,Dembo,BA,Diamaguene,Diamaguene,13,,0
+436,Dialy,SOW,F,,24 mois,Matel,DIA,Diamaguene,Diamaguene,14,,0
+437,Diary,DIALLO,F,,23 mois,Dieng,DIA,Diamaguene,Diamaguene,13.9,,0
+438,Amath,SOW,M,,7 mois,Aminata,BA,Diamaguene,Diamaguene,130,,0
+439,Adama ,DIALLO,F,,23 mois,Mame Diarra,BA,Diamaguene,Diamaguene,152,,0
+440,Mouhamed,NGUINGU,M,7/12/2007,,Boury,BA,Diamaguene,Diamaguene,16,,0
+441,Abdou Aziz,DEME,M,1/7/2009,1 mois,Fatou,Deme,Mbawane,Mbawane,1,,0
+442,Fatou,DEME,F,1/4/2009,6 mois,Soda,DIOP,Mbawane,Mbawane,14,,0
+443,Mbaye,DEME,M,4/23/2009,3 mois,Baida,DIOP,Mbawane,Mbawane,0,,0
+444,Ndeye Dome,NDIAYE,F,12/16/2007,19 mois,Penda,NDIAYE,Mbawane,Mbawane,18.3,,0
+445,Awa,DEME,F,2/10/2009,5 mois,Deguene,NDIAYE,Mbawane,Mbawane,0,,0
+446,Adama ,DEME,F,2/10/2009,5 mois,Deguene,NDIAYE,Mbawane,Mbawane,0,,0
+447,Yoro,DEME,M,3/8/2008,16 mois,Ndeye Mada,DIATARA,Mbawane,MBawane,13.5,,0
+448,Mame Seye,DEME,F,7/11/2009,1 mois,Asta,DEME,Mbawane,Mbawane,0,,0
+449,Rokheya,SOW,F,5/3/2007,28 mois,Salla ,KA,Mbawane,Mbawane,13.5,,0
+450,Yague,DEME,M,9/26/2008,10 mois,Mame Seye ,WADE,Mbawane,Mbawane,12.8,,0
+451,Mansour ,DEME,M,9/26/2008,10 mois,Mame Seye ,WADE,Mbawane,Mbawane,12.5,,0
+452,Maguette,NDIAYE,M,9/8/2008,10 mois,Salimata,DEME,Mbawane,Mbawane,13,,0
+453,Nogaye,NDIAYE,F,6/27/2009,1 mois,Marame,GUEYE,Mbawane,Mbawane,0,,0
+454,Yoro,DEME,M,,16 mois,Ndiaya,DIAGNE,Mbawane,Mbawane,13.5,,0
+455,Tidiane,DIA,M,7/6/2009,1 mois,Ndeye,BA,Keur A NDOYE,Keur A NDOYE,0,,0
+456,Ndaye,FALL,F,8/13/2007,,Knana,FALL,Mbawane,Mbawane,0,,0
+457,Khady,NDIAYE,F,,54 mois,Penda,Deme,Mbawane,MBawanw,14.2,,0
+458,Ngagne,FALL,M,,37 mois,Astou,GUEYE,Mbawane,Mbawane,150,,0
+459,Abdou,DEME,M,,39 m0is,Mrame,BEYE,Mbawane,Mbawane,160,,0
+460,Isseu,NIANG,F,,39 m0is,Anta,NDOYE,Mbawane,Mbawane,130,,0
+461,Anta,DIAGNE,F,,39 m0is,Ndoumbe,Ndiaye,Mbawane,Mbawane,140,,0
+462,Fama,DIATARA,F,,56 mois,Ndeye,Wada,Mbawane,Mbawane,14.2,,0
+463,Adama ,NDIAYE,M,,41 mois,Salimata,DEME,Mbawane,Mbawane,13.9,,0
+464,Fatma,DJINKEUM,F,,37 mois,Astou,NDIAYE,Mbawane,Mbawane,14.1,,0
+465,Aliou ,NDIAYE,M,,33 mois,Coumba,NDOYE,Mbawane,Mbawane,13,,0
+466,Amy Colle,NDIAYE,F,,48 mois,Coumba,NDOYE,Mbawane,Mbawane,14.2,,0
+467,Ibrahima,NDIAYE,M,,34 mois,Daba,DIONE,Mbawane,Mbawane,13.9,,0
+468,Amina,DEME,F,,59 mois,Fatou,DEME,Mbawane,Mbawane,14.5,,0
+469,Astou ,DEME,F,,41 mois,Fatou,DEME,Mbawane,Mbawane,13.7,,0
+470,Diene ,SARY,M,,40 mois,Codou,DEME,Mbawane,Mbawane,14,,0
+471,Khadidiatou,DIALLO,F,,10 mois,Mariama,SOW,Mbawane,Mbawane,13.5,,0
+472,Aminata,DEME,F,,38 mois,Asta ,DEME,Mbawane,Mbawane,14,,0
+473,Fatou,DEME,F,,48 mois,Deguene,NDIAYE,Mbawane,Mbawane,13.8,,0
+474,Mbaye,DEME,M,,,Tine,DEME,Mbawane,Mbawane,13.2,,0
+475,Cheikh,NDIAYE,M,,29 mois,Anna,CISS,Mbawane,Mbawane,150,,0
+476,Modou,NDIAYE,M,,46 mois,Mbene,DEME,Mbawane,Mbawane,14.9,,0
+477,Astou ,NDIAYE,F,,31 mois,Amy,NDIAYE,Mbawane,Mbawane,13.9,,0
+478,Mame Coumba,FALL,F,,31 mois,Awa,NDIAYE,Mbawane,Mbawane,13.6,,0
+479,Aliou ,CISS,M,,55 mois,Fatou,THIANDOUM,Mbawane,Mbawane,150,,0
+480,Fatim,CISS,F,,25 mois,Fatou,THIANDOUM,Mbawane,Mbawane,130,,0
+481,Chekhou ,CISS,M,,48 mois,Aby,BEYE,Mbawane,Mbawane,14.2,,0
+482,Abdou,KHADIM,M,,52 mois,Faty,NDIAYE,Mbawane,Mbawane,15.2,,0
+483,Diaga,DEME,M,,26 mois,Fary,FALL,Mbawane,Mbawane,14.2,,0
+484,Ngagne,FALL,M,,37 mois,Astou,GUEYE,Mbawane,Mbawane,13.2,,0
+485,Moustapha,FALL,M,,36 mois,Biramane,DIONE,Mbawane,Mbawane,140,,0
+486,Mouhamed,DEME,M,,28 mois,Absa,DEME,Mbawane,Mbawane,160,,0
+487,Babacar,DEME,M,,46 mois,Absa,DEME,Mbawane,Mbawane,160,,0
+488,Adama ,THIAM,M,,55 mois,Mame Seye ,GUEYE,Mbawane,Mbawane,16.2,,0
+489,Adama ,NDIAYE,M,,41 mois,Salimata,DEME,Mbawane,Mbawane,13.7,,0
+490,Bada,NDIAYE,M,,48 mois,Adji,LO,Mbawane,Mbawane,14.2,,0
+491,Mame Mbene,NDIAYE,F,,40 mois,Aida Mbene,DEME,Mbawane,Mbawane,15.3,,0
+492,Sokhna,NDIAYE,F,,26 mois,Aida Mbene,DEME,Mbawane,Mbawane,12.9,,0
+493,Mamadou ,NDIAYE,M,,30 m0is,Seynabou,MBENGUE,Mbawane,Mbawane,13.7,,0
+494,Badou,NDIAYE,M,,47 mois,Seynabou,MBENGUE,Mbawane,Mbawane,140,,0
+495,Ndeye,NDIAYE,F,,37 mois,Amy,GUEYE,Mbawane,Mbawane,13.9,,0
+496,Modou,DEME,M,,42 mois,Astou,NIANG,Mbawane,Mbawane,13.7,,0
+497,Babacar,DIALLO,M,,46 mois,Borso,SOW,Mbawane,Mbawane,140,,0
+498,Amy,NGOM,F,,27 mois,Daba,DEME,Mbawane,Mbawane,14.36,,0
+499,Bara,SOW,M,,35 mois,Arame ,NGOM,Mbawane,Mbawane,14.7,,0
+500,Daba,TOURE,F,,26 mois,Amy,NDAW,Mbawane,Mbawane,15.2,,0
+501,Ndeye,KHOUDIA,F,,34 mois,Amy Colle,DEME,Mbawane,Mbawane,160,,0
+502,Ousmane,DEME,M,,30 m0is,Fatou,DEME,Mbawane,Mbawane,14.9,,0
+503,Amy Colle,DEME,F,,30 mois,Mame Seye,WADE,Mbawane,Mbawan,13.2,,0
+504,Binta ,SAMB,F,,54 mois ,Fatou Kine,DEME,Mbawane,Mbawan,16.2,,0
+505,Babacar ,MBAYE,M,,52 mois,Mbene,DEME,Mbawane,Mbawan,15.9,,0
+506,Matar,DIOP,M,,55 mois,Fatma,DIAGNE,Mbawane,Mbawan,14.7,,0
+507,Asta Mrame,FALL,F,,13 mois,Birame,DIONE,Mbawane,Mbawan,14.5,,0
+508,Diakhate,FALL,M,,13 mois,Astou ,GUEYE,Mbawane,Mbawan,13.5,,0
+509,Abdou Karim,DIOP,M,,20 mois,Ndeye ,BEYE,Mbawane,Mbawan,0,,0
+510,Yacine,DEME,F,,12 mois,Mariama,DIOP,Mbawane,Mbawan,140,,0
+511,Daba,DIENG,F,,33 mois,Ndeye ,DIAGNE,Mbawane,Mbawan,150,,0
+512,Pathe,DIENG,M,,17 mois,Ndeye ,DIAGNE,Mbawane,Mbawan,13.5,,0
+513,Idy,DIENG,M,,54 mois ,Ndeye ,DIAGNE,Mbawane,Mbawan,160,,0
+514,Amy ,GUEYE,F,,23 mois,Mbodja ,CISS,Keur A NDOYE,Keur A NDOYE,12.2,,0
+515,Daba,NDIAYE,F,,20 mois,Mbene,DEME,Mbawane,Mbawan,12.2,,0
+516,Mandione ,NDIAYE,M,,5 mois,Arame,DEME,Mbawane,Mbawan,0,,0
+517,Ndeye,DIOP,F,,31 mois,Adama,KOUNTA,Mbawane,Mbawan,14.2,,0
+518,Cherif,DIOP,M,,49 mois,Ndeye Sokhna,GUEYE,NDIOKHOP,NDIOKHOP,16,,0
+519,Salif ,KA,M,,13 mois,Khady,BA,NDIOKHOP,NDIOKHOP,130,,0
+520,Fatoumata,KA,F,,20 mois,Mariama,SOW,NDIOKHOP,NDIOKHOP,13.9,,0
+521,Maguette,KA,F,,18 mois,Rougui,DIA,NDIOKHOP,NDIOKHOP,140,,0
+522,Issa,KA,M,,11 mois,Rougui,DIA,NDIOKHOP,NDIOKHOP,13,,0
+523,Coumba,KA,F,,27 mois,Fatimata,KA,NDIOKHOP,NDIOKHOP,150,,0
+524,Djenaba,KA,F,,53 mois,Bigue,KA,NDIOKHOP,NDIOKHOP,16,,0
+525,Aissata,KA,F,,19 mois,Maimouna,KA,NDIOKHOP,NDIOKHOP,150,,0
+526,Aminata ,KA,F,,19 mois,Aida ,BA,NDIOKHOP,NDIOKHOP,140,,0
+527,Malick,KA,M,,36 mois,Salla,SOW,NDIOKHOP,NDIOKHOP,160,,0
+528,Ibrahima ,KA,M,,48 mois,Salla,SOW,NDIOKHOP,NDIOKHOP,170,,0
+529,Amadou ,KA,M,,13 mois,Adji Safietou,SOW,NDIOKHOP,NDIOKHOP,13,,0
+530,Assane,KA,M,,20 mois,Marieme,BA,NDIOKHOP,NDIOKHOP,14,,0
+531,Mamadou,BA,M,,32 mois,Dior,BA,NDIOKHOP,NDIOKHOP,14,,0
+532,Adama,BA,M,,11 mois,Dior,BA,NDIOKHOP,NDIOKHOP,110,,0
+533,Aminata ,KA,F,,8 mois,Aissata,BA,NDIOKHOP,NDIOKHOP,12.9,,0
+534,Aida,BA,F,,10 mois,Khardiata,KA,NDIOKHOP,NDIOKHOP,13.5,,0
+535,Faly,BA,F,,8 mois,Khady,SOW,NDIOKHOP,NDIOKHOP,13,,0
+536,Moustapha ,BA,M,,36 mois,Khady,SOW,NDIOKHOP,NDIOKHOP,14.5,,0
+537,Ibrahima ,BA,M,,27 mois,Diarietou,BA,NDIOKHOP,NDIOKHOP,14.2,,0
+538,Binta ,BA,F, ,6 mois,Marie,BA,NDIOKHOP,NDIOKHOP,130,,0
+539,Diary,BA,F,,26 mois,Marie,KA,NDIOKHOP,NDIOKHOP,140,,0
+540,Maodo ,KA,M,,36 mois,Mariama,KA,NDIOKHOP,NDIOKHOP,150,,0
+541,Fatimata,KA,F,,9 mois,Ouleye,KA,NDIOKHOP,NDIOKHOP,13.9,,0
+542,Aminata ,KA,K,,14 mois,Mariama,SOW,NDIOKHOP,NDIOKHOP,130,,0
+543,Bara,FALL,M,,15 mois,Awa,GUEYE,K.A.ND,K.A.ND,140,,0
+544,Mada,Sow,F,,23mois,Diore,SOW,K.A.ND,K.A.ND,150,,0
+545,fatima,DIONE,F,,22mois,AMY,CISS,K.A.ND,K.A.ND,140,,0
+546,TABARA,DIENE,M,,10mois,AMADA,SEYE,K.A.ND,K.A.ND,140,,0
+547,MAMADOU,GUEYE,M,,6mois,AMINATA,MBAUD,K.A.ND,K.A.ND,140,,0
+548,KHADY,GUEYE,F,,24mois,FATOU,GUEYE,K.A.ND,K.A.ND,125,,0
+549,PAPA,GUEYE,M,,19mois,NDAYE,NDIAYE,K.A.ND,K.A.ND,13,,0
+550,COLLE,BA,F,,10mois,THIORO,SOW,K.A.ND,K.A.ND,125,,0
+551,IBRAHIMA,KA,M,,11mois,ABY,BA,K.A.ND,K.A.ND,135,,0
+552,ROUGUITOU,KA,F,,9mois,DIARIETOU,KA,K.A.ND,K.A.ND,135,,0
+553,AISSATOU,GUEYE,F,,32mois,YOWMA,DIOP,MBAWANE,K.A.ND,135,,0
+12,MOUHAMED,GUEYE,M,,1mois,YOWMA,DIOP,MBAWANE,K.A.ND,,,0
+13,MAMADOU,KA,M,,3mois,AIDA,KA,K.A.ND,K.A.ND,,,0
+14,DIATA,,F,,1mois,KHARDIATA,TOURE,K.A.ND,K.A.ND,,,0
+15,TINE,GUEYE,F,,12mois,AWA,DIAKHATE,K.A.ND,K.A.ND,135,,0
+16,SOULEYEMANE,KA,M,,22mois,KHOUDIA,KA,K.A.ND,K.A.ND,136,,0
+17,AMADOU,KA,M,,7mois,DJIENABA,BA,K.A.ND,K.A.ND,140,,0
+18,AMETH,DIONE,M,,19mois,KAM,DIOP,K.A.ND,K.A.ND,128,,0
+19,NDEYE,NDOYE,F,,22mois,AMY,NDOYE,K.A.ND,K.A.ND,130,,0
+20,BAYA,KA,M,,2mois,DIOR,KA,K.A.ND,K.A.ND,,,0
+21,SAIKAU,KA,M,,24mois,AWA,KA,K.A.ND,K.A.ND,140,,0
+22,MOUHAMED,FALL,M,,2mois,AMY,SARR,K.A.ND,K.A.ND,,,0
+23,BABACAR,KA,M,,4mois,FATOU,GUEYE,k.A.ND,K.A.ND,,,0
+24,ILO,KA,M,,x1mois,KHOUDIA,KA,K.A.ND,K.A.ND,,,0
+25,MAMADOU,KA,M,,11mois,AWA,KA,K.A.ND,K.A.ND,155,,0
+26,ADAMA,KA,M,,23mois,AMINATA,BA,K.A.ND,K.A.ND,128,,0
+27,AWA,KA,F,,23mois,AMINATA,BA,K.A.ND,K.A.ND,137,,0
+28,OUSSEYNOU,KA,M,,13mois,AWA,KA,K.A.ND,K.A.ND,133,,0
+29,AISSATOU,Sow,F,,22MOIS,MARIE,KA,K.A.ND,K.A.ND,127,,0
+30,ABY,Sow,F,,18MOIS,OULEYE,BA,K.A.ND,K.A.ND,152,,0
+31,AISSATOU,KA,F,,1mois,AIDA,KA,K.A.ND,K.A.ND,,,0
+32,MOUSSA,KA,M,,6mois,ABIBATOU,BA,K.A.ND,K.A.ND,130,,0
+33,ABY,BA,F,,1mois,MAIMOUNA,BA,K.A.ND,K.A.ND,,,0
+34,SEYNABOU,Sow,F,,15mois,AIDA,BA,K.A.ND,K.A.ND,160,,0
+35,NDIAKHATE,FALL,M,,18MOIS,ASTOU,GUEYE,MB,MB,150,,0
+36,MODOU,DEME,M,,16mois,ASTOU,NIANG,MB,MB,140,,0
+37,IBRAHIMA,BA,M,,8mois,ADJI,BA,MB,MB,130,,0
+38,FATOU,KA,F,,26mois,AISSATOU,KA,MB,MB,163,,0
+39,IBRAHIMA,KA,M,,18mois,MAIMOUNA,DIOUF,K.A.ND,K.A.ND,150,,0
+40,AISSATOU,WADE,F,,21mois,BINTOU,DIAW,MB,MB,143,,0
+41,DEGUENE,Sow,F,,8mois,MBENE,DIALLO,K.A.ND,K.A.ND,133,,0
+42,NDEYE,DIALLO,F,,18mois,MBORSO,SOW,MB,MB,163,,0
+43,AMI COLLE,DIA,F,,2mois,DIORE,DIA,MB,MB,,,0
+44,MOUSSA,KA,M,,24mois,AWA,KA,K.A.ND,K.A.ND,120,,0
+45,KHADIATOU,SOW,F,,2mois,FATOU,DIALLO,K.A.ND,K.A.ND,,,0
+46,NDEYE,BA,F,,7mois,AIDA,BA,K.A.ND,K.A.ND,150,,0
+47,AISSATA,LY,F,,3mois,BINTA,BA,K.A.ND,K.A.ND,,,0
+48,SAMBA,,M,,20mois,AWA,KA,K.A.ND,K.A.ND,149,,0
+49,ABSA,KA,F,,5mois,DJEYNABA,SOW,MB,MB,,,0
+50,ABLAYE,BA,M,,5mois,KHARDIATA,BA,K.A.ND,K.A.ND,,,0
+51,DADO,BA,F,,11mois,COLLE,BA,K.A.ND,K.A.ND,140,,0
+52,MARIEME,BA,F,,15mois,NDEYE,BA,K.A.ND,K.A.ND,150,,0
+53,AROUNA,KA,M,,13mois,PENDA,NIANG,K.A.ND,K.A.ND,145,,0
+54,ABY,KA,F,,15mois,KHARDIATA,KA,K.A.ND,K.A.ND,12.7,,0
+55,ABLAYE,DIOUF,M,,15mois,NEYA,KA,K.A.ND,K.A.ND,170,,0
+56,OUSSEYNOU,DIOUF,M,,22mois,MAI,KA,K.A.ND,K.A.ND,14.5,,0
+57,DJIBI,KA,M,,14mois,MAIMOUNA,BA,K.A.ND,K.A.ND,150,,0
+58,SEYNABOU,KA,F,,11mois,AIDA,SOW,K.A.ND,K.A.ND,15.7,,0
+59,AISSATOU,Sow,F,,11mois,ROUGUIETOU,SOW,K.A.ND,K.A.ND,150,,0
+60,AIDA,BA,F,,9mois,NDEYE,SOW,K.A.ND,K.A.ND,15,,0
+61,AMY,TOURE,F,,10mois,AISSATA,DIA,K.A.ND,K.A.ND,16.7,,0
+62,SEYNABOU,KA,F,,22mois,KHARDIATA,KA,K.A.ND,K.A.ND,16.2,,0
+63,DIARIETOU,KA,F,,20mois,SALA,KA,K.A.ND,K.A.ND,16,,0
+64,DIARY,Sow,F,,30mois,COLLE,DIA,MBAWANE,MBAWANE,180,,0
+65,BADA,CISS,M,,38mois,AIDA,DIOP,MBAWANE,MBAWANE,17.6,,0
+66,NDEY SEYNABOU,GUEYE,F,,50mois,KINE,FAYE,MBAWANE,MBAWANE,17.3,,0
+67,FATOU,SARR,F,,34mois,NDEYE AMI,GUEYE,MBAWANE,MBAWANE,16.5,,0
+68,MOUSSA,KA,M,,7mois,ABIBATOU,BA,K.A.ND,K.A.ND,130,,0
+69,ABDOU AZIZ,DEME,M,,11mois,FATOU,DEME,MBAWANE,MBAWANE,16.8,,0
+70,MODOU,FAYE,M,,20mois,KHADY,NDIAYE,MBAWANE,MBAWANE,150,,0
+71,ADAMA,Sow,F,,7mois,ABY,DIOP,MBAWANE,MBAWANE,12.9,,0
+72,KHARDIATA,DIA,F,,24mois,AWA,SOW,MBAWANE,MBAWANE,170,,0
+73,MAEL,DIALLO,F,,13mois,ABY,KA,DIAMAGUENE,DIAMAGUENE,14.3,,0
+74,KINE,SOW,F,,14mois,DIOR,KA,NDIOKHOP,NDIOKHOP,14.3,,0
+75,ABY,KA,F,,8mois,MARIE,BA,K.A.ND,K.A.ND,13,,0
+76,SEYNABOU,DIAGNE,F,,5mois,NDEYE,FALL,MBAWANE,MBAWANE,,,0
+77,MOUSSA,KA,M,,7mois,ABY,KA,K.A.ND,K.A.ND,130,,0
+78,NDEYE,CISSE,F,,23mois,KHADY,DIAKHATE,,,140,,0
+79,NDEYE,DIAKHATE,F,,16mois,AWA,DIAKHATE,K.A.ND,K.A.ND,14.6,,0
+80,PAPE,DIAKHATE,M,,13mois,FATOU,NDIAYE,K.A.ND,K.A.ND,15.2,,0
+81,MAMADOU,BA,M,,11mois,DABO,KA,K.A.ND,K.A.ND,15.9,,0
+82,MARIE,DIOP,F,,22mois,ADAMA,COLLY,MBAWANE,MBAWANE,15.2,,0
+83,MOUHAMED,KA,M,,9mois,SALA,KA,K.A.ND,K.A.ND,13.9,,0
+84,KHARDIATA,BA,F,,12mois,DIARIETOU,BA,K.A.ND,K.A.ND,14.2,,0
+85,ADAMA,BA,F,,9mois,FATOU,BA,K.A.ND,K.A.ND,13.5,,0
+86,GOYO,KA,M,,12mois,AIDA,BA,K.A.ND,K.A.ND,150,,0
+87,MBENE,KA,F,,15mois,MAIMOUNA,KA,K.A.ND,K.A.ND,13.5,,0
+88,DJENABA,KA,F,,18Mois,DIARIETOU,KA,K.A.ND,K.A.ND,150,,0
+89,ABLAYE,BA,M,,10mois,KHARDIATA,BA,K.A.ND,K.A.ND,140,,0
+90,BIRAME,DIOP,M,,20mois,FATOU,SOW,MBAWANE,MBAWANE,140,,0
+91,AIDA,BA,F,,12mois,DJEYNABA,BA,K.A.ND,K.A.ND,150,,0
+92,AMED,DIOP,M,,10mois,FAMA,DIOP,MBAWANE,MBAWANE,160,,0
+93,NDEYE,KA,F,,17mois,DIEWO,KA,K.A.ND,K.A.ND,150,,0
+94,CHEIHK,KA,M,,19mois,BOYO,KA,K.A.ND,K.A.ND,17.5,,0
+95,NDOBOU,KA,F,,8mois,AMY,KA,K.A.ND,K.A.ND,150,,0
+96,TIDIANE,DIA,M,,7mois,YACINE,BA,K.A.ND,K.A.ND,140,,0
+97,OUSSEYNOU,DIONE,M,,9mois,SALA,KA,K.A.ND,K.A.ND,13.5,,0
+98,NDEYE,BOYE,F,,18mois,DABA,DIEYE,K.A.ND,K.A.ND,14.5,,0
+99,AMADA,GUEYE,F,,14mois,BINTA,BA,K.A.ND,K.A.ND,140,,0
+100,ASSANE,KA,M,,18mois,FATOU,BA,K.A.ND,K.A.ND,150,,0
+101,AWA,GUEYE,F,,14mois,BINTA,BA,K.A.ND,K.A.ND,140,,0
+102,GORGUI,SOW,M,,12mois,KHARDIATA,KA,K.A.ND,K.A.ND,150,,0
+103,TINE,NIANG,F,,14mois,SOKHNA,SOW,K.A.ND,K.A.ND,170,,0
+104,MOUSSA,DIA,M,,10mois,ADJI,DIA,K.A.ND,K.A.ND,160,,0
+105,WOURY,KA,F,,10mois,ABSA,SOW,K.A.ND,K.A.ND,150,,0
+106,AWA,BA,F,,14mois,DJENABA,KA,K.A.ND,K.A.ND,140,,0
+107,BABACAR,DIENG,M,,15mois,AMI,NDIAYE,K.A.ND,K.A.ND,140,,0
+108,AIDA,KA,F,,12mois,FATOU,BA,K.A.ND,K.A.ND,150,,0
+109,ABLAYE,KA,M,,10mois,SALA,BA,K.A.ND,K.A.ND,150,,0
+110,ARONA,KA,M,,10mois,KHADY,SOW,K.A.ND,K.A.ND,14.5,,0
+111,OUSMANE,KA,M,,14mois,ABY,BA,K.A.ND,K.A.ND,13.5,,0
+112,DIABA,KA,M,,18mois,KHARDIATA,KA,K.A.ND,K.A.ND,140,,0
+113,MODOU,NDIAYE,M,,50mois,MBENE,DEME,MBAWANE,MBAWANE,152,,0
+114,ASTOU,NDIAYE,F,,34mois,AMY,NDIAYE,MBAWANE,MBAWANE,147,,0
+115,MAME COUMBA,DEME,F,,34mois,MAME BAIDY,DIOP,MBAWANE,MBAWANE,163,,0
+116,ALIOU,CISS,M,,59mois,FATOU,THIANDOUM,MBAWANE,MBAWANE,170,,0
+117,FATIM,CISS,F,,29mois,FATOU,THIANDOUM,MBAWANE,MBAWANE,150,,0
+118,CHEIKHOU,CISS,M,,52mois,ABY,BEYE,MBAWANE,MBAWANE,164,,0
+119,ABDOU,KHADIR,M,,56mois,FATYM,NDIAYE,MBAWANE,MBAWANE,167,,0
+120,FATMA,DEME,F,,10mois,SODA,DIOP,MBAWANE,MBAWANE,160,,0
+121,MBAYE,DEME,M,,7mois,FATOU,DEME,MBAWANE,MBAWANE,130,,0
+122,YORO,DEME,M,,20mois,NDEYE,MADA,MBAWANE,MBAWANE,140,,0
+124,NDAYE DAME,NDIAYE,F,,23mois,PENDA,DEME,MBAWANE,MBAWANE,130,,0
+125,YAGA,DEME,M,,14mois,MAME SEYE,WADE,MBAWANE,MBAWANE,130,,0
+126,MANSSOUR,DEME,M,,14mois,MAME SEYE,WADE,MBAWANE,MBAWANE,132,,0
+127,MAGUETTE,NDIAYE,M,,14mois,SALIMATA,DEME,MBAWANE,MBAWANE,135,,0
+128,KHARDIATA,DIALLO,F,,14mois,MARIAMA,SOW,MBAWANE,MBAWANE,125,,0
+129,AMYNTA,DEME,F,,42mois,ASTA,DEME,MBAWANE,MBAWANE,135,,0
+130,FATOU,DEME,F,,52mois,DEGUENE,NDIAYE,MBAWANE,MBAWANE,150,,0
+131,KHARDIATA,BA,F,,22mois,DABA,BA,DIANG,DIANG,162,,0
+132,DIARY,DIALLO,F,,26mois,DIENG,DIALLO,DIANG,DIANG,160,,0
+133,DIARY,SOW,F,,28mois,MAT,DIA,DIANG,DIANG,142,,0
+134,ADAMA,DIALLO,F,,27mois,DIARY,SOW,DIANG,DIANG,152,,0
+135,AMED,SOW,M,,11mois,AMINATA,KA,DIANG,DIANG,160,,
+136,AMY COLLE,NDIAYE,M,,52mois,COUMBA,NDOYE,MBAW,MBAWANE,163,,0
+137,IBRAHIMA,NDIAYE,F,,36mois,DABA,DIARE,MBAW,MBAWANE,162,,0
+138,ASTOU,DEME,M,,45mois,FATOU,DEME,MB,MBAWANE,149,,0
+139,DIEME,SARRY,M,,44mois,CODOU,DEME,MB,MBAWANE,150,,0
+140,CHEIKH ,NDIAYE,F,,33mois,ANTA,CISS,MB,MBAWANE,130,,0
+141,WOURY,KA,M,,10mois,DIARY,BA,K.A.ND,K.A.ND,162,,0
+142,IBRAHIMA,KA,M,,11mois,ABY,BA,K.A.ND,K.A.ND,150,,0
+143,OUSSEYNOU,KA,M,,13mois,AWA,KA,K.A.ND,K.A.ND,,,0
+144,DIARIETOU,KA,F,,20mois,SALA,KA,K.A.ND,K.A.ND,150,,0
+145,MAIMOUNA,BA,F,,9mois,AWA,DIALLO,K.A.ND,K.A.ND,163,,0
+146,BABACAR,SOW,M,,10mois,BINTA,SOW,K.A.ND,K.A.ND,14.5,,0
+147,SEYNABOU,KA,F,,22mois,KHARDIATA,KA,K.A.ND,K.A.ND,160,,0
+148,ALY,KA,M,,13mois,KHADY,DIA,K.A.ND,K.A.ND,150,,0
+149,SAMBA,KA,M,,20mois,AWA,KA,K.A.ND,K.A.ND,160,,0
+150,AISSATA,KA,F,,16mois,NDEYE,SOW,K.A.ND,K.A.ND,15.7,,0
+151,BABACAR,KA,M,,11mois,FATOU,KA,K.A.ND,K.A.ND,15.2,,0
+152,ADAMA,KA,F,,14mois,AWA,KA,K.A.ND,K.A.ND,14.3,,0
+153,ABLAYE,KA,M,,7mois,KHARDIATA,BA,K.A.ND,K.A.ND,14.6,,0
+154,AWA,KA,F,,11mois,AMINATA,BA,K.A.ND,K.A.ND,160,,0
+155,ADAMA,KA,M,,11mois,AMINATA,BA,K.A.ND,K.A.ND,13.5,,0
+156,MARI,BA,F,,15mois,NDEYE,FALL,K.A.ND,K.A.ND,170,,0
+157,DAOUDA,KA,M,,18mois,ASTOU,GUEYE,K.A.ND,K.A.ND,16.3,,0
+158,FATIMA,DIOUF,F,,22mois,AMI ,CISS,K.A.ND,K.A.ND,16.5,,0
+159,ROUGUIETOU,BA,F,,9mois,DIARIETOU,KA,K.A.ND,K.A.ND,16.2,,0
+160,ARONA,KA,M,,7mois,DJENABA,KA,K.A.ND,K.A.ND,160,,0
+161,ABLAYE,BA,M,,10mois,PENDA,SOW,K.A.ND,K.A.ND,17.2,,0
+162,AISSATOU,KA,F,,11mois,AWA,SOW,K.A.ND,K.A.ND,150,,0
+163,ROUGUIETOU,SOW,F,,7mois,AMINATA,KA,K.A.ND,K.A.ND,15.2,,0
+164,BABO,SOW,M,,19mois,DADO,SOW,K.A.ND,K.A.ND,160,,0
+165,THIERNO,SOW,M,,12mois,AMINATA,KA,K.A.ND,K.A.ND,16.3,,0
+166,SEYNABOU,BA,F,,9mois,AWA,DIALLO,K.A.ND,K.A.ND,150,,0
+167,MAR ,SARRY,M,,3mois----,CODOU,DEME,MBAWANE,MBAWANE,,,0
+168,AWA,DEME,F,,9mois,DEGUENE,NDIAYE,MBAWANE,MBAWANE,12.5,,0
+169,ADAMA,DEME,F,,9mois,DEGUENE,NDIAYE,MBAWANE,MBAWANE,12.5,,0
+170,MAME SEYE,DEME,F,,4mois---,ASTA,DEME,MBAWANE,MBAWANE,,,0
+171,AMINATA,DEME,F,,48mois,ABSA,DEME,MBAWANE,MBAWANE,,,0
+172,OUSMANE,SOW,M,,32mois,AMINATA,KA,MBAWANE,MBAWANE,16.3,,0
+173,ABY,SOW,F,,40mois,FAMA,DIA,MBAWANE,MBAWANE,150,,0
+174,NDOUMBE,FAYE,F,,56mois,FATIM,FAYE,MBAWANE,MBAWANE,15.2,,0
+175,AWA,FAYE,F,,36mois,NDEYE,WADE,MBAWANE,MBAWANE,170,,0
+176,AMINATA,DEME,F,,6mois,ASTA,DEME,MBAWANE,MBAWANE,150,,0
+177,MBAYE,DEME,M,,6mois,FATOU,DEME,MBAWANE,MBAWANE,13.9,,0
+178,SAMBA,DJIKENE,M,,3mois----,ASTOU,MBAMANE,MBAWANE,MBAWANE,14.5,,0
+179,MAMADOU,BA,M,,21mois,DJENABA,KA,K.A.ND,K.A.ND,,,0
+180,SALA,BA,F,,21mois,AIDA,KA,K.A.ND,K.A.ND,140,,0
+181,TINE,GUEYE,F,,12mois,AWA,DIAKHATE,K.A.ND,K.A.ND,131,,0
+182,MANSSOUR,KA,M,,10mois,ROUGUI,KA,K.A.ND,K.A.ND,136,,0
+183,ANTA,NDIAYE,F,,24mois,DIORE,NDIONE,MBAWANE,MBAWANE,166,,0
+184,ABLAYE,DIOP,M,,14mois,MEYA,KA,K.A.ND,K.A.ND,160,,0
+185,BARA,DIOP,M,,10mois,DIAL,GUEYE,MBAWANE,MBAWANE,163,,0
+186,KHADY,DEME,F,,14mois,AISSATOU,DJEME,MBAWANE,MBAWANE,163,,0
+187,ABY,SOW,F,,18mois,OULEY,BA,K.A.ND,K.A.ND,,,0
+188,PENDA,KA,F,,18mois,MARIE,KA,MBAWANE,MBAWANE,136,,0
+189,MBAYANG,MBAYE,F,,28mois,MARIEME,DIOP,MBAWANE,MBAWANE,160,,0
+190,DEMBE,NIANG,M,,14mois,MARIEME,SOW,K.A.ND,K.A.ND,170,,0
+191,AMY,FAYE,F,,22mois,FATOU,DIENG,MBAWANE,MBAWANE,175,,0
+192,MBAYE,DEME,M,,7mois,MAME  ,BAIDA,K.A.ND,K.A.ND,130,,0
+193,MAMADOU,KA,M,,23mois,AWA,KA,MBAWANE,MBAWANE,150,,0
+194,ALPHA,KA,M,,12mois,DIOULE,KA,K.A.ND,K.A.ND,140,,0
+195,NDEYE,NDOYE,F,,12mois,AMY,NDOYE,K.A.ND,K.A.ND,130,,0
+196,ABLAYE,MBODJ,M,,6mois,ANTA,KA,K.A.ND,K.A.ND,130,,0
+197,AMED,DIONE,M,,16mois,KANE,DIOP,K.A.ND,K.A.ND,133,,0
+198,SAMBA,DIOP,M,,16mois,FATOU,FALL,MBAWANE,MBAWANE,146,,0
+199,SALIF,SOW,M,,11mois,KHADY,DIA,MBAWANE,MBAWANE,150,,0
+200,OMAR,NIANG,M,,11mois,MAMA,NIANG,MBAWANE,MBAWANE,140,,0
+201,DJIBI,KA,M,,16mois,PENDA,KA,MBAWANE,MBAWANE,133,,0
+202,AIDA,KA,F,,21mois,MAYMOUNA,BA,K.A.ND,K.A.ND,160,,0
+203,OUSMANE,KA,M,,23mois,ROCKY,BA,K.A.ND,K.A.ND,157,,0
+204,DJABA,KA,M,,24mois,FATIMATA,KA,K.A.ND,K.A.ND,160,,0
+205,DIATTA,KA,F,,8mois,KHADY,BA,K.A.ND,K.A.ND,130,,0
+206,BABACAR,DIA,M,,8mois,MARIAMA,KAITA,MBAWANE,MBAWANE,134,,0
+207,SALIF,KA,M,,17mois,KHARDIATA,BA,K.A.ND,K.A.ND,140,,0
+208,DJIBI,KA,M,,18mois,MAYMOUNA,BA,K.A.ND,K.A.ND,159,,0
+209,MAR ,SARRY,M,,9mois,CODOU,DEME,MBAWANE,MBAWANE,,,0
+210,ASTOU MARANE,FALL,F,,17mois,BIRAME,DIONE,MBAWANE,MBAWANE,150,,0
+211,CHERIF,DIOP,F,,53mois,NDAYE,GUEYE,MBAWANE,MBAWANE,170,,0
+212,NDIAKHATE,FALL,M,,17mois,ASTOU,GUEYE,MBAWANE,MBAWANE,140,,0
+213,NDEYE,DIOP,F,,35mois,ADAMA,KOUNTA,MBAWANE,MBAWANE,160,,0
+214,ABDOU ,DIOP,M,,24mois,NDEYE,GUEYE,MBAWANE,MBAWANE,140,,0
+215,YACINE,DEME,F,,16mois,MARIAMA,DIOP,MBAWANE,MBAWANE,150,,0
+216,DABA,NDIAYE,F,,24mois,MBENE,DEME,MBAWANE,MBAWANE,135,,0
+217,DABA,DEME,F,,37mois,NDEYE,DIAGNE,MBAWANE,MBAWANE,140,,0
+218,AMY ,NDOYE,M,,27mois,MBODJA,CISS,K.A.ND,K.A.ND,135,,0
+219,PATHE,DIENG,M,,21mois,NDEYE,DIAGNE,MBAWANE,MBAWANE,140,,0
+220,IDY,DIENG,M,,58mois,NDEYE,DIAGNE,MBAWANE,MBAWANE,170,,0
+221,ALY,KA,M,,12mois,KHADY,DIAGNE,K.A.ND,K.A.ND,150,,0
+222,DJIBA,KA,M,,14mois,AWA,KA,K.A.ND,K.A.ND,160,,0
+223,ISSA,NDIAYE,F,,43mois,ANTA,NDOYE,MBAWANE,MBAWANE,140,,0
+224,FATMA,DJIKOUM,F,,41mois,ASTOU,NIANG,MBAWANE,MBAWANE,163,,0
+225,AMADA,NDIAYE,M,,45mois,SALIMATA,DEME,MBAWANE,MBAWANE,140,,0
+226,NDEYE,BA,F,,8mois,ASTOU,BA,K.A.ND,K.A.ND,150,,0
+227,YORO,DEME,M,,20mois,NDEYE,DIAGNE,MBAWANE,MBAWANE,137,,0
+228,DIADIA,KA,F,,21mois,DIATOU,SOW,K.A.ND,K.A.ND,142,,0
+229,SALIF,KA,M,,24mois,KHADY,DIENG,K.A.ND,K.A.ND,140,,0
+230,COLLE,BA,F,,10mois,THIORO,SOW,K.A.ND,K.A.ND,,,0
+231,ALY,KA,M,,26mois,DIANKE,BODJI,DIANG,DIANG,145,,0
+232,YOUSSOU,DIOUF,M,,12mois,AMYNATA,BA,K.A.ND,K.A.ND,150,,0
+233,AWA,DIA,F,,11mois,MAIMOUNA,KA,K.A.ND,K.A.ND,135,,0
+234,EL HDJI,BA,M,,7mois,,BA,K.A.ND,K.A.ND,150,,0
+235,OUSSEYNOU,DIONE,M,,7mois,SALA,KA,K.A.ND,K.A.ND,135,,0
+236,KHOUDIA,KA,F,,9mois,MARIE,DIA,K.A.ND,K.A.ND,140,,0
+237,FALOU,SOW,M,,19mois,AIDA,BA,K.A.ND,K.A.ND,150,,0
+238,DADO,BA,F,,11mois,COLLE,BA,K.A.ND,K.A.ND,160,,0
+239,SALIF,KA,M,,17mois,KHADY,BA,NDIOKHOP,NDIOKHOP,140,,0
+240,FATOUMATA,KA,F,,24mois,MARIAMA,SOW,NDIOKHOP,NDIOKHOP,15.5,,0
+241,MAGUETTE,KA,M,,22mois,ROUGUI,DIA,NDIOKHOP,NDIOKHOP,150,,0
+242,ISSA,KA,M,,15mois,ROUGUI,SOW,NDIOKHOP,NDIOKHOP,160,,0
+243,COUMBA,KA,F,,31mois,FATIMATA,KA,NDIOKHOP,NDIOKHOP,160,,0
+244,DJENABA,KA,M,,57mois,BIGUE,KA,NDIOKHOP,NDIOKHOP,170,,0
+245,AISSATA,KA,F,,23mois,MAIMOUNA,KA,NDIOKHOP,NDIOKHOP,160,,0
+246,AMINATA,KA,F,,23mois,AIDA,BA,NDIOKHOP,NDIOKHOP,150,,0
+247,MALICK,KA,M,,40mois,SALA,SOW,NDIOKHOP,NDIOKHOP,170,,0
+248,IBRAHIMA,KA,M,,52mois,SALA,SOW,,,160,,0
+249,AMADOU,KA,M,,17mois, ADJISAFIETOU,SOW,NDIOKHOP,NDIOKHOP,170,,0
+250,ASSANE,KA,M,,24mois,MARIEME,BA,NDIOKHOP,NDIOKHOP,150,,0
+251,MAMADOU,BA,M,,36mois,DIOR,BA,NDIOKHOP,NDIOKHOP,14.5,,0
+252,AMADA,BA,M,,15mois,DIOR,BA,NDIOKHOP,NDIOKHOP,120,,0
+253,AMINATA,KA,F,,12MOIS,ASSATA,BA,NDIOKHOP,NDIOKHOP,13.5,,0
+254,AIDA,BA,F,,14mois,KHARDIATA,KA,NDIOKHOP,NDIOKHOP,140,,0
+255,FALY,BA,F,,12mois,KHADY,SOW,NDIOKHOP,NDIOKHOP,150,,0
+256,MOUSTAPHA,BA,M,,40mois,KHADY,SOW,NDIOKHOP,NDIOKHOP,15.5,,0
+257,IBRAHIMA,BA,M,,31mois,DIARIATOU,BA,NDIOKHOP,NDIOKHOP,160,,0
+258,BINTA,BA,F,,10mois,MARIE,BA,NDIOKHOP,NDIOKHOP,140,,0
+259,DIARY,BA,F,,30mois,MARY,BA,NDIOKHOP,NDIOKHOP,150,,0
+260,MAODO,KA,M,,40mois,MAYMOUNA,BA,NDIOKHOP,NDIOKHOP,160,,0
+261,FATIMATA,KA,F,,13mois,OULEYE,KA,NDIOKHOP,NDIOKHOP,140,,0
+262,AMINATA,KA,F,,18moisw,MARIAMA,SOW,NDIOKHOP,NDIOKHOP,13.5,,0
+263,NDIAGA,DEME,M,,30mois,FARY,FALL,MBAWANE,MBAWANE,150,,0
+264,NGAGNE,FALL,M,,41mois,ASTOU,GUEYE,MBAWANE,MBAWANE,14.5,,0
+265,MOUSTAPHA,FALL,M,,40mois,BIRAMANE,DIONE,MBAWANE,MBAWANE,140,,0
+266,MOHOMET,DEME,M,,32mois,ABSA,DEME,MBAWANE,MBAWANE,160,,0
+267,BABACAR,DEME,M,,50mois,ABSA,DEME,MBAWANE,MBAWANE,170,,0
+268,ADAMA,THIAM,M,,59mois,MAMSEYE,GUEYE,MBAWANE,MBAWANE,16.5,,0
+269,ADAMA,NDIAYE,M,,45mois,SALIMATA,DEME,MBAWANE,MBAWANE,140,,0
+270,DOUADA,NDIAYE,M,,51mois,ADJI,LO,MBAWANE,MBAWANE,15.5,,0
+271,MAMBENE,NDIAYE,F,,44mois,AIDA MBEM,DEME,MBAWANE,MBAWANE,160,,0
+272,SOCNA,NDIAYE,F,,30mois,AIDA  ,DEME,MBAWANE,MBAWANE,130,,0
+273,MAMADOU,NDIAYE,M,,34mois,SEYNABOOU,BEGUE,MBAWANE,MBAWANE,150,,0
+274,BADOU,NDIAYE,M,,51mois,SEYNABOU,BEGUE,MBAWANE,MBAWANE,170,,0
+275,BINTA,LO,F,,18mois,DIARIATOU,KA,K.A.ND,K.A.ND,13.3,,0
+276,ABO ,KA,M,,9mois,FARY,KA,K.A.ND,K.A.ND,160,,0
+277,DAME,KA,M,,21mois,AISSATOU,BA,K.A.ND,K.A.ND,150,,0
+278,ABLAYE,DIA,M,,28mois,AWA,DIA,K.A.ND,K.A.ND,140,,0
+279,MAMADOU,SOW,M,,13mois,KOUMBA,SOW,K.A.ND,K.A.ND,14.2,,0
+280,AIDA,KA,F,,19mois,AMINATA,BA,K.A.ND,K.A.ND,140,,0
+281,TAMSIR,NDOYE,M,,14mois,ASTOU,CISS,K.A.ND,K.A.ND,140,,0
+282,DOUADA,BA,M,,21mois,AISSATOU,KA,K.A.ND,K.A.ND,150,,0
+283,ARONA,BA,M,,13mois,DIATOU,BA,K.A.ND,K.A.ND,14.5,,0
+284,,,,,,,,,,150,,0
+285,ABDOURAHMANE,KA,M,,24mois,OUMY,DIOP,MBAWANE,MBAWANE,17.6,,0
+286,MARIEME,GUEYE,F,,55mois,FATOU,CISS,MBAWANE,MBAWANE,16,,0
+287,FATOUMATA,BA,F,,42mois,RAMA,KA,MBAWANE,MBAWANE,14.1,,0
+288,FATOUMATA,GUEYE,F,,29mois,FATOU,CISS,MBAWANE,MBAWANE,15,,0
+289,MAME CHEIKH,FALL,M,,39mois,YACINE,NDIAYE,MBAWANE,MBAWANE,162,,0
+290,ALIOU,NDIAYE,M,,38mois,NDEYE,NDIAYE,MBAWANE,MBAWANE,162,,0
+291,ISMAILA,BA,M,,49mois,DIARIATOU,DIALLO,MBAWANE,MBAWANE,170,,0
+292,SALA,MBAYE,F,,50mois,ANTA,DEME,MBAWANE,MBAWANE,170,,0
+293,ANTA,SARY,F,,30mois,ANTA,DIOME,MBAWANE,MBAWANE,140,,0
+294,ARAME,DIOP,F,,40mois,SOKHNA,DIAGNE,MBAWANE,MBAWANE,165,,0
+295,ROKHAYA,SOW,F,,51mois,FATMA,DIAGNE,MBAWANE,MBAWANE,170,,0
+296,BIGUE,SOW,F,,51mois,KHARDIATA,KA,MBAWANE,MBAWANE,168,,0
+297,BABACAR,FAYE,M,,56mois,DIOR,SOW,MBAWANE,MBAWANE,172,,0
+298,ROKHAYA,SOW,F,,32mois,SALA,KA,,,141,,0
+299,TIDIANE,DIA,M,,7mois,NDEYE,BA,K.A.ND,K.A.ND,135,,0
+300,NDEYE,FALL,F,,7mois,KHAMA,FALL,MBAWANE,MBAWANE,140,,0
+301,KHADY,NDIAYE,F,,58mois,PENDA,DEME,MBAWANE,MBAWANE,160,,0
+302,NGAGNE,FALL,M,,41mois,ASTOU,GUEYE,MBAWANE,MBAWANE,151,,0
+303,ABDOU,DEME,M,,43mois,MARAMI,MBEYE,MBAWANE,MBAWANE,172,,0
+304,BEKAYE,SONOHO,M,,40mois,PENDA,DEME,MBAWANE,MBAWANE,145,,0
+305,MOHAMED,SONOHO,M,,52mois,PENDA,,MBAWANE,MBAWANE,142,,

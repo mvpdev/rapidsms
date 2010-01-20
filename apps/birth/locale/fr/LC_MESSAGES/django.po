@@ -1,0 +1,82 @@
+# Birth Reporting App
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ukang'a Dickson <ukanga@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-30 10:50+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sylvia Musula <smusula@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:39
+#, python-format
+msgid "Sorry, only registered users can access this program.%(msg)s"
+msgstr "Désolé,seulement les membres inscrits peuvent accéder le programme %(msg)s"
+
+#: app.py:103
+#, python-format
+msgid "An error occurred. Please call %(mobile)s"
+msgstr "Une erreur s'est présentée. Veuillez appeler %(mobile)s"
+
+#: app.py:145
+#, python-format
+msgid "Date format is ddmmyy: %(dob)s"
+msgstr " Le format de date est jjmmann %(dob)s"
+
+#: app.py:155
+#, python-format
+msgid "Couldn't understand date: %(dob)s"
+msgstr "La date n'est pas saisissable %(dob)s"
+
+#: app.py:177
+#, python-format
+msgid ""
+"Location `%(location)s` is not known. Please try again with a known location"
+msgstr ""
+"Cette region n'est pas connue %(location)s.Veuillez essayer avec une region "
+"bien connue."
+
+#: app.py:211
+#, python-format
+msgid ""
+"The birth of %(last_name)s, %(first_name)s (+%(PID)s) has already been "
+"reported by %(reporter)s."
+msgstr ""
+"La naissance de %(last_name)s, %(first_name)s (+%(PID)s est déjà annoncé par "
+"%(reporter)s"
+
+#: app.py:222
+#, fuzzy, python-format
+msgid ""
+"Birth +%(id)s: %(last_name)s, %(first_name)s %(gender)s/%(dob)s (%(guardian)"
+"s) %(location)s at %(where)s"
+msgstr ""
+"La naissance +%(id)s: %(last_name)s, %(first_name)s %(gender)s/%(dob)s (%(guardian)"
+"s) %(location)s at %(where)s"
+
+#: models.py:19
+msgid "Home"
+msgstr "Maison"
+
+#: models.py:20
+msgid "Health Facility"
+msgstr "L'établissement de santé"
+
+#: models.py:21
+msgid "On route to Clinic"
+msgstr "En voie à la clinique"
+
+#: models.py:22
+msgid "Other"
+msgstr "L'autre"
+
+#~ msgid "%(msg)s"
+#~ msgstr "%(msg)s"
