@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-20 10:37+0000\n"
+"POT-Creation-Date: 2010-01-20 17:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Ukang'a Dickson <ukanga@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -284,46 +284,46 @@ msgstr "Rapport de campagne rougeole"
 msgid "Vitamines Campaign Summary"
 msgstr "Rapport de campagne rougeole"
 
-#: reports.py:347
+#: reports.py:353
 #, python-format
 msgid "%(app_name)s: Cases Reports by CHW as of %(date)s"
 msgstr "%(app_name)s: Rapports de cas par ASC pour le %(date)s"
 
-#: reports.py:370 reports.py:388
+#: reports.py:376 reports.py:394
 #, fuzzy, python-format
 msgid "%(loc)s: %(lname)s %(fname)s: %(date)s"
 msgstr "%loc()s: %(lname)s %(fname)s: %(date)s"
 
-#: reports.py:412
+#: reports.py:418
 #, python-format
 msgid "%(app_name)s: Dead Cases report as of %(date)s"
 msgstr "%(app_name)s: Rapport de cas de décès depuis le %(date)s"
 
-#: reports.py:437
+#: reports.py:443
 #, fuzzy
 msgid ": Listing Enfant par Age"
 msgstr "ChildCount Senegal: Listing Enfant par âge"
 
-#: reports.py:446
+#: reports.py:452
 msgid "Registre des Enfants pour: "
 msgstr "Registre des Enfants pour: "
 
-#: reports.py:465
+#: reports.py:471
 #, python-format
 msgid "Registre des Enfants de : %(age)s mois"
 msgstr "Registre des Enfants de : %(age)s mois"
 
-#: reports.py:507
+#: reports.py:513
 #, python-format
 msgid "%(site_name)s: Registre des Enfants pour: "
 msgstr "%(site_name)s: Registre des Enfants pour: "
 
-#: reports.py:524
+#: reports.py:530
 #, python-format
 msgid "Registre des Enfants pour: %(site_name)s"
 msgstr "Registre des Enfants pour: %(site_name)s"
 
-#: reports.py:616
+#: reports.py:622
 #, python-format
 msgid ""
 "%(app_name)s: @Risk Malnutrition Cases from %(start_date)s to %(end_date)s"
@@ -331,36 +331,36 @@ msgstr ""
 "%(app_name)s: Cas avec risque de malnutrition du %(start_date)s au %"
 "(end_date)s"
 
-#: reports.py:632 reports.py:651
+#: reports.py:638 reports.py:657
 #, python-format
 msgid ""
 "%(clinic)s: @Risk Malnutrition Cases from %(start_date)s to %(end_date)s"
 msgstr ""
 "%(clinic)s: Cas avec risque de malnutrition du %(start_date)s au %(end_date)s"
 
-#: reports.py:676
+#: reports.py:682
 #, python-format
 msgid "%(app_name)s: Positive RDT Cases from %(start_date)s to %(end_date)s"
 msgstr "%(app_name)s: Cas de RDT positifs du %(start_date)s au %(end_date)s"
 
-#: reports.py:690 reports.py:710
+#: reports.py:696 reports.py:716
 #, python-format
 msgid "%(clinic)s: Positive RDT Cases from %(start_date)s to %(end_date)s"
 msgstr "%(clinic)s: Cas de RDT positifs du %(start_date)s au %(end_date)s"
 
-#: reports.py:948
+#: reports.py:954
 msgid "Facility"
 msgstr "Établissement"
 
-#: reports.py:949
+#: reports.py:955
 msgid "No. Vaccinated"
 msgstr "Nbre. Vaccinés"
 
-#: reports.py:950
+#: reports.py:956
 msgid "No. Eligible"
 msgstr "Nbre. Eligibles."
 
-#: reports.py:978
+#: reports.py:984
 msgid "Measles Campaign"
 msgstr "Campagne de vaccination rougeole"
 

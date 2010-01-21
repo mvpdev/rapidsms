@@ -34,7 +34,7 @@
 			</form>
 				  			
   		</li>
-  		<li>Measles Summary <a href="/measles_summary">PDF</a> <a href="/measles_summary/per_page/1">per page PDF</a>
+  		<!-- <li>Measles Summary<a href="/measles_summary">PDF</a> <a href="/measles_summary/per_page/1">per page PDF</a>
   			<form action="/measles_summary/1" method="post">
 				
 				<select name="clinic">
@@ -77,16 +77,60 @@
 				
 			</form>
 		</li>
-  		<li> Patients by CHW <a href="/patients_by_chw">PDF</a> <a href="/patients_by_chw/per_page/1">per page PDF</a>
-  		 <a href="/malaria_patients_by_chw">Malaria</a> <a href="/cmam_patients_by_chw">CMAM</a>  
-  			<form action="/patients_by_chw/per_page/1" method="post">
+-->
+  		<li>Vitamines Summary <a href="/vitamines_summary">PDF</a> <a href="/vitamines_summary/per_page/1">per page PDF</a>
+  			<form action="/vitamines_summary/1" method="post">
+				
+				<select name="site">
+					{% for clinic in clinics %}
+					    <option value="{{ clinic.id }}">{{ clinic.name }} </option>
+					{% endfor %}
+				</select>
+				
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+				  			
+  		</li>
+  		<li> Vitamines by CHW <a href="/vitamines">PDF</a> <a href="/vitamines/per_page/1">per page PDF</a>
+  			<form action="/vitamines/1" method="post">
 				
 				CHWs: <select name="provider">
 					{% for zone in zones %}
 						<optgroup label="{{zone.location__name}}">
 						{% for provider in providers %}
-							{% ifequal provider.location.id zone.location.id %}
-								<option value="{{ provider.id }}">{{ provider.name }}</option>
+							{% ifequal provider.zone zone.location %}
+								<option value="{{ provider.id }}">{{ provider.name }} </option>
+							{% endifequal %}
+						{% endfor %}
+						</optgroup>
+						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+			<form action="/vitamines/" method="post">
+				
+				Zones: <select name="site">
+					{% for zone in zones %}
+						<option value="{{zone.location}}">{{ zone.location__name }}</option>						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+		</li>
+  		<li> Patients by CHW <a href="/patients_by_chw">PDF</a> <a href="/patients_by_chw/per_page/1">per page PDF</a>
+ 
+  			<form action="/patients_by_chw/1" method="post">
+				
+				CHWs: <select name="provider">
+					{% for zone in zones %}
+						<optgroup label="{{zone.location__name}}">
+						{% for provider in providers %}
+							{% ifequal provider.zone zone.location %}
+								<option value="{{provider.id}}">{{ provider.name }}</option>
 							{% endifequal %}
 						{% endfor %}
 						</optgroup>
@@ -100,7 +144,7 @@
 				
 				Zones: <select name="zone">
 					{% for zone in zones %}
-						<option value="{{ zone.location }}">{{ zone.location__name }} </option>						
+						<option value="{{zone.location}}">{{ zone.location__name }} </option>						
 					{% endfor %}
 				</select>
 				<input type="submit" name="format" value="Get Report" />
@@ -121,7 +165,7 @@
 			<form action="/malnutrition_screening/" method="post">
 				Zones: <select name="zone">
 					{% for zone in zones %}
-						<option value="{{ zone.location}}"> {{ zone.location__name }}</option>
+						<option value="{{zone.location}}"> {{ zone.location__name }}</option>
 					{% endfor %}
                 </select>
                 <input type="submit" name="format" value="Get Report" />
@@ -144,7 +188,7 @@
 		</li>
 
 
-		<li> Malaria by CHW <a href="/malaria">PDF</a> <a href="/malaria/per_page/1">per page PDF</a>  		   
+		<!--<li> Malaria by CHW <a href="/malaria">PDF</a> <a href="/malaria/per_page/1">per page PDF</a>  		   
 			<form action="/malaria/" method="post">
               Clinic:  <select name="clinic">
                     {% for clinic in clinics %}
@@ -155,6 +199,7 @@
 				
 			</form>
 		</li>
+-->
 		<li> Malnut Trend by CHW <a href="/trend">PDF</a> <a href="/trend/per_page/1">per page PDF</a>
   			<!-- <form action="/trend/1" method="post">
 				

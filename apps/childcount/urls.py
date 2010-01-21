@@ -48,6 +48,17 @@ urlpatterns = patterns('',
     (r'^measles_summary/per_page/(?P<per_page>\d*)$', reports.measles_summary),
     (r'^measles_summary/per_page/(?P<per_page>\d*)/(?P<d>\d*)$', \
     reports.measles_summary),
+    #Vitamines A
+    (r'^vitamines_summary/$', reports.vitamines_summary),
+    (r'^vitamines_summary/(?P<object_id>\d*)$', reports.vitamines_summary),
+    (r'^vitamines_summary/per_page/(?P<per_page>\d*)$', reports.vitamines_summary),
+    (r'^vitamines_summary/per_page/(?P<per_page>\d*)/(?P<d>\d*)$', \
+    reports.vitamines_summary),
+    #Vitamines patients_by_chw
+    (r'^vitamines/$', reports.vitamines),
+    (r'^vitamines/(?P<object_id>\d*)$', reports.vitamines),
+    (r'^vitamines/per_page/(?P<per_page>\d*)$', reports.vitamines),
+    (r'^vitamines/(?P<object_id>\d*)/(?P<rformat>[a-z]*)$', reports.vitamines),
     #patients_by_chw
     (r'^measles/$', reports.measles),
     (r'^measles/(?P<object_id>\d*)$', reports.measles),

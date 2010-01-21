@@ -101,7 +101,7 @@ def reports(request):
     '''Lists Report links that can be generated in childcount'''
     template_name = "childcount/reports/reports.html"
 
-    clinics = Location.objects.filter(type__name="Clinic")
+    clinics = Location.objects.filter(type__name="Site")
 
     zones = Case.objects.order_by("location").\
                 values('location', 'location__name').distinct()
@@ -313,10 +313,12 @@ def vitamines_summary(request, object_id=None, per_page="0", \
             queryset, fields = ReportCHWStatus.\
                 vitamines_summary(duration_start, duration_end, \
                                 muac_duration_start, clinic)
-            pdfrpt.setTableData(queryset, fields, clinic)
+            pdfrpt.setTableData(queryset, fields, clinic,\
+                            [1.0* inch, 1.0 * inch, 1.0 * inch, 1.0 * inch, \
+                             1.0 * inch, 1.5 * inch, 1.0 * inch])
             if (int(per_page) == 1) is True:
                 pdfrpt.setPageBreak()
-                pdfrpt.setFilename("/tmp/report_per_page")
+            pdfrpt.setFilename("/tmp/vitamines_per_page")
     else:
         if request.POST['site']:
             object_id = request.POST['site']
@@ -327,12 +329,16 @@ def vitamines_summary(request, object_id=None, per_page="0", \
 
         if rformat == "csv" or (request.POST \
                                 and request.POST["format"].lower() == "csv"):
-            file_name = clinic + ".csv"
+            file_name = clinic.name + ".csv"
             file_name = file_name.replace(" ", "_").replace("'", "")
             return handle_csv(request, queryset, fields, file_name)
 
-        pdfrpt.setTableData(queryset, fields, clinic)
-
+        pdfrpt.setTableData(queryset, fields, clinic,\
+                            [1.0* inch, 1.0 * inch, 1.0 * inch, 1.0 * inch, \
+                             1.0 * inch, 1.5 * inch, 1.0 * inch])
+        if (int(per_page) == 1) is True:
+            pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/vitamines_per_page")
     return pdfrpt.render()
 
 ##
@@ -1011,6 +1017,63 @@ def measles(request, object_id=None, per_page="0", rformat="pdf"):
 
     return pdfrpt.render()
 
+
+@login_required
+def vitamines(request, object_id=None, per_page="0", rformat="pdf"):
+    '''List of Cases/Children Eligible for vitamines not yet vaccinated'''
+    has_data=0
+    pdfrpt = PDFReport()
+    pdfrpt.setLandscape(False)
+    #pdfrpt.setTitle("RapidResponse MVP Kenya: Cases Reports by CHW")
+    pdfrpt.setTitle(_("Vitamines A Campaign"))
+    if object_id is None:
+        if request.POST and request.POST['site']:
+            id_loc=request.POST['site']
+            loc=Location.objects.get(id=id_loc)
+            
+            #reporters = Case.objects.filter(location=loc).\
+            #    values('reporter', 'location').distinct()
+            reporters = Reporter.objects.filter(location=loc)
+            
+            per_page = "1"
+        else:
+            reporters = Reporter.objects.all()
+        
+        for reporter in reporters:
+            
+            queryset, fields = ReportAllPatients.vitamines_by_provider(reporter)
+            if queryset:
+                
+                title = reporter.location.name + ": " + \
+                    reporter.full_name() + \
+                    " (sms format: `VITA +PID +PID +PID`)"
+                pdfrpt.setTableData(queryset, fields, title)
+                if (int(per_page) == 1) is True:
+                    pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/report_per_page")
+        
+    else:
+        if request.POST and request.POST['provider']:
+            object_id = request.POST['provider']
+        
+        reporter = Reporter.objects.get(id=object_id)
+        queryset, fields = ReportAllPatients.vitamines_by_provider(reporter)
+        if queryset:
+            
+            title = reporter.full_name() + \
+            " (sms format: `VITA +PID +PID +PID`)"
+            if rformat == "csv" or (request.POST \
+                                and request.POST["format"].lower() == "csv"):
+                file_name = reporter.full_name() + ".csv"
+                file_name =file_name.replace(" ", "_").replace("'", "")
+                return handle_csv(request, queryset, fields, file_name)
+
+            pdfrpt.setTableData(queryset, fields, title)
+            if (int(per_page) == 1) is True:
+                pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/report_per_page")
+
+    return pdfrpt.render()
 
 @login_required
 def childcount(request):

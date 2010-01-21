@@ -156,13 +156,13 @@ class App (rapidsms.app.App):
             raise HandlerFailed(_("Case +%(ref_id)s not found.") % \
                                 {'ref_id': ref_id})
     
-    keyword.prefix = ['vitamines']
+    keyword.prefix = ['vita']
     @keyword(r'(.*)')
     @registered
     def vitamines(self, message, text):
         '''Record vaccinated cases
 
-        format: vitamines [+PID] [+PID] [+PID]
+        format: vita [+PID] [+PID] [+PID]
         '''
         
         reporter = message.persistant_connection.reporter
@@ -182,7 +182,7 @@ class App (rapidsms.app.App):
             msg = _("%(nresult)s not found!!") % {'nresult': nresult}
             message.respond(_("%s") % msg)
         return True
-    vitamines.format = "vitamines [+PID] [+PID] [+PID]"
+    vitamines.format = "vita [+PID] [+PID] [+PID]"
 
     def str_to_cases(self, text):
         '''Pick PIDs and return the a list of cases they represent

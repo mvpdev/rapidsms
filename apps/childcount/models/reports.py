@@ -561,7 +561,7 @@ class ReportCHWStatus(Report, models.Model):
                            "bit": "{{ object.vaccinated_cases }}"})
             fields.append({"name": '# NOT VACCINATED', "column": None, \
                            "bit": "{{ object.not_vaccinated_cases }}"})
-            fields.append({"name": '%', "column": None, \
+            fields.append({"name": 'Pourcentage %', "column": None, \
                            "bit": "{{ object.sms_sent }}%"})
             return ps, fields
 
@@ -887,6 +887,52 @@ class ReportAllPatients(Report, models.Model):
             fields.append({"name": 'AGE', "column": None, \
                            "bit": "{{ object.case.age }}"})
             fields.append({"name": 'VACCINATED?', "column": None, \
+                           "bit": "{{ object.vaccinated }}"})
+            fields.append({"name": 'SENT?', "column": None, \
+                           "bit": "{{ object.sent }}"})
+
+            return qs, fields
+
+    @classmethod
+    def vitamines_by_provider(cls, reporter=None):
+        '''Generate a list of cases who have not received the vitamines A
+         for the specified reporter
+        '''
+        qs = []
+        fields = []
+        counter = 0
+        if reporter is not None:
+            cases = Case.list_e_4_vitamines(reporter)
+
+            for case in cases:
+                q = {}
+                q['case'] = case
+                counter = counter + 1
+                q['counter'] = "%d" % counter
+
+                q['vaccinated'] =ReportVitamines.is_vaccinated(case)
+                if (q['vaccinated']==1):
+                    q['sent'] = u"Yes"
+                    q['vaccinated'] = u"Yes"
+                else:
+                    q['vaccinated'] = u"No"
+                    q['sent'] = u"No"
+                qs.append(q)
+
+            # caseid +|Y lastname firstname | sex | dob/age | guardian |
+            # provider  | date
+            fields.append({"name": '#', "column": None, \
+                           "bit": "{{ object.counter }}"})
+            fields.append({"name": 'PID#', "column": None, \
+                           "bit": "{{ object.case.ref_id }}"})
+            fields.append({"name": 'NAME', "column": None, \
+                    "bit": "{{ object.case.last_name }} "\
+                    "{{ object.case.first_name }}"})
+            fields.append({"name": 'SEX', "column": None, \
+                           "bit": "{{ object.case.gender }}"})
+            fields.append({"name": 'AGE', "column": None, \
+                           "bit": "{{ object.case.age }}"})
+            fields.append({"name": 'VITAMINE A?', "column": None, \
                            "bit": "{{ object.vaccinated }}"})
             fields.append({"name": 'SENT?', "column": None, \
                            "bit": "{{ object.sent }}"})
