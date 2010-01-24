@@ -75,7 +75,7 @@ class ReportMalnutrition(models.Model):
 
         sub_columns = None
         return columns, sub_columns
-    
+
     def get_dictionary(self):
         '''Get a dictionary of muac measurement report details'''
         return {
