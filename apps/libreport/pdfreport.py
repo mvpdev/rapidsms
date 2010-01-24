@@ -215,6 +215,7 @@ class PDFReport():
             table.setStyle(TableStyle(ts))
 
             table.hAlign = "LEFT"
+            
             self.data.append(table)
         else:
             self.data.append(Paragraph("No Report", self.styles['Normal']))

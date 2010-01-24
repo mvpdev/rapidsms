@@ -1,0 +1,188 @@
+{% extends base_template %}
+{% block title %}{{ app.name }}{% endblock %}
+
+
+
+{% block breadcrumbs %}
+    <a href="/">{{ app.name }}</a>
+    &raquo; Reports
+{% endblock %}
+
+{% block content %}
+	<h2>Community Health Workers</h2>
+	<ul>
+  		<li>CHW 30 Day Performance Report <a href="/last_30_days">PDF</a> <a href="/last_30_days/per_page/1">per page PDF</a>
+  			<form action="/last_30_days/1" method="post">
+				
+				<select name="clinic">
+					{% for clinic in clinics %}
+					    <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+					{% endfor %}
+				</select>
+				
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+				  			
+  		</li>
+  		<li>Measles Summary <a href="/measles_summary">PDF</a> <a href="/measles_summary/per_page/1">per page PDF</a>
+  			<form action="/measles_summary/1" method="post">
+				
+				<select name="clinic">
+					{% for clinic in clinics %}
+					    <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+					{% endfor %}
+				</select>
+				
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+				  			
+  		</li>
+  		<li> Measles by CHW <a href="/measles">PDF</a> <a href="/measles/per_page/1">per page PDF</a>
+  			<form action="/measles/1" method="post">
+				
+				CHWs: <select name="provider">
+					{% for zone in zones %}
+						<optgroup label="{{zone.location__name}}">
+						{% for provider in providers %}
+							{% ifequal provider.location.id zone.location.id %}
+								<option value="{{ provider.id }}">{{ provider.name }}</option>
+							{% endifequal %}
+						{% endfor %}
+						</optgroup>
+						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+			<form action="/measles/" method="post">
+				
+				Zones: <select name="zone">
+					{% for zone in zones %}
+						<option value="{{ zone.zone }}">{{ zone.location__name }}</option>						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+		</li>
+  		<li> Patients by CHW <a href="/patients_by_chw">PDF</a> <a href="/patients_by_chw/per_page/1">per page PDF</a>
+  		 <a href="/malaria_patients_by_chw">Malaria</a> <a href="/cmam_patients_by_chw">CMAM</a>  
+  			<form action="/patients_by_chw/1" method="post">
+				
+				CHWs: <select name="provider">
+					{% for zone in zones %}
+						<optgroup label="{{zone.location__name}}">
+						{% for provider in providers %}
+							{% ifequal provider.location.id zone.location.id %}
+								<option value="{{ provider.id }}">{{ provider.name }}</option>
+							{% endifequal %}
+						{% endfor %}
+						</optgroup>
+						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+			<form action="/patients_by_chw/per_page/1" method="post">
+				
+				Zones: <select name="zone">
+					{% for zone in zones %}
+						<option value="{{ zone.location }}">{{ zone.location__name }}</option>						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+		</li>
+		<li> Malnutrition by CHW <a href="/malnut">PDF</a> <a href="/malnut/per_page/1">per page PDF</a>  			
+			<form action="/malnut/" method="post">
+				Clinic:  <select name="clinic">
+                    {% for clinic in clinics %}
+                        <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" name="format" value="Get Report" />
+			</form>
+		</li>
+<li> Malnutrition Screening Form <a href="/malnutrition_screening">PDF</a> <a href="/malnutrition_screening/per_page/1">per page PDF</a>  			
+			<form action="/malnutrition_screening/" method="post">
+				Zones: <select name="zone">
+					{% for zone in zones %}
+						<option value="{{ zone.location}}"> {{ zone.location__name }}</option>
+					{% endfor %}
+                </select>
+                <input type="submit" name="format" value="Get Report" />
+			</form>
+		</li>
+
+
+<li> Liste des Enfants par Age <a href="/List_Enfant_Age">PDF</a> <a href="/List_Enfant_Age/per_page/1">per page PDF</a>  		   
+			<form action="/List_Enfant_Age/" method="post">
+              Age:  <select name="age">
+
+	{% for nb in lesmois %}
+		<option value="{{ nb }}">{{ nb }}</option>						
+	{% endfor %}
+                  
+                </select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+		</li>
+
+
+		<li> Malaria by CHW <a href="/malaria">PDF</a> <a href="/malaria/per_page/1">per page PDF</a>  		   
+			<form action="/malaria/" method="post">
+              Clinic:  <select name="clinic">
+                    {% for clinic in clinics %}
+                        <option value="{{ clinic.id }}">{{ clinic.name }}</option>
+                    {% endfor %}
+                </select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+		</li>
+		<li> Malnut Trend by CHW <a href="/trend">PDF</a> <a href="/trend/per_page/1">per page PDF</a>
+  			<!-- <form action="/trend/1" method="post">
+				
+				CHWs: <select name="provider">
+					{% for zone in zones %}
+						<optgroup label="{{zone.location__name}}">
+						{% for provider in providers %}
+							{% ifequal provider.location.id zone.location.id %}
+								<option value="{{ provider.id }}">{{ provider.name }}</option>
+							{% endifequal %}
+						{% endfor %}
+						</optgroup>
+						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				<input type="submit" name="format" value="CSV" />
+			</form>
+			<form action="/trend/" method="post">
+				
+				Zones: <select name="zone">
+					{% for zone in zones %}
+						<option value="{{ zone.zone }}">{{ zone.location__name }}</option>						
+					{% endfor %}
+				</select>
+				<input type="submit" name="format" value="Get Report" />
+				
+			</form>
+			-->
+		</li>
+	</ul>
+	<h2>Monitoring</h2>
+<p>General monitoring of {{ app.name }} activities.</p>
+<ul>
+{% for month in months %}
+<li><strong>{{ month.label }}</strong> Report, <a href="/report/monitoring_csv/{{ month.id }}">CSV</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

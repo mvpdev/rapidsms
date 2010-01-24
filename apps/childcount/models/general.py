@@ -158,6 +158,17 @@ class Case(models.Model):
             return None
 
     @classmethod
+    def list_e_4_vitamines(cls, reporter):
+        '''List cases that ere eligible for vitamines vaccination'''
+        ninem = date.today() - timedelta(int(30.4375 * 9))
+        sixtym = date.today() - timedelta(int(30.4375 * 60))
+
+        try:
+            return cls.objects.filter(reporter=reporter, \
+                                      dob__lte=ninem, dob__gte=sixtym)
+        except models.ObjectDoesNotExist:
+            return None
+    @classmethod
     def count_by_provider(cls, reporter, status=None, \
                           start_date=None, end_date=None):
         '''Count the number of cases that a reporter is in charge of

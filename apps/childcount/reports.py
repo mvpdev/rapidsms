@@ -101,7 +101,7 @@ def reports(request):
     '''Lists Report links that can be generated in childcount'''
     template_name = "childcount/reports/reports.html"
 
-    clinics = Location.objects.filter(type__name="Clinic")
+    clinics = Location.objects.filter(type__name="Site")
 
     zones = Case.objects.order_by("location").\
                 values('location', 'location__name').distinct()
@@ -206,13 +206,12 @@ def muac_summary(request, object_id=None, per_page="0", rformat="pdf", d="30"):
     duration_start = duration_start.replace(day=1)
     duration_end = today
 
-    duration_str = _("CMAM Summary from %(start_date)s to %(end_date)s" % \
+    duration_str = _("CMAM Summary from %(start_date)s to %(end_date)s") % \
         {'start_date': duration_start.strftime("%d %B, %Y"), \
-         'end_date': today.strftime("%d %B, %Y")})
+         'end_date': today.strftime("%d %B, %Y")}
 
-    pdfrpt.setTitle(_(Cfg.get("app_name") + ": CMAM Summary"\
-                    " from %(start_date)s to %(end_date)s" % \
-                    {'start_date': duration_start, 'end_date': duration_end}))
+    pdfrpt.setTitle(Cfg.get("app_name") + _(": CMAM Summary from %(start_date)s to %(end_date)s") % \
+                    {'start_date': duration_start, 'end_date': duration_end})
 
     if object_id is None:
         clinics = Location.objects.filter(type__name="Clinic")
@@ -290,7 +289,59 @@ def measles_summary(request, object_id=None, per_page="0", \
 
     return pdfrpt.render()
 
+##
+@login_required
+def vitamines_summary(request, object_id=None, per_page="0", \
+                    rformat="pdf", d="30"):
+    '''A summary of vitamines A report per Site - pdf formart'''
+    pdfrpt = PDFReport()
+    d = int(d)
+    pdfrpt.enableFooter(True)
 
+    thirty_days = timedelta(days=d)
+    ninty_days = timedelta(days=90)
+    today = date.today()
+
+    duration_start = today - thirty_days
+    muac_duration_start = today - ninty_days
+    duration_end = today
+
+    pdfrpt.setTitle(_("Vitamines Campaign Summary"))
+    if object_id is None:
+        clinics = Location.objects.filter(type__name="Site")
+        for clinic in clinics:
+            queryset, fields = ReportCHWStatus.\
+                vitamines_summary(duration_start, duration_end, \
+                                muac_duration_start, clinic)
+            pdfrpt.setTableData(queryset, fields, clinic,\
+                            [1.0* inch, 1.0 * inch, 1.0 * inch, 1.0 * inch, \
+                             1.0 * inch, 1.5 * inch, 1.0 * inch])
+            if (int(per_page) == 1) is True:
+                pdfrpt.setPageBreak()
+            pdfrpt.setFilename("/tmp/vitamines_per_page")
+    else:
+        if request.POST['site']:
+            object_id = request.POST['site']
+        clinic = Location.objects.get(id=object_id)
+        queryset, fields = ReportCHWStatus.\
+            vitamines_summary(duration_start, duration_end, \
+                            muac_duration_start, clinic)
+
+        if rformat == "csv" or (request.POST \
+                                and request.POST["format"].lower() == "csv"):
+            file_name = clinic.name + ".csv"
+            file_name = file_name.replace(" ", "_").replace("'", "")
+            return handle_csv(request, queryset, fields, file_name)
+
+        pdfrpt.setTableData(queryset, fields, clinic,\
+                            [1.0* inch, 1.0 * inch, 1.0 * inch, 1.0 * inch, \
+                             1.0 * inch, 1.5 * inch, 1.0 * inch])
+        if (int(per_page) == 1) is True:
+            pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/vitamines_per_page")
+    return pdfrpt.render()
+
+##
 @login_required
 def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
     '''List of Cases/Patient per CHW'''
@@ -298,20 +349,23 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
     pdfrpt = PDFReport()
     pdfrpt.setLandscape(True)
     pdfrpt.setPrintOnBothSides(True)
-    pdfrpt.setTitle(_(Cfg.get("app_name") + \
-                ": Cases Reports by CHW as of %(date)s" % {'date': today}))
+    
+    pdfrpt.setTitle(_("%(app_name)s: Cases Reports by CHW as of %(date)s") % {'date': today,'app_name':Cfg.get("app_name")})
     
     pdfrpt.setNumOfColumns(2)
-    pdfrpt.setRowsPerPage(88)
+    #pdfrpt.setRowsPerPage(88)
     if object_id is None:
         if request.POST and request.POST['zone']:
-            providers = Case.objects.filter(location=request.POST['zone']).\
-                values('reporter', 'location').distinct()
-            per_page = "1"
+         #   providers = Case.objects.filter(location=request.POST['zone']).\
+          #      values('reporter', 'location').distinct()
+            providers = Reporter.objects.filter(location=request.POST['zone'])
+            #per_page = "1"
         else:
-            providers = Case.objects.order_by("location").\
-                            values('reporter', 'location').distinct()
-            #providers = Reporter.objects.order_by("location").all()
+            providers = Reporter.objects.all()
+         #   providers = Case.objects.order_by("location").\
+         #                   values('reporter', 'location').distinct()
+        
+            
         for reporter in providers:
             queryset, fields = ReportAllPatients.by_provider(reporter)
             if queryset:
@@ -326,7 +380,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
                              0.8 * inch])
                 if (int(per_page) == 1) is True:
                     pdfrpt.setPageBreak()
-                    pdfrpt.setFilename("/tmp/report_per_page")
+                pdfrpt.setFilename("/tmp/report_per_page")
     else:
         if request.POST and request.POST['provider']:
             object_id = request.POST['provider']
@@ -350,7 +404,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
                              1 * inch])
             if (int(per_page) == 1) is True:
                 pdfrpt.setPageBreak()
-                pdfrpt.setFilename("/tmp/report_per_page")
+            pdfrpt.setFilename("/tmp/report_per_page")
 
     return pdfrpt.render()
 
@@ -390,20 +444,20 @@ def patients_by_age(request, object_id=None, per_page="0", rformat="pdf"):
     #pdfrpt.setRowsPerPage(66)
     pdfrpt.setNumOfColumns(1)
     pdfrpt.setLandscape(True)
-
+    pdfrpt.setFontSize(10)
     if object_id is None and not request.POST:
         age_mois = 0
         cases = Case.objects.order_by("location").distinct()
         queryset, fields = ReportAllPatients.by_age(age_mois, cases)
         subtitle = _("Registre des Enfants pour: ") #%(site.name)
         pdfrpt.setTableData(queryset, fields, subtitle, \
-                        [0.2 * inch, 1.5 * inch, 0.3 * inch, 0.7 * inch, \
-                         0.3 * inch, 1.5 * inch, 0.5 * inch, 0.7 * inch, \
-                         0.5 * inch, 0.5 * inch, 0.5 * inch, 1.5 * inch, \
-                         1 * inch])
+                    [0.2 * inch, 1.5 * inch, 0.5 * inch, 0.7 * inch, \
+                     0.5 * inch, 1.5 * inch,1.0 * inch, 0.5 * inch, 0.7 * inch, \
+                     0.5 * inch, 0.5 * inch, 0.7 * inch, 1.5 * inch, \
+                     1 * inch])
         if (int(per_page) == 1) is True:
             pdfrpt.setPageBreak()
-            pdfrpt.setFilename("/tmp/Listing_Enfant")
+        pdfrpt.setFilename("/tmp/Listing_Enfant")
 
     else:
         cases = Case.objects.order_by("location").distinct()
@@ -419,9 +473,9 @@ def patients_by_age(request, object_id=None, per_page="0", rformat="pdf"):
         # no nom sex dob age mere sms numero pb poids oedems
         #depistage consulter
             pdfrpt.setTableData(queryset, fields, subtitle, \
-                        [0.2 * inch, 1.5 * inch, 0.3 * inch, 0.7 * inch, \
-                         0.3 * inch, 1.5 * inch, 0.5 * inch, 0.7 * inch, \
-                         0.5 * inch, 0.5 * inch, 0.5 * inch, 1.5 * inch, \
+                        [0.2 * inch, 1.5 * inch, 0.5 * inch, 0.7 * inch, \
+                         0.5 * inch, 1.5 * inch,1.0 * inch, 0.5 * inch, 0.7 * inch, \
+                         0.5 * inch, 0.5 * inch, 0.7 * inch, 1.5 * inch, \
                          1 * inch])
             filename = "/tmp/Listing_Enfant_" + \
                 datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
@@ -450,7 +504,7 @@ def malnutrition_screening(request, object_id=None, per_page="0", \
     #pdfrpt.setRowsPerPage(66)
     pdfrpt.setNumOfColumns(1)
     pdfrpt.setLandscape(True)
-
+    pdfrpt.setFontSize(10)
     if object_id is None and not request.POST:
         sites = Location.objects.filter(type__name="Site")
         for site in sites:
@@ -459,9 +513,10 @@ def malnutrition_screening(request, object_id=None, per_page="0", \
             subtitle = _("%(site_name)s: Registre des Enfants pour: " % \
                          {'site_name': site.name})
             pdfrpt.setTableData(queryset, fields, subtitle, \
-                        [0.2 * inch, 0.4 * inch, 1 * inch, 0.3 * inch, \
-                         .3 * inch, .8 * inch, .5 * inch, .2 * inch, \
-                         0.5 * inch, 0.8 * inch, 1 * inch])
+                            [0.4 * inch, 1.5 * inch, 0.4 * inch, 0.5 * inch, \
+                             0.5 * inch, 1.0 * inch, 0.9 * inch, 1.0 * inch, \
+                             0.7 * inch, 0.7 * inch, 0.7 * inch, 0.7 * inch, \
+                             0.8 * inch, 1.0 * inch])
             if (int(per_page) == 1) is True:
                 pdfrpt.setPageBreak()
                 pdfrpt.setFilename("/tmp/malnutrition_at_risk")
@@ -477,10 +532,10 @@ def malnutrition_screening(request, object_id=None, per_page="0", \
         # no nom sex dob age mere sms numero pb poids oedems
         # ddepistage consulter
             pdfrpt.setTableData(queryset, fields, subtitle, \
-                            [0.4 * inch, 1.5 * inch, 0.4 * inch, 0.7 * inch, \
-                             0.3 * inch, 1.5 * inch, 1.0 * inch, 0.5 * inch, \
-                             0.7 * inch, 0.5 * inch, 0.7 * inch, 0.7 * inch, \
-                             1.0 * inch, 0.5 * inch])
+                            [0.4 * inch, 1.5 * inch, 0.4 * inch, 0.5 * inch, \
+                             0.5 * inch, 1.0 * inch, 0.9 * inch, 1.0 * inch, \
+                             0.7 * inch, 0.7 * inch, 0.7 * inch, 0.7 * inch, \
+                             0.8 * inch, 1.0 * inch])
             filename = "/tmp/formulaire_de_depistage" + \
                     datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
 
@@ -943,7 +998,7 @@ def measles(request, object_id=None, per_page="0", rformat="pdf"):
                 pdfrpt.setTableData(queryset, fields, title)
                 if (int(per_page) == 1) is True:
                     pdfrpt.setPageBreak()
-                    pdfrpt.setFilename("/tmp/report_per_page")
+                pdfrpt.setFilename("/tmp/report_per_page")
     else:
         if request.POST and request.POST['provider']:
             object_id = request.POST['provider']
@@ -962,6 +1017,63 @@ def measles(request, object_id=None, per_page="0", rformat="pdf"):
 
     return pdfrpt.render()
 
+
+@login_required
+def vitamines(request, object_id=None, per_page="0", rformat="pdf"):
+    '''List of Cases/Children Eligible for vitamines not yet vaccinated'''
+    has_data=0
+    pdfrpt = PDFReport()
+    pdfrpt.setLandscape(False)
+    #pdfrpt.setTitle("RapidResponse MVP Kenya: Cases Reports by CHW")
+    pdfrpt.setTitle(_("Vitamines A Campaign"))
+    if object_id is None:
+        if request.POST and request.POST['site']:
+            id_loc=request.POST['site']
+            loc=Location.objects.get(id=id_loc)
+            
+            #reporters = Case.objects.filter(location=loc).\
+            #    values('reporter', 'location').distinct()
+            reporters = Reporter.objects.filter(location=loc)
+            
+            per_page = "1"
+        else:
+            reporters = Reporter.objects.all()
+        
+        for reporter in reporters:
+            
+            queryset, fields = ReportAllPatients.vitamines_by_provider(reporter)
+            if queryset:
+                
+                title = reporter.location.name + ": " + \
+                    reporter.full_name() + \
+                    " (sms format: `VITA +PID +PID +PID`)"
+                pdfrpt.setTableData(queryset, fields, title)
+                if (int(per_page) == 1) is True:
+                    pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/report_per_page")
+        
+    else:
+        if request.POST and request.POST['provider']:
+            object_id = request.POST['provider']
+        
+        reporter = Reporter.objects.get(id=object_id)
+        queryset, fields = ReportAllPatients.vitamines_by_provider(reporter)
+        if queryset:
+            
+            title = reporter.full_name() + \
+            " (sms format: `VITA +PID +PID +PID`)"
+            if rformat == "csv" or (request.POST \
+                                and request.POST["format"].lower() == "csv"):
+                file_name = reporter.full_name() + ".csv"
+                file_name =file_name.replace(" ", "_").replace("'", "")
+                return handle_csv(request, queryset, fields, file_name)
+
+            pdfrpt.setTableData(queryset, fields, title)
+            if (int(per_page) == 1) is True:
+                pdfrpt.setPageBreak()
+        pdfrpt.setFilename("/tmp/report_per_page")
+
+    return pdfrpt.render()
 
 @login_required
 def childcount(request):

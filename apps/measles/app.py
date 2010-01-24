@@ -159,7 +159,7 @@ class App (rapidsms.app.App):
             nresult = ''
             for nc in notcases:
                 nresult = nresult + "%s " % nc
-            msg = _("%(nresult) not found!!" % {'nresult': nresult})
+            msg = _("%(nresult)s not found!!" % {'nresult': nresult})
             message.respond(_("%s") % msg)
         return True
     measles.format = "measles [+PID] [+PID] [+PID]"
