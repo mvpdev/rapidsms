@@ -52,26 +52,37 @@ def day_end(date):
     t = date.time().replace(hour=23, minute=59)
     return datetime.combine(date.date(), t)
 
+
 def fixMessagelogDuplicates():
     from django.db import connection
     from childcount.models.logs import MessageLog
     cursor = connection.cursor()
     """ Pick  duplicate records
     """
-    cursor.execute("select id, created_at, mobile, text from  childcount_messagelog as x where (select count(*) from childcount_messagelog as q where q.created_at = x.created_at) > 1")
+    cursor.execute("select id, created_at, mobile, text from "\
+            " childcount_messagelog as x where (select count(*)"\
+            " from childcount_messagelog as q where q.created_at"\
+            " = x.created_at) > 1")
     cdata = cursor.fetchall()
     """ Pick distinct duplicate records
     """
-    cursor.execute("select id, created_at, mobile, text from  childcount_messagelog as x where (select count(*) from childcount_messagelog as q where q.created_at = x.created_at) > 1 group by created_at")
+    cursor.execute("select id, created_at, mobile, text from  "\
+            "childcount_messagelog as x where (select count(*) "\
+            "from childcount_messagelog as q where q.created_at ="\
+            " x.created_at) > 1 group by created_at")
     data = cursor.fetchall()
     c = 0
     for d in data:
         """Pick all logs with the exception of this one
         """
-        ml = MessageLog.objects.filter(mobile=d[2], text=d[3], created_at=d[1]).exclude(id=d[0])
+        ml = MessageLog.objects.filter(mobile=d[2], text=d[3], \
+                                created_at=d[1]).exclude(id=d[0])
         for l in ml:
             l.delete()
             c += 1
-    cursor.execute("select id, created_at, mobile, text from  childcount_messagelog as x where (select count(*) from childcount_messagelog as q where q.created_at = x.created_at) > 1")
+    cursor.execute("select id, created_at, mobile, text from  "\
+            "childcount_messagelog as x where (select count(*) "\
+            "from childcount_messagelog as q where q.created_at "\
+            "= x.created_at) > 1")
     data = cursor.fetchall()
     print c, " out of ", len(cdata)
