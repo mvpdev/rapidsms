@@ -8,7 +8,7 @@ from deathform.models.general import ReportDeath
 
 class ReportDeathAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'gender', 'cause', 'where', \
-                    'dod', 'entered_at', 'description')
+                    'dod', 'age', 'entered_at', 'description', 'case')
     search_fields = ['first_name', 'last_name']
     list_filter = ('dod',)
     ordering = ('-dod',)

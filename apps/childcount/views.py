@@ -4,6 +4,12 @@
 
 from rapidsms.webui.utils import render_to_response
 
+from django.http import HttpResponse
+
+from datetime import datetime
+
+from muac.models import ReportMalnutrition
+
 from libreport.pdfreport import PDFReport
 from reportlab.lib.units import inch
 from reportlab.platypus import Paragraph, Spacer, Preformatted
@@ -58,6 +64,65 @@ def index(request):
     todo = "To add child count here"
     return render_to_response(request, template_name, {
             "todo": todo})
+
+
+def report_view(req):
+    cls = ReportMalnutrition
+
+    report_title = cls._meta.verbose_name
+    rows = []
+
+    reports = cls.objects.all()
+    i = 0
+    for report in reports:
+        i += 1
+        row = {}
+        row["cells"] = []
+        row["cells"].append({"value": report.case})
+        row["cells"].append({"value": report.reporter})
+        row["cells"].append({"value": \
+                report.entered_at.strftime("%d/%m/%Y")})
+        row["cells"].append({"value": report.muac, "num": True})
+        row["cells"].append({"value": report.height, "num": True})
+        row["cells"].append({"value": report.weight, "num": True})
+        row["cells"].append({"value": report.status})
+
+        if i == 100:
+            row['complete'] = True
+            rows.append(row)
+            break
+        rows.append(row)
+
+    columns, sub_columns = cls.table_columns()
+
+    aocolumns_js = "{ \"sType\": \"html\" },"
+    for col in columns[1:] + (sub_columns if sub_columns != None else []):
+        if not 'colspan' in col:
+            aocolumns_js += "{ \"asSorting\": [ \"desc\", \"asc\" ], " \
+                            "\"bSearchable\": false },"
+    aocolumns_js = aocolumns_js[:-1]
+
+    aggregate = False
+    print columns
+    print sub_columns
+    print len(rows)
+    context_dict = {'get_vars': req.META['QUERY_STRING'],
+                    'columns': columns, 'sub_columns': sub_columns,
+                    'rows': rows, 'report_title': report_title,
+                    'aggregate': aggregate, 'aocolumns_js': aocolumns_js}
+
+    if req.method == 'GET' and 'excel' in req.GET:
+        '''response = HttpResponse(mimetype="application/vnd.ms-excel")
+        filename = "%s %s.xls" % \
+                   (report_title, datetime.now().strftime("%d%m%Y"))
+        response['Content-Disposition'] = "attachment; " \
+                                          "filename=\"%s\"" % filename
+        from findug.utils import create_excel
+        response.write(create_excel(context_dict))
+        return response'''
+        return render_to_response(req, 'childcount/report.html', context_dict)
+    else:
+        return render_to_response(req, 'childcount/report.html', context_dict)
 
 
 def commands_pdf(request):

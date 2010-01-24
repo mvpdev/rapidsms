@@ -10,6 +10,6 @@ from models import ReportMeasles
 class ReportMeaslesAdmin(admin.ModelAdmin):
     list_display = ('case', 'reporter', 'taken', 'entered_at', 'location')
     list_filter = ('taken',)
-    search_fields = ['location__name', ]
+    search_fields = ['case__location__name', 'case__ref_id']
 
 admin.site.register(ReportMeasles, ReportMeaslesAdmin)
