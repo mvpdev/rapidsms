@@ -49,6 +49,33 @@ class ReportMalnutrition(models.Model):
         get_latest_by = 'entered_at'
         ordering = ('-entered_at',)
 
+    @classmethod
+    def table_columns(cls):
+        columns = []
+        columns.append(
+            {'name': cls._meta.get_field('case').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('reporter').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('entered_at').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('muac').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('height').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('weight').verbose_name})
+
+        columns.append(
+            {'name': cls._meta.get_field('status').verbose_name})
+
+        sub_columns = None
+        return columns, sub_columns
+    
     def get_dictionary(self):
         '''Get a dictionary of muac measurement report details'''
         return {
