@@ -194,7 +194,7 @@ class App(rapidsms.app.App):
             # something went wrong - at the
             # moment, we don't care what
         except:
-            message.respond("Join Error. Unable to register your account.")
+            message.respond(_("Join Error. Unable to register your account."))
 
         if role_code == None or role_code.__len__() < 1:
             role_code = Cfg.get('default_chw_role')
@@ -853,35 +853,28 @@ class App(rapidsms.app.App):
             # TODO move to a utils file? (almost same code in import_cases.py)
             try:
                 if dob.isdigit():
-                    years = int(dob) / 12
-                    months = int(dob) % 12
+                    years = (int(dob)) / 12
+                    months = (int(dob)) % 12
                     est_year = abs(datetime.date.today().year - int(years))
-                    est_month = abs(datetime.date.today().month - int(months))
-                    if est_month == 0:
-                        est_month = 1
+                    delta=datetime.date.today().month - int(months)
+                    if delta==0:
+                       est_month = months
+                    else:
+                        if delta<0:
+                           est_month = 12 + datetime.date.today().month - months 
+                           est_year=est_year-1 
+                        else:
+                            est_month=delta
                     estimate = ("%s-%s-%s" % (est_year, est_month, 15))
                     # TODO this 2 step conversion is too complex, simplify!
                     dob = time.strptime(estimate, "%Y-%m-%d")
                     dob = datetime.date(*dob[:3])
                     self.debug(dob)
                     estimated_dob = True
+
             except Exception, e:
                 self.debug(e)
 
-
-
-
-
-
-        ##dob = re.sub(r'\D', '', dob)
-        ##try:
-        ##    dob = time.strptime(dob, "%d%m%y")
-        ##except ValueError:
-        ##    try:
-        ##        dob = time.strptime(dob, "%d%m%Y")
-        ##    except ValueError:
-        ##        raise HandlerFailed(_("Couldn't understand date: %s") % dob)
-        ##dob = datetime.date(*dob[:3])
         delta = datetime.datetime.now().date() - dob
         years = delta.days / 365.25
         if years < 0:

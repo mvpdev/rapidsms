@@ -36,8 +36,7 @@ def registered(func):
         if message.persistant_connection.reporter:
             return func(self, message, *args)
         else:
-            message.respond(_(u"Sorry, only registered users can access this"\
-                              " program.%(msg)s") % {'msg': ""})
+            message.respond(_(u"Sorry, only registered users can access this program.%(msg)s") % {'msg': ""})
 
             return True
     return wrapper
@@ -146,7 +145,7 @@ class App (rapidsms.app.App):
                 obj = choices.get(observation, None)
                 if not obj:
                     if observation != 'n':
-                        raise HandlerFailed("Unknown observation code: %(ob)s"\
+                        raise HandlerFailed(_("Unknown observation code: %(ob)s")\
                                              % {'ob': observation})
                 else:
                     observed.append(obj)

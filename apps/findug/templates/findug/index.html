@@ -30,7 +30,7 @@
 
 <h2>Dashboard</h2>
 
-<div class="box" style="width:400px;height:180px;float:left;"><h3>Summary</h3>
+<div class="box" style="width:400px;float:left;"><h3>Summary</h3>
     <div style="padding:5px;"> 
         <p>The current weekly report period is:<br/>
         <strong>{{ summary.period.start_date|date:"D d/m/Y" }} - {{ summary.period.end_date|date:"D d/m/Y" }}</strong></p>
@@ -40,7 +40,7 @@
     </div>
 </div>
 
-<div class="box" style="width:510px;height:180px;float:left;"><h3>Recent Activity</h3>
+<div class="box" style="width:510px;float:left;"><h3>Recent Activity</h3>
     <div style="padding:5px;"> 
         {% for report in recent %}
         <strong>{{report.date}}</strong> - <a href="reporter/{{report.by_id}}">{{report.by}}</a> from <a href="health_unit/{{report.clinic_id}}">{{report.clinic}}</a> submitted their <a href="epidemiological_report/{{report.id}}" target="_blank">report.</a><br/>
@@ -67,6 +67,15 @@
         <a href="report/?r=act">ACT Stock Report</a>
         </p>
         <a href="reports/">Create a customised report</a>
+        <p>
+        {% if not scope.location %}
+            {% for district in scope.districts %}
+                <a href="/static/findug/reports/{{district}}.pdf">{{district}} individual health unit reports</a><br/>
+            {% endfor %}
+        {% else %}
+            <a href="/static/findug/reports/{{scope}}.pdf">{{scope}} individual health unit reports</a><br/>
+        {% endif %}
+        </p>
     </div>
 </div>
 

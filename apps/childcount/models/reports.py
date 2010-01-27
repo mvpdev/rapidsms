@@ -22,6 +22,7 @@ from locations.models import Location
 from childcount.models.general import Case
 from childcount.models.logs import MessageLog
 from measles.models import ReportMeasles
+from vitamines.models import ReportVitamines
 from diarrhea.models import ReportDiarrhea
 from diagnosis.models import ReportDiagnosis
 
@@ -483,6 +484,88 @@ class ReportCHWStatus(Report, models.Model):
                            "bit": "{{ object.sms_sent }}%"})
             return ps, fields
 
+##
+
+    @classmethod
+    def vitamines_summary(cls, duration_start, duration_end, \
+                        muac_duration_start, clinic=None):
+        '''Generate Vitamines Summary data
+
+        duration_start - starting date
+        duration_end   - end date
+        muac_duration_start - start date for muac reports
+        '''
+        ps = []
+        fields = []
+        counter = 0
+        eligible_cases = 0
+        vaccinated_cases = 0
+        clinic_cases = 0
+        if clinic is not None:
+            # providers = Provider.list_by_clinic(clinic_id)
+            chwrole = Role.objects.get(code="chw")
+            reporters = Reporter.objects.filter(location=clinic, role=chwrole)
+            # for provider in providers:
+            for reporter in reporters:
+                p = {}
+                counter = counter + 1
+                p['counter'] = "%d" % counter
+                p['reporter'] = reporter
+                p['num_cases'] = Case.count_by_provider(reporter)
+                cases = Case.list_e_4_vitamines(reporter)
+                p['eligible_cases'] = cases.count()
+                eligible_cases += p['eligible_cases']
+                clinic_cases = clinic_cases + p['num_cases']
+                #slow count
+                slowcount = 0
+                for case in cases:
+                    if ReportVitamines.is_vaccinated(case):
+                        slowcount += 1
+                mcases = ReportVitamines.get_vaccinated(reporter)
+                #p['vaccinated_cases'] = mcases.count()
+                p['vaccinated_cases'] = slowcount
+                p['not_vaccinated_cases'] = p['eligible_cases']\
+                                             - p['vaccinated_cases']
+                vaccinated_cases += p['vaccinated_cases']
+                if p['eligible_cases'] != 0:
+                    p['sms_sent'] = \
+                        int(round(float(float(p['vaccinated_cases']) / \
+                                    float(p['eligible_cases'])) * 100, 0))
+
+                ps.append(p)
+
+            #ps = sorted(ps)
+            # Summary
+            p = {}
+            p['counter'] = ""
+            p['reporter'] = "Summary"
+            p['num_cases'] = clinic_cases
+            p['eligible_cases'] = eligible_cases
+            p['vaccinated_cases'] = vaccinated_cases
+            p['not_vaccinated_cases'] = eligible_cases - vaccinated_cases
+            sms_sent = int(round(float(float(vaccinated_cases) / \
+                                       float(eligible_cases)) * 100, 0))
+            p['sms_sent'] = sms_sent
+            ps.append(p)
+            # caseid +|Y lastname firstname | sex | dob/age | guardian
+            #| provider  | date
+            fields.append({"name": '#', "column": None, \
+                           "bit": "{{ object.counter }}"})
+            fields.append({"name": 'CHW', "column": None, \
+                           "bit": "{{ object.reporter }}"})
+            fields.append({"name": 'TOTAL CASES', "column": None, \
+                           "bit": "{{ object.num_cases}}"})
+            fields.append({"name": '# ELIGIBLE CASES', "column": None, \
+                           "bit": "{{ object.eligible_cases}}"})
+            fields.append({"name": '# VACCINATED', "column": None, \
+                           "bit": "{{ object.vaccinated_cases }}"})
+            fields.append({"name": '# NOT VACCINATED', "column": None, \
+                           "bit": "{{ object.not_vaccinated_cases }}"})
+            fields.append({"name": 'Pourcentage %', "column": None, \
+                           "bit": "{{ object.sms_sent }}%"})
+            return ps, fields
+
+##
     @classmethod
     def measles_mini_summary(cls):
         '''Generate measles summary data'''
@@ -544,6 +627,71 @@ class ReportCHWStatus(Report, models.Model):
         ps.append(p)
         return ps
 
+
+    @classmethod
+    def vitamines_mini_summary(cls):
+        '''Generate vitamines summary data'''
+               
+        ps = []
+        fields = []
+        tcounter = 0
+        teligible_cases = 0
+        tvaccinated_cases = 0
+        tclinic_cases = 0
+
+        
+        clinics = Location.objects.filter(type__name="Site")
+        
+        for clinic in clinics:
+            chwrole = Role.objects.get(code="chw")
+            reporters = Reporter.objects.filter(location=clinic, role=chwrole)
+            p = {}
+            eligible_cases = 0
+            vaccinated_cases = 0
+            clinic_cases = 0
+            counter = 0
+            p['clinic'] = clinic
+            p['num_cases'] = 0
+            p['eligible_cases'] = 0
+            p['vaccinated_cases'] = 0
+            for reporter in reporters:
+                counter = counter + 1
+                #p['counter'] = "%d" % counter
+                cases = Case.list_e_4_vitamines(reporter)
+                eligible_cases += cases.count()
+                clinic_cases = clinic_cases + Case.count_by_provider(reporter)
+                mcases = ReportVitamines.get_vaccinated(reporter)
+                #slow count
+                slowcount = 0
+                for case in cases:
+                    if ReportVitamines.is_vaccinated(case):
+                        slowcount += 1
+                #vaccinated_cases += mcases.count()
+                vaccinated_cases += slowcount
+
+            # Summary
+            p = {}
+            p['clinic'] = clinic
+            p['counter'] = ""
+            p['num_cases'] = clinic_cases
+            p['eligible_cases'] = eligible_cases
+            p['vaccinated_cases'] = vaccinated_cases
+            ps.append(p)
+
+            tcounter += counter
+            teligible_cases += eligible_cases
+            tvaccinated_cases += vaccinated_cases
+            tclinic_cases += clinic_cases
+            # caseid +|Y lastname firstname | sex | dob/age | guardian |
+            #provider  | date
+        p = {}
+        p['clinic'] = "Total"
+        p['counter'] = ""
+        p['num_cases'] = tclinic_cases
+        p['eligible_cases'] = teligible_cases
+        p['vaccinated_cases'] = tvaccinated_cases
+        ps.append(p)
+        return ps
 
 class ReportAllPatients(Report, models.Model):
 
@@ -739,6 +887,52 @@ class ReportAllPatients(Report, models.Model):
             fields.append({"name": 'AGE', "column": None, \
                            "bit": "{{ object.case.age }}"})
             fields.append({"name": 'VACCINATED?', "column": None, \
+                           "bit": "{{ object.vaccinated }}"})
+            fields.append({"name": 'SENT?', "column": None, \
+                           "bit": "{{ object.sent }}"})
+
+            return qs, fields
+
+    @classmethod
+    def vitamines_by_provider(cls, reporter=None):
+        '''Generate a list of cases who have not received the vitamines A
+         for the specified reporter
+        '''
+        qs = []
+        fields = []
+        counter = 0
+        if reporter is not None:
+            cases = Case.list_e_4_vitamines(reporter)
+
+            for case in cases:
+                q = {}
+                q['case'] = case
+                counter = counter + 1
+                q['counter'] = "%d" % counter
+
+                q['vaccinated'] =ReportVitamines.is_vaccinated(case)
+                if (q['vaccinated']==1):
+                    q['sent'] = u"Yes"
+                    q['vaccinated'] = u"Yes"
+                else:
+                    q['vaccinated'] = u"No"
+                    q['sent'] = u"No"
+                qs.append(q)
+
+            # caseid +|Y lastname firstname | sex | dob/age | guardian |
+            # provider  | date
+            fields.append({"name": '#', "column": None, \
+                           "bit": "{{ object.counter }}"})
+            fields.append({"name": 'PID#', "column": None, \
+                           "bit": "{{ object.case.ref_id }}"})
+            fields.append({"name": 'NAME', "column": None, \
+                    "bit": "{{ object.case.last_name }} "\
+                    "{{ object.case.first_name }}"})
+            fields.append({"name": 'SEX', "column": None, \
+                           "bit": "{{ object.case.gender }}"})
+            fields.append({"name": 'AGE', "column": None, \
+                           "bit": "{{ object.case.age }}"})
+            fields.append({"name": 'VITAMINE A?', "column": None, \
                            "bit": "{{ object.vaccinated }}"})
             fields.append({"name": 'SENT?', "column": None, \
                            "bit": "{{ object.sent }}"})
@@ -1038,12 +1232,14 @@ class ReportAllPatients(Report, models.Model):
             if case.gender == None:
                 case.gender = ''
 
+            if case.mobile == None:
+                case.mobile = ''
             counter = counter + 1
             q['counter'] = "%d" % counter
             try:
                 muacc = ReportMalnutrition.objects.filter(case=case).latest()
 
-                q['malnut_muac'] = "%s" % (muacc.muac)
+                q['malnut_muac'] = "%smm" % (muacc.muac)
                 if muacc.weight > 0:
                     q['malnut_weight'] = "%s" % (muacc.weight)
                 else:
@@ -1076,13 +1272,18 @@ class ReportAllPatients(Report, models.Model):
                        "bit": "{{ object.case.age }}"})
         fields.append({"name": 'Nom de Mere', "column": None, \
                        "bit": "{{ object.case.guardian }}"})
-        fields.append({"name": 'Carte ID', "column": None, \
-                       "bit": "{{ object.case.guardian_id }}"})
+        #fields.append({"name": 'Carte ID', "column": None, \
+        #               "bit": "{{ object.case.guardian_id }}"})
+        fields.append({"name": 'Contact', "column": None, \
+                       "bit": "{{ object.case.mobile }}"})
+
+        fields.append({"name": 'Dernier PB', "column": None, \
+                       "bit": "{{ object.malnut_muac }}"})
         fields.append({"name": 'SMS', "column": None, "bit": "PB"})
         fields.append({"name": 'No Enfant', "column": None, \
                        "bit": "+{{ object.case.ref_id }}"})
         fields.append({"name": 'PB (mm)', "column": None, \
-                       "bit": "{{ object.malnut_muac }}"})
+                       "bit": ""})
         fields.append({"name": 'Poids (kg)', "column": None, \
                        "bit": "{{ object.malnut_weight }}"})
         fields.append({"name": 'Oedemes', "column": None, "bit": ""})
@@ -1114,7 +1315,10 @@ class ReportAllPatients(Report, models.Model):
                             latest()
 
                     q['malnut_muac'] = "%smm" % (muacc.muac)
-                    q['malnut_weight'] = "%s kg" % (muacc.weight)
+                    if muacc.weight  is not  None:
+                        q['malnut_weight'] = "%s kg" % (muacc.weight)
+                    else:
+                        q['malnut_weight']=""
                     q['malnut_symptoms'] = muacc.symptoms_keys()
                     q['malnut_days_since_last_update'] = \
                         muacc.days_since_last_activity()
@@ -1142,7 +1346,11 @@ class ReportAllPatients(Report, models.Model):
                                     filter(case=case).latest()
 
                             q['malnut_muac'] = "%smm" % (muacc.muac)
-                            q['malnut_weight'] = "%s kg" % (muacc.weight)
+                            if muacc.weight  is not  None:
+                                q['malnut_weight'] = "%s kg" % (muacc.weight)
+                            else:
+                                q['malnut_weight']=""
+                            #q['malnut_weight'] = "%s kg" % (muacc.weight)
                             q['malnut_symptoms'] = muacc.symptoms_keys()
                             q['malnut_days_since_last_update'] = \
                                 muacc.days_since_last_activity()
@@ -1163,16 +1371,19 @@ class ReportAllPatients(Report, models.Model):
         fields.append({"name": 'Sexe', "column": None, \
                        "bit": "{{ object.case.gender }}"})
         fields.append({"name": 'DN', "column": None, \
-                       "bit": "{{ object.case.dob }}"})
+                       "bit": "{{ object.case.short_dob }}"})
         fields.append({"name": 'Age', "column": None, \
                        "bit": "{{ object.case.age }}"})
         fields.append({"name": 'Nom de Mere', "column": None, \
                        "bit": "{{ object.case.guardian }}"})
+        fields.append({"name": 'Dernier PB', "column": None, \
+                       "bit": "{{ object.malnut_muac }}"})
         fields.append({"name": 'SMS', "column": None, "bit": "PB"})
         fields.append({"name": 'No Enfant', "column": None, \
                        "bit": "+{{ object.case.ref_id }}"})
+
         fields.append({"name": 'PB', "column": None, \
-                       "bit": "{{ object.malnut_muac }}"})
+                       "bit": ""})
         fields.append({"name": 'Poids', "column": None, \
                        "bit": "{{ object.malnut_weight }}"})
         fields.append({"name": 'Oedemes', "column": None, "bit": ""})

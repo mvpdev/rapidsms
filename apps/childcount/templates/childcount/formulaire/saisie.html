@@ -29,7 +29,7 @@
 	
 <TH> Nom </TH><TH> Prenom </TH><TH> Sexe </TH><TH> Date Naissance </TH><TH> Nom de la mere </TH>
  	{% for c in last_ten %}
-	<TR><TD>{{ c.first_name }}</TD> <TD>{{ c.last_name }}</TD><TD>{{ c.gender }}</TD><TD>{{ c.dob }}</TD><TD>{{ c.guardian }}</TD>
+	<TR><TD>{{ c.first_name }}</TD> <TD>{{ c.last_name }}</TD><TD>{{ c.gender }}</TD><TD>{{ c.short_dob }}</TD><TD>{{ c.guardian }}</TD>
 </TR>
 	{% endfor %}
 </TABLE>

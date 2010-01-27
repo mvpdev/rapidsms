@@ -2478,8 +2478,8 @@
             "code": "mugyera", 
             "name": "Mugyera", 
             "parent": 106, 
-            "longitude": "32.108000", 
-            "latitude": "2.525000", 
+            "longitude": null, 
+            "latitude": null, 
             "type": 8
         }
     }, 
@@ -4302,8 +4302,8 @@
             "code": "gulu101", 
             "name": "Marie Stopes", 
             "parent": 296, 
-            "longitude": null, 
-            "latitude": null, 
+            "longitude": "32.300000", 
+            "latitude": "2.774400", 
             "type": 8
         }
     }, 
@@ -4566,8 +4566,8 @@
             "code": "gulu045", 
             "name": "St. Philips", 
             "parent": 289, 
-            "longitude": "32.274560", 
-            "latitude": "2.770000", 
+            "longitude": "32.274600", 
+            "latitude": "2.764500", 
             "type": 8
         }
     }, 
@@ -4614,8 +4614,8 @@
             "code": "gulu106", 
             "name": "St. Josephs College", 
             "parent": 300, 
-            "longitude": null, 
-            "latitude": null, 
+            "longitude": "32.298000", 
+            "latitude": "2.741300", 
             "type": 8
         }
     }, 
@@ -4638,8 +4638,8 @@
             "code": "gulu108", 
             "name": "RHU", 
             "parent": 296, 
-            "longitude": null, 
-            "latitude": null, 
+            "longitude": "32.302600", 
+            "latitude": "2.775400", 
             "type": 8
         }
     }, 
@@ -4648,10 +4648,10 @@
         "model": "locations.location", 
         "fields": {
             "code": "gulu107", 
-            "name": "Kairo", 
+            "name": "Kairos", 
             "parent": 311, 
-            "longitude": null, 
-            "latitude": null, 
+            "longitude": "32.328500", 
+            "latitude": "2.648800", 
             "type": 8
         }
     }, 

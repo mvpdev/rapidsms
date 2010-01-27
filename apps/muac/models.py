@@ -16,6 +16,7 @@ from childcount.models.general import Case
 from childcount.models.reports import Observation
 from reporters.models import Reporter, ReporterGroup
 
+from muac.models import Reporter, ReporterGroup
 
 class ReportMalnutrition(models.Model):
 

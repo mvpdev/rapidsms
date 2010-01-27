@@ -1,4 +1,6 @@
 {% extends "layout-split-2.html" %}
+{% load reporters-tags %}
+{% load pagination-tags %}
 {% block title %}List Children{% endblock %}
 
 {% block javascripts %}
@@ -17,26 +19,6 @@
 
 {% block left %}
 <div class="module">
-
- 	<form method="post" id="fm-rep-add" action="/childcount/listeEnfant">
-			Location : <select name="location">
-					
-					<option value="-1">All Locations</option>
-					{% for location in all_locations %}
-					<option value="{{ location.id }}"{% ifequal location lalocation %} 		selected="selected"{% endifequal %}>{{ location.name }}
-					</option>
-					{% endfor %}
-				</select> <br/> <br/>
-
-			Reporter : <select name="reporter">
-					<option value="-1">All Reporters</option>
-					{% for reporter in all_reporters %}
-					<option value="{{ reporter.id }}"{% ifequal reporter lereporter %} 		selected="selected"{% endifequal %}>{{ reporter.first_name }} {{ reporter.last_name }}
-					</option>
-					{% endfor %}
-				</select>     <input type="submit" value="Filter" /><br/><br/>		
-	</form>
-
 	<h2>List Children</h2>
 	<table>
 		<thead>
@@ -45,38 +27,46 @@
 				<th scope="col">Last Name</th>
 				<th scope="col">Sexe</th>
 				<th scope="col">Dob</th>
-				<th scope="col">Location</th>
-	
+				
 			</tr>
 		</thead>
 		<tbody>{% if xaleyi %}{% for xaley in xaleyi %}
 			<tr>
 				
-				<td><a href="/childcount/affiche_enfants/{{ xaley.id }}">{{ xaley.first_name }}</a></td>
+				<td><a href="/reporters/{{ xaley.id }}">{{ xaley.first_name }}</a></td>
 				<td>{{ xaley.last_name }}</td>
 				<td>{{ xaley.gender }}</td>
-				<td>{{ xaley.short_dob }}</td>
-				<td>{{ xaley.location.name }}</td>
-
-
+				<td>{{ xaley.dob }}</td>
 			</tr>{% endfor %}{% else %}
 			<tr class="no-data">
 				<td colspan="3">
 					No child Yet.
-
+					<a href="/reporters/add" class="add">
+						Add a Reporter
+					</a>
 				</td>
 			</tr>{% endif %}
 		</tbody>
-
+		<tfoot>
+			<tr>
+				<td colspan="3">
+					{% paginator reporters %}
+				</td>
+			</tr>
+		</tfoot>
 	</table>
-
+	<div class="toolbar">
+		<a href="/reporters/add" class="add">Add a Reporter</a>
+	</div>
 </div>
 {% endblock %}
 
 {% block right %}
 <div class="module">
- 
+	<h2>Child</h2>
+<form action="/childcount/saisie" method="POST">
+	{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form> 
 </div>
-
-
 {% endblock %}

@@ -49,7 +49,8 @@ class Scope:
         if self.is_global:
             return Location.objects.filter(type__name='district')
         else:
-            return [self.location.district]
+            return filter(lambda loc: loc.type.name.lower() == 'district',
+                          self.location.ancestors(include_self=True))
 
     def set_district(self, district_id):
         self.district_id = district_id

@@ -1,0 +1,15 @@
+ServerName www.monserveurdetest.org
+	ServerRoot "/etc/apache2"
+	DocumentRoot "/var/www/"
+
+sys.path.append('/usr/local/lib/python2.6/dist-packages/rapidsms')
+sys.path.append('/usr/local/lib/python2.6/dist-packages')
+sys.path.append('/home/rapidsms/dev/sms')
+sys.path.append('/home/rapidsms/dev/sms/apps/childcount')
+sys.path.append('/home/rapidsms/dev/sms/apps/webapp')
+sys.path.append(os.path.join(rootpath,'apps'))
+sys.path.append('/usr/local/lib/python2.6/dist-packages/rapidsms/webui')
+
+
+
+

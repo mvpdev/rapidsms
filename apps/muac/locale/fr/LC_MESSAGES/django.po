@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-30 11:38+0300\n"
+"POT-Creation-Date: 2010-01-14 17:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Sylvia Musula <smusula@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,58 +39,58 @@ msgid ""
 "s/%(months)s (%(guardian)s). MUAC %(muac)s"
 msgstr ""
 "%(diagnosis_msg)s. +%(ref_id)s %(last_name)s, %(first_name_short)s, %(gender)"
-"s/%(months)s (%(guardian)s). MUAC %(muac)s"
+"s/%(months)s (%(guardian)s). PB %(muac)s"
 
 #: app.py:286
 #, python-format
 msgid ". Last MUAC (%(reported_date)s): %(muac)s (%(percentage)s%(psign)s)"
-msgstr ". Le dernier MUAC %(reported_date)s %(muac)s (%(percentage)s%(psign)s"
+msgstr ". Le dernier PB %(reported_date)s %(muac)s (%(percentage)s%(psign)s"
 
 #: app.py:299
 #, python-format
 msgid "@%(username)s reports %(msg)s [%(mobile)s]"
 msgstr "@%(username)s les  reportages %(msg)s [%(mobile)s]"
 
-#: models.py:30
+#: en_models.py:20 models.py:31
 msgid "MAM"
 msgstr "MAM"
 
-#: models.py:31
+#: en_models.py:21 models.py:32
 msgid "SAM"
 msgstr "SAM"
 
-#: models.py:32
+#: en_models.py:22 models.py:33
 msgid "SAM+"
 msgstr "SAM+"
 
-#: models.py:33
+#: en_models.py:23 models.py:34
 msgid "Healthy"
 msgstr "En bonne santé"
 
-#: models.py:38
+#: en_models.py:29 models.py:39
 msgid "MUAC (mm)"
-msgstr "MUAC (mm)"
+msgstr "PB (mm)"
 
-#: models.py:39
+#: en_models.py:30 models.py:40
 msgid "Height (cm)"
 msgstr "La hauteur (cm)"
 
-#: models.py:40
+#: en_models.py:31 models.py:41
 msgid "Weight (kg)"
 msgstr "Le poids (kg)"
 
-#: models.py:115
+#: models.py:116
 msgid "MAM Child requires supplemental feeding."
 msgstr "MAM enfant nécessite l'alimentation supplémentaire"
 
-#: models.py:118
+#: models.py:119
 msgid "SAM Patient requires OTP care"
 msgstr "SAM patient nécessite du soin OTP"
 
-#: models.py:122
+#: models.py:123
 msgid "SAM+ Patient requires IMMEDIATE inpatient care"
 msgstr "SAM+ Le patient nécessite du soin médical immédiatement "
 
-#: models.py:125
+#: models.py:126
 msgid "Child is not malnourished"
 msgstr "L'enfant n'est pas mal nourri"
