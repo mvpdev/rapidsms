@@ -15,7 +15,7 @@ class CaseAdmin(admin.ModelAdmin):
                 'dob', 'estimated_dob', 'location', 'created_at', \
                 'reporter', 'provider_mobile', 'age', 'eligible_for_measles')
     search_fields = ['ref_id', 'first_name', 'last_name']
-    list_filter = ('dob', 'status')
+    list_filter = ('dob', 'status', 'gender')
     ordering = ('-dob',)
 
 admin.site.register(Case, CaseAdmin)
