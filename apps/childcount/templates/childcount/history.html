@@ -1,0 +1,33 @@
+{% extends base_template %}
+{% block title %}Message Log{% endblock %}
+
+{% block page_stylesheets %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="/static/childcount/custom.css" />
+{% endblock page_stylesheets %}
+
+{% block content %}
+<ul class='history'>
+{% for patient in patients %}
+    <li><span class='bold'>{{patient.case.ref_id}}: {{patient.case.first_name}} {{patient.case.last_name}} ({{patient.case.age}} - {{patient.case.gender}}), {{patient.case.location}}</span>
+        <table>
+        <thead>
+            <tr><th>Date</th><th>Report</th><th>Results</th><th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for history in patient.history %}
+            <tr>
+                <td>{{history.date}}</td>
+                <td>{{history.name}}</td>
+                <td>{{history.report.result}}</td>
+                <td>{{history.report.description}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

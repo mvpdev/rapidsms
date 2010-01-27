@@ -7,8 +7,14 @@ from rapidsms.webui.utils import render_to_response
 from django.http import HttpResponse
 
 from datetime import datetime
+from deathform.models.general import ReportDeath
+import re
 
 from muac.models import ReportMalnutrition
+from mrdt.models import ReportMalaria
+from childcount.models.general import Case
+from measles.models import ReportMeasles
+from childcount.models.logs import MessageLog
 
 from libreport.pdfreport import PDFReport
 from reportlab.lib.units import inch
@@ -201,3 +207,105 @@ def commands_pdf(request):
 
     pdfrpt.setElements(Elements)
     return pdfrpt.render()
+
+
+def patient_history(request):
+    '''Patient History'''
+    template_name = "childcount/history.html"
+
+    all = []
+
+    cases = Case.objects.filter(status=Case.STATUS_DEAD)
+    for c in cases:
+
+        row = {}
+        row['report'] = {}
+        row['case'] = c.get_dictionary()
+
+        muac = ReportMalnutrition.objects.filter(case=c).order_by('entered_at')
+        row['report']['muac'] = []
+        for mr in muac:
+            row['report']['muac'].append({'name': 'muac', \
+                                          'result': '%smm' % mr.muac, \
+                    'date': mr.entered_at.strftime("%d-%m-%Y"), 'object': mr, \
+                                  'description': ''})
+
+        mrdt = ReportMalaria.objects.filter(case=c).order_by('entered_at')
+        row['report']['mrdt'] = []
+        for mr in mrdt:
+            row['report']['mrdt'].append({'name': 'mrdt', \
+                            'result': mr.results_for_malaria_result(), \
+                    'date': mr.entered_at.strftime("%d-%m-%Y"), 'object': mr, \
+                                  'description': ''})
+
+        measles = ReportMeasles.objects.filter(case=c).order_by('entered_at')
+        row['report']['measles'] = []
+        for ms in measles:
+            result = 'no'
+            if ms.taken == True:
+                result = 'yes'
+            row['report']['measles'].append({'name': 'measles', \
+                                             'result': result, \
+                    'date': ms.entered_at.strftime("%d-%m-%Y"), 'object': ms, \
+                                  'description': ''})
+
+        ml = MessageLog.objects.filter(text__icontains='+%s' % c.ref_id, \
+                            was_handled=True).order_by('created_at')
+
+        measles_bool = False
+        death_bool = False
+        log = []
+        for i in ml:
+            name = ''
+            data = ''
+            if re.match('muac', i.text, re.IGNORECASE):
+                name = 'muac'
+                data = row['report']['muac']
+            elif re.match('mrdt', i.text, re.IGNORECASE):
+                name = 'mrdt'
+                data = row['report']['mrdt']
+            elif re.match('inactive', i.text, re.IGNORECASE):
+                name = 'inactive'
+                l = len('%s +%s' % (name, c.ref_id)) + 1
+                data = [{'name':'inacive', 'result': '', \
+                        'date': i.created_at.strftime("%d-%m-%Y"), \
+                        'object': i, 'description': i.text[l:]}]
+            elif re.match('measles', i.text, re.IGNORECASE):
+                name = 'measles'
+                data = row['report']['measles']
+                if not measles_bool:
+                    measles_bool = True
+                else:
+                    continue
+            elif re.match('cdeath', i.text, re.IGNORECASE):
+                try:
+                    death = ReportDeath.objects.filter(case=c).latest()
+                    row['report']['death'] = [{'name':'death', \
+                                               'result': 'dead', \
+                            'date': death.entered_at.strftime("%d-%m-%Y"), \
+                            'object': death, 'description': death.description}]
+                except:
+                    row['report']['death'] = [{'name':'death', \
+                                               'result': 'dead', \
+                            'date': i.created_at.strftime("%d-%m-%Y"), \
+                            'object': i, 'description': i.text}]
+                name = 'death'
+                data = row['report']['death']
+                if not death_bool:
+                    death_bool = True
+                else:
+                    continue
+
+            if len(data):
+                data = data.pop()
+            if name == '':
+                data = {'name': 'unknown', 'result': '', \
+                    'date': i.created_at.strftime("%d-%m-%Y"), 'object': i, \
+                                              'description': i.text}
+            log.append({'date': i.created_at.strftime('%d-%m-%Y'), \
+                        'text': i.text, 'name': name, 'report': data})
+
+        row["history"] = log
+        all.append(row)
+    return render_to_response(request, template_name, {
+            "patients": all})
