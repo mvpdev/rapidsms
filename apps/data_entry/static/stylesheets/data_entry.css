@@ -1,0 +1,278 @@
+#zdata_entry_row td:before {
+  content: 'aa'; }
+
+div.tester {
+  height: 14em;
+  overflow-y: scroll; }
+  div.tester table td.dir {
+    font-weight: bold; }
+
+#status {
+  margin: 0 0 5px; }
+  #status table {
+    width: 100%; }
+
+table.focus_wrap td.focus > div {
+  -moz-border-radius: 12px;
+  width: 100%;
+  border: 4px solid #1387B2;
+  background-color: #daf5f7;
+  -moz-border-top-colors: #1387B2 #2397c2 #33a7d2 #43b7e2;
+  -moz-border-bottom-colors: #1387B2 #2397c2 #33a7d2 #43b7e2;
+  -moz-border-left-colors: #1387B2 #2397c2 #33a7d2 #43b7e2;
+  -moz-border-right-colors: #1387B2 #2397c2 #33a7d2 #43b7e2;
+  margin: 6px auto;
+  padding: 3px; }
+
+.tf {
+  color: red; }
+  .tf.true {
+    color: green; }
+
+.required_info {
+  width: 400px;
+  margin-left: -200px;
+  position: absolute;
+  background-color: rgb(239, 253, 253);
+  z-index: 9;
+  top: -2px;
+  left: 50%;
+  border: 2px solid #cf1313;
+  border-style: dotted solid solid solid;
+  border-width: 1px 3px 3px 3px;
+  border-color: #ddd #cf1313 #cf1313 #cf1313;
+  -moz-border-radius: 12px;
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-topright: 0px;
+  padding: 10px; }
+  .required_info.satisfied {
+    display: none; }
+  .required_info input {
+    margin: 0; }
+
+.enable_when_ready {
+  opacity: 0.4;
+  font-style: italic; }
+  .enable_when_ready.ready {
+    opacity: 1;
+    font-style: normal; }
+
+#dump {
+  height: 320px;
+  position: relative;
+  border: 1px solid red; }
+  #dump div {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    border: 1px solid blue; }
+
+#listedsms_messages tr.in {
+  background: #fff8ff; }
+  #listedsms_messages tr.in td.dir {
+    color: #f00; }
+#listedsms_messages tr.out {
+  background: #f8ffff; }
+  #listedsms_messages tr.out td.dir {
+    color: #0f0; }
+#listedsms_messages tr td.phone {
+  color: #bbb;
+  font-size: 70%;
+  width: 8em;
+  float: right;
+  border-top: 0px; }
+#listedsms_messages tr td.dir {
+  border-top: 0px; }
+#listedsms_messages tr td.info {
+  color: #bbb;
+  font-size: 70%;
+  width: 8em;
+  float: left; }
+#listedsms_messages tr td.msg {
+  font-size: 90%;
+  float: left;
+  width: 65em; }
+
+label {
+  position: relative;
+  display: block; }
+
+p.ffield {
+  -moz-border-radius: 9px;
+  border: 1px solid #BBBBBB;
+  color: #555555;
+  background-color: #fff;
+  float: left;
+  font-size: 11px;
+  height: 42px;
+  margin: 4px;
+  padding: 4px 4px 10px;
+  width: 200px;
+  position: relative; }
+  p.ffield label {
+    padding: 1px 0 0 3px;
+    display: block; }
+    p.ffield label input {
+      width: 100%;
+      font-size: 20px;
+      border: 0px none;
+      text-align: center; }
+    p.ffield label .swrap {
+      position: absolute;
+      top: 26px;
+      left: 0px;
+      width: 110px;
+      font-family: monospace;
+      font-size: 14px;
+      border: 0px none; }
+    p.ffield label div.letter {
+      top: 2px;
+      left: 1px;
+      position: absolute;
+      height: 21px;
+      width: 21px;
+      border: 1px solid #ddd;
+      -moz-border-radius: 5px;
+      background-color: #eee;
+      text-align: center;
+      font-size: 15px;
+      text-transform: uppercase; }
+
+.relative {
+  position: relative; }
+
+.absolute {
+  position: absolute; }
+
+.nomargin {
+  margin: 0; }
+
+.nopadding {
+  padding: 0; }
+
+.bordered {
+  border: 1px dotted #000; }
+
+#mt_status {
+  font-weight: normal;
+  color: #bbb; }
+  #mt_status.good {
+    color: green; }
+  #mt_status.bad {
+    color: red; }
+
+#a, #b {
+  position: relative; }
+
+#results {
+  border: 3px solid #11737f; }
+  #results table {
+    width: 100%; }
+    #results table tr td {
+      border: 1px dotted #b7d7ff;
+      border-width: 1px 0 0 1px;
+      -moz-border-top-colors: #559da6 #9fedf6;
+      -moz-border-left-colors: #559da6 #9fedf6;
+      padding: 0; }
+      #results table tr td p {
+        font-size: 15px;
+        padding: 7px;
+        margin: 0; }
+      #results table tr td form {
+        padding: 7px 18px;
+        margin: 0; }
+        #results table tr td form .editor_field {
+          width: 710px;
+          font-size: 16px;
+          border: 0px none;
+          color: #1187b3; }
+    #results table tr td.mInfo {
+      width: 60px; }
+    #results table tr td.sms_body p.msg {
+      padding: 6px 20px;
+      font-size: 16px;
+      display: block; }
+      #results table tr td.sms_body p.msg span {
+        padding: 4px 2px; }
+    #results table tr td.sms_body form {
+      display: none; }
+    #results table tr td.sms_body.edit p {
+      display: none; }
+    #results table tr td.sms_body.edit form {
+      display: block; }
+    #results table tr td.icon {
+      width: 40px;
+      padding: 0; }
+      #results table tr td.icon div {
+        width: 100%;
+        height: 20px;
+        border: 0px none;
+        background-repeat: no-repeat;
+        background-position: center center; }
+    #results table tr td.icon.waiting div {
+      background-image: url('../images/blue-loader.gif'); }
+    #results table tr td.icon.ok div {
+      background-image: url('../images/good-checkmark.png'); }
+    #results table tr td.icon.bad div {
+      background-image: url('../images/bad-alert.png'); }
+    #results table tr td.icon.edit div {
+      background-image: url('../images/edit-button.png'); }
+
+#bb #ss td {
+  border: 2px solid #fff; }
+#bb #ss td.status-icon {
+  width: 16px; }
+#bb #ss tr.prelim td {
+  border-color: #ff7; }
+#bb #ss tr.pending td {
+  font-style: italic; }
+#bb #ss tr {
+  position: relative; }
+  #bb #ss tr td .errorbox {
+    color: #cf1313;
+    border: 2px solid red;
+    width: 300px;
+    margin: 0 -300px 0 0;
+    padding: 2px 4px; }
+
+#data_entry_row div {
+  padding: 0 120px 0 0;
+  position: relative; }
+  #data_entry_row div a.rtFloatButton {
+    position: absolute;
+    right: 1px; }
+
+input.transparent {
+  background-color: transparent;
+  border: 0px none;
+  font-size: 20px;
+  width: 100%; }
+
+a.rtFloatButton {
+  opacity: 0.8;
+  float: right;
+  font-family: monospace;
+  -moz-border-radius: 8px;
+  padding: 10px;
+  margin: -3px -2px -4px 3px;
+  background-color: #fff;
+  border: 2px solid blue;
+  color: #000;
+  cursor: pointer; }
+
+a.rtFloatButton.ok {
+  opacity: 1.0; }
+
+table.focus_wrap {
+  width: 100%; }
+  table.focus_wrap table {
+    width: 100%; }
+
+#is_synced {
+  line-height: 25px; }
+
+#is_synced.tf input {
+  display: block; }
+
+#is_synced.tf.true input {
+  display: none; }
