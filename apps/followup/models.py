@@ -42,7 +42,7 @@ class ReportImmunization(models.Model):
 
     case = models.ForeignKey(Case, db_index=True)
     reporter = models.ForeignKey(Reporter, db_index=True)
-    entered_at = models.DateTimeField(db_index=True)
+    entered_at = models.DateTimeField(db_index=True, auto_now_add=True)
     vaccine = models.CharField(max_length=10, choices=VACCINE_CHOICES)
     period = models.CharField(max_length=4, choices=PERIOD_CHOICES)
 
@@ -52,9 +52,3 @@ class ReportImmunization(models.Model):
         app_label = 'followup'
         verbose_name = "Immunization Report"
         verbose_name_plural = "Immunization Reports"
-
-    def save(self, *args):
-        '''Set entered_at field with current time and then save record'''
-        if not self.id:
-            self.entered_at = datetime.now()
-        super(ReportImmunization, self).save(*args)
