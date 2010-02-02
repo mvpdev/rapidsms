@@ -349,23 +349,19 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
     pdfrpt = PDFReport()
     pdfrpt.setLandscape(True)
     pdfrpt.setPrintOnBothSides(True)
-    
-    pdfrpt.setTitle(_("%(app_name)s: Cases Reports by CHW as of %(date)s") % {'date': today,'app_name':Cfg.get("app_name")})
-    
+    pdfrpt.setTitle(_(Cfg.get("app_name") + \
+                ": Cases Reports by CHW as of %(date)s" % {'date': today}))
     pdfrpt.setNumOfColumns(2)
-    #pdfrpt.setRowsPerPage(88)
+    pdfrpt.setRowsPerPage(88)
     if object_id is None:
         if request.POST and request.POST['zone']:
-         #   providers = Case.objects.filter(location=request.POST['zone']).\
-          #      values('reporter', 'location').distinct()
-            providers = Reporter.objects.filter(location=request.POST['zone'])
-            #per_page = "1"
+            providers = Case.objects.filter(location=request.POST['zone']).\
+                values('reporter', 'location').distinct()
+            per_page = "1"
         else:
-            providers = Reporter.objects.all()
-         #   providers = Case.objects.order_by("location").\
-         #                   values('reporter', 'location').distinct()
-        
-            
+            providers = Case.objects.order_by("location").\
+                            values('reporter', 'location').distinct()
+            providers = Reporter.objects.order_by("location").all()
         for reporter in providers:
             queryset, fields = ReportAllPatients.by_provider(reporter)
             if queryset:
@@ -380,7 +376,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
                              0.8 * inch])
                 if (int(per_page) == 1) is True:
                     pdfrpt.setPageBreak()
-                pdfrpt.setFilename("/tmp/report_per_page")
+                    pdfrpt.setFilename("report_per_page")
     else:
         if request.POST and request.POST['provider']:
             object_id = request.POST['provider']
@@ -391,7 +387,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
                      'lname': reporter.last_name,
                      'fname': reporter.first_name,
                      'date': today}
-            c = _("%(loc)s: %(lname)s %(fname)s: %(date)s" % cinfo)
+            c = _("%loc()s: %(lname)s %(fname)s: %(date)s" % cinfo)
             if rformat == "csv" or (request.POST \
                                 and request.POST["format"].lower() == "csv"):
                 file_name = reporter.last_name + ".csv"
@@ -404,7 +400,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
                              1 * inch])
             if (int(per_page) == 1) is True:
                 pdfrpt.setPageBreak()
-            pdfrpt.setFilename("/tmp/report_per_page")
+                pdfrpt.setFilename("report_per_page")
 
     return pdfrpt.render()
 
