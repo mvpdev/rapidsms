@@ -138,7 +138,7 @@ def reports(request):
     return render_to_response(request, template_name, context)
 
 
-@login_required
+#@login_required
 def last_30_days(request, object_id=None, per_page="0", rformat="pdf", d="30"):
     '''A pdf report of chw perfomance within the last 30 days'''
     pdfrpt = PDFReport()
@@ -193,7 +193,7 @@ def last_30_days(request, object_id=None, per_page="0", rformat="pdf", d="30"):
     return pdfrpt.render()
 
 
-@login_required
+#@login_required
 def muac_summary(request, object_id=None, per_page="0", rformat="pdf", d="30"):
     '''A pdf report of chw perfomance within the last 30 days'''
     pdfrpt = PDFReport()
@@ -244,7 +244,7 @@ def muac_summary(request, object_id=None, per_page="0", rformat="pdf", d="30"):
     return pdfrpt.render()
 
 
-@login_required
+#@login_required
 def measles_summary(request, object_id=None, per_page="0", \
                     rformat="pdf", d="30"):
     '''A summary of measles report per clinic - pdf formart'''
@@ -342,7 +342,7 @@ def vitamines_summary(request, object_id=None, per_page="0", \
     return pdfrpt.render()
 
 ##
-@login_required
+#@login_required
 def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
     '''List of Cases/Patient per CHW'''
     today = datetime.now().strftime("%d %B,%Y")
@@ -409,7 +409,7 @@ def patients_by_chw(request, object_id=None, per_page="0", rformat="pdf"):
     return pdfrpt.render()
 
 
-@login_required
+#@login_required
 def dead_cases_report(request, rformat="pdf"):
     '''List of Cases/Patient per CHW'''
     today = datetime.now().strftime("%d %B,%Y")
@@ -567,7 +567,7 @@ def handle_csv(request, queryset, fields, file_name):
     return response
 
 
-@login_required
+#@login_required
 def report_view(request, report_name, object_id=None):
     '''view a specified report
 
