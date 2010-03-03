@@ -133,7 +133,14 @@ class App(rapidsms.app.App):
         is_ok = True if is_ok == "y" else False
 
         reporter = message.persistant_connection.reporter
-        report = ReportDiarrhea.objects.get(case=case)
+        try:
+            report = ReportDiarrhea.objects.get(case=case)
+        except ReportDiarrhea.DoesNotExist:
+            message.respond(_("No Diarrhea report for %(last_name)s "\
+                              "%(first_name)s, this is not a follow up visit."\
+                              " Please send a diarrhea report.") % \
+                              case.get_dictionary())
+            return True
 
         if is_ok:
             report.status = ReportDiarrhea.HEALTHY_STATUS
@@ -142,16 +149,16 @@ class App(rapidsms.app.App):
             report.status = ReportDiarrhea.SEVERE_STATUS
             report.save()
 
-            info = report.case.get_dictionary()
-            info.update(report.get_dictionary())
+        info = report.case.get_dictionary()
+        info.update(report.get_dictionary())
 
-            msg = _("%(diagnosis_msg)s. +%(ref_id)s %(last_name)s, " \
-                    "%(first_name_short)s, %(gender)s/%(months)s " \
-                    "(%(guardian)s). %(days)s, %(ors)s") % info
-            if report.observed.all().count() > 0:
-                msg += ", " + info["observed"]
+        msg = _("%(diagnosis_msg)s. +%(ref_id)s %(last_name)s, " \
+                "%(first_name_short)s, %(gender)s/%(months)s " \
+                "(%(guardian)s). %(days)s, %(ors)s") % info
+        if report.observed.all().count() > 0:
+            msg += ", " + info["observed"]
 
-            message.respond("DIARRHEA> " + msg)
+        message.respond("DIARRHEA> " + msg)
 
         '''
         if report.status in (report.MODERATE_STATUS,
