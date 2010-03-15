@@ -4,7 +4,7 @@
 
 ''' Helper functions for use in App and U.I '''
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def month_end(date):
@@ -52,6 +52,19 @@ def day_end(date):
     t = date.time().replace(hour=23, minute=59)
     return datetime.combine(date.date(), t)
 
+
+def end_of_last_week(date):
+    '''end of lastweek datetime'''
+    if not date:
+        date = datetime.today()
+    return day_end(date - timedelta(date.weekday() + 1))
+
+def start_of_last_week(date):
+    '''start of lastweek datetime'''
+    if not date:
+        date = datetime.today()
+    eolw = end_of_last_week(date)
+    return day_start(eolw - timedelta(eolw.weekday()))
 
 def fixMessagelogDuplicates():
     from django.db import connection
