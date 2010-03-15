@@ -21,6 +21,9 @@ from locations.models import Location
 
 from childcount.models.general import Case
 from childcount.models.logs import MessageLog
+
+from childcount.utils import start_of_last_week, end_of_last_week
+
 from measles.models import ReportMeasles
 from vitamines.models import ReportVitamines
 from diarrhea.models import ReportDiarrhea
@@ -1502,3 +1505,108 @@ class ReportAllPatients(Report, models.Model):
                            "bit": "{{ object.when}}"})
 
             return qs, fields
+
+    @classmethod
+    def last_week_muac_by_reporter(cls, reporter=None):
+        '''Generate a list of cases for the specified reporter '''
+        solw = start_of_last_week(datetime.now())
+        eolw = end_of_last_week(datetime.now())
+        qs = []
+        fields = []
+        counter = 0
+        if reporter is not None:
+            cases = Case.objects.order_by("last_name").\
+                filter(reporter=reporter, status=Case.STATUS_ACTIVE)
+            cases = ReportMalnutrition.objects.filter(entered_at__gte=solw, \
+                                                        entered_at__lte=eolw, \
+                                                        reporter=reporter)
+            for case in cases:
+                q = {}
+                q['case'] = case.case
+                case = case.case
+                counter = counter + 1
+                q['counter'] = "%d" % counter
+                try:
+                    muacc = ReportMalnutrition.objects.\
+                        filter(case=case).latest()
+                    q['malnut_muac'] = "%s (%smm)" % \
+                        (muacc.get_status_display(), muacc.muac)
+                    q['malnut_symptoms'] = muacc.symptoms_keys()
+                    q['malnut_days_since_last_update'] = \
+                        muacc.days_since_last_activity()
+                    q['malnut_prev'] = ""
+                    if ReportMalnutrition.objects.\
+                        filter(case=case).order_by('-entered_at').count() > 1:
+                        muacs = ReportMalnutrition.objects.filter(case=case)\
+                                    .order_by('-entered_at')
+                        q['malnut_prev'] = "%s (%smm) %s" % \
+                                (muacs[1].get_status_display(), muacs[1].muac, \
+                                muacs[1].days_since_last_activity())
+                except ObjectDoesNotExist:
+                    q['malnut_muac'] = ""
+                    q['malnut_symptoms'] = ""
+                    q['malnut_days_since_last_update'] = ""
+                try:
+                    orsc = ReportDiarrhea.objects.filter(case=case).latest()
+                    q['diarrhea'] = u"%(diag)s on %(date)s" % {'diag': \
+                                orsc.diagnosis_msg(), \
+                                'date': orsc.entered_at.strftime("%Y-%m-%d")}
+                except ObjectDoesNotExist:
+                    q['diarrhea'] = None
+
+                try:
+                    twoweeksago = date.today() - timedelta(14)
+                    mrdtc = ReportMalaria.objects.filter(case=case, \
+                                    entered_at__gte=twoweeksago).latest()
+                    mrdtcd = mrdtc.get_dictionary()
+
+                    q['malaria_result'] = mrdtc.results_for_malaria_result()
+                    q['malaria_bednet'] = mrdtc.results_for_malaria_bednet()
+                except ObjectDoesNotExist:
+                    q['malaria_result'] = ""
+                    q['malaria_bednet'] = ""
+
+                num_of_malaria_cases = ReportMalaria.num_reports_by_case(case)
+                if num_of_malaria_cases is not None\
+                 and num_of_malaria_cases > 1:
+                    q['malaria_result'] = q['malaria_result']\
+                         + "(%sX)" % num_of_malaria_cases
+                    last_mrdt = ReportMalaria.days_since_last_mrdt(case)
+                    if last_mrdt is not "" and last_mrdt < 15:
+                        q['malaria_result'] = q['malaria_result']\
+                             + " %s days ago" % last_mrdt
+
+                try:
+                    dc = ReportDiagnosis.objects.filter(case=case).\
+                                latest('entered_at')
+                    dcd = dc.get_dictionary()
+                    q['diagnosis'] = u"diag:%(diag)s labs:%(lab)s on %(date)s"\
+                     % {'diag': dcd['diagnosis'], 'lab': dcd['labs_text'], \
+                        'date': dc.entered_at.strftime("%Y-%m-%d")}
+                except ObjectDoesNotExist:
+                    q['diagnosis'] = None
+
+                qs.append(q)
+            # caseid +|Y lastname firstname | sex | dob/age |
+            # guardian | provider  | date
+            fields.append({"name": '#', "column": None, \
+                           "bit": "{{ object.counter }}"})
+            fields.append({"name": 'PID#', "column": None, \
+                           "bit": "{{ object.case.ref_id }}"})
+            fields.append({"name": 'NAME', "column": None, \
+                        "bit": "{{ object.case.last_name }} "\
+                        "{{ object.case.first_name }}"})
+            fields.append({"name": 'SEX', "column": None, \
+                           "bit": "{{ object.case.gender }}"})
+            fields.append({"name": 'AGE', "column": None, \
+                           "bit": "{{ object.case.age }}"})
+            fields.append({"name": 'Current CMAM', "column": None, "bit": \
+                "{{ object.malnut_muac }} "\
+                "{{object.malnut_days_since_last_update}}"})
+            fields.append({"name": 'Previous CMAM', "column": None, "bit": \
+                "{{ object.malnut_prev }}"})
+            fields.append({"name": 'SYMPTOMS', "column": None, \
+                           "bit": "{{ object.malnut_symptoms}}"})
+
+            return qs, fields
+
