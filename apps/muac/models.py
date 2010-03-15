@@ -99,12 +99,7 @@ class ReportMalnutrition(models.Model):
     def days_since_last_activity(self):
         '''Get number of days since the last muac measurement was done'''
         today = date.today()
-
-        logs = ReportMalnutrition.objects.order_by('entered_at').\
-            filter(entered_at__lte=today, case=self.case).reverse()
-        if not logs:
-            return ""
-        return (today - logs[0].entered_at.date()).days
+        return (today - self.entered_at.date()).days
 
     def location(self):
         '''Get location of the case'''
