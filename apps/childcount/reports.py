@@ -53,6 +53,7 @@ from reportlab.platypus import Paragraph, Spacer, Preformatted
 from reportlab.lib.styles import getSampleStyleSheet
 
 from childcount.forms.general import Enfant
+from childcount.utils import start_of_last_week, end_of_last_week
 
 styles = getSampleStyleSheet()
 Elements = []
@@ -1215,3 +1216,136 @@ def modifyEnfant(request):
        'status': STATUS,
        'lereporter': lereporter,
        'lalocation': lalocation})
+
+@login_required
+def last_week_muac_report(request, object_id=None, per_page="1", rformat="pdf"):
+    '''List of Cases/Patient per CHW'''
+    today = datetime.now().strftime("%d %B,%Y")
+    solw = start_of_last_week(datetime.now())
+    start = solw.strftime("%d %a, %B, %Y")
+    eolw = end_of_last_week(datetime.now())
+    end = eolw.strftime("%d %a, %B, %Y")
+    pdfrpt = PDFReport()
+    pdfrpt.setLandscape(True)
+    pdfrpt.setPrintOnBothSides(True)
+    pdfrpt.setTitle(_("%(app_name)s: Muac Cases Reports by CHW as of %(start)s"\
+            " to %(end)s" % \
+                {'app_name': Cfg.get("app_name"), 'start': start, 'end': end}))
+    pdfrpt.setNumOfColumns(1)
+    pdfrpt.setRowsPerPage(44)
+    if object_id is None:
+        providers = \
+            ReportMalnutrition.objects.values('reporter').distinct('reporter').\
+                        order_by('reporter__location')
+        reporters = []
+        for id in providers:
+            reporter = Reporter.objects.get(id=id['reporter'])
+            reporters.append(reporter)
+        for reporter in reporters:
+            queryset, fields = \
+                ReportAllPatients.last_week_muac_by_reporter(reporter)
+            if queryset:
+                cinfo = {'loc': reporter.location,
+                         'lname': reporter.last_name,
+                         'fname': reporter.first_name,
+                         'start': start, 'end': end}
+                c = _("%(loc)s: %(lname)s %(fname)s: %(start)s to %(end)s" % \
+                                cinfo)
+                pdfrpt.setTableData(queryset, fields, c)
+                if (int(per_page) == 1) is True:
+                    pdfrpt.setPageBreak()
+                    pdfrpt.setFilename("report_per_page")
+    else:
+        if request.POST and request.POST['provider']:
+            object_id = request.POST['provider']
+        reporter = Reporter.objects.get(id=object_id)
+        queryset, fields = \
+            ReportAllPatients.last_week_muac_by_reporter(reporter)
+        if queryset:
+            cinfo = {'loc': reporter.location,
+                     'lname': reporter.last_name,
+                     'fname': reporter.first_name,
+                     'date': today}
+            c = _("%loc()s: %(lname)s %(fname)s: %(date)s" % cinfo)
+            if rformat == "csv" or (request.POST \
+                                and request.POST["format"].lower() == "csv"):
+                file_name = reporter.last_name + ".csv"
+                file_name = file_name.replace(" ", "_").replace("'", "")
+                return handle_csv(request, queryset, fields, file_name)
+
+            pdfrpt.setTableData(queryset, fields, c, \
+                            [0.3 * inch, 0.4 * inch, 1 * inch, 0.4 * inch, \
+                             0.3 * inch, 0.4 * inch, 0.5 * inch, 1 * inch, \
+                             1 * inch])
+            if (int(per_page) == 1) is True:
+                pdfrpt.setPageBreak()
+                pdfrpt.setFilename("report_per_page")
+
+    return pdfrpt.render()
+
+@login_required
+def test(request, object_id=None, per_page="1", rformat="pdf"):
+    '''List of Cases/Patient per CHW'''
+    today = datetime.now().strftime("%d %B,%Y")
+    solw = start_of_last_week(datetime.now())
+    start = solw.strftime("%d %a, %B, %Y")
+    eolw = end_of_last_week(datetime.now())
+    end = eolw.strftime("%d %a, %B, %Y")
+    pdfrpt = PDFReport()
+    pdfrpt.setLandscape(True)
+    pdfrpt.setPrintOnBothSides(True)
+    pdfrpt.setTitle(_("%(app_name)s: Muac Cases Reports by CHW as of %(start)s"\
+            " to %(end)s" % \
+                {'app_name': Cfg.get("app_name"), 'start': start, 'end': end}))
+    pdfrpt.setNumOfColumns(1)
+    pdfrpt.setRowsPerPage(44)
+    if object_id is None:
+        providers = \
+            ReportMalnutrition.objects.values('reporter').distinct('reporter').\
+                        order_by('reporter__location')
+        reporters = []
+        for id in providers:
+            reporter = Reporter.objects.get(id=id['reporter'])
+            reporters.append(reporter)
+        for reporter in reporters:
+            queryset, fields = \
+                ReportAllPatients.last_week_muac_by_reporter(reporter)
+            if queryset:
+                cinfo = {'loc': reporter.location,
+                         'lname': reporter.last_name,
+                         'fname': reporter.first_name,
+                         'start': start, 'end': end}
+                c = _("%(loc)s: %(lname)s %(fname)s: %(start)s to %(end)s" % \
+                                cinfo)
+                pdfrpt.setTableData(queryset, fields, c)
+                if (int(per_page) == 1) is True:
+                    pdfrpt.setPageBreak()
+                    pdfrpt.setFilename("report_per_page")
+    else:
+        if request.POST and request.POST['provider']:
+            object_id = request.POST['provider']
+        reporter = Reporter.objects.get(id=object_id)
+        queryset, fields = \
+            ReportAllPatients.last_week_muac_by_reporter(reporter)
+        if queryset:
+            cinfo = {'loc': reporter.location,
+                     'lname': reporter.last_name,
+                     'fname': reporter.first_name,
+                     'date': today}
+            c = _("%loc()s: %(lname)s %(fname)s: %(date)s" % cinfo)
+            if rformat == "csv" or (request.POST \
+                                and request.POST["format"].lower() == "csv"):
+                file_name = reporter.last_name + ".csv"
+                file_name = file_name.replace(" ", "_").replace("'", "")
+                return handle_csv(request, queryset, fields, file_name)
+
+            pdfrpt.setTableData(queryset, fields, c, \
+                            [0.3 * inch, 0.4 * inch, 1 * inch, 0.4 * inch, \
+                             0.3 * inch, 0.4 * inch, 0.5 * inch, 1 * inch, \
+                             1 * inch])
+            if (int(per_page) == 1) is True:
+                pdfrpt.setPageBreak()
+                pdfrpt.setFilename("report_per_page")
+
+    return pdfrpt.render()
+
