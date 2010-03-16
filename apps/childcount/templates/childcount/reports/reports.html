@@ -2,16 +2,16 @@
 {% block title %}{{ app.name }}{% endblock %}
 {% block page_tabs %}
 <ul id="page-tabs">
-	<li class="page"><a href="/childcount/rapports">Rapports</a></li>
-	<li class="page"><a href="/childcount/saisie">Saisie Enfant</a></li>
-	<li class="page"><a href="/childcount/listeEnfant">Liste Enfants</a></li>
+	<li class="page"><a class='pdf' href="/childcount/rapports">Rapports</a></li>
+	<li class="page"><a class='pdf' href="/childcount/saisie">Saisie Enfant</a></li>
+	<li class="page"><a class='pdf' href="/childcount/listeEnfant">Liste Enfants</a></li>
 	
 </ul>
 {% endblock %}
 
 
 {% block breadcrumbs %}
-    <a href="/">{{ app.name }}</a>
+    <a class='pdf' href="/">{{ app.name }}</a>
     &raquo; Reports
 {% endblock %}
 
@@ -29,17 +29,17 @@
 	    <tr>
 	        <td>Commands Short List</td>
 	        <td>&nbsp;</td>
-	        <td><a href="/childcount/commands-shortlist" class='pdf'>PDF</a></td>
+	        <td><a class='pdf' href="/childcount/commands-shortlist" class='pdf'>PDF</a></td>
 	    </tr>
 	    <tr>
 	        <td>Dead Cases Report</td>
 	        <td>&nbsp;</td>
-	        <td><a href="/dead_cases_report">PDF</a></td>
+	        <td><a class='pdf' href="/dead_cases_report">PDF</a></td>
 	    </tr>
 	    <tr>
 	        <td>CHW 30 Day Performance Report</td>
 	        <td>&nbsp;</td>
-	        <td><a href="/last_30_days/per_page/1">PDF</a></td>
+	        <td><a class='pdf' href="/last_30_days/per_page/1">PDF</a></td>
 	    </tr>
 	    <tr>
 	        <td>Vitamines Summary</td>
@@ -56,7 +56,7 @@
 				    <input type="submit" name="format" value="CSV" />
 			    </form>
 			</td>
-	        <td><a href="/vitamines_summary">PDF</a> <a href="/vitamines_summary/per_page/1">per page PDF</a></td>
+	        <td><a class='pdf' href="/vitamines_summary">PDF</a> <a class='pdf' href="/vitamines_summary/per_page/1">per page PDF</a></td>
 	    </tr>
 	    
 	    <tr>
@@ -87,7 +87,7 @@
 				<input type="submit" name="format" value="Get Report" />
 				
 			</form></td>
-			<td><a href="/vitamines">PDF</a> <a href="/vitamines/per_page/1">per page PDF</a></td>
+			<td><a class='pdf' href="/vitamines">PDF</a> <a class='pdf' href="/vitamines/per_page/1">per page PDF</a></td>
 		</tr>
 	    <tr>
 	        <td>Patients by CHW</td>
@@ -120,7 +120,7 @@
 				
 			</form>
 			</td>
-			<td> <a href="/patients_by_chw">PDF</a> <a href="/patients_by_chw/per_page/1">per page PDF</a></td>
+			<td> <a class='pdf' href="/patients_by_chw">PDF</a> <a class='pdf' href="/patients_by_chw/per_page/1">per page PDF</a></td>
 		</tr>
 		<tr>
 		    <td>Malnutrition by CHW</td>
@@ -135,14 +135,14 @@
 			</form>
 			</td>
 			
-		    <td><a href="/malnut">PDF</a> <a href="/malnut/per_page/1">per page PDF</a></td>
+		    <td><a class='pdf' href="/malnut">PDF</a> <a class='pdf' href="/malnut/per_page/1">per page PDF</a></td>
 		  </tr>
 		<tr>
-		    <td>Last Week's CMAM Reports</td>
+		    <td>Last Week's CMAM/Nutrition Reports</td>
 		    <td>&nbsp;
 			</td>
 			
-		    <td><a href="/childcount/last_week_muac_report">PDF</a></td>
+		    <td><a class='pdf' href="/childcount/last_week_muac_report">PDF</a> | <a class='csv' href="/childcount/last_week_muac_report/full/csv">CSV</a></td>
 		  </tr>
 	    <tr>
 	        <td>Malnutrition Screening Form</td>
@@ -157,7 +157,7 @@
 			    </form>
 		    </td>
 		
-	        <td><a href="/malnutrition_screening">PDF</a> <a href="/malnutrition_screening/per_page/1">per page PDF</a></td>
+	        <td><a class='pdf' href="/malnutrition_screening">PDF</a> <a class='pdf' href="/malnutrition_screening/per_page/1">per page PDF</a></td>
         </tr>
         <tr>
             <td>Liste des Enfants par Age</td>
@@ -175,7 +175,7 @@
 			        </form>
 		        </td>
 		
-                <td> <a href="/List_Enfant_Age">PDF</a> <a href="/List_Enfant_Age/per_page/1">per page PDF</a></td>
+                <td> <a class='pdf' href="/List_Enfant_Age">PDF</a> <a class='pdf' href="/List_Enfant_Age/per_page/1">per page PDF</a></td>
         </tr>
 	</tbody>
 	</table>
@@ -183,7 +183,7 @@
 <p>General monitoring of {{ app.name }} activities.</p>
 <ul>
 {% for month in months %}
-<li><strong>{{ month.label }}</strong> Report, <a href="/report/monitoring_csv/{{ month.id }}">CSV</a></li>
+<li><strong>{{ month.label }}</strong> Report, <a class='csv' href="/report/monitoring_csv/{{ month.id }}">CSV</a></li>
 {% endfor %}
 </ul>
 
