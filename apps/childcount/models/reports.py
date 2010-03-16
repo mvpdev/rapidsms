@@ -1507,7 +1507,7 @@ class ReportAllPatients(Report, models.Model):
             return qs, fields
 
     @classmethod
-    def last_week_muac_by_reporter(cls, reporter=None, start_date=None, \
+    def muac_by_reporter(cls, reporter=None, start_date=None, \
             end_date=None):
         '''Generate a list of cases for the specified reporter '''
         if not start_date or end_date:
@@ -1524,7 +1524,8 @@ class ReportAllPatients(Report, models.Model):
         else:
             cases = \
                 ReportMalnutrition.objects.filter(entered_at__gte=start_date, \
-                                                       entered_at__lte=end_date)
+                                                    entered_at__lte=end_date).\
+                                        order_by('case__location')
         for case in cases:
             q = {}
             q['case'] = case.case
@@ -1552,11 +1553,20 @@ class ReportAllPatients(Report, models.Model):
                 q['malnut_symptoms'] = ""
                 q['malnut_days_since_last_update'] = ""
 
+            if not reporter:
+                q['chw'] = case.reporter
+                q['clinic'] = case.location.name[:17]
+
             qs.append(q)
         # caseid +|Y lastname firstname | sex | dob/age |
         # guardian | provider  | date
         fields.append({"name": '#', "column": None, \
                        "bit": "{{ object.counter }}"})
+        if not reporter:
+            fields.append({"name": 'Clinic', "column": None, \
+                           "bit": "{{ object.clinic }}"})
+            fields.append({"name": 'CHW', "column": None, \
+                       "bit": "{{ object.chw }}"})
         fields.append({"name": 'PID#', "column": None, \
                        "bit": "{{ object.case.ref_id }}"})
         fields.append({"name": 'NAME', "column": None, \
