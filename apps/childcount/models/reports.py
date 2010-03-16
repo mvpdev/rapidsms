@@ -1540,7 +1540,14 @@ class ReportAllPatients(Report, models.Model):
                 q['malnut_symptoms'] = muacc.symptoms_keys()
                 q['malnut_days_since_last_update'] = \
                     muacc.days_since_last_activity()
+                if not reporter:
+                    q['muac'] = muacc.muac
+                    q['muac_status'] = muacc.get_status_display()
+                    q['muac_dslupdate'] = muacc.days_since_last_activity()
                 q['malnut_prev'] = ""
+                q['prev_muac'] = ""
+                q['prev_muac_status'] = ""
+                q['prev_muac_dslupdate'] = ""
                 if ReportMalnutrition.objects.\
                     filter(case=case).order_by('-entered_at').count() > 1:
                     muacs = ReportMalnutrition.objects.filter(case=case)\
@@ -1548,6 +1555,10 @@ class ReportAllPatients(Report, models.Model):
                     q['malnut_prev'] = "%s (%smm) %s" % \
                             (muacs[1].get_status_display(), muacs[1].muac, \
                             muacs[1].days_since_last_activity())
+                    if not reporter:
+                        q['prev_muac'] = muacs[1].muac
+                        q['prev_muac_status'] = muacs[1].get_status_display()
+                        q['prev_muac_dslupdate'] = muacs[1].days_since_last_activity()
             except ObjectDoesNotExist:
                 q['malnut_muac'] = ""
                 q['malnut_symptoms'] = ""
@@ -1576,11 +1587,25 @@ class ReportAllPatients(Report, models.Model):
                        "bit": "{{ object.case.gender }}"})
         fields.append({"name": 'AGE', "column": None, \
                        "bit": "{{ object.case.age }}"})
-        fields.append({"name": 'Current CMAM', "column": None, "bit": \
-            "{{ object.malnut_muac }} "\
-            "{{object.malnut_days_since_last_update}}"})
-        fields.append({"name": 'Previous CMAM', "column": None, "bit": \
-            "{{ object.malnut_prev }}"})
+        if not reporter:
+            fields.append({"name": 'Current CMAM(mm)', "column": None, "bit": \
+                "{{ object.muac }}"})
+            fields.append({"name": 'Current CMAM Status', "column": None, "bit": \
+                "{{object.muac_status}}"})
+            fields.append({"name": 'Current CMAM: days since last update', "column": None, "bit": \
+                "{{object.muac_dslupdate}}"})
+            fields.append({"name": 'Current CMAM(mm)', "column": None, "bit": \
+                "{{ object.prev_muac }}"})
+            fields.append({"name": 'Current CMAM Status', "column": None, "bit": \
+                "{{object.prev_muac_status}}"})
+            fields.append({"name": 'Current CMAM: days since last update', "column": None, "bit": \
+                "{{object.prev_muac_dslupdate}}"})
+        else:
+            fields.append({"name": 'Current CMAM', "column": None, "bit": \
+                "{{ object.malnut_muac }} "\
+                "{{object.malnut_days_since_last_update}}"})
+            fields.append({"name": 'Previous CMAM', "column": None, "bit": \
+                "{{ object.malnut_prev }}"})
         fields.append({"name": 'SYMPTOMS', "column": None, \
                        "bit": "{{ object.malnut_symptoms}}"})
 
