@@ -1530,7 +1530,7 @@ class ReportAllPatients(Report, models.Model):
     def muac_by_reporter(cls, reporter=None, start_date=None, \
             end_date=None):
         '''Generate a list of cases for the specified reporter '''
-        if not start_date or end_date:
+        if not start_date or not end_date:
             start_date = start_of_last_week(datetime.now())
             end_date = end_of_last_week(datetime.now())
         qs = []
@@ -1614,11 +1614,11 @@ class ReportAllPatients(Report, models.Model):
                 "{{object.muac_status}}"})
             fields.append({"name": 'Current CMAM: days since last update', "column": None, "bit": \
                 "{{object.muac_dslupdate}}"})
-            fields.append({"name": 'Current CMAM(mm)', "column": None, "bit": \
+            fields.append({"name": 'Previous CMAM(mm)', "column": None, "bit": \
                 "{{ object.prev_muac }}"})
-            fields.append({"name": 'Current CMAM Status', "column": None, "bit": \
+            fields.append({"name": 'Previous CMAM Status', "column": None, "bit": \
                 "{{object.prev_muac_status}}"})
-            fields.append({"name": 'Current CMAM: days since last update', "column": None, "bit": \
+            fields.append({"name": 'Previous CMAM: days since last update', "column": None, "bit": \
                 "{{object.prev_muac_dslupdate}}"})
         else:
             fields.append({"name": 'Current CMAM', "column": None, "bit": \
