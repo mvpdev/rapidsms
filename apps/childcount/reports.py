@@ -1232,13 +1232,19 @@ def modifyEnfant(request):
        'lalocation': lalocation})
 
 @login_required
-def last_week_muac_report(request, rtype='split', rformat='pdf', object_id=None, per_page='1'):
+def muac_report(request, report='last_week', rtype='split', rformat='pdf', object_id=None, per_page='1'):
     '''List of Cases/Patient per CHW'''
     today = datetime.now().strftime("%d %B,%Y")
-    solw = start_of_last_week(datetime.now())
-    start = solw.strftime("%d %a, %B, %Y")
-    eolw = end_of_last_week(datetime.now())
-    end = eolw.strftime("%d %a, %B, %Y")
+    if report.lower() == 'this_week':
+        eolw = datetime.now()
+        solw = end_of_last_week(datetime.now())
+        start = solw.strftime("%d %a, %B, %Y")
+        end = eolw.strftime("%d %a, %B, %Y")
+    else:
+        solw = start_of_last_week(datetime.now())
+        start = solw.strftime("%d %a, %B, %Y")
+        eolw = end_of_last_week(datetime.now())
+        end = eolw.strftime("%d %a, %B, %Y")
     pdfrpt = PDFReport()
     pdfrpt.setLandscape(True)
     pdfrpt.setPrintOnBothSides(True)
