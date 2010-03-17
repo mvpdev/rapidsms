@@ -163,6 +163,19 @@ def last_30_days(request, object_id=None, per_page="0", rformat="pdf", d="30"):
             "to %(end_date)s" % {'start_date': duration_start, \
                                   'end_date': duration_end})
 
+    if rformat.lower() == "csv":
+        queryset, fields = ReportCHWStatus.\
+            get_providers_by_clinic(duration_start, duration_end, \
+                                        muac_duration_start)
+        if queryset:
+            c = _("%(app_name)s: CHW 30 Day Performance Report,"\
+                    " from %(start_date)s " \
+                    "to %(end_date)s" % ({'app_name': Cfg.get('app_name'), \
+                    'start_date': duration_start, 'end_date': duration_end}))
+            csvrpt = CSVReport()
+            csvrpt.setTableData(queryset, fields, c)
+            csvrpt.setFilename('perfomance_report')
+            return csvrpt.render()
     if object_id is None:
         clinics = Location.objects.filter(type__name="Clinic")
         for clinic in clinics:

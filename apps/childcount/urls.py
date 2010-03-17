@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     #last_30_days
     (r'^last_30_days/$', reports.last_30_days),
     (r'^last_30_days/(?P<object_id>\d*)$', reports.last_30_days),
+    (r'^last_30_days/(?P<rformat>[a-z]*)$', reports.last_30_days),
     (r'^last_30_days/per_page/(?P<per_page>\d*)$', reports.last_30_days),
     (r'^last_30_days/per_page/(?P<per_page>\d*)/(?P<d>\d*)$', \
     reports.last_30_days),
