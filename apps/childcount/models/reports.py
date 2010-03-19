@@ -1631,3 +1631,77 @@ class ReportAllPatients(Report, models.Model):
 
         return qs, fields
 
+
+    @classmethod
+    def malaria_by_reporter(cls, reporter=None, start_date=None, \
+            end_date=None):
+        '''Generate a list of cases for the specified reporter '''
+        if not start_date or not end_date:
+            start_date = start_of_last_week(datetime.now())
+            end_date = end_of_last_week(datetime.now())
+        qs = []
+        fields = []
+        counter = 0
+        if reporter is not None:
+            cases = \
+                ReportMalaria.objects.filter(entered_at__gte=start_date, \
+                                                    entered_at__lte=end_date, \
+                                                        reporter=reporter)
+        else:
+            cases = \
+                ReportMalaria.objects.filter(entered_at__gte=start_date, \
+                                                    entered_at__lte=end_date).\
+                                        order_by('case__location', 'reporter')
+        for mrpt in cases:
+            q = {}
+            q['case'] = mrpt.case
+            case = mrpt.case
+            counter = counter + 1
+            q['counter'] = "%d" % counter
+            
+            q['date'] = mrpt.entered_at.strftime("%d.%m.%y")
+            q['mobile'] = mrpt.provider_number()
+            q['result'] = mrpt.results_for_malaria_result()
+            q['bednet'] = mrpt.results_for_malaria_bednet()
+            q['name'] = u"%s %s" % (q['case'].last_name, q['case'].first_name)
+            num_of_malaria_cases = ReportMalaria.num_reports_by_case(case)
+            q['num_of_malaria_cases'] = "%d" % num_of_malaria_cases
+            q['symptoms'] = mrpt.symptoms()
+
+            if not reporter:
+                q['chw'] = case.reporter
+                q['clinic'] = case.location.name[:17]
+
+            qs.append(q)
+        # caseid +|Y lastname firstname | sex | dob/age |
+        # guardian | provider  | date
+        fields.append({"name": '#', "column": None, \
+                       "bit": "{{ object.counter }}"})
+        if not reporter:
+            fields.append({"name": 'Clinic', "column": None, \
+                           "bit": "{{ object.clinic }}"})
+            fields.append({"name": 'CHW', "column": None, \
+                       "bit": "{{ object.chw }}"})
+        fields.append({"name": 'PID#', "column": None, \
+                       "bit": "{{ object.case.ref_id }}"})
+        fields.append({"name": 'NAME', "column": None, \
+                    "bit": "{{ object.case.last_name }} "\
+                    "{{ object.case.first_name }}"})
+        fields.append({"name": 'SEX', "column": None, \
+                       "bit": "{{ object.case.gender }}"})
+        fields.append({"name": 'AGE', "column": None, \
+                       "bit": "{{ object.case.age }}"})
+        fields.append({"name": 'MRDT', "column": None, \
+                       "bit": "{{ object.result }}"})
+        fields.append({"name": 'BEDNET', "column": None, \
+                       "bit": "{{ object.bednet }}"})
+        fields.append({"name": 'DATE', "column": None, \
+                       "bit": "{{ object.date }}"})
+        fields.append({"name": 'TIMES', "column": None, \
+                       "bit": "{{ object.num_of_malaria_cases }}"})
+        fields.append({"name": 'SYMPTOMS', "column": None, \
+                       "bit": "{{ object.symptoms }}"})
+        fields.append({"name": 'MOBILE', "column": None, \
+                       "bit": "{{ object.mobile }}"})
+        return qs, fields
+

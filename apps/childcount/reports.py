@@ -1231,6 +1231,7 @@ def modifyEnfant(request):
        'lereporter': lereporter,
        'lalocation': lalocation})
 
+
 @login_required
 def muac_report(request, report='last_week', rtype='split', rformat='pdf', object_id=None, per_page='1'):
     '''List of Cases/Patient per CHW'''
@@ -1320,33 +1321,57 @@ def muac_report(request, report='last_week', rtype='split', rformat='pdf', objec
 
     return pdfrpt.render()
 
+
 @login_required
-def test(request, object_id=None, per_page="1", rformat="pdf"):
+def malaria_report(request, report='last_week', rtype='split', rformat='pdf', object_id=None, per_page='1'):
     '''List of Cases/Patient per CHW'''
     today = datetime.now().strftime("%d %B,%Y")
-    solw = start_of_last_week(datetime.now())
-    start = solw.strftime("%d %a, %B, %Y")
-    eolw = end_of_last_week(datetime.now())
-    end = eolw.strftime("%d %a, %B, %Y")
+    if report.lower() == 'this_week':
+        eolw = datetime.now()
+        solw = end_of_last_week(datetime.now())
+        start = solw.strftime("%d %a, %B, %Y")
+        end = eolw.strftime("%d %a, %B, %Y")
+    else:
+        solw = start_of_last_week(datetime.now())
+        start = solw.strftime("%d %a, %B, %Y")
+        eolw = end_of_last_week(datetime.now())
+        end = eolw.strftime("%d %a, %B, %Y")
     pdfrpt = PDFReport()
     pdfrpt.setLandscape(True)
     pdfrpt.setPrintOnBothSides(True)
-    pdfrpt.setTitle(_("%(app_name)s: Muac Cases Reports by CHW as of %(start)s"\
+    pdfrpt.setTitle(_("%(app_name)s: Malaria Cases Reports by CHW as of %(start)s"\
             " to %(end)s" % \
                 {'app_name': Cfg.get("app_name"), 'start': start, 'end': end}))
     pdfrpt.setNumOfColumns(1)
     pdfrpt.setRowsPerPage(44)
-    if object_id is None:
+    if rtype.lower() == "full":
+        queryset, fields = ReportAllPatients.malaria_by_reporter(start_date=solw, \
+                                                                end_date=eolw)
+        if queryset:
+            c = _("%(app_name)s: Malaria Cases Reports by CHW as of %(start)s"\
+                " to %(end)s" % \
+                {'app_name': Cfg.get('app_name'), 'start': start, 'end': end})
+            if rformat == "csv":
+                csvrpt = CSVReport()
+                csvrpt.setTableData(queryset, fields, c)
+                csvrpt.setFilename('malaria_report')
+                return csvrpt.render()
+            else:
+                pdfrpt.setTableData(queryset, fields, c)
+                pdfrpt.setFilename("report_per_page")
+    elif object_id is None:
         providers = \
-            ReportMalnutrition.objects.values('reporter').distinct('reporter').\
-                        order_by('reporter__location')
+            ReportMalaria.objects.filter(entered_at__gte=solw, \
+                    entered_at__lte=eolw).values('reporter').\
+                    distinct('reporter').order_by('reporter__location')
         reporters = []
         for id in providers:
             reporter = Reporter.objects.get(id=id['reporter'])
             reporters.append(reporter)
         for reporter in reporters:
             queryset, fields = \
-                ReportAllPatients.muac_by_reporter(reporter)
+                ReportAllPatients.malaria_by_reporter(reporter, solw, \
+                                                            eolw)
             if queryset:
                 cinfo = {'loc': reporter.location,
                          'lname': reporter.last_name,
@@ -1363,7 +1388,7 @@ def test(request, object_id=None, per_page="1", rformat="pdf"):
             object_id = request.POST['provider']
         reporter = Reporter.objects.get(id=object_id)
         queryset, fields = \
-            ReportAllPatients.muac_by_reporter(reporter)
+            ReportAllPatients.malaria_by_reporter(reporter)
         if queryset:
             cinfo = {'loc': reporter.location,
                      'lname': reporter.last_name,
@@ -1385,4 +1410,5 @@ def test(request, object_id=None, per_page="1", rformat="pdf"):
                 pdfrpt.setFilename("report_per_page")
 
     return pdfrpt.render()
+
 

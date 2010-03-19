@@ -26,9 +26,10 @@ urlpatterns = patterns('',
     url(r'^childcount/history?$', views.patient_history),
     url(r'^childcount/rapports?$', reports.reports),
     url(r'^childcount/reports?$', reports.childcount),
-    url(r'^childcount/test-report/?$', reports.test),
     url(r'^childcount/muac_report/(?P<report>[a-z\-\_]+)/(?P<rtype>[a-z\-\_]+)'\
         '/(?P<rformat>[a-z\-\_]+)?$', reports.muac_report),
+    url(r'^childcount/malaria_report/(?P<report>[a-z\-\_]+)/(?P<rtype>[a-z\-\_]+)'\
+        '/(?P<rformat>[a-z\-\_]+)?$', reports.malaria_report),
     url(r'^childcount/saisie?$', reports.saisie),
     url(r'^childcount/listeEnfant?$', reports.listeEnfant),
     url(r'^childcount/modify_child?$', reports.modifyEnfant),
