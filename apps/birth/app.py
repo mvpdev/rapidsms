@@ -200,7 +200,7 @@ class App (rapidsms.app.App):
         info2 = {
             'case': case,
             'weight': weight,
-            'where': where,
+            'where': where.upper(),
             'reporter': reporter,
             'complications': complications}
 
