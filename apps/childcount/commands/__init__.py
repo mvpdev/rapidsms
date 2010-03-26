@@ -5,3 +5,5 @@
 from childcount.commands.CCCommand import CCCommand
 from childcount.commands.RegistrationCommand import RegistrationCommand
 from childcount.commands.WhoCommand import WhoCommand
+from childcount.commands.MigrateRegistrationCommand \
+    import MigrateRegistrationCommand
