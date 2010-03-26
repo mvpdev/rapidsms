@@ -23,5 +23,6 @@ from childcount.forms.HouseholdVisitForm import HouseholdVisitForm
 from childcount.forms.FamilyPlanningForm import FamilyPlanningForm
 from childcount.forms.BedNetForm import BedNetForm
 from childcount.forms.SickMembersForm import SickMembersForm
+from childcount.forms.MigrationForm import MigrationForm
 
 from childcount.forms import utils
