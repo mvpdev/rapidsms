@@ -9,6 +9,7 @@ import urllib2
 from reporters.models import Reporter
 
 from childcount.models.general import Case
+from muac.models import ReportMalnutrition
 
 
 def migrate_reporters():
@@ -64,6 +65,43 @@ def migrate_patients(reporter):
                     "%(estimated_dob)s %(status)s %(created_at)s" % info
         #datetime.strptime(f,"%Y-%m-%d %H:%M:%S")
         #@todo do we need to transfer birth details if they exist?
+        custom_sms_send(identity, message)
+
+
+def migrate_muac(patient):
+    muacs = ReportMalnutrition.objects.filter(case=patient)
+    for muac in muacs:
+        identity = muac.reporter.connection().identity
+        edema = 'edema' in [c.uid for c in muac.observed.all()]
+        if not edema:
+            edema = 'oedema' in [c.uid for c in muac.observed.all()]
+        info = {
+            "muac": muac.muac,
+            "ref_id": muac.case.ref_id
+        }
+        message = "%(ref_id)s +MUAC %(muac)s" % info
+        if edema:
+            message += " Y"
+
+        complications = [c for c in muac.observed.all() \
+                         if c.uid != 'diarrhea']
+        if complications:
+            message += " +S"
+            for comp in complications:
+                code = comp.letter
+                if comp.letter.lower() == 'uf':
+                    #Appetite loss and not feeding seems like one and the same
+                    code = 'nf'
+                message += " %s" % code
+        created_at = "%s"%muac.entered_at
+        #make the datetime as one word
+        created_at = created_at.replace(' ', 'T')
+
+        message += " +migrate muac %(status)s %(created_at)s" % {
+                    'status': muac.status,
+                    'created_at': created_at
+                    }
+        print identity, ": ", message
         custom_sms_send(identity, message)
 
 
