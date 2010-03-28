@@ -10,6 +10,7 @@ from reporters.models import Reporter
 
 from childcount.models.general import Case
 from muac.models import ReportMalnutrition
+from mrdt.models import ReportMalaria
 
 
 def migrate_reporters():
@@ -99,6 +100,39 @@ def migrate_muac(patient):
 
         message += " +migrate muac %(status)s %(created_at)s" % {
                     'status': muac.status,
+                    'created_at': created_at
+                    }
+        print identity, ": ", message
+        custom_sms_send(identity, message)
+
+
+def migrate_malaria(patient):
+    malaria = ReportMalaria.objects.filter(case=patient)
+    for mal in malaria:
+        identity = mal.reporter.connection().identity
+        result = 'N'
+        if int(mal.result) == 1:
+            result = 'Y'
+        info = {
+            "rdt": result,
+            "ref_id": mal.case.ref_id
+        }
+        message = "%(ref_id)s +F %(rdt)s" % info
+        complications = [c for c in mal.observed.all() \
+                         if c.uid != 'diarrhea']
+        if complications:
+            message += " +S"
+            for comp in complications:
+                code = comp.letter
+                if comp.letter.lower() == 'uf':
+                    #Appetite loss and not feeding seems like one and the same
+                    code = 'nf'
+                message += " %s" % code
+        created_at = "%s"%mal.entered_at
+        #make the datetime as one word
+        created_at = created_at.replace(' ', 'T')
+
+        message += " +migrate mrdt %(created_at)s" % {
                     'created_at': created_at
                     }
         print identity, ": ", message
