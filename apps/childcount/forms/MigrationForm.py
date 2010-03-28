@@ -31,6 +31,12 @@ class MigrationForm(CCForm):
                 nr = NutritionReport.objects.filter(encounter=self.encounter)[0];
                 nr.status = status
                 nr.save()
-                dir(self.encounter)
+                self.encounter.encounter_date = created_on
+                self.encounter.save()
+        if self.params[1].lower() == "mrdt":
+            #pick status created_at
+            if len(self.params[2:]) >= 1:
+                created_on = self.params[2].upper().replace('T', ' ')
+                created_on = datetime.strptime(created_on,"%Y-%m-%d %H:%M:%S")
                 self.encounter.encounter_date = created_on
                 self.encounter.save()
