@@ -76,7 +76,7 @@ class Encounter(models.Model):
     def send_to_omrs(cls):
         from childcount.models.reports import CCReport
         encounters = cls.objects.filter(type=Encounter.TYPE_PATIENT, \
-            sync_omrs__ne=True)
+            sync_omrs__in=(None, False))
         for encounter in encounters:
             reports = CCReport.objects.filter(encounter=encounter)
             #is the patient registered? if there are reports it is probably not

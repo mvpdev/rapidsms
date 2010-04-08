@@ -25,4 +25,6 @@ from childcount.forms.BedNetForm import BedNetForm
 from childcount.forms.SickMembersForm import SickMembersForm
 from childcount.forms.MigrationForm import MigrationForm
 
+from childcount.forms.VerbalAutopsyForm import VerbalAutopsyForm
+
 from childcount.forms import utils

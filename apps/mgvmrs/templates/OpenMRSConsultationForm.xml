@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<form id="8" name="ChildCount+ Over 5 Form" version="1.1" xmlns:openmrs="http://localhost:8080/openmrs-dev/moduleServlet/formentry/forms/schema/56-34" xmlns:xd="http://schemas.microsoft.com/office/infopath/2003" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8" ?>
+<form id="9" name="CC+ Consultation Form" version="1.0" xmlns:openmrs="http://localhost:8080/openmrs-dev/moduleServlet/formentry/forms/schema/9-35" xmlns:xd="http://schemas.microsoft.com/office/infopath/2003" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <header>
     <enterer/>
     <date_entered/>
@@ -13,6 +13,7 @@
     <patient.given_name openmrs_table="patient_name" openmrs_attribute="given_name">{{ patient___given_name }}</patient.given_name>
     <patient.middle_name openmrs_table="patient_name" openmrs_attribute="middle_name">{{ patient___middle_name }}</patient.middle_name>
     <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+    <patient_identifier.identifier_type openmrs_table="patient_identifier" openmrs_attribute="identifier_type">{{ patient___identifier_type }}</patient_identifier.identifier_type>
     <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>
     <patient.sex openmrs_table="patient" openmrs_attribute="gender">{{ patient___sex }}</patient.sex>
   </patient>
@@ -22,6 +23,16 @@
     <encounter.provider_id openmrs_table="encounter" openmrs_attribute="provider_id">{{ encounter___provider_id }}</encounter.provider_id>
   </encounter>
   <obs openmrs_concept="1238^MEDICAL RECORD OBSERVATIONS^99DCT" openmrs_datatype="ZZ">
+    <calculated_age openmrs_concept="154384^calculated age^99DCT" openmrs_datatype="NM">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true"></value>
+    </calculated_age>
+    <patient_apos_s_condition_improved_since_last_visit openmrs_concept="1898^Patient's condition improved since last visit^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ patients_condition_improved }}</value>
+    </patient_apos_s_condition_improved_since_last_visit>
     <visit_to_health_facility_since_last_home_visit openmrs_concept="1889^Visit to health facility since last home visit^99DCT" openmrs_datatype="CWE" multiple="0">
       <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -37,21 +48,46 @@
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ month_of_current_gestation }}</value>
     </month_of_current_gestation>
-    <fever openmrs_concept="140238^FEVER^99DCT" openmrs_datatype="CWE" multiple="0">
-      <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-      <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-      <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ fever }}</value>
-    </fever>
     <antenatal_visit_number openmrs_concept="1425^ANTENATAL VISIT NUMBER^99DCT" openmrs_datatype="NM">
       <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ antenatal_visit_number }}</value>
     </antenatal_visit_number>
+    <weeks_since_last_antenatal_clinic_anc_visit openmrs_concept="1897^Weeks since last antenatal clinic (ANC) visit^99DCT" openmrs_datatype="NM">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ weeks_since_last_anc }}</value>
+    </weeks_since_last_antenatal_clinic_anc_visit>
     <number_of_health_facility_visits_since_birth openmrs_concept="1886^Number of health facility visits since birth^99DCT" openmrs_datatype="NM">
       <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ number_of_health_facility_visits_since_birth }}</value>
     </number_of_health_facility_visits_since_birth>
+    <breastfed_exclusively openmrs_concept="5526^BREASTFED EXCLUSIVELY^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ breastfed_exclusively }}</value>
+    </breastfed_exclusively>
+    <immunizations_up_to_date openmrs_concept="5585^IMMUNIZATIONS UP TO DATE^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ immunizations_up_to_date }}</value>
+    </immunizations_up_to_date>
+    <mid-upper_arm_circumference openmrs_concept="1343^MID-UPPER ARM CIRCUMFERENCE^99DCT" openmrs_datatype="NM">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ mid_upper_arm_circumference }}</value>
+    </mid-upper_arm_circumference>
+    <oedema openmrs_concept="460^OEDEMA^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ oedema }}</value>
+    </oedema>
+    <weight_kg openmrs_concept="5089^WEIGHT (KG)^99DCT" openmrs_datatype="NM">
+        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ weight }}</value>
+    </weight_kg>
     <tests_ordered openmrs_concept="1271^TESTS ORDERED^99DCT" openmrs_datatype="CWE" multiple="0">
       <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -113,7 +149,8 @@
       <neonatal_skin_infection openmrs_concept="152262^Neonatal Skin Infection^99DCT">{% if reasons_for_referral__neonatal_skin_infection %}true{% else %}false{% endif %}</neonatal_skin_infection>
       <skin_cold_to_touch openmrs_concept="1866^SKIN COLD TO TOUCH^99DCT">{% if reasons_for_referral__skin_cold_to_touch %}true{% else %}false{% endif %}</skin_cold_to_touch>
       <fever_in_first_trimester_of_pregnancy openmrs_concept="1892^Fever in first trimester of pregnancy^99DCT">{% if reasons_for_referral__fever_in_first_trimester_of_pregnancy %}true{% else %}false{% endif %}</fever_in_first_trimester_of_pregnancy>
-      <xforms_value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">peripheral_edema abnormal_vaginal_bleeding</xforms_value>
+      <unable_to_drink_fluids openmrs_concept="1983^Unable to drink fluids^99DCT">{% if reasons_for_referral__unable_to_drink %}true{% else %}false{% endif %}</unable_to_drink_fluids>
+      <xforms_value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
     </reasons_for_referral>
   </obs>
   <other/>

@@ -473,13 +473,11 @@ class FeverReport(CCReport):
     RDT_POSITIVE = 'P'
     RDT_NEGATIVE = 'N'
     RDT_UNKOWN = 'U'
-    RDT_UNAVAILABLE = 'X'
 
     RDT_CHOICES = (
         (RDT_POSITIVE, _(u"Positive")),
         (RDT_NEGATIVE, _(u"Negative")),
-        (RDT_UNKOWN, _(u"Unknown")),
-        (RDT_UNAVAILABLE, _(u"Test unavailable")))
+        (RDT_UNKOWN, _(u"Unknown")))
 
     rdt_result = models.CharField(_(u"RDT Result"), max_length=1, \
                                   choices=RDT_CHOICES)
@@ -696,3 +694,14 @@ class SickMembersReport(CCReport):
              self._meta.get_field_by_name('on_treatment')[0].verbose_name, \
              self.on_treatment)
 reversion.register(SickMembersReport, follow=['ccreport_ptr'])
+
+
+class VerbalAutopsyReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        verbose_name = _(u"Verbal Autopsy Report")
+        verbose_name_plural = _(u"Verbal Autopsy Reports")
+
+    done = models.BooleanField(_("Done?"), \
+                                help_text=_('Was a Verbal Autopsy done?'))

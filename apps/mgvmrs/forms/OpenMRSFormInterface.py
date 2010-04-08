@@ -9,7 +9,7 @@ from django.template import Context, Template
 
 
 XFORM_DATE_FMT = "%Y-%m-%d"
-XFORM_DATETIME_FMT = "%Y-%m-%dT%H:%M:%S"
+XFORM_DATETIME_FMT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 class UnexpectedValueError(ValueError):
@@ -58,7 +58,7 @@ class OpenMRSFormInterface(object):
     # Patient Identification
     #patient_id = None
     patient___medical_record_number = None
-    #patient_identifier_type = None
+    patient___identifier_type = 3
     patient___birthdate = None
     patient___birthdate_estimated = None
     patient___family_name = None
@@ -90,7 +90,7 @@ class OpenMRSFormInterface(object):
         if not isinstance(encounter_datetime, datetime):
             raise UnexpectedValueError(_(u"Encounter datetime invalid"))
         self.encounter___encounter_datetime = \
-                                    encounter_datetime.strftime(XFORM_DATE_FMT)
+                                    encounter_datetime.strftime(XFORM_DATETIME_FMT)
 
         # load template
         self.load_template()
@@ -229,6 +229,7 @@ class OpenMRSFormInterface(object):
         form = {}
         for field in (
             'patient___medical_record_number',
+            'patient___identifier_type',
             'patient___birthdate',
             'patient___birthdate_estimated',
             'patient___family_name',

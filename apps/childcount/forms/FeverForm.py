@@ -26,7 +26,6 @@ class FeverForm(CCForm):
         rdt_field.add_choice('en', FeverReport.RDT_POSITIVE, 'Y')
         rdt_field.add_choice('en', FeverReport.RDT_NEGATIVE, 'N')
         rdt_field.add_choice('en', FeverReport.RDT_UNKOWN, 'U')
-        rdt_field.add_choice('en', FeverReport.RDT_UNAVAILABLE, 'X')
 
         try:
             fr = FeverReport.objects.get(encounter=self.encounter)
@@ -92,9 +91,6 @@ class FeverForm(CCForm):
             self.response = _(u"Negative RDT result")
         elif rdt == FeverReport.RDT_UNKOWN:
             self.response = _(u"Unkown RDT result")
-        elif rdt == FeverReport.RDT_UNAVAILABLE:
-            self.response = _(u"RDT unavailable. Please refer patient to " \
-                               "clinic")
 
         fr.rdt_result = rdt
         fr.save()
