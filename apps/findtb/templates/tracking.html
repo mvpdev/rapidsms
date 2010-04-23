@@ -1,0 +1,133 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Tracking 
+{% endblock %}
+
+{% block page-id %}
+tracking
+{% endblock %}
+
+
+
+{% block menu %}
+{% include "_menu.html" %}
+{% endblock %} 		
+
+{% block content %}
+ 
+   <h1>Gulu <p id="district-back-link"></h1>
+   
+
+   
+   <div id="left-column" class="span-18">
+   <form id="batch-selection">
+       <p>Untested batch 
+       <select>
+           {% for batch in batchs %}
+                <option>{{ batch }}</option>
+           {% endfor %}
+       </select>
+       <input value="ok" type="submit"/>
+       </p>
+   </form>
+   
+  {% if batch_arrived %}
+  <form id="batch-results"> 
+  <p>
+       <table>
+       <thead>
+        <tr>
+          <th>Slide</th>
+          <th><acronym title="Diagnostic and Treatment Unit">DTU</acronyme></th>
+          <th><acronym title="District Lab Technician">DLAB</acronyme></th>
+          <th><acronym title="National TB Reference Laboratory">NTRL</acronyme></th>
+        </tr>
+       </thead>
+       
+       <tbody>
+          {% for slide in slides %}
+                <tr>
+                   <td>
+                            <option>{{ slide }}</option>
+                    </td>
+                    <td>
+                        <select>
+                           {% for possible_result in possible_results %}
+                                <option>{{ possible_result }}</option>
+                           {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                           {% for possible_result in possible_results %}
+                                <option>{{ possible_result }}</option>
+                           {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select>
+                           {% for possible_result in possible_results %}
+                                <option>{{ possible_result }}</option>
+                           {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+           {% endfor %}
+       </tbody>
+       </table>
+   
+       <input value="Save" type="submit"/>
+   
+   </p>
+   </form> 
+   {% endif %}
+   
+    <ul id="events" class="span-8">
+      {% for event in events %}
+        <li>{{ event }}</li>
+      {% endfor %}
+    </ul>
+    
+   </div> <!-- end of #left-column -->
+
+   
+   <div id="right-column" class="span-5 last">
+   
+        
+        <form action="#" method="post">
+           
+            <p>
+           
+                <label for="district-picker">Changer de district</label>
+            
+                <select id="district-picker" name="district-picker">
+                   {% for district in districts %}
+                        <option>{{ district }}</option>
+                   {% endfor %}
+                </select>
+                
+                <input value="Ok" type="submit"/>
+            
+            </p>
+            
+        </form>
+
+        <div>
+            {% if contacts %}
+               <p>Main contacts</p>
+               <dl>
+                {% for contact in contacts %}
+                    <dt>{{ contact.type }}:</dt>
+                    <dl><a href="#">{{ contact.name }}</a></dl>
+               {% endfor %}
+               </dl>
+            {% else %}
+               <p>No contact for this batch!</p>
+               <p><a href="#">Add one</a></p>
+            {% endif %}
+        </div>
+   </div>
+
+{% endblock %} 

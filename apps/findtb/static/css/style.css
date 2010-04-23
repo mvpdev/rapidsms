@@ -1,0 +1,44 @@
+#menu li {
+display: inline;
+}
+
+#left-column, 
+#right-column div,  
+#right-column form, 
+#home-right-column {
+border: 1px solid black;
+padding: 1em;
+margin-bottom: 1em;
+}
+
+#left-column #batch-results input {
+margin-left:90%;
+}
+
+#left-column #events li {
+border: 1px solid grey;
+margin:0.3em;
+padding:0.3em;
+list-style-type: none;
+}
+
+dt {
+float: left;
+margin-right: 1ex;
+}
+
+
+#district-back-link {
+font-size: 40%;
+display: inline;
+padding-left: 1ex;
+}
+
+#right-column div p {
+font-weight:bold;
+}
+
+#quick-nav-block p {
+text-align: right;
+margin-right:30px;
+}
