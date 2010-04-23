@@ -35,5 +35,5 @@ class Bonjour(object):
     @classmethod
     def locale(cls):
         ''' returns babel's locale built from bonjour lang '''
-        locale = Locale(str(settings.LANGUAGE_CODE))
+        locale = Locale.parse(settings.LANGUAGE_CODE, sep='-')
         return locale

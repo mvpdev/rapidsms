@@ -80,18 +80,16 @@ class App (rapidsms.app.App):
         # and other characters
         if not re.match(r'^ping( +|$)', message.text.lower()):
             return False
-
+        
         identifier_match = re.match(r'^ping (?P<identifier>.+).*$', \
                                     message.text.lower(), re.U)
         if not identifier_match:
             identifier = False
         else:
             identifier = identifier_match.groupdict()['identifier']
-
         # deny has higher priority
         if self.disallow:
             return False
-
         # allow or number in auth= or function returned True
         if self.allow or \
             (self.allowed and self.allowed.count(message.peer) > 0) or \
