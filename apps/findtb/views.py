@@ -2,8 +2,11 @@
 # -*- coding= UTF-8 -*-
 
 
-from django.shortcuts import render_to_response
 import random
+# we use rapidsms render_to_response wiwh is a wrapper giving access to
+# some additional data such as rapidsms base templates
+# careful : first parameter must be the request, not a template
+from rapidsms.webui.utils import render_to_response
 
 def home(request, *arg, **kwargs):
     
@@ -15,7 +18,7 @@ def home(request, *arg, **kwargs):
     districts = ["All", "Gulu", "Kabale", "Kampala", "Kumi"]
     batchs = [random.randint(1000, 9999) for x in range(random.randint(0, 6))]
 
-    return render_to_response("home.html", locals())
+    return render_to_response(request, "eqa-dashboard.html", locals())
     
     
 
@@ -44,4 +47,4 @@ def tracking(request, *args, **kwargs):
     for x in range(0, random.randint(0, 5)) :
         contacts.append({"type": types.pop(), "name": names.pop()})
 
-    return render_to_response("tracking.html", locals())
+    return render_to_response(request, "eqa-tracking.html", locals())

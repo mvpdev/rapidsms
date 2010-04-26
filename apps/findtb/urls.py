@@ -3,14 +3,21 @@
 from django.conf.urls.defaults import *
 from findtb import views
 from django.conf import settings
+from django.views.generic.simple import redirect_to
 
 
 
 urlpatterns = patterns('',
 
-    url(r'tracking/(?P<id>\d+)/$', views.tracking, name="findtb-tracking"),
-    url(r'^tracking/$', views.home, name="findtb-tracking-home"),
+    url(r'eqa/tracking/(?P<id>\d+)/$', views.tracking, name="findtb-eqa-tracking"),
+    url(r'^eqa/dashboard/$', views.home, name="findtb-eqa-dashboard"),
+    url(r'^eqa/search/(?P<searched>\w+)*$', views.home, name="findtb-eqa-search"),
+    url(r'^eqa/$', redirect_to, {'url': '/eqa/dashboard/'}),
     
+    url(r'sreferral/tracking/(?P<id>\d+)/$', views.tracking, name="findtb-sreferral-tracking"),
+    url(r'^sreferral/dashboard/$', views.home, name="findtb-sreferral-dashboard"),
+    url(r'^sreferral/search/(?P<searched>\w+)*$', views.home, name="findtb-sreferral-search"),
+    url(r'^sreferral/$', redirect_to, {'url': '/sreferral/dashboard/'}),
 
 )
 

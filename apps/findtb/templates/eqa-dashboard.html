@@ -1,0 +1,99 @@
+{% extends base_template %}
+
+{% block title %}
+Alertes 
+{% endblock %}
+
+{% block page-id %}
+warnings
+{% endblock %}
+
+
+
+{% block menu %}
+{% include "_menu.html" %}
+{% endblock %} 		
+
+{% block content %}
+
+<h1>EQA dashboard</h1>
+
+<div  id="left-column"  class="span-11">        
+        
+   <form id="search-form" 
+         action="{% url findtb-eqa-search %}" 
+         method="get">
+   
+        <h2>Search for a batch or a slide</h2>
+       
+        <p>
+            <input id="quick-nav" name="quick-nav" type="text"/>
+            <input value="Search" type="submit"/>
+        </p>
+        
+        <p class="hint">9989 or Kampala<p>
+        
+   </form>
+
+   
+   
+   <h2>Select and untested batchs by place</h2>
+   
+   {% if districts %}
+   
+       <form id="place-selection">
+           <p><label for="zone-picker">Zone</label>
+           <select id="zone-picker" name="zone-picker">
+               {% for zone in zones %}
+                    <option>{{ zone }}</option>
+               {% endfor %}
+           </select>
+           <label for="district-picker">District</label>
+           <select id="district-picker" name="district-picker">
+               {% for district in districts %}
+                    <option>{{ district }}</option>
+               {% endfor %}
+           </select>
+           <input value="ok" type="submit"/>
+           </p>
+       </form>
+       
+       {% if batchs %}
+           <ul id="batchs" class="span-4">
+           {% for batch in batchs %}
+             <li><a href="{% url findtb-eqa-tracking 1984 %}">{{ batch }}</li>
+           {% endfor %}
+           </ul>
+       {% else %}    
+            <p>No untested batch in this district</p>
+            <p>Wait for a DTU to send one or <a href="#">add one</a> yourself</p>
+       {% endif%}
+       
+   {% else %}
+       <p>No district registered</p>
+       <p><a href="#">Add one</a></p>
+   {% endif%}
+       
+</div>
+
+<div id="home-right-column"  class="span-11 last">
+   
+       <h1>Alerts</h1>
+       
+       {% if warnings %}
+           <ul>
+          {% for warning in warnings %}
+            <li><a href="{% url findtb-eqa-tracking 0042 %}">{{ warning }}</a></li>
+          {% endfor %}
+          </ul>
+       {% else %}
+       
+          <p>Everything is on time !</p>   
+          
+       {% endif %}
+   
+   </div>
+   
+
+
+{% endblock %} 
