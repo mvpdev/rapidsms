@@ -1,0 +1,68 @@
+{% extends "childcount/formulaire/Affiche_Enfant.html" %}
+{% block title %}Edit Children{% endblock %}
+
+{% block right %}
+
+<div class="module">
+	<h2>Edit {{ xaleybi.first_name }} {{ xaleybi.last_name }}</h2>
+	
+	<form method="post" id="fm-rep-add" action="/childcount/modify_child">
+		
+			<label >First Name</label>
+			<input type="text" class="required" name="first_name" value="{{ xaleybi.first_name }}"/>
+			
+		
+			<label>Last Name</label>
+			<input type="text" name="last_name" value="{{ xaleybi.last_name }}" />
+			
+			
+			<label>Gender</label>
+				<select name="gender">
+					{% for code, val in sexe %}
+					<option value="{{ code }}"{% ifequal code xaleybi.gender %} 			selected="selected"{% endifequal %}>{{ val }}
+					</option>
+					{% endfor %}
+				</select>
+
+			<label>Dob</label>
+			<input type="text" name="dob" value="{{ xaleybi.dob }}"	/>	
+			<label>Guardian</label>
+			<input type="text" name="guardian" value="{{ xaleybi.guardian }}"	/>
+			<label>Mobile</label>
+			<input type="text" name="mobile" value="{{ xaleybi.mobile }}"	/>
+
+				
+			<label>Reporter</label>
+				<select name="reporters">
+					{% for reporter in all_reporters %}
+					<option value="{{ reporter.id }}"{% ifequal reporter xaleybi.reporter %} 		selected="selected"{% endifequal %}>{{ reporter.first_name }} {{ reporter.last_name }}
+					</option>
+					{% endfor %}
+				</select>
+
+			<label>Location</label>
+				<select name="locations">
+					{% for location in all_locations %}
+					<option value="{{ location.id }}"{% ifequal location xaleybi.location %} 		selected="selected"{% endifequal %}>{{ location.name }}
+					</option>
+					{% endfor %}
+				</select>
+
+			<label>Status</label>
+				<select name="status">
+					{% for codes, vals in status %}
+					<option value="{{ codes }}"{% ifequal codes xaleybi.status %} 		selected="selected"{% endifequal %}>{{ vals }}
+					</option>
+					{% endfor %}
+				</select>
+
+
+	<input type="hidden"  name="case_id" value="{{ xaleybi.id }}"/>
+	
+	<label>  </label>
+
+	<br/><input type="submit" value="Submit" />		
+	</form>
+</div>
+
+{% endblock %}

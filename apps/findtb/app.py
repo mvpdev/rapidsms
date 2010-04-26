@@ -1,27 +1,17 @@
+#!/usr/bin/env python
+# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# maintainer: rgaudin
+
 import rapidsms
 
-class App (rapidsms.app.App):
-    def start (self):
-        """Configure your app in the start phase."""
-        pass
+class App(rapidsms.app.App):
+    pass
 
-    def parse (self, message):
-        """Parse and annotate messages in the parse phase."""
-        pass
-
-    def handle (self, message):
-        """Add your main application logic in the handle phase."""
-        pass
-
-    def cleanup (self, message):
-        """Perform any clean up after all handlers have run in the
-           cleanup phase."""
-        pass
-
-    def outgoing (self, message):
-        """Handle outgoing message notifications."""
-        pass
-
-    def stop (self):
-        """Perform global app cleanup when the application is stopped."""
-        pass
+    def handle(self, message):
+        raw = message.text
+        print u"HANDLE raw: %s" % raw
+        text = raw.decode('utf8')
+        print u"HANDLE FINTB: %s" % text
+        if text == u"اثغ":
+            message.respond(u"شكرا")
+            return True

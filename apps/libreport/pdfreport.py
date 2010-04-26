@@ -229,6 +229,7 @@ class PDFReport():
             table = PDFTable(data, colWidths, len(data)*[0.25*inch], style=ts, splitByRow=1)
 
             table.hAlign = "LEFT"
+            
             self.data.append(table)
         else:
             self.data.append(Paragraph("No Report", self.styles['Normal']))

@@ -1,0 +1,62 @@
+# Measles Reporting App
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ukang'a Dickson <ukanga@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-30 11:47+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sylvia Musula <smusula@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:39
+#, python-format
+msgid "Sorry, only registered users can access this program.%(msg)s"
+msgstr ""
+"Désolé,seulement les membres inscrits peuvent accéder le programme.%(msg)s"
+
+#: app.py:105
+#, python-format
+msgid "An error occurred. Please call %(mobile)s"
+msgstr "Une erreur s'est présentée. Veuillez appeler %(mobile)s"
+
+#: app.py:138
+#, python-format
+msgid "Case +%(ref_id)s not found."
+msgstr "Le cas +%(ref_id)s n'est pas trouvé."
+
+#: app.py:156
+#, python-format
+msgid "%(result)s received measles shot."
+msgstr "%(result)s ont reçu la rougeole shot"
+
+#: app.py:157 app.py:163
+#, python-format
+msgid "%s"
+msgstr "%s"
+
+#: app.py:162
+#, fuzzy
+msgid "%(nresult) not found!!"
+msgstr "%(nresult)s n'est pas trouvé"
+
+#: app.py:189
+msgid "Measles Summary by clinic:"
+msgstr "Le Résumé de la Rougeole par la clinique"
+
+#: app.py:217
+#, python-format
+msgid "%(msg)s"
+msgstr ""
+
+#: app.py:225
+#, fuzzy, python-format
+msgid "The group %(group)s has not been created."
+msgstr "Le groupe %(group)s est déjà créé(e)"

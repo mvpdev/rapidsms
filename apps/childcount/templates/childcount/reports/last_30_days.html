@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="/">{{ app.name }}</a>
+    &raquo; CHW Last 30 Days Perfomance Report
+{% endblock %}
+
+{% block content %}
+	{% for clinic in clinics %}
+    	{{clinic.clinic}}<br />
+	{% endfor %}
+	
+{% endblock %}

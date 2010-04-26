@@ -1,0 +1,111 @@
+# Death Form App
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Ukang'a Dickson <ukanga@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-30 11:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Sylvia Musula <smusula@yahoo.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:39
+#, python-format
+msgid "Sorry, only registered users can access this program.%(msg)s"
+msgstr ""
+"Désolé,seulement les membres inscrits peuvent accéder le programme %(msg)s"
+
+#: app.py:105
+#, python-format
+msgid "An error occurred. Please call %(mobile)s"
+msgstr "Une erreur s'est présentée. Veuillez appeler %(mobile)s"
+
+#: app.py:138
+#, python-format
+msgid "Case +%(ref_id)s not found."
+msgstr "Le cas +%(ref_id)s n'est pas trouvé "
+
+#: app.py:159 app.py:222
+#, python-format
+msgid "Date must be in the format ddmmyy: %(dod)s"
+msgstr " Le format de date doit être jjmmann:%(dod)s"
+
+#: app.py:169 app.py:232
+#, python-format
+msgid "Couldn't understand date: %(dod)s"
+msgstr "La date n'est pas saisissable: %(dod)s"
+
+#: app.py:181 app.py:246
+#, python-format
+msgid "Location `%(loc)s` is not known. Please try again with a known location"
+msgstr ""
+"Région inconnue %(loc)s. Veuillez essayer encore avec une région connue "
+
+#: app.py:186 app.py:251
+#, python-format
+msgid ""
+"Cause `%(cause)s` is not known. Please try again with a known death cause"
+msgstr ""
+"La cause est inconnue `%(cause)s Veuillez essayer  avec la cause de mort "
+"connue. "
+
+#: app.py:192 app.py:259
+#, python-format
+msgid "%(name)s [%(age)s] died on %(dod)s of %(cause)s at %(where)s"
+msgstr "%(name)s [%(age)s il est mort %(dod)s of %(cause)s à %(where)"
+
+#: models/general.py:24
+msgid "Male"
+msgstr "Mâle"
+
+#: models/general.py:25
+msgid "Female"
+msgstr "Femâle"
+
+#: models/general.py:28
+msgid "Home"
+msgstr "Maison"
+
+#: models/general.py:29
+msgid "Health Facility"
+msgstr "Létablissement de santé"
+
+#: models/general.py:30
+msgid "On route to Clinic"
+msgstr "En voie à la clinique"
+
+#: models/general.py:31
+msgid "Other"
+msgstr "L'autre"
+
+#: models/general.py:34
+msgid "Pregnancy Related"
+msgstr "Liée à la grossesse"
+
+#: models/general.py:35
+msgid "Child Birth"
+msgstr "La naissance d'enfant"
+
+#: models/general.py:36
+msgid "Accident"
+msgstr "L'accident"
+
+#: models/general.py:37
+#, fuzzy
+msgid "Illness"
+msgstr "La maladie"
+
+#: models/general.py:38
+msgid "Sudden Death"
+msgstr "Mort subite"
+
+#: models/general.py:44
+msgid "Date of Death"
+msgstr "Date de mort"

@@ -3,4 +3,4 @@
 # maintainer: ukanga
 
 title = "ChildCount"
-tab_link = '/childcount'
+tab_link = '/childcount/reports'
