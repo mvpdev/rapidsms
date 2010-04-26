@@ -11,10 +11,16 @@ from locations.models import Location, LocationType
 
 def home(request, *arg, **kwargs):
     
-    warnings = []
-    for x in range(0, random.randint(0, 5)) :
-        warnings.append("Sputum #%s is %s day(s) late" % (random.randint(1000, 9999),
-                                                          random.randint(0, 5)))
+    events = [{"title": "Namokora HC IV samples have arrived",
+               "type": "notice", "date": "2 hours ago"},
+               {"title": "Pajimo HC III results have been canceled",
+                            "type": "canceled", "date": "3 hours ago"},            
+               {"title": "Pajimo HC III results are completed",
+                "type": "checked", "date": "Yesterday"},  
+               {"title": "Namokora HC IV samples are 3 days late",
+                "type": "warning", "date": "2 days ago"},                              
+             ]
+            
                       
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")

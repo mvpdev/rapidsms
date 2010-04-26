@@ -1,4 +1,6 @@
-{% extends "dashboard.html" %}
+{% extends "findtb-dashboard.html" %}
+
+{% block page-id %}eqa-dashboard{% endblock %}
 
 {% block title %}EQA Dashboard{% endblock %}
 
@@ -6,26 +8,24 @@
 {% block findtb-title %}EQA dashboard{% endblock %}
 
 
-        
-{% block findtb-events %}
-
-   <h1>Last events</h1>
-   
-   {% if warnings %}
-       <ul>
-      {% for warning in warnings %}
-        <li><a href="{% url findtb-eqa-tracking 0042 %}">{{ warning }}</a></li>
-      {% endfor %}
-      </ul>
-   {% else %}
-   
-      <p>Everything is on time !</p>   
-      
-   {% endif %}
-
+{% block findtb-events-title %}
+    Recent follow up for all the 
+    <acronym title="Diagnostic and Treatment Units">DTUs</acronyme>
 {% endblock %}
-       
-   
+
+{% block findtb-events-selection %}
+    <ul>
+        {% for event in events %}
+        <li class="{{ event.type }}">
+            <a href="{% url findtb-eqa-tracking 0042 %}">
+                <strong>{{ event.title }}</strong>
+                <span>{{ event.date }}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+        
    
 {% block findtb-test-picker-title %}Select and untested batchs by place{% endblock %}
 

@@ -11,6 +11,7 @@
 
 {% block content %}
 
+<div id="{% block page-id %}{% endblock %}" class="{% block page-class %}{% endblock %}">
 
     {% block menu %}
         {% include "_menu.html" %}
@@ -21,7 +22,7 @@
      method="get">
    
     <p>
-        Slide or place <input id="quick-nav" name="quick-nav" type="text"/>
+        Slide or Location <input id="quick-nav" name="quick-nav" type="text"/>
         <input value="Search" type="submit"/>
     </p>
     
@@ -31,5 +32,7 @@
 
     {% block findtb-content %}
     {% endblock %}
+
+</div>
 
 {% endblock %}

@@ -1,3 +1,12 @@
+/***** GLOBAL ******/
+
+
+#findtb-menu {
+float: left;
+padding:0;
+margin:0;
+}
+
 #findtb-menu li {
 display: inline;
 list-style-type: none;
@@ -22,26 +31,20 @@ padding:0.3em;
 list-style-type: none;
 }
 
-dt {
-float: left;
-margin-right: 1ex;
-}
-
-
-#district-back-link {
-font-size: 40%;
-display: inline;
-padding-left: 1ex;
-}
 
 #right-column div p {
 font-weight:bold;
 }
 
-#quick-nav-block p {
+
+/*** SEARCH FIELD ***/
+
+#findtb-search-form {
 text-align: right;
 margin-right:30px;
 }
+
+/*** RIGHT COLUMN NAVIGATION ***/
 
 #place-selection{
 background-color:#FFFFCC;
@@ -49,7 +52,80 @@ padding:0.5px;
 padding-left:10px;
 }
 
-#findtb-search-form {
-text-align: right;
-margin-right:30px;
+/*** FOLLOW UP ***/
+
+.findtb-dashboard #left-column dl dt,
+.findtb-dashboard #left-column dl dd {
+display: inline;
+margin-left:10px;
 }
+
+.findtb-dashboard #left-column p {
+text-align:center;
+}
+
+.findtb-dashboard #left-column dl {
+background-color:#FFFFCC;
+padding:10px;
+margin:0;
+}
+
+.findtb-dashboard #left-column  {
+background-color:#F8F8F8;
+}
+
+.findtb-dashboard #left-column ul {
+padding:0.5em;
+margin-top:0;
+}
+
+.findtb-dashboard #left-column li {
+height: 48px;
+list-style-type:none;
+display:block;
+margin:1em;
+}
+
+.findtb-dashboard #left-column li a {
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #EEEEEE;
+}
+
+.findtb-dashboard #left-column li a:hover{
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #B8DEE3;
+}
+
+.findtb-dashboard #left-column li.notice {
+background: #FFFFFF url("/static/findtb/images/notice.png") no-repeat 8px 8px;
+}
+
+.findtb-dashboard #left-column li.warning {
+background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 8px 8px;
+}
+
+.findtb-dashboard #left-column li.checked {
+background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
+}
+
+.findtb-dashboard #left-column li.canceled {
+background: #FFFFFF url("/static/findtb/images/canceled.png") no-repeat 8px 8px;
+}
+
+.findtb-dashboard #left-column li strong {
+display:block;
+margin-left:55px;
+margin-top:10px;
+}
+
+.findtb-dashboard #left-column li span {
+display:block;
+margin-left:55px;
+margin-top:2px;
+font-style:italic;
+}
+
