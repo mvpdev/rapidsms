@@ -1,21 +1,35 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
-<head>
-       <title>{% block title %}Tuberculosis Tracking{% endblock %}</title>
-       <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+{% extends base_template %}
+
+
+{% block page_stylesheets %}
+
         <link rel="stylesheet" href="/static/findtb/css/blueprint/screen.css" type="text/css" />
         <link rel="stylesheet" href="/static/findtb/css/style.css" type="text/css" />
-</head>
-<body>
-<div id="{% block page-id %}no-container-id{% endblock %}" class="container"> 
-
-{% block menu %}{% endblock %}
-
-{% block content %}{% endblock %}
- 
-</div>
-</body>
-</html>
-
+        
+{% endblock %}
      
 
+{% block content %}
+
+
+    {% block menu %}
+        {% include "_menu.html" %}
+    {% endblock %}
+    
+    <form id="findtb-search-form" 
+     action="{% block title %}#{% endblock %}" 
+     method="get">
+   
+    <p>
+        Slide or place <input id="quick-nav" name="quick-nav" type="text"/>
+        <input value="Search" type="submit"/>
+    </p>
+    
+    </form>
+    
+    <h1>{% block findtb-title %}{% endblock %}</h1>
+
+    {% block findtb-content %}
+    {% endblock %}
+
+{% endblock %}

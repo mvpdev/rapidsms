@@ -7,6 +7,7 @@ import random
 # some additional data such as rapidsms base templates
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
+from locations.models import Location, LocationType
 
 def home(request, *arg, **kwargs):
     
@@ -14,8 +15,9 @@ def home(request, *arg, **kwargs):
     for x in range(0, random.randint(0, 5)) :
         warnings.append("Sputum #%s is %s day(s) late" % (random.randint(1000, 9999),
                                                           random.randint(0, 5)))
-                                                          
-    districts = ["All", "Gulu", "Kabale", "Kampala", "Kumi"]
+                      
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
     batchs = [random.randint(1000, 9999) for x in range(random.randint(0, 6))]
 
     return render_to_response(request, "eqa-dashboard.html", locals())
@@ -37,7 +39,8 @@ def tracking(request, *args, **kwargs):
     
     events = ["Something is happening!"] * random.randint(0, 7)
     
-    districts = ["Gulu", "Kabale", "Kampala", "Kumi"]
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
     
     batch_arrives = True
     

@@ -1,13 +1,13 @@
-#menu li {
+#findtb-menu li {
 display: inline;
+list-style-type: none;
 }
 
 #left-column, 
 #right-column div,  
 #right-column form, 
 #home-right-column {
-border: 1px solid black;
-padding: 1em;
+border: solid 1px #EEEEEE;
 margin-bottom: 1em;
 }
 
@@ -16,7 +16,7 @@ margin-left:90%;
 }
 
 #left-column #events li {
-border: 1px solid grey;
+border: 1px solid #EEEEEE;
 margin:0.3em;
 padding:0.3em;
 list-style-type: none;
@@ -39,6 +39,17 @@ font-weight:bold;
 }
 
 #quick-nav-block p {
+text-align: right;
+margin-right:30px;
+}
+
+#place-selection{
+background-color:#FFFFCC;
+padding:0.5px;
+padding-left:10px;
+}
+
+#findtb-search-form {
 text-align: right;
 margin-right:30px;
 }

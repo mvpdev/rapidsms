@@ -22,10 +22,10 @@ class State(models.Model):
     A state in which any tracked object can be. Virtual, should be subclassed.
     """
     
-    title = models.CharField(max_lenght=400, blank=True)
+    title = models.CharField(max_length=400, blank=True)
     cancel = models.BooleanField(default=False)
     created = models.DateTimeField(auto_created=True)  
-    holder = models.ForeignKey("Tracked")
+    holder = models.ForeignKey("Tracked", related_name="states_set")
     
     
     def create_next_state(self):

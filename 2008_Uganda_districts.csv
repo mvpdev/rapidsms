@@ -1,0 +1,801 @@
+North,Amolatar,Amai Community Hospital
+North,Amolatar,Amolatar HC IV
+North,Amolatar,Etam HC III
+North,Amolatar,Namasale HC III
+North,Amuru,Amuru HC III
+North,Amuru,Anaka Hospital
+North,Amuru,Atiak HC IV
+North,Amuru,Pabbo HC III
+North,Amuru,Purongo HC III
+North,Gulu,Awach HC IV
+North,Gulu,Gulu Independent Hospital
+North,Gulu,Gulu Military Hospital
+North,Gulu,Gulu Reg Hospital
+North,Gulu,Lacor Hospital
+North,Gulu,Lalogi HC IV
+North,Gulu,Opit HC III
+North,Gulu,TASO Gulu
+North,Kitgum,Kitgum Gov Hospital
+North,Kitgum,Kitgum Matidi HC III
+North,Kitgum,Madi Opei HC III
+North,Kitgum,Mucwini HC III
+North,Kitgum,Namokora HC IV
+North,Kitgum,Omiya Anyima HC III
+North,Kitgum,Orom HCIII
+North,Kitgum,Padibe Mater HC IV
+North,Kitgum,Pajimo HC III
+North,Kitgum,Palabek Kal HC III
+North,Kitgum,St Joseph's Hospital
+North,Kitgum,Sts Peter and Paul
+North,Oyam,Aber Hospital
+North,Oyam,Agulurude HC III
+North,Oyam,Anyeke HC III
+North,Oyam,Iceme HC III
+North,Oyam,Minakulo HC III
+North,Oyam,Ngai HC III
+North,Oyam,Otwal HC III
+North,Pader,Acholi Bur
+North,Pader,Awere HC III
+North,Pader,Kalongo Hospital
+North,Pader,Lira Kato
+North,Pader,Pader HC III
+North,Pader,Pajule HC IV
+North,Pader,Patongo HC III
+North,Pader,Rackoko HC III
+Western,Bulisa,Biiso HCIII
+Western,Bulisa,Buliisa HCIV
+Western,Bulisa,Butiaba HC III
+Western,Bundibugyo,Bubukwanga HCIII
+Western,Bundibugyo,Bundibudyo Hospital
+Western,Bundibugyo,Busaru HCIII
+Western,Bundibugyo,Kakuha HCIII
+Western,Bundibugyo,Karugutu HCIV
+Western,Bundibugyo,Kikyo HCIII
+Western,Bundibugyo,Nyahuka HCIV
+Western,Bundibugyo,Rwebisengo HCIII
+Western,Hoima,Buhimba HCIII
+Western,Hoima,Buraru HCIII
+Western,Hoima,Butema HCIII
+Western,Hoima,Dwoli HCIII
+Western,Hoima,Hoima R.R.Hospital
+Western,Hoima,Kabwoya HCIII
+Western,Hoima,Kigorobya HCIII
+Western,Hoima,Kikuube HCIV
+Western,Hoima,Kyangwali HCIII
+Western,Hoima,Mparangasi HCIII
+Western,Hoima,Rwanyawawa HCIII
+Western,Kabarole,Fortportal R.R. Hospital
+Western,Kabarole,Iruhura HCIII (NGO)
+Western,Kabarole,Kabarole Hospital
+Western,Kabarole,Kiyombya HCIII
+Western,Kabarole,Rwimi HCIII
+Western,Kabarole,Virika Hospital
+Western,Kabarole,Yerya HCIII (NGO)
+Western,Kamwenge,Kambuga C.O.U
+Western,Kamwenge,Kamwenge HCIV
+Western,Kamwenge,Kamwenge Med.Centre
+Western,Kamwenge,Kicheche HCIII
+Western,Kamwenge,Ntara HCIII
+Western,Kamwenge,Nyaban HCIII
+Western,Kamwenge,Rukunyu HCIV
+Western,Kamwenge,Rwamwanja HCIII
+Western,Kibaale,Kagadi Clinic
+Western,Kibaale,Kagadi Health Care Clinic
+Western,Kibaale,Kagadi Hospital
+Western,Kibaale,Kagadi Medical Centre
+Western,Kibaale,Kakindo HCIV
+Western,Kibaale,Kakumiro HCIV
+Western,Kibaale,Kisiita HCIII
+Western,Kibaale,Mabale HCIII
+Western,Kibaale,Muhorro Catholic H/C
+Western,Kibaale,Nyamarwa HCIII
+Western,Kibaale,ST.Ambroze HCIV
+Western,Kyenjojo,Bufujo HCIII
+Western,Kyenjojo,Butiti HCIII
+Western,Kyenjojo,Butunduzi HCIII
+Western,Kyenjojo,Hapuyo HCIII
+Western,Kyenjojo,Kakabara HCIII
+Western,Kyenjojo,Kasule HCIII
+Western,Kyenjojo,Katooke HCIII
+Western,Kyenjojo,Kazinga HCIII
+Western,Kyenjojo,Kigarale HCIII
+Western,Kyenjojo,Kisojo HCIII
+Western,Kyenjojo,Kyalusozi HCIV
+Western,Kyenjojo,Kyegegwa HCIV
+Western,Kyenjojo,Kyenjojo HCIV
+Western,Kyenjojo,Mpara HCIII
+Western,Kyenjojo,Nyamabuga HCIII
+Western,Kyenjojo,Nyankwanzi HCIII
+Western,Masindi,Bwijanga HCIII
+Western,Masindi,Diima HCIII
+Western,Masindi,Ikoba HCIII
+Western,Masindi,Katulikire HCIII
+Western,Masindi,Kigumba HCIII
+Western,Masindi,Kinyara HCIII
+Western,Masindi,Kiryandongo Hospital
+Western,Masindi,Kyatiri HCIII
+Western,Masindi,Masindi Barracks.
+Western,Masindi,Masindi Hospital
+Western,Masindi,Masindi port HCIII
+Western,Masindi,Mutunda HCIII
+Western,Masindi,Nyantonzi HCIII
+Western,Masindi,Pakanyi HCIII
+Western,Masindi,Panyadoli HCIII
+Western,Masindi,Taso Masindi
+Central,Kiboga,Bukomero HCIV
+Central,Kiboga,Butemba HC III
+Central,Kiboga,Kiboga Hospital
+Central,Kiboga,Kiyuni HC III
+Central,Kiboga,Lwamata
+Central,Kiboga,Nabwendo HC III
+Central,Kiboga,Ntwetwe HCIV
+Central,Kiboga,St Balikudembe
+Central,Luwero,Bamunanika HCIII
+Central,Luwero,Bishop Asiili
+Central,Luwero,Bombo HCIII
+Central,Luwero,Bombo Military Ho
+Central,Luwero,Bowa HC III
+Central,Luwero,Holy cross Kikyusa
+Central,Luwero,Kalagala HCIV
+Central,Luwero,Kamiira HCIII
+Central,Luwero,Katikamu HCIII
+Central,Luwero,Kyalugalo
+Central,Luwero,Luwero HCIV
+Central,Luwero,Makulubita
+Central,Luwero,Nsawo HC III
+Central,Luwero,Nyimbwa HCIII
+Central,Luwero,Orient Med Center
+Central,Luwero,Wobusana HC III
+Central,Luwero,Zirobwe HC III
+Central,Mityana,Hosfa Medical Center
+Central,Mityana,Kikandwa HCIII
+Central,Mityana,Kyamusisi HCIII
+Central,Mityana,Kyantungo
+Central,Mityana,Maanyi HCIII
+Central,Mityana,Mityana Hospital
+Central,Mityana,Mwera HCIV
+Central,Mityana,Namutamba HCIII
+Central,Mityana,Padre Pio
+Central,Mityana,Sekanyonyi HCIII
+Central,Mityana,St Francis
+Central,Mpigi,Buwama HC III
+Central,Mpigi,Gombe Hospital
+Central,Mpigi,Kanoni HCIII
+Central,Mpigi,Katende HC III
+Central,Mpigi,Maddu HCIV
+Central,Mpigi,Mitala Maria HCIII
+Central,Mpigi,Mpigi HCIV
+Central,Mpigi,Muduuma HCIII
+Central,Mpigi,Nkozi Hospital
+Central,Mpigi,Rapha med. Center
+Central,Mubende,Bukuya HCIII
+Central,Mubende,CMRC
+Central,Mubende,Kasambya HC III
+Central,Mubende,Kasanda HCIV
+Central,Mubende,Kiganda HC IV
+Central,Mubende,Mirembe Maria
+Central,Mubende,Mubende Hospital
+Central,Mubende,Mubende Mil Brks
+Central,Nakaseke,Kapeeka HC III
+Central,Nakaseke,Kiwoko Hospital
+Central,Nakaseke,Nakaseke Hospital
+Central,Nakaseke,Ngoma HC IV
+Central,Nakaseke,Semuto HC III
+Central,Nakasongola ,Kakooge HCIII
+Central,Nakasongola ,Lwampanga HCIII
+Central,Nakasongola ,Nabiswera HCIII
+Central,Nakasongola ,Nakasongola bar'ks
+Central,Nakasongola ,Nakasongola IV
+Central,Nakasongola ,Nakayonza HCIII
+Central,Nakasongola ,Nakitoma HCIII
+Central,Wakiso,Entebbe Hosp Grd B
+Central,Wakiso,Jjanda Medical Center
+Central,Wakiso,Kakiri Baracks
+Central,Wakiso,kasangati HC IV
+Central,Wakiso,Kasanje HC III
+Central,Wakiso,Kira HC III
+Central,Wakiso,Kisubi Hospital
+Central,Wakiso,Kiziba HC III
+Central,Wakiso,Luwunga Barracks
+Central,Wakiso,Mild May Centre
+Central,Wakiso,Mpumudde HC III
+Central,Wakiso,Namayumba HC IV
+Central,Wakiso,Ndejje HC IV
+Central,Wakiso,Nsangi HC III
+Central,Wakiso,TASO Entebbe
+Central,Wakiso,Wakiso HC IV
+South Eastern,Budaka,Budaka HC IV
+South Eastern,Budaka,Iki-Iki HC III
+South Eastern,Budaka,Kaderuna HC III
+South Eastern,Budaka,Kamonkoli HC III
+South Eastern,Bugiri,Banda HC III
+South Eastern,Bugiri,Bugiri Hospital
+South Eastern,Bugiri,Bulesa HC III
+South Eastern,Bugiri,Buluguyi HC III
+South Eastern,Bugiri,Buwunga HC III
+South Eastern,Bugiri,Buyinja HC III
+South Eastern,Bugiri,Jwemba HC III
+South Eastern,Bugiri,Mayuge HC III
+South Eastern,Bugiri,Nabukalu HC III
+South Eastern,Bugiri,Nankoma HC III
+South Eastern,Bugiri,St. Mulumba HC III
+South Eastern,Bugiri,URHC HC III
+South Eastern,Busia,Busia HC IV
+South Eastern,Busia,Busitema HC III
+South Eastern,Busia,Daban Hospital
+South Eastern,Busia,Lumino HC III
+South Eastern,Busia,Majengo HC (NGO)
+South Eastern,Busia,Masaafu HC III
+South Eastern,Butaleja,Busaba HC III
+South Eastern,Butaleja,Busolwe Hospital
+South Eastern,Butaleja,Butaleja HC IV
+South Eastern,Butaleja,Mulagi HC III
+South Eastern,Butaleja,Nabiganda HC III
+South Eastern,Iganga,Bugono HC IV
+South Eastern,Iganga,Bulamaji HC III
+South Eastern,Iganga,Busesa HC IV
+South Eastern,Iganga,Iganga Hospital
+South Eastern,Iganga,Iganga TC HC
+South Eastern,Iganga,Irongo HC III
+South Eastern,Iganga,Kiyunga HC IV
+South Eastern,Iganga,Makutu HC III
+South Eastern,Iganga,Nambale HC III
+South Eastern,Iganga,Namungalwe HC III
+South Eastern,Iganga,Nawansegwa HC (NGO)
+South Eastern,Jinja,AIC
+South Eastern,Jinja,All Saints HC III
+South Eastern,Jinja,Budima HC III
+South Eastern,Jinja,Budondo HC III
+South Eastern,Jinja,Bugembe HC IV
+South Eastern,Jinja,Busede HC III
+South Eastern,Jinja,Butagaya HC III
+South Eastern,Jinja,Buwenge HC IV
+South Eastern,Jinja,Buwenge Hospital
+South Eastern,Jinja,Family hope
+South Eastern,Jinja,Jinja Central HC III
+South Eastern,Jinja,Jinja Hospital
+South Eastern,Jinja,Kakaire HC III
+South Eastern,Jinja,Kakira HC III
+South Eastern,Jinja,Kakira Hospital
+South Eastern,Jinja,Mpumude HC IV
+South Eastern,Jinja,Mulumba HC III
+South Eastern,Jinja,St. Benedict HC III
+South Eastern,Jinja,TASO
+South Eastern,Jinja,Walukuba HC IV
+South Eastern,Kaliro,Bumanya HC III
+South Eastern,Kaliro,Gadumire HC III
+South Eastern,Kaliro,Namugongo HC IV
+South Eastern,Kamuli,Balawoli HC III
+South Eastern,Kamuli,Bugulumbya HC III
+South Eastern,Kamuli,Bulopa HC III
+South Eastern,Kamuli,Buphadengo HC III
+South Eastern,Kamuli,Kamuli HC Care
+South Eastern,Kamuli,Kamuli Hospital
+South Eastern,Kamuli,Kamuli M Hospital
+South Eastern,Kamuli,Kidera HC III
+South Eastern,Kamuli,Lulyambuzi HC III
+South Eastern,Kamuli,Mbulamuti HC III
+South Eastern,Kamuli,Namasagali HC III
+South Eastern,Kamuli,Namwendwa HC III
+South Eastern,Kamuli,Nankandulo HC IV
+South Eastern,Kayunga,Bale HC IV
+South Eastern,Kayunga,Busana HC III
+South Eastern,Kayunga,Bwana HC III
+South Eastern,Kayunga,Galiraya HC III
+South Eastern,Kayunga,Kangulumira HC IV
+South Eastern,Kayunga,Kayunga Hospital
+South Eastern,Kayunga,KIHP HC
+South Eastern,Kayunga,Lugasa HC III
+South Eastern,Kayunga,Nazigo HC III
+South Eastern,Kayunga,Ntenjeru HC III
+South Eastern,Kayunga,Wabuwoko HC III
+South Eastern,Kayunga,YWM HC III
+South Eastern,Mayuge,Baitambogwe HC III
+South Eastern,Mayuge,Buluba Hospital
+South Eastern,Mayuge,Kigandalo HC IV
+South Eastern,Mayuge,Kityerera HC IV
+South Eastern,Mayuge,Malongo HC III
+South Eastern,Mayuge,Mayuge HC III
+South Eastern,Mukono,Bugaya HC III
+South Eastern,Mukono,Buikwe Hospital
+South Eastern,Mukono,Busabaga HC III
+South Eastern,Mukono,Buvuma HC IV
+South Eastern,Mukono,Buwagajjo HC III
+South Eastern,Mukono,Goma HC III
+South Eastern,Mukono,Kasawo HC III
+South Eastern,Mukono,Katoogo HC III
+South Eastern,Mukono,Kawolo Hospital
+South Eastern,Mukono,Kooja HC III
+South Eastern,Mukono,Koome HC III
+South Eastern,Mukono,Kyabazala HC III
+South Eastern,Mukono,Kyampisi HC III
+South Eastern,Mukono,Kyetume HC III
+South Eastern,Mukono,Makindu HC III
+South Eastern,Mukono,Mukono HC IV
+South Eastern,Mukono,Nagalama Hospital
+South Eastern,Mukono,Nagojje HC III
+South Eastern,Mukono,Najjembe HC III
+South Eastern,Mukono,Nakifuma HC III
+South Eastern,Mukono,Namuganga HC III
+South Eastern,Mukono,Namwezi HC III
+South Eastern,Mukono,Ngongwe HC III
+South Eastern,Mukono,Nkokonjeru hHspital
+South Eastern,Mukono,Nyenga Hospital
+South Eastern,Mukono,Seeta Nazigo HC III
+South Eastern,Mukono,St. Francis Njeru HC III
+South Eastern,Namutumba,Ivukula HC III
+South Eastern,Namutumba,Magada HC III
+South Eastern,Namutumba,Namutumba HC III
+South Eastern,Namutumba,Nsinze HC IV
+South Eastern,Pallisa,Buchanagandi HC III
+South Eastern,Pallisa,Buseta HC III
+South Eastern,Pallisa,Butebo HC IV
+South Eastern,Pallisa,Gogonyo HC III
+South Eastern,Pallisa,Kakoro HC III
+South Eastern,Pallisa,Kameke HC III
+South Eastern,Pallisa,Kamuge HC III
+South Eastern,Pallisa,Kanginima Hospital
+South Eastern,Pallisa,Kibuku HC IV
+South Eastern,Pallisa,Pallisa Hospital
+South Eastern,Tororo,Benedictine eye Hospital
+South Eastern,Tororo,Devine Mercy Hospital
+South Eastern,Tororo,Kwapa HC III
+South Eastern,Tororo,Malaba HC III
+South Eastern,Tororo,Marrie Stopes
+South Eastern,Tororo,Mirikit HC III
+South Eastern,Tororo,Mukuju HC IV
+South Eastern,Tororo,Mulanda HC IV
+South Eastern,Tororo,Nagongera HC IV
+South Eastern,Tororo,Paya HC III
+South Eastern,Tororo,Rubongi Army Hospital
+South Eastern,Tororo,St. Anthony Hospital
+South Eastern,Tororo,TASO
+South Eastern,Tororo,Tororo Hospital
+South Eastern,Tororo,True Vine HC III
+South Eastern,Tororo,Uganda Family Planning Association
+Eastern,Amuria,Amuria HC IV
+Eastern,Amuria,Kaperabyong
+Eastern,Amuria,St. Micheal 
+Eastern,Amuria,St.Claire
+Eastern,Amuria,St.Francis
+Eastern,Bududa,Bududa Hospital
+Eastern,Bududa,Bukigai HC III
+Eastern,Bududa,Bushika HC III
+Eastern,Bukedea,Bukedea HC IV
+Eastern,Bukwo,Bukwo HC IV
+Eastern,Bukwo,Chesowir HC III
+Eastern,Bukwo,Kapkoloswo HC III
+Eastern,Kaberamaido,Anyara HC III
+Eastern,Kaberamaido,Gwetom HC III
+Eastern,Kaberamaido,Kaberamaido HC IV
+Eastern,Kaberamaido,Kalaki HC III
+Eastern,Kaberamaido,Kobulubulu HC III
+Eastern,Kaberamaido,Lwala Hospital
+Eastern,Kaberamaido,Ochero HC III
+Eastern,Kapchorwa,Binyiny HC III
+Eastern,Kapchorwa,Kapchorwa Hospital
+Eastern,Kapchorwa,kaproron HC IV
+Eastern,Kapchorwa,Sipi HC IV
+Eastern,Kapchorwa,Tegers HC  III
+Eastern,Katakwi,Katakwi HC IV
+Eastern,Katakwi,St Francis Toroma
+Eastern,Katakwi,Usuk HC IV
+Eastern,Kumi,Atutur Hospital
+Eastern,Bukedea,Kachumbala
+Eastern,Kumi,Kapir HC III
+Eastern,Bukedea,Kidongole HC III
+Eastern,Kumi,Kobuin HC III
+Eastern,Bukedea,Kolir
+Eastern,Kumi,Kumi HC III
+Eastern,Kumi,Kumi Hospital
+Eastern,Kumi,Mukongoro HC III
+Eastern,Kumi,Mukura HC III
+Eastern,Kumi,Ngora Hospital
+Eastern,Kumi,Ongino HC III
+Eastern,Manafwa,Bubulo HC III
+Eastern,Manafwa,Bubutu HC III
+Eastern,Manafwa,Buduma Hospital
+Eastern,Manafwa,Bugobero IV
+Eastern,Manafwa,Butiru Chrisco Hospital
+Eastern,Manafwa,Magale IV
+Eastern,Mbale,Marie Stopes
+Eastern,Mbale,Bufumbo HC III
+Eastern,Mbale,Bushikoli HC III
+Eastern,Mbale,Busiu HC IV
+Eastern,Mbale,Kolony HC III
+Eastern,Mbale,Maluku HC III
+Eastern,Mbale,Mbale AIC
+Eastern,Mbale,Mbale R.R.Hospital
+Eastern,Mbale,Mbale SDA
+Eastern,Mbale,Nakaloke HC III
+Eastern,Mbale,TASO Mbale
+Eastern,Sironko,Budadiri HC IV
+Eastern,Sironko,Buginyanya HC III
+Eastern,Sironko,Buwasa HCIV
+Eastern,Sironko,Muyembe HCIV 
+Eastern,Sironko,Shared Blessing
+Eastern,Sironko,Sironko HC III
+Eastern,Soroti,Apapai HC IV
+Eastern,Soroti,Atirir HC IV
+Eastern,Soroti,Diana HC IV 
+Eastern,Soroti,Pingire HC III
+Eastern,Soroti,Serere HC IV
+Eastern,Soroti,Soroti MED.ASS.
+Eastern,Soroti,Soroti R.R Hospital
+Eastern,Soroti,TASO Soroti
+North Western,Adjumani,Adjumani Hospital
+North Western,Adjumani,Adjumani Mission
+North Western,Adjumani,Alene HC III
+North Western,Adjumani,Bina HC III
+North Western,Adjumani,Ciforo HC III
+North Western,Adjumani,Kocoa Mission
+North Western,Adjumani,Mungula HC IV
+North Western,Adjumani,Ofua HC III
+North Western,Adjumani,Openzinzi HC III
+North Western,Adjumani,Pakelle HC III
+North Western,Arua,0lujobo HC III
+North Western,Arua,Adumi HC IV
+North Western,Arua,Anyavu II
+North Western,Arua,Anyiribu
+North Western,Arua,Aroi HC III
+North Western,Arua,Arua R. R. Hospital
+North Western,Arua,Bondo HC III
+North Western,Arua,Ediofe Mission HC III
+North Western,Arua,Kuluva Hospital
+North Western,Arua,Logiri HC III
+North Western,Arua,Ojee Mission HC III
+North Western,Arua,Okollo HC III
+North Western,Arua,Oli HC IV
+North Western,Arua,Oyima HC III
+North Western,Arua,Rhino Camp HC IV
+North Western,Arua,Uleppi HC II
+North Western,Koboko,Koboko HC IV
+North Western,Koboko,Koboko Mission
+North Western,Koboko,Kuluba HC II
+North Western,Koboko,Lobule HC III
+North Western,Koboko,Ludara HC III
+North Western,Moyo,Aliba HC III
+North Western,Moyo,Bilibao Memorial HC III
+North Western,Moyo,Eria HC III
+North Western,Moyo,Kali HC III
+North Western,Moyo,Laropi HC III
+North Western,Moyo,Lefori HC III
+North Western,Moyo,Metu HC III
+North Western,Moyo,Moyo Hospital
+North Western,Moyo,Moyo Mission HC III
+North Western,Moyo,Moyo Pioneer Clinic
+North Western,Moyo,Obongi HC IV
+North Western,Moyo,Panorombe Clinic
+North Western,Moyo,St Dominic Clinic
+North Western,Nebbi,Agiermach
+North Western,Nebbi,Angal Hospital 
+North Western,Nebbi,Erussi HC III
+North Western,Nebbi,Goli HC III 
+North Western,Nebbi,Nebbi Hospital 
+North Western,Nebbi,Nyapea HC III 
+North Western,Nebbi,Nyapea Hospital
+North Western,Nebbi,Orussi 
+North Western,Nebbi,Padwot Midyere 
+North Western,Nebbi,Paidha 
+North Western,Nebbi,Pakia HC III
+North Western,Nebbi,Pakwach HC IV 
+North Western,Nebbi,Panyigoro HC III
+North Western,Nebbi,Panyimur HC III
+North Western,Nebbi,Parombo HC III
+North Western,Nebbi,Wadelai HC III
+North Western,Nebbi,Warr HCIII 
+North Western,Nebbi,Zeu HC III
+North Western,Nebbi,Zumbo HC III
+North Western,Nyadri,Aripea
+North Western,Nyadri,Bileafe
+North Western,Nyadri,Cilio
+North Western,Nyadri,Kijomoro HC III
+North Western,Nyadri,Maracha Hospital
+North Western,Nyadri,Ocodri
+North Western,Nyadri,Oleba HC III
+North Western,Nyadri,Omugo HC IV
+North Western,Nyadri,Oriajini Hospital
+North Western,Nyadri,Otumbali
+North Western,Nyadri,Siripi
+North Western,Nyadri,St Francis Ocodri
+North Western,Nyadri,Wadra HC III
+North Western,Nyadri,Wandi HC III
+North Western,Nyadri,Yinga
+North Western,Yumbe,Ariwa HC III
+North Western,Yumbe,Kei HC III
+North Western,Yumbe,Kulikulinga HC III
+North Western,Yumbe,Lodonga HC III
+North Western,Yumbe,Lodonga Mission Hospital
+North Western,Yumbe,Matuma HC III
+North Western,Yumbe,Midigo HC IV
+North Western,Yumbe,Yumbe Hospital
+South Western,Bushenyi ,Bihanga
+South Western,Bushenyi ,Bitereko HC III
+South Western,Bushenyi ,Bitooma HC III
+South Western,Bushenyi ,Bugongi HC III
+South Western,Bushenyi ,Bushenyi HC III
+South Western,Bushenyi ,Bushenyi Med.Centre
+South Western,Bushenyi ,Comboni Hospital
+South Western,Bushenyi ,Ishaka Hospital
+South Western,Bushenyi ,Kabira HC III
+South Western,Bushenyi ,Kabwohe HC IV
+South Western,Bushenyi ,Katerera HC III
+South Western,Bushenyi ,Kigarama HC III
+South Western,Bushenyi ,Kitagata Hospital
+South Western,Bushenyi ,Kyabugimbi HC IV
+South Western,Bushenyi ,Mitooma HC IV
+South Western,Bushenyi ,Nsiika HC IV
+South Western,Bushenyi ,Nyakatsiro HC III
+South Western,Bushenyi ,Rugazi HC IV
+South Western,Bushenyi ,Rwobulunga
+South Western,Bushenyi ,Shuuku HC IV
+South Western,Ibanda ,Bisheshe HC III
+South Western,Ibanda ,Ibanda Hospital
+South Western,Ibanda ,Ishongoro Hosp
+South Western,Ibanda ,Kanyambogo III
+South Western,Ibanda ,Kikyenkye
+South Western,Ibanda ,Ruhoko IV
+South Western,Isingiro,Kabuyanda HC IV
+South Western,Isingiro,Kamubeizi
+South Western,Isingiro,Kasuhumba III
+South Western,Isingiro,Kyabirukwa HC III
+South Western,Isingiro,Nakivale
+South Western,Isingiro,Nshungeyezi
+South Western,Isingiro,Nyamuyanja IV
+South Western,Isingiro,Nyarubungo III
+South Western,Isingiro,Rugaga
+South Western,Isingiro,Rwekubo HC IV
+South Western,Kabale,Bufundi
+South Western,Kabale,Buhara
+South Western,Kabale,Bukinda
+South Western,Kabale,Hamurwa HC IV
+South Western,Kabale,Highway Clinic
+South Western,Kabale,Kabale Hospital
+South Western,Kabale,kaharo
+South Western,Kabale,Kamuganguzi
+South Western,Kabale,Kamwezi
+South Western,Kabale,Kihefo
+South Western,Kabale,Kiizi
+South Western,Kabale,Maziba
+South Western,Kabale,Mparo
+South Western,Kabale,Muhunde clinic
+South Western,Kabale,Muko HC IV
+South Western,Kabale,Rubanda PHC
+South Western,Kabale,Rubaya
+South Western,Kabale,Rugarama
+South Western,Kabale,Rushorooza
+South Western,Kanungu,Bwindi Comm. HC III
+South Western,Kanungu,Kambuga Hosp
+South Western,Kanungu,Kanungu HC IV
+South Western,Kanungu,Kayonza H/C III
+South Western,Kanungu,Kayonza Tea Factory
+South Western,Kanungu,Kihiihi HC IV
+South Western,Kanungu,St Anne Nyakashozi
+South Western,Kasese,Bugoye HC III
+South Western,Kasese,Bwera Hospital
+South Western,Kasese,Hiima HC III
+South Western,Kasese,Kagando Hospital
+South Western,Kasese,Karambi III
+South Western,Kasese,Kasanga PHC
+South Western,Kasese,Kasese Town Council
+South Western,Kasese,Katwe HC III
+South Western,Kasese,Kilembe Hospital
+South Western,Kasese,Kinyamaseke III
+South Western,Kasese,Maliba III
+South Western,Kasese,Nyabirongo III
+South Western,Kasese,Rukooki III
+South Western,Kasese,Rwesande IV
+South Western,Kasese,St Pauls HC IV
+South Western,Kiruhura ,Kanyaryeru HC III
+South Western,Kiruhura ,Kazo HC IV
+South Western,Kiruhura ,Kiruhura HC III
+South Western,Kiruhura ,Rushere Hospital
+South Western,Kisoro,Busanza HC IV
+South Western,Kisoro,Chahafi HC IV
+South Western,Kisoro,Kinanira
+South Western,Kisoro,Kisoro Hospital
+South Western,Kisoro,Mutolere Hospital
+South Western,Kisoro,Rubuguli HC IV
+South Western,Lyantonde,Kasagama
+South Western,Lyantonde,Kinuka
+South Western,Lyantonde,Lyantonde Hospital
+South Western,Lyantonde,Lyantonde Muslem
+South Western,Lyantonde,Mpumudde
+South Western,Masaka ,All Saints Clinic
+South Western,Masaka ,Bukulula HC IV
+South Western,Masaka ,Butenga HC IV
+South Western,Masaka ,Buyoga HC III
+South Western,Masaka ,Kalungu HC III
+South Western,Masaka ,Kasijjagirwa Clinic
+South Western,Masaka ,Kinoni HC III
+South Western,Masaka ,Kitaasa HC III
+South Western,Masaka ,Kitovu Hospital
+South Western,Masaka ,Kiwangala HC IV
+South Western,Masaka ,Kiyumba HC IV
+South Western,Masaka ,Kyamulibwa HC IV
+South Western,Masaka ,Kyanamukaka HC IV
+South Western,Masaka ,Kyazanga HC IV
+South Western,Masaka ,Lukaya HC III
+South Western,Masaka ,Lwengo HC IV
+South Western,Masaka ,Makondo HC III
+South Western,Masaka ,Makukulu HC II
+South Western,Masaka ,Masaka Hospital
+South Western,Masaka ,Taso Masaka
+South Western,Masaka ,Uganda Cares MSK
+South Western,Masaka ,Villa Maria Hosp.
+South Western,Mbarara ,2nd Division Maken
+South Western,Mbarara ,AIC Mbarara
+South Western,Mbarara ,Bugamba HC IV
+South Western,Mbarara ,Bwizibwera HC IV
+South Western,Mbarara ,Mbarara Comm.Hos
+South Western,Mbarara ,Mbarara Hosp.Micro
+South Western,Mbarara ,Mbarara Municipal
+South Western,Mbarara ,Rubindi HC III
+South Western,Mbarara ,Rubindi NGO
+South Western,Mbarara ,Ruharo Mission
+South Western,Mbarara ,Ruharo Mission
+South Western,Mbarara ,TASO Mbarara
+South Western,Ntungamo ,Itojo Hospital
+South Western,Ntungamo ,Kayonza HC III
+South Western,Ntungamo ,Kitwe HC IV
+South Western,Ntungamo ,Ngoma HC III
+South Western,Ntungamo ,Ntungamo HC III
+South Western,Ntungamo ,Rubaare HC IV
+South Western,Ntungamo ,Rugarama HC III
+South Western,Ntungamo ,Ruhaama HC III
+South Western,Ntungamo ,Rushooka HC II NGO
+South Western,Ntungamo ,Rwashamaire HC IV
+South Western,Rakai,Bikiira HC III
+South Western,Rakai,Buyamba HC III
+South Western,Rakai,Kabira HC III
+South Western,Rakai,Kabwoko HC III
+South Western,Rakai,Kacheera HC III
+South Western,Rakai,Kakuuto HC IV
+South Western,Rakai,Kalisizo Hospital
+South Western,Rakai,Kasaali HC III
+South Western,Rakai,Kasasa HC III
+South Western,Rakai,Kifamba HC III
+South Western,Rakai,Kyarurangira HC III
+South Western,Rakai,Kyebe HC III
+South Western,Rakai,Lwamagwa HC III
+South Western,Rakai,Lwanda HC III
+South Western,Rakai,Rakai health Scienc
+South Western,Rakai,Rakai Hospital
+South Western,Rukungiri ,Bugangari HC IV
+South Western,Rukungiri ,Buhunga HC III
+South Western,Rukungiri ,Buyanja HC III
+South Western,Rukungiri ,Bwambara HC III
+South Western,Rukungiri ,Kebisoni HC IV
+South Western,Rukungiri ,Kibirizi III
+South Western,Rukungiri ,Kisiizi Hospital
+South Western,Rukungiri ,Kisiizi III
+South Western,Rukungiri ,Ndama III
+South Western,Rukungiri ,Nyakagyeme III
+South Western,Rukungiri ,Nyakibale Hospital
+South Western,Rukungiri ,Nyakishenyi III
+South Western,Rukungiri ,Nyarushanje III
+South Western,Rukungiri ,Rugarama III
+South Western,Rukungiri ,Ruhinda HC III
+South Western,Rukungiri ,Rukungiri HC III
+South Western,Rukungiri ,Rusheshe III
+South Western,Rukungiri ,Rwenshama III
+South Western,Rukungiri ,Taso Rukungiri
+South Western,Sembabule ,Bamu Hospital
+South Western,Sembabule ,Katimba HC III
+South Western,Sembabule ,Lwebitakuli HC III
+South Western,Sembabule ,Matete III
+South Western,Sembabule ,Ntuusi HC III NGO
+South Western,Sembabule ,Ntuusi HC IV
+South Western,Sembabule ,Sembabule HC IV
+Kampala,Kampala,3rd floor Mulago/microb.
+Kampala,Kampala,AIC
+Kampala,Kampala,Assessment Centre
+Kampala,Kampala,Bethlehm
+Kampala,Kampala,Butabika
+Kampala,Kampala,Case Medical
+Kampala,Kampala,Family hope center
+Kampala,Kampala,IDI
+Kampala,Kampala,JCRC
+Kampala,Kampala,Joy Med Centre
+Kampala,Kampala,Kamowkya
+Kampala,Kampala,Kawempe
+Kampala,Kampala,Kibuli Hospital
+Kampala,Kampala,Kiruddu
+Kampala,Kampala,Kisenyi
+Kampala,Kampala,Kisswa
+Kampala,Kampala,Mbuya Hospital
+Kampala,Kampala,Med. School
+Kampala,Kampala,Medical MICRO
+Kampala,Kampala,Mengo
+Kampala,Kampala,Microbiology
+Kampala,Kampala,Murchinson Bay
+Kampala,Kampala,Naguru H.C.
+Kampala,Kampala,Namungona
+Kampala,Kampala,Nsambya Hosp
+Kampala,Kampala,Nsambya Police
+Kampala,Kampala,Reach out Mbuya
+Kampala,Kampala,Rubaga
+Kampala,Kampala,Side Lab Marchinson Bay
+Kampala,Kampala,TASO Mulago
+Kampala,Kampala,Ward 5 & 6
+Kampala,Kampala,Worker's Treatment
+South Western,Isingiro,Nyakitunda HC III
+South Western,Bushenyi ,Bubangizi
+South Western,Bushenyi ,Kicwamba HC III
+South Western,Isingiro,Ruhuira HC III
+South Eastern,Mukono,SSI HC III
+South Eastern,Mayuge,Buwaiswa HC III
+South Eastern,Namutumba,Bukonte HC III
+Eastern,Mbale,Nyondo HC III
+Eastern,Soroti,AIC Soroti
+South Western,Kabale,Muko NGO
+Kampala,Kampala,Reach out Kinawataka
+South Western,Masaka ,Nyendo HC II
+Central,Nakasongola ,Kalungi HC III
+Central,Luwero,Namaliga
+Central,Luwero,Kyalugondo
+Central,Luwero,Katikamu Kisuule
+Central,Luwero,Kasana HC
+Central,Wakiso,Saidha Abubaker
+Central,Kiboga,Butenda HC III
+Central,Nakasongola ,Our Lady of Lourdes HC III
+Central,Mpigi,Ggoli HC III
+Central,Luwero,Butuntumula
+Central,Luwero,Bukalasa
+Central,Mityana,St. Luke Kiyinda
+Central,Wakiso,Nakawuka HC III
+Central,Wakiso,Entebbe Hosp Isolation
+Central,Kiboga,Agape HC
+Central,Mubende,Kabamba HC
+Central,Luwero,Ndejje University
+Central,Wakiso,Kajjansi
+South Eastern,Bugiri,Buswale HC III
+South Eastern,Bugiri,Kayango HC III
+South Eastern,Mukono,Wakisi HC III
+North,Apac,Apac Hospital
+North,Apac,Ibuje HC III
+North,Apac,Aboke HC IV
+North,Apac,Bara HC III
+North,Apac,Aduku HC IV
+North,Apac,Teboke HC III
+Western,Kibaale,Isunga HC III
+Western,Kibaale,Kibaale HC IV
+Eastern,Kumi,Kanyumu HC III
+Western,Kyenjojo,Bujubuli HC III
+North,Dokolo,Kangai HC III
+North,Dokolo,Dokolo HC IV
+North,Dokolo,Agwata HC III
+North,Dokolo,Bata HC III
+South Western,Kalangala,Kalangala HC IV
+South Eastern,Iganga,Iganga Islamic
+South Eastern,Mayuge,Wabulungu HC III
+South Western,Kanungu,Nyakatare HC III
+Eastern,Mbale,JCRC Mbale
+Eastern,Mbale,Joy Hospic
+Eastern,Soroti,Kateta HC III
+Eastern,Soroti,Gweri HC III
+South Western,Bushenyi ,Kabushaho HC III
+North,Apac,Chawente HC III
+North,Apac,Alito HC III
+North,Pader,Lira Palwo HC III
+North,Gulu,Aywee HC III
+North,Gulu,Patico HC III
+North,Pader,Atanga HC III
+Kampala,Kampala,Kitebi HC 
+Central,Kiboga,Kikonda HC
+Central,Wakiso,St. Magdalene Lweza
+Central,Mpigi,Kifamba HC III
+Central,Mubende,St.Matia Mulumba
+Central,Mpigi,Nswanjere HC III
+Central,Mityana,Malangala
+Central,Mityana,Kitongo
+Central,Mubende,JCRC
+Central,Kiboga,Seeta HC III
+Central,Kiboga,Sirimula HC II
+Central,Mpigi,Kituntu HC III
+Central,Mpigi,Kibanga HC III
+Central,Mpigi,Mpenja HC III
+Central,Wakiso,Busi HC II
+Central,Mityana,Mayilye
+Central,Wakiso,Buwambo HC IV
+South Western,Kabale,Kakore NGO

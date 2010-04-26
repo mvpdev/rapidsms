@@ -18,6 +18,7 @@ logs/*
 .settings
 #netbeans
 nbproject
+*.orig
 
 # common 3rd parties
 apps/admin
