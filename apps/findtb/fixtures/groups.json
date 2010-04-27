@@ -1,0 +1,50 @@
+[
+    {
+        "pk": 1, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "cli", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "lab", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dtls", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dlfp", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dlab", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "ntlpmdr", 
+            "permissions": []
+        }
+    }
+]
