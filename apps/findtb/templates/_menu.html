@@ -1,14 +1,15 @@
 <ul id="findtb-menu">
-        {% ifequal view_name "findtb-eqa-dashboard" %}
+
+        {% ifnotequal view_name "findtb-eqa-dashboard" %}
      	    <li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
      	{% else %}
      	    <li>EQA dashboard</li>
-     	{% endifequal %}
+     	{% endifnotequal %}
      	
-     	{% ifequal view_name "findtb-sreferral-dashboard" %}
-     	    <li><a href="{% url findtb-sreferral-dashboard %}">| Specimen referral dashboard</a></li>
+     	{% ifnotequal view_name "findtb-sref-dashboard" %}
+     	    <li class="last"><a href="{% url findtb-sref-dashboard %}">Specimen referral dashboard</a></li>
      	{% else %}
-     	    <li>| Specimen referral dashboard</li>
-     	{% endifequal %}
+     	    <li class="last">Specimen referral dashboard</li>
+     	{% endifnotequal %}
      	
 </ul>  	

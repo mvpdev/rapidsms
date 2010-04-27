@@ -11,18 +11,18 @@
 
 {% block content %}
 
-<div id="{% block page-id %}{% endblock %}" class="{% block page-class %}{% endblock %}">
+<div id="{% block page-id %}{% endblock %}" class="findtb {% block page-class %}{% endblock %}">
 
     {% block menu %}
         {% include "_menu.html" %}
     {% endblock %}
     
     <form id="findtb-search-form" 
-     action="{% block title %}#{% endblock %}" 
+     action="{% url findtb-search %}" 
      method="get">
    
     <p>
-        Slide or Location <input id="quick-nav" name="quick-nav" type="text"/>
+        <input id="findtb-search" name="findtb-search" type="text"/>
         <input value="Search" type="submit"/>
     </p>
     

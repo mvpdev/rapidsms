@@ -1,37 +1,37 @@
-{% extends "base.html" %}
+{% extends "findtb-base.html" %}
 
 {% block page-class %}findtb-dashboard{% endblock %}
 
 {% block findtb-content %}
 
 
-<div  id="left-column"  class="span-13">        
+<div  id="left-column"  class="span-12">        
         
+    <div id="findtb-events">
+        
+        <h2>{% block findtb-events-title %}{% endblock %}</h2>
 
-    <h2>{% block findtb-events-title %}{% endblock %}</h2>
-
-    {% if events %}
-        <dl>
-            <dt>See:</dt>
-            <dd><a href="#">Notification</a><dd>
-            <dd><a href="#">Alerts</a></dd>
-            <dd>All</dd> 
-        </dl>
-        {% block findtb-events-selection %}{% endblock %}
-        {% block findtb-events-more-link %}<p><a href="#">See more</a></p>{% endblock %}
-    {% else %}
-        <p>Nothing has happen yet</p>   
-    {% endif %}
-   
+        {% if events %}
+            <dl id="findtb-events-filter">
+                <dt>See:</dt>
+                <dd><a href="#">Notification</a><dd>
+                <dd><a href="#">Alerts</a></dd>
+                <dd>All</dd> 
+            </dl>
+            {% block findtb-events-selection %}{% endblock %}
+            {% block findtb-events-more-link %}<p><a href="#">See more</a></p>{% endblock %}
+        {% else %}
+            <p>Nothing has happen yet</p>   
+        {% endif %}
     
-       
+    </div>
+     
 </div>
 
 
+<div id="right-column"  class="span-11 last">
 
-<div id="home-right-column"  class="span-10 last">
-   
-   {% block findtb-test-picker %}
+    <div id="findtb-subject-picker">
    
        <h2>{% block findtb-test-picker-title %}{% endblock %}</h2>
        
@@ -60,10 +60,10 @@
            <p>Your need to fill the database with districts and zone before starting</p>
            <!-- <p><a href="#">Add one</a></p> -->
        {% endif%}
+       
+    </div>
    
-   {% endblock %}
-   
-   </div>
+</div>
 
 
 {% endblock %} 

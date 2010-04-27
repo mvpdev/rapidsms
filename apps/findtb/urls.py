@@ -11,35 +11,31 @@ urlpatterns = patterns('',
     url(r'findtb/$', redirect_to, 
        {'url': '/findtb/eqa/'}, name='findtb-home'),
 
+    # SEARCH
+    url(r'^findtb/search/$', views.search, 
+        name='findtb-search', 
+        kwargs={'view_name': 'findtb-search'}),
 
     # EQA
-    url(r'findtb/eqa/tracking/(?P<id>\d+)/$', views.tracking, 
+    url(r'findtb/eqa/tracking/(?P<id>\d+)/$', views.eqa_tracking, 
         name='findtb-eqa-tracking', 
         kwargs={'view_name': 'findtb-eqa-tracking'}),
         
-    url(r'^findtb/eqa/dashboard/$', views.home, 
+    url(r'^findtb/eqa/dashboard/$', views.eqa_bashboard, 
         name='findtb-eqa-dashboard', 
         kwargs={'view_name': 'findtb-eqa-dashboard'}),
-        
-    url(r'^findtb/eqa/search/(?P<searched>\w+)*$', views.home, 
-        name='findtb-eqa-search', 
-        kwargs={'view_name': 'findtb-eqa-search'}),
         
     url(r'findtb/eqa/$', redirect_to, {'url': '/findtb/eqa/dashboard/'}),
     
     
     # SREF
-    url(r'findtb/sreferral/tracking/(?P<id>\d+)/$', views.tracking, 
-        name='findtb-sreferral-tracking', 
-        kwargs={'view_name': 'findtb-sreferral-tracking'}),
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/$', views.sref_tracking, 
+        name='findtb-sref-tracking', 
+        kwargs={'view_name': 'findtb-sref-tracking'}),
         
-    url(r'^findtb/sreferral/dashboard/$', views.home, 
-        name='findtb-sreferral-dashboard', 
-        kwargs={'view_name': 'findtb-sreferral-dashboard'}),
-        
-    url(r'^findtb/sreferral/search/(?P<searched>\w+)*$', views.home, 
-        name='findtb-sreferral-search', 
-        kwargs={'view_name': 'findtb-sreferral-search'}),
+    url(r'^findtb/sreferral/dashboard/$', views.sref_bashboard, 
+        name='findtb-sref-dashboard', 
+        kwargs={'view_name': 'findtb-sref-dashboard'}),
         
     url(r'^findtb/sreferral/$', redirect_to, 
         {'url': '/findtb/sreferral/dashboard/'}),

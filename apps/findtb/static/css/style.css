@@ -1,6 +1,19 @@
 /***** GLOBAL ******/
 
 
+#left-column, 
+#right-column {
+margin-bottom: 1em;
+}
+
+.findtb h2 {
+text-align:center;
+}
+
+
+/*** MENU ***/
+
+
 #findtb-menu {
 float: left;
 padding:0;
@@ -8,32 +21,14 @@ margin:0;
 }
 
 #findtb-menu li {
+margin-right: 1ex;
 display: inline;
 list-style-type: none;
 }
 
-#left-column, 
-#right-column div,  
-#right-column form, 
-#home-right-column {
-border: solid 1px #EEEEEE;
-margin-bottom: 1em;
-}
-
-#left-column #batch-results input {
-margin-left:90%;
-}
-
-#left-column #events li {
-border: 1px solid #EEEEEE;
-margin:0.3em;
-padding:0.3em;
-list-style-type: none;
-}
-
-
-#right-column div p {
-font-weight:bold;
+#findtb-menu li.last {
+border-left: 1px solid black;
+padding-left: 1ex;
 }
 
 
@@ -54,78 +49,217 @@ padding-left:10px;
 
 /*** FOLLOW UP ***/
 
-.findtb-dashboard #left-column dl dt,
-.findtb-dashboard #left-column dl dd {
+
+#findtb-events {
+border: solid 1px #EEEEEE;
+}
+
+#findtb-events-filter dt,
+#findtb-events-filter dd {
 display: inline;
 margin-left:10px;
 }
 
-.findtb-dashboard #left-column p {
+#findtb-events p {
 text-align:center;
 }
 
-.findtb-dashboard #left-column dl {
+#findtb-events-filter  {
 background-color:#FFFFCC;
 padding:10px;
 margin:0;
 }
 
-.findtb-dashboard #left-column  {
+.findtb #left-column  {
 background-color:#F8F8F8;
 }
 
-.findtb-dashboard #left-column ul {
+#findtb-event-picker-selection {
 padding:0.5em;
 margin-top:0;
 }
 
-.findtb-dashboard #left-column li {
-height: 48px;
+#findtb-event-picker-selection li {
+height: 5em;
 list-style-type:none;
 display:block;
 margin:1em;
 }
 
-.findtb-dashboard #left-column li a {
+#findtb-event-picker-selection li a {
 display:block;
 height:100%;
 width:100%;
 border: 1px solid #EEEEEE;
 }
 
-.findtb-dashboard #left-column li a:hover{
+.findtb-dashboard #left-column dl {
+border-bottom: 1px solid #EEEEEE;
+}
+
+#findtb-event-picker-selection li a:hover{
 display:block;
 height:100%;
 width:100%;
 border: 1px solid #B8DEE3;
 }
 
-.findtb-dashboard #left-column li.notice {
+#findtb-event-picker-selection li.notice {
 background: #FFFFFF url("/static/findtb/images/notice.png") no-repeat 8px 8px;
 }
 
-.findtb-dashboard #left-column li.warning {
+#findtb-event-picker-selection li.warning {
 background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 8px 8px;
 }
 
-.findtb-dashboard #left-column li.checked {
+#findtb-event-picker-selection li.checked {
 background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
 }
 
-.findtb-dashboard #left-column li.canceled {
+#findtb-event-picker-selection li.canceled {
 background: #FFFFFF url("/static/findtb/images/canceled.png") no-repeat 8px 8px;
 }
 
-.findtb-dashboard #left-column li strong {
+#findtb-event-picker-selection li strong {
 display:block;
 margin-left:55px;
 margin-top:10px;
 }
 
-.findtb-dashboard #left-column li span {
+#findtb-event-picker-selection li span {
 display:block;
 margin-left:55px;
 margin-top:2px;
 font-style:italic;
 }
 
+/*** Subjet PICKER ***/
+
+
+#right-column form {
+border-bottom: 1px solid #EEEEEE;
+}
+
+#findtb-subject-picker  {
+background-color:#F8F8F8;
+border: 1px solid #EEEEEE;
+}
+
+#findtb-subject-picker ul {
+padding:0 1em;
+margin-top:0;
+}
+
+#findtb-subject-picker li {
+list-style-type:none;
+display:block;
+margin:1em 0;
+height: 2em;
+}
+
+#findtb-subject-picker li a {
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #EEEEEE;
+text-align:center;
+background:#FFFFFF;
+padding-top:0.5em;
+}
+
+#findtb-subject-picker li a:hover{
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #B8DEE3;
+background:#F8FBFE;
+}
+
+#findtb-subject-picker p {
+text-align:center;
+}
+
+#findtb-subject-picker label {
+font-weight:normal;
+}
+
+
+/*** SREF DASHBOARD ***/
+
+#sref-dashboard #right-column a {
+text-align:left;
+text-indent:1em;
+height: 2em;
+}
+
+
+/*** ALL TRACKINGS ***/
+
+#findtb-tracking-pagination {
+text-align:center;
+height:2em;
+}
+
+#findtb-tracking-pagination li  {
+display:inline;
+width:13ex;
+height:1.5em;
+margin: 0 1ex;
+}
+
+#findtb-tracking-pagination form {
+width:100%;
+}
+
+.findtb-tracking #left-column {
+border: 1px solid #EEEEEE;
+}
+
+.findtb-tracking #findtb-event-picker-selection li {
+display:block;
+border: 1px solid #EEEEEE;
+}
+
+#findtb-tracking #findtb-events {
+border:0;
+}
+
+#findtb-tracking-pagination table {
+width:100%;
+text-align:center;
+}
+
+.findtb-tracking #findtb-contacts {
+margin-left:2em;
+}
+
+.findtb-tracking #findtb-contacts dt {
+float:left;
+margin-right:1ex;
+font-weight:bold;
+}
+
+
+/*** EQA TRAKING ***/
+
+
+#left-column #batch-results .save-button {
+margin:1em;
+margin-left:85%;
+}
+
+#left-column table th {
+text-align:center;
+}
+
+
+/*** SREF TRAKING ***/
+
+#sref-tracking #right-column a {
+text-align:left;
+text-indent: 1em;
+}
+
+#sref-tracking #tracking-form  {
+text-align:center;
+}

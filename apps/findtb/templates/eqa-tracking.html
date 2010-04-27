@@ -1,52 +1,64 @@
+{% extends "findtb-tracking.html" %}
 
-{% extends "base.html" %}
+{% block page-id %}eqa-tracking{% endblock %}
 
-{% block title %}
-Tracking 
-{% endblock %}
+{% block title %}EQA Tracking{% endblock %}
 
-{% block page-id %}
-tracking
-{% endblock %}
-	
+{% block findtb-title %}EQA for Pajimo HC III{% endblock %}
 
-{% block content %}
+
+{% block tracking-pagination %}  
  
-   <h1>Gulu <p id="district-back-link"></h1>
-   
-
-   
-   <div id="left-column" class="span-18">
-   <form id="batch-selection">
-       <p>Untested batch 
-       <select>
-           {% for batch in batchs %}
-                <option>{{ batch }}</option>
-           {% endfor %}
-       </select>
-       <input value="ok" type="submit"/>
-       </p>
-   </form>
-   
-  {% if batch_arrived %}
-  <form id="batch-results"> 
-  <p>
-       <table>
-       <thead>
-        <tr>
-          <th>Slide</th>
-          <th><acronym title="Diagnostic and Treatment Unit">DTU</acronyme></th>
-          <th><acronym title="District Lab Technician">DLAB</acronyme></th>
-          <th><acronym title="National TB Reference Laboratory">NTRL</acronyme></th>
-        </tr>
-       </thead>
+   <ul id="findtb-tracking-pagination">
        
-       <tbody>
-          {% for slide in slides %}
+       {% if previous_quarter %}
+       <li><a href="#">&lt; Q3 of 2010</a></li>
+       {% endif %}
+       
+       <li class="current"><strong>Q3 of 2010</strong></li>
+       
+       {% if next_quarter %}
+       <li><a href="#">Q4 of 2010 &gt;</a></li>
+       {% endif %}
+       
+       {% if current_quarter %}
+       <li><a href="#">Now &gt;&gt;</a></li>
+       {% endif %}
+       
+   </ul>
+
+{% endblock %}
+
+{% block tracking-form %}
+
+    {% if batch_arrived %}
+  
+    <h2>Test results</h2>
+  
+    <form id="batch-results"> 
+    
+        <table>
+        
+            <thead>
+            <tr>
+              <th>Slide</th>
+              <th><acronym title="Diagnostic and Treatment Unit">
+                  DTU
+              </acronyme></th>
+              <th><acronym title="District Lab Technician">
+                  DLAB
+              </acronyme></th>
+              <th><acronym title="National TB Reference Laboratory">
+                  NTRL
+              </acronyme></th>
+            </tr>
+            </thead>
+           
+            <tbody>
+            {% for slide in slides %}
                 <tr>
-                   <td>
-                            <option>{{ slide }}</option>
-                    </td>
+                   <td><input type="text" maxlength="15" size="16" value="{{ slide }}"/></td>
+                   {% for col in "123" %}
                     <td>
                         <select>
                            {% for possible_result in possible_results %}
@@ -54,65 +66,36 @@ tracking
                            {% endfor %}
                         </select>
                     </td>
-                    <td>
-                        <select>
-                           {% for possible_result in possible_results %}
-                                <option>{{ possible_result }}</option>
-                           {% endfor %}
-                        </select>
-                    </td>
-                    <td>
-                        <select>
-                           {% for possible_result in possible_results %}
-                                <option>{{ possible_result }}</option>
-                           {% endfor %}
-                        </select>
-                    </td>
+                    {% endfor %}
                 </tr>
-           {% endfor %}
-       </tbody>
-       </table>
+            {% endfor %}
+            </tbody>
+        </table>
+       
+        <input class="save-button" value="Save" type="submit"/>
    
-       <input value="Save" type="submit"/>
-   
-   </p>
-   </form> 
+    </form> 
    {% endif %}
    
-    <ul id="events" class="span-8">
-      {% for event in events %}
-        <li>{{ event }}</li>
-      {% endfor %}
+{% endblock %}
+   
+   
+{% block findtb-events-title %}Follow up{% endblock %}
+
+{% block findtb-events-selection %}
+    <ul id="findtb-event-picker-selection">
+        {% for event in events %}
+        <li class="{{ event.type }}">
+                <strong>{{ event.title }}</strong>
+                <span>{{ event.date }}</span>
+        </li>
+        {% endfor %}
     </ul>
-    
-   </div> <!-- end of #left-column -->
+{% endblock %}
 
-   
-   <div id="right-column" class="span-5 last">
-   
-        
-        <form action="#" method="post">
-           
-            <p>
-           
-                <label for="district-picker">Changer de district</label>
-            
-                <select id="district-picker" name="district-picker">
-                   {% for district in districts %}
-                        <option>{{ district }}</option>
-                   {% endfor %}
-                </select>
-                
-                <input value="Ok" type="submit"/>
-            
-            </p>
-            
-        </form>
-
-        <div>
+{% block findtb-contacts %}
             {% if contacts %}
-               <p>Main contacts</p>
-               <dl>
+               <dl id="findtb-contacts">
                 {% for contact in contacts %}
                     <dt>{{ contact.type }}:</dt>
                     <dl><a href="#">{{ contact.name }}</a></dl>
@@ -123,6 +106,22 @@ tracking
                <p><a href="#">Add one</a></p>
             {% endif %}
         </div>
-   </div>
+{% endblock %}
 
-{% endblock %} 
+{% block findtb-test-picker-title %}
+    Select a <acronym title="Diagnostic and Treatment Unit">DTU</acronyme>
+{% endblock %}
+
+{% block findtb-test-picker-selection %}
+   
+   {% if dtus %}
+       <ul id="findtb-test-picker-selection">
+       {% for dtu in dtus %}
+         <li><a href="{% url findtb-eqa-tracking 1984 %}">{{ dtu }}</a></li>
+       {% endfor %}
+       </ul>
+   {% else %}    
+        <p>Nothing to test yet</p>
+   {% endif%}
+   
+{% endblock %}

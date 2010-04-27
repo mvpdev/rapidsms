@@ -1,24 +1,22 @@
 {% extends "findtb-dashboard.html" %}
 
-{% block page-id %}eqa-dashboard{% endblock %}
+{% block page-id %}sref-dashboard{% endblock %}
 
-{% block title %}EQA Dashboard{% endblock %}
+{% block title %}Specimen Referral Dashboard{% endblock %}
 
 
-{% block findtb-title %}EQA Dashboard{% endblock %}
-
+{% block findtb-title %}Specimen Referral Dashboard{% endblock %}
 
 
 {% block findtb-events-title %}
-    Recent follow up for all the 
-    <acronym title="Diagnostic and Treatment Units">DTUs</acronyme>
+    Recent follow up for all the sputums
 {% endblock %}
 
 {% block findtb-events-selection %}
     <ul id="findtb-event-picker-selection">
         {% for event in events %}
         <li class="{{ event.type }}">
-            <a href="{% url findtb-eqa-tracking 0042 %}">
+            <a href="{% url findtb-sref-tracking 0042 %}">
                 <strong>{{ event.title }}</strong>
                 <span>{{ event.date }}</span>
             </a>
@@ -28,16 +26,14 @@
 {% endblock %}
         
    
-{% block findtb-test-picker-title %}
-    Select a <acronym title="Diagnostic and Treatment Unit">DTU</acronyme>
-{% endblock %}
+{% block findtb-test-picker-title %}Select a specimen{% endblock %}
 
 {% block findtb-test-picker-selection %}
    
-   {% if dtus %}
-       <ul id="findtb-test-picker-selection">
-       {% for dtu in dtus %}
-         <li><a href="{% url findtb-eqa-tracking 1984 %}">{{ dtu }}</a></li>
+   {% if sputums %}
+       <ul>
+       {% for sputum in sputums %}
+         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ sputum }}</a></li>
        {% endfor %}
        </ul>
    {% else %}    
