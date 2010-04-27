@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 import rapidsms
 
 from findtb.utils import *
-from findtb.handlers import RegistrationHandler
+from findtb.exceptions import *
 
 class App(rapidsms.app.App):
     keyworder = Keyworder()
@@ -31,12 +31,22 @@ class App(rapidsms.app.App):
                              keyword.upper())
             return True
         function = self.keyworder.get_function(keyword)
-        function(message)
+        try:
+            function(message)
+        except (NotRegistered, ParseError, BadValue), e:
+            message.respond(e.message)
         return True
 
     # Register users
     @keyworder('cli', 'dtu', 'dtls', 'ztl')
     def register(message):
+        params = message.text.split()
+        keyword = params.pop(0)
+
+        if len(params) < 3:
+            raise ParseError("Failed: Unable to understand your registration " \
+                             "You must send:\n%s UnitID# Surname Name" % \
+                             keyword)
         message.respond('registering')
 
     @keyworder('mdrs')

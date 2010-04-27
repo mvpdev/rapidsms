@@ -9,6 +9,8 @@ from django.utils.translation import ugettext as _
 
 import rapidsms
 
+from findtb.exceptions import NotRegistered
+
 class Keyworder(object):
 
     def __init__(self):
@@ -117,7 +119,5 @@ def restricted(func):
         if message.persistant_connection.reporter:
             return func(message)
         else:
-            message.respond(_(u"Sorry, only registered users "
-                               "can access this program."))
-            return True
+            raise NotRegistered
     return wrapper
