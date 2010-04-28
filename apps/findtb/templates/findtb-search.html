@@ -41,7 +41,7 @@
                 {{ res.dtu }}
                 </td>
                 <td>
-                <a href="#">{{ res.sputum }}</a>
+                <a href="{% url findtb-eqa-tracking 0 %}">{{ res.sputum }}</a>
                 </td>
             </tr>
         {% endfor %}
@@ -83,7 +83,7 @@
                 {{ res.dtu }}
                 </td>
                 <td>
-                <a href="#">{{ res.sputum }}</a>
+                <a href="{% url findtb-sref-tracking 0 %}">{{ res.sputum }}</a>
                 </td>
             </tr>
         {% endfor %}

@@ -4,7 +4,7 @@
 
 {% block title %}Specimen Referal Tracking{% endblock %}
 
-{% block findtb-title %}Referral for specimen 3093/09-150210 from Pajimo HC III{% endblock %}
+{% block findtb-title %}Referral for specimen 3093/09-150210 from Namokora HC IV{% endblock %}
 
 
 
@@ -38,6 +38,17 @@
 {% block findtb-events-title %}Follow up{% endblock %}
 
 {% block findtb-events-selection %}
+
+    <!-- TODO : add a cancel link in the last event so they can always undo 
+    something. A good place to put it would be next to the date. 
+    Cancel must be confirmed -->
+    
+    <!-- TODO : make simpler events in the tracking.
+    There is no need to repeat the code of the sample, the code, etc. since
+    it's in the page title. A good way to implement that is to create  
+    "get dashboard event title" and "get tracking event title" methods
+    separatly for each state -->
+
     <ul id="findtb-event-picker-selection">
         {% for event in events %}
         <li class="{{ event.type }}">
@@ -57,10 +68,8 @@
                {% endfor %}
                </dl>
             {% else %}
-               <p>No contact for this batch!</p>
-               <p><a href="#">Add one</a></p>
+               <p>No contact for this specimen</p>
             {% endif %}
-        </div>
 {% endblock %}
 
 {% block findtb-test-picker-title %}Select a specimen{% endblock %}
