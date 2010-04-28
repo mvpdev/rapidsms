@@ -42,15 +42,9 @@
             <thead>
             <tr>
               <th>Slide</th>
-              <th><acronym title="Diagnostic and Treatment Unit">
-                  DTU
-              </acronyme></th>
-              <th><acronym title="District Lab Technician">
-                  DLAB
-              </acronyme></th>
-              <th><acronym title="National TB Reference Laboratory">
-                  NTRL
-              </acronyme></th>
+              <th>Initial result</th>
+              <th>First control</th>
+              <th>Second control</th>
             </tr>
             </thead>
            
@@ -102,10 +96,8 @@
                {% endfor %}
                </dl>
             {% else %}
-               <p>No contact for this batch!</p>
-               <p><a href="#">Add one</a></p>
+               <p>No contact for these slides</p>
             {% endif %}
-        </div>
 {% endblock %}
 
 {% block findtb-test-picker-title %}

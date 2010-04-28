@@ -38,7 +38,7 @@ def sref_bashboard(request, *arg, **kwargs):
     
     events = [{"title": "Microscopy of specimen 1234/09-150210 from Namokora HC IV is positive",
                         "type": "canceled", "date": "3 hours ago"},            
-           {"title": "Specimen 1234/09-150210 from Pajimo HC III have arrived at NTLR",
+           {"title": "Specimen 1234/09-150210 from Pajimo HC III have arrived at NTRL",
                             "type": "notice", "date": "2 hours ago"},                 
            {"title": "Specimen 1234/09-150210 from Pajimo HC III is 3 days late",
             "type": "warning", "date": "2 days ago"},                              
@@ -66,7 +66,7 @@ def eqa_tracking(request, *args, **kwargs):
                           "type": "canceled", "date": "3 hours ago"},            
              {"title": "Pajimo HC III results are completed",
               "type": "checked", "date": "Yesterday"}, 
-             {"title": "Pajimo HC III samples have arrived at NTLR",
+             {"title": "Pajimo HC III samples have arrived at NTRL",
                               "type": "notice", "date": "2 hours ago"},                 
              {"title": "Pajimo HC III samples are 3 days late",
               "type": "warning", "date": "2 days ago"},                              
@@ -78,12 +78,15 @@ def eqa_tracking(request, *args, **kwargs):
     
     batchs = ["#%s" % random.randint(1000, 9999) for x in range(5)]
     
-    possible_results = ("Choose",
-                        "Negative",) +\
-                        tuple("%s AFB" % x for x in range(1, 9)) +\
-                        ("1+", "2+", "3+")
+    # TODO : don't make the second controle mandatory  since it the first
+    # ones agree, there is no need to check
+    # make it even grey in the UI in that case
+    # Carefull to what "agree" mean : it's not just stricly equal results
+    possible_results = ("Choose", "Negative","1+", "2+", "3+") +\
+                        tuple("%s AFB" % x for x in range(1, 20))
                         
-    batch_arrived = random.randint(0, 1)
+                        
+    batch_arrived = True
     
     slides = ["%s/09-150210" % random.randint(1000, 9999) for x in range(10)]
     
@@ -113,7 +116,7 @@ def sref_tracking(request, *args, **kwargs):
     events = [{"title": "Microscopy of specimen 1234/09-150210 from Namokora HC IV is positive",
                         "type": "notice", "date": "3 hours ago"},            
 
-           {"title": "Specimen 1234/09-150210 from Namokora HC IV have arrived at NTLR",
+           {"title": "Specimen 1234/09-150210 from Namokora HC IV have arrived at NTRL",
                             "type": "notice", "date": "2 hours ago"},                 
            {"title": "Specimen 1234/09-150210 from Namokora HC IV is 3 days late",
             "type": "warning", "date": "2 days ago"},                              

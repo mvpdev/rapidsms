@@ -17,11 +17,17 @@
 
         {% if events %}
             <dl id="findtb-events-filter">
+                <!-- TODO : set default dashboard filter to Alerts -->
+                <!-- TODO separate filters for eqa and sref so sref qet "result" filter" -->
                 <dt>See:</dt>
-                <dd><a href="#">Notification</a><dd>
                 <dd><a href="#">Alerts</a></dd>
-                <dd>All</dd> 
+                <dd>All events</dd> 
             </dl>
+            <!-- TODO : group alerts if there is more that 2
+            alerts  from the same ZTLS and quarter. Indeed, a ztls can be late
+            for several sampling and you don't want to scatter the event list
+            with so much information. Optionally, clicking on the alerts group
+            should make it expands so it displays all the alerts -->
             {% block findtb-events-selection %}{% endblock %}
             {% block findtb-events-more-link %}<p><a href="#">See more</a></p>{% endblock %}
         {% else %}
@@ -43,6 +49,9 @@
 
 
 <div id="right-column"  class="span-10 last">
+
+    <!-- TODO : FOR SREF, make a list of available DTUs (something like dl/dt/dd) 
+    and when you click on it, it expends corresponding samples. -->
    
     <div id="findtb-subject-picker">
    

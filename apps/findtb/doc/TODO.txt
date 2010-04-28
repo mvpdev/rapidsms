@@ -1,0 +1,8 @@
+TODO : Create a page for sref featuring pending tests
+like a board with a colum per test and the list of sputum at this stage
+
+TODO : if we add submenu, it would be good to separate dashboards menu from submenu
+like 
+EQA dashboard | Sref dahboard                                 sref pending tests
+-------------   -------------                                 ------------------
+But where to put the search ?

@@ -104,6 +104,11 @@ width:100%;
 border: 1px solid #B8DEE3;
 }
 
+/* TODO : add a special icon for "results" event of sref,
+ like a picture of a microspcope with a check
+
+*/
+
 #findtb-event-picker-selection li.notice {
 background: #FFFFFF url("/static/findtb/images/notice.png") no-repeat 8px 8px;
 }

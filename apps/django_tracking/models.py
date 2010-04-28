@@ -20,6 +20,10 @@ class StateError(Exception):
 class State(models.Model):
     """
     A state in which any tracked object can be. Virtual, should be subclassed.
+    
+    >>> Class Happy(State):
+    ...     pass    
+    
     """
     
     title = models.CharField(max_length=400, blank=True)

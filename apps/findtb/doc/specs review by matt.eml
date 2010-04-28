@@ -1,0 +1,237 @@
+X-Account-Key: account4
+X-UIDL: GmailId1281c182ada6fba2
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Delivered-To: isatis39871@gmail.com
+Received: by 10.204.112.134 with SMTP id w6cs146243bkp;
+        Tue, 20 Apr 2010 09:41:07 -0700 (PDT)
+Return-Path: <mlberg@gmail.com>
+Received-SPF: pass (google.com: domain of mlberg@gmail.com designates 10.220.126.140 as permitted sender) client-ip=10.220.126.140;
+Authentication-Results: mr.google.com; spf=pass (google.com: domain of mlberg@gmail.com designates 10.220.126.140 as permitted sender) smtp.mail=mlberg@gmail.com; dkim=pass header.i=mlberg@gmail.com
+Received: from mr.google.com ([10.220.126.140])
+        by 10.220.126.140 with SMTP id c12mr7034543vcs.50.1271781665469 (num_hops = 1);
+        Tue, 20 Apr 2010 09:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=gamma;
+        h=domainkey-signature:mime-version:received:in-reply-to:references
+         :date:received:message-id:subject:from:to:cc:content-type;
+        bh=3A6nW5HFBweKXCOrR8FucyTy1fSzGlIombjNPCIS2ww=;
+        b=gVSnfllfa2BT3pOXA2qa3/XxXSgt2JosBORX/aIiJEpur7FCFmuq7xIK6JedzXeFc4
+         GmTxpzwEde1hpnHWkNAuArRF7rhH+5KA9IvtCARRKUhJgIDaVk3lzBrx0sgngec6zZf1
+         jFze/p5qYKT9Uh1jsQrD8i3qCnV+v61dn+Xeg=
+DomainKey-Signature: a=rsa-sha1; c=nofws;
+        d=gmail.com; s=gamma;
+        h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+         :cc:content-type;
+        b=HQBs8sqNYDjZZKqY27ZLKHxIX7ncZ1QC9ELn7z55QrM8igWVkE54YiUIZjBYqXXI17
+         1HT5ESi/4SIdZAltCxoFn0FlyTjr0Q4l1JMQr7gCDhSZqrHSZxZJN4moJ0UmCElBhqKf
+         eAMFgsDT5l5g0280OzlsisSBeoH9poOAb3e3Q=
+MIME-Version: 1.0
+Received: by 10.220.45.199 with HTTP; Tue, 20 Apr 2010 09:41:05 -0700 (PDT)
+In-Reply-To: <4BCD66C2.3050106@gmail.com>
+References: <4BCD66C2.3050106@gmail.com>
+Date: Tue, 20 Apr 2010 12:41:05 -0400
+Received: by 10.220.126.140 with SMTP id c12mr4885307vcs.50.1271781665418; 
+	Tue, 20 Apr 2010 09:41:05 -0700 (PDT)
+Message-ID: <m2u929b49081004200941v445501c7m8e286a32959a472@mail.gmail.com>
+Subject: Re: Some questions about the specs
+From: Matt Berg <mlberg@gmail.com>
+To: isatis39871 <isatis39871@gmail.com>
+Cc: David Gelvin <david.gelvin@gmail.com>, renaud gaudin <rgaudin@gmail.com>, 
+	Heidi Albert <heidi.albert@finddiagnostics.org>
+Content-Type: multipart/alternative; boundary=001636d33fef662fcb0484adbe08
+
+--001636d33fef662fcb0484adbe08
+Content-Type: text/plain; charset=ISO-8859-1
+
+Kevin,
+
+Sorry for the delay.  Please see my comments below.  Renaud and David please
+chime in:
+
+On Tue, Apr 20, 2010 at 4:33 AM, isatis39871 <isatis39871@gmail.com> wrote:
+
+> Nothing is blocking the dev but I ask it now so I'll get the answer before
+> it matters.
+>
+> Let me know which questions I should forward to Heida. In any case, I'll
+> ask the Uganda staff in person when I'll be there but I think you may
+> already have interesting things to say about it.
+>
+> ALL
+>
+> - There is a patient id in the model, but no where we register the patient.
+> Should we use something from the slides?
+>
+
+We probably want to create a seperate model for this.  Since the patient is
+different then the slide.  I created a proposed schema in the specs but not
+sure that is best.
+
+
+> - What is a difference between a zone and a district. Which impact does it
+> have on the application?
+>
+
+District is a parent of a zone.  So it's used for grouping them up together.
+ I'm cc'ing in Heidi to confirm.
+
+
+> - For delay alert, should it be a single alert or should it repeat the
+> alert daily until the requirements are fullfilled?
+>
+
+Let's talk to heidi to confirm.  It'll be nice if we can set this per alert.
+
+
+> - When does a week start and end. Shoudl we send remainder on Friday or
+> Sunday?
+>
+
+Not sure. This should be configurable.
+
+
+> - If your register one step ahead, do you skip the previous one or raise an
+> error? E.G : you register the result of the second control but not the first
+> one.
+>
+
+
+> - Can we have more details about the cancel feature?
+>
+>
+Let's do it the same way we are in CC+.
+
+I'll send details on that shortly.
+
+
+
+>
+> EQA :
+>
+> - About DTLS >> +T @ALIAS <NUM_SLIDES> DTU_NAME NUM DTU_NAME etc. Shoudl it
+> be sent for each received sample ? It's about 100 SMS for each DTLS...
+> - Is there any alert for delay of ZTLS transfert ?
+> - Who  will receive / send sms from the DTU?
+>
+>
+> Speciment Refereal Network
+>
+> - If ZTLS come to pick up the sample, you we still send an SMS to the local
+> / Kampala post office
+> - Does the ZTLS deliver the specimen directly to Kampala NTRL or to the
+> post office?
+>
+> Stock:
+>
+> - We still don't have much on stocks. I'll start working on a generic stock
+> app with alerts. Do we need to take in consideration several units we should
+> be able to convert to each others?
+> - A stock is a link between something, it's quantity and the place where it
+> is. Will it involves nested place ? Does the "location" model of chilcount
+> can handle it?
+>
+> The students at MVP are working on a stock app. Why not reuse some of it?
+> Does it feel like what they need : http://rtl.gotdns.org/stock/dashboard/
+>
+
+
+
+-- 
+ICT Coordinator
+Millennium Villages Project
+Columbia University, NYC
+M: +1.646.463.1273
+Skype: mlberg
+
+--001636d33fef662fcb0484adbe08
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Kevin,<div><br>Sorry for the delay. =A0Please see my comments below. =A0Ren=
+aud and David please chime in:<br><br><div class=3D"gmail_quote">On Tue, Ap=
+r 20, 2010 at 4:33 AM, isatis39871 <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+isatis39871@gmail.com">isatis39871@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex;">Nothing is blocking the dev but I ask it no=
+w so I&#39;ll get the answer before it matters.<br>
+<br>
+Let me know which questions I should forward to Heida. In any case, I&#39;l=
+l ask the Uganda staff in person when I&#39;ll be there but I think you may=
+ already have interesting things to say about it.<br>
+<br>
+ALL<br>
+<br>
+- There is a patient id in the model, but no where we register the patient.=
+ Should we use something from the slides?<br></blockquote><div><br></div><d=
+iv>We probably want to create a seperate model for this. =A0Since the patie=
+nt is different then the slide. =A0I created a proposed schema in the specs=
+ but not sure that is best.</div>
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex;">
+- What is a difference between a zone and a district. Which impact does it =
+have on the application?<br></blockquote><div><br></div><div>District is a =
+parent of a zone. =A0So it&#39;s used for grouping them up together. =A0I&#=
+39;m cc&#39;ing in Heidi to confirm.</div>
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex;">
+- For delay alert, should it be a single alert or should it repeat the aler=
+t daily until the requirements are fullfilled?<br></blockquote><div><br></d=
+iv><div>Let&#39;s talk to heidi to confirm. =A0It&#39;ll be nice if we can =
+set this per alert.</div>
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex;">
+- When does a week start and end. Shoudl we send remainder on Friday or Sun=
+day?<br></blockquote><div><br></div><div>Not sure. This should be configura=
+ble.</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+
+- If your register one step ahead, do you skip the previous one or raise an=
+ error? E.G : you register the result of the second control but not the fir=
+st one.<br></blockquote><div>=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+
+- Can we have more details about the cancel feature?<br>
+<br></blockquote><div><br></div><div>Let&#39;s do it the same way we are in=
+ CC+.</div><div><br>I&#39;ll send details on that shortly.=A0</div><div><br=
+></div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex;">
+
+<br>
+EQA :<br>
+<br>
+- About DTLS &gt;&gt; +T @ALIAS &lt;NUM_SLIDES&gt; DTU_NAME NUM DTU_NAME et=
+c. Shoudl it be sent for each received sample ? It&#39;s about 100 SMS for =
+each DTLS...<br>
+- Is there any alert for delay of ZTLS transfert ?<br>
+- Who =A0will receive / send sms from the DTU?<br>
+<br>
+<br>
+Speciment Refereal Network<br>
+<br>
+- If ZTLS come to pick up the sample, you we still send an SMS to the local=
+ / Kampala post office<br>
+- Does the ZTLS deliver the specimen directly to Kampala NTRL or to the pos=
+t office?<br>
+<br>
+Stock:<br>
+<br>
+- We still don&#39;t have much on stocks. I&#39;ll start working on a gener=
+ic stock app with alerts. Do we need to take in consideration several units=
+ we should be able to convert to each others?<br>
+- A stock is a link between something, it&#39;s quantity and the place wher=
+e it is. Will it involves nested place ? Does the &quot;location&quot; mode=
+l of chilcount can handle it?<br>
+<br>
+The students at MVP are working on a stock app. Why not reuse some of it? D=
+oes it feel like what they need : <a href=3D"http://rtl.gotdns.org/stock/da=
+shboard/" target=3D"_blank">http://rtl.gotdns.org/stock/dashboard/</a><br>
+
+</blockquote></div><br><br clear=3D"all"><br>-- <br>ICT Coordinator<br>Mill=
+ennium Villages Project<br>Columbia University, NYC<br>M: +1.646.463.1273<b=
+r>Skype: mlberg<br>
+</div>
+
+--001636d33fef662fcb0484adbe08--
+
