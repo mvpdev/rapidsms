@@ -11,33 +11,6 @@ import rapidsms
 
 from findtb.exceptions import NotRegistered
 
-class Keyworder(object):
-
-    def __init__(self):
-        self.regexes = {}
-
-    def __call__(self, *regex_strs):
-        def decorator(func):
-            for regex in regex_strs:
-                if len(regex) == 0:
-                    continue
-                if regex[-1] != '$':
-                    regex = regex + '$'
-                if regex[0] != '^':
-                    regex = '^' + regex
-                self.regexes[regex] = func
-            return func
-        return decorator
-
-    def get_function(self, keyword):
-        for regex, func in self.regexes.iteritems():
-            if re.match(regex, keyword):
-                return func
-        return None
-
-    def is_valid_keyword(self, keyword):
-        return self.get_function(keyword) != None
-
 def clean_msg(text):
     # If the message is only white space, change it to None
     if re.match(r'^\s*$', text):
@@ -105,8 +78,8 @@ def respond_exceptions(func):
         try:
             return func(self, *args)
         except Exception, e:
-            message.respond(_(u"An error has occured (%(e)s).") % {'e': e}, \
-                            'error')
+            message.respond(("An error has occured (%(e)s).") % \
+                           {'e': e}, 'error')
             raise
     return wrapper
 

@@ -2,18 +2,19 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
-from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
 
 import rapidsms
 
+from locations.models import Location
+from reporters.models import Reporter
 from findtb.utils import *
-from findtb.exceptions import *
+from findtb.exceptions import SMSException
+from findtb.models import *
+from findtb.handlers import registration
+
 
 class App(rapidsms.app.App):
-    keyworder = Keyworder()
-
-    def start(self):
-        pass
 
     @respond_exceptions
     def handle(self, message):
@@ -23,48 +24,22 @@ class App(rapidsms.app.App):
         if not message.text:
             return False
 
-        keyword = message.text.split()[0]
-
-        if not self.keyworder.is_valid_keyword(keyword):
-            message.respond("Sorry, %s is not a valid keyword. Please " \
-                            "check the documentation and send again." % \
-                             keyword.upper())
-            return True
-        function = self.keyworder.get_function(keyword)
-        try:
-            function(message)
-        except (NotRegistered, ParseError, BadValue), e:
-            message.respond(e.message)
-        return True
-
-    # Register users
-    @keyworder('cli', 'dtu', 'dtls', 'ztl')
-    def register(message):
         params = message.text.split()
         keyword = params.pop(0)
 
-        if len(params) < 3:
-            raise ParseError("Failed: Unable to understand your registration " \
-                             "You must send:\n%s UnitID# Surname Name" % \
-                             keyword)
-        message.respond('registering')
+        keyword_dispatcher = {}
+        for kw in registration.KEYWORDS:
+            keyword_dispatcher[kw] = registration.handle
 
-    @keyworder('mdrs')
-    @restricted
-    def mdrs_registration(message):
-        message.respond('mdrs registration')
-
-
-    def cleanup(self):
-        """Perform any clean up after all handlers have run in the
-           cleanup phase."""
-        pass
-
-    def outgoing(self, message):
-        """Handle outgoing message notifications."""
-        pass
-
-    def stop(self):
-        """Perform global app cleanup when the application is stopped."""
-        pass
+        if keyword in keyword_dispatcher:
+            try:
+                keyword_dispatcher[keyword](keyword, params, message)
+            except SMSException, e:
+                message.respond(e.sms, 'error')
+                return True
+        else:
+            message.respond("Sorry, %s is not a valid keyword. Please " \
+                            "check the documentation and send again." % \
+                             keyword.upper(), 'error')
+        return True
 

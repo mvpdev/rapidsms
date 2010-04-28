@@ -3,15 +3,18 @@
         "pk": 1, 
         "model": "auth.group", 
         "fields": {
-            "name": "cli", 
-            "permissions": []
+            "name": "dtu lab tech", 
+            "permissions": [
+                53, 
+                56
+            ]
         }
     }, 
     {
         "pk": 2, 
         "model": "auth.group", 
         "fields": {
-            "name": "lab", 
+            "name": "clinician", 
             "permissions": []
         }
     }, 
@@ -19,15 +22,18 @@
         "pk": 3, 
         "model": "auth.group", 
         "fields": {
-            "name": "dtls", 
-            "permissions": []
+            "name": "ntrl lab tech", 
+            "permissions": [
+                54, 
+                57
+            ]
         }
     }, 
     {
         "pk": 4, 
         "model": "auth.group", 
         "fields": {
-            "name": "dlfp", 
+            "name": "district focal person", 
             "permissions": []
         }
     }, 
@@ -35,7 +41,7 @@
         "pk": 5, 
         "model": "auth.group", 
         "fields": {
-            "name": "dlab", 
+            "name": "district lab tech", 
             "permissions": []
         }
     }, 
@@ -43,7 +49,23 @@
         "pk": 6, 
         "model": "auth.group", 
         "fields": {
-            "name": "ntlpmdr", 
+            "name": "zonal tb supervisor", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "national tb coordinator", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "district tb supervisor", 
             "permissions": []
         }
     }

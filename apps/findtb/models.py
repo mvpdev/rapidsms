@@ -4,15 +4,28 @@
 
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 from locations.models import Location
 from reporters.models import Reporter
 
 class Role(models.Model):
+
     group = models.ForeignKey(Group)
     reporter = models.ForeignKey(Reporter)
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey(Location, blank=True, null=True)
+
+    def save(self):
+        if self.reporter.user_ptr not in self.group.user_set.all():
+            self.reporter.groups.add(self.group)
+        super(Role, self).save() # Call the "real" save() method
+
+    def delete(self):
+        if Role.objects.filter(reporter=self.reporter, \
+                               group=self.group).count() == 1:
+            self.reporter.groups.remove(self.group)
+        super(Role, self).delete() # Call the "real" delete() method
+
 
 class Patient(models.Model):
 
@@ -51,11 +64,34 @@ class Patient(models.Model):
 class Sputum(models.Model):
     class Meta:
         permissions = (
-            ("can_send", "Can send"),
-            ("can_receive", "Can receive")
+            ("send_sputum", "Can send sputum"),
+            ("receive_sputum", "Can send receive")
         )
 
     patient = models.ForeignKey(Patient)
     location = models.ForeignKey(Location)
     date = models.DateTimeField(auto_now_add=True)
-    sputum_id = models.CharField(max_length=25)
+    dtu_registration_number = models.CharField(max_length=25)
+    ntrl_tc_number = models.CharField(max_length=12)
+
+
+class FINDTBGroup(Group):
+    CLINICIAN_GROUP_NAME = 'clinician'
+    DTU_LAB_TECH_GROUP_NAME = 'dtu lab technician'
+    DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
+    ZONAL_TB_SUPERVISOR_GROUP_NAME = 'zonal tb supervisor'
+
+    class Meta:
+        proxy = True
+
+    def isClinician(self):
+        return self.name == self.CLINICIAN_GROUP_NAME
+
+    def isLabTech(self):
+        return self.name == self.DTU_LAB_TECH
+
+    def isDTLS(self):
+        return self.name == self.DISTRICT_TB_SUPERVISOR
+
+    def isZTLS(self):
+        return self.name == self.ZONAL_TB_SUPERVISOR
