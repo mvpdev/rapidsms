@@ -114,17 +114,6 @@ class FINDTBGroup(Group):
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
 
-#!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
-# maintainer: ukanga
-
-'''Config Model for child count
-
-'''
-
-from django.db import models
-from django.utils.translation import ugettext as _
-
 
 class Configuration(models.Model):
 
