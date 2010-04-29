@@ -2,18 +2,17 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
-from django.utils.translation import ugettext as _
+from django.contrib.auth.models import User
 
 import rapidsms
 
-from findtb.utils import *
-from findtb.handlers import RegistrationHandler
+from findtb.utils import respond_exceptions, clean_msg
+from findtb.exceptions import SMSException
+#from findtb.models import *
+from findtb.handlers import registration, unregister, mdrs
+
 
 class App(rapidsms.app.App):
-    keyworder = Keyworder()
-
-    def start(self):
-        pass
 
     @respond_exceptions
     def handle(self, message):
@@ -23,38 +22,33 @@ class App(rapidsms.app.App):
         if not message.text:
             return False
 
-        keyword = message.text.split()[0]
+        params = message.text.split()
+        keyword = params.pop(0)
 
-        if not self.keyworder.is_valid_keyword(keyword):
+        if len(keyword) > 12:
+            message.respond("Sorry, it looks like you forgot to put spaces " \
+                            "in your message. Please separate all words and " \
+                            "values with a space and send again.", 'error')
+            return True
+
+        keyword_dispatcher = {}
+
+        modules = [registration, unregister, mdrs]
+        keyword_dispatcher = {}
+        for module in modules:
+            for kw in module.KEYWORDS:
+                keyword_dispatcher[kw] = module.handle
+
+        if keyword in keyword_dispatcher:
+            try:
+                keyword_dispatcher[keyword](keyword, params, message)
+            except SMSException, e:
+                if hasattr(e, 'sms'):
+                    message.respond(e.sms, 'error')
+                return True
+        else:
             message.respond("Sorry, %s is not a valid keyword. Please " \
                             "check the documentation and send again." % \
-                             keyword.upper())
-            return True
-        function = self.keyworder.get_function(keyword)
-        function(message)
+                             keyword.upper(), 'error')
         return True
-
-    # Register users
-    @keyworder('cli', 'dtu', 'dtls', 'ztl')
-    def register(message):
-        message.respond('registering')
-
-    @keyworder('mdrs')
-    @restricted
-    def mdrs_registration(message):
-        message.respond('mdrs registration')
-
-
-    def cleanup(self):
-        """Perform any clean up after all handlers have run in the
-           cleanup phase."""
-        pass
-
-    def outgoing(self, message):
-        """Handle outgoing message notifications."""
-        pass
-
-    def stop(self):
-        """Perform global app cleanup when the application is stopped."""
-        pass
 
