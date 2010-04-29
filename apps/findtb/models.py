@@ -22,6 +22,10 @@ class Role(models.Model):
                 'location':self.location}
 
 def Role_delete_handler(sender, **kwargs):
+    '''
+    Called when a Role is deleted. It checks to see if that was that reporter's
+    only Role in that group and, if so, removes the User from that Group
+    '''
     role = kwargs['instance']
     if not Role.objects.filter(reporter=role.reporter, \
                                group=role.group).count():
@@ -29,6 +33,11 @@ def Role_delete_handler(sender, **kwargs):
 post_delete.connect(Role_delete_handler, sender=Role)
 
 def Role_presave_handler(sender, **kwargs):
+    '''
+    Called when a Role is saved. It adds the Role's reporter (User) to the
+    same group. It also removes the User from the group if they don't have
+    any more Roles in that group.
+    '''
     role = kwargs['instance']
     role.reporter.groups.add(role.group)
     if role.pk:
@@ -54,14 +63,6 @@ class Patient(models.Model):
         (GENDER_MALE, _(u"Male")),
         (GENDER_FEMALE, _(u"Female")))
 
-
-    STATUS_ACTIVE = 'A'
-    STATUS_INACTIVE = 'I'
-
-    STATUS_CHOICES = (
-        (STATUS_ACTIVE, _(u"Active")),
-        (STATUS_INACTIVE, _(u"Inactive")))
-
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
@@ -70,13 +71,14 @@ class Patient(models.Model):
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True, \
                                       help_text=_(u"When the patient record " \
                                                    "was created"))
-    #created_by = models.ForeignKey
+    created_by = models.ForeignKey(Reporter)
     patient_id = models.CharField(max_length=25)
     dob = models.DateField(_(u"Date of birth"))
     estimated_dob = models.BooleanField(_(u"Estimated DOB"), default=True, \
                                         help_text=_(u"True or false: the " \
                                                      "date of birth is only " \
                                                      "an approximation"))
+    is_active = models.BooleanField(default=True)
 
 
 class Sputum(models.Model):
