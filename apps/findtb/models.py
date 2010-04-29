@@ -68,10 +68,9 @@ class Patient(models.Model):
 
     gender = models.CharField(_(u"Gender"), max_length=1, \
                               choices=GENDER_CHOICES)
-    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True, \
-                                      help_text=_(u"When the patient record " \
-                                                   "was created"))
+    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
+    location = models.ForeignKey(Location)
     patient_id = models.CharField(max_length=25)
     dob = models.DateField(_(u"Date of birth"))
     estimated_dob = models.BooleanField(_(u"Estimated DOB"), default=True, \
@@ -90,9 +89,10 @@ class Sputum(models.Model):
 
     patient = models.ForeignKey(Patient)
     location = models.ForeignKey(Location)
-    date = models.DateTimeField(auto_now_add=True)
-    dtu_registration_number = models.CharField(max_length=25)
-    ntrl_tc_number = models.CharField(max_length=12)
+    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
+    created_by = models.ForeignKey(Reporter)
+    sputum_id = models.CharField(max_length=25)
+    ntrl_tc_number = models.CharField(max_length=12, blank=True, null=True)
 
 
 class FINDTBGroup(Group):

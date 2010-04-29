@@ -2,7 +2,7 @@ from django.db import models, IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.signals import post_delete
+from django.db.models.signals import post_delete
 
 """
 Track states any Django model, allow to recover history of it's
