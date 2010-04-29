@@ -12,9 +12,17 @@ import rapidsms
 from findtb.exceptions import NotRegistered
 
 def clean_msg(text):
-    # If the message is only white space, change it to None
+
+    '''
+    Cleans the message.  It does the following:
+        - Change a message of only whitespace to ''
+        - Make entire message lower-case
+        - Change any series of spaces greater than 1 to just one space.
+        - Strip leading and trailing whitespace
+    '''
+    # If the message is only white space, return an empty string
     if re.match(r'^\s*$', text):
-        return None
+        return ''
 
     # make lower case, strip, and remove duplicate spaces
     return re.sub(r'\s{2,}', ' ', text.strip().lower())      
@@ -83,14 +91,19 @@ def respond_exceptions(func):
             raise
     return wrapper
 
-def restricted(func):
-    '''
-    A decorator that rejects users that are not registered
-    '''
+def registered(func):
+    ''' decorator checking if sender is allowed to process feature.
+
+    checks if sender property is set on message, and whether the parent
+    user model is_active
+
+    return function or raise exception '''
+
     @wraps(func)
-    def wrapper(message):
-        if message.persistant_connection.reporter:
-            return func(message)
+    def wrapper(keyword, params, message):
+        if message.persistant_connection.reporter and \
+           message.persistant_connection.reporter.user_ptr.is_active:
+            return func(keyword, params, message)
         else:
             raise NotRegistered
     return wrapper

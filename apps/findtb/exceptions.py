@@ -14,8 +14,8 @@ class SMSException(Exception):
     
 
 class NotRegistered(SMSException):
-    def __init__(self, sms="Sorry, only registered users "
-                               "can access this program."):
+    def __init__(self, sms="Sorry, only registered users " \
+                           "can access this system."):
         self._sms = sms
 
 class InsufficientPermissions(SMSException):
@@ -24,21 +24,19 @@ class InsufficientPermissions(SMSException):
 class NotAllowed(SMSException):
 
     def __init__(self, sms="Sorry, we were unable to complete your " \
-                               "request. Please contact NTRL for " \
-                               "assistance."):
+                           "request. Please contact NTRL for " \
+                           "assistance."):
         self._sms = sms
-
 
 class ParseError(SMSException):
 
     def __init__(self, sms="Sorry, we were unable to understand your " \
-                               "message. Please check the documentation " \
-                               "and try again."):
+                           "message. Please check the documentation " \
+                           "and try again."):
         self._sms = sms
-
 
 class BadValue(SMSException):
 
     def __init__(self, sms="Sorry, your message contains invalid " \
-                               "information. Please check and try again "):
+                           "information. Please check and try again "):
         self._sms = sms

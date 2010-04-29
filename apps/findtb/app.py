@@ -6,12 +6,10 @@ from django.contrib.auth.models import User
 
 import rapidsms
 
-from locations.models import Location
-from reporters.models import Reporter
-from findtb.utils import *
+from findtb.utils import respond_exceptions, clean_msg
 from findtb.exceptions import SMSException
-from findtb.models import *
-from findtb.handlers import registration
+#from findtb.models import *
+from findtb.handlers import registration, unregister, mdrs
 
 
 class App(rapidsms.app.App):
@@ -27,15 +25,26 @@ class App(rapidsms.app.App):
         params = message.text.split()
         keyword = params.pop(0)
 
+        if len(keyword) > 12:
+            message.respond("Sorry, it looks like you forgot to put spaces " \
+                            "in your message. Please separate all words and " \
+                            "values with a space and send again.", 'error')
+            return True
+
         keyword_dispatcher = {}
-        for kw in registration.KEYWORDS:
-            keyword_dispatcher[kw] = registration.handle
+
+        modules = [registration, unregister, mdrs]
+        keyword_dispatcher = {}
+        for module in modules:
+            for kw in module.KEYWORDS:
+                keyword_dispatcher[kw] = module.handle
 
         if keyword in keyword_dispatcher:
             try:
                 keyword_dispatcher[keyword](keyword, params, message)
             except SMSException, e:
-                message.respond(e.sms, 'error')
+                if hasattr(e, 'sms'):
+                    message.respond(e.sms, 'error')
                 return True
         else:
             message.respond("Sorry, %s is not a valid keyword. Please " \
