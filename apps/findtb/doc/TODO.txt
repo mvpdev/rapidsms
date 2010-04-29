@@ -6,3 +6,10 @@ like
 EQA dashboard | Sref dahboard                                 sref pending tests
 -------------   -------------                                 ------------------
 But where to put the search ?
+
+TODO : use the patient name instead of the specimen number in sref
+Careful : if there is no name, use the number. In search, put "Add a name to the patient"
+button if there is no patient.
+
+TODO : in search, they should be able to enter either a location, a patient name
+or an id.

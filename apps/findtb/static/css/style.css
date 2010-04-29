@@ -121,8 +121,8 @@ background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 8px 8px;
 background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
 }
 
-#findtb-event-picker-selection li.canceled {
-background: #FFFFFF url("/static/findtb/images/canceled.png") no-repeat 8px 8px;
+#findtb-event-picker-selection li.cancelled {
+background: #FFFFFF url("/static/findtb/images/cancelled.png") no-repeat 8px 8px;
 }
 
 #findtb-event-picker-selection li strong {

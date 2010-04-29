@@ -28,7 +28,7 @@
    </p>
    <p>
    
-   <a href="#">Invalid : ask for a new sample</a>
+   <a href="#">Invalid : ask DTU to send a new specimen</a>
    </p>
 </form>
    
@@ -44,10 +44,11 @@
     Cancel must be confirmed -->
     
     <!-- TODO : make simpler events in the tracking.
-    There is no need to repeat the code of the sample, the code, etc. since
+    There is no need to repeat the code of the specimen, the code, etc. since
     it's in the page title. A good way to implement that is to create  
     "get dashboard event title" and "get tracking event title" methods
     separatly for each state -->
+    
 
     <ul id="findtb-event-picker-selection">
         {% for event in events %}
@@ -58,6 +59,8 @@
         {% endfor %}
     </ul>
 {% endblock %}
+
+<!-- TODO : Add a form to save patient id / name / age, etc. -->
 
 {% block findtb-contacts %}
             {% if contacts %}
@@ -71,6 +74,8 @@
                <p>No contact for this specimen</p>
             {% endif %}
 {% endblock %}
+
+
 
 {% block findtb-test-picker-title %}Select a specimen{% endblock %}
 

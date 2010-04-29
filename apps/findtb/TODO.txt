@@ -1,2 +1,0 @@
-Create a generic mailling list application
-Create a generic state machine application
