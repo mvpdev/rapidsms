@@ -2,28 +2,54 @@ from django.db import models, IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, pre_delete
+
 
 """
 Track states any Django model, allow to recover history of it's
 previous states. State can be any Django model.
 """
 
+# TODO : let the user choose the behaviour for when they delete a state object or a tracked item
 
-def get_content_type(content_object):
+def get_generic_relation_holder_for_object(cls, content_object):
     """
-        Get the content_type of a content_object if it exists or raise
-        exception.
+    Returns the object pointing to this content object via a generic relationship
+    for the class 'cls' if it exists or raise TrackedItem.DoesNotExist.
+    Cls must be the class holding the generic relationship and must
+    provide a DoesNotExist exception.
     """
-    print "Get content type"
-    app = content_object.__module__.split(".")[0]
-    print "App is %s" % app
-    model = content_object.__class__.__name__
-    print "Model is %s" % model
-    print "Content TYpe is %s" % ContentType.objects.get(app_label=app, model=model)
+    try:
+        ct = ContentType.objects.get_for_model(content_object)
+        return cls.objects.get(content_type=ct, object_id=content_object.id)
+    except ObjectDoesNotExist:
+        raise cls.DoesNotExist()
 
-    return ContentType.objects.get(app_label=app, model=model)
 
+def get_generic_relation_holder_for_object_or_create(cls, content_object,
+                                                      *args, **kwargs):
+    """
+    Returns a tuple containg  the object pointing to this content object
+    via a generic relationship if exists or a new object and a boolean
+    to specify whether the object has been created or not.
+    E.G : (<GenericRelationHolder>, True)
+    """
+
+    try:
+        return (get_generic_relation_holder_for_object(cls, content_object), False)
+    except cls.DoesNotExist:
+        return (cls(content_object=content_object, *args, **kwargs), True)
+
+
+def get_generic_relation_holder_for_objects(cls, content_object):
+    """
+    Returns a queryset with all the objects pointing to this content object via
+    a generic relationship for the class 'cls'.
+    """
+
+    ct = ContentType.objects.get_for_model(content_object)
+
+    return cls.objects.filter(content_type=ct, object_id=content_object.id)
 
 
 
@@ -38,26 +64,41 @@ class StateError(Exception):
 
 class State(models.Model):
     """
-    A state in which any tracked object can be. Virtual, should be subclassed.
+    A state point to a django object model instance so tracked items can have
+    an history of states, which is a collection of any django model declared as
+    a state at a given time for a given object.
 
+    This allow you to have a very wide notion of what a state and an history
+    is.
     """
 
+    # boiler plate for the generic relation
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+    # a simple char to let you filter easily states
     type = models.CharField(max_length=30, blank=True)
+
+    # a cancelled state don't appear in the history, but is not distroyed
     cancelled = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
+
+    # The model instance this state belongs to
     tracked_item = models.ForeignKey("TrackedItem", related_name="states")
 
-    # TODO : add some management for when they delete a state object or a tracked item
-    # TODO : let the user choose the behaviour for that
+
+    # just to allow granular exception catching
+    class DoesNotExists(ObjectDoesNotExist, StateError): pass
+
+
     class Meta:
         ordering = ['-id']
 
 
     def save(self, *args, **kwargs):
+
         if not hasattr(self, 'tracked_item') or not self.tracked_item.id:
             raise StateError("You cannot save a state without a reference to "\
                              "a saved TrackedItem object. Pass the state to "\
@@ -75,22 +116,56 @@ class State(models.Model):
         return "State of at %s of: %s" % (self.created, self.content_object)
 
 
+    @classmethod
+    def on_delete_content_object(cls, sender, *args, **kwargs):
+        """
+        When the content object is deleted, the state removes itself
+        from all the tracked item current state and replace it by None
+        then delete itself.
+        """
+        # TODO : state deletion should happen in a transaction
+
+        for state in cls.get_states_for_object(kwargs['instance']):
+            state.tracked_item.state = None
+            state.tracked_item.save()
+            state.delete()
+
+
+    @classmethod
+    def get_states_for_object(cls, content_object):
+        """
+        Returns a query set of all the states pointing to that object
+        """
+        return get_generic_relation_holder_for_objects(cls, content_object)
+
+
+pre_delete.connect(State.on_delete_content_object)
+
+
 
 class TrackedItem(models.Model):
     """
-    Generic model you can use to track the various states
-    another model has been.
-    A state can any be model.
+    Track the various states a Django model intance has been in.
+    A state can any be model and a TrackedItem have an history of all
+    the states it has been in, including a current state.
     """
+
+    # boiler plate for the generic relation
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+    # the state the model instance is now is
     current_state = models.ForeignKey(State, blank=True, null=True)
 
+    # used to temporarely store a state and save it later to by pass
+    # a circular reference
     _state_bak = None
 
+
+    # just to allow granular exception catching
     class DoesNotExists(ObjectDoesNotExist, StateError): pass
+
 
     class Meta: # we don't want a state to be linked to several objects
         unique_together = ('object_id', 'content_type')
@@ -102,7 +177,7 @@ class TrackedItem(models.Model):
 
     def _super_save(self, *args, **kwargs):
         """
-        Call the parent model "save" method with some checks
+        Call the parent model save() with some checks
         """
         try:
             super(TrackedItem, self).save(*args, **kwargs)
@@ -112,21 +187,23 @@ class TrackedItem(models.Model):
                              % unicode(self))
 
 
-
     def save(self, *args, **kwargs):
         """
         Overloaded save() so we can add a state even with the circular
         reference between a state and a tracked item.
         """
+
+        # If _state_bak is full, then it means that is TrackedItem is
+        # newly created and not saved yet. Deal with cirlar reference with
+        # the state object.
         if self._state_bak:
             # we need a id to save a new state
-            # if a new state is added, create the tracked item
-            # without state first
             self._super_save(*args, **kwargs)
             self.current_state = self._state_bak
             self._state_bak = None
 
-
+        # Saving the state automatically now
+        # You can't save a state manually outside a non saved Tracked Item.
         if self.state :
             self.state.tracked_item = self
             self.state.save()
@@ -136,7 +213,7 @@ class TrackedItem(models.Model):
 
     def get_history(self):
         """
-        Get the queryset of the states this tracked object has been in.
+        Returns the queryset of the states this tracked object has been in.
         """
 
         return self.states.filter(cancelled=False)
@@ -144,7 +221,7 @@ class TrackedItem(models.Model):
 
     def get_previous_state(self):
         """
-        Give you the previous state in the history of the tracked object.
+        Give you the previous state in the history of this tracked object.
         """
         previous_states = self.get_history().filter(id__lt=self.state.id)
         if previous_states.count():
@@ -157,20 +234,28 @@ class TrackedItem(models.Model):
         """
         Set the tracked object to it's next state.
         """
+
         if next_state is None:
             self.current_state = None
 
         else:
+            # For now, we allow only Django model to be states
             if not isinstance(next_state, models.Model):
                 # TODO : allow any object using serialisation
                 raise StateError("A state must be a django model or None")
 
+            # The next state must be a state object
+            # TODO : use duck typing for state object
             if not isinstance(next_state, State):
                 next_state = State(content_object=next_state)
 
+            # Prevent two track item to share a state object
+            # Several state objects can point to the same
+            # models instance, however
             if next_state.id and next_state.tracked_item.id != self.id:
                 raise StateError("This state is already used by another tracked item")
 
+            # if no id, it's a new TrackedItem and you use the _state_bak trick
             if not self.id:
                 self._state_bak = next_state
             else:
@@ -182,7 +267,9 @@ class TrackedItem(models.Model):
         Cancel the current state and go back to the previous one.
         Can't work if there is only one state.
         """
-        # TODO : raise error if states no saved
+
+        if not self.state.id :
+            raise StateError("Current state should be saved before cancelling")
 
         if not self.id :
             raise StateError("Unable to cancel a state on a unsaved tracked item")
@@ -209,28 +296,18 @@ class TrackedItem(models.Model):
 
 
     # TODO : add a way to untrack event
-    # TODO : is tracked classmethod
 
     @classmethod
-    def get_tracker(cls, content_object):
+    def get_tracker_for_object(cls, content_object):
         """
         Returns the TrackedItem object pointing to this content object if
         it exists or raise TrackedItem.DoesNotExist.
         """
-        print "On get tracker"
-        print "Classe is %s" % cls
-        try:
-            ct = get_content_type(content_object)
-            print "Tracker is %s" % cls.objects.get(content_type=ct,
-                                       object_id=content_object.id)
-            return cls.objects.get(content_type=ct,
-                                       object_id=content_object.id)
-        except ObjectDoesNotExist:
-            raise cls.DoesNotExist()
+        return get_generic_relation_holder_for_object(cls, content_object)
 
 
     @classmethod
-    def get_tracker_or_create(cls, content_object):
+    def get_tracker_for_object_or_create(cls, content_object):
         """
         Returns a tuple containg a TrackedItem object pointing to this content
         object if exists or a new TrackedObject and a boolean to specify
@@ -238,204 +315,24 @@ class TrackedItem(models.Model):
         E.G : (<TrackedItem>, True)
         """
 
-        try:
-            return (cls.get_tracker(content_object), False)
-        except cls.DoesNotExist:
-            return (cls(content_object=content_object), True)
+        return get_generic_relation_holder_for_object_or_create(cls, content_object)
 
 
     @classmethod
     def on_delete_content_object(cls, sender, *args, **kwargs):
 
-        print "On delete content with args:"
-        print args
-        print kwargs
         try:
-            ti = cls.get_tracker(kwargs['instance'])
-            print "Found tracked item %s" % ti
+            ti = cls.get_tracker_for_object(kwargs['instance'])
         except cls.DoesNotExist:
-            print "No tracker linkd to this instance"
             return None
 
         # TODO : make the delete happen in a transaction
-        print "States od this content are:"
-        print ti.states.all()
-        print "Deleting states"
         ti.states.all().delete()
-        print "Remaining states:"
-        print ti.states.all()
         ti.delete()
+
+    # TODO : add an event "on one of my state deleted"
+    # TODO : make a registration so any registered model get tracked
 
 
 
 post_delete.connect(TrackedItem.on_delete_content_object)
-
-
-    # TODO : make a registration so any registered model get tracked
-
-# Have to do that since I can't figure how to make rapid sms unit test work
-def test():
-
-    from locations.models import Location
-    from django.contrib.auth.models import Permission
-
-    l = Location.objects.all();
-    p = Permission.objects.all();
-
-    print "You can save a TrackedItem twice in a row"
-    t1 = TrackedItem(content_object=l[0])
-    t1.save()
-    t1.save()
-
-    print "Default state is None"
-    assert t1.state is None
-
-    print "You have access to the underlying model"
-    assert t1.content_object.name == l[0].name
-
-    print "You can add a django model as a state after the state has been saved once"
-    t1.state = l[0]
-    t1.save()
-    s1 = t1.state
-
-    print "Any django model can be added as a state"
-    t1.state = p[0]
-    t1.save()
-    s2 = t1.state
-
-    print "You can add a model, then change you mind and add a new one then change"
-    t1.state = p[0]
-    t1.state = l[0]
-    t1.save()
-    s3 = t1.state
-
-    print "You can access the history of all the previous state in chronological order"
-    hist = list(t1.get_history())
-    assert s1 == hist[-1]
-    assert s2 == hist[-2]
-    assert s3 == hist[-3]
-
-    print "The first state in history is the current state"
-    assert t1.state == hist[0]
-
-    print "You can't track the same item twice: it raises a StateError"
-    try:
-        t2 = TrackedItem(content_object=l[0])
-        t2.save()
-        assert False
-    except StateError:
-        pass
-
-    print "You can add a state to a not saved tracked item then save it"
-    t2 = TrackedItem(content_object=l[1])
-    t2.save()
-
-    print "Two distinct histories don't overlap."
-    t2.state = l[1]
-    t2.save()
-
-    assert not set(t2.get_history()).intersection(set(t1.get_history()))
-
-
-    print "You can cancel a state by using 'del',"\
-          " it makes you going back to the previous state"
-    s = t1.state
-    del t1.state
-    t1.save()
-    assert t1.state == s2
-
-    print "The cancelled state is not destroyed, it's just set to cancelled"
-    assert t1.states.all()[0] == s
-    assert t1.states.all()[0].cancelled
-
-    print "You can add a new state after the cancelled state, and it will appear after"
-    t1.state = p[0]
-    t1.save()
-    assert t1.states.all()[0] == t1.state
-    assert t1.states.all()[1] == s
-
-    print "The cancelled state does not appear in the history"
-    states = t1.get_history()
-    assert states[1] != s
-
-    print "A single model instance can a state for several tracked item"
-    t2.state = p[0]
-    t2.save()
-
-    print "You can add a model object which is already wrapped in a State"
-    s = State(content_object=l[0])
-    t2.state = s
-    t2.save()
-
-    print "You can't save states outside a TrackedItem. It raises a StateError"
-    s = State(content_object=l[5])
-    try:
-        s.save()
-        assert False
-    except StateError, e:
-        pass
-
-    print "You can access to the underlying model behind a State"
-    assert isinstance(s.content_object.name, unicode)
-
-    print "You can retrieve any the content type of an object from an object"
-    print t1.content_type
-    print get_content_type(t1.content_object)
-    assert t1.content_type == get_content_type(t1.content_object)
-
-    print "You can get a TrackedItem from the model"
-    t3 = TrackedItem.get_tracker(content_object=t1.content_object)
-    print t1, t1.id, t1.content_object, t1.content_object.id
-    print t3, t3.id, t3.content_object, t3.content_object.id
-    assert t1 == t3
-
-    print "If the model doesn't exists, it raises a TrackedItem.DoesNotExists exception"
-    try:
-        t4 = TrackedItem.get_tracker(content_object=l[10])
-        assert False
-    except TrackedItem.DoesNotExist:
-        pass
-
-    print "You can get a tracked Item from the model or a new model if it does no exist"
-    print "A tuple will contain the object and a boolean say if it has been created"
-    t3 = TrackedItem.get_tracker_or_create(content_object=t1.content_object)
-    t4 = TrackedItem.get_tracker_or_create(content_object=l[10])
-
-    assert t1 == t3[0]
-    assert not t3[1]
-    assert isinstance(t4[0], TrackedItem)
-    assert t4[1]
-
-    print "########### TESTING #############"
-
-    print "You can delete a non tracked item without any consequence"
-    p[33].delete()
-
-    print "Deleting a content object will delete the associated item and states"
-    print "----", p[11]
-    t5 = TrackedItem.get_tracker_or_create(content_object=p[11])[0]
-    t5.state = p[0]
-    t5.save()
-    t5.state = p[1]
-    t5.save()
-
-    assert State.objects.filter(tracked_item=t5.id).count() == 2
-
-    try:
-        t7 = TrackedItem.objects.get(id=t5.id)
-        print "Tracked item is :%s" % t7
-        assert True
-    except Exception, e:
-        assert True
-    print "----", p[11]
-    p[11].delete()
-
-    try:
-        TrackedItem.objects.get(id=t5.id)
-        assert False
-    except Exception, e:
-        print e
-
-    print State.objects.filter(tracked_item=t5.id).count()
-    print State.objects.filter(tracked_item=t5.id)
-    assert State.objects.filter(tracked_item=t5.id).count() == 0
