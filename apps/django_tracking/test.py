@@ -201,7 +201,15 @@ def test():
     print "It deletes all the states refering to the current object if there"\
           " are several of them"
 
+    t10, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[28])
+    t11, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[27])
+    t10.state = p[4]
+    t10.save()
+    t11.state = p[4]
+    t11.save()
 
+    p[4].delete()
+    assert t10.states.all().count() == t11.states.all().count() == 0
 
 if __name__ == '__name__':
     test()

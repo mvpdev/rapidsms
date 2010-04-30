@@ -330,6 +330,7 @@ class TrackedItem(models.Model):
         ti.states.all().delete()
         ti.delete()
 
+    # TODO : add signals for incomming event, cancelling event, outgoing from events, etc
     # TODO : add an event "on one of my state deleted"
     # TODO : make a registration so any registered model get tracked
 
