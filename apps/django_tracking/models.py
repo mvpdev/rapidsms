@@ -2,7 +2,7 @@ from django.db import models, IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.signals import post_delete
+from django.db.models.signals import post_delete
 
 """
 Track states any Django model, allow to recover history of it's
@@ -15,9 +15,12 @@ def get_content_type(content_object):
         Get the content_type of a content_object if it exists or raise
         exception.
     """
-
+    print "Get content type"
     app = content_object.__module__.split(".")[0]
+    print "App is %s" % app
     model = content_object.__class__.__name__
+    print "Model is %s" % model
+    print "Content TYpe is %s" % ContentType.objects.get(app_label=app, model=model)
 
     return ContentType.objects.get(app_label=app, model=model)
 
@@ -101,7 +104,6 @@ class TrackedItem(models.Model):
         """
         Call the parent model "save" method with some checks
         """
-        print "Saving parent"
         try:
             super(TrackedItem, self).save(*args, **kwargs)
         except IntegrityError, e:
@@ -116,27 +118,20 @@ class TrackedItem(models.Model):
         Overloaded save() so we can add a state even with the circular
         reference between a state and a tracked item.
         """
-        print "Saving tracker"
         if self._state_bak:
             # we need a id to save a new state
             # if a new state is added, create the tracked item
             # without state first
-            print "Temp var contain a state."
             self._super_save(*args, **kwargs)
-            print "Setting the current state from the temp var"
             self.current_state = self._state_bak
             self._state_bak = None
-            print "Current state is %s" % self.state
-            print "Temp var is %s" % self._state_bak
 
 
         if self.state :
-            print "State is not None Saving."
             self.state.tracked_item = self
             self.state.save()
 
         self._super_save(*args, **kwargs)
-        print "Saving tracker done !"
 
 
     def get_history(self):
@@ -162,37 +157,24 @@ class TrackedItem(models.Model):
         """
         Set the tracked object to it's next state.
         """
-        print "Setting new state %s" % next_state
         if next_state is None:
-            print "State is None"
             self.current_state = None
 
         else:
-            print "State is not None"
             if not isinstance(next_state, models.Model):
                 # TODO : allow any object using serialisation
                 raise StateError("A state must be a django model or None")
-            print "State is a django model"
 
             if not isinstance(next_state, State):
-                print "Passed state is not a state object. Wrapping it"
                 next_state = State(content_object=next_state)
-                print "State is now %s" % next_state
 
             if next_state.id and next_state.tracked_item.id != self.id:
                 raise StateError("This state is already used by another tracked item")
 
-            print "The state is a new one"
-
             if not self.id:
-                print "This tracker is not saved : put state in temp var"
                 self._state_bak = next_state
-                print "Temp var is now : %s" % self._state_bak
             else:
-                print "This tracker is already saved : put state in current_state"
                 self.current_state = next_state
-
-                print "Current state is : %s" % self.state
 
 
     def cancel_current_state(self):
@@ -235,13 +217,16 @@ class TrackedItem(models.Model):
         Returns the TrackedItem object pointing to this content object if
         it exists or raise TrackedItem.DoesNotExist.
         """
-
-        ct = get_content_type(content_object)
+        print "On get tracker"
+        print "Classe is %s" % cls
         try:
-            return TrackedItem.objects.get(content_type=ct,
+            ct = get_content_type(content_object)
+            print "Tracker is %s" % cls.objects.get(content_type=ct,
+                                       object_id=content_object.id)
+            return cls.objects.get(content_type=ct,
                                        object_id=content_object.id)
         except ObjectDoesNotExist:
-            raise TrackedItem.DoesNotExist()
+            raise cls.DoesNotExist()
 
 
     @classmethod
@@ -253,23 +238,32 @@ class TrackedItem(models.Model):
         E.G : (<TrackedItem>, True)
         """
 
-        ct = get_content_type(content_object)
         try:
-            return (TrackedItem.objects.get(content_type=ct,
-                                       object_id=content_object.id), False)
-        except ObjectDoesNotExist:
-            return (TrackedItem(content_object=content_object), True)
+            return (cls.get_tracker(content_object), False)
+        except cls.DoesNotExist:
+            return (cls(content_object=content_object), True)
 
 
     @classmethod
-    def on_delete_content_object(sender, **kwargs):
+    def on_delete_content_object(cls, sender, *args, **kwargs):
 
+        print "On delete content with args:"
+        print args
+        print kwargs
         try:
-            ti = TrackedItem.get_tracker(kwargs['instance'])
-        except TrakedItem.DoesNotExist:
+            ti = cls.get_tracker(kwargs['instance'])
+            print "Found tracked item %s" % ti
+        except cls.DoesNotExist:
+            print "No tracker linkd to this instance"
             return None
+
         # TODO : make the delete happen in a transaction
+        print "States od this content are:"
+        print ti.states.all()
+        print "Deleting states"
         ti.states.all().delete()
+        print "Remaining states:"
+        print ti.states.all()
         ti.delete()
 
 
@@ -412,17 +406,36 @@ def test():
     assert isinstance(t4[0], TrackedItem)
     assert t4[1]
 
+    print "########### TESTING #############"
+
+    print "You can delete a non tracked item without any consequence"
+    p[33].delete()
+
     print "Deleting a content object will delete the associated item and states"
-    print "A non tracked object deletion should no trigger anything"
-    t5 = TrackedItem.get_tracker_or_create(content_object=l[11])[0]
+    print "----", p[11]
+    t5 = TrackedItem.get_tracker_or_create(content_object=p[11])[0]
     t5.state = p[0]
     t5.save()
     t5.state = p[1]
     t5.save()
-    l[11].delete()
+
+    assert State.objects.filter(tracked_item=t5.id).count() == 2
+
+    try:
+        t7 = TrackedItem.objects.get(id=t5.id)
+        print "Tracked item is :%s" % t7
+        assert True
+    except Exception, e:
+        assert True
+    print "----", p[11]
+    p[11].delete()
 
     try:
         TrackedItem.objects.get(id=t5.id)
         assert False
     except Exception, e:
         print e
+
+    print State.objects.filter(tracked_item=t5.id).count()
+    print State.objects.filter(tracked_item=t5.id)
+    assert State.objects.filter(tracked_item=t5.id).count() == 0
