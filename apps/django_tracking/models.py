@@ -139,7 +139,7 @@ class State(models.Model):
         return get_generic_relation_holder_for_objects(cls, content_object)
 
 
-pre_delete.connect(State.on_delete_content_object)
+pre_delete.connect(State.on_delete_content_object, sender=models.Model)
 
 
 
@@ -336,4 +336,4 @@ class TrackedItem(models.Model):
 
 
 
-post_delete.connect(TrackedItem.on_delete_content_object)
+post_delete.connect(TrackedItem.on_delete_content_object, sender=models.Model)
