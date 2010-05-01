@@ -9,7 +9,7 @@
 
 
 {% block findtb-events-title %}
-    Recent follow up for all the sputums
+    Recent follow up for all the specimens
 {% endblock %}
 
 {% block findtb-events-selection %}
@@ -30,10 +30,10 @@
 
 {% block findtb-test-picker-selection %}
    
-   {% if sputums %}
+   {% if specimens %}
        <ul>
-       {% for sputum in sputums %}
-         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ sputum }}</a></li>
+       {% for specimen in specimens %}
+         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ specimen }}</a></li>
        {% endfor %}
        </ul>
    {% else %}    

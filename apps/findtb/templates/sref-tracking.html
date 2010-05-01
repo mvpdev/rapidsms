@@ -49,6 +49,9 @@
     "get dashboard event title" and "get tracking event title" methods
     separatly for each state -->
     
+    <!-- TODO : add way to diplay notes in the event listing
+We could add it in a block. If you click on it, you see it. Graphism must
+show there is a note to incite the user to click.-->
 
     <ul id="findtb-event-picker-selection">
         {% for event in events %}
@@ -81,10 +84,10 @@
 
 {% block findtb-test-picker-selection %}
    
-   {% if sputums %}
+   {% if specimens %}
        <ul>
-       {% for sputum in sputums %}
-         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ sputum }}</a></li>
+       {% for specimen in specimens %}
+         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ specimen }}</a></li>
        {% endfor %}
        </ul>
    {% else %}    

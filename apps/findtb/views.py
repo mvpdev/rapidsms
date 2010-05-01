@@ -47,11 +47,11 @@ def sref_bashboard(request, *arg, **kwargs):
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")
     dtus = Location.objects.filter(parent=districts[0])
-    sputums = []
+    specimens = []
     for dtu in dtus:
         number = random.randint(11111, 99999)
-        sputum = "%s/09-150210 from %s" % (number, dtu)
-        sputums.append(sputum)
+        specimen = "%s/09-150210 from %s" % (number, dtu)
+        specimens.append(specimen)
 
     ctx = {}
     ctx.update(locals())
@@ -126,11 +126,11 @@ def sref_tracking(request, *args, **kwargs):
     zones = Location.objects.filter(type__name=u"zone")
     dtus = Location.objects.filter(parent=districts[0])
 
-    sputums = []
+    specimens = []
     for dtu in dtus:
         number = random.randint(11111, 99999)
-        sputum = "%s/09-150210 from %s" % (number, dtu)
-        sputums.append(sputum)
+        specimen = "%s/09-150210 from %s" % (number, dtu)
+        specimens.append(specimen)
 
     batch_arrives = True
 
@@ -157,12 +157,12 @@ def search(request, *arg, **kwargs):
     results = [[], []]
 
     for dtu in eqa:
-        result = {"sputum": "%s/09-150210" % random.randint(11111, 99999),
+        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
                   "dtu": dtu}
         results[0].append(result)
 
     for dtu in sref:
-        result = {"sputum": "%s/09-150210" % random.randint(11111, 99999),
+        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
                   "dtu": dtu}
         results[1].append(result)
 
