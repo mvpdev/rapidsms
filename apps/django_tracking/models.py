@@ -330,6 +330,21 @@ class TrackedItem(models.Model):
         ti.states.all().delete()
         ti.delete()
 
+
+    @classmethod
+    def add_state_to_item(cls, content_object, state):
+        """
+            Get or create the tracker, save the state, add it then
+            save the tracker in one row.
+        """
+
+        ti = cls.get_tracker_or_create(kwargs['instance'])
+        state.save()
+        ti.state = state
+        ti1.save()
+
+
+
     # TODO : add signals for incomming event, cancelling event, outgoing from events, etc
     # TODO : add an event "on one of my state deleted"
     # TODO : make a registration so any registered model get tracked

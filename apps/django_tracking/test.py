@@ -172,7 +172,7 @@ def test():
         assert False
     except Exception, e:
         pass
-
+    print State.objects.filter(tracked_item=t5.id).count()
     assert State.objects.filter(tracked_item=t5.id).count() == 0
 
     print "Deleting a content object linked to a state delete the state"
