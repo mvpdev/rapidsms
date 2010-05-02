@@ -45,7 +45,7 @@ class Sref(FtbState):
 
 
 
-class InvalidState(Sref):
+class SpecimenInvalid(Sref):
 
     class Meta:
         app_label = 'findtb'

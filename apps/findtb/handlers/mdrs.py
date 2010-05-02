@@ -43,7 +43,9 @@ def handle(keyword, params, message):
     # Create a mapping of keywords to handler functions
     function_mapping = {
         MDRS_KEYWORD: mdrs,
-        SEND_KEYWORD: send
+        SEND_KEYWORD: send,
+        PENDING_KEYWORD: pending,
+        VOID_KEYWORD: void,
     }
 
     # Call the appropriate handler function
@@ -75,10 +77,10 @@ def mdrs(params, location, reporter, message):
                          "was registered.")
 
 
-    id_first = match.groupdict()['patient']
+    id_first = int(match.groupdict()['patient'])
     id_years = match.groupdict()['year']
 
-    patient_id =  '%s/%s' % (id_first, id_years)
+    patient_id =  '%d/%s' % (id_first, id_years)
 
     # Check for existing patient with same id at the location
     try:
@@ -142,7 +144,7 @@ def send(params, location, reporter, message):
             pending = True
             break
     if not pending:
-        message.respond("DTU %(dtu)s has no pending samples to be sent. " \
+        message.respond("DTU %(dtu)s has no pending specimens to be sent. " \
                         "Send MDRS if you need to register a new sample." % \
                         {'dtu':location})
         return
@@ -175,19 +177,26 @@ def send(params, location, reporter, message):
         tags.append(tag)
     if not tags:
         raise ParseError("FAILED. You must send the tracking tags of the " \
-                         "samples. Send PENDING to lookup tracking tags.")
+                         "specimens. Send PENDING to lookup tracking tags.")
 
+
+    # Create a list of the pending specimens' tracking tags for this location
+    pending_tags = []
+    for spec in SpecimenRegistered.objects.get_specimens():
+        if spec.location == location:
+            pending_tags.append(spec.tracking_tag.lower())
+
+    # Check if the tags are valid, pending tags.
     samples = []
     bad_tags = []
-    for tag in tags:
-        try:
-            samples.append(Specimen.objects.get(tracking_tag__iexact=tag, \
-                                                location=location))
-        except Specimen.DoesNotExist:
+    for tag in set(tags):
+        if tag in pending_tags:
+            samples.append(Specimen.objects.get(tracking_tag__iexact=tag))
+        else:
             bad_tags.append(tag.upper())
 
     if len(bad_tags) == 1:
-        bad_string = u"%s is not a valid current tracking tag. " % bad_tags[0]
+        bad_string = u"%s is not a valid current tracking tag." % bad_tags[0]
                      
     elif len(bad_tags) > 1:
         tags_string = ', '.join(bad_tags[:-1]) + ' and ' + bad_tags[-1]
@@ -199,8 +208,7 @@ def send(params, location, reporter, message):
                        "You can use PENDING to " \
                        "lookup valid tracking tags." % bad_string)
     elif len(bad_tags) > 0:
-       
-        raise BadValue("Sending failed. %s No samples sent. " \
+        raise BadValue("Sending failed. %s No specimens sent. " \
                        "You must send all tags " \
                        "again. Use PENDING to " \
                        "lookup valid tracking tags." % bad_string)
@@ -230,3 +238,107 @@ def send(params, location, reporter, message):
                     " sent through %(method)s." % \
                     {'text':text, 'patient':patient_string, \
                      'method':sending_method.upper()}, 'success')
+
+def pending(params, location, reporter, message):
+    """
+    Send the reporter a list of all the specimens in the state of 
+    SpecimenRegistered for their location.
+    """
+    infos = []
+    for spec in SpecimenRegistered.objects.get_specimens():
+        if spec.location == location:
+            infos.append("Tag %s for patient %s" % (spec.tracking_tag, \
+                                                    spec.patient))
+    if not infos:
+        message.respond("There are no specimens pending to be sent for DTU " \
+                        "%(location)s." % {'location':location})
+        return
+    else:
+        if len(infos) == 1:
+            info_string = infos[0]
+        else:
+            info_string = ', '.join(infos[:-1]) + ' and ' + infos[-1]
+        message.respond("Pending specimens to be sent from %(dtu)s: " \
+                        "%(info)s" % {'dtu':location, 'info':info_string})
+
+def void(params, location, reporter, message):
+    """
+    Void specimens that have been registered, but not sent. Params should be
+    tracking tags.
+    """
+
+    # Check if there are any specimens to be sent for this location
+    pending = False
+    for spec in SpecimenRegistered.objects.get_specimens():
+        if spec.location == location:
+            pending = True
+            break
+    if not pending:
+        message.respond("DTU %(dtu)s has no pending specimens to be voided." % \
+                        {'dtu':location})
+    text = ' '.join(params)
+    match = re.match(r'(?P<tags>.*?)(\+\s?n(ote)?\s*(?P<note>.*))?$', text)
+    if not match or not match.groupdict()['tags']:
+        raise ParseError("FAILED: No valid tracking tags to void.")
+
+    note = match.groupdict()['note'] or ''
+
+    tags = []
+    for tag in re.split(r'[ .,]', match.groupdict()['tags']):
+        if not tag:
+            continue
+        tags.append(tag)
+    if not tags:
+        raise ParseError("FAILED: No valid tracking tags to void.")
+
+    # Create a list of the pending specimens' tracking tags for this location
+    pending_tags = []
+    for spec in SpecimenRegistered.objects.get_specimens():
+        if spec.location == location:
+            pending_tags.append(spec.tracking_tag.lower())
+
+    # Check if the tags are valid, pending tags.
+    samples = []
+    bad_tags = []
+    for tag in set(tags):
+        if tag in pending_tags:
+            samples.append(Specimen.objects.get(tracking_tag__iexact=tag))
+        else:
+            bad_tags.append(tag.upper())
+
+    if len(bad_tags) == 1:
+        bad_string = u"%s is not a valid current tracking tag." % bad_tags[0]
+                     
+    elif len(bad_tags) > 1:
+        tags_string = ', '.join(bad_tags[:-1]) + ' and ' + bad_tags[-1]
+        bad_string = "%(tags)s are not valid tracking " \
+                     "tags." % {'tags':tags_string}
+
+    if len(bad_tags) == 1 and len(samples) == 0:
+        raise BadValue("Void failed. %s Please check and try again. " \
+                       "You can use PENDING to " \
+                       "lookup valid tracking tags." % bad_string)
+    elif len(bad_tags) > 0:
+        raise BadValue("Void failed. %s No specimens voided. " \
+                       "Use PENDING to " \
+                       "lookup valid tracking tags." % bad_string)
+
+
+    # Set the state for all of the specimens
+    for specimen in samples:
+        state = SpecimenInvalid(specimen=specimen, note=note, \
+                                new_requested=False, cause='voided')
+        state.save()
+        TrackedItem.add_state_to_item(specimen, state)
+
+    infos = []
+    for spec in samples:
+        infos.append("Tag %s for patient %s" % (spec.tracking_tag, \
+                                                spec.patient))
+    #TODO Actually void
+    if len(infos) == 1:
+        info_string = infos[0]
+    else:
+        info_string = ', '.join(infos[:-1]) + ' and ' + infos[-1]
+    message.respond("Successfully voided samples: " \
+                    "%(info)s" % {'info':info_string})
