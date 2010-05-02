@@ -8,7 +8,6 @@ import rapidsms
 
 from findtb.utils import respond_exceptions, clean_msg
 from findtb.exceptions import SMSException
-#from findtb.models import *
 from findtb.handlers import registration, unregister, mdrs
 
 

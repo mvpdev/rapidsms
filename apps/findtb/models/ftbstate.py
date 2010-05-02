@@ -14,7 +14,7 @@ class FtbStateManager(models.Manager):
 
     def get_states(self):
         ct = ContentType.objects.get_for_model(self.model)
-        return State.objects.filter(content_type=ct)
+        return State.objects.filter(content_type=ct, origin='sref')
 
     def get_current_states(self):
         return self.get_states().filter(is_current_state=True)
@@ -31,6 +31,7 @@ class FtbState(models.Model):
 
     class Meta:
         app_label = 'findtb'
+        abstract = True
 
     STATE_TYPES = ('notice','result','alert','cancel')
     STATE_ORIGINS = ('findtb','sref','eqa')
