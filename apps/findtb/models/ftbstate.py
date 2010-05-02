@@ -29,34 +29,17 @@ class FtbState(models.Model):
 
     note = models.CharField(max_length=200, null=True, blank=True)
     states = generic.GenericRelation(State)
-    state_type = 'notice' 
+    state_type = 'notice'
     
     objects = FtbStateManager()
-
-    def __init__(self, note, *args, **kwargs):
-
-        print "\tFBSTATE: __init__ start"
-        print '\t\tnote: ', note
-        print '\t\targs:', args
-        print '\t\tkwargs:', kwargs
-
-        models.Model.__init__(self, *args, **kwargs)
-
-        self.note = note
-
-        print "\tFBSTATE: __init__ end"
 
 
     def save(self, *args, **kwargs):
 
         print "\tFBSTATE: save start"
         print '\t\tself.note: ', self.note
-
-        models.Model.save(self, *args, **kwargs)
-        #super(FtbState, self).save(*args, **kwargs)
-               
+        super(FtbState, self).save(*args, **kwargs)
         self.set_type(self.state_type)
-
         print "\tFBSTATE: save end"
 
 

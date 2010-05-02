@@ -24,20 +24,6 @@ class Sref(FtbState):
 
     specimen = models.ForeignKey(Specimen)
 
-    def __init__(self, specimen, *args, **kwargs):
-    
-        print "\tSREF: __init__ start"
-        print '\t\tspecimen: ', specimen
-        print '\t\targs:', args
-        print '\t\tkwargs:', kwargs
-    
-        FtbState.__init__(self, *args, **kwargs)
-        #super(Sref, self).__init__(self, *args, **kwargs)
-
-        self.specimen = specimen
-        print "\tSREF: __init__ end"
-
-
     def get_web_form(self):
         """
         Returns a web form to be shown in the website when this is the current
@@ -74,12 +60,7 @@ class InvalidState(Sref):
 
     cause = models.CharField(max_length=10, choices=INVALID_CHOICES)
     new_requested = models.BooleanField(default=True)
-
-    def __init__(self, cause, *args, **kwargs):
-        Sref.__init__(self, *args, **kwargs)
-        #super(InvalidState, self).__init__(*args, **kwargs)
-        self.cause = cause
-        self.set_type('cancel')
+    state_type = 'cancel'
 
     def get_web_form(self):
         pass
@@ -102,18 +83,6 @@ class SpecimenRegistered(Sref):
     
     class Meta:
         app_label = 'findtb'
-
-    def __init__(self, *args, **kwargs):
-    
-        print "\tSpecimenRegistered: __init__ start"
-        print '\t\targs:', args
-        print '\t\tkwargs:', kwargs
-        
-        Sref.__init__(self, *args, **kwargs)
-        #super(SpecimenRegistered, self).__init__(*args, **kwargs)
-        
-        print "\tSpecimenRegistered: __init__ end"
-
 
     def get_web_form(self):
         pass
@@ -188,11 +157,6 @@ class SpecimenReceieved(Sref):
     """
     class Meta:
         app_label = 'findtb'
-
-    def __init__(self, *arg, **kwargs):
-        Sref.__init__(self, *args, **kwargs)
-        #super(SpecimenReceieved, self).__init__(*arg, **kwargs)
-        self.set_type('notice')
 
     def get_web_form(self):
         pass

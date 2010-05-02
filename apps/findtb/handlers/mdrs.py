@@ -86,7 +86,7 @@ def mdrs(params, location, reporter, message):
     print 'After specimen.save()'
     
     print 'Before SpecimenRegistered(specimen, note)'
-    state = SpecimenRegistered(specimen, note)
+    state = SpecimenRegistered(specimen=specimen, note=note)
     print 'After SpecimenRegistered(specimen, note)'
     
     print 'Before state.save()'
