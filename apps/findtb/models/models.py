@@ -116,6 +116,13 @@ class Specimen(models.Model):
     tc_number = models.CharField(max_length=12, blank=True, null=True, \
                                       db_index=True, unique=True)
 
+    def __unicode__(self):
+        string = "For %(patient)s, tracking tag %(tag)s" % \
+                 {'patient':self.patient, 'tag':self.tracking_tag}
+        if self.tc_number:
+            string = '%s, TC#%s' % (string, self.tc_number)
+        return string
+
 
 class FINDTBGroup(Group):
     class Meta:
