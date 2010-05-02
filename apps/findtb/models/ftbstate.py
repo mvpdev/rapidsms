@@ -13,6 +13,10 @@ class FtbStateManager(models.Manager):
     def get_current_states(self):
         ct = ContentType.objects.get_for_model(self.model)
         return State.objects.filter(content_type=ct, is_current_state=True)
+        
+    def get_specimens(self):
+        return [state.tracked_item.content_object \
+                for state in self.get_current_states()]
 
 
 class FtbState(models.Model):
@@ -45,8 +49,8 @@ class FtbState(models.Model):
 
     def set_type(self, state_type):
         """
-            Set the type of all states pointing to the current model instance.
-            Type is a string that must be one of STATE_TYPES.
+        Set the type of all states pointing to the current model instance.
+        Type is a string that must be one of STATE_TYPES.
         """
 
         print "\tFBSTATE: set_type start"
@@ -56,7 +60,7 @@ class FtbState(models.Model):
             raise TypeError("State must be one of " % \
                             (', '.join(self.STATE_TYPES)))
 
-        for state in State.get_states_for_object(self):
+        for state in State.get_states(self):
             state.type = state_type
 
         print "\tFBSTATE: set_type end"

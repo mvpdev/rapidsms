@@ -97,7 +97,7 @@ class SpecimenRegistered(Sref):
                u"with tracking tag %(tag)s." % \
                {'dtu': self.specimen.location, \
                 'patient': self.specimen.patient, \
-                'tag': self.specimen.tracking_tag}
+                'tag': self.specimen.tracking_tag.upper()}
 
 
 class SpecimenSent(Sref):
