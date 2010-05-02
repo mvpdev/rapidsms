@@ -16,7 +16,7 @@
     <ul id="findtb-event-picker-selection">
         {% for state in states %}
         <li class="{{ state.type }}">
-            <a href="{% url findtb-sref-tracking state.content_object.specimen %}">
+            <a href="{% url findtb-sref-tracking state.tracked_item.content_object.pk %}">
                 <strong>{{ state.content_object.get_long_message }}</strong>
                 <span>{{ state.created }}</span> <!-- TODO : humanise created date -->
             </a>

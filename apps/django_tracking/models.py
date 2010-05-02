@@ -13,30 +13,30 @@ previous states. State can be any Django model.
 
 # TODO : let the user choose the behaviour for when they delete a state object or a tracked item
 
-def get_generic_relation_holder_for_object(cls, content_object):
+def get_generic_relation_holder(cls, content_object):
     """
     Returns the object pointing to this content object via a generic relationship
     for the class 'cls' if it exists or raise TrackedItem.DoesNotExist.
     Cls must be the class holding the generic relationship and must
     provide a DoesNotExist exception.
     """
-    
-    print "\t%s: get_generic_relation_holder_for_object start" % cls
+
+    print "\t%s: get_generic_relation_holder start" % cls
     print '\t\tcontent_object: ', content_object
-    
+
     try:
         ct = ContentType.objects.get_for_model(content_object)
-        
+
         print '\t\tcontent type: ', ct
 
-        print "\t%s: get_generic_relation_holder_for_object return" % cls
-        
+        print "\t%s: get_generic_relation_holder return" % cls
+
         return cls.objects.get(content_type=ct, object_id=content_object.pk)
-    except ObjectDoesNotExist:
+    except ObjectDoesNotExist, AttributeError:
         raise cls.DoesNotExist()
 
 
-def get_generic_relation_holder_for_object_or_create(cls, content_object,
+def get_generic_relation_holder_or_create(cls, content_object,
                                                       *args, **kwargs):
     """
     Returns a tuple containg  the object pointing to this content object
@@ -45,31 +45,31 @@ def get_generic_relation_holder_for_object_or_create(cls, content_object,
     E.G : (<GenericRelationHolder>, True)
     """
 
-    print "\t%s: get_generic_relation_holder_for_object start" % cls
+    print "\t%s: get_generic_relation_holder start" % cls
     print '\t\tcontent_object: ', content_object
 
     try:
         print '\t\treturn generic relation ', content_object
-        return (get_generic_relation_holder_for_object(cls, content_object), False)
+        return (get_generic_relation_holder(cls, content_object), False)
     except cls.DoesNotExist:
         print '\t\tcreate generic relation ', content_object
         return (cls(content_object=content_object, *args, **kwargs), True)
 
 
-def get_generic_relation_holder_for_objects(cls, content_object):
+def get_generic_relation_holders(cls, content_object):
     """
     Returns a queryset with all the objects pointing to this content object via
     a generic relationship for the class 'cls'.
     """
-    
-    print "\t%s: get_generic_relation_holder_for_objects start" % cls
+
+    print "\t%s: get_generic_relation_holders start" % cls
     print '\t\tcontent_object: ', content_object
-    
+
     ct = ContentType.objects.get_for_model(content_object)
 
     print '\t\tcontent type: ', ct
 
-    print "\t%s: get_generic_relation_holder_for_objects return" % cls
+    print "\t%s: get_generic_relation_holders return" % cls
     return cls.objects.filter(content_type=ct, object_id=content_object.pk)
 
 
@@ -106,7 +106,7 @@ class State(models.Model):
 
     # if there is not state after this one
     final = models.BooleanField(default=False)
-    
+
     # if this state is currently the current state for any tracked item
     is_current_state = models.BooleanField(default=False)
 
@@ -126,7 +126,7 @@ class State(models.Model):
 
 
     def save(self, *args, **kwargs):
-    
+
         print "\tState: save start"
 
 
@@ -141,7 +141,7 @@ class State(models.Model):
 
 
     def __unicode__(self):
-    
+
         print "\tState: save start"
 
         if not self.created:
@@ -153,43 +153,42 @@ class State(models.Model):
 
 
     @classmethod
-    def on_delete_content_object(cls, sender, *args, **kwargs):
+    def on_delete_content_object(cls, sender, **kwargs):
         """
         When the content object is deleted, the state removes itself
         from all the tracked item current state and replace it by None
         then delete itself.
         """
         # TODO : state deletion should happen in a transaction
-        
+
         print "\tState: on_delete_content_object() start"
         print '\t\tsender:', sender
-        print '\t\targs:', args
         print '\t\tkwargs:', kwargs
-        
+
         print '\t\tfor all states'
-        for state in cls.get_states_for_object(kwargs['instance']):
-            
+        for state in cls.get_states(kwargs['instance']):
+
             print '\t\t\tdelete', state
             state.tracked_item.state = None
             state.tracked_item.save()
             state.delete()
-            
+
         print "\tState: on_delete_content_object() end"
 
 
     @classmethod
-    def get_states_for_object(cls, content_object):
+    def get_states(cls, content_object):
         """
         Returns a query set of all the states pointing to that object
         """
-        
-        print "\tState: get_states_for_object() start"
-        
-        print "\tState: get_states_for_object() return"
-        return get_generic_relation_holder_for_objects(cls, content_object)
+
+        print "\tState: get_states() start"
+
+        print "\tState: get_states() return"
+        return get_generic_relation_holders(cls, content_object)
 
 
-pre_delete.connect(State.on_delete_content_object, sender=models.Model)
+pre_delete.connect(State.on_delete_content_object)
 
 
 
@@ -229,17 +228,17 @@ class TrackedItem(models.Model):
         """
         Call the parent model save() with some checks
         """
-        
+
         print "\tTrackedItem: _super_save start"
 
-        
+
         try:
             models.Model.save(self, *args, **kwargs)
         except IntegrityError, e:
             if e.args[0] == 1062: # SQL uniq constraint is not respecte
                 raise StateError("The model instance %s is already tracked"\
                              % unicode(self))
-                             
+
         print "\tTrackedItem: _super_save end"
 
 
@@ -248,9 +247,9 @@ class TrackedItem(models.Model):
         Overloaded save() so we can add a state even with the circular
         reference between a state and a tracked item.
         """
-        
+
         print "\tTrackedItem: save start"
-       
+
 
         # If _state_bak is full, then it means that is TrackedItem is
         # newly created and not saved yet. Deal with cirlar reference with
@@ -269,10 +268,10 @@ class TrackedItem(models.Model):
             print "\t\tself.state exists"
             self.state.tracked_item = self
             self.state.save()
-            
+
 
         self._super_save(*args, **kwargs)
-        
+
         print "\tTrackedItem: save end"
 
 
@@ -299,23 +298,24 @@ class TrackedItem(models.Model):
         """
         Set the tracked object to it's next state.
         """
-        
+
         print "\tState: set_to_next_state() start"
         print '\t\tnext_state:', next_state
-        
+
 
         if next_state is None:
             print "\t\t next state is none"
             self.current_state = None
 
         else:
-        
+
             # the previous state is not the current state anymore
-            
-            if self.current_state:
+            # let mark it as such, but only if it's a state object
+            # that has already been saved
+            if self.current_state and self.current_state.pk:
                 self.current_state.is_current_state = False
                 self.current_state.save()
-        
+
             print "\t\t next state is NOT none"
             # For now, we allow only Django model to be states
             if not isinstance(next_state, models.Model):
@@ -327,8 +327,8 @@ class TrackedItem(models.Model):
             if not isinstance(next_state, State):
                 print "\t\t next state is not a state, wrapping it in a state object"
                 next_state = State(content_object=next_state)
-                
-            # TODO : test is current _state    
+
+            # TODO : test is current _state
             next_state.is_current_state = True
 
             # Prevent two track item to share a state object
@@ -344,7 +344,7 @@ class TrackedItem(models.Model):
             else:
                 print '\t\tTracked item not saved, putting next_state in self.current_state'
                 self.current_state = next_state
-                
+
         print "\tTrackedItem: set_to_next_state() end"
 
 
@@ -384,13 +384,15 @@ class TrackedItem(models.Model):
     # TODO : add a way to untrack event
 
     @classmethod
-    def get_tracker_for_object(cls, content_object):
+    def get_tracker(cls, content_object):
         """
         Returns the TrackedItem object pointing to this content object if
         it exists or raise TrackedItem.DoesNotExist.
         """
-        
-        return get_generic_relation_holder_for_object(cls, content_object)
+
+        print "\tTrackerItem get_tracker() start"
+        print "\tTrackerItem get_tracker() return"
+        return get_generic_relation_holder(cls, content_object)
 
 
     @classmethod
@@ -402,20 +404,34 @@ class TrackedItem(models.Model):
         E.G : (<TrackedItem>, True)
         """
 
-        return get_generic_relation_holder_for_object_or_create(cls, content_object)
+        print "\tTrackerItem get_tracker_or_create() start"
+
+        print "\tTrackerItem get_tracker_or_return() return"
+        return get_generic_relation_holder_or_create(cls, content_object)
 
 
     @classmethod
-    def on_delete_content_object(cls, sender, *args, **kwargs):
+    def on_delete_content_object(cls, sender, **kwargs):
+
+        print "\t%s on_delete_content_object() start" % cls
+        print "\t\tsender: ", sender
+        print "\t\tkwargs: ", kwargs
 
         try:
-            ti = cls.get_tracker_for_object(kwargs['instance'])
+            print "\t\tget tracker"
+            ti = cls.get_tracker(kwargs['instance'])
+            print "This item is been tracked."
         except cls.DoesNotExist:
+            print "This item is NOT tracked. Return None."
             return None
 
         # TODO : make the delete happen in a transaction
+        print "\t\t Get all states and delete"
         ti.states.all().delete()
+        print "\t\t Delete tracker"
         ti.delete()
+
+        print "\t%s on_delete_content_object() end" % cls
 
 
     @classmethod
@@ -437,4 +453,4 @@ class TrackedItem(models.Model):
 
 
 
-post_delete.connect(TrackedItem.on_delete_content_object, sender=models.Model)
+post_delete.connect(TrackedItem.on_delete_content_object)

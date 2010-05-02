@@ -42,6 +42,7 @@ def sref_bashboard(request, *arg, **kwargs):
 
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")
+    
 
     # looking for specimen that are not in final state
     states = State.objects.filter(final=False)
@@ -53,7 +54,9 @@ def sref_bashboard(request, *arg, **kwargs):
             specimens = dtus.get(dtu.id, [])
             specimens.append(specimen)
             dtus[dtu.id] = specimens
-
+            
+    # looking for specimen that are not in final state
+    states = State.objects.filter(final=False).order_by('-created')[:10]
     ctx = {}
     ctx.update(locals())
     ctx.update(kwargs)

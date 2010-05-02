@@ -126,22 +126,22 @@ def test():
     assert t1.content_type == ContentType.objects.get_for_model(t1.content_object)
 
     print "You can get a TrackedItem from the model"
-    t3 = TrackedItem.get_tracker_for_object(content_object=t1.content_object)
+    t3 = TrackedItem.get_tracker(content_object=t1.content_object)
     print t1, t1.id, t1.content_object, t1.content_object.id
     print t3, t3.id, t3.content_object, t3.content_object.id
     assert t1 == t3
 
     print "If the model doesn't exists, it raises a TrackedItem.DoesNotExists exception"
     try:
-        t4 = TrackedItem.get_tracker_for_object(content_object=l[10])
+        t4 = TrackedItem.get_tracker(content_object=l[10])
         assert False
     except TrackedItem.DoesNotExist:
         pass
 
     print "You can get a tracked Item from the model or a new model if it does no exist"
     print "A tuple will contain the object and a boolean say if it has been created"
-    t3 = TrackedItem.get_tracker_for_object_or_create(content_object=t1.content_object)
-    t4 = TrackedItem.get_tracker_for_object_or_create(content_object=l[10])
+    t3 = TrackedItem.get_tracker_or_create(content_object=t1.content_object)
+    t4 = TrackedItem.get_tracker_or_create(content_object=l[10])
 
     assert t1 == t3[0]
     assert not t3[1]
@@ -152,7 +152,7 @@ def test():
     p[33].delete()
 
     print "Deleting a content object will delete the associated item and states"
-    t5 = TrackedItem.get_tracker_for_object_or_create(content_object=p[11])[0]
+    t5, created = TrackedItem.get_tracker_or_create(content_object=p[11])
     t5.state = p[0]
     t5.save()
     t5.state = p[1]
@@ -165,6 +165,10 @@ def test():
         assert True
     except Exception, e:
         assert True
+
+
+    t7.states.all().count() == 2
+
     p[11].delete()
 
     try:
@@ -176,7 +180,7 @@ def test():
     assert State.objects.filter(tracked_item=t5.id).count() == 0
 
     print "Deleting a content object linked to a state delete the state"
-    t8, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[29])
+    t8, created = TrackedItem.get_tracker_or_create(content_object=l[29])
     assert created
 
     t8.state = p[2]
@@ -195,14 +199,14 @@ def test():
 
     print "Deleting a state object will wich is a current state for tracked "\
           "item will set their current state to none"
-    t9, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[29])
+    t9, created = TrackedItem.get_tracker_or_create(content_object=l[29])
     assert t9.state == None
 
     print "It deletes all the states refering to the current object if there"\
           " are several of them"
 
-    t10, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[28])
-    t11, created = TrackedItem.get_tracker_for_object_or_create(content_object=l[27])
+    t10, created = TrackedItem.get_tracker_or_create(content_object=l[28])
+    t11, created = TrackedItem.get_tracker_or_create(content_object=l[27])
     t10.state = p[4]
     t10.save()
     t11.state = p[4]
