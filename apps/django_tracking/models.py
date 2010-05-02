@@ -188,7 +188,7 @@ class State(models.Model):
         return get_generic_relation_holders(cls, content_object)
 
 
-pre_delete.connect(State.on_delete_content_object)
+pre_delete.connect(State.on_delete_content_object,)
 
 
 

@@ -6,20 +6,27 @@ from django.db import models
 from django_tracking.models import State
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-
+from django.db.models.signals import post_save
 
 
 class FtbStateManager(models.Manager):
-    def get_current_states(self):
+
+
+    def get_states(self):
         ct = ContentType.objects.get_for_model(self.model)
-        return State.objects.filter(content_type=ct, is_current_state=True)
+        return State.objects.filter(content_type=ct)
+
+
+    def get_current_states(self):
+        return self.get_states().filter(is_current_state=True)
+
 
 
 class FtbState(models.Model):
     """
     State shared among all states in the FindTB app.
     """
-    
+
     class Meta:
         app_label = 'findtb'
         abstract = True
@@ -30,7 +37,7 @@ class FtbState(models.Model):
     note = models.CharField(max_length=200, null=True, blank=True)
     states = generic.GenericRelation(State)
     state_type = 'notice'
-    
+
     objects = FtbStateManager()
 
 
@@ -39,24 +46,26 @@ class FtbState(models.Model):
         print "\tFBSTATE: save start"
         print '\t\tself.note: ', self.note
         super(FtbState, self).save(*args, **kwargs)
-        self.set_type(self.state_type)
+        # will update the type once the state is save
+        post_save.connect(self.set_type, sender=State)
         print "\tFBSTATE: save end"
 
 
-    def set_type(self, state_type):
+    def set_type(self, **kwargs):
         """
             Set the type of all states pointing to the current model instance.
             Type is a string that must be one of STATE_TYPES.
         """
 
         print "\tFBSTATE: set_type start"
-        print '\t\tstate_type: ', state_type
+        print '\t\tstate_type: ', self.state_type
 
-        if state_type not in self.STATE_TYPES:
+        if self.state_type not in self.STATE_TYPES:
             raise TypeError("State must be one of " % \
                             (', '.join(self.STATE_TYPES)))
 
-        for state in State.get_states_for_object(self):
-            state.type = state_type
+        print '\t\tGetting states for:', self
+
+        self.states.exclude(type=self.state_type).update(type=self.state_type)
 
         print "\tFBSTATE: set_type end"
