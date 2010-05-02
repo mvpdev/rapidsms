@@ -2,6 +2,8 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
+import re
+
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group, User
@@ -66,6 +68,8 @@ class Patient(models.Model):
 
     class Meta:
         app_label = 'findtb'
+        unique_together = ("patient_id", "location")
+
 
     GENDER_MALE = 'M'
     GENDER_FEMALE = 'F'
@@ -90,13 +94,21 @@ class Patient(models.Model):
                                                      "an approximation"))
     is_active = models.BooleanField(default=True)
 
+    # Returns a zero-padded patient id as a string
+    def zero_id(self):
+        match = re.match('^(\d+)/(\d+)$',self.patient_id)
+        if not match:
+            return self.patient_id
+        else:
+            return "%04d/%s" % (int(match.groups()[0]), match.groups()[1])
+
     def full_name(self):
         return '%s %s' % (self.last_name, self.first_name)
 
     def __unicode__(self):
         if self.first_name and self.last_name:
             return self.full_name()
-        return self.patient_id
+        return self.zero_id()
     
 
 
