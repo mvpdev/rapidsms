@@ -142,13 +142,9 @@ class State(models.Model):
 
     def __unicode__(self):
 
-        print "\tState: save start"
-
         if not self.created:
-            print "\t\tdisplaying unbound"
             return "Ubound state: %s" % self.content_object
 
-        print "\t\tdisplaying bound"
         return "State of at %s of: %s" % (self.created, self.content_object)
 
 
@@ -188,7 +184,7 @@ class State(models.Model):
         return get_generic_relation_holders(cls, content_object)
 
 
-pre_delete.connect(State.on_delete_content_object,)
+#pre_delete.connect(State.on_delete_content_object,)
 
 
 
@@ -233,7 +229,7 @@ class TrackedItem(models.Model):
 
 
         try:
-            models.Model.save(self, *args, **kwargs)
+            super(TrackedItem, self).save(*args, **kwargs)
         except IntegrityError, e:
             if e.args[0] == 1062: # SQL uniq constraint is not respecte
                 raise StateError("The model instance %s is already tracked"\
@@ -261,16 +257,46 @@ class TrackedItem(models.Model):
             self.current_state = self._state_bak
             self._state_bak = None
 
+
+        print "\t\tstate is: ", self.state
+        print "\t\tcurrent_state is: ", self.current_state
+        print "\t\t_state_bak is: ", self._state_bak
+
         # Saving the state automatically now
         # You can't save a state manually outside a non saved Tracked Item.
 
+
         if self.state :
-            print "\t\tself.state exists"
+            print "\t\tself.state exists %s (%s):" % (self.state, self.state.pk)
+            
             self.state.tracked_item = self
+            self.state.is_current_state = True
             self.state.save()
 
+            # Not sure why we need to do this, but if we don't, there is no
+            # state in current after saving. Who knows why?
+            self.current_state_id = self.state.id # wtf  ???
+            print "\t\tself.state is saved %s (%s):" % (self.state, self.state.pk)
 
+        # mark the previous state as not being the current one anymore
+        previous_state = self.get_previous_state()
+        if previous_state:
+            previous_state.is_current_state = False
+            previous_state.save()
+
+
+
+        ti = TrackedItem.objects.get(content_type=self.content_type, object_id=self.object_id)
+        print "fdsafsdadsfasdfadsf"
+
+        print ti.current_state
+        
         self._super_save(*args, **kwargs)
+
+        ti = TrackedItem.objects.get(content_type=self.content_type, object_id=self.object_id)
+        print "fdsafsdadsfasdfadsf"
+
+        print ti.current_state
 
         print "\tTrackedItem: save end"
 
@@ -309,13 +335,6 @@ class TrackedItem(models.Model):
 
         else:
 
-            # the previous state is not the current state anymore
-            # let mark it as such, but only if it's a state object
-            # that has already been saved
-            if self.current_state and self.current_state.pk:
-                self.current_state.is_current_state = False
-                self.current_state.save()
-
             print "\t\t next state is NOT none"
             # For now, we allow only Django model to be states
             if not isinstance(next_state, models.Model):
@@ -328,9 +347,6 @@ class TrackedItem(models.Model):
                 print "\t\t next state is not a state, wrapping it in a state object"
                 next_state = State(content_object=next_state)
 
-            # TODO : test is current _state
-            next_state.is_current_state = True
-
             # Prevent two track item to share a state object
             # Several state objects can point to the same
             # models instance, however
@@ -342,8 +358,10 @@ class TrackedItem(models.Model):
                 print '\t\tTracked item not saved, putting next_state in self._state_bak'
                 self._state_bak = next_state
             else:
-                print '\t\tTracked item not saved, putting next_state in self.current_state'
+                print '\t\tTracked item saved, putting next_state in self.current_state'
                 self.current_state = next_state
+
+
 
         print "\tTrackedItem: set_to_next_state() end"
 
@@ -363,7 +381,7 @@ class TrackedItem(models.Model):
         if self.state:
 
             if not self.state.created:
-                raise StateError("Can't cancel un unsave state: "\
+                raise StateError("Can't cancel an unsave state: "\
                                  "save the TrackedItem if you want "\
                                  "to cancel a state you just added")
 
@@ -378,7 +396,7 @@ class TrackedItem(models.Model):
                      cancel_current_state,
                      "The current state this tracked object is in. "\
                      "All states are saved in an history. "\
-                     "A state can any Django model" )
+                     "A state can be any and only Django models" )
 
 
     # TODO : add a way to untrack event
@@ -441,9 +459,21 @@ class TrackedItem(models.Model):
             save the tracker in one row.
         """
 
+        print "\t%s add_state_to_item() start" % cls
+        print "\t\tcontent_object: ", content_object
+        print "\t\tstate: ", state
+
         ti, created = cls.get_tracker_or_create(content_object)
+        print "\t\ttracker: ", ti
+        print "\t\tcreated:", created
         ti.state = state
+        
         ti.save()
+
+
+        print "\t%s add_state_to_item() end" % cls
+
+        return (ti, ti.state)
 
 
 
@@ -453,4 +483,4 @@ class TrackedItem(models.Model):
 
 
 
-post_delete.connect(TrackedItem.on_delete_content_object)
+#post_delete.connect(TrackedItem.on_delete_content_object)
