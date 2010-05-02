@@ -5,10 +5,12 @@
 from django.contrib import admin
 
 from findtb.models import *
+from django_tracking.models import *
 
 
 admin.site.register(Configuration)
 admin.site.register(Role)
 admin.site.register(Specimen)
 admin.site.register(Patient)
-
+admin.site.register(State)
+admin.site.register(TrackedItem)
