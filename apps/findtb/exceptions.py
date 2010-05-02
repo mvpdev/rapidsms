@@ -11,7 +11,6 @@ class SMSException(Exception):
 
     def __unicode__(self):
         return self.sms
-    
 
 class NotRegistered(SMSException):
     def __init__(self, sms="Sorry, only registered users " \

@@ -8,7 +8,8 @@ import random
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
 from locations.models import Location, LocationType
-
+from django_tracking.models import State
+from findtb.models import Specimen
 
 def eqa_bashboard(request, *arg, **kwargs):
 
@@ -36,22 +37,22 @@ def eqa_bashboard(request, *arg, **kwargs):
 
 def sref_bashboard(request, *arg, **kwargs):
 
-    events = [{"title": "Microscopy of specimen 1234/09-150210 from Namokora HC IV is positive",
-                        "type": "cancelled", "date": "3 hours ago"},
-           {"title": "Specimen 1234/09-150210 from Pajimo HC III have arrived at NTRL",
-                            "type": "notice", "date": "2 hours ago"},
-           {"title": "Specimen 1234/09-150210 from Pajimo HC III is 3 days late",
-            "type": "warning", "date": "2 days ago"},
-         ]
+    
+    states = State.objects.all().order_by('-created')[:10]
 
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
-    specimens = []
-    for dtu in dtus:
-        number = random.randint(11111, 99999)
-        specimen = "%s/09-150210 from %s" % (number, dtu)
-        specimens.append(specimen)
+
+    # looking for specimen that are not in final state
+    states = State.objects.filter(final=False)
+    dtus = {}
+    for state in states:
+        if isinstance(state.tracked_item.content_object, Specimen):
+            specimen = state.tracked_item.content_object
+            dtu = specimen.location
+            specimens = dtus.get(dtu.id, [])
+            specimens.append(specimen)
+            dtus[dtu.id] = specimens
 
     ctx = {}
     ctx.update(locals())

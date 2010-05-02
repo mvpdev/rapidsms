@@ -14,11 +14,11 @@
 
 {% block findtb-events-selection %}
     <ul id="findtb-event-picker-selection">
-        {% for event in events %}
-        <li class="{{ event.type }}">
-            <a href="{% url findtb-sref-tracking 0042 %}">
-                <strong>{{ event.title }}</strong>
-                <span>{{ event.date }}</span>
+        {% for state in states %}
+        <li class="{{ state.type }}">
+            <a href="{% url findtb-sref-tracking state.content_object.specimen %}">
+                <strong>{{ state.content_object.get_long_message }}</strong>
+                <span>{{ state.created }}</span> <!-- TODO : humanise created date -->
             </a>
         </li>
         {% endfor %}
@@ -30,11 +30,15 @@
 
 {% block findtb-test-picker-selection %}
    
+   <!-- TODO : group by DTU -->
+
    {% if specimens %}
        <ul>
-       {% for specimen in specimens %}
-         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ specimen }}</a></li>
-       {% endfor %}
+       {% for dtu in dtus.iteritems %}
+           {% for specimen in dtu.1 %}
+             <li><a href="{% url findtb-sref-tracking specimen.pk %}">{{ specimen.patient }} form {{ specimen.location }}</a></li>
+           {% endfor %}
+      {% endfor %}
        </ul>
    {% else %}    
         <p>Nothing to test yet</p>

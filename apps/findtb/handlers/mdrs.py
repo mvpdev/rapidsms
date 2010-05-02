@@ -6,89 +6,155 @@ import re
 from datetime import datetime, date, timedelta
 
 from findtb.models import *
-from findtb.utils import registered, clean_names
-from findtb.exceptions import ParseError, NotAllowed
-
+from findtb.utils import registered, clean_names, generate_tracking_tag
+from findtb.exceptions import ParseError, NotAllowed, BadValue
 
 MDRS_KEYWORD = 'mdrs'
+SEND_KEYWORD = 'send'
+PENDING_KEYWORD = 'pending'
+VOID_KEYWORD = 'void'
 
 KEYWORDS = [
     MDRS_KEYWORD,
+    SEND_KEYWORD,
+    PENDING_KEYWORD,
+    VOID_KEYWORD,
 ]
 
-INFO_STRING = "Failed. Check documentation. Try " \
-              "again by sending:\n PatientRegistration Surname FirstName " \
-              "Age Gender"
 
 @registered
 def handle(keyword, params, message):
-    if keyword==MDRS_KEYWORD:
-        lab_tech = FINDTBGroup.objects.get(name=\
-                                        FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
-        reporter = message.persistant_connection.reporter
+
+    lab_tech = FINDTBGroup.objects.get(name=\
+                                    FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
+    reporter = message.persistant_connection.reporter
+    try:
+        location = Role.objects.get(group=lab_tech, \
+                            reporter=reporter).location
+    except Role.MultipleObjectsReturned:
+        raise Exception("Lab tech %s registered at multiple DTUs" % \
+                        reporter)
+    except Role.DoesNotExist:
+        raise NotAllowed("You do not have permission to access the " \
+                         "Specimen Referral system.")
+
+    function_mapping = {
+        MDRS_KEYWORD: mdrs,
+        SEND_KEYWORD: send
+    }
+    function_mapping[keyword](params, location, reporter, message)
+    
+def mdrs(params, location, reporter, message):
+    if len(params) == 0:
+        raise ParseError("Specimen sample registration failed. " \
+                         "You must send the PatientID")
+
+    specimen = Specimen()
+    if not Specimen.objects.count():
+        specimen.tracking_tag = generate_tracking_tag()
+    else:
+        last_tag = Specimen.objects.all().order_by('-id')[0].tracking_tag
+        specimen.tracking_tag = generate_tracking_tag(last_tag)
+    patient = Patient()
+    patient.created_by = specimen.created_by = message.reporter
+    patient.location = specimen.location = location
+
+    text = ' '.join(params)
+    match = re.match(r'^(?P<patient>\d+)[ -./\\_]+(?P<year>\d{2})\s*' \
+                      '(\+\s?n(ote)?\s*(?P<note>.*))?$',text)
+    if not match:
+        raise ParseError("FAILED: Invalid patient registration number. " \
+                         "Should be in the " \
+                         "format XXXX/YY where XXXX is a number and YY " \
+                         "is the last two digits of year when patient " \
+                         "was registered.")
+
+    
+    patient.patient_id = '%04d/%s' % \
+                                (int(match.groupdict()['patient']), \
+                                 match.groupdict()['year'])
+
+    note = match.groupdict()['note'] or ''
+
+    print 'Before patient.save()'
+    patient.save()
+    print 'After patient.save()'
+    
+    print 'Before specimen.save()'
+    specimen.patient = patient
+    specimen.save()
+    print 'After specimen.save()'
+    
+    print 'Before SpecimenRegistered(specimen, note)'
+    state = SpecimenRegistered(specimen, note)
+    print 'After SpecimenRegistered(specimen, note)'
+    
+    print 'Before state.save()'
+    state.save()
+    print 'After state.save()'
+    
+    print 'Before TrackedItem.get_tracker_or_create(specimen)'
+    tracked_specimen, created = TrackedItem.get_tracker_or_create(specimen)
+    print 'After TrackedItem.get_tracker_or_create(specimen)'
+    
+    print 'Before tracked_specimen.state = state'
+    tracked_specimen.state = state
+    print 'After tracked_specimen.state = state'
+    
+    print 'Before tracked_specimen.save()'
+    tracked_specimen.save()
+    print 'After tracked_specimen.save()'
+    
+    message.respond("SUCCESS " \
+                    "for patient %(patient)s. Tracking tag is " \
+                    "%(tag)s. You must write this tag down as you will " \
+                    "need it when you send the SEND message." % \
+                    {'patient':patient.patient_id, \
+                     'tag':specimen.tracking_tag.upper()})
+
+
+def send(params, location, reporter, message):
+    #TODO pending STATE: Check if there are any in the 'pending' state, bail
+    #if not
+    if len(params) < 2:
+        raise ParseError("Sending failed. You must send: TrackingTag " \
+                         "followed by POST or ZTLS")
+    text = ' '.join(params)
+    match = re.match(r'(?P<tags>.*?)(\+\s?n(ote)?\s*(?P<note>.*))?$', text)
+    if not match or not match.groupdict()['tags']:
+        raise ParseError("FAILED. You must send the tracking tags of the " \
+                         "samples. Send PENDING to lookup tracking tags.")
+
+    if match.groupdict()['note']:
+        pass
+        #TODO Record note in state
+
+    tags = []
+    for tag in re.split(r'[ .,]', match.groupdict()['tags']):
+        if not tag:
+            continue
+        tags.append(tag)
+    if not tags:
+        raise ParseError("FAILED. You must send the tracking tags of the " \
+                         "samples. Send PENDING to lookup tracking tags.")
+
+    samples = []
+    bad_tags = []
+    for tag in tags:
+        #TODO only check against PENDING samples
         try:
-            location = Role.objects.get(group=lab_tech, \
-                                reporter=reporter).location
-        except Role.MultipleObjectsReturned:
-            raise Exception("Lab tech %s registered at multiple DTUs" % \
-                            reporter)
-        except Role.DoesNotExist:
-            raise NotAllowed("You do not have permission to register MDRS " \
-                             "samples.")
+            samples.append(Specimen.objects.get(tracking_tag=tag))
+        except Specimen.DoesNotExist:
+            bad_tags.append(tag.upper())
 
-        if len(params) < 5:
-            raise ParseError(INFO_STRING)
-
-        sputum = Sputum()
-        patient = Patient()
-        patient.created_by = sputum.created_by = message.reporter
-        patient.location = sputum.location = location
-
-        text = ' '.join(params)
-        match = re.match(r'^(\d+)[ -./\\_]+(\d{2})(.*)',text)
-        if not match:
-            raise ParseError("Failed: Invalid Patient registration number. " \
-                             "Should be in the " \
-                             "format XXXX/YY where XXXX is a number and YY " \
-                             "is the last two digits of year when patient " \
-                             "was registered.")
-
-        patient.patient_id = '%04d/%s' % \
-                                    (int(match.groups()[0]), match.groups()[1])
-        text = match.groups()[2]
-
-        note = ''
-        match = re.match(r'(?P<text>.*)\+\s?n(ote)?\s*(?P<note>.*)', text)
-        if match:
-            note = match.groupdict()['note']
-            text = match.groupdict()['text']
-
-        params = text.split()
-        if len(params) < 4:
-            raise ParseError(INFO_STRING)
-
-        gender = params.pop().upper()
-        if not re.match('^[MF]$', gender):
-            raise ParseError(INFO_STRING)
-        patient.gender = gender
-        
-        age = params.pop()
-        if age.isdigit() and int(age) < 110:
-            age = int(age)
-        else:
-            raise ParseError(INFO_STRING)
-
-        WEEKS_IN_YEAR = 52.1774
-        patient.dob = date.today() - timedelta(weeks=WEEKS_IN_YEAR*(age+.5))
-
-        flat_name = ' '.join(params)
-        patient.last_name, patient.first_name, a = \
-                                    clean_names(flat_name, surname_first=True)
-
-        sputum.sputum_id = "%s-%s" % \
-                     (patient.patient_id, datetime.today().strftime("%d%m%y"))
-
-        patient.save()
-        sputum.patient = patient
-        sputum.save()
-        message.respond(sputum.sputum_id)
+    if len(bad_tags) == 1 and len(samples) == 0:
+        raise BadValue("Sending failed. %s is not a valid tracking tag. " \
+                       "Please check and try again. You can use PENDING to " \
+                       "lookup valid tracking tags." % bad_tags[0])
+    elif len(bad_tags) > 0:
+        #TODO Fix for singular
+        tags_string = ', '.join(bad_tags[:-1]) + ' and ' + bad_tags[-1]
+        raise BadValue("Sending failed.  %(tags)s are not valid tracking " \
+                       "tags. No samples sent. You must send all tags " \
+                       "again. Use PENDING to " \
+                       "lookup valid tracking tags." % {'tags':tags_string})
