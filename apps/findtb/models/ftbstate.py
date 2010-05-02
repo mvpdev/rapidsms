@@ -5,6 +5,15 @@
 from django.db import models
 from django_tracking.models import State
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+
+
+
+class FtbStateManager(models.Manager):
+    def get_current_states(self):
+        ct = ContentType.objects.get_for_model(self.model)
+        return State.objects.filter(content_type=ct, is_current_state=True)
+
 
 class FtbState(models.Model):
     """
@@ -13,6 +22,7 @@ class FtbState(models.Model):
     
     class Meta:
         app_label = 'findtb'
+        abstract = True
 
     STATE_TYPES = ('notice','result','alert','cancel')
 
@@ -20,6 +30,8 @@ class FtbState(models.Model):
     note = models.CharField(max_length=200, null=True, blank=True)
     states = generic.GenericRelation(State)
     state_type = 'notice' 
+    
+    objects = FtbStateManager()
 
     def __init__(self, note, *args, **kwargs):
 
@@ -65,4 +77,3 @@ class FtbState(models.Model):
             state.type = state_type
 
         print "\tFBSTATE: set_type end"
-    
