@@ -441,9 +441,9 @@ class TrackedItem(models.Model):
             save the tracker in one row.
         """
 
-        ti = cls.get_tracker_or_create(kwargs['instance'])
+        ti, created = cls.get_tracker_or_create(content_object)
         ti.state = state
-        ti1.save()
+        ti.save()
 
 
 
