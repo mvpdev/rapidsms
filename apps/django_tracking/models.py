@@ -98,8 +98,11 @@ class State(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    # a simple char to let you filter easily states
+    # allow filtering state by a type, whatever it means
     type = models.CharField(max_length=30, blank=True)
+
+    # allow filtering state by origin, whatever it means
+    origin = models.BooleanField(max_length=30, blank=True)
 
     # a cancelled state don't appear in the history, but is not distroyed
     cancelled = models.BooleanField(default=False)
@@ -268,7 +271,7 @@ class TrackedItem(models.Model):
 
         if self.state :
             print "\t\tself.state exists %s (%s):" % (self.state, self.state.pk)
-            
+
             self.state.tracked_item = self
             self.state.is_current_state = True
             self.state.save()
@@ -290,7 +293,7 @@ class TrackedItem(models.Model):
         print "fdsafsdadsfasdfadsf"
 
         print ti.current_state
-        
+
         self._super_save(*args, **kwargs)
 
         ti = TrackedItem.objects.get(content_type=self.content_type, object_id=self.object_id)
@@ -467,7 +470,7 @@ class TrackedItem(models.Model):
         print "\t\ttracker: ", ti
         print "\t\tcreated:", created
         ti.state = state
-        
+
         ti.save()
 
 

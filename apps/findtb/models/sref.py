@@ -8,21 +8,19 @@ All models rely on the django_tracking application.
 """
 
 from django.db import models
-from django_tracking.models import TrackedItem
-
-from reporters.models import Reporter
 
 from findtb.models import FtbState, Specimen
 
 
 class Sref(FtbState):
     """
-    Common parent extended by all models in SREF 
+    Common parent extended by all models in SREF
     """
     class Meta:
         app_label = 'findtb'
 
     specimen = models.ForeignKey(Specimen)
+    state_origin = 'sref'
 
     def get_web_form(self):
         """
@@ -80,7 +78,7 @@ class SpecimenRegistered(Sref):
     registered, but before it has been sent. The next state can be
     SpecimenSent or SpecimenCanceled.
     """
-    
+
     class Meta:
         app_label = 'findtb'
 
@@ -133,7 +131,7 @@ class SpecimenSent(Sref):
                   u"sent. See notes for sending method." % \
                    {'dtu': self.specimen.location, \
                     'patient': self.specimen.patient}
-        
+
         return u"%(dtu)s - Specimen for patient %(patient)s " \
                u"sent through the %(method)s." % \
                {'dtu': self.specimen.location, \
