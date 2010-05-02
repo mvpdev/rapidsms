@@ -106,6 +106,10 @@ class State(models.Model):
 
     # if there is not state after this one
     final = models.BooleanField(default=False)
+    
+    # if this state is currently the current state for any tracked item
+    is_current_state = models.BooleanField(default=False)
+
 
     created = models.DateTimeField(auto_now_add=True)
 
@@ -299,6 +303,9 @@ class TrackedItem(models.Model):
         print "\tState: set_to_next_state() start"
         print '\t\tnext_state:', next_state
         
+        # the previous state is not the current state anymore
+        self.current_state.is_current_state = False
+        self.current_state.save()
 
         if next_state is None:
             print "\t\t next state is none"
@@ -317,6 +324,9 @@ class TrackedItem(models.Model):
             if not isinstance(next_state, State):
                 print "\t\t next state is not a state, wrapping it in a state object"
                 next_state = State(content_object=next_state)
+                
+            # TODO : test is current _state    
+            next_state.is_current_state = True
 
             # Prevent two track item to share a state object
             # Several state objects can point to the same
