@@ -1,5 +1,7 @@
 {% extends "findtb-dashboard.html" %}
 
+{% load findtb_format  %}
+
 {% block page-id %}sref-dashboard{% endblock %}
 
 {% block title %}Specimen Referral Dashboard{% endblock %}
@@ -8,21 +10,63 @@
 {% block findtb-title %}Specimen Referral Dashboard{% endblock %}
 
 
-{% block findtb-events-title %}
-    Recent follow up for all the specimens
-{% endblock %}
+{% block findtb-events %}
 
-{% block findtb-events-selection %}
-    <ul id="findtb-event-picker-selection">
-        {% for state in states %}
-        <li class="{{ state.type }}">
-            <a href="{% url findtb-sref-tracking state.tracked_item.content_object.pk %}">
-                <strong>{{ state.content_object.get_long_message }}</strong>
-                <span>{{ state.created }}</span> <!-- TODO : humanise created date -->
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
+
+<div id="findtb-events">
+    
+    <h2>Recent follow up for all the specimens</h2>
+
+    {% if all_events %}
+    
+    
+        <dl id="findtb-events-filter">
+            <dt>See: </dt>
+            {% ifequal event_type 'alert' %}
+             <dd>Alerts</dd>
+            {% else %}
+             <dd><a href="{% url findtb-sref-dashboard 'alert' %}">Alerts</a></dd>
+            {% endifequal %}
+            {% ifequal event_type 'all' %}
+             <dd>All events</dd>
+            {% else %}
+             <dd><a href="{% url findtb-sref-dashboard 'all' %}">All events</a></dd>
+            {% endifequal %}
+        </dl>
+        
+        {% if events %}
+        
+            <ul id="findtb-event-picker-selection">
+                {% for state in events %}
+                <li class="{{ state.type }}">
+                    <a href="{% url findtb-sref-tracking state.tracked_item.content_object.pk %}">
+                        <strong>{{ state.content_object.get_long_message }}</strong>
+                        <span>{{ state.created|humanize_time_delta }} ago</span> 
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            {% if more_events %}
+                <p>
+                    <a href="{% url findtb-sref-dashboard event_type %}?events_count={{ events_count }}&events_inc={{ events_inc }}">
+                        See more
+                </a>
+            </p>
+            {% endif %}
+            
+        {% else %}
+            <p>No alerts yet</p>   
+        {% endif %}
+
+        
+    {% else %}
+        <p>Nothing has happen yet</p>   
+    {% endif %}
+
+</div>
+
+
 {% endblock %}
         
    

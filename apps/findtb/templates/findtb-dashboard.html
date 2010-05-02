@@ -5,25 +5,9 @@
 {% block findtb-content %}
 
 
-<div  id="left-column"  class="span-12">        
-        
-    <div id="findtb-events">
-        
-        <h2>{% block findtb-events-title %}{% endblock %}</h2>
+<div  id="left-column"  class="span-12">  
 
-        {% if states %}
-            <dl id="findtb-events-filter">
-                <dt>See:</dt>
-                <dd><a href="#">Alerts</a></dd>
-                <dd>All events</dd> 
-            </dl>
-            {% block findtb-events-selection %}{% endblock %}
-            {% block findtb-events-more-link %}<p><a href="#">See more</a></p>{% endblock %}
-        {% else %}
-            <p>Nothing has happen yet</p>   
-        {% endif %}
-    
-    </div>
+    {% block findtb-events %}{% endblock %}  
      
 </div>
 

@@ -85,7 +85,7 @@ class FtbState(models.Model):
 
         if self.state_origin not in self.STATE_ORIGINS:
             raise TypeError("State origin must be one of " % \
-                            (', '.join(self.STATE_TYPES)))
+                            (', '.join(self.STATE_ORIGINS)))
 
         print '\t\tGetting states for:', self
 
