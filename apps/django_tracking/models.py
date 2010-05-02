@@ -303,15 +303,16 @@ class TrackedItem(models.Model):
         print "\tState: set_to_next_state() start"
         print '\t\tnext_state:', next_state
         
-        # the previous state is not the current state anymore
-        self.current_state.is_current_state = False
-        self.current_state.save()
 
         if next_state is None:
             print "\t\t next state is none"
             self.current_state = None
 
         else:
+        
+            # the previous state is not the current state anymore
+            self.current_state.is_current_state = False
+            self.current_state.save()
         
             print "\t\t next state is NOT none"
             # For now, we allow only Django model to be states
