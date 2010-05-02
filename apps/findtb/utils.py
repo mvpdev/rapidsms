@@ -132,9 +132,9 @@ def generate_tracking_tag(start=None):
 
     """
     BASE_NUMBERS='2345679'
-    BASE_LETTERS='acdefghjklmnprtuvwxy'
+    BASE_LETTERS='acdefghjklmnprtuvwxy'.upper()
     if start == None:
-        start = '2a2'
+        start = '2A2'
     
     next_tag = []
 

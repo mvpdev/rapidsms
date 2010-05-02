@@ -16,17 +16,19 @@ class FtbStateManager(models.Manager):
         ct = ContentType.objects.get_for_model(self.model)
         return State.objects.filter(content_type=ct)
 
-
     def get_current_states(self):
         return self.get_states().filter(is_current_state=True)
-
+        
+    def get_specimens(self):
+        return [state.tracked_item.content_object \
+                for state in self.get_current_states()]
 
 
 class FtbState(models.Model):
     """
     State shared among all states in the FindTB app.
     """
-
+    
     class Meta:
         app_label = 'findtb'
         abstract = True
@@ -37,7 +39,7 @@ class FtbState(models.Model):
     note = models.CharField(max_length=200, null=True, blank=True)
     states = generic.GenericRelation(State)
     state_type = 'notice'
-
+    
     objects = FtbStateManager()
 
 

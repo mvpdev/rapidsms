@@ -76,41 +76,25 @@ def mdrs(params, location, reporter, message):
 
     note = match.groupdict()['note'] or ''
 
-    print 'Before patient.save()'
     patient.save()
-    print 'After patient.save()'
     
-    print 'Before specimen.save()'
     specimen.patient = patient
     specimen.save()
-    print 'After specimen.save()'
     
-    print 'Before SpecimenRegistered(specimen, note)'
     state = SpecimenRegistered(specimen=specimen, note=note)
-    print 'After SpecimenRegistered(specimen, note)'
     
-    print 'Before state.save()'
     state.save()
-    print 'After state.save()'
     
-    print 'Before TrackedItem.get_tracker_or_create(specimen)'
     tracked_specimen, created = TrackedItem.get_tracker_or_create(specimen)
-    print 'After TrackedItem.get_tracker_or_create(specimen)'
-    
-    print 'Before tracked_specimen.state = state'
     tracked_specimen.state = state
-    print 'After tracked_specimen.state = state'
-    
-    print 'Before tracked_specimen.save()'
     tracked_specimen.save()
-    print 'After tracked_specimen.save()'
     
     message.respond("SUCCESS " \
                     "for patient %(patient)s. Tracking tag is " \
                     "%(tag)s. You must write this tag down as you will " \
                     "need it when you send the SEND message." % \
                     {'patient':patient.patient_id, \
-                     'tag':specimen.tracking_tag.upper()})
+                     'tag':specimen.tracking_tag})
 
 
 def send(params, location, reporter, message):
@@ -143,9 +127,9 @@ def send(params, location, reporter, message):
     for tag in tags:
         #TODO only check against PENDING samples
         try:
-            samples.append(Specimen.objects.get(tracking_tag=tag))
+            samples.append(Specimen.objects.get(tracking_tag__iexact=tag))
         except Specimen.DoesNotExist:
-            bad_tags.append(tag.upper())
+            bad_tags.append(tag)
 
     if len(bad_tags) == 1 and len(samples) == 0:
         raise BadValue("Sending failed. %s is not a valid tracking tag. " \

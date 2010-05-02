@@ -97,7 +97,7 @@ class SpecimenRegistered(Sref):
                u"with tracking tag %(tag)s." % \
                {'dtu': self.specimen.location, \
                 'patient': self.specimen.patient, \
-                'tag': self.specimen.tracking_tag}
+                'tag': self.specimen.tracking_tag.upper()}
 
 
 class SpecimenSent(Sref):
@@ -120,15 +120,6 @@ class SpecimenSent(Sref):
 
     sending_method = models.CharField(max_length=20, \
                                       choices=SENDING_METHOD_CHOICES)
-
-    def __init__(self, *arg, **kwargs):
-        Sref.__init__(self,  *args, **kwargs)
-        #super(SpecimenSent, self).__init__(*arg, **kwargs)
-
-
-    def save(self, *arg, **kwargs):
-        Sref.__save__(self, *args, **kwargs)
-        #super(SpecimenSent, self).__init__(*arg, **kwargs)
 
     def get_short_message(self):
         return u"Registered with tracking tag %(tag)s" % \
