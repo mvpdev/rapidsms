@@ -11,6 +11,8 @@ from locations.models import Location
 from reporters.models import Reporter
 
 class Role(models.Model):
+    class Meta:
+        app_label = 'findtb'
 
     group = models.ForeignKey(Group)
     reporter = models.ForeignKey(Reporter)
@@ -21,15 +23,19 @@ class Role(models.Model):
                {'reporter':self.reporter, 'group':self.group, \
                 'location':self.location}
 
+
 def Role_delete_handler(sender, **kwargs):
     '''
     Called when a Role is deleted. It checks to see if that was that reporter's
     only Role in that group and, if so, removes the User from that Group
     '''
+    class Meta:
+        app_label = 'findtb'
     role = kwargs['instance']
     if not Role.objects.filter(reporter=role.reporter, \
                                group=role.group).count():
         role.reporter.groups.remove(role.group)
+
 post_delete.connect(Role_delete_handler, sender=Role)
 
 def Role_presave_handler(sender, **kwargs):
@@ -38,6 +44,8 @@ def Role_presave_handler(sender, **kwargs):
     same group. It also removes the User from the group if they don't have
     any more Roles in that group.
     '''
+    class Meta:
+        app_label = 'findtb'
     role = kwargs['instance']
     role.reporter.groups.add(role.group)
     if role.pk:
@@ -56,6 +64,9 @@ pre_save.connect(Role_presave_handler, sender=Role)
 
 class Patient(models.Model):
 
+    class Meta:
+        app_label = 'findtb'
+
     GENDER_MALE = 'M'
     GENDER_FEMALE = 'F'
 
@@ -63,46 +74,58 @@ class Patient(models.Model):
         (GENDER_MALE, _(u"Male")),
         (GENDER_FEMALE, _(u"Female")))
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50, blank=True, null=True)
 
     gender = models.CharField(_(u"Gender"), max_length=1, \
-                              choices=GENDER_CHOICES)
+                              choices=GENDER_CHOICES, blank=True, null=True)
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
     location = models.ForeignKey(Location)
-    patient_id = models.CharField(max_length=25)
-    dob = models.DateField(_(u"Date of birth"))
-    estimated_dob = models.BooleanField(_(u"Estimated DOB"), default=True, \
+    patient_id = models.CharField(max_length=25, db_index=True)
+    dob = models.DateField(_(u"Date of birth"), blank=True, null=True)
+    estimated_dob = models.NullBooleanField(_(u"Estimated DOB"), default=True,\
                                         help_text=_(u"True or false: the " \
                                                      "date of birth is only " \
                                                      "an approximation"))
     is_active = models.BooleanField(default=True)
 
+    def full_name(self):
+        return '%s %s' % (self.last_name, self.first_name)
 
-class Sputum(models.Model):
+    def __unicode__(self):
+        if self.first_name and self.last_name:
+            return self.full_name()
+        return self.patient_id
+    
+
+
+class Specimen(models.Model):
     class Meta:
         permissions = (
-            ("send_sputum", "Can send sputum"),
-            ("receive_sputum", "Can send receive")
+            ("send_specimen", "Can send specimen"),
+            ("receive_specimen", "Can send receive")
         )
+        app_label = 'findtb'
 
     patient = models.ForeignKey(Patient)
     location = models.ForeignKey(Location)
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
-    sputum_id = models.CharField(max_length=25)
-    ntrl_tc_number = models.CharField(max_length=12, blank=True, null=True)
+    tracking_tag = models.CharField(max_length=8, unique=True, db_index=True)
+    tc_number = models.CharField(max_length=12, blank=True, null=True, \
+                                      db_index=True, unique=True)
 
 
 class FINDTBGroup(Group):
+    class Meta:
+        app_label = 'findtb'
+        proxy = True
     CLINICIAN_GROUP_NAME = 'clinician'
     DTU_LAB_TECH_GROUP_NAME = 'dtu lab tech'
     DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
     ZONAL_TB_SUPERVISOR_GROUP_NAME = 'zonal tb supervisor'
 
-    class Meta:
-        proxy = True
 
     def isClinician(self):
         return self.name == self.CLINICIAN_GROUP_NAME
@@ -118,6 +141,8 @@ class FINDTBGroup(Group):
 
 
 class Configuration(models.Model):
+    class Meta:
+        app_label = 'findtb'
 
     '''Store Key/value config options'''
 
@@ -143,3 +168,4 @@ class Configuration(models.Model):
         '''get config value of specified key'''
         cfg = cls.objects.get(key__iexact=key)
         return cfg.value
+

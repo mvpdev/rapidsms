@@ -3,6 +3,7 @@
 # maintainer: dgelvin
 
 import re
+import itertools
 from functools import wraps
 
 from django.utils.translation import ugettext as _
@@ -107,3 +108,57 @@ def registered(func):
         else:
             raise NotRegistered
     return wrapper
+    
+    
+def generate_tracking_tag(start=None):
+    """
+        Generate a unique tag. The format is xyz[...] with x, y and z picked
+        from an iterable giving a new set of ordered caracters at each
+        call to next. You must pass the previous tag and a patter the tag
+        should validate against.
+        
+        e.g: 
+        
+        >>> generate_tracking_tag()
+        '3a2'
+        >>> generate_tracking_tag('3a2')
+        '4a2'
+        >>> generate_tracking_tag('9y9')
+        '2a2a'
+        >>> generate_tracking_tag('2a2a')
+        '3a2a'
+        >>> generate_tracking_tag('9a2a')
+        '2c2a'
+
+    """
+    BASE_NUMBERS='2345679'
+    BASE_LETTERS='acdefghjklmnprtuvwxy'
+    if start == None:
+        start = '2a2'
+    
+    next_tag = []
+
+    matrix_generator = itertools.cycle((BASE_NUMBERS,BASE_LETTERS))
+        
+    for index, c in enumerate(start):
+
+        matrix = matrix_generator.next()
+        i = matrix.index(c)
+        try:
+            next_char = matrix[i+1]
+            next_tag.append(next_char)
+            try:
+                next_tag.extend(start[index+1:])
+                break
+            except IndexError:
+                pass
+        except IndexError:
+            next_tag.append(matrix[0])    
+            try:
+                start[index+1]
+            except IndexError:
+                matrix = matrix_generator.next()
+                next_tag.append(matrix[0])
+                break
+
+    return ''.join(next_tag)

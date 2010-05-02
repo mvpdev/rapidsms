@@ -11,6 +11,7 @@ from findtb.models import *
 from findtb.utils import *
 from findtb.exceptions import *
 
+#TODO Check for patient registration duplication
 
 CLINICIAN_KEYWORD = 'cli'
 DTU_LAB_TECH_KEYWORD = 'lab'
@@ -30,7 +31,7 @@ def handle(keyword, params, message):
        Configuration.get('registration') != 'open':
         raise NotAllowed("Registration failed: Registration is currently " \
                          "closed. Please contact NTRL for assistance.")
-        
+
     if len(params) < 3:
         raise ParseError("Registration failed: Not enough information for " \
                          "registration You must send:\n%s LocationCode " \

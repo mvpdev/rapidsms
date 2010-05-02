@@ -1,5 +1,5 @@
 TODO : Create a page for sref featuring pending tests
-like a board with a colum per test and the list of sputum at this stage
+like a board with a colum per test and the list of specimen at this stage
 
 TODO : if we add submenu, it would be good to separate dashboards menu from submenu
 like 
@@ -13,3 +13,5 @@ button if there is no patient.
 
 TODO : in search, they should be able to enter either a location, a patient name
 or an id.
+
+TODO: Figure out how to make this thing work with proxy models

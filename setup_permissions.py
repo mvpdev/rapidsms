@@ -40,10 +40,10 @@ from django.contrib.auth.models import Group, Permission
 
 permissions_list = [
     ('dtu lab tech',
-        ('add_sputum', 'send_sputum')
+        ('add_specimen', 'send_specimen')
     ),
     ('ntrl lab tech',
-        ('change_sputum', 'receive_sputum')
+        ('change_specimen', 'receive_specimen')
     ),
 ]
 

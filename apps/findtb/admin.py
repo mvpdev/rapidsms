@@ -9,6 +9,6 @@ from findtb.models import *
 
 admin.site.register(Configuration)
 admin.site.register(Role)
-admin.site.register(Sputum)
+admin.site.register(Specimen)
 admin.site.register(Patient)
 
