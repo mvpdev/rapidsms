@@ -58,7 +58,7 @@ class SpecimenInvalid(Sref):
 
     cause = models.CharField(max_length=10, choices=INVALID_CHOICES)
     new_requested = models.BooleanField(default=True)
-    state_type = 'cancel'
+    state_type = 'cancelled'
 
     def get_web_form(self):
         pass
@@ -68,8 +68,9 @@ class SpecimenInvalid(Sref):
 
     def get_long_message(self):
         return u"%(dtu)s - Specimen for patient %(patient)s invalidated: " \
-               u"%(reason)s" % {'dtu': self.specimen.location, \
-                                'patient': self.specimen.patient}
+               u"%(cause)s" % {'dtu': self.specimen.location, \
+                                'patient': self.specimen.patient,
+                                'cause': self.get_cause_display()}
 
 
 class SpecimenRegistered(Sref):
