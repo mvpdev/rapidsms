@@ -41,23 +41,45 @@ def sref_bashboard(request, *arg, **kwargs):
     # getting web navigation data
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")
-    event_type = kwargs.get('event_type', 'alert') or 'alert'
+    event_type = kwargs.get('event_type', 'alert')\
+                 or request.session.get('event_type', 'alert')
+    request.session['event_type'] = event_type
     events_url = reverse(kwargs['view_name'], args=(event_type,))
 
+
     # calculating pagination in the 'see more' link
-    events_count = int(request.GET.get('events_count', 10)) or 10
-    events_inc = int((request.GET.get('events_inc', 5) or 5)) + 5
+    try:
+        events_count = int(request.GET.get('events_count', 10))
+        events_inc = int((request.GET.get('events_inc', 5) or 5))
+    except TypeError:
+        events_count = 10
+        events_inc = 5
 
     #  getting specimens you should look at, grouped by dtu
+    # TODO : make that a manager in Specimen
     states = State.objects.filter(final=False, origin='sref')
     dtus = {}
     for state in states:
         if isinstance(state.tracked_item.content_object, Specimen):
             specimen = state.tracked_item.content_object
             dtu = specimen.location
-            specimens = dtus.get(dtu.id, [])
-            specimens.append(specimen)
-            dtus[dtu.id] = specimens
+            dtus.setdefault(dtu.id, {'dtu': dtu,
+                                     'expansion': 'expandable',
+                                     'specimens': []})\
+                           ['specimens'].append(specimen)
+
+    # getting which dtu should be diplayed expanded
+    selected_subject = request.GET.get('selected_subject',
+                                        request.session.get('selected_subject',
+                                                            ''))
+
+
+    try:
+        dtus[int(selected_subject)]['expansion'] = 'expanded'
+    except (KeyError, ValueError), e:
+        selected_subject=0
+
+    request.session['selected_subject'] = selected_subject
 
     # getting specimen related event to look at, filtered by type
     all_events = events = State.objects.filter(origin='sref').order_by('-created')
@@ -66,12 +88,11 @@ def sref_bashboard(request, *arg, **kwargs):
     else:
         events = all_events
 
-    # checking if we should display the link 'see more'
-    more_events = False
-    print events_count+events_inc
-    print events_count
-    if events[:events_count+events_inc].count() > events[:events_count].count():
-        more_events = True
+    # checking if we should display the link 'see more' while limiting
+    # the output
+    next_events = events[:events_count + events_inc]
+    events = events[:events_count]
+    more_events = next_events.count() > events.count()
 
     # 'see more' display more and more events at every clic
     events_count += events_inc

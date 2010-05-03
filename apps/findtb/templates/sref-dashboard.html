@@ -76,16 +76,31 @@
    
    <!-- TODO : group by DTU -->
 
-   {% if specimens %}
-       <ul>
-       {% for dtu in dtus.iteritems %}
-           {% for specimen in dtu.1 %}
-             <li><a href="{% url findtb-sref-tracking specimen.pk %}">{{ specimen.patient }} form {{ specimen.location }}</a></li>
+   {% if dtus %}
+       <dl>
+       {% for loc in dtus.iteritems %}
+           <dt class="{{ loc.1.expansion }}">
+                {% ifequal loc.1.expansion "expandable" %}
+                    <a href="{% url findtb-sref-dashboard %}?selected_subject={{ loc.0 }}">
+                {% else %}
+                    <a href="{% url findtb-sref-dashboard %}?selected_subject=0">
+                {% endifequal %}
+                        <span>{{ loc.1.dtu.name }}</span>
+                    </a>
+                    
+
+           </dd>
+           {% for specimen in loc.1.specimens %}
+           <dd class="{{ loc.1.expansion }}">
+                <a href="{% url findtb-sref-tracking specimen.pk %}">
+                    [{{ specimen.tracking_tag }}] Patient {{ specimen.patient }} 
+                </a>
+            </dd>
            {% endfor %}
-      {% endfor %}
-       </ul>
+       {% endfor %}
+       </dl>
    {% else %}    
-        <p>Nothing to test yet</p>
+        <p>No specimens to test yet</p>
    {% endif%}
    
 {% endblock %}

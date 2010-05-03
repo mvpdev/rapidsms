@@ -129,6 +129,7 @@ background: #FFFFFF url("/static/findtb/images/cancelled.png") no-repeat 8px 8px
 display:block;
 margin-left:55px;
 margin-top:10px;
+padding-right: 1em;
 }
 
 #findtb-event-picker-selection li span {
@@ -150,19 +151,55 @@ background-color:#F8F8F8;
 border: 1px solid #EEEEEE;
 }
 
-#findtb-subject-picker ul {
+
+#findtb-subject-picker dl {
 padding:0 1em;
 margin-top:0;
+margin-bottom:2em;
 }
 
-#findtb-subject-picker li {
+#findtb-subject-picker dd,
+#findtb-subject-picker dt  {
 list-style-type:none;
 display:block;
-margin:1em 0;
+margin-top:1em;
+margin-bottom:1em;
 height: 2em;
 }
 
-#findtb-subject-picker li a {
+#findtb-subject-picker dt {
+margin:1em 0;
+margin-top: 1.4em;
+}
+
+#findtb-subject-picker dt span  {
+padding-left:20px;
+width:100%;
+display:block;
+}
+
+#findtb-subject-picker dd.expandable {
+display:none;
+}
+
+#findtb-subject-picker dt.expandable a {
+background: #FFFFFF url("/static/findtb/images/expandable.png") no-repeat 6px 6px;
+}
+
+#findtb-subject-picker dt.expandable a:hover {
+background: #FFFFFF url("/static/findtb/images/expandable_selected.png") no-repeat 6px 6px;
+}
+
+#findtb-subject-picker dt.expanded a {
+background: #FFFFFF url("/static/findtb/images/expanded.png") no-repeat 6px 6px;
+}
+
+#findtb-subject-picker dt.expanded a:hover {
+background: #FFFFFF url("/static/findtb/images/expanded_selected.png") no-repeat 6px 6px;
+}
+
+#findtb-subject-picker dd a,
+#findtb-subject-picker dt a {
 display:block;
 height:100%;
 width:100%;
@@ -172,7 +209,8 @@ background:#FFFFFF;
 padding-top:0.5em;
 }
 
-#findtb-subject-picker li a:hover{
+#findtb-subject-picker dd a:hover,
+#findtb-subject-picker dt a:hover {
 display:block;
 height:100%;
 width:100%;

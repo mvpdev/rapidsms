@@ -33,7 +33,7 @@ class FtbState(models.Model):
         app_label = 'findtb'
         abstract = True
 
-    STATE_TYPES = ('notice','result','alert','cancel')
+    STATE_TYPES = ('notice','result','alert','cancelled')
     STATE_ORIGINS = ('findtb','sref','eqa')
 
     note = models.CharField(max_length=200, null=True, blank=True)
