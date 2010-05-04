@@ -15,3 +15,9 @@ TODO : in search, they should be able to enter either a location, a patient name
 or an id.
 
 TODO: Figure out how to make this thing work with proxy models
+
+TODO : filter dashboard with the zone
+
+TODO : put a modal page that force the user to answer to request before accessing the tool
+
+TODO : create a stock management tool which just let you to require stuff when needed

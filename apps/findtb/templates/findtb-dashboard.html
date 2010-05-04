@@ -20,23 +20,28 @@
        
        {% if districts and zones %}
        
-           <form id="place-selection">
-               <p><label for="zone-picker">Zone</label>
-               <select id="zone-picker" name="zone-picker">
-                   {% for zone in zones %}
-                        <option>{{ zone }}</option>
-                   {% endfor %}
-               </select>
-               <label for="district-picker">District</label>
-               <select id="district-picker" name="district-picker">
-                   {% for district in districts %}
-                        <option>{{ district }}</option>
-                   {% endfor %}
-               </select>
-               <input value="ok" type="submit"/>
-               </p>
-           </form>
-           
+           <div id="findtb-subject-picker">
+               <form id="zone-selection" class="place-selection">
+                   <p><label for="zone-picker">Zone</label>
+                   <select id="zone-picker" name="zone-picker">
+                       {% for zone in zones %}
+                            <option value="{{ zone.id }}">{{ zone }}</option>
+                       {% endfor %}
+                   </select>
+                   <input value="ok" type="submit"/>
+                </form>
+                <form id="district-selection"  class="place-selection">
+                   <label for="district-picker">District</label>
+                   <select id="district-picker" name="district-picker">
+                       {% for district in districts %}
+                            <option value="{{ district.id }}">{{ district }}</option>
+                       {% endfor %}
+                   </select>
+                   <input value="ok" type="submit"/>
+                   </p>
+               </form>
+            </div>
+        
            {% block findtb-test-picker-selection %}{% endblock %}
            
        {% else %}

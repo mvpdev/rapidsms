@@ -57,7 +57,8 @@ def sref_bashboard(request, *arg, **kwargs):
 
     #  getting specimens you should look at, grouped by dtu
     # TODO : make that a manager in Specimen
-    states = State.objects.filter(final=False, origin='sref')
+    states = State.objects.filter(final=False, origin='sref',
+                                  is_current_state=True)
     dtus = {}
     for state in states:
         if isinstance(state.tracked_item.content_object, Specimen):
@@ -72,7 +73,6 @@ def sref_bashboard(request, *arg, **kwargs):
     selected_subject = request.GET.get('selected_subject',
                                         request.session.get('selected_subject',
                                                             ''))
-
 
     try:
         dtus[int(selected_subject)]['expansion'] = 'expanded'

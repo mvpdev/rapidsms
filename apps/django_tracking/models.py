@@ -104,6 +104,9 @@ class State(models.Model):
     # allow filtering state by origin, whatever it means
     origin = models.BooleanField(max_length=30, blank=True)
 
+    # allow filtering state by a title, whatever it means
+    title = models.CharField(max_length=60, blank=True)
+
     # a cancelled state don't appear in the history, but is not distroyed
     cancelled = models.BooleanField(default=False)
 
