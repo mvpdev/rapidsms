@@ -135,6 +135,53 @@ class Specimen(models.Model):
             string = '%s, TC#%s' % (string, self.tc_number)
         return string
 
+    def get_lab_techs(self):
+        """
+        Returns a query set of reporters that have the role lab tech at the
+        DTU where the sample was registered. 
+        """
+        return self.location.role_set \
+                       .filter(group__name=FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
+
+    def get_clinician(self):
+        """
+        Returns one reporter object that has the role clinician at the
+        DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=FINDTBGroup.CLINICIAN_GROUP_NAME)[0]
+        except IndexError:
+            return None
+
+    def get_dtls(self):
+        """
+        Returns one reporter object that has the role district tb supervisor at
+        the DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=\
+                              FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME)[0]
+        except IndexError:
+            return None
+
+
+    def get_ztls(self):
+        """
+        Returns one reporter object that has the role zonal tb supervisor at
+        the DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=\
+                                FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME)[0]
+        except IndexError:
+            return None
+
 
 class FINDTBGroup(Group):
     class Meta:
