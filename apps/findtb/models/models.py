@@ -68,7 +68,7 @@ class Patient(models.Model):
 
     class Meta:
         app_label = 'findtb'
-        unique_together = ("patient_id", "location")
+        unique_together = ("registration_number", "location")
 
 
     GENDER_MALE = 'M'
@@ -86,7 +86,7 @@ class Patient(models.Model):
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
     location = models.ForeignKey(Location)
-    patient_id = models.CharField(max_length=25, db_index=True)
+    registration_number = models.CharField(max_length=25, db_index=True)
     dob = models.DateField(_(u"Date of birth"), blank=True, null=True)
     estimated_dob = models.NullBooleanField(_(u"Estimated DOB"), default=True,\
                                         help_text=_(u"True or false: the " \
@@ -94,11 +94,11 @@ class Patient(models.Model):
                                                      "an approximation"))
     is_active = models.BooleanField(default=True)
 
-    # Returns a zero-padded patient id as a string
+    # Returns a zero-padded registration_number as a string
     def zero_id(self):
-        match = re.match('^(\d+)/(\d+)$',self.patient_id)
+        match = re.match('^(\d+)/(\d+)$',self.registration_number)
         if not match:
-            return self.patient_id
+            return self.registration_number
         else:
             return "%04d/%s" % (int(match.groups()[0]), match.groups()[1])
 
@@ -164,7 +164,7 @@ class Specimen(models.Model):
         try:
             return self.location.role_set \
                        .filter(group__name=\
-                              FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME)[0]
+                                FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME)[0]
         except IndexError:
             return None
 

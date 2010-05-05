@@ -11,7 +11,6 @@ from findtb.models import *
 from findtb.utils import *
 from findtb.exceptions import *
 
-#TODO Check for patient registration duplication
 
 CLINICIAN_KEYWORD = 'cli'
 DTU_LAB_TECH_KEYWORD = 'lab'
@@ -32,20 +31,31 @@ def handle(keyword, params, message):
         raise NotAllowed("Registration failed: Registration is currently " \
                          "closed. Please contact NTRL for assistance.")
 
-    if len(params) < 3:
-        raise ParseError("Registration failed: Not enough information for " \
-                         "registration You must send:\n%s LocationCode " \
+
+    text = ' '.join(params)
+    regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\w+)\s+(?P<names>.+)'
+    match = re.match(regex, text)
+
+    if not match or not match.groupdict()['prefix'] or \
+       not match.groupdict()['suffix']:
+        raise ParseError("Registration failed: " \
+                         "You must send:\n%s LocationCode " \
                          "Surname FirstName" % keyword.upper())
     try:
-        location = Location.objects.get(code=params[0])
+        code = '%s-%s' % \
+                (match.groupdict()['prefix'], match.groupdict()['suffix'])
+        location = Location.objects.get(code=code)
     except Location.DoesNotExist:
-        raise BadValue("Registration failed: %s is not a valid location " \
-                       "code. Please correct and send again." % \
-                       params[0].upper())
+        raise BadValue("Registration failed: %(code)s is not a valid " \
+                       "location code. Please correct and send again." % \
+                       {'code':code})
 
-    name = ' '.join(params[1:])
+    names = match.groupdict()['names']
+    if len(names.split()) < 2:
+        raise ParseError("Registration failed: You must provide both a " \
+                         "surname and firstname.")
 
-    reporter = create_or_update_reporter(name, \
+    reporter = create_or_update_reporter(names, \
                                          message.persistant_connection)
 
     # Map keywords to auth.group names and to the creation functions
