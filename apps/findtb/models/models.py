@@ -6,11 +6,13 @@ import re
 
 from django.db import models
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.db.models.signals import post_delete, pre_save
 
 from locations.models import Location
 from reporters.models import Reporter
+
+
 
 class Role(models.Model):
     class Meta:
@@ -26,6 +28,7 @@ class Role(models.Model):
                 'location':self.location}
 
 
+
 def Role_delete_handler(sender, **kwargs):
     '''
     Called when a Role is deleted. It checks to see if that was that reporter's
@@ -39,6 +42,8 @@ def Role_delete_handler(sender, **kwargs):
         role.reporter.groups.remove(role.group)
 
 post_delete.connect(Role_delete_handler, sender=Role)
+
+
 
 def Role_presave_handler(sender, **kwargs):
     '''
@@ -61,7 +66,9 @@ def Role_presave_handler(sender, **kwargs):
                 if Role.objects.filter(reporter=role.reporter, \
                                        group=orig_role.group).count() == 1:
                     role.reporter.groups.remove(orig_role.group)
+
 pre_save.connect(Role_presave_handler, sender=Role)
+
 
 
 class Patient(models.Model):
@@ -88,7 +95,7 @@ class Patient(models.Model):
     location = models.ForeignKey(Location)
     patient_id = models.CharField(max_length=25, db_index=True)
     dob = models.DateField(_(u"Date of birth"), blank=True, null=True)
-    estimated_dob = models.NullBooleanField(_(u"Estimated DOB"), default=True,\
+    estimated_dob = models.NullBooleanField(_(u"Estimated date of birth"), default=True,\
                                         help_text=_(u"True or false: the " \
                                                      "date of birth is only " \
                                                      "an approximation"))
@@ -109,10 +116,11 @@ class Patient(models.Model):
         if self.first_name and self.last_name:
             return self.full_name()
         return self.zero_id()
-    
+
 
 
 class Specimen(models.Model):
+
     class Meta:
         permissions = (
             ("send_specimen", "Can send specimen"),
@@ -137,9 +145,11 @@ class Specimen(models.Model):
 
 
 class FINDTBGroup(Group):
+
     class Meta:
         app_label = 'findtb'
         proxy = True
+
     CLINICIAN_GROUP_NAME = 'clinician'
     DTU_LAB_TECH_GROUP_NAME = 'dtu lab tech'
     DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
@@ -149,17 +159,21 @@ class FINDTBGroup(Group):
     def isClinician(self):
         return self.name == self.CLINICIAN_GROUP_NAME
 
+
     def isLabTech(self):
         return self.name == self.DTU_LAB_TECH
 
+
     def isDTLS(self):
         return self.name == self.DISTRICT_TB_SUPERVISOR
+
 
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
 
 
 class Configuration(models.Model):
+
     class Meta:
         app_label = 'findtb'
 
@@ -174,13 +188,16 @@ class Configuration(models.Model):
     def __unicode__(self):
         return u"%s: %s" % (self.key, self.value)
 
+
     def get_dictionary(self):
         return {'key': self.key, 'value': self.value, \
                 'description': self.description}
 
+
     @classmethod
     def has_key(cls, key):
         return cls.objects.filter(key=key).count() != 0
+
 
     @classmethod
     def get(cls, key):

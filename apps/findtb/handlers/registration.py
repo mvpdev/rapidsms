@@ -131,7 +131,7 @@ def create_clinician(reporter, group, location):
         return "You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as the clinican at %(loc)s." % \
+    return "You are now registered as the clinician at %(loc)s." % \
            {'loc': location.name}
 
 def create_lab_tech(reporter, group, location):

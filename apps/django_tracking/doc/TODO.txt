@@ -1,0 +1,2 @@
+Allow model you want to track to register like admin do to enable shortcuts
+and syntaxic sugar + granular signal handling.

@@ -41,7 +41,7 @@
                 <li class="{{ state.type }}">
                     <a href="{% url findtb-sref-tracking state.tracked_item.content_object.pk %}">
                         <strong>{{ state.content_object.get_long_message }}</strong>
-                        <span>{{ state.created|humanize_time_delta }} ago</span> 
+                        <span>{{ state.created|humanize_time_delta }}</span> 
                     </a>
                 </li>
                 {% endfor %}

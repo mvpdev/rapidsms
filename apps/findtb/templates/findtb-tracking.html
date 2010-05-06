@@ -5,6 +5,16 @@
 {% block findtb-content %}
 
 
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+
 <div  id="left-column"  class="span-13">  
 
     {% block tracking-pagination %}{% endblock %}      
@@ -16,20 +26,7 @@
         <h2>{% block findtb-events-title %}{% endblock %}</h2>
 
         {% if events %}
-            <dl id="findtb-events-filter">
-                <!-- TODO : set default dashboard filter to Alerts -->
-                <!-- TODO separate filters for eqa and sref so sref qet "result" filter" -->
-                <dt>See:</dt>
-                <dd><a href="#">Alerts</a></dd>
-                <dd>All events</dd> 
-            </dl>
-            <!-- TODO : group alerts if there is more that 2
-            alerts  from the same ZTLS and quarter. Indeed, a ztls can be late
-            for several sampling and you don't want to scatter the event list
-            with so much information. Optionally, clicking on the alerts group
-            should make it expands so it displays all the alerts -->
             {% block findtb-events-selection %}{% endblock %}
-            {% block findtb-events-more-link %}<p><a href="#">See more</a></p>{% endblock %}
         {% else %}
             <p>Nothing has happen yet</p>   
         {% endif %}

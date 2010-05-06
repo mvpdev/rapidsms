@@ -9,7 +9,9 @@ All models rely on the django_tracking application.
 
 from django.db import models
 
-from findtb.models import FtbState, Specimen
+from findtb.models.models import Specimen
+from findtb.models.ftbstate import FtbState
+
 
 
 class Sref(FtbState):
@@ -21,14 +23,15 @@ class Sref(FtbState):
 
     specimen = models.ForeignKey(Specimen)
     state_origin = 'sref'
-
-    def get_web_form(self):
-        """
-        Returns a web form to be shown in the website when this is the current
-        state.
-        """
-        return None
-
+    STATE_NAMES = ('specimen_registered',
+                   'specimen_sent',
+                   'specimen_received',
+                   'microscopy',
+                   'lpa',
+                   'lj',
+                   'mgit',
+                   'sirez')
+    form_class = None
 
     def get_short_message(self):
         """
@@ -61,10 +64,14 @@ class SpecimenInvalid(Sref):
     state_type = 'cancelled'
 
     def get_web_form(self):
-        pass
+        # we import it here to avoid circular reference
+        from findtb.forms.sref_tracking import SrefRegisteredReceived
+        return SrefRegisteredReceived
+
 
     def get_short_message(self):
         return u"Invalidated: %(type)" % {'type': self.type}
+
 
     def get_long_message(self):
         cause = self.get_cause_display()
@@ -75,6 +82,7 @@ class SpecimenInvalid(Sref):
                                 'cause': cause}
 
 
+
 class SpecimenRegistered(Sref):
     """
     Proxy class for specimen sample state to be used after a specimen has been
@@ -82,12 +90,16 @@ class SpecimenRegistered(Sref):
     SpecimenSent or SpecimenCanceled.
     """
 
+    state_type = 'notice'
+    state_name = 'incoming'
+
     class Meta:
         app_label = 'findtb'
 
     def get_web_form(self):
-        pass
-
+        # we import it here to avoid circular reference
+        from findtb.forms.sref_transit import SrefRegisteredReceived
+        return SrefRegisteredReceived
 
     def get_short_message(self):
         return u"Registered with tracking tag %(tag)s" % \
@@ -101,12 +113,16 @@ class SpecimenRegistered(Sref):
                 'tag': self.specimen.tracking_tag.upper()}
 
 
+
 class SpecimenSent(Sref):
     """
     Proxy class for specimen sample state to be used after a specimen has been
     sent, but before it has been received. The next state can be
     SpecimenReceived or SpecimenLost.
     """
+
+    state_name = 'incomming'
+
     class Meta:
         app_label = 'findtb'
 
@@ -142,11 +158,15 @@ class SpecimenSent(Sref):
                 'method': self.get_sending_method_display()}
 
 
-class SpecimenReceieved(Sref):
+
+class SpecimenReceived(Sref):
     """
     Proxy class for specimen sample state to be used when a specimen has been
     received at NTRL.
     """
+
+    state_name = 'incomming'
+
     class Meta:
         app_label = 'findtb'
 
@@ -163,3 +183,28 @@ class SpecimenReceieved(Sref):
                 'patient': self.specimen.patient, \
                 'tc_number': self.specimen.tc_number}
 
+
+
+class Microscopy(Sref):
+    """
+    Specimen sample state to be used when a specimen has been
+    tested with microscopy.
+    """
+
+    state_name = 'microscopy'
+
+    class Meta:
+        app_label = 'findtb'
+
+    def get_web_form(self):
+        pass
+
+    def get_short_message(self):
+       return u"Received at NTRL"
+
+    def get_long_message(self):
+        return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \
+                "from %(dtu)s" % \
+               {'dtu': self.specimen.location, \
+                'patient': self.specimen.patient, \
+                'tc_number': self.specimen.tc_number}

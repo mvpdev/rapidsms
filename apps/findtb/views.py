@@ -11,7 +11,10 @@ from locations.models import Location
 from django_tracking.models import State
 from findtb.models import Specimen
 from django.core.urlresolvers import reverse
+from django_tracking.models import TrackedItem
+from django.shortcuts import get_object_or_404, redirect
 
+#TODO : separate these view in several modules
 
 def eqa_bashboard(request, *arg, **kwargs):
 
@@ -33,7 +36,7 @@ def eqa_bashboard(request, *arg, **kwargs):
     ctx.update(kwargs)
     ctx.update(locals())
 
-    return render_to_response(request, "eqa-dashboard.html", ctx)
+    return render_to_response(request, "eqa/eqa-dashboard.html", ctx)
 
 
 def sref_bashboard(request, *arg, **kwargs):
@@ -57,8 +60,8 @@ def sref_bashboard(request, *arg, **kwargs):
 
     #  getting specimens you should look at, grouped by dtu
     # TODO : make that a manager in Specimen
-    states = State.objects.filter(final=False, origin='sref',
-                                  is_current_state=True)
+    states = State.objects.filter(is_final=False, origin='sref',
+                                  is_current=True)
     dtus = {}
     for state in states:
         if isinstance(state.tracked_item.content_object, Specimen):
@@ -101,7 +104,7 @@ def sref_bashboard(request, *arg, **kwargs):
     ctx.update(kwargs)
     ctx.update(locals())
 
-    return render_to_response(request, "sref-dashboard.html", ctx)
+    return render_to_response(request, "sref/sref-dashboard.html", ctx)
 
 
 def eqa_tracking(request, *args, **kwargs):
@@ -152,45 +155,67 @@ def eqa_tracking(request, *args, **kwargs):
     ctx.update(locals())
 
 
-    return render_to_response(request, "eqa-tracking.html", ctx)
+    return render_to_response(request, "eqa/eqa-tracking.html", ctx)
 
 
 def sref_tracking(request, *args, **kwargs):
 
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    ti, c = TrackedItem.get_tracker_or_create(content_object=specimen)
 
-    events = [{"title": "Microscopy of specimen 1234/09-150210 from Namokora HC IV is positive",
-                        "type": "notice", "date": "3 hours ago"},
+    return redirect("findtb-sref-%s" % ti.state.title, id=kwargs['id'])
 
-           {"title": "Specimen 1234/09-150210 from Namokora HC IV have arrived at NTRL",
-                            "type": "notice", "date": "2 hours ago"},
-           {"title": "Specimen 1234/09-150210 from Namokora HC IV is 3 days late",
-            "type": "warning", "date": "2 days ago"},
-         ]
+
+def sref_incoming(request, *args, **kwargs):
 
     districts = Location.objects.filter(type__name=u"district")
     zones = Location.objects.filter(type__name=u"zone")
     dtus = Location.objects.filter(parent=districts[0])
 
-    specimens = []
-    for dtu in dtus:
-        number = random.randint(11111, 99999)
-        specimen = "%s/09-150210 from %s" % (number, dtu)
-        specimens.append(specimen)
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
 
-    batch_arrives = True
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
-    types = ["DTU", "DTLS", "DLAB", "DLFP"]
-    names = ["Keyta", "Kamara", "Camara", "Dolo", "Cissoko"]
-    contacts = []
-    for x in range(0, random.randint(0, 5)) :
-        contacts.append({"type": types.pop(), "name": names.pop()})
+    if request.method == 'POST':
+
+       FORM = tracked_item.state.content_object.get_web_form()
+       form = FORM(request.POST, specimen=specimen)
+
+       if form.is_valid():
+            request.user.message_set.create(message="The DTU has been notified")
+            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+    else:
+        print "r"
+        form = FORM()
+
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+    events = tracked_item.get_history()
 
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())
 
 
-    return render_to_response(request, "sref-tracking.html", ctx)
+    return render_to_response(request, "sref/sref-incoming.html", ctx)
+
+
+def sref_microscopy(request, *args, **kwargs):
+
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    tracked_item = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    form = tracked_item.state.content_object.get_web_form()
+
+
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "sref/sref-microscopy.html", ctx)
+
+
 
 
 def search(request, *arg, **kwargs):

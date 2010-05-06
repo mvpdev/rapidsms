@@ -5,6 +5,15 @@
 {% block findtb-content %}
 
 
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
 <div  id="left-column"  class="span-12">  
 
     {% block findtb-events %}{% endblock %}  

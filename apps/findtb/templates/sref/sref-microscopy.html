@@ -1,35 +1,21 @@
-{% extends "findtb-tracking.html" %}
-
-{% block page-id %}sref-tracking{% endblock %}
-
-{% block title %}Specimen Referal Tracking{% endblock %}
-
-{% block findtb-title %}Referral for specimen 3093/09-150210 from Namokora HC IV{% endblock %}
-
+{% extends "sref/sref-tracking.html" %}
 
 
 {% block tracking-form %}
 
-<h2>LPA</h2>
+<h2>Report specimen delivery</h2>
 
 <form id="tracking-form">
-   <p>
-   <label for="rif">RIF</label>
-   <select id="rif" name="rif">
-            <option>Resistant</option>
-            <option>Susceptible</option>
-   </select>
-   <label for="inh">INH</label>
-   <select id="inh" name="inh">
-            <option>Resistant</option>
-            <option>Susceptible</option>
-   </select>
-   <input value="Save" type="submit"/>
-   </p>
-   <p>
    
-   <a href="#">Invalid : ask DTU to send a new specimen</a>
-   </p>
+   <form action='.' method='post'>
+   
+   {{ form }}
+   
+   <input type="submit" value="">
+
+   </form>
+   
+
 </form>
    
 {% endblock %}
@@ -53,14 +39,21 @@
 We could add it in a block. If you click on it, you see it. Graphism must
 show there is a note to incite the user to click.-->
 
-    <ul id="findtb-event-picker-selection">
-        {% for event in events %}
-        <li class="{{ event.type }}">
-                <strong>{{ event.title }}</strong>
-                <span>{{ event.date }}</span>
-        </li>
-        {% endfor %}
-    </ul>
+    {% if events %}
+        <ul id="findtb-event-picker-selection">
+            {% for state in events %}
+            <li class="{{ state.type }}">
+                <a href="{% url findtb-sref-incoming state.tracked_item.content_object.pk %}">
+                    <strong>{{ state.content_object.get_long_message }}</strong>
+                    <span>{{ state.created|humanize_time_delta }} ago</span> 
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing has happen yet</p>   
+    {% endif %}
+
 {% endblock %}
 
 <!-- TODO : Add a form to save patient id / name / age, etc. -->
@@ -77,7 +70,6 @@ show there is a note to incite the user to click.-->
                <p>No contact for this specimen</p>
             {% endif %}
 {% endblock %}
-
 
 
 {% block findtb-test-picker-title %}Select a specimen{% endblock %}
