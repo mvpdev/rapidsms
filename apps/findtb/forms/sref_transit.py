@@ -106,7 +106,7 @@ class SrefLostOrReceived(SrefRegisteredReceived):
     class Meta:
         model = Patient
         exclude = ('created_by', 'created_on', 'location', \
-                   'patient_id', 'estimated_dob', 'dob')
+                   'registration_number', 'estimated_dob', 'dob')
 
     ACTION_CHOICES = SrefRegisteredReceived.ACTION_CHOICES + (
         ('lost_request', u"Lost: Request new specimen"),

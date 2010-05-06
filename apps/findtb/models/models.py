@@ -75,7 +75,7 @@ class Patient(models.Model):
 
     class Meta:
         app_label = 'findtb'
-        unique_together = ("patient_id", "location")
+        unique_together = ("registration_number", "location")
 
 
     GENDER_MALE = 'M'
@@ -93,7 +93,7 @@ class Patient(models.Model):
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
     location = models.ForeignKey(Location)
-    patient_id = models.CharField(max_length=25, db_index=True)
+    registration_number = models.CharField(max_length=25, db_index=True)
     dob = models.DateField(_(u"Date of birth"), blank=True, null=True)
     estimated_dob = models.NullBooleanField(_(u"Estimated date of birth"), default=True,\
                                         help_text=_(u"True or false: the " \
@@ -101,11 +101,11 @@ class Patient(models.Model):
                                                      "an approximation"))
     is_active = models.BooleanField(default=True)
 
-    # Returns a zero-padded patient id as a string
+    # Returns a zero-padded registration_number as a string
     def zero_id(self):
-        match = re.match('^(\d+)/(\d+)$',self.patient_id)
+        match = re.match('^(\d+)/(\d+)$',self.registration_number)
         if not match:
-            return self.patient_id
+            return self.registration_number
         else:
             return "%04d/%s" % (int(match.groups()[0]), match.groups()[1])
 
@@ -142,6 +142,53 @@ class Specimen(models.Model):
         if self.tc_number:
             string = '%s, TC#%s' % (string, self.tc_number)
         return string
+
+    def get_lab_techs(self):
+        """
+        Returns a query set of reporters that have the role lab tech at the
+        DTU where the sample was registered. 
+        """
+        return self.location.role_set \
+                       .filter(group__name=FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
+
+    def get_clinician(self):
+        """
+        Returns one reporter object that has the role clinician at the
+        DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=FINDTBGroup.CLINICIAN_GROUP_NAME)[0]
+        except IndexError:
+            return None
+
+    def get_dtls(self):
+        """
+        Returns one reporter object that has the role district tb supervisor at
+        the DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=\
+                                FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME)[0]
+        except IndexError:
+            return None
+
+
+    def get_ztls(self):
+        """
+        Returns one reporter object that has the role zonal tb supervisor at
+        the DTU where the sample was registered.  Returns None if there is not
+        one.
+        """
+        try:
+            return self.location.role_set \
+                       .filter(group__name=\
+                                FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME)[0]
+        except IndexError:
+            return None
 
 
 class FINDTBGroup(Group):

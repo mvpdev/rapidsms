@@ -8,7 +8,7 @@ import rapidsms
 
 from findtb.utils import respond_exceptions, clean_msg
 from findtb.exceptions import SMSException
-from findtb.handlers import registration, unregister, mdrs
+from findtb.handlers import registration, unregister, tsrs
 
 
 class App(rapidsms.app.App):
@@ -32,7 +32,7 @@ class App(rapidsms.app.App):
 
         keyword_dispatcher = {}
 
-        modules = [registration, unregister, mdrs]
+        modules = [registration, unregister, tsrs]
         keyword_dispatcher = {}
         for module in modules:
             for kw in module.KEYWORDS:

@@ -3,19 +3,19 @@
 # maintainer: dgelvin
 
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from findtb.models import *
 from findtb.utils import registered, clean_names, generate_tracking_tag
 from findtb.exceptions import ParseError, NotAllowed, BadValue
 
-MDRS_KEYWORD = 'mdrs'
+TSRS_KEYWORD = 'tsrs'
 SEND_KEYWORD = 'send'
 PENDING_KEYWORD = 'pending'
 VOID_KEYWORD = 'void'
 
 KEYWORDS = [
-    MDRS_KEYWORD,
+    TSRS_KEYWORD,
     SEND_KEYWORD,
     PENDING_KEYWORD,
     VOID_KEYWORD,
@@ -42,7 +42,7 @@ def handle(keyword, params, message):
 
     # Create a mapping of keywords to handler functions
     function_mapping = {
-        MDRS_KEYWORD: mdrs,
+        TSRS_KEYWORD: tsrs,
         SEND_KEYWORD: send,
         PENDING_KEYWORD: pending,
         VOID_KEYWORD: void,
@@ -51,10 +51,10 @@ def handle(keyword, params, message):
     # Call the appropriate handler function
     function_mapping[keyword](params, location, reporter, message)
     
-def mdrs(params, location, reporter, message):
+def tsrs(params, location, reporter, message):
     if len(params) == 0:
         raise ParseError("Specimen sample registration failed. " \
-                         "You must send the PatientID")
+                         "You must send the registration number")
 
     text = ' '.join(params)
 
@@ -63,35 +63,40 @@ def mdrs(params, location, reporter, message):
                       '(\+\s?n(ote)?\s*(?P<note>.*))?$', text)
     if match:
         raise BadValue("FAILED: You can only register one specimen at a " \
-                       "time. Please send a separate MDRS SMS for each " \
+                       "time. Please send a separate TSRS SMS for each " \
                        "patient.")
         
 
-    match = re.match(r'^(?P<patient>\d+)[ -./\\_]+(?P<year>\d{2})\s*' \
-                      '(\+\s?n(ote)?\s*(?P<note>.*))?$',text)
+    this_year = date.today().strftime("%y")
+    last_year = (date.today() - timedelta(weeks=52)).strftime("%y")
+    regex = r'^(?P<patient>\d+)[ -./\\_]+(?P<year>(%(this)s|%(last)s))' \
+             '\s*(\+\s?n(ote)?\s*(?P<note>.*))?$' % \
+                      {'this':this_year, 'last':last_year}
+    print regex
+    match = re.match(regex, text)
     if not match:
         raise ParseError("FAILED: Invalid patient registration number. " \
                          "Should be in the " \
                          "format XXXX/YY where XXXX is a number and YY " \
-                         "is the last two digits of year when patient " \
+                         "is the last two digits of year when specimen " \
                          "was registered.")
 
 
     id_first = int(match.groupdict()['patient'])
     id_years = match.groupdict()['year']
 
-    patient_id =  '%d/%s' % (id_first, id_years)
+    registration_number =  '%d/%s' % (id_first, id_years)
 
     # Check for existing patient with same id at the location
     try:
-        patient = Patient.objects.get(patient_id=patient_id,
+        patient = Patient.objects.get(registration_number=registration_number,
                                          location=location)
 
     except Patient.DoesNotExist:
         patient = Patient()
         patient.created_by = message.reporter
         patient.location = location
-        patient.patient_id = patient_id
+        patient.registration_number = registration_number
         patient.save()
 
     #Don't let them send multiple samples for the same patient within 12 hours
@@ -145,7 +150,7 @@ def send(params, location, reporter, message):
             break
     if not pending:
         message.respond("DTU %(dtu)s has no pending specimens to be sent. " \
-                        "Send MDRS if you need to register a new sample." % \
+                        "Send TSRS if you need to register a new sample." % \
                         {'dtu':location})
         return
     if len(params) < 2:
