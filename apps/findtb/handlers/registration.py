@@ -2,7 +2,7 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from locations.models import Location, LocationType
 from reporters.models import Reporter
@@ -38,9 +38,14 @@ def handle(keyword, params, message):
 
     if not match or not match.groupdict()['prefix'] or \
        not match.groupdict()['suffix']:
-        raise ParseError("Registration failed: " \
-                         "You must send:\n%s LocationCode " \
-                         "Surname FirstName" % keyword.upper())
+
+        if len(params) > 2:
+            raise ParseError("Registraition failed: %s is not a valid " \
+                             "DTU code." % params[0].upper())
+        else:
+            raise ParseError("Registration failed: " \
+                             "You must send:\n%s LocationCode " \
+                             "Surname FirstName" % keyword.upper())
     try:
         code = '%s-%s' % \
                 (match.groupdict()['prefix'], match.groupdict()['suffix'])

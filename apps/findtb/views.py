@@ -8,6 +8,7 @@ import random
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
 from locations.models import Location
+from reporters.models import Reporter
 from django_tracking.models import State
 from findtb.models import Specimen
 from django.core.urlresolvers import reverse

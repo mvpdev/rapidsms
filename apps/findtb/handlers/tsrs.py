@@ -5,9 +5,12 @@
 import re
 from datetime import datetime, timedelta, date
 
+from django_tracking.models import TrackedItem, State
+
 from findtb.models import *
 from findtb.utils import registered, clean_names, generate_tracking_tag
 from findtb.exceptions import ParseError, NotAllowed, BadValue
+
 
 TSRS_KEYWORD = 'tsrs'
 SEND_KEYWORD = 'send'

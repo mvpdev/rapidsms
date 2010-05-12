@@ -4,13 +4,53 @@
 
 import re
 import itertools
+import urllib2
 from functools import wraps
+from urllib import urlencode
+
 
 from django.utils.translation import ugettext as _
 
 import rapidsms
+from rapidsms.webui import settings
 
 from findtb.exceptions import NotRegistered
+from findtb.models import FINDTBGroup, Role, FINDTBLocation
+from findtb import config
+
+def send_msg(reporter, text):
+    '''
+    Sends a message to a reporter using the ajax app.  This goes to 
+    ajax_POST_send_message in findtb app.py
+    '''
+    conf = settings.RAPIDSMS_APPS['ajax']
+    slug = config.title.replace(' ','-').lower()
+    url = "http://%s:%s/%s/send_message" % (conf["host"], conf["port"], slug)
+
+    data = {'reporter': reporter.pk, \
+            'text': text}
+    req = urllib2.Request(url, urlencode(data))
+    stream = urllib2.urlopen(req)
+    stream.close()
+
+def send_to_group_at_location(group_name, location, msg):
+    for role in Role.objects.filter(group__name=group_name, location=location):
+        send_msg(role.reporter, msg)
+
+def send_to_dtu(location, msg):
+    send_to_group_at_location(FINDTBGroup.CLINICIAN_GROUP_NAME, location, msg)
+    send_to_group_at_location(FINDTBGroup.DTU_LAB_TECH_GROUP_NAME, \
+                              location, msg)
+
+def send_to_ztls(location, msg):
+    zone = FINDTBGroup.objects.get(pk=location.pk).get_zone()
+    send_to_group_at_location(FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME, \
+                              zone, msg)
+
+def send_to_dtls(location, msg):
+    district = FINDTBGroup.objects.get(pk=location.pk).get_district()
+    send_to_group_at_location(FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME, \
+                              district, msg)
 
 def clean_msg(text):
 
