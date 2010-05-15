@@ -10,6 +10,7 @@ class CodedItem(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_codeditem'
         verbose_name = _(u"Coded Item")
         verbose_name_plural = _(u"Coded Items")
         ordering = ('type', 'code')

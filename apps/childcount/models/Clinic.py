@@ -18,5 +18,6 @@ class Clinic(Location):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_clinic'
         verbose_name = _(u"Clinic")
         verbose_name_plural = _(u"Clinics")

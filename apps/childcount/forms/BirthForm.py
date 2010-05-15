@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
 from childcount.exceptions import ParseError, BadValue, Inapplicable
-from childcount.models import Encounter
+from childcount.models import Patient, Encounter
 from childcount.models.reports import BirthReport
 from childcount.forms.utils import MultipleChoiceField
 
@@ -19,6 +19,8 @@ class BirthForm(CCForm):
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
     MIN_BIRTH_WEIGHT = 1
     MAX_BIRTH_WEIGHT = 6
+    MIN_GUARDIAN_AGE = 10
+    UNKNOWN_MOTHER = {'en': 'U'}
 
     def process(self, patient):
 
@@ -51,13 +53,34 @@ class BirthForm(CCForm):
                                   "submited by %(chw)s") % \
                                   {'p': patient, 'chw': br.chw()})
 
-        if len(self.params) < 2:
+        if len(self.params) < 3:
             raise ParseError(_(u"Not enough information, expected: " \
-                                "|delivered in health facility| " \
+                                "|Mom Health ID|delivered in health facility| " \
                                 "weight(kg)(optional)"))
 
         cd_field.set_language(self.chw.language)
-        clinic_delivery = self.params[1]
+        lang = self.message.reporter.language
+
+        # Mother field
+        mother = self.params[1]
+
+        if mother == self.UNKNOWN_MOTHER[lang].lower():
+            patient.mother = None
+        else:
+            try:
+                patient.mother = Patient.objects.get( \
+                                                health_id__iexact=mother)
+            except Patient.DoesNotExist:
+                raise BadValue(_(u"Could not find mother / guardian " \
+                                    "with health ID %(id)s. You must " \
+                                    "register the mother first.") % \
+                                    {'id': household})
+            if patient.mother < self.MIN_GUARDIAN_AGE:
+                raise BadValue(_(u"The mother / guardian you specified " \
+                                    "is too young to be a mother." \
+                                    "(%(hh)s)") % {'hh': patient.household})
+
+        clinic_delivery = self.params[2]
         if not cd_field.is_valid_choice(clinic_delivery):
             raise BadValue(_(u"|Delivered in health facility?| must be " \
                               "%(choices)s") % \
@@ -65,9 +88,11 @@ class BirthForm(CCForm):
         cd_db = cd_field.get_db_value(clinic_delivery)
 
         weight = None
-        if len(self.params) > 2:
+        print self.params
+        print len(self.params)
+        if len(self.params) > 3:
             regex = r'(?P<w>\d+(\.?\d*)?).*'
-            match = re.match(regex, self.params[2])
+            match = re.match(regex, self.params[3])
             if match:
                 weight = float(match.groupdict()['w'])
                 if weight > self.MAX_BIRTH_WEIGHT:
@@ -95,5 +120,6 @@ class BirthForm(CCForm):
                               {'weight': weight}
 
         br.clinic_delivery = cd_db
-        br.weignt = weight
+        br.weight = weight
         br.save()
+        patient.save()

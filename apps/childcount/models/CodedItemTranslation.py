@@ -10,6 +10,7 @@ class CodedItemTranslation(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_codeditemtrans'
         verbose_name = _(u"Coded Item Translation")
         verbose_name_plural = _(u"Coded Item Translations")
         ordering = ('language', 'coded_item')

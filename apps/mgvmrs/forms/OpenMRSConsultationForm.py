@@ -12,7 +12,6 @@ class OpenMRSConsultationForm(OpenMRSFormInterface):
     Matches OpenMRS Form #9 '''
 
     template_name = 'OpenMRSConsultationForm.xml'
-    openmrs_form_id = 9
 
     # concepts
     YES = '1065^YES^99DCT'

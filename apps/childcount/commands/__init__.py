@@ -7,3 +7,5 @@ from childcount.commands.RegistrationCommand import RegistrationCommand
 from childcount.commands.WhoCommand import WhoCommand
 from childcount.commands.MigrateRegistrationCommand \
     import MigrateRegistrationCommand
+from childcount.commands.LookupCommand import LookupCommand
+from childcount.commands.CancelCommand import CancelCommand

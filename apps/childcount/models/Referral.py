@@ -25,6 +25,7 @@ class Referral(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_referral'
 
     STATUS_OPEN = 0
     STATUS_CLOSED = 1

@@ -22,7 +22,6 @@ class PatientRegistrationForm(CCForm):
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
     MIN_HH_AGE = 10
-    MIN_GUARDIAN_AGE = 10
     MULTIPLE_PATIENTS = False
 
     gender_field = MultipleChoiceField()
@@ -176,32 +175,6 @@ class PatientRegistrationForm(CCForm):
                                   {'hh': patient.household, \
                                    'hhhh': patient.household.household, \
                                    'char': self.PREVIOUS_ID[lang]})
-
-        if patient.years() < 5:
-            if len(tokens) == 0:
-                raise BadValue(_(u"This child is less than 5 years. You " \
-                                  "must indicate their mother's health ID " \
-                                  "after the head of household ID. If the " \
-                                  "mother is the head of household, set " \
-                                  "their mother to %(char)s") % \
-                                  {'char': self.PREVIOUS_ID[lang]})
-            mother = tokens.pop(0)
-
-            if mother == self.PREVIOUS_ID[lang].lower():
-                patient.mother = patient.household
-            else:
-                try:
-                    patient.mother = Patient.objects.get( \
-                                                    health_id__iexact=mother)
-                except Patient.DoesNotExist:
-                    raise BadValue(_(u"Could not find mother / guardian " \
-                                      "with health ID %(id)s. You must " \
-                                      "register the mother first.") % \
-                                      {'id': household})
-                if patient.mother < self.MIN_GUARDIAN_AGE:
-                    raise BadValue(_(u"The mother / guardian you specified " \
-                                      "is too young to be a mother." \
-                                      "(%(hh)s)") % {'hh': patient.household})
 
         patient_check = Patient.objects.filter( \
                                 first_name__iexact=patient.first_name, \

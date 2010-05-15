@@ -7,14 +7,14 @@
 Encounter - Encounter model
 '''
 
+from datetime import datetime, timedelta
+
 import reversion
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 from reversion.models import Version
-
-from mgvmrs.forms import OpenMRSUnderFiveForm, OpenMRSOverFiveForm, \
-                            OpenMRSTransmissionError
-from mgvmrs.utils import transmit_form
+from django.db.models import Q
 
 from childcount.models import CHW, Patient
 
@@ -23,6 +23,7 @@ class Encounter(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_encounter'
         verbose_name = _(u"Encounter")
         verbose_name_plural = _(u"Encounters")
 
@@ -31,6 +32,8 @@ class Encounter(models.Model):
     TYPE_CHOICES = (
         (TYPE_PATIENT, _(u"Patient")),
         (TYPE_HOUSEHOLD, _(u"Household")))
+    # Encounter validity duration in minutes
+    TIMEOUT = 6 * 60
 
     encounter_date = models.DateTimeField(_(u"Encounter date"))
 
@@ -67,52 +70,18 @@ class Encounter(models.Model):
             return None
         return self.current_version().revision.date_created
 
+    @property
+    def is_open(self):
+        ''' return true if TIMEOUT minutes has not passed since creation '''
+        if self.sync_omrs == True:
+            return False
+        now = datetime.now()
+        td = timedelta(minutes=self.TIMEOUT)
+        return self.encounter_date > (now - td)
+
     def __unicode__(self):
         return u"%s %s: %s" % (self.get_type_display(), \
                                self.patient.health_id, \
                                self.encounter_date)
-
-    @classmethod
-    def send_to_omrs(cls):
-        from childcount.models.reports import CCReport
-        encounters = cls.objects.filter(type=Encounter.TYPE_PATIENT, \
-            sync_omrs__in=(None, False))
-        for encounter in encounters:
-            reports = CCReport.objects.filter(encounter=encounter)
-            #is the patient registered? if there are reports it is probably not
-            #a new registration. is this really true?
-            create = True
-            if reports.count():
-                create = False
-            omrsformclass = None
-            if encounter.patient.is_under_five():
-                omrsformclass = OpenMRSUnderFiveForm
-            else:
-                omrsformclass = OpenMRSOverFiveForm
-            omrsform = omrsformclass(create, encounter.patient.health_id, \
-                                        int(encounter.patient.location.id),
-                                        int(encounter.patient.chw.id),
-                                        encounter.encounter_date, \
-                                        encounter.patient.dob, \
-                                        bool(encounter.patient.estimated_dob), \
-                                        encounter.patient.last_name, \
-                                        encounter.patient.first_name, '', \
-                                        encounter.patient.gender)
-            for report in reports:
-                omrsdict = report.get_omrs_dict()
-                for key in omrsdict:
-                    value = omrsdict[key]
-                    omrsform.assign(key, value)
-            try:
-                transmit_form(omrsform)
-                encounter.sync_omrs = True
-                encounter.save()
-            except OpenMRSTransmissionError, e:
-                #TODO : Log this error
-                print e
-                encounter.sync_omrs = False
-                encounter.save()
-                continue
-            #TODO : Mark this encounter as having been sent to omrs
 
 reversion.register(Encounter)

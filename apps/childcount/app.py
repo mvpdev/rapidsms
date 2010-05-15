@@ -6,7 +6,7 @@ import re
 import time
 from datetime import datetime, timedelta
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, activate
 from django.utils.translation import ungettext
 from django.db import models
 from reversion import revision
@@ -17,7 +17,7 @@ from locations.models import Location
 from scheduler.models import EventSchedule
 
 from childcount.models import Configuration as Cfg
-from childcount.models import Patient, Encounter, FormGroup
+from childcount.models import Patient, Encounter, FormGroup, CHW
 from childcount.forms import *
 from childcount.commands import *
 from childcount.exceptions import *
@@ -60,14 +60,6 @@ class App (rapidsms.app.App):
         self.form_mapper.add_classes(self.forms)
         self.command_mapper.add_classes(self.commands)
 
-        # set up a every 30 minutes to generate and/or send xforms to omrs
-        try:
-            EventSchedule.objects.get(callback="childcount.schedules.send_to_omrs")
-        except EventSchedule.DoesNotExist:
-            schedule = EventSchedule(callback="childcount.schedules.send_to_omrs", \
-                                     minutes=set([30]) )
-            schedule.save()
-
     def parse(self, message):
         """Parse and annotate messages in the parse phase."""
         pass
@@ -82,6 +74,12 @@ class App (rapidsms.app.App):
             lang = reporter.language
         else:
             lang = self.DEFAULT_LANGUAGE
+
+            # store default language in reporter during session
+            if reporter:
+                reporter.language = lang
+
+        activate(lang)
 
         # Use the datetime coming from the backend as the date. Times
         # from the backend are UTC naive. We convert it to localtime
@@ -194,14 +192,14 @@ class App (rapidsms.app.App):
                 # create the patient records
                 try:
                     form.pre_process()
-                except (ParseError, BadValue, Inapplicable), e:
+                except CCException, e:
                     pretty_form = '%s%s' % (self.FORM_PREFIX, \
                                             keyword.upper())
 
                     message.respond(_(u"Error while processing %(frm)s: " \
                                        "%(e)s - Please correct and send all " \
                                        "information again.") % \
-                                       {'frm': pretty_form, 'e': e.message}, \
+                                       {'frm': pretty_form, 'e': e}, \
                                         'error')
                     return handled
                 pre_processed_form_objects.append(form)
@@ -260,10 +258,12 @@ class App (rapidsms.app.App):
                 if encounters[form.ENCOUNTER_TYPE] is None:
                     try:
                         encounters[form.ENCOUNTER_TYPE] = \
-                            Encounter.objects.get(chw=chw, \
-                                 patient=patient, type=form.ENCOUNTER_TYPE, \
-                                 encounter_date__gte=encounter_date - \
-                                     timedelta(minutes=self.ENCOUNTER_TIMEOUT))
+                            Encounter.objects.filter(chw=chw, \
+                                 patient=patient, \
+                                 type=form.ENCOUNTER_TYPE)\
+                                 .latest('encounter_date')
+                        if not encounters[form.ENCOUNTER_TYPE].is_open == True:
+                            raise Encounter.DoesNotExist
                     except Encounter.DoesNotExist:
                         encounters[form.ENCOUNTER_TYPE] = \
                                     Encounter(chw=chw, patient=patient, \
@@ -284,9 +284,9 @@ class App (rapidsms.app.App):
 
                 try:
                     form.process(patient)
-                except (ParseError, BadValue, Inapplicable), e:
+                except CCException, e:
                     failed_forms.append({'keyword': keyword, \
-                                         'error': e.message, 'e': e})
+                                         'error': unicode(e), 'e': e})
                 else:
                     successful_forms.append({'keyword': keyword, \
                                              'response': form.response, \
@@ -375,8 +375,8 @@ class App (rapidsms.app.App):
             obj = cls(message, params)
             try:
                 obj.process()
-            except (ParseError, BadValue, NotRegistered), e:
-                message.respond(e.message, 'error')
+            except CCException, e:
+                message.respond(e, 'error')
         return handled
 
     def cleanup(self, message):

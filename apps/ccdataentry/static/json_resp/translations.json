@@ -1,8 +1,0 @@
-{
-	"en" : {
-		"noProcess" : "There was an error processing the file at the following url: #{url}"
-	},
-	"fr" : {
-		"noProcess" : "There was an error"
-	}
-}

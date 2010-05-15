@@ -1,0 +1,1652 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-16 11:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: app.py:48
+#, python-format
+msgid "%s form not found"
+msgstr ""
+
+#: app.py:55
+#, python-format
+msgid "%s command not found"
+msgstr ""
+
+#: app.py:112
+msgid "You must register before you can send any reports."
+msgstr ""
+
+#: app.py:123
+msgid "Problem getting chw from backend."
+msgstr ""
+
+#: app.py:135
+msgid "Problem getting encounter_date from backend."
+msgstr ""
+
+#: app.py:169
+#, python-format
+msgid ""
+"Error: Could not understand your message. Your message must start with a "
+"single health ID, followed by a space then a %(pre)s then the form keyword "
+"you are sending."
+msgstr ""
+
+#: app.py:188
+msgid "Not a recognised form"
+msgstr ""
+
+#: app.py:201
+#, python-format
+msgid ""
+"Error while processing %(frm)s: %(e)s - Please correct and send all "
+"information again."
+msgstr ""
+
+#: app.py:215
+#, python-format
+msgid "%(id)s is not a valid Health ID. Please check and try again."
+msgstr ""
+
+#: app.py:229
+#, python-format
+msgid ""
+"Error: You tried to send househould forms for someone who is not head of "
+"household. You must send those forms with their head of household health id. "
+"Their head of household is %(hoh)s (Health ID: %(hohid)s)"
+msgstr ""
+
+#: app.py:254
+msgid "This form is for head of households only"
+msgstr ""
+
+#: app.py:326
+msgid " successfuly processed:"
+msgstr ""
+
+#: app.py:341
+msgid " You must send that form again."
+msgstr ""
+
+#: app.py:343
+msgid " You must send those forms again."
+msgstr ""
+
+#: app.py:353
+msgid "1 form failed"
+msgstr ""
+
+#: app.py:355
+#, python-format
+msgid "%d forms failed"
+msgstr ""
+
+#: app.py:358
+msgid "1 successful"
+msgstr ""
+
+#: app.py:360
+#, python-format
+msgid "%d forms successful"
+msgstr ""
+
+#: exceptions.py:21
+msgid "Error: You must be registered first"
+msgstr ""
+
+#: exceptions.py:27
+msgid "FAILED. unable to understand"
+msgstr ""
+
+#: exceptions.py:33
+msgid "FAILED. Bad value"
+msgstr ""
+
+#: exceptions.py:39
+msgid "FAILED. Not applicable"
+msgstr ""
+
+#: reports.py:32
+msgid "All Patients"
+msgstr ""
+
+#: utils.py:429
+#, python-format
+msgid "%(number)s is not a registered number."
+msgstr ""
+
+#: utils.py:453
+#, python-format
+msgid "An error has occured (%(e)s)."
+msgstr ""
+
+#: utils.py:471
+#, python-format
+msgid "You tried to load %(cls)s but it does not have %(k)s defined."
+msgstr ""
+
+#: utils.py:476
+#, python-format
+msgid "%(k)s must be a dictionary in %(cls)s"
+msgstr ""
+
+#: commands/RegistrationCommand.py:32
+#, python-format
+msgid "Not enough information. Expected: %(keyword)s location names"
+msgstr ""
+
+#: commands/RegistrationCommand.py:40
+#, python-format
+msgid "Location %(location)s does not exist"
+msgstr ""
+
+#: commands/RegistrationCommand.py:89
+#, python-format
+msgid "Success. You are now registered at %(location)s with alias @%(alias)s."
+msgstr ""
+
+#: commands/WhoCommand.py:28
+#, python-format
+msgid ""
+"You are registered as %(full_name)s from %(location)s with alias @%(alias)s."
+msgstr "Vous êtes enregistré comme %(full_name)s de %(location)s avec l'alias @%(alias)s."
+
+#: forms/BedNetForm.py:22
+msgid ""
+"Not enough info, expected: number of sleeping sites and number of bednets"
+msgstr ""
+
+#: forms/BedNetForm.py:33
+msgid "Number of sleeping sites must be a number"
+msgstr ""
+
+#: forms/BedNetForm.py:39
+msgid "Number of bednets must be a number"
+msgstr ""
+
+#: forms/BedNetForm.py:46
+#, python-format
+msgid "%(sites)d sleeping site(s), %(nets)d bednet(s)"
+msgstr ""
+
+#: forms/BirthForm.py:43
+#, python-format
+msgid ""
+"Patient is %(age)s old. You cannot submit birth reports for patients over 28 "
+"days old"
+msgstr ""
+
+#: forms/BirthForm.py:50
+#, python-format
+msgid "A birth report for %(p)s was already submited by %(chw)s"
+msgstr ""
+
+#: forms/BirthForm.py:55
+msgid ""
+"Not enough information, expected: |delivered in health facility| weight(kg)"
+"(optional)"
+msgstr ""
+
+#: forms/BirthForm.py:62
+#, python-format
+msgid "|Delivered in health facility?| must be %(choices)s"
+msgstr ""
+
+#: forms/BirthForm.py:74
+#, python-format
+msgid "Birth weight can not be greater than %(max)skg"
+msgstr ""
+
+#: forms/BirthForm.py:78
+#, python-format
+msgid "Birth weight can not be less than %(min)skg"
+msgstr ""
+
+#: forms/BirthForm.py:82 forms/NutritionForm.py:91
+msgid "Unkown value. Weight should be a number"
+msgstr ""
+
+#: forms/BirthForm.py:86
+msgid "Delivered in health facility"
+msgstr ""
+
+#: forms/BirthForm.py:88
+msgid "Home delivery"
+msgstr ""
+
+#: forms/BirthForm.py:90
+msgid "Unkown delivery location"
+msgstr ""
+
+#: forms/BirthForm.py:94
+#, python-format
+msgid ", %(weight)skg birth weight"
+msgstr ""
+
+#: forms/DangerSignsForm.py:23
+msgid "Not enough info, expected danger sign codes"
+msgstr ""
+
+#: forms/DangerSignsForm.py:46
+#, python-format
+msgid "Unkown danger sign code(s): %(codes)s No danger signs recorded."
+msgstr ""
+
+#: forms/DangerSignsForm.py:53
+#, python-format
+msgid "Danger signs: %(ds)s"
+msgstr ""
+
+#: forms/DeathForm.py:27
+msgid "Not enough info, expected date of death"
+msgstr ""
+
+#: forms/DeathForm.py:41
+#, python-format
+msgid "A death report for %(p)s was already submited by %(chw)s"
+msgstr ""
+
+#: forms/DeathForm.py:49
+#, python-format
+msgid "Could not understand date of death: %(dod)s"
+msgstr ""
+
+#: forms/DeathForm.py:58
+#, python-format
+msgid "Died on %(dod)s"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:22
+msgid ""
+"Not enough info, expected: number of women aged 15 - 49 | number using FP | "
+"methods being used"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:37
+msgid "|Number of women aged 15 - 49| must be a number"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:42
+msgid "No women aged 15 - 49 seen"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:47
+msgid ""
+"After the number of women aged 15-49, you must indicate the number of them "
+"using modern family planning"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:52
+msgid "Number of women using modern family planning must be a number"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:57
+msgid ""
+"The number of women using family planning cannot be greater than the total "
+"number of women"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:61
+#, python-format
+msgid "%(women)d women aged 15-49, none using modern family planning"
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:68
+msgid ""
+"You must specify %(num)d family planning code(s). One for each of the %(num)"
+"s women using modern family planning."
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:87
+#, python-format
+msgid "Unkown family planning code(s): %(codes)s No family planning recorded."
+msgstr ""
+
+#: forms/FamilyPlanningForm.py:103
+#, python-format
+msgid "%(women)d women, %(using)d using family planning: %(fp_string)s"
+msgstr ""
+
+#: forms/FeverForm.py:39 forms/ReferralForm.py:25
+#, python-format
+msgid "Not enough info, expected %s"
+msgstr ""
+
+#: forms/FeverForm.py:43
+#, python-format
+msgid "RDT Result must be %(choices)s"
+msgstr ""
+
+#: forms/FeverForm.py:57 forms/FeverForm.py:59
+msgid "less than 3"
+msgstr ""
+
+#: forms/FeverForm.py:68
+msgid "Child is too young for treatment. Please refer IMMEDIATELY to clinic"
+msgstr ""
+
+#: forms/FeverForm.py:71
+#, python-format
+msgid ""
+"Child is %(age)s. Please provide %(tabs)s tab%(plural)s of Coartem (ACT) "
+"twice a day for 3 days"
+msgstr ""
+
+#: forms/FeverForm.py:78
+msgid "Positive RDT result. "
+msgstr ""
+
+#: forms/FeverForm.py:91
+msgid "Negative RDT result"
+msgstr ""
+
+#: forms/FeverForm.py:93
+msgid "Unkown RDT result"
+msgstr ""
+
+#: forms/FollowUpForm.py:42
+msgid "Not enough information, expected: | Improvement? | Visited facility? | "
+msgstr ""
+
+#: forms/FollowUpForm.py:48
+#, python-format
+msgid "| Improvement? | Must be %(choices)s"
+msgstr ""
+
+#: forms/FollowUpForm.py:56
+#, python-format
+msgid "| Visited facility? | Must be %(choices)s"
+msgstr ""
+
+#: forms/FollowUpForm.py:63
+msgid "Condition improved"
+msgstr ""
+
+#: forms/FollowUpForm.py:65
+msgid "Condition did not improve"
+msgstr ""
+
+#: forms/FollowUpForm.py:67
+msgid "Condition improvement unkown"
+msgstr ""
+
+#: forms/FollowUpForm.py:69 models/reports.py:171
+msgid "Patient unavailable"
+msgstr ""
+
+#: forms/FollowUpForm.py:72
+msgid "Patient visited health facility"
+msgstr ""
+
+#: forms/FollowUpForm.py:74
+msgid "Patient did not visit health facility"
+msgstr ""
+
+#: forms/FollowUpForm.py:76
+msgid "Unkown whether patient visited health facility or not"
+msgstr ""
+
+#: forms/FollowUpForm.py:79
+msgid "Patient currently inpatient at health facility"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:34 forms/HouseholdVisitForm.py:48
+msgid ""
+"Not enough info, expected: household member available? | number of children "
+"| counseling / advice given (optional)"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:38
+#, python-format
+msgid "|Any HH Member Available?| must be %(choices)s"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:53
+msgid "|Number of children| must be a number"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:73
+#, python-format
+msgid "Unkown counseling topic code(s): %(codes)s No household visit recorded."
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:86
+msgid "Household member not available"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:90
+#, python-format
+msgid "Household member available, %(kids)d children under 5 seen"
+msgstr ""
+
+#: forms/HouseholdVisitForm.py:94
+#, python-format
+msgid ", counseling / advice topics covered: %(topics)s"
+msgstr ""
+
+#: forms/MedicineGivenForm.py:22
+msgid "Not enough info, expected medicine codes"
+msgstr ""
+
+#: forms/MedicineGivenForm.py:45
+#, python-format
+msgid "Unkown medicine code(s): %(codes)s No medicines recorded."
+msgstr ""
+
+#: forms/MedicineGivenForm.py:52
+#, python-format
+msgid "Medicine given: %(ds)s"
+msgstr ""
+
+#: forms/MobileForm.py:24
+msgid "Expected phone number"
+msgstr ""
+
+#: forms/MobileForm.py:27
+msgid "Phone number cannot be longer than 16 digits"
+msgstr ""
+
+#: forms/MobileForm.py:30
+#, python-format
+msgid "Mobile phone number: %(mobile)s"
+msgstr ""
+
+#: forms/NeonatalForm.py:23
+msgid "Neonatal reports are only for children less than 28 days old"
+msgstr ""
+
+#: forms/NeonatalForm.py:27
+msgid "Not enough info, expected number of clinic visits since birth"
+msgstr ""
+
+#: forms/NeonatalForm.py:32
+msgid "|Clinic visits since birth| must be a number"
+msgstr ""
+
+#: forms/NeonatalForm.py:46
+msgid "No postnatal clinic visits since birth"
+msgstr ""
+
+#: forms/NeonatalForm.py:48
+msgid "One postnatal clinic visit since birth"
+msgstr ""
+
+#: forms/NeonatalForm.py:50
+#, python-format
+msgid "%(visits)d postnatal clinic visit since birth"
+msgstr ""
+
+#: forms/NutritionForm.py:45
+msgid "Child is too young for MUAC"
+msgstr ""
+
+#: forms/NutritionForm.py:47
+msgid ""
+"Child is older then 59 months. For any concerns about child please refer to "
+"a clinic."
+msgstr ""
+
+#: forms/NutritionForm.py:52
+msgid "Not enough info, expected: | muac | oedema | weight (optional)"
+msgstr ""
+
+#: forms/NutritionForm.py:56
+msgid "MUAC must be a number"
+msgstr ""
+
+#: forms/NutritionForm.py:62
+msgid "MUAC too low. If correct, refer child IMMEDIATELY!"
+msgstr ""
+
+#: forms/NutritionForm.py:65
+msgid "MUAC too high. Correct and resend."
+msgstr ""
+
+#: forms/NutritionForm.py:70
+#, python-format
+msgid "Oedema must be %(choices)s"
+msgstr ""
+
+#: forms/NutritionForm.py:83
+#, python-format
+msgid "Weight can not be greater than %(max)skg"
+msgstr ""
+
+#: forms/NutritionForm.py:87
+#, python-format
+msgid "Weight can not be less than %(min)skg"
+msgstr ""
+
+#: forms/NutritionForm.py:99
+msgid "MUAC not taking, "
+msgstr ""
+
+#: forms/NutritionForm.py:101
+#, python-format
+msgid "MUAC of %(muac)smm, "
+msgstr ""
+
+#: forms/NutritionForm.py:104
+msgid "Oedema present"
+msgstr ""
+
+#: forms/NutritionForm.py:106
+msgid "No signs of oedema"
+msgstr ""
+
+#: forms/NutritionForm.py:108
+msgid "Oedema unkown"
+msgstr ""
+
+#: forms/NutritionForm.py:111
+#, python-format
+msgid ", Weight %(w)skg"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:44
+#, python-format
+msgid "That health ID has already been registered to %(patient)s by %(chw)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:55
+msgid "location | patient names | gender | age or DOB | head_of_household"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:59
+#, python-format
+msgid "Not enough info. You must send: %(expected)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:66
+#, python-format
+msgid ""
+"%(loc)s is not a valid location code. You must indicate the patient's "
+"location code before their name."
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:83
+#, python-format
+msgid "You must indicate gender after the name with a %(choices)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:92
+#, python-format
+msgid "Could not understand your message. Expected %(expected)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:102
+msgid "You must provide an exact birth date for children under 2 months"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:105
+msgid ""
+"You must provide an exact birth date or the age in months for children under "
+"two years"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:110
+#, python-format
+msgid "Could not understand age or date_of_birth of %(string)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:118
+msgid "You must provide a patient name before their sex"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:135
+#, python-format
+msgid ""
+"You must indicate the head of household after the age. If this is the head "
+"of household write %(char)s after the dob/age."
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:145
+msgid ""
+"This patient is too young to be a head of household. You must provide their "
+"head ofhousehold"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:157
+#, python-format
+msgid ""
+"Could not find head of household with health ID %(id)s. You must register "
+"the head of household first"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:165
+#, python-format
+msgid ""
+"The head of household you specified is too young to be a head of household (%"
+"(hh)s)"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:171
+#, python-format
+msgid ""
+"The head of household you specified (%(hh)s) is not a head of household. "
+"Their head of household is (%(hhhh)s). If they are the head, set their head "
+"of household to %(char)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:182
+#, python-format
+msgid ""
+"This child is less than 5 years. You must indicate their mother's health ID "
+"after the head of household ID. If the mother is the head of household, set "
+"their mother to %(char)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:197
+#, python-format
+msgid ""
+"Could not find mother / guardian with health ID %(id)s. You must register "
+"the mother first."
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:202
+#, python-format
+msgid ""
+"The mother / guardian you specified is too young to be a mother.(%(hh)s)"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:214
+msgid "you"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:217
+#, python-format
+msgid ""
+"%(name)s %(sex)s/%(age)s was already registered by %(chw)s. Their health id "
+"is %(id)s"
+msgstr ""
+
+#: forms/PatientRegistrationForm.py:230
+#, python-format
+msgid "You successfuly registered %(patient)s"
+msgstr ""
+
+#: forms/PregnancyForm.py:26
+msgid "Only female patients can be pregnant"
+msgstr ""
+
+#: forms/PregnancyForm.py:29
+#, python-format
+msgid "Patient is too young to be pregnant (%(age)s)"
+msgstr ""
+
+#: forms/PregnancyForm.py:34
+msgid ""
+"Not enough info, expected: | month of pregnancy | number of ANC visits | "
+"weeks since last ANC visit |"
+msgstr ""
+
+#: forms/PregnancyForm.py:48
+msgid "Month of pregnancy must be a number between 1 and 9"
+msgstr ""
+
+#: forms/PregnancyForm.py:54
+msgid "Number of ANC visits must be a number"
+msgstr ""
+
+#: forms/PregnancyForm.py:58
+msgid ""
+"You must include the weeks since the last ANC visit after the total number "
+"of ANC visits"
+msgstr ""
+
+#: forms/PregnancyForm.py:65
+msgid "Weeks since last ANC visit must be a number"
+msgstr ""
+
+#: forms/PregnancyForm.py:102
+msgid " less than one week ago"
+msgstr ""
+
+#: forms/PregnancyForm.py:104
+msgid " one week ago"
+msgstr ""
+
+#: forms/PregnancyForm.py:106
+#, python-format
+msgid " %(weeks)d weeks ago"
+msgstr ""
+
+#: forms/PregnancyForm.py:109
+#, python-format
+msgid "%(month)d months pregnant with %(visits)d ANC visits"
+msgstr ""
+
+#: forms/PregnancyForm.py:113
+#, python-format
+msgid ", last ANC visit %s"
+msgstr ""
+
+#: forms/ReferralForm.py:29
+#, python-format
+msgid "Referral to clinic choices are %(choices)s"
+msgstr ""
+
+#: forms/ReferralForm.py:42 models/reports.py:547
+msgid "Ambulance Referral"
+msgstr ""
+
+#: forms/ReferralForm.py:44 models/reports.py:548
+msgid "Emergency Referral"
+msgstr ""
+
+#: forms/ReferralForm.py:46
+msgid "Basic Referral(24hrs)"
+msgstr ""
+
+#: forms/ReferralForm.py:48 models/reports.py:550
+msgid "Convenient Referral"
+msgstr ""
+
+#: forms/SickMembersForm.py:28
+msgid ""
+"Not enough info, expected: number of sick | number of RDTs | number of "
+"positive RDTs | number on treatment"
+msgstr ""
+
+#: forms/SickMembersForm.py:34
+msgid "Number of sick must be a number"
+msgstr ""
+
+#: forms/SickMembersForm.py:39
+msgid "Number of RDTs must be a number"
+msgstr ""
+
+#: forms/SickMembersForm.py:44
+msgid "Number of positive RDTs must be a number"
+msgstr ""
+
+#: forms/SickMembersForm.py:49
+msgid "Number of other people on treatment must be a number"
+msgstr ""
+
+#: forms/StillbirthMiscarriageForm.py:27
+msgid "Not enough info, expected date of stillbirth or miscarriage"
+msgstr ""
+
+#: forms/StillbirthMiscarriageForm.py:42
+#, python-format
+msgid "Could not understand date: %(dod)s"
+msgstr ""
+
+#: forms/StillbirthMiscarriageForm.py:48
+#, python-format
+msgid "Stillbirth or miscarriage on %(doi)s"
+msgstr ""
+
+#: forms/UnderOneForm.py:46
+msgid "Child is too old for this report"
+msgstr ""
+
+#: forms/UnderOneForm.py:49
+msgid ""
+"Not enough info, expected | breast feeding only | up-to-date immunisations"
+msgstr ""
+
+#: forms/UnderOneForm.py:54
+#, python-format
+msgid "|Breast feeding only?| must be %(choices)s"
+msgstr ""
+
+#: forms/UnderOneForm.py:60
+#, python-format
+msgid "|Up-to-date Immunisations?| must be %(choices)s"
+msgstr ""
+
+#: forms/UnderOneForm.py:71
+msgid "Exclusive breast feeding"
+msgstr ""
+
+#: forms/UnderOneForm.py:73
+msgid "Not exclusive breast feeding"
+msgstr ""
+
+#: forms/UnderOneForm.py:75
+msgid "Unkown if exclusively breast feeding"
+msgstr ""
+
+#: forms/UnderOneForm.py:78
+msgid "Up-to-date on immunisations"
+msgstr ""
+
+#: forms/UnderOneForm.py:80
+msgid "Not up-to-date on immunisations"
+msgstr ""
+
+#: forms/UnderOneForm.py:82
+msgid "Unkown if up-to-date on immunisations"
+msgstr ""
+
+#: forms/VerbalAutopsyForm.py:23
+msgid "Verbal autopsy done!"
+msgstr ""
+
+#: forms/utils.py:48
+msgid " or "
+msgstr ""
+
+#: forms/utils.py:50
+#, python-format
+msgid "%(choices)s, or %(lastchoice)s"
+msgstr ""
+
+#: models/CHW.py:26
+msgid "Community Health Worker"
+msgstr ""
+
+#: models/CHW.py:27
+msgid "Community Health Workers"
+msgstr ""
+
+#: models/CHW.py:29
+msgid "Manager"
+msgstr ""
+
+#: models/CHW.py:32 models/Clinic.py:21
+msgid "Clinic"
+msgstr ""
+
+#: models/CHW.py:35
+msgid "The clinic this CHW reports to"
+msgstr ""
+
+#: models/CHW.py:53
+msgid "Number of Patients"
+msgstr ""
+
+#: models/CHW.py:56
+msgid "Number of Patients Under 5"
+msgstr ""
+
+#: models/Case.py:28
+msgid "Case"
+msgstr ""
+
+#: models/Case.py:29
+msgid "Cases"
+msgstr ""
+
+#: models/Case.py:37 models/Referral.py:33
+msgid "Open"
+msgstr ""
+
+#: models/Case.py:38 models/Referral.py:34
+msgid "Closed"
+msgstr ""
+
+#: models/Case.py:46
+msgid "Pregnancy"
+msgstr ""
+
+#: models/Case.py:47
+msgid "Malnutrition"
+msgstr ""
+
+#: models/Case.py:48
+msgid "Fever"
+msgstr ""
+
+#: models/Case.py:49
+msgid "Diarrhea"
+msgstr ""
+
+#: models/Case.py:51 models/Encounter.py:32 models/Encounter.py:39
+#: models/Patient.py:29 models/Referral.py:37
+msgid "Patient"
+msgstr ""
+
+#: models/Case.py:54
+msgid "Type of case"
+msgstr ""
+
+#: models/Case.py:57 models/Patient.py:92 models/Referral.py:38
+#: models/reports.py:407
+msgid "Status"
+msgstr ""
+
+#: models/Case.py:60 models/Referral.py:44
+msgid "Reports"
+msgstr ""
+
+#: models/Case.py:62 models/Patient.py:52 models/Referral.py:40
+msgid "Created on"
+msgstr ""
+
+#: models/Case.py:64 models/Referral.py:41
+msgid "Updated on"
+msgstr ""
+
+#: models/Case.py:66 models/Referral.py:42
+msgid "Expires on"
+msgstr ""
+
+#: models/Clinic.py:22
+msgid "Clinics"
+msgstr ""
+
+#: models/CodedItem.py:13 models/CodedItemTranslation.py:25
+msgid "Coded Item"
+msgstr ""
+
+#: models/CodedItem.py:14
+msgid "Coded Items"
+msgstr ""
+
+#: models/CodedItem.py:24 models/DangerSignTranslation.py:27
+msgid "Danger sign"
+msgstr ""
+
+#: models/CodedItem.py:25
+msgid "Family planning"
+msgstr ""
+
+#: models/CodedItem.py:26
+msgid "Medicine"
+msgstr ""
+
+#: models/CodedItem.py:27
+msgid "Counseling topic"
+msgstr ""
+
+#: models/CodedItem.py:29 models/CodedItemTranslation.py:26
+#: models/DangerSignTranslation.py:26
+msgid "Code"
+msgstr ""
+
+#: models/CodedItem.py:30 models/CodedItemTranslation.py:27
+#: models/Configuration.py:20 models/DangerSignTranslation.py:28
+#: models/Referral.py:43
+msgid "Description"
+msgstr ""
+
+#: models/CodedItem.py:31 models/Encounter.py:44
+msgid "Type"
+msgstr ""
+
+#: models/CodedItemTranslation.py:13
+msgid "Coded Item Translation"
+msgstr ""
+
+#: models/CodedItemTranslation.py:14
+msgid "Coded Item Translations"
+msgstr ""
+
+#: models/CodedItemTranslation.py:21 models/DangerSignTranslation.py:22
+msgid "French"
+msgstr ""
+
+#: models/CodedItemTranslation.py:23
+msgid "Langauge"
+msgstr ""
+
+#: models/Configuration.py:17
+msgid "Key"
+msgstr ""
+
+#: models/Configuration.py:18
+msgid "Value"
+msgstr ""
+
+#: models/DangerSignTranslation.py:16
+msgid "Danger Sign Translation"
+msgstr ""
+
+#: models/DangerSignTranslation.py:17
+msgid "Danger Sign Translations"
+msgstr ""
+
+#: models/DangerSignTranslation.py:21
+msgid "English"
+msgstr ""
+
+#: models/DangerSignTranslation.py:24
+msgid "Language"
+msgstr ""
+
+#: models/Encounter.py:26 models/FormGroup.py:39 models/reports.py:34
+msgid "Encounter"
+msgstr ""
+
+#: models/Encounter.py:27
+msgid "Encounters"
+msgstr ""
+
+#: models/Encounter.py:33
+msgid "Household"
+msgstr ""
+
+#: models/Encounter.py:35
+msgid "Encounter date"
+msgstr ""
+
+#: models/Encounter.py:37
+msgid "CHW"
+msgstr ""
+
+#: models/Encounter.py:40
+msgid "Patient (or head of household for household encounters)"
+msgstr ""
+
+#: models/Encounter.py:46
+msgid "The type of encounter"
+msgstr ""
+
+#: models/Encounter.py:48
+msgid "OMRS"
+msgstr ""
+
+#: models/FamilyPlanningUsage.py:14
+msgid "Family Planning Usage"
+msgstr ""
+
+#: models/FamilyPlanningUsage.py:15
+msgid "Family Planning Usages"
+msgstr ""
+
+#: models/FamilyPlanningUsage.py:19
+msgid "Family planning report"
+msgstr ""
+
+#: models/FamilyPlanningUsage.py:20
+msgid "Method"
+msgstr ""
+
+#: models/FamilyPlanningUsage.py:21
+msgid "Count"
+msgstr ""
+
+#: models/FormGroup.py:22
+msgid "Form Group"
+msgstr ""
+
+#: models/FormGroup.py:23
+msgid "Form Groups"
+msgstr ""
+
+#: models/FormGroup.py:25
+msgid "Forms"
+msgstr ""
+
+#: models/FormGroup.py:27
+msgid "A comma delimited list of the names of the forms successfully processed"
+msgstr ""
+
+#: models/FormGroup.py:31
+msgid "Entered by"
+msgstr ""
+
+#: models/FormGroup.py:35
+msgid "Entered on"
+msgstr ""
+
+#: models/FormGroup.py:37
+msgid "Backend"
+msgstr ""
+
+#: models/Patient.py:30
+msgid "Patients"
+msgstr ""
+
+#: models/Patient.py:37
+msgid "Male"
+msgstr ""
+
+#: models/Patient.py:38
+msgid "Female"
+msgstr ""
+
+#: models/Patient.py:45
+msgid "Alive"
+msgstr ""
+
+#: models/Patient.py:46
+msgid "Relocated"
+msgstr ""
+
+#: models/Patient.py:47
+msgid "Dead"
+msgstr ""
+
+#: models/Patient.py:49
+msgid "Health ID"
+msgstr ""
+
+#: models/Patient.py:51
+msgid "Unique Health ID"
+msgstr ""
+
+#: models/Patient.py:53
+msgid "When the patient record was created"
+msgstr ""
+
+#: models/Patient.py:58
+msgid "First name"
+msgstr ""
+
+#: models/Patient.py:59
+msgid "Last name"
+msgstr ""
+
+#: models/Patient.py:60
+msgid "Family name or surname"
+msgstr ""
+
+#: models/Patient.py:61
+msgid "Gender"
+msgstr ""
+
+#: models/Patient.py:63
+msgid "Date of Birth"
+msgstr ""
+
+#: models/Patient.py:64
+msgid "Estimated DOB"
+msgstr ""
+
+#: models/Patient.py:65
+msgid "True or false: the date of birth is only an approximation"
+msgstr ""
+
+#: models/Patient.py:69
+msgid "Mother or guardian"
+msgstr ""
+
+#: models/Patient.py:72
+msgid "Head of House"
+msgstr ""
+
+#: models/Patient.py:73
+msgid ""
+"The primary caregiver in this person's household (self if primary caregiver)"
+msgstr ""
+
+#: models/Patient.py:78
+msgid "Community health worker"
+msgstr ""
+
+#: models/Patient.py:81
+msgid "Location"
+msgstr ""
+
+#: models/Patient.py:82
+msgid "The location this person lives within"
+msgstr ""
+
+#: models/Patient.py:85
+msgid "Health facility"
+msgstr ""
+
+#: models/Patient.py:86
+msgid "The primary health facility that this patient visits"
+msgstr ""
+
+#: models/Patient.py:90
+msgid "Mobile phone number"
+msgstr ""
+
+#: models/Patient.py:128
+#, python-format
+msgid "%(days)sd"
+msgstr ""
+
+#: models/Patient.py:130
+#, python-format
+msgid "%(weeks)sw"
+msgstr ""
+
+#: models/Patient.py:132
+#, python-format
+msgid "%(months)sm"
+msgstr ""
+
+#: models/Patient.py:135
+#, python-format
+msgid "%(years)sy"
+msgstr ""
+
+#: models/Patient.py:184 models/ccreports.py:52 models/ccreports.py:164
+msgid "Name"
+msgstr ""
+
+#: models/Patient.py:190
+msgid "age"
+msgstr ""
+
+#: models/Referral.py:36
+msgid "Referral ID"
+msgstr ""
+
+#: models/ccreports.py:23
+msgid "Patient List Report"
+msgstr ""
+
+#: models/ccreports.py:58
+msgid "Age"
+msgstr ""
+
+#: models/ccreports.py:61
+msgid "Last muac"
+msgstr ""
+
+#: models/ccreports.py:74
+msgid "Community Health Worker Report"
+msgstr ""
+
+#: models/reports.py:31
+msgid "ChildCount Report"
+msgstr ""
+
+#: models/reports.py:32
+msgid "ChildCount Reports"
+msgstr ""
+
+#: models/reports.py:94
+msgid "Birth Report"
+msgstr ""
+
+#: models/reports.py:95
+msgid "Birth Reports"
+msgstr ""
+
+#: models/reports.py:101 models/reports.py:168 models/reports.py:178
+#: models/reports.py:331 models/reports.py:339 models/reports.py:399
+msgid "Yes"
+msgstr ""
+
+#: models/reports.py:102 models/reports.py:169 models/reports.py:179
+#: models/reports.py:332 models/reports.py:340 models/reports.py:400
+msgid "No"
+msgstr ""
+
+#: models/reports.py:103 models/reports.py:401 models/reports.py:480
+msgid "Unknown"
+msgstr ""
+
+#: models/reports.py:105
+msgid "Clinic delivery"
+msgstr ""
+
+#: models/reports.py:107
+msgid "Was the baby born in a health facility?"
+msgstr ""
+
+#: models/reports.py:110
+msgid "Birth weight (kg)"
+msgstr ""
+
+#: models/reports.py:128
+msgid "Death Report"
+msgstr ""
+
+#: models/reports.py:129
+msgid "Death Reports"
+msgstr ""
+
+#: models/reports.py:131
+msgid "Date of death"
+msgstr ""
+
+#: models/reports.py:144
+msgid "Stillbirth / Miscarriage Report"
+msgstr ""
+
+#: models/reports.py:145
+msgid "Stillbirth / Miscarriage Reports"
+msgstr ""
+
+#: models/reports.py:147
+msgid "Date of stillbirth or miscarriage"
+msgstr ""
+
+#: models/reports.py:160
+msgid "Follow-up Report"
+msgstr ""
+
+#: models/reports.py:161
+msgid "Follow-up Reports"
+msgstr ""
+
+#: models/reports.py:170 models/reports.py:180 models/reports.py:333
+#: models/reports.py:341
+msgid "Unkown"
+msgstr ""
+
+#: models/reports.py:181
+msgid "Patient currently inpatient"
+msgstr ""
+
+#: models/reports.py:183
+msgid "Improvement"
+msgstr ""
+
+#: models/reports.py:185
+msgid "Has the patient's condition improved since last CHW visit?"
+msgstr ""
+
+#: models/reports.py:188
+msgid "Visited clinic"
+msgstr ""
+
+#: models/reports.py:190
+msgid "Did the patient visit a health facility since last CHW visit?"
+msgstr ""
+
+#: models/reports.py:206
+msgid "Danger Signs Report"
+msgstr ""
+
+#: models/reports.py:207
+msgid "Danger Signs Reports"
+msgstr ""
+
+#: models/reports.py:210
+msgid "Danger signs"
+msgstr ""
+
+#: models/reports.py:260
+msgid "Pregnancy Report"
+msgstr ""
+
+#: models/reports.py:261
+msgid "Pregnancy Reports"
+msgstr ""
+
+#: models/reports.py:263
+msgid "Months Pregnant"
+msgstr ""
+
+#: models/reports.py:264
+msgid "How many months into the pregnancy?"
+msgstr ""
+
+#: models/reports.py:266
+msgid "ANC Visits"
+msgstr ""
+
+#: models/reports.py:267
+msgid "Number of antenatal clinic visits during pregnancy"
+msgstr ""
+
+#: models/reports.py:270
+msgid "Weeks since last ANC visit"
+msgstr ""
+
+#: models/reports.py:272
+msgid ""
+"How many weeks since the patient's last ANC visit (0 for less than 7 days)"
+msgstr ""
+
+#: models/reports.py:301
+msgid "Neonatal Report"
+msgstr ""
+
+#: models/reports.py:302
+msgid "Neonatal Reports"
+msgstr ""
+
+#: models/reports.py:304
+msgid "Clinic Visits"
+msgstr ""
+
+#: models/reports.py:305
+msgid "Number of clinic visits since birth"
+msgstr ""
+
+#: models/reports.py:324
+msgid "Under One Report"
+msgstr ""
+
+#: models/reports.py:325
+msgid "Under One Reports"
+msgstr ""
+
+#: models/reports.py:344
+msgid "Breast feeding Only"
+msgstr ""
+
+#: models/reports.py:346
+msgid "Does the mother breast feed only?"
+msgstr ""
+
+#: models/reports.py:349
+msgid "Immunized"
+msgstr ""
+
+#: models/reports.py:351
+msgid "Is the child up-to-date onimmunizations?"
+msgstr ""
+
+#: models/reports.py:381
+msgid "Nutrition Report"
+msgstr ""
+
+#: models/reports.py:382
+msgid "Nutrition Reports"
+msgstr ""
+
+#: models/reports.py:390
+msgid "MAM"
+msgstr ""
+
+#: models/reports.py:391
+msgid "SAM"
+msgstr ""
+
+#: models/reports.py:392
+msgid "SAM+"
+msgstr ""
+
+#: models/reports.py:393
+msgid "Healthy"
+msgstr ""
+
+#: models/reports.py:403
+msgid "MUAC (mm)"
+msgstr ""
+
+#: models/reports.py:404
+msgid "Oedema"
+msgstr ""
+
+#: models/reports.py:406
+msgid "Weight (kg)"
+msgstr ""
+
+#: models/reports.py:470
+msgid "Fever Report"
+msgstr ""
+
+#: models/reports.py:471
+msgid "Fever Reports"
+msgstr ""
+
+#: models/reports.py:478
+msgid "Positive"
+msgstr ""
+
+#: models/reports.py:479
+msgid "Negative"
+msgstr ""
+
+#: models/reports.py:482
+msgid "RDT Result"
+msgstr ""
+
+#: models/reports.py:508
+msgid "Medicine Given Report"
+msgstr ""
+
+#: models/reports.py:509
+msgid "Medicine Given Reports"
+msgstr ""
+
+#: models/reports.py:512
+msgid "Medicines"
+msgstr ""
+
+#: models/reports.py:539
+msgid "Referral Report"
+msgstr ""
+
+#: models/reports.py:540
+msgid "Referral Reports"
+msgstr ""
+
+#: models/reports.py:549
+msgid "Basic Referral"
+msgstr ""
+
+#: models/reports.py:552
+msgid "Urgency"
+msgstr ""
+
+#: models/reports.py:578
+msgid "Household Visit Report"
+msgstr ""
+
+#: models/reports.py:579
+msgid "Household Visit Reports"
+msgstr ""
+
+#: models/reports.py:581
+msgid "HH Member Available"
+msgstr ""
+
+#: models/reports.py:582
+msgid "Was a houshold member available?"
+msgstr ""
+
+#: models/reports.py:585
+msgid "Children under five"
+msgstr ""
+
+#: models/reports.py:587
+msgid "Number of children under 5 seen"
+msgstr ""
+
+#: models/reports.py:590
+msgid "Counseling / advice topics covered"
+msgstr ""
+
+#: models/reports.py:609
+msgid "Family Planning Report"
+msgstr ""
+
+#: models/reports.py:610
+msgid "Family Planning Reports"
+msgstr ""
+
+#: models/reports.py:612
+msgid "Women"
+msgstr ""
+
+#: models/reports.py:613
+msgid "Number of women aged 15 to 49 seen during visit"
+msgstr ""
+
+#: models/reports.py:616
+msgid "Women using FP"
+msgstr ""
+
+#: models/reports.py:618
+msgid "Number of the women using modern family planning"
+msgstr ""
+
+#: models/reports.py:643
+msgid "Bednet Report"
+msgstr ""
+
+#: models/reports.py:644
+msgid "Bednet Reports"
+msgstr ""
+
+#: models/reports.py:646
+msgid "Sleeping sites"
+msgstr ""
+
+#: models/reports.py:647
+msgid "Number of sleeping sites"
+msgstr ""
+
+#: models/reports.py:649
+msgid "Bednets"
+msgstr ""
+
+#: models/reports.py:650
+msgid "Number of functioning bednets in the household"
+msgstr ""
+
+#: models/reports.py:666
+msgid "Sick Household Members Report"
+msgstr ""
+
+#: models/reports.py:667
+msgid "Sick Household Members Reports"
+msgstr ""
+
+#: models/reports.py:669
+msgid "Others sick"
+msgstr ""
+
+#: models/reports.py:670
+msgid "Number of other sick household members seen during visit"
+msgstr ""
+
+#: models/reports.py:673
+msgid "RDTs"
+msgstr ""
+
+#: models/reports.py:674
+msgid "Number of RDTs used on other sick household members"
+msgstr ""
+
+#: models/reports.py:677
+msgid "Positive RDTs"
+msgstr ""
+
+#: models/reports.py:678
+msgid "Number of positve RDTs cases for other sick household members"
+msgstr ""
+
+#: models/reports.py:681
+msgid "Others on treatment"
+msgstr ""
+
+#: models/reports.py:682
+msgid ""
+"Number of other sick household members receiving anti-malarial treatment"
+msgstr ""
+
+#: models/reports.py:703
+msgid "Verbal Autopsy Report"
+msgstr ""
+
+#: models/reports.py:704
+msgid "Verbal Autopsy Reports"
+msgstr ""
+
+#: models/reports.py:706
+msgid "Done?"
+msgstr ""
+
+#: models/reports.py:707
+msgid "Was a Verbal Autopsy done?"
+msgstr ""

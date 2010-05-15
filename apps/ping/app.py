@@ -71,11 +71,13 @@ class App (rapidsms.app.App):
 
     def handle(self, message):
         ''' check authorization and respond
+
         if auth contained deny string => return
         if auth contained allow string => answer
         if auth contained number and number is asking => reply
         if auth_func contained function and it returned True => reply
         else return'''
+
         # We only want to answer ping alone, or ping followed by a space
         # and other characters
         if not re.match(r'^ping( +|$)', message.text.lower()):

@@ -25,6 +25,7 @@ class Case(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_case'
         verbose_name = _(u"Case")
         verbose_name_plural = _(u"Cases")
         get_latest_by = 'created_on'
@@ -51,8 +52,7 @@ class Case(models.Model):
     patient = models.ForeignKey(Patient, verbose_name=_(u"Patient"), \
                                 db_index=True)
 
-    type = models.SmallIntegerField(_(u"Type of case"), choices=TYPE_CHOICES, \
-                               default=TYPE_CHOICES)
+    type = models.SmallIntegerField(_(u"Type of case"), choices=TYPE_CHOICES)
 
     status = models.SmallIntegerField(_(u"Status"), choices=STATUS_CHOICES, \
                                       default=STATUS_OPEN)

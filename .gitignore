@@ -1,3 +1,4 @@
+# rapidsms-community
 __version__.py
 *.pyc
 *.swp
@@ -17,3 +18,26 @@ logs/*
 .settings
 #netbeans
 nbproject
+
+# common 3rd parties
+apps/admin
+apps/ajax
+apps/httptester
+apps/locations
+apps/logger
+apps/messaging
+apps/patterns
+apps/reporters
+apps/scheduler
+apps/webapp
+apps/i18n
+
+# web server
+django_wsgi.py
+uwsgi.xml
+
+# django
+settings.py
+
+# dev
+*.sqlite
