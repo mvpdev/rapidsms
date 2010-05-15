@@ -440,6 +440,20 @@ def migrate_mrdt(mrdt):
     return fr
 
 
+def do_migration():
+    '''run the entire migration'''
+    #migrate chws
+    migrate_chws()
+    #create default parent
+    default_parent()
+    #migrate under fives
+    migrate_patients()
+    #migrate muac
+    migrate_muacs()
+    #migrate mrdt
+    migrate_mrdts()
+
+
 def reveal_case(case, what):
     print u'%s: %s %s %s %s' % (what, case.ref_id, case.first_name, \
                                 case.last_name, case.reporter)
