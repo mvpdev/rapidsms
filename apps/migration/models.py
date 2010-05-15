@@ -158,6 +158,7 @@ class MigrationLog(models.Model):
 
 
 def migrate_chw(reporter, autoalias=True):
+    '''Give reporter object the CHW object property'''
     reporter_language = 'en'
     location = reporter.location
     if CHW.objects.filter(reporter_ptr=reporter).count():
@@ -224,6 +225,10 @@ def migrate_patients():
 
 
 def migrate_case(case):
+    '''migrate a case to a patient
+
+    case - is a Case object
+    '''
     print case
     reporter = case.reporter
     message = Message(reporter.connection())
@@ -253,6 +258,7 @@ def migrate_case(case):
 
 
 def default_parent():
+    '''create the default parent that will be used by all cases initially'''
     reporter = Reporter.objects.get(alias__iexact=u'help')
     message = Message(reporter.connection())
     message.reporter = reporter
@@ -282,7 +288,7 @@ def default_parent():
 
 
 def get_encounter(encounter_date, type, chw, patient):
-    encounter_date
+    '''create and return an encounter object'''
     enc = Encounter(encounter_date=encounter_date, type=type, chw=chw, \
                     patient=patient)
     enc.save()
@@ -297,6 +303,9 @@ def migrate_muacs():
 
 
 def migrate_muac(muac):
+    '''migrate nutrition reports
+    muac - a ReportMalnutrition report
+    '''
     print muac
     try:
         chw = CHW.objects.get(reporter_ptr=muac.reporter)
@@ -313,6 +322,7 @@ def migrate_muac(muac):
     nr = NutritionReport(encounter=encounter, oedema=oedema, muac=muac.muac)
     nr.save()
 
+    '''migrate observations'''
     danger_signs = dict([(danger_sign.code.lower(), danger_sign) \
                              for danger_sign in \
                              CodedItem.objects.filter(\
@@ -322,19 +332,25 @@ def migrate_muac(muac):
     for complication in muac.observed.all():
         code = complication.letter
         if complication.letter.lower() == 'uf':
-            #Appetite loss and not feeding seems like one and the same
+            #Not feedeng
             code = u'nf'
         if complication.letter.lower() == 'cg':
+            #Cough
             code = u'cc'
         if complication.letter.lower() == 'f':
+            #Fever
             code = u'fv'
         if complication.letter.lower() == 'v':
+            #vomiting
             code = u'vm'
         if complication.letter.lower() == 'e':
+            #Oedema
             code = u'od'
         if complication.letter.lower() == 'b':
+            #Difficulty breathing
             code = u'bd'
         if complication.letter.lower() == 'a':
+            #Not feeding
             code = u'nf'
         obj = danger_signs.get(code, None)
         if obj is not None:
@@ -359,6 +375,9 @@ def migrate_mrdts():
 
 
 def migrate_mrdt(mrdt):
+    '''Migrate malaria reports
+    mrdt - a ReportMalaria object
+    '''
     print mrdt
     try:
         chw = CHW.objects.get(reporter_ptr=mrdt.reporter)
@@ -373,7 +392,8 @@ def migrate_mrdt(mrdt):
         rdt_result = FeverReport.RDT_POSITIVE
     fr = FeverReport(encounter=encounter, rdt_result=rdt_result)
     fr.save()
-
+    
+    '''migrate observations'''
     danger_signs = dict([(danger_sign.code.lower(), danger_sign) \
                              for danger_sign in \
                              CodedItem.objects.filter(\
@@ -383,19 +403,25 @@ def migrate_mrdt(mrdt):
     for complication in mrdt.observed.all():
         code = complication.letter
         if complication.letter.lower() == 'uf':
-            #Appetite loss and not feeding seems like one and the same
+            #Not feedeng
             code = u'nf'
         if complication.letter.lower() == 'cg':
+            #Cough
             code = u'cc'
         if complication.letter.lower() == 'f':
+            #Fever
             code = u'fv'
         if complication.letter.lower() == 'v':
+            #vomiting
             code = u'vm'
         if complication.letter.lower() == 'e':
+            #Oedema
             code = u'od'
         if complication.letter.lower() == 'b':
+            #Difficulty breathing
             code = u'bd'
         if complication.letter.lower() == 'a':
+            #Not feeding
             code = u'nf'
         obj = danger_signs.get(code, None)
         if obj is not None:
@@ -420,14 +446,17 @@ def reveal_case(case, what):
 
 
 def dupes():
+    '''Check for duplacate cases'''
     cases = Case.objects.all()
     dupes = []
     for case in cases:
+        #those with same ref_id
         d = Case.objects.filter(ref_id__iexact=case.ref_id)
         if d.count() > 1:
             if case not in dupes:
                 dupes.extend(d)
                 reveal_case(case, 'REF')
+        #those with same name, dob, CHW
         d = Case.objects.filter(first_name__iexact=case.first_name, \
                                 last_name__exact=case.last_name, \
                                 dob__exact=case.dob, \
@@ -436,6 +465,7 @@ def dupes():
             if case not in dupes:
                 dupes.extend(d)
                 reveal_case(case, 'NAME')
+        #those with same name, dob
         d = Case.objects.filter(first_name__iexact=case.first_name, \
                                 last_name__exact=case.last_name, \
                                 dob__exact=case.dob)
