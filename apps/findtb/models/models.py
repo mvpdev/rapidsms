@@ -218,6 +218,21 @@ class FINDTBGroup(Group):
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
 
+class FINDTBLocation(Location):
+    class Meta:
+        app_label = 'findtb'
+        proxy = True
+
+    def get_zone(self):
+        for location in self.ancestors(include_self=True):
+            if location.type.name == 'zone':
+                return location
+
+    def get_district(self):
+        for location in self.ancestors(include_self=True):
+            if location.type.name == 'district':
+                return location
+
 
 class Configuration(models.Model):
 
