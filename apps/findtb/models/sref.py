@@ -13,7 +13,6 @@ from findtb.models.models import Specimen
 from findtb.models.ftbstate import FtbState
 
 
-
 class Sref(FtbState):
     """
     Common parent extended by all models in SREF

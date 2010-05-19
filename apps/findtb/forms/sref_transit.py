@@ -39,7 +39,10 @@ class SrefRegisteredReceived(SrefForm):
     ACTION_CHOICES = (
         ('received', u"Received"),
         ('invalid_request', u"Invalid: Request new specimen"),
-        ('invalid', u"Invalid")
+        ('invalid', u"Invalid"),
+        #TODO : to remove
+        ('lost_request', u"Lost: Request new specimen"),
+        ('lost', u"Lost"),
     )
 
     age = forms.IntegerField(min_value=0, max_value=150,
@@ -87,15 +90,50 @@ class SrefRegisteredReceived(SrefForm):
 
         if action == 'received':
             ti.state = SpecimenReceived(specimen=self.specimen)
+            msg = "Specimen of %(patient)s with tracking tag %(tag)% "\
+                  "received at NTLS. TC number is now %(tc_number)s." %\
+                  {'patient': self.specimen.patient,
+                   'tag': self.specimen.tracking_tag,
+                   'tc_number': self.specimen.tc_number}
+            self.specimen.send_msg(specimen, msg)
 
         else:
             # only invalid or lost
             ti.state = State(content_object=SpecimenInvalid(action, self.specimen),
-                                is_final=True)
-            if requested:
-                pass # Send SMS
+                             is_final=True)
+
+            if action == 'lost':
+                if requested:
+                    msg = "Specimen of %(patient)s with tracking tag %(tag)% "\
+                          "has been lost. Please send a new specimen." %\
+                          {'patient': self.specimen.patient,
+                           'tag': self.specimen.tracking_tag}
+                    self.specimen.send_msg(specimen, msg)
+
+                else:
+                    msg = "Specimen of %(patient)s with tracking tag %(tag)% "\
+                          "has been lost. There is nothing to do." %\
+                          {'patient': self.specimen.patient,
+                           'tag': self.specimen.tracking_tag}
+                    self.specimen.send_msg(specimen, msg)
+
             else:
-                pass
+                if requested:
+                    msg = "Specimen of %(patient)s with tracking tag %(tag)% "\
+                          "has been declared invalid by NTLS. "\
+                          "Please send a new specimen." %\
+                          {'patient': self.specimen.patient,
+                           'tag': self.specimen.tracking_tag}
+                    self.specimen.send_msg(specimen, msg)
+
+                else:
+                    msg = "Specimen of %(patient)s with tracking tag %(tag)% "\
+                          "has been declared invalid by NTLS. "\
+                          "There is nothing to do." %\
+                          {'patient': self.specimen.patient,
+                           'tag': self.specimen.tracking_tag}
+                    self.specimen.send_msg(specimen, msg)
+
         ti.save()
 
 

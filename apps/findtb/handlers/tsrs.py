@@ -5,6 +5,8 @@
 import re
 from datetime import datetime, timedelta, date
 
+from django_tracking.models import TrackedItem, State
+
 from findtb.models import *
 from findtb.utils import registered, clean_names, generate_tracking_tag
 from findtb.exceptions import ParseError, NotAllowed, BadValue
@@ -50,7 +52,7 @@ def handle(keyword, params, message):
 
     # Call the appropriate handler function
     function_mapping[keyword](params, location, reporter, message)
-    
+
 def tsrs(params, location, reporter, message):
     if len(params) == 0:
         raise ParseError("Specimen sample registration failed. " \
@@ -65,7 +67,7 @@ def tsrs(params, location, reporter, message):
         raise BadValue("FAILED: You can only register one specimen at a " \
                        "time. Please send a separate TSRS SMS for each " \
                        "patient.")
-        
+
 
     this_year = date.today().strftime("%y")
     last_year = (date.today() - timedelta(weeks=52)).strftime("%y")
@@ -121,10 +123,10 @@ def tsrs(params, location, reporter, message):
     specimen.save()
 
     note = match.groupdict()['note'] or ''
-    state = SpecimenRegistered(specimen=specimen, note=note) 
+    state = SpecimenRegistered(specimen=specimen, note=note)
     state.save()
     TrackedItem.add_state_to_item(specimen, state)
-    
+
     message.respond("SUCCESS " \
                     "for patient %(patient)s. Tracking tag is " \
                     "%(tag)s. You must write this tag down as you will " \
@@ -161,7 +163,7 @@ def send(params, location, reporter, message):
         raise ParseError(PARSE_ERROR_MSG)
 
     sending_method = params.pop(0)
-        
+
     text = ' '.join(params)
     match = re.match(r'(?P<tags>.*?)(\+\s?n(ote)?\s*(?P<note>.*))?$', text)
     if not match or not match.groupdict()['tags']:
@@ -202,7 +204,7 @@ def send(params, location, reporter, message):
 
     if len(bad_tags) == 1:
         bad_string = u"%s is not a valid current tracking tag." % bad_tags[0]
-                     
+
     elif len(bad_tags) > 1:
         tags_string = ', '.join(bad_tags[:-1]) + ' and ' + bad_tags[-1]
         bad_string = "%(tags)s are not valid tracking " \
@@ -246,7 +248,7 @@ def send(params, location, reporter, message):
 
 def pending(params, location, reporter, message):
     """
-    Send the reporter a list of all the specimens in the state of 
+    Send the reporter a list of all the specimens in the state of
     SpecimenRegistered for their location.
     """
     infos = []
@@ -313,7 +315,7 @@ def void(params, location, reporter, message):
 
     if len(bad_tags) == 1:
         bad_string = u"%s is not a valid current tracking tag." % bad_tags[0]
-                     
+
     elif len(bad_tags) > 1:
         tags_string = ', '.join(bad_tags[:-1]) + ' and ' + bad_tags[-1]
         bad_string = "%(tags)s are not valid tracking " \

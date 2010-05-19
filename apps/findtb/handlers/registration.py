@@ -2,7 +2,7 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from locations.models import Location, LocationType
 from reporters.models import Reporter
@@ -60,7 +60,7 @@ def handle(keyword, params, message):
 
     # Map keywords to auth.group names and to the creation functions
     group_mapping = {
-        CLINICIAN_KEYWORD: 
+        CLINICIAN_KEYWORD:
             (FINDTBGroup.CLINICIAN_GROUP_NAME, create_clinician),
         DTU_LAB_TECH_KEYWORD:
             (FINDTBGroup.DTU_LAB_TECH_GROUP_NAME, create_lab_tech),
@@ -166,7 +166,7 @@ def create_lab_tech(reporter, group, location):
         pass
     else:
         old_location = old.location
-        old.delete() 
+        old.delete()
         return "You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
@@ -176,7 +176,7 @@ def create_lab_tech(reporter, group, location):
 def reject_non_dtus(location):
     if location.type != LocationType.objects.get(name__iexact='dtu'):
         raise BadValue("Registration failed: %(loc)s is not a DTU, it " \
-                       "is a %(type)s. You must register with a DTU code." % 
+                       "is a %(type)s. You must register with a DTU code." %
                         {'loc':location, 'type':location.type.name})
 
 def create_dtls(reporter, group, location):

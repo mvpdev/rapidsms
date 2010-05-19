@@ -175,19 +175,21 @@ def sref_incoming(request, *args, **kwargs):
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
 
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+    if specimen.tc_number: # TODO : remove that, just for demo
 
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-       FORM = tracked_item.state.content_object.get_web_form()
-       form = FORM(request.POST, specimen=specimen)
+           FORM = tracked_item.state.content_object.get_web_form()
+           form = FORM(request.POST, specimen=specimen)
 
-       if form.is_valid():
-            request.user.message_set.create(message="The DTU has been notified")
-            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
-    else:
-        print "r"
-        form = FORM()
+           if form.is_valid():
+                request.user.message_set.create(message="The DTU has been notified")
+                ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+                return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+        else:
+            print "r"
+            form = FORM()
+
 
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
     events = tracked_item.get_history()

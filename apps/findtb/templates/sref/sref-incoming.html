@@ -7,6 +7,10 @@
 
 <h2>Report specimen delivery</h2>
 
+
+{% if specimen.tc_number %}
+<p>OK</p>
+{% else %}
 <form id="tracking-form" action='.' method='post'>
    {{ form.errors }}
    <p>{{ form.chosen_action }}<input type="submit" value="Ok"></p>
@@ -42,7 +46,7 @@
    </fieldset>
    
 </form>
-   
+{% endif %}
 {% endblock %}
    
    
