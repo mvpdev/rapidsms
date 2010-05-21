@@ -18,6 +18,7 @@ from mgvmrs.forms import OpenMRSHouseholdForm, OpenMRSConsultationForm
 
 from childcount.models import Patient
 from childcount.models import Encounter
+from childcount.models import Vaccine
 
 
 class CCReport(PolymorphicModel):
@@ -348,6 +349,78 @@ class PregnancyReport(CCReport):
 reversion.register(PregnancyReport, follow=['ccreport_ptr'])
 
 
+class SauriPregnancyReport(PregnancyReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_sauri_pregrpt'
+        verbose_name = _(u"Sauri Pregnancy Report")
+        verbose_name_plural = _(u"Sauri Pregnancy Reports")
+
+    IRON_YES = 'Y'
+    IRON_NO = 'N'
+    IRON_UNKNOWN = 'U'
+    IRON_DOESNOTHAVE = 'X'
+    IRON_CHOICES = (
+                       (IRON_YES, _('Yes')),
+                       (IRON_NO, _('No')),
+                       (IRON_UNKNOWN, _('Unkown')),
+                       (IRON_DOESNOTHAVE, _('Does not have')))
+
+    FOLIC_YES = 'Y'
+    FOLIC_NO = 'N'
+    FOLIC_UNKNOWN = 'U'
+    FOLIC_DOESNOTHAVE = 'X'
+    FOLIC_CHOICES = (
+                       (FOLIC_YES, _('Yes')),
+                       (FOLIC_NO, _('No')),
+                       (FOLIC_UNKNOWN, _('Unkown')),
+                       (FOLIC_DOESNOTHAVE, _('Does not have')))
+
+    TESTED_YESREACTIVE = 'YR'
+    TESTED_NOREACTIVE = 'NR'
+    TESTED_NOUNKNOWN = 'NU'
+    TESTED_YESNOTREACTIVE = 'YN'
+    TESTED_CHOICES = (
+                       (TESTED_YESREACTIVE, _('Yes Reactive')),
+                       (TESTED_NOREACTIVE, _('No Reactive')),
+                       (TESTED_NOUNKNOWN, _('No Status Unkown')),
+                       (TESTED_YESNOTREACTIVE, _('Yes Not Reactive')))
+
+    CD4_YES = 'Y'
+    CD4_NO = 'N'
+    CD4_UNKNOWN = 'U'
+    CD4_CHOICES = (
+        (CD4_YES, _(u"Yes")),
+        (CD4_NO, _(u"No")),
+        (CD4_UNKNOWN, _(u"Unkown")))
+
+    iron_supplement = models.CharField(_(u"Taking Iron"), max_length=1, \
+                                   choices=IRON_CHOICES, \
+                              help_text=_(u"Is the mother taking iron "\
+                                            "supplement?"))
+
+    folic_suppliment = models.CharField(_(u"Taking Folic Acid"), max_length=1, \
+                                   choices=FOLIC_CHOICES, \
+                              help_text=_(u"Is the mother taking folic acid "\
+                                            "suppliment?"))
+
+    tested_hiv = models.CharField(_(u"Tested for HIV"), max_length=2, \
+                                   choices=TESTED_CHOICES, \
+                              help_text=_(u"Did the mother get tested for "\
+                                            "HIV?"))
+
+
+    cd4_count = models.CharField(_(u"Done CD4 Count"), max_length=1, \
+                                   choices=CD4_CHOICES, null=True, blank=True, \
+                                   help_text=_(u"Was CD4 count done?"))
+
+    pmtc_arv = models.ForeignKey('CodedItem', null=True, blank=True, \
+                                    verbose_name=_(u"PMTC ARV"))
+
+reversion.register(SauriPregnancyReport, follow=['ccreport_ptr'])
+
+
 class NeonatalReport(CCReport):
 
     class Meta:
@@ -432,6 +505,18 @@ class UnderOneReport(CCReport):
             'immunizations_up_to_date': immun_map[self.immunized],
         }
 reversion.register(UnderOneReport, follow=['ccreport_ptr'])
+
+
+class SauriUnderOneReport(UnderOneReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_sauri_uonerpt'
+        verbose_name = _(u"Sauri Under One Report")
+        verbose_name_plural = _(u"Sauri Under One Reports")
+
+    vaccine = models.ManyToManyField(Vaccine, verbose_name=_(u"Vaccine"))
+reversion.register(SauriUnderOneReport, follow=['ccreport_ptr'])
 
 
 class NutritionReport(CCReport):

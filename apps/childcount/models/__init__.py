@@ -10,6 +10,7 @@ from Clinic import Clinic
 from Encounter import Encounter
 from FormGroup import FormGroup
 
+from Vaccine import Vaccine
 from CodedItem import CodedItem
 from CodedItemTranslation import CodedItemTranslation
 from Referral import Referral
