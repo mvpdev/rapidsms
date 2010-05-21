@@ -8,8 +8,6 @@ from reversion.models import Version, Revision
 
 from childcount.models import *
 from childcount.models.reports import *
-from childcount.models.migration import MigrateCHW
-
 admin.site.register(Configuration)
 admin.site.register(CHW)
 admin.site.register(Encounter, VersionAdmin)
@@ -43,7 +41,6 @@ admin.site.register(CodedItemTranslation)
 
 admin.site.register(Case)
 admin.site.register(Referral)
-admin.site.register(MigrateCHW)
 admin.site.register(Version)
 admin.site.register(Revision)
 admin.site.register(Vaccine)

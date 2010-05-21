@@ -14,7 +14,7 @@ from childcount.commands import CCCommand
 from childcount.exceptions import ParseError, BadValue
 from childcount.models import CHW
 from childcount.utils import clean_names
-from childcount.models.migration import MigrateCHW
+from migration.models import MigrateCHW
 
 
 class MigrateRegistrationCommand(CCCommand):

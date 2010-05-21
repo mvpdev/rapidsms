@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 
 from rapidsms.message import Message
-from reporters.models import Reporter, Role
+from reporters.models import Reporter
 from locations.models import Location
 
 from childcount.models import CHW
@@ -29,6 +29,20 @@ from childcount.models.reports import DangerSignsReport
 from childcount.utils import clean_names
 from childcount.forms import PatientRegistrationForm
 from childcount.exceptions import BadValue, ParseError
+
+
+class MigrateCHW(models.Model):
+    class Meta:
+        app_label = 'migration'
+        verbose_name = _(u"MigrateCHW")
+        verbose_name_plural = _(u"MigrateCHWs")
+        ordering = ('oldid',)
+
+    oldid = models.IntegerField(_("OldId"))
+    newid = models.ForeignKey(CHW)
+
+    def __unicode__(self):
+        return u"%s: %s" % (self.oldid, self.newid)
 
 
 class Case(models.Model):
