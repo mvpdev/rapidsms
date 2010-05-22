@@ -5,6 +5,7 @@
 from django.contrib import admin
 
 from models import ReportMalaria
+from models import MigrateIDs
 
 
 class ReportMalariaAdmin(admin.ModelAdmin):
@@ -14,3 +15,4 @@ class ReportMalariaAdmin(admin.ModelAdmin):
     verbose_name_plural = 'Malaria Reports'
 
 admin.site.register(ReportMalaria, ReportMalariaAdmin)
+admin.site.register(MigrateIDs)

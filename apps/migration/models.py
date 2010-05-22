@@ -45,6 +45,25 @@ class MigrateCHW(models.Model):
         return u"%s: %s" % (self.oldid, self.newid)
 
 
+class MigrateIDs(models.Model):
+
+    '''Hold the old ids and the new health ids'''
+    
+    class Meta:
+        app_label = 'migration'
+        verbose_name = _(u"Migrate ID")
+        verbose_name_plural = _(u"Migrate IDs")
+        ordering = ('oldid',)
+
+    oldid = models.IntegerField(_("OldId"), null=True)
+    health_id = models.CharField(_(u"Health ID"), max_length=6, db_index=True, \
+                                unique=True, help_text=_(u"Unique Health ID"))
+
+    def __unicode__(self):
+        return u"%s: %s" % (self.health_id, self.oldid)
+
+
+
 class Case(models.Model):
 
     '''Holds the patient details, properties and methods related to it'''
@@ -502,3 +521,24 @@ def dupes():
                 dupes.extend(d)
                 reveal_case(case, 'NAME NO Reporter')
     return dupes
+
+
+def migrate_reporter_backends():
+    from reporters.models import *
+    pygsm = PersistantBackend.objects.get(slug=u'pygsm')
+    for pc in PersistantConnection.objects.all():
+        pc.backend = pygsm
+        pc.save()
+
+
+def migrate_ids():
+    '''place the health ids in MigrateIDs for migration'''
+    with open('Sauri_Ids_1-20000.txt', 'r') as f:
+        for health_id in f:
+            try:
+                mids = MigrateIDs(health_id=health_id)
+                mids.save()
+            except:
+                pass
+
+    return MigrateIDs.objects.all().count()
