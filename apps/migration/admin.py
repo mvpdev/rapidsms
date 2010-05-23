@@ -6,6 +6,7 @@ from django.contrib import admin
 
 from models import ReportMalaria
 from models import MigrateIDs
+from models import MigrateCHW
 
 
 class ReportMalariaAdmin(admin.ModelAdmin):
@@ -16,3 +17,4 @@ class ReportMalariaAdmin(admin.ModelAdmin):
 
 admin.site.register(ReportMalaria, ReportMalariaAdmin)
 admin.site.register(MigrateIDs)
+admin.site.register(MigrateCHW)
