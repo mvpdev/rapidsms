@@ -622,8 +622,9 @@ def migrate_case(case):
     params.append("XXXXX")
     params.append("XXXXX")
 
+    health_id =  get_health_id(case.ref_id)
     form = PatientRegistrationForm(message, case.created_at, chw, params, \
-                                    u'%s' % case.ref_id)
+                                   health_id)
     try:
         form.pre_process()
         response = form.response
@@ -889,3 +890,11 @@ def migrate_ids():
                 pass
 
     return MigrateIDs.objects.all().count()
+
+
+def get_health_id(ref_id):
+    mid = MigrateIDs.objects.filter(oldid=None)[0]
+    mid.oldid = int(ref_id)
+    mid.save()
+    return mid.health_id
+
