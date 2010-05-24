@@ -590,13 +590,14 @@ def migrate_chws():
 
 
 def migrate_patients():
-    default_parent()
+    #default_parent()
     cases = Case.objects.all()
     print cases.count()
 
     for case in cases:
-        response = migrate_case(case)
-        print response
+        if len(Patient.objects.filter(health_id=case.ref_id)) == 0:
+            response = migrate_case(case)
+            print response
 
 
 def migrate_case(case):
@@ -605,7 +606,7 @@ def migrate_case(case):
     case - is a Case object
     '''
     print case
-    reporter = case.reporter
+    reporter = MigrateCHW.objects.get(oldid=case.reporter.id).newid
     message = Message(reporter.connection())
     message.reporter = reporter
     try:
@@ -623,8 +624,11 @@ def migrate_case(case):
 
     form = PatientRegistrationForm(message, case.created_at, chw, params, \
                                     u'%s' % case.ref_id)
-    form.pre_process()
-    response = form.response
+    try:
+        form.pre_process()
+        response = form.response
+    except Exception, e:
+        response = e.message
     success = response.startswith('You successfuly registered')
     ml = MigrationLog(message=response, case=case, success=success, \
                         type='reg')
@@ -634,7 +638,8 @@ def migrate_case(case):
 
 def default_parent():
     '''create the default parent that will be used by all cases initially'''
-    reporter = Reporter.objects.get(alias__iexact=u'help')
+    r = Reporter.objects.get(alias__iexact=u'help')
+    reporter = MigrateCHW.objects.get(oldid=r.id).newid
     message = Message(reporter.connection())
     message.reporter = reporter
     try:
