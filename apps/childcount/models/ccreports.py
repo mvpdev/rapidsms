@@ -15,7 +15,7 @@ from childcount.models.reports import HouseholdVisitReport
 from childcount.utils import day_end, day_start, get_dates_of_the_week
 
 from logger.models import IncomingMessage
-
+from migration.models import MigrateIDs
 
 class ThePatient(Patient):
 
@@ -24,10 +24,13 @@ class ThePatient(Patient):
         proxy = True
 
     def latest_muac(self):
-        muac = NutritionReport.objects.filter(patient=self).latest()
+        muac = NutritionReport.objects.filter(encounter__patient=self).latest()
         if not None:
             return u"%smm %s" % (muac.muac, muac.verbose_state)
         return u""
+
+    def oldid(self):
+        return MigrateIDs.objects.get(health_id=self.health_id).oldid
 
     @classmethod
     def under_five(cls, chw=None):
@@ -43,8 +46,12 @@ class ThePatient(Patient):
     def patients_summary_list(cls):
         columns = []
         columns.append(
-            {'name': cls._meta.get_field('household').verbose_name.upper(), \
+            {'name': _("HOH"), \
             'bit': '{{object.household.health_id.upper}}'})
+
+        columns.append(
+            {'name': 'oldid'.upper(), \
+            'bit': '{{object.oldid}}'})
         columns.append(
             {'name': cls._meta.get_field('health_id').verbose_name.upper(), \
             'bit': '{{object.health_id.upper}}'})
@@ -52,17 +59,17 @@ class ThePatient(Patient):
             {'name': _("Name".upper()), \
             'bit': '{{object.last_name}} {{object.first_name}}'})
         columns.append(
-            {'name': cls._meta.get_field('gender').verbose_name.upper(), \
+            {'name': _("Sex".upper()), \
             'bit': '{{object.gender}}'})
         columns.append(
             {'name': _("Age".upper()), \
             'bit': '{{object.humanised_age}}'})
-        columns.append(
+        '''columns.append(
             {'name': _("Last muac".upper()), \
             'bit': '{{object.latest_muac}}'})
         columns.append(
             {'name': cls._meta.get_field('chw').verbose_name.upper(), \
-            'bit': '{{object.chw}}'})
+            'bit': '{{object.chw}}'})'''
 
         sub_columns = None
         return columns, sub_columns
