@@ -32,6 +32,7 @@ class CCReport(PolymorphicModel):
         db_table = 'cc_ccrpt'
         verbose_name = _(u"ChildCount Report")
         verbose_name_plural = _(u"ChildCount Reports")
+        get_latest_by = ('encounter__encounter_date', )
 
     encounter = models.ForeignKey(Encounter, verbose_name=_(u"Encounter"))
 
