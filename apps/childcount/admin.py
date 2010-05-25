@@ -9,11 +9,15 @@ from reversion.models import Version, Revision
 from childcount.models import *
 from childcount.models.reports import *
 admin.site.register(Configuration)
-admin.site.register(CHW)
+class CHWAdmin(admin.ModelAdmin):
+    list_filter = ('location', )
+admin.site.register(CHW, CHWAdmin)
 admin.site.register(Encounter, VersionAdmin)
 admin.site.register(FormGroup)
 admin.site.register(Clinic)
-admin.site.register(Patient, VersionAdmin)
+class PatientAdmin(admin.ModelAdmin):
+    search_fields = ['health_id']
+admin.site.register(Patient, PatientAdmin)
 
 #Reports
 admin.site.register(CCReport, VersionAdmin)
@@ -36,6 +40,7 @@ admin.site.register(DangerSignsReport, VersionAdmin)
 admin.site.register(MedicineGivenReport, VersionAdmin)
 class CodedItemAdmin(admin.ModelAdmin):
     list_filter = ('type', )
+
 admin.site.register(CodedItem, CodedItemAdmin)
 admin.site.register(CodedItemTranslation)
 
