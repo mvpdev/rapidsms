@@ -10,19 +10,20 @@ from childcount.models.ccreports import TheCHWReport
 from childcount.models.ccreports import ThePatient
 
 from libreport.pdfreport import PDFReport, p
+from reportlab.lib.units import inch
 
-
-def all_patient_list_pdf(request, rfilter=u'all', rformat="html"):
+def all_patient_list_pdf(request, rfilter="all", rformat="html"):
     report_title = ThePatient._meta.verbose_name
     rows = []
     if rfilter == 'underfive':
         reports = ThePatient.under_five()
     else:
-        reports = ThePatient.objects.all().order_by('chw', 'household')
+        reports = \
+            ThePatient.objects.filter(status=ThePatient.STATUS_ACTIVE).\
+                order_by('chw', 'household')
 
     columns, sub_columns = ThePatient.patients_summary_list()
-
-    if rformat == 'pdf':
+    if rformat == 'pdf' and rfilter == u'all':
         for report in reports:
             rows.append([data for data in columns])
     
@@ -78,21 +79,30 @@ def all_patient_list_per_chw_pdf(request):
     rpt = PDFReport()
     rpt.setTitle(report_title)
     rpt.setFilename('_'.join(report_title.split()) + '.pdf')
-    rpt.setRowsPerPage(42)
+    rpt.setRowsPerPage(85)
+    rpt.setPrintOnBothSides(True)
+    rpt.setNumOfColumns(2)
 
     columns, sub_columns = ThePatient.patients_summary_list()
 
     chws = TheCHWReport.objects.all()
     for chw in chws:
         rows = []
-        reports = ThePatient.objects.filter(chw=chw).order_by('household')
+        reports = \
+            ThePatient.objects.filter(status=ThePatient.STATUS_ACTIVE, \
+                chw=chw).order_by('chw', 'household')
+        if len(reports) == 0:
+            #skip Chws with no reports/patients
+            continue
         summary = u"Number of Children: %(num)s" % {'num': reports.count()}
         for report in reports:
             rows.append([data for data in columns])
 
         sub_title = u"%s %s" % (chw, summary)
         #rpt.setElements([p(summary)])
-        rpt.setTableData(reports, columns, chw, hasCounter=True)
+        rpt.setTableData(reports, columns, chw, \
+                [0.3 * inch, 0.6 * inch, 0.6 * inch, 0.6 * inch, 1 * inch, \
+                 .3 * inch, 0.3 * inch], hasCounter=True)
         rpt.setPageBreak()
 
     return rpt.render()
@@ -129,7 +139,7 @@ def chw(request, rformat='html'):
     report_title = TheCHWReport._meta.verbose_name
     rows = []
 
-    reports = TheCHWReport.objects.filter(role__code='chw')
+    reports = TheCHWReport.objects.filter(location__code=u'masogo', role__code='chw')
     columns, sub_columns = TheCHWReport.summary()
     if rformat.lower() == 'pdf':
         rpt = PDFReport()
