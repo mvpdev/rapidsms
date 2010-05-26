@@ -140,6 +140,16 @@ def test():
         except TrackedItem.DoesNotExist:
             pass
 
+        print "The state is automatically saved when the tracked item is"
+        loc = Location(name="Youpi", code="P")
+        loc2 = Location(name="Youpi2", code="PP")
+        t3.state = loc
+        t3.save()
+        t3.state = State(content_object=loc2)
+        t3.save()
+        assert Location.objects.filter(name="Youpi").count() == 1
+        assert Location.objects.filter(name="Youpi2").count() == 1
+
         print "You can get a tracked Item from the model or a new model if it does no exist"
         print "A tuple will contain the object and a boolean say if it has been created"
         t3 = TrackedItem.get_tracker_or_create(content_object=t1.content_object)
@@ -219,6 +229,7 @@ def test():
 
 
     except Exception, e:
+        print e
         raise e
 
     finally:

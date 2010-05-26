@@ -127,6 +127,20 @@ class State(models.Model):
     class Meta:
         ordering = ['-id']
 
+    # TODO : think about what to do with this double saving
+
+    def __init__(self, *args, **kwargs):
+        co = kwargs.get('content_object', None)
+        if co:
+            co.save()
+        super(State, self).__init__(*args, **kwargs)
+
+
+    def save(self, *args, **kwargs):
+        if self.content_object:
+            self.content_object.save()
+        super(State, self).save(*args, **kwargs)
+
 
     def __unicode__(self):
 
@@ -277,7 +291,7 @@ class TrackedItem(models.Model):
         only the local object is affected.
         """
 
-        print "\tState: set_to_next_state() start"
+        print "\tTrackedItem: set_to_next_state() start"
         print '\t\tnext_state:', next_state
 
         if next_state is not None:
@@ -287,6 +301,7 @@ class TrackedItem(models.Model):
             if not isinstance(next_state, models.Model):
                 # TODO : allow any object using serialisation
                 raise StateError("A state must be a django model or None")
+
 
             # The next state must be a state object
             # TODO : use duck typing for state object
