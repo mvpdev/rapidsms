@@ -3,14 +3,14 @@
 # maintainer: dgelvin
 
 import re
-from datetime import date
+from datetime import date, datetime
 
 from django.db import models
 from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
 from childcount.utils import clean_names, DOBProcessor
-from childcount.models import Patient, Encounter
+from childcount.models import Patient, Encounter, HealthId
 from locations.models import Location
 from childcount.exceptions import BadValue, ParseError
 from childcount.forms.utils import MultipleChoiceField
@@ -22,7 +22,6 @@ class PatientRegistrationForm(CCForm):
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
     MIN_HH_AGE = 10
-    MIN_GUARDIAN_AGE = 10
     MULTIPLE_PATIENTS = False
 
     gender_field = MultipleChoiceField()
@@ -41,9 +40,17 @@ class PatientRegistrationForm(CCForm):
         except Patient.DoesNotExist:
             pass
         else:
-            raise BadValue(_(u"That health ID has already been registered to "\
+            raise BadValue(_(u"That health ID has already been issued to "\
                               "%(patient)s by %(chw)s") % \
                              {'patient': p, 'chw': p.chw})
+
+        valid_statuses = [HealthId.STATUS_GENERATED, HealthId.STATUS_PRINTED]
+        try:
+            health_id_obj = HealthId.objects.get(health_id__iexact=health_id, \
+                                                 status__in=valid_statuses)
+        except HealthId.DoesNotExist:
+            raise BadValue(_(u"That health ID (%(id)s) is not valid." % \
+                              {'id': health_id.upper()}))
 
         patient = Patient()
         patient.health_id = health_id
@@ -177,32 +184,6 @@ class PatientRegistrationForm(CCForm):
                                    'hhhh': patient.household.household, \
                                    'char': self.PREVIOUS_ID[lang]})
 
-        if patient.years() < 5:
-            if len(tokens) == 0:
-                raise BadValue(_(u"This child is less than 5 years. You " \
-                                  "must indicate their mother's health ID " \
-                                  "after the head of household ID. If the " \
-                                  "mother is the head of household, set " \
-                                  "their mother to %(char)s") % \
-                                  {'char': self.PREVIOUS_ID[lang]})
-            mother = tokens.pop(0)
-
-            if mother == self.PREVIOUS_ID[lang].lower():
-                patient.mother = patient.household
-            else:
-                try:
-                    patient.mother = Patient.objects.get( \
-                                                    health_id__iexact=mother)
-                except Patient.DoesNotExist:
-                    raise BadValue(_(u"Could not find mother / guardian " \
-                                      "with health ID %(id)s. You must " \
-                                      "register the mother first.") % \
-                                      {'id': household})
-                if patient.mother < self.MIN_GUARDIAN_AGE:
-                    raise BadValue(_(u"The mother / guardian you specified " \
-                                      "is too young to be a mother." \
-                                      "(%(hh)s)") % {'hh': patient.household})
-
         patient_check = Patient.objects.filter( \
                                 first_name__iexact=patient.first_name, \
                                 last_name__iexact=patient.last_name, \
@@ -226,6 +207,11 @@ class PatientRegistrationForm(CCForm):
         if self_hoh:
             patient.household = patient
             patient.save()
+
+        health_id_obj.issued_to = patient
+        health_id_obj.issued_on = datetime.now()
+        health_id_obj.status = HealthId.STATUS_ISSUED
+        health_id_obj.save()
 
         self.response = _("You successfuly registered %(patient)s") % \
                     {'patient': patient}

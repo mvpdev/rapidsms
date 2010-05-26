@@ -23,6 +23,7 @@ class CHW(Reporter):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_chw'
         verbose_name = _(u"Community Health Worker")
         verbose_name_plural = _(u"Community Health Workers")
 

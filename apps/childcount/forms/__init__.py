@@ -27,3 +27,8 @@ from childcount.forms.SickMembersForm import SickMembersForm
 from childcount.forms.VerbalAutopsyForm import VerbalAutopsyForm
 
 from childcount.forms import utils
+
+#sauri specific
+from childcount.forms.SauriUnderOneForm import SauriUnderOneForm
+from childcount.forms.SauriPregnancyForm import SauriPregnancyForm
+#endsauri

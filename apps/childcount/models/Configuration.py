@@ -22,6 +22,7 @@ class Configuration(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_config'
         unique_together = ('key', 'value')
 
     def __unicode__(self):

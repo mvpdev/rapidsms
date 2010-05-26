@@ -296,7 +296,7 @@ Logged in as {{ user }} (<a href="/accounts/logout/">Change</a>).
 <input type="text" id="phone" name="phone" value="" />
 {% endif %}
 <p>Date of Encounter: <input type="text" name="date" id="date" value="{{ today }}" onclick="displayDatePicker('date', false, 'ymd', '-', true);" /></p>
-<p>CHW: <select name="chw" id="chw">{% for chw in chws %}<option value="{{ chw.id }}" label="{{ chw }}">{{ chw }}</option>{% endfor %}</select></p>
+<p>CHW: <select name="chw" id="chw">{% for chw in chws %}<option value="{{ chw.id }}" label="{{ chw }}"{% ifequal chw.id user.id %} selected="true"{% endifequal %}>{{ chw }}</option>{% endfor %}</select></p>
 </div>
 <label for="message">Message:</label>
 <input type="text" id="message" name="message" onkeydown="" onkeyup="parse_message();" autocomplete="off" />

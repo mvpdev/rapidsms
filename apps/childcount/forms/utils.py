@@ -13,7 +13,7 @@ class MultipleChoiceField(object):
 
         def __init__(self):
             self.choices = {}
-            self.active_language = ''
+            self.active_language = None
 
         def add_choice(self, language, db_value, choices):
             if language not in self.choices:

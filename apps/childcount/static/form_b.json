@@ -2,7 +2,7 @@ x = {
 'id': 'B', 
 'fields': [
         {'id': 'healthid', 'type': 'f', 'name': 'ID', 'title': 'Head of Household HEALTH ID'},
-        {'id': 'hiv', 'type': 's', 'name': 'V', 'Vis': 'HH Visit - All households'},
+        {'id': 'hiv', 'type': 's', 'name': 'V', 'title': 'HH Visit - All households'},
         {'id': 'available', 'type': 'f', 'name': 'Avai', 'title': 'HH Member Available (Y-N)'},
         {'id': 'children', 'type': 'f', 'name': 'Child', 'title': 'Number of Children Under-5 seen'},
         {'id': 'advice', 'type': 'f', 'name': 'Adv', 'title': 'Counseling and Advice (BP, ED, EC, FP, IM, NUT, PH)'},

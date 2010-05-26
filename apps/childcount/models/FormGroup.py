@@ -19,6 +19,7 @@ class FormGroup(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_frmgrp'
         verbose_name = _(u"Form Group")
         verbose_name_plural = _(u"Form Groups")
 

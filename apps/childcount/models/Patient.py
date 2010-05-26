@@ -26,6 +26,7 @@ class Patient(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_patient'
         verbose_name = _(u"Patient")
         verbose_name_plural = _(u"Patients")
         ordering = ('health_id', )

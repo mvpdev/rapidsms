@@ -1,48 +1,47 @@
 #!/usr/bin/env python
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
-# maintainer: ukanga
+# maintainer: rgaudin
 
 from django.contrib import admin
+from reversion.admin import VersionAdmin
+from reversion.models import Version, Revision
 
-from childcount.models.general import Case
-from childcount.models.logs import MessageLog, EventLog, SystemErrorLog
-from childcount.models.reports import Observation
-from childcount.models.config import Configuration
-
-
-class CaseAdmin(admin.ModelAdmin):
-    list_display = ('ref_id', 'first_name', 'last_name', 'gender', \
-                'dob', 'estimated_dob', 'location', 'created_at', \
-                'reporter', 'provider_mobile', 'age', 'eligible_for_measles')
-    search_fields = ['ref_id', 'first_name', 'last_name']
-    list_filter = ('dob', 'status')
-    ordering = ('-dob',)
-
-admin.site.register(Case, CaseAdmin)
-
-
-class MessageLogAdmin(admin.ModelAdmin):
-    list_display = ('sent_by_name', 'mobile', 'text', \
-                    'created_at', 'was_handled')
-    list_filter = ('was_handled', 'created_at')
-    search_fields = ['mobile', 'text']
-
-admin.site.register(MessageLog, MessageLogAdmin)
-
-
-class EventLogAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__',)
-    list_filter = ('created_at', 'message', 'content_type')
-
-admin.site.register(EventLog, EventLogAdmin)
-
-
-class SystemErrorLogAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__',)
-    list_filter = ('message', 'created_at')
-
-admin.site.register(SystemErrorLog, SystemErrorLogAdmin)
-
-admin.site.register(Observation)
+from childcount.models import *
 
 admin.site.register(Configuration)
+admin.site.register(CHW)
+admin.site.register(Encounter, VersionAdmin)
+admin.site.register(FormGroup)
+admin.site.register(Clinic)
+admin.site.register(Patient, VersionAdmin)
+admin.site.register(HealthId, VersionAdmin)
+
+#Reports
+admin.site.register(CCReport, VersionAdmin)
+admin.site.register(BirthReport, VersionAdmin)
+admin.site.register(DeathReport, VersionAdmin)
+admin.site.register(StillbirthMiscarriageReport, VersionAdmin)
+admin.site.register(FollowUpReport, VersionAdmin)
+admin.site.register(PregnancyReport, VersionAdmin)
+admin.site.register(NeonatalReport, VersionAdmin)
+admin.site.register(UnderOneReport, VersionAdmin)
+admin.site.register(NutritionReport, VersionAdmin)
+admin.site.register(FeverReport, VersionAdmin)
+admin.site.register(ReferralReport, VersionAdmin)
+admin.site.register(HouseholdVisitReport, VersionAdmin)
+admin.site.register(FamilyPlanningReport, VersionAdmin)
+admin.site.register(FamilyPlanningUsage, VersionAdmin)
+admin.site.register(BedNetReport, VersionAdmin)
+admin.site.register(SickMembersReport, VersionAdmin)
+admin.site.register(DangerSignsReport, VersionAdmin)
+admin.site.register(MedicineGivenReport, VersionAdmin)
+class CodedItemAdmin(admin.ModelAdmin):
+    list_filter = ('type', )
+admin.site.register(CodedItem, CodedItemAdmin)
+admin.site.register(CodedItemTranslation)
+
+admin.site.register(Case)
+admin.site.register(Referral)
+admin.site.register(Version)
+admin.site.register(Revision)
+admin.site.register(Vaccine)
