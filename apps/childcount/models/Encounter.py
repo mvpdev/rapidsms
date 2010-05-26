@@ -9,6 +9,7 @@ Encounter - Encounter model
 
 import reversion
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 from reversion.models import Version
 
@@ -75,8 +76,9 @@ class Encounter(models.Model):
     @classmethod
     def send_to_omrs(cls):
         from childcount.models.reports import CCReport
-        encounters = cls.objects.filter(type=Encounter.TYPE_PATIENT, \
-            sync_omrs__in=(None, False))
+        encounters = cls.objects.filter(Q(type=Encounter.TYPE_PATIENT), \
+                                        Q(sync_omrs__isnull=True) | \
+                                        Q(sync_omrs__in=(None, False)))
         for encounter in encounters:
             reports = CCReport.objects.filter(encounter=encounter)
             #is the patient registered? if there are reports it is probably not
