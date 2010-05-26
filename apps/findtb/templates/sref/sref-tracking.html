@@ -1,14 +1,16 @@
 {% extends "findtb-tracking.html" %}
 
+{% load findtb_format  %}
+
 {% block page-id %}sref-tracking{% endblock %}
 
 {% block title %}Specimen Referal Tracking{% endblock %}
 
 {% block findtb-title %}
     {% if specimen.tc_number %}
-    Specimen refrerral: {{ specimen.tc_number}} 
+    Specimen Referral: TC #{{ specimen.tc_number}} 
     {% else %}
-    Specimen refrerral: patient {{ specimen.patient }} 
+    Specimen Referral: patient {{ specimen.patient }} 
     from {{ specimen.location.name }}
     {% endif %}
 {% endblock %}
@@ -16,28 +18,7 @@
 
 {% block tracking-form %}
 
-<h2>LPA</h2>
 
-<form id="tracking-form">
-   <p>
-   <label for="rif">RIF</label>
-   <select id="rif" name="rif">
-            <option>Resistant</option>
-            <option>Susceptible</option>
-   </select>
-   <label for="inh">INH</label>
-   <select id="inh" name="inh">
-            <option>Resistant</option>
-            <option>Susceptible</option>
-   </select>
-   <input value="Save" type="submit"/>
-   </p>
-   <p>
-   
-   <a href="#">Invalid : ask DTU to send a new specimen</a>
-   </p>
-</form>
-   
 {% endblock %}
    
    
@@ -59,29 +40,80 @@
 We could add it in a block. If you click on it, you see it. Graphism must
 show there is a note to incite the user to click.-->
 
-    <ul id="findtb-event-picker-selection">
-        {% for event in events %}
-        <li class="{{ event.type }}">
-                <strong>{{ event.title }}</strong>
-                <span>{{ event.date }}</span>
-        </li>
-        {% endfor %}
-    </ul>
+    {% if events.count %}
+        <ul id="findtb-event-picker-selection">
+            {% for state in events %}
+            <li class="{{ state.type }}">
+                    <strong>{{ state.content_object.get_short_message }}</strong>
+                    <span>{{ state.created|humanize_time_delta|default_if_none:"1 second ago" }}</span> 
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing has happen yet</p>   
+    {% endif %}
+
 {% endblock %}
 
 <!-- TODO : Add a form to save patient id / name / age, etc. -->
 
 {% block findtb-contacts %}
-            {% if contacts %}
-               <dl id="findtb-contacts">
-                {% for contact in contacts %}
-                    <dt>{{ contact.type }}:</dt>
-                    <dl><a href="#">{{ contact.name }}</a></dl>
-               {% endfor %}
-               </dl>
+
+    {% if specimen.tc_number %}
+    
+        {% with specimen.patient as patient %}
+    
+            <p id="findtb-patient-details">
+            
+            <strong>Patient n° {{ patient.registration_number }}: </strong>
+            
+            {% if patient.first_name or patient.last_name %}
+                {{ patient.last_name|upper }}
+                {{ patient.first_name }} -
+            {% endif%}
+            
+            {% ifequal patient.gender 'M' %}
+                Male
             {% else %}
-               <p>No contact for this specimen</p>
+                Female
+            {% endifequal %}
+            
+            {% if patient.dob %}
+                - approx. {{ patient.get_estimated_age }} years old
             {% endif %}
+            
+            <p>
+        
+        {% endwith %}
+        
+    {% endif %}
+
+    {% if contacts %}
+    
+       <dl id="findtb-contacts">
+       
+       {% for role in contacts.iteritems %}
+       
+            <dt>{{ role.0.title }}:</dt>
+            
+            {% for reporter in role.1 %}
+                <dd>
+                    <em>
+                    {{ reporter.last_name|upper }}
+                    {{ reporter.first_name }} 
+                    </em>:
+                    {{reporter.connection.identity}}
+                </dd>
+            {% endfor %}
+            
+       {% endfor %}
+       
+       </dl>
+       
+    {% else %}
+       <p>No contact for this specimen</p>
+    {% endif %}
+            
 {% endblock %}
 
 

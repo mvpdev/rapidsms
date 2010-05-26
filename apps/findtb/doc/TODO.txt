@@ -21,3 +21,5 @@ TODO : filter dashboard with the zone
 TODO : put a modal page that force the user to answer to request before accessing the tool
 
 TODO : create a stock management tool which just let you to require stuff when needed
+
+FIX: check for the send of the same specimen twice a day is broken

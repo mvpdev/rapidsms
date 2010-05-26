@@ -3,6 +3,7 @@
 # maintainer: dgelvin
 
 import re
+import datetime
 
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -15,6 +16,10 @@ from reporters.models import Reporter
 
 
 class Role(models.Model):
+    """
+    Link between a Django group, a location and a reporter
+    """
+
     class Meta:
         app_label = 'findtb'
 
@@ -22,10 +27,43 @@ class Role(models.Model):
     reporter = models.ForeignKey(Reporter)
     location = models.ForeignKey(Location, blank=True, null=True)
 
+
     def __unicode__(self):
         return "%(reporter)s as %(group)s at %(location)s" % \
                {'reporter':self.reporter, 'group':self.group, \
                 'location':self.location}
+
+
+    @classmethod
+    def getSpecimenRelatedRoles(cls, specimen):
+        """
+            Return roles for a given specimen according to its location
+        """
+
+        roles = list(Role.objects.filter(location=specimen.location))
+        try:
+            roles.extend(Role.objects.filter(location=specimen.location.parent))
+            roles.extend(Role.objects.filter(location=specimen.location.parent.parent))
+        except AttributeError:
+            pass
+
+        return roles
+
+
+    @classmethod
+    def getSpecimenRelatedContacts(cls, specimen):
+        """
+            Return contacts for a given specimen according to its location
+        """
+
+        roles = cls.getSpecimenRelatedRoles(specimen)
+        roles = list(Role.objects.filter(location=specimen.location))
+
+        roles_dict = {}
+        for role in roles:
+            roles_dict.setdefault(role.group.name, []).append(role.reporter)
+
+        return roles_dict
 
 
 
@@ -88,45 +126,64 @@ class Patient(models.Model):
     first_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
 
-    gender = models.CharField(_(u"Gender"), max_length=1, \
-                              choices=GENDER_CHOICES, blank=True, null=True)
+    gender = models.CharField(_(u"Gender"),
+                              max_length=1,
+                              choices=GENDER_CHOICES,
+                              blank=True,
+                              null=True)
+
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
+
     location = models.ForeignKey(Location)
     registration_number = models.CharField(max_length=25, db_index=True)
     dob = models.DateField(_(u"Date of birth"), blank=True, null=True)
-    estimated_dob = models.NullBooleanField(_(u"Estimated date of birth"), default=True,\
-                                        help_text=_(u"True or false: the " \
-                                                     "date of birth is only " \
+
+    estimated_dob = models.NullBooleanField(_(u"Estimated date of birth"),
+                                            default=True,
+                                            help_text=_(u"True or false: the "\
+                                                     "date of birth is only "\
                                                      "an approximation"))
     is_active = models.BooleanField(default=True)
 
-    # Returns a zero-padded registration_number as a string
     def zero_id(self):
+        """
+            Returns a zero-padded registration_number as a string
+        """
         match = re.match('^(\d+)/(\d+)$',self.registration_number)
-        if not match:
+
+        if not re.match('^(\d+)/(\d+)$',self.registration_number):
             return self.registration_number
-        else:
-            return "%04d/%s" % (int(match.groups()[0]), match.groups()[1])
+
+        return "%04d/%s" % (int(match.groups()[0]), match.groups()[1])
+
 
     def full_name(self):
         return '%s %s' % (self.last_name, self.first_name)
 
+
     def __unicode__(self):
+
         if self.first_name and self.last_name:
             return self.full_name()
+
         return self.zero_id()
 
+
+    def get_estimated_age(self):
+        """
+            Return age calculated from date or birth
+        """
+        return datetime.date.today().year - self.dob.year
 
 
 class Specimen(models.Model):
 
     class Meta:
-        permissions = (
-            ("send_specimen", "Can send specimen"),
-            ("receive_specimen", "Can send receive")
-        )
         app_label = 'findtb'
+        permissions = (("send_specimen", "Can send specimen"),
+                       ("receive_specimen", "Can send receive"))
+
 
     patient = models.ForeignKey(Patient)
     location = models.ForeignKey(Location)
@@ -143,10 +200,11 @@ class Specimen(models.Model):
             string = '%s, TC#%s' % (string, self.tc_number)
         return string
 
+
     def get_lab_techs(self):
         """
         Returns a query set of reporters that have the role lab tech at the
-        DTU where the sample was registered. 
+        DTU where the sample was registered.
         """
         return self.location.role_set \
                        .filter(group__name=FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
@@ -162,6 +220,7 @@ class Specimen(models.Model):
                        .filter(group__name=FINDTBGroup.CLINICIAN_GROUP_NAME)[0]
         except IndexError:
             return None
+
 
     def get_dtls(self):
         """

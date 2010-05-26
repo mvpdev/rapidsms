@@ -8,7 +8,7 @@ from locations.models import Location, LocationType
 from reporters.models import Reporter
 
 from findtb.models import *
-from findtb.utils import *
+from findtb.libs.utils import *
 from findtb.exceptions import *
 
 
@@ -40,7 +40,7 @@ def handle(keyword, params, message):
        not match.groupdict()['suffix']:
 
         if len(params) > 2:
-            raise ParseError("Registraition failed: %s is not a valid " \
+            raise ParseError("Registration failed: %s is not a valid " \
                              "DTU code." % params[0].upper())
         else:
             raise ParseError("Registration failed: " \

@@ -33,6 +33,29 @@ urlpatterns += patterns('',
 )
 
 
+
+# SREF (tracking)
+urlpatterns += patterns('',
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/incoming/$',
+        views.sref_incoming,
+        name='findtb-sref-incoming',
+        kwargs={'view_name': 'findtb-sref-incoming'}),
+
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/invalid/$',
+        views.sref_invalid,
+        name='findtb-sref-invalid',
+        kwargs={'view_name': 'findtb-sref-invalid'}),
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/received/$',
+        views.sref_received,
+        name='findtb-sref-received',
+        kwargs={'view_name': 'findtb-sref-received'}),
+
+)
+
+
 # SREF (general)
 urlpatterns += patterns('',
 
@@ -49,36 +72,11 @@ urlpatterns += patterns('',
         name='findtb-sref-tracking',
         kwargs={'view_name': 'findtb-sref-tracking'}),
 
-)
-
-
-# SREF (tracking)
-urlpatterns += patterns('',
-
-    url(r'findtb/sreferral/tracking/(?P<id>\d+)/incoming/$',
-        views.sref_incoming,
-        name='findtb-sref-incoming',
-        kwargs={'view_name': 'findtb-sref-incoming'}),
-
-    url(r'findtb/sreferral/tracking/(?P<id>\d+)/microscopy/$',
-        views.sref_microscopy,
-        name='findtb-sref-microscopy',
-        kwargs={'view_name': 'findtb-sref-microscopy'}),
-
-    url(r'findtb/sreferral/tracking/(?P<id>\d+)/lpa/$',
-        views.sref_tracking,
-        name='findtb-sref-lpa',
-        kwargs={'view_name': 'findtb-sref-lpa'}),
-
-    url(r'findtb/sreferral/tracking/(?P<id>\d+)/mgit/$',
-        views.sref_tracking,
-        name='findtb-sref-mgit',
-        kwargs={'view_name': 'findtb-sref-mgit'}),
+    # when something doesn't exist, redirect to dashboard
+    url(r'^findtb/sreferral/\S*$', redirect_to,
+        {'url': '/findtb/sreferral/dashboard/'}),
 
 )
-
-
-
 
 
 if settings.DEBUG:

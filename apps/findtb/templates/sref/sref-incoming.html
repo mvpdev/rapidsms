@@ -7,112 +7,57 @@
 
 <h2>Report specimen delivery</h2>
 
-
-{% if specimen.tc_number %}
-<p>OK</p>
-{% else %}
 <form id="tracking-form" action='.' method='post'>
-   {{ form.errors }}
+   {% for error in form.errors.chosen_action %}
+   <p class="error"> {{ error }}</p>
+   {% endfor %}
    <p>{{ form.chosen_action }}<input type="submit" value="Ok"></p>
    
-   <fieldset name="Patient details">
+   <fieldset class='autohide' name="Patient details">
    
        <legend>Patient details</legend>
        
+       {% for error in form.specimen_form.errors.tc_number %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
        <p>
-       {{ form.patient_form.gender.error }}
-       {{ form.age.error }}
-       {{ form.patent_form.gender.label }} 
+       {{ form.specimen_form.tc_number.label }}: 
+       {{ form.specimen_form.tc_number }}
+       </p> 
+       
+       {% for error in form.patient_form.errors.gender %}
+       <p class="error">Gender: {{ error }}</p>
+       {% endfor %}
+       {% for error in form.errors.age %}
+       <p class="error">Age: {{ error }}</p>
+       {% endfor %}
+       <p>
+       {{ form.patient_form.gender.label }} 
        {{ form.patient_form.gender }} 
        {{ form.age.label }}: 
        {{ form.age }}
-
-       <p>
+       </p>
        
+       {% for error in form.patient_form.errors.last_name %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
        <p>
-       {{ form.patient_form.last_name.error }}
        {{ form.patient_form.last_name.label }}: 
        {{ form.patient_form.last_name }}
-       <p>
+       </p>
        
+       {% for error in form.patient_form.errors.first_name %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
        <p>
-       {{ form.patient_form.first_name.error }}
        {{ form.patient_form.first_name.label }}: 
        {{ form.patient_form.first_name }}
-       <p> 
-       
-       {{ form.specimen_form.as_p }}
+       </p> 
        
    </fieldset>
    
 </form>
-{% endif %}
-{% endblock %}
-   
-   
-{% block findtb-events-title %}Follow up{% endblock %}
-
-{% block findtb-events-selection %}
-
-    <!-- TODO : add a cancel link in the last event so they can always undo 
-    something. A good place to put it would be next to the date. 
-    Cancel must be confirmed -->
-    
-    <!-- TODO : make simpler events in the tracking.
-    There is no need to repeat the code of the specimen, the code, etc. since
-    it's in the page title. A good way to implement that is to create  
-    "get dashboard event title" and "get tracking event title" methods
-    separatly for each state -->
-    
-    <!-- TODO : add way to diplay notes in the event listing
-We could add it in a block. If you click on it, you see it. Graphism must
-show there is a note to incite the user to click.-->
-
-    {% if events.count %}
-        <ul id="findtb-event-picker-selection">
-            {% for state in events %}
-            <li class="{{ state.type }}">
-                <a href="{% url findtb-sref-incoming state.tracked_item.content_object.pk %}">
-                    <strong>{{ state.content_object.get_long_message }}</strong>
-                    <span>{{ state.created|humanize_time_delta }} ago</span> 
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nothing has happen yet</p>   
-    {% endif %}
 
 {% endblock %}
-
-<!-- TODO : Add a form to save patient id / name / age, etc. -->
-
-{% block findtb-contacts %}
-            {% if contacts %}
-               <dl id="findtb-contacts">
-                {% for contact in contacts %}
-                    <dt>{{ contact.type }}:</dt>
-                    <dl><a href="#">{{ contact.name }}</a></dl>
-               {% endfor %}
-               </dl>
-            {% else %}
-               <p>No contact for this specimen</p>
-            {% endif %}
-{% endblock %}
-
-
-{% block findtb-test-picker-title %}Select a specimen{% endblock %}
-
-{% block findtb-test-picker-selection %}
    
-   {% if specimens %}
-       <ul>
-       {% for specimen in specimens %}
-         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ specimen }}</a></li>
-       {% endfor %}
-       </ul>
-   {% else %}    
-        <p>Nothing to test yet</p>
-   {% endif%}
-   
-{% endblock %}
+

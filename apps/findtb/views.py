@@ -8,9 +8,8 @@ import random
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
 from locations.models import Location
-from reporters.models import Reporter
 from django_tracking.models import State
-from findtb.models import Specimen
+from findtb.models import Specimen, Role
 from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
@@ -159,12 +158,14 @@ def eqa_tracking(request, *args, **kwargs):
     return render_to_response(request, "eqa/eqa-tracking.html", ctx)
 
 
+
 def sref_tracking(request, *args, **kwargs):
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
     ti, c = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     return redirect("findtb-sref-%s" % ti.state.title, id=kwargs['id'])
+
 
 
 def sref_incoming(request, *args, **kwargs):
@@ -174,33 +175,94 @@ def sref_incoming(request, *args, **kwargs):
     dtus = Location.objects.filter(parent=districts[0])
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-    if specimen.tc_number: # TODO : remove that, just for demo
 
-        if request.method == 'POST':
+    if tracked_item.state.title != 'incoming':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
 
-           FORM = tracked_item.state.content_object.get_web_form()
-           form = FORM(request.POST, specimen=specimen)
+    contacts = Role.getSpecimenRelatedContacts(specimen)
 
-           if form.is_valid():
-                request.user.message_set.create(message="The DTU has been notified")
-                ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-                return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
-        else:
-            print "r"
-            form = FORM()
+    form_class = tracked_item.state.content_object.get_web_form()
 
+    if request.method == 'POST':
+       form = form_class(data=request.POST, specimen=specimen)
 
-    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+       if form.is_valid():
+            form.save()
+            # TODO : send message here
+            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+    else:
+        form = form_class(specimen=specimen)
+
     events = tracked_item.get_history()
 
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())
 
+    return render_to_response(request, "sref/sref-incoming.html", ctx)
+
+
+
+def sref_invalid(request, *args, **kwargs):
+
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
+    dtus = Location.objects.filter(parent=districts[0])
+
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    if tracked_item.state.title != 'invalid':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    events = tracked_item.get_history()
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "sref/sref-invalid.html", ctx)
+
+
+def sref_received(request, *args, **kwargs):
+
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
+    dtus = Location.objects.filter(parent=districts[0])
+
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    if tracked_item.state.title != 'received':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    form_class = tracked_item.state.content_object.get_web_form()
+
+    if request.method == 'POST':
+       form = form_class(data=request.POST, specimen=specimen)
+
+       if form.is_valid():
+            form.save()
+            # TODO : send message here
+            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+    else:
+        form = form_class(specimen=specimen)
+
+    events = tracked_item.get_history()
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
 
     return render_to_response(request, "sref/sref-incoming.html", ctx)
+
 
 
 def sref_microscopy(request, *args, **kwargs):

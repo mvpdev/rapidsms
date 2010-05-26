@@ -3,7 +3,7 @@
 # maintainer: dgelvin
 
 from findtb.models import *
-from findtb.utils import registered
+from findtb.libs.utils import registered
 
 UNREGISTER_KEYWORD = 'unregister'
 
