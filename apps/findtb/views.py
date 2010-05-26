@@ -14,6 +14,10 @@ from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 
+from findtb.libs.utils import send_to_dtu
+from findtb.models.sref_generic_states import SpecimenInvalid,\
+                                              SpecimenMustBeReplaced
+
 #TODO : separate these view in several modules
 
 def eqa_bashboard(request, *arg, **kwargs):
@@ -261,25 +265,67 @@ def sref_received(request, *args, **kwargs):
     ctx.update(kwargs)
     ctx.update(locals())
 
-    return render_to_response(request, "sref/sref-incoming.html", ctx)
+    return render_to_response(request, "sref/sref-received.html", ctx)
 
 
 
-def sref_microscopy(request, *args, **kwargs):
+def sref_invalidate(request, *args, **kwargs):
+
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
+    dtus = Location.objects.filter(parent=districts[0])
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-    tracked_item = TrackedItem.get_tracker_or_create(content_object=specimen)
 
-    form = tracked_item.state.content_object.get_web_form()
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    request_new = bool(request.GET.get('request_new', 0))
+    confirm = bool(request.GET.get('confirm', 0))
+
+    if confirm:
+
+        result = SpecimenInvalid(cause='invalid', specimen=specimen)
+
+        if request_new:
+            msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
+                       u"has been declared invalid by NTLS. "\
+                       u"Please send a new specimen." %\
+                       {'patient': specimen.patient,
+                        'tag': specimen.tracking_tag}
+
+            tracked_item.state = State(content_object=result)
+            tracked_item.save()
+
+            result = SpecimenMustBeReplaced(specimen=specimen)
+            tracked_item.state = State(content_object=result, is_final=True)
+            tracked_item.save()
+
+        else:
+            msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
+                       u"has been declared invalid by NTLS. "\
+                       u"There is nothing to do." %\
+                       {'patient': specimen.patient,
+                        'tag': specimen.tracking_tag}
+
+            tracked_item.state = State(content_object=result, is_final=True)
+            tracked_item.save()
+
+        send_to_dtu(specimen.location, msg)
+
+        return redirect("findtb-sref-tracking", id=specimen.id)
 
 
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    form_class = tracked_item.state.content_object.get_web_form()
+
+    events = tracked_item.get_history()
 
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())
 
-    return render_to_response(request, "sref/sref-microscopy.html", ctx)
-
+    return render_to_response(request, "sref/sref-invalidate.html", ctx)
 
 
 

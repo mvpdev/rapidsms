@@ -14,7 +14,7 @@ from findtb.forms.forms import SpecimenForm, PatientForm
 from findtb.models.models import Patient
 from findtb.models.sref_result_states import MicroscopyResult
 from findtb.libs.utils import send_to_dtu
-from sref_transit import SrefForm
+from sref_transit_forms import SrefForm
 
 """
 Forms setting states for a testing results
@@ -32,7 +32,7 @@ class MicroscopyForm(SrefForm):
         ('na', u"N/A"),
     )
 
-    result = forms.ChoiceField(choices=ACTION_CHOICES)
+    result = forms.ChoiceField(choices=RESULT_CHOICES)
 
 
     def save(self, *args, **kwargs):
@@ -41,12 +41,12 @@ class MicroscopyForm(SrefForm):
         ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
 
 
-        result = MicroscopyResult(result=self.clean_date['result']))
-        ti.state = State(content_object=result, specimen=self.specimen))
+        result = MicroscopyResult(result=self.clean_date['result'])
+        ti.state = State(content_object=result, specimen=self.specimen)
         ti.save()
 
         msg = u"Microscopy results for specimen of %(patient)s with "\
-              u"tracking tag %(tag)s: %s(result)s" {
+              u"tracking tag %(tag)s: %s(result)s" % {
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
                'result': self.clean_date['result']}

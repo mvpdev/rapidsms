@@ -22,6 +22,7 @@ class Sref(FtbState):
 
     specimen = models.ForeignKey(Specimen)
     state_origin = 'sref'
+
     STATE_NAMES = ('specimen_registered',
                    'specimen_sent',
                    'specimen_received',
@@ -30,6 +31,7 @@ class Sref(FtbState):
                    'lj',
                    'mgit',
                    'sirez')
+
     form_class = None
 
     def get_short_message(self):
@@ -81,6 +83,8 @@ class SpecimenInvalid(Sref):
                                             'patient': self.specimen.patient,
                                             'cause': cause }
 
+
+
 class SpecimenMustBeReplaced(Sref):
     """
     Final state used to declare the specimen as invalid or lost.
@@ -99,7 +103,7 @@ class SpecimenMustBeReplaced(Sref):
     def get_short_message(self):
 
         if self.next_specimen:
-            return u"Must be replaced: news specimen is %s" % self.next_specimen
+            return u"Has been replaced: new specimen is %s" % self.next_specimen
 
         return u"Must be replaced: waiting for a new one"
 
@@ -139,7 +143,7 @@ class SpecimenRegistered(Sref):
 
     def get_web_form(self):
         # we import it here to avoid circular reference
-        from findtb.forms.sref_transit import SrefRegisteredReceived
+        from findtb.forms.sref_transit_forms import SrefRegisteredReceived
         return SrefRegisteredReceived
 
 
@@ -214,8 +218,8 @@ class SpecimenReceived(Sref):
 
     def get_web_form(self):
         # we import it here to avoid circular reference
-        from findtb.forms.sref_transit import SrefRegisteredReceived
-        return SrefRegisteredReceived
+        from findtb.forms.sref_result_forms import MicroscopyForm
+        return MicroscopyForm
 
     def get_short_message(self):
        return u"Received at NTRL"

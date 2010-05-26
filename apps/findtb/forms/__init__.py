@@ -1,3 +1,5 @@
 
 from forms import SpecimenForm
-from sref_transit import SrefForm, SrefRegisteredReceived, SrefLostOrReceived
+from sref_transit_forms import SrefForm, \
+                               SrefRegisteredReceived, \
+                               SrefLostOrReceived

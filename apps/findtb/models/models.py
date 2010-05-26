@@ -194,7 +194,7 @@ class Specimen(models.Model):
                                       db_index=True, unique=True)
 
     def __unicode__(self):
-        string = "For %(patient)s, tracking tag %(tag)s" % \
+        string = "specimen of patient %(patient)s, tracking tag %(tag)s" % \
                  {'patient':self.patient, 'tag':self.tracking_tag}
         if self.tc_number:
             string = '%s, TC#%s' % (string, self.tc_number)

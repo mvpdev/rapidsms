@@ -5,10 +5,10 @@
 import re
 from datetime import datetime, timedelta, date
 
-from django_tracking.models import TrackedItem, State
+from django_tracking.models import TrackedItem
 
 from findtb.models import *
-from findtb.libs.utils import registered, clean_names, generate_tracking_tag
+from findtb.libs.utils import registered, generate_tracking_tag
 from findtb.exceptions import ParseError, NotAllowed, BadValue
 
 
@@ -55,6 +55,7 @@ def handle(keyword, params, message):
     function_mapping[keyword](params, location, reporter, message)
 
 def tsrs(params, location, reporter, message):
+
     if len(params) == 0:
         raise ParseError("Specimen sample registration failed. " \
                          "You must send the registration number")
@@ -75,7 +76,7 @@ def tsrs(params, location, reporter, message):
     regex = r'^(?P<patient>\d+)[ -./\\_]+(?P<year>(%(this)s|%(last)s))' \
              '\s*(\+\s?n(ote)?\s*(?P<note>.*))?$' % \
                       {'this':this_year, 'last':last_year}
-    print regex
+
     match = re.match(regex, text)
     if not match:
         raise ParseError("FAILED: Invalid patient registration number. " \
@@ -111,6 +112,12 @@ def tsrs(params, location, reporter, message):
                              "patient %(patient)s today. You cannot " \
                              "register more than one specimen for the same " \
                              "patient in a day." % {'patient':patient})
+
+    # is if this specimen is a replacement for a previous invalidated specimen?
+    previous_specimen = patient.specimen_set.all().order_by('-created_on')[0]
+    ti, created = TrackedItem.get_tracker_or_create(previous_specimen)
+    is_renew = isinstance(ti.state.content_object, SpecimenMustBeReplaced)
+
     specimen = Specimen()
     if not Specimen.objects.count():
         specimen.tracking_tag = generate_tracking_tag()
@@ -122,6 +129,13 @@ def tsrs(params, location, reporter, message):
     specimen.patient = patient
     specimen.location = location
     specimen.save()
+
+    if is_renew:
+        ti.state.content_object.next_specimen = specimen
+        ti.state.content_object.save()
+
+
+
 
     note = match.groupdict()['note'] or ''
     state = SpecimenRegistered(specimen=specimen, note=note)

@@ -86,6 +86,10 @@ show there is a note to incite the user to click.-->
         
         {% endwith %}
         
+    {% else %}
+         <p id="findtb-patient-details">
+            Patient is not registered at NTLR 
+         </p>
     {% endif %}
 
     {% if contacts %}
@@ -111,7 +115,7 @@ show there is a note to incite the user to click.-->
        </dl>
        
     {% else %}
-       <p>No contact for this specimen</p>
+       <p id="findtb-contacts">No phone contact for this specimen </p>
     {% endif %}
             
 {% endblock %}

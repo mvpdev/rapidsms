@@ -299,6 +299,17 @@ text-indent:1em;
 margin-left:2em;
 }
 
+.findtb-tracking .findtb-invalidate-links  {
+margin-left:2em;
+text-align:center;
+}
+
+.findtb-tracking .findtb-invalidate-links a {
+display:inline;
+float:inherit;
+}
+
+
 /*** EQA TRAKING ***/
 
 

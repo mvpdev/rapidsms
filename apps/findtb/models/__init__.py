@@ -11,7 +11,8 @@ from findtb.models.ftbstate import FtbStateManager, FtbState
 from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenRegistered,\
                                               SpecimenSent,\
-                                              SpecimenReceived
+                                              SpecimenReceived,\
+                                              SpecimenMustBeReplaced
 
 from findtb.models.results import Result
 
