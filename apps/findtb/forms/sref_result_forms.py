@@ -26,20 +26,12 @@ class MicroscopyForm(SrefForm):
     Form shown when the specimen needs a microcopy.
     """
 
-    RESULT_CHOICES = (
-        ('positive', u"Positive"),
-        ('negative', u"Negative"),
-        ('na', u"N/A"),
-    )
-
-    result = forms.ChoiceField(choices=RESULT_CHOICES)
+    result = forms.ChoiceField(choices=MicroscopyResult.RESULT_CHOICES)
 
 
     def save(self, *args, **kwargs):
 
         ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
-
-
 
         result = MicroscopyResult(result=self.cleaned_data['result'],
                                   specimen=self.specimen)
@@ -47,12 +39,15 @@ class MicroscopyForm(SrefForm):
         ti.state = result
         ti.save()
 
-        msg = u"Microscopy results for specimen of %(patient)s with "\
-              u"tracking tag %(tag)s: %(result)s" % {
-               'patient': self.specimen.patient,
-               'tag': self.specimen.tracking_tag,
-               'result': self.cleaned_data['result']}
-
+        msg = u"Specimen %(id)s (%(tc)s) Microscopy smear results: " % \
+              {'id': self.specimen.patient.zero_id(),
+               'tc': self.specimen.tc_number}
+        if result.is_positive():
+            msg += u"POSITIVE (%(result)s). Expect LPA results within 7 " \
+                   u"days." % {'result': result.result}
+        else:
+            msg += u"%(result)s. Expect MGIT culture results within 6 weeks." %\
+                   {'result': result.result.upper()}
 
         send_to_dtu(self.specimen.location, msg)
 
