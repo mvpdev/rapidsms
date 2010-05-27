@@ -58,6 +58,11 @@ urlpatterns += patterns('',
         name='findtb-sref-invalidate',
         kwargs={'view_name': 'findtb-sref-invalidate'}),
 
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/microscopy/$',
+        views.sref_microscopy,
+        name='findtb-sref-microscopy',
+        kwargs={'view_name': 'findtb-sref-microscopy'}),
+
 )
 
 

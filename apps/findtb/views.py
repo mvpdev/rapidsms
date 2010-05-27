@@ -15,8 +15,7 @@ from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 
 from findtb.libs.utils import send_to_dtu
-from findtb.models.sref_generic_states import SpecimenInvalid,\
-                                              SpecimenMustBeReplaced
+from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
 
 #TODO : separate these view in several modules
 
@@ -193,7 +192,6 @@ def sref_incoming(request, *args, **kwargs):
 
        if form.is_valid():
             form.save()
-            # TODO : send message here
             ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
             return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
     else:
@@ -253,7 +251,6 @@ def sref_received(request, *args, **kwargs):
 
        if form.is_valid():
             form.save()
-            # TODO : send message here
             ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
             return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
     else:
@@ -266,6 +263,47 @@ def sref_received(request, *args, **kwargs):
     ctx.update(locals())
 
     return render_to_response(request, "sref/sref-received.html", ctx)
+
+
+def sref_microscopy(request, *args, **kwargs):
+
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
+    dtus = Location.objects.filter(parent=districts[0])
+
+    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    if tracked_item.state.title != 'microscopy':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    form_class = tracked_item.state.content_object.get_web_form()
+
+    #isinstance doesn't work cause the class is a a factory
+    if form_class.__name__ == 'LpaForm':
+        current_test = 'LPA'
+    else:
+        current_test = 'MGIT'
+
+    if request.method == 'POST':
+       form = form_class(data=request.POST, specimen=specimen)
+
+       if form.is_valid():
+            form.save()
+            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+    else:
+        form = form_class(specimen=specimen)
+
+    events = tracked_item.get_history()
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "sref/sref-microscopy.html", ctx)
 
 
 

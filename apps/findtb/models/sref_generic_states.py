@@ -216,13 +216,16 @@ class SpecimenReceived(Sref):
     class Meta:
         app_label = 'findtb'
 
+
     def get_web_form(self):
         # we import it here to avoid circular reference
         from findtb.forms.sref_result_forms import MicroscopyForm
         return MicroscopyForm
 
+
     def get_short_message(self):
        return u"Received at NTRL"
+
 
     def get_long_message(self):
         return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \

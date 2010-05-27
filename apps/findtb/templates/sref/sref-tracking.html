@@ -8,7 +8,9 @@
 
 {% block findtb-title %}
     {% if specimen.tc_number %}
-    Specimen Referral: TC #{{ specimen.tc_number}} 
+    Specimen Referral: {{ specimen.patient.last_name|upper }}  
+                       {{ specimen.patient.first_name }}  
+                       TC #{{ specimen.tc_number }} 
     {% else %}
     Specimen Referral: patient {{ specimen.patient }} 
     from {{ specimen.location.name }}
