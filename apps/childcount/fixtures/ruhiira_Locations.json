@@ -1,1175 +1,1151 @@
 [
     {
-        "pk": 1, 
+        "pk": 172, 
         "model": "locations.location", 
         "fields": {
-            "code": "bug_mv", 
-            "name": "Bugongi MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "bugo1", 
-            "name": "Bugongi I", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "bugo2", 
-            "name": "Bugongi II", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kam1", 
-            "name": "Kamirajogyera I", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kam2", 
-            "name": "Kamirajogyera II", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "nyaruh", 
-            "name": "Nyaruhanga", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "nyarush", 
-            "name": "Nyarushangye", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 8, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "omukab", 
-            "name": "Omukabare", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 9, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "omukan", 
-            "name": "Omukanara", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 10, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "omukih", 
-            "name": "Omukihimba", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 11, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "omuky", 
-            "name": "Omukyinazi", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 12, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwan", 
-            "name": "Rwanyinamugagure", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 13, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "townbug", 
-            "name": "Town Cell", 
-            "parent": 1, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 14, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabugu_mv", 
-            "name": "Kabugu MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 15, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "ekis", 
-            "name": "Ekisinga", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 16, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabe", 
-            "name": "Kabeshekyere", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 17, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabug", 
-            "name": "Kabugu I", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 18, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kaga2", 
-            "name": "Kagabugu II", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 19, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kates", 
-            "name": "Katesani", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 20, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kigab2", 
-            "name": "Kigabagaba II", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 21, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "mish", 
-            "name": "Mishoroshozi", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 22, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "par", 
-            "name": "Paragoni", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 23, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwen", 
-            "name": "Rwendego", 
-            "parent": 14, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 24, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabunya_mv", 
-            "name": "Kabunyanda MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 25, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabuy", 
-            "name": "Kabuyanda", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 26, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabuytc", 
-            "name": "Kabuyanda TC", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 27, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kabuyt", 
-            "name": "Kabuyanda Town", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 28, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "katem", 
-            "name": "Katembo", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 29, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kig", 
-            "name": "Kigarama", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 30, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "nda", 
-            "name": "Ndaami", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 31, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "nyam", 
-            "name": "Nyampikye", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 32, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rut", 
-            "name": "Rutooma", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 33, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwemb1", 
-            "name": "Rwembwera I", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 34, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwemb2", 
-            "name": "Rwembwera II", 
-            "parent": 24, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 35, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kan_mv", 
-            "name": "Kanywamaizi MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 36, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagar1", 
-            "name": "Kagara I", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 37, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagar2", 
-            "name": "Kagara II", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 38, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagot1", 
-            "name": "Kagoto I", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 39, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagot2", 
-            "name": "Kagoto II", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 40, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagot3", 
-            "name": "Kagoto III", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 41, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kan1", 
-            "name": "Kanywamaizi I", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 42, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kan2", 
-            "name": "Kanywamaizi II", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 43, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kan3", 
-            "name": "Kanywamaizi III", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 44, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kyam1", 
-            "name": "Kyamazinga I", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 45, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kyam2", 
-            "name": "Kyamazinga II", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 46, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "muh", 
-            "name": "Muhanga ", 
-            "parent": 35, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 47, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kis_mv", 
-            "name": "Kisyoro MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 48, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "buga1", 
-            "name": "Bugarama I", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 49, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "buga2", 
-            "name": "Bugarama II", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 50, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kaa1", 
-            "name": "Kaaro I", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 51, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kaa2", 
-            "name": "Kaaro II", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 52, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kaa3", 
-            "name": "Kaaro III", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 53, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kashk", 
-            "name": "Kasharira", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 54, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kata", 
-            "name": "Katama", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 55, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kis1", 
-            "name": "Kisyoro I", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 56, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kis2", 
-            "name": "Kisyoro II", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 57, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kis3", 
-            "name": "Kisyoro III", 
-            "parent": 47, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 58, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "mig_mv", 
-            "name": "Migyera MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 59, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kigab1", 
-            "name": "Kigabagaba I", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 60, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwemang", 
-            "name": "Rwemango", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 61, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "bweg", 
-            "name": "Bwegyerere", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 62, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kan4", 
-            "name": "Kanywamaizi IV", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 63, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rub", 
-            "name": "Rubogano I", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 64, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rwar", 
-            "name": "Rwaryemera", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 65, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kagon", 
-            "name": "Kagongi", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 66, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "mig1", 
-            "name": "Migyera I", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 67, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "mig2", 
-            "name": "Migyera II", 
-            "parent": 58, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 68, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "ntugu_mv", 
-            "name": "Ntugu MV", 
-            "parent": null, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 2
-        }
-    }, 
-    {
-        "pk": 69, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "bir", 
-            "name": "Birare", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 70, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "ish", 
-            "name": "Ishingisha", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 71, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kashn", 
-            "name": "Kashariira", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 72, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kae1", 
-            "name": "Keina I", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 73, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kae2", 
-            "name": "Keina II", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 74, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kii", 
-            "name": "Kiitojo", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 75, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kyand", 
-            "name": "Kyandaro", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 76, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kyan1", 
-            "name": "Kyanyakahimbi I", 
-            "parent": 68, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 77, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "kyan2", 
+            "code": "NG11", 
             "name": "Kyanyakahimbi II", 
-            "parent": 68, 
+            "parent": 103, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 78, 
+        "pk": 206, 
         "model": "locations.location", 
         "fields": {
-            "code": "kyan3", 
-            "name": "Kyanyakahimbi III", 
-            "parent": 68, 
+            "code": "KZ01", 
+            "name": "Kagara I", 
+            "parent": 101, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 79, 
+        "pk": 205, 
         "model": "locations.location", 
         "fields": {
-            "code": "kyib", 
-            "name": "Kyibugu", 
-            "parent": 68, 
+            "code": "RH14", 
+            "name": "Karundi", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 80, 
+        "pk": 204, 
         "model": "locations.location", 
         "fields": {
-            "code": "mah", 
-            "name": "Mahama", 
-            "parent": 68, 
+            "code": "RH13", 
+            "name": "Nyakamuri II", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 81, 
+        "pk": 203, 
         "model": "locations.location", 
         "fields": {
-            "code": "maj", 
-            "name": "Maju", 
-            "parent": 68, 
+            "code": "RH12", 
+            "name": "Nyakamuri I", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 82, 
+        "pk": 202, 
         "model": "locations.location", 
         "fields": {
-            "code": "nka", 
-            "name": "Nkakahandagazi", 
-            "parent": 68, 
+            "code": "RH11", 
+            "name": "Omwicwamba", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 83, 
+        "pk": 201, 
         "model": "locations.location", 
         "fields": {
-            "code": "ntuc", 
+            "code": "RH10", 
+            "name": "Kabale", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 200, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH09", 
+            "name": "Rugongi", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 199, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH08", 
+            "name": "Ruhiira", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 198, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH07", 
+            "name": "Kagongi", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 197, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH06", 
+            "name": "Kahurwa", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 196, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH05", 
+            "name": "Kishenyi", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 171, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG10", 
             "name": "Ntungu Central", 
-            "parent": 68, 
+            "parent": 103, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 84, 
+        "pk": 195, 
         "model": "locations.location", 
         "fields": {
-            "code": "ntut", 
-            "name": "Ntungu Town", 
-            "parent": 68, 
+            "code": "RH04", 
+            "name": "Migyera II", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 85, 
+        "pk": 194, 
         "model": "locations.location", 
         "fields": {
-            "code": "ntuw", 
-            "name": "Ntungu West", 
-            "parent": 68, 
+            "code": "RH03", 
+            "name": "Migyera I", 
+            "parent": 104, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 86, 
+        "pk": 193, 
         "model": "locations.location", 
         "fields": {
-            "code": "rugor", 
+            "code": "RH02", 
+            "name": "Rwakibeizi", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 192, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "RH01", 
+            "name": "Ruhiihra Town Cell", 
+            "parent": 104, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 191, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG12", 
+            "name": "Kamirajogyera II", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 190, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG11", 
+            "name": "Bugongi I", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 189, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG10", 
+            "name": "Kamirajogyera I", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 170, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG09", 
+            "name": "Kashariira", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 165, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG04", 
+            "name": "Maju", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 166, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG05", 
+            "name": "Birare", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 167, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG06", 
             "name": "Rugororo", 
-            "parent": 68, 
+            "parent": 103, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 87, 
+        "pk": 168, 
         "model": "locations.location", 
         "fields": {
-            "code": "ruh_mv", 
-            "name": "Ruhiira MV", 
+            "code": "NG07", 
+            "name": "Ntungu West", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 169, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG08", 
+            "name": "Kyanyakahimbi I", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 188, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG09", 
+            "name": "Omukabare", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 187, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG08", 
+            "name": "Bugongi II", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 186, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG07", 
+            "name": "Bugongi Town Cell", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 164, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG03", 
+            "name": "Mahama", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 159, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR18", 
+            "name": "Ndaami", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 160, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR19", 
+            "name": "Katembo", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 161, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR20", 
+            "name": "Nyampikye", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 162, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG01", 
+            "name": "Kyanyakahimbi III", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 163, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG02", 
+            "name": "Kyibugu", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 185, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG06", 
+            "name": "Omukanara", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 184, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG05", 
+            "name": "Omukihimba", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 183, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG04", 
+            "name": "Nyaruhanga", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 155, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR14", 
+            "name": "Rwembwera II", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 156, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR15", 
+            "name": "Kabuyanda TC", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 157, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR16", 
+            "name": "Kabuyanda", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 158, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR17", 
+            "name": "Kigarama", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 182, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG03", 
+            "name": "Nyarushangye", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 181, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG02", 
+            "name": "Rwanyinamugagure", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 180, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG01", 
+            "name": "Omukyinazi", 
+            "parent": 99, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 154, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR13", 
+            "name": "Rwembwera I", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 150, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR09", 
+            "name": "Kisyoro I", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 151, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR10", 
+            "name": "Kisyoro II", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 152, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR11", 
+            "name": "Kisyoro III", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 153, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR12", 
+            "name": "Kabuyanda Town", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 179, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG18", 
+            "name": "Kiitojo", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 178, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG17", 
+            "name": "Keina II", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 148, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR07", 
+            "name": "Bugarama I", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 147, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR06", 
+            "name": "Bugarama II", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 140, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG10", 
+            "name": "Katesani", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 141, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG11", 
+            "name": "Paragoni", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 142, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR01", 
+            "name": "Kasharira", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 143, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR02", 
+            "name": "Katama", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 144, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR03", 
+            "name": "Kaaro I", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 145, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR04", 
+            "name": "Kaaro II", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 146, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR05", 
+            "name": "Kaaro III", 
+            "parent": 102, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 177, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG16", 
+            "name": "Keina I", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 176, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG15", 
+            "name": "Ishingisha", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 175, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG14", 
+            "name": "Kyandaro", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 174, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG13", 
+            "name": "Ntungu Town", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 173, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "NG12", 
+            "name": "Nkakahandagazi", 
+            "parent": 103, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 139, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG09", 
+            "name": "Kagabugu II", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 138, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG08", 
+            "name": "Kabugu I", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 137, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG07", 
+            "name": "Kabeshekyere", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 136, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG06", 
+            "name": "Ekisinga", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 135, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG05", 
+            "name": "Kigabagaba II", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 134, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG04", 
+            "name": "Rwendego", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 133, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG03", 
+            "name": "Kigabagaba I", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 131, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG01", 
+            "name": "Rwemango", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 132, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KG02", 
+            "name": "Mishoroshozi", 
+            "parent": 100, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 99, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "BG", 
+            "name": "Bugongi", 
             "parent": null, 
             "longitude": null, 
             "latitude": null, 
-            "type": 2
+            "type": 3
         }
     }, 
     {
-        "pk": 88, 
+        "pk": 100, 
         "model": "locations.location", 
         "fields": {
-            "code": "kaba", 
-            "name": "Kabale", 
-            "parent": 87, 
+            "code": "KG", 
+            "name": "Kabugu", 
+            "parent": null, 
             "longitude": null, 
             "latitude": null, 
-            "type": 1
+            "type": 3
         }
     }, 
     {
-        "pk": 89, 
+        "pk": 101, 
         "model": "locations.location", 
         "fields": {
-            "code": "kah", 
-            "name": "Kahurwa", 
-            "parent": 87, 
+            "code": "KZ", 
+            "name": "Kanywamaizi", 
+            "parent": null, 
             "longitude": null, 
             "latitude": null, 
-            "type": 1
+            "type": 3
         }
     }, 
     {
-        "pk": 90, 
+        "pk": 102, 
         "model": "locations.location", 
         "fields": {
-            "code": "kar", 
-            "name": "Karundi", 
-            "parent": 87, 
+            "code": "KR", 
+            "name": "Kisyoro", 
+            "parent": null, 
             "longitude": null, 
             "latitude": null, 
-            "type": 1
+            "type": 3
         }
     }, 
     {
-        "pk": 91, 
+        "pk": 103, 
         "model": "locations.location", 
         "fields": {
-            "code": "kish", 
-            "name": "Kishenyi", 
-            "parent": 87, 
+            "code": "NG", 
+            "name": "Ntungu", 
+            "parent": null, 
             "longitude": null, 
             "latitude": null, 
-            "type": 1
+            "type": 3
         }
     }, 
     {
-        "pk": 92, 
+        "pk": 104, 
         "model": "locations.location", 
         "fields": {
-            "code": "nyak1", 
-            "name": "Nyakamuri I", 
-            "parent": 87, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 93, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "nyak2", 
-            "name": "Nyakamuri II", 
-            "parent": 87, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 94, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "omw", 
-            "name": "Omwicwamba", 
-            "parent": 87, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 95, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "rugong", 
-            "name": "Rugongi", 
-            "parent": 87, 
-            "longitude": null, 
-            "latitude": null, 
-            "type": 1
-        }
-    }, 
-    {
-        "pk": 96, 
-        "model": "locations.location", 
-        "fields": {
-            "code": "ruh", 
+            "code": "RH", 
             "name": "Ruhiira", 
-            "parent": 87, 
+            "parent": null, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 3
+        }
+    }, 
+    {
+        "pk": 149, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KR08", 
+            "name": "Rutooma", 
+            "parent": 102, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 97, 
+        "pk": 207, 
         "model": "locations.location", 
         "fields": {
-            "code": "rwak", 
-            "name": "Rwakibeizi", 
-            "parent": 87, 
+            "code": "KZ02", 
+            "name": "Kagara II", 
+            "parent": 101, 
             "longitude": null, 
             "latitude": null, 
             "type": 1
         }
     }, 
     {
-        "pk": 98, 
+        "pk": 208, 
         "model": "locations.location", 
         "fields": {
-            "code": "townruh", 
-            "name": "Town Cell", 
-            "parent": 87, 
+            "code": "KZ03", 
+            "name": "Kyamazinga I", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 209, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ04", 
+            "name": "Kyamazinga II", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 210, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ05", 
+            "name": "Rubogano I", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 211, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ06", 
+            "name": "Kanywamaizi I", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 212, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ07", 
+            "name": "Kanywamaizi III", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 213, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ08", 
+            "name": "Kagoto III", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 214, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ09", 
+            "name": "Muhanga ", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 215, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ10", 
+            "name": "Kagoto II", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 216, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ11", 
+            "name": "Kagoto I", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 217, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ12", 
+            "name": "Bwegyerere", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 218, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ13", 
+            "name": "Rwaryemera", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 219, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ14", 
+            "name": "Kanywamaizi IV", 
+            "parent": 101, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 1
+        }
+    }, 
+    {
+        "pk": 220, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "KZ15", 
+            "name": "Kanywamaizi II", 
+            "parent": 101, 
             "longitude": null, 
             "latitude": null, 
             "type": 1

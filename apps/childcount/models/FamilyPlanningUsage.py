@@ -11,6 +11,7 @@ class FamilyPlanningUsage(models.Model):
 
     class Meta:
         app_label = 'childcount'
+        db_table = 'cc_fpusage'
         verbose_name = _(u"Family Planning Usage")
         verbose_name_plural = _(u"Family Planning Usages")
 

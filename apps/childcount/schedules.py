@@ -5,6 +5,6 @@
 from childcount.models import Encounter
 
 
-def send_to_omrs(router):
+def send_to_omrs(router, *args, **kwargs):
     '''Generate XFOMRS and send it to omrs'''
     Encounter.send_to_omrs()
