@@ -39,10 +39,13 @@ def send_to_group_at_location(group_name, location, msg):
     for role in Role.objects.filter(group__name=group_name, location=location):
         send_msg(role.reporter, msg)
 
-def send_to_dtu(location, msg):
-    send_to_group_at_location(FINDTBGroup.CLINICIAN_GROUP_NAME, location, msg)
+def send_to_lab_techs(location, msg):
     send_to_group_at_location(FINDTBGroup.DTU_LAB_TECH_GROUP_NAME, \
                               location, msg)
+
+def send_to_dtu(location, msg):
+    send_to_lab_techs(location, msg)
+    send_to_group_at_location(FINDTBGroup.CLINICIAN_GROUP_NAME, location, msg)
 
 def send_to_ztls(location, msg):
     zone = FINDTBGroup.objects.get(pk=location.pk).get_zone()
@@ -50,9 +53,13 @@ def send_to_ztls(location, msg):
                               zone, msg)
 
 def send_to_dtls(location, msg):
-    district = FINDTBGroup.objects.get(pk=location.pk).get_district()
+    district = FINDTBLocation.objects.get(pk=location.pk).get_district()
     send_to_group_at_location(FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME, \
                               district, msg)
+
+def dtls_is_lab_tech_at(location):
+    find_location = FINDTBLocation.objects.get(pk=location.pk)
+    return find_location.get_dtls() in find_location.get_lab_techs()
 
 def clean_msg(text):
 

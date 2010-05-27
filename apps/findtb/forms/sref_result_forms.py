@@ -13,7 +13,7 @@ from findtb.models import SpecimenMustBeReplaced
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\
                                              MgitResult
-from findtb.libs.utils import send_to_dtu
+from findtb.libs.utils import send_to_dtu, dtls_is_lab_tech_at, send_to_dtls
 from sref_transit_forms import SrefForm
 
 """
@@ -39,17 +39,23 @@ class MicroscopyForm(SrefForm):
         ti.state = result
         ti.save()
 
-        msg = u"Specimen %(id)s (%(tc)s) Microscopy smear results: " % \
+        msg_start = u"Specimen %(id)s (%(tc)s)" % \
               {'id': self.specimen.patient.zero_id(),
                'tc': self.specimen.tc_number}
+        msg_end = u"Microscopy smear results: "
         if result.is_positive():
-            msg += u"POSITIVE (%(result)s). Expect LPA results within 7 " \
+            msg_end += u"POSITIVE (%(result)s). Expect LPA results within 7 " \
                    u"days." % {'result': result.result}
         else:
-            msg += u"%(result)s. Expect MGIT culture results within 6 weeks." %\
-                   {'result': result.result.upper()}
+            msg_end += u"%(result)s. Expect MGIT culture results within 6" \
+                       u" weeks." % \
+                       {'result': result.result.upper()}
 
-        send_to_dtu(self.specimen.location, msg)
+        send_to_dtu(self.specimen.location, u"%s %s" % (msg_start, msg_end))
+        if not dtls_is_lab_tech_at(self.specimen.location):
+            send_to_dtls(self.specimen.location, u"%s from %s %s" % \
+                              (msg_start, self.specimen.location, msg_end))
+            
 
 
 

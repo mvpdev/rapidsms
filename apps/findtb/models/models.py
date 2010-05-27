@@ -223,34 +223,11 @@ class Specimen(models.Model):
         except IndexError:
             return None
 
-
     def get_dtls(self):
-        """
-        Returns one reporter object that has the role district tb supervisor at
-        the DTU where the sample was registered.  Returns None if there is not
-        one.
-        """
-        try:
-            return self.location.role_set \
-                       .filter(group__name=\
-                                FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME)[0]
-        except IndexError:
-            return None
-
+        return self.location.get_dtls()
 
     def get_ztls(self):
-        """
-        Returns one reporter object that has the role zonal tb supervisor at
-        the DTU where the sample was registered.  Returns None if there is not
-        one.
-        """
-        try:
-            return self.location.role_set \
-                       .filter(group__name=\
-                                FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME)[0]
-        except IndexError:
-            return None
-
+        return self.location.get_ztls()
 
 class FINDTBGroup(Group):
 
@@ -293,6 +270,29 @@ class FINDTBLocation(Location):
         for location in self.ancestors(include_self=True):
             if location.type.name == 'district':
                 return location
+
+    def get_dtls(self):
+        district = self.get_district()
+        dtls_group_name = FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME
+        dtls_group = Group.objects.get(name=dtls_group_name)
+        try:
+            return district.role_set.get(group=dtls_group)
+        except Location.DoesNotExist:
+            return None
+
+    def get_ztls(self):
+        zone = self.get_zone()
+        ztls_group_name = FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME
+        ztls_group = Group.objects.get(name=ztls_group_name)
+        try:
+            return zone.role_set.get(group=ztls_group)
+        except Location.DoesNotExist:
+            return None
+
+    def get_lab_techs(self):
+        lab_tech_group_name = FINDTBGroup.DTU_LAB_TECH_GROUP_NAME
+        lab_group = Group.objects.get(name=lab_tech_group_name)
+        return self.role_set.filter(group=lab_group)
 
 
 class Configuration(models.Model):
