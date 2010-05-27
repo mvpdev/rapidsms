@@ -8,7 +8,7 @@ import urllib2
 from functools import wraps
 from urllib import urlencode
 
-
+from django.utils.datastructures import SortedDict
 from django.utils.translation import ugettext as _
 
 import rapidsms
@@ -18,9 +18,11 @@ from findtb.exceptions import NotRegistered
 from findtb.models import FINDTBGroup, Role, FINDTBLocation
 from findtb import config
 
+from django_tracking.models import State
+
 def send_msg(reporter, text):
     '''
-    Sends a message to a reporter using the ajax app.  This goes to 
+    Sends a message to a reporter using the ajax app.  This goes to
     ajax_POST_send_message in findtb app.py
     '''
     conf = settings.RAPIDSMS_APPS['ajax']
@@ -66,7 +68,7 @@ def clean_msg(text):
         return ''
 
     # make lower case, strip, and remove duplicate spaces
-    return re.sub(r'\s{2,}', ' ', text.strip().lower())      
+    return re.sub(r'\s{2,}', ' ', text.strip().lower())
 
 def clean_names(flat_name, surname_first=True):
 
@@ -148,17 +150,17 @@ def registered(func):
         else:
             raise NotRegistered
     return wrapper
-    
-    
+
+
 def generate_tracking_tag(start=None):
     """
         Generate a unique tag. The format is xyz[...] with x, y and z picked
         from an iterable giving a new set of ordered caracters at each
         call to next. You must pass the previous tag and a patter the tag
         should validate against.
-        
-        e.g: 
-        
+
+        e.g:
+
         >>> generate_tracking_tag()
         '3a2'
         >>> generate_tracking_tag('3a2')
@@ -175,11 +177,11 @@ def generate_tracking_tag(start=None):
     BASE_LETTERS='acdefghjklmnprtuvwxy'.upper()
     if start == None:
         start = '2A2'
-    
+
     next_tag = []
 
     matrix_generator = itertools.cycle((BASE_NUMBERS,BASE_LETTERS))
-        
+
     for index, c in enumerate(start):
 
         matrix = matrix_generator.next()
@@ -193,7 +195,7 @@ def generate_tracking_tag(start=None):
             except IndexError:
                 pass
         except IndexError:
-            next_tag.append(matrix[0])    
+            next_tag.append(matrix[0])
             try:
                 start[index+1]
             except IndexError:
@@ -202,3 +204,40 @@ def generate_tracking_tag(start=None):
                 break
 
     return ''.join(next_tag)
+
+
+
+def get_specimen_by_status():
+    """
+    Return a dictionary of specimen by status. Example: every incoming
+    specimen, every specimen waiting for a microscopy.
+    """
+
+    specimen = SortedDict((('Incoming', []),
+                          ('Microscopy', []),
+                          ('LPA', []),
+                          ('LJ', []),
+                          ('MGIT', []),
+                          ('SIRE(Z)', [])))
+
+    name_and_cat = {  'SrefRegisteredReceived': 'Incoming',
+                      'SrefLostOrReceived': 'Incoming',
+                      'MicroscopyForm': 'Microscopy',
+                      'LpaForm': 'LPA',
+                      'LjForm': 'LJ',
+                      'MgitForm': 'MGIT',
+                      'SireForm': 'SIRE(Z)',
+                      'SirezForm': 'SIRE(Z)'}
+
+    for state in State.objects.filter(is_current=True):
+
+        try: # if webform is None
+            web_form = state.content_object.get_web_form().__name__
+        except AttributeError:
+            pass
+        else:
+            specimen[name_and_cat[web_form]].append(state.tracked_item.content_object)
+
+
+
+    return specimen

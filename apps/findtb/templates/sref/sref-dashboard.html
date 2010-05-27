@@ -23,12 +23,12 @@
         <dl id="findtb-events-filter">
             <dt>See: </dt>
             {% ifequal event_type 'alert' %}
-             <dd>Alerts</dd>
+             <dd><strong>Alerts</strong></dd>
             {% else %}
              <dd><a href="{% url findtb-sref-dashboard 'alert' %}">Alerts</a></dd>
             {% endifequal %}
             {% ifequal event_type 'all' %}
-             <dd>All events</dd>
+             <dd><strong>All events</strong></dd>
             {% else %}
              <dd><a href="{% url findtb-sref-dashboard 'all' %}">All events</a></dd>
             {% endifequal %}
@@ -73,36 +73,35 @@
 {% block findtb-test-picker-title %}Select a specimen{% endblock %}
 
 {% block findtb-test-picker-selection %}
-   
-   <!-- TODO : group by DTU -->
 
-   {% if dtus %}
-       <dl>
-       {% for loc in dtus.iteritems %}
-           <dt class="{{ loc.1.expansion }}">
-                {% ifequal loc.1.expansion "expandable" %}
-                    <a href="{% url findtb-sref-dashboard %}?selected_subject={{ loc.0 }}">
-                {% else %}
-                    <a href="{% url findtb-sref-dashboard %}?selected_subject=0">
-                {% endifequal %}
-                        <span>{{ loc.1.dtu.name }}</span>
-                    </a>
-                    
-
-           </dd>
-           {% for specimen in loc.1.specimens %}
-           <dd class="{{ loc.1.expansion }}">
-                <a href="{% url findtb-sref-tracking specimen.pk %}">
-                    [{{ specimen.tracking_tag }}] Patient {{ specimen.patient }} 
-                </a>
-            </dd>
-           {% endfor %}
+   <ul id="findtb-test-picker-tabs" >
+       {% for status, specimens_list in specimens.iteritems %}
+           {% if specimens_list %}
+              {% ifequal status task %}
+                  <li><strong>{{ status }}</strong></li>
+              {% else %}
+                  <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
+              {% endifequal %}
+           {% else %}
+              <li class="empty">{{ status }}</li>
+           {% endif %}
        {% endfor %}
-       </dl>
-   {% else %}    
-        <p>No specimens to test yet</p>
-   {% endif%}
+   </ul>
    
+   {% if displayed_specimens %}
+   <ul id="findtb-test-picker-list">
+   {% for specimen in displayed_specimens %}
+       <li>
+           <a href="{% url findtb-sref-tracking specimen.pk %}">
+               {{ specimen|cut:"Specimen of "|capfirst }}
+           </a>
+       </li>
+   {% endfor %}
+   </ul>
+   {% else %}
+   <p>Nothing to test yet</p>
+   {% endif %}
+        
 {% endblock %}
 
 

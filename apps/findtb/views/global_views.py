@@ -8,18 +8,20 @@ import random
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
 from locations.models import Location
-from django_tracking.models import State
-from findtb.models import Specimen, Role
+
 from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 
-from findtb.libs.utils import send_to_dtu
+from findtb.libs.utils import send_to_dtu, get_specimen_by_status
 from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
+from django_tracking.models import State
+from findtb.models import Specimen, Role
 
 
 
-def eqa_bashboard(request, *arg, **kwargs):
+
+def eqa_dashboard(request, *arg, **kwargs):
 
     events = [{"title": "Namokora HC IV slides have arrived",
                "type": "notice", "date": "2 hours ago"},
@@ -42,11 +44,15 @@ def eqa_bashboard(request, *arg, **kwargs):
     return render_to_response(request, "eqa/eqa-dashboard.html", ctx)
 
 
-def sref_bashboard(request, *arg, **kwargs):
+def sref_dashboard(request, *arg, **kwargs):
 
-    # getting web navigation data
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
+    # get navigation data
+
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'])
+
     event_type = kwargs.get('event_type', 'alert')\
                  or request.session.get('event_type', 'alert')
     request.session['event_type'] = event_type
@@ -54,6 +60,7 @@ def sref_bashboard(request, *arg, **kwargs):
 
 
     # calculating pagination in the 'see more' link
+    # Fix: incremental pagination doesn't increment
     try:
         events_count = int(request.GET.get('events_count', 10))
         events_inc = int((request.GET.get('events_inc', 5) or 5))
@@ -61,44 +68,24 @@ def sref_bashboard(request, *arg, **kwargs):
         events_count = 10
         events_inc = 5
 
-    #  getting specimens you should look at, grouped by dtu
-    # TODO : make that a manager in Specimen
-    states = State.objects.filter(is_final=False, origin='sref',
-                                  is_current=True)
-    dtus = {}
-    for state in states:
-        if isinstance(state.tracked_item.content_object, Specimen):
-            specimen = state.tracked_item.content_object
-            dtu = specimen.location
-            dtus.setdefault(dtu.id, {'dtu': dtu,
-                                     'expansion': 'expandable',
-                                     'specimens': []})\
-                           ['specimens'].append(specimen)
-
-    # getting which dtu should be diplayed expanded
-    selected_subject = request.GET.get('selected_subject',
-                                        request.session.get('selected_subject',
-                                                            ''))
-
-    try:
-        dtus[int(selected_subject)]['expansion'] = 'expanded'
-    except (KeyError, ValueError), e:
-        selected_subject=0
-
-    request.session['selected_subject'] = selected_subject
-
     # getting specimen related event to look at, filtered by type
     all_events = events = State.objects.filter(origin='sref').order_by('-created')
+
     if event_type == 'alert':
-        events = states.filter(type=event_type).order_by('-created')
-    else:
-        events = all_events
+        events = State.objects.filter(is_final=False,
+                                      origin='sref',
+                                      is_current=True)\
+                      .filter(type=event_type).order_by('-created')
 
     # checking if we should display the link 'see more' while limiting
     # the output
     next_events = events[:events_count + events_inc]
     events = events[:events_count]
     more_events = next_events.count() > events.count()
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
 
     # 'see more' display more and more events at every clic
     events_count += events_inc

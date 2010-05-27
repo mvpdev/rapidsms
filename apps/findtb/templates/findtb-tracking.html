@@ -47,39 +47,12 @@
 
 <div id="right-column"  class="span-10 last">
 
-    <!-- TODO : FOR SREF, make a list of available DTUs (something like dl/dt/dd) 
-    and when you click on it, it expends corresponding specimens. -->
-   
     <div id="findtb-subject-picker">
    
        <h2>{% block findtb-test-picker-title %}{% endblock %}</h2>
        
-       {% if districts and zones %}
-       
-           <form id="place-selection">
-               <p><label for="zone-picker">Zone</label>
-               <select id="zone-picker" name="zone-picker">
-                   {% for zone in zones %}
-                        <option>{{ zone }}</option>
-                   {% endfor %}
-               </select>
-               <label for="district-picker">District</label>
-               <select id="district-picker" name="district-picker">
-                   {% for district in districts %}
-                        <option>{{ district }}</option>
-                   {% endfor %}
-               </select>
-               <input value="ok" type="submit"/>
-               </p>
-           </form>
+       {% block findtb-test-picker-selection %}{% endblock %}
            
-           {% block findtb-test-picker-selection %}{% endblock %}
-           
-       {% else %}
-           <p>Your need to fill the database with districts and zone before starting</p>
-           <!-- <p><a href="#">Add one</a></p> -->
-       {% endif%}
-       
     </div>
    
 </div>

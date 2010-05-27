@@ -114,9 +114,13 @@ def tsrs(params, location, reporter, message):
                              "patient in a day." % {'patient':patient})
 
     # is if this specimen is a replacement for a previous invalidated specimen?
-    previous_specimen = patient.specimen_set.all().order_by('-created_on')[0]
-    ti, created = TrackedItem.get_tracker_or_create(previous_specimen)
-    is_renew = isinstance(ti.state.content_object, SpecimenMustBeReplaced)
+    try:
+        previous_specimen = patient.specimen_set.all().order_by('-created_on')[0]
+    except IndexError:
+        is_renew = False
+    else:
+        ti, created = TrackedItem.get_tracker_or_create(previous_specimen)
+        is_renew = isinstance(ti.state.content_object, SpecimenMustBeReplaced)
 
     specimen = Specimen()
     if not Specimen.objects.count():

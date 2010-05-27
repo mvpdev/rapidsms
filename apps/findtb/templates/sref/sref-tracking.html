@@ -32,16 +32,6 @@
     something. A good place to put it would be next to the date. 
     Cancel must be confirmed -->
     
-    <!-- TODO : make simpler events in the tracking.
-    There is no need to repeat the code of the specimen, the code, etc. since
-    it's in the page title. A good way to implement that is to create  
-    "get dashboard event title" and "get tracking event title" methods
-    separatly for each state -->
-    
-    <!-- TODO : add way to diplay notes in the event listing
-We could add it in a block. If you click on it, you see it. Graphism must
-show there is a note to incite the user to click.-->
-
     {% if events.count %}
         <ul id="findtb-event-picker-selection">
             {% for state in events %}
@@ -127,15 +117,33 @@ show there is a note to incite the user to click.-->
 {% block findtb-test-picker-title %}Select a specimen{% endblock %}
 
 {% block findtb-test-picker-selection %}
-   
-   {% if specimens %}
-       <ul>
-       {% for specimen in specimens %}
-         <li><a href="{% url findtb-sref-tracking 1984 %}">{{ specimen }}</a></li>
+
+   <ul id="findtb-test-picker-tabs" >
+       {% for status, specimens_list in specimens.iteritems %}
+           {% if specimens_list %}
+              {% ifequal status task %}
+                  <li><strong>{{ status }}</strong></li>
+              {% else %}
+                  <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
+              {% endifequal %}
+           {% else %}
+              <li class="empty">{{ status }}</li>
+           {% endif %}
        {% endfor %}
-       </ul>
-   {% else %}    
-        <p>Nothing to test yet</p>
-   {% endif%}
+   </ul>
    
+   {% if displayed_specimens %}
+   <ul id="findtb-test-picker-list">
+   {% for specimen in displayed_specimens %}
+       <li>
+           <a href="{% url findtb-sref-tracking specimen.pk %}">
+               {{ specimen|cut:"Specimen of "|capfirst }}
+           </a>
+       </li>
+   {% endfor %}
+   </ul>
+   {% else %}
+   <p>Nothing to test yes</p>
+   {% endif %}
+        
 {% endblock %}

@@ -34,6 +34,11 @@ class Sref(FtbState):
 
     form_class = None
 
+
+    def get_web_form(self):
+        return None
+
+
     def get_short_message(self):
         """
         Returns a short description (unicode) of the current specimen state.
@@ -149,7 +154,7 @@ class SpecimenRegistered(Sref):
 
     def get_short_message(self):
         return u"Registered with tracking tag %(tag)s" % \
-                                    {'tag': self.specimen.tracking_tag}
+                                    {'tag': self.specimen.tracking_tag }
 
     def get_long_message(self):
         return u"%(dtu)s - Specimen registered for patient %(patient)s " \
@@ -184,9 +189,20 @@ class SpecimenSent(Sref):
     sending_method = models.CharField(max_length=20, \
                                       choices=SENDING_METHOD_CHOICES)
 
+    def get_web_form(self):
+        # we import it here to avoid circular reference
+         from findtb.forms.sref_transit_forms import SrefLostOrReceived
+         return SrefLostOrReceived
+
+
     def get_short_message(self):
-        return u"Registered with tracking tag %(tag)s" % \
-                                    {'tag': self.specimen.tracking_tag}
+        # If the method is set to other, the note of the state must include
+        # a description of the 'other' sending method.
+        if self.sending_method == self.SENDING_METHOD_OTHER:
+           return u'Sent. DTU noted "%s"' % self.note
+
+        return u'Sent throught the %s.' % self.get_sending_method_display()
+
 
     def get_long_message(self):
         # If the method is set to other, the note of the state must include

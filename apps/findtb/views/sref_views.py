@@ -2,33 +2,40 @@
 # -*- coding= UTF-8 -*-
 
 
-import random
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
 # careful : first parameter must be the request, not a template
 from rapidsms.webui.utils import render_to_response
-from locations.models import Location
-from django_tracking.models import State
+
 from findtb.models import Specimen, Role
+from findtb.libs.utils import get_specimen_by_status
+
 from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 
-from findtb.libs.utils import send_to_dtu
-from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
 
 
 def sref_incoming(request, *args, **kwargs):
 
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    id = kwargs.get('id', 0)
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     if tracked_item.state.title != 'incoming':
         return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+    #TODO: put this code in a function
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
 
     contacts = Role.getSpecimenRelatedContacts(specimen)
 
@@ -56,17 +63,26 @@ def sref_incoming(request, *args, **kwargs):
 
 def sref_invalid(request, *args, **kwargs):
 
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    id = kwargs.get('id', 0)
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     contacts = Role.getSpecimenRelatedContacts(specimen)
 
     if tracked_item.state.title != 'invalid':
         return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
 
     events = tracked_item.get_history()
 
@@ -79,15 +95,24 @@ def sref_invalid(request, *args, **kwargs):
 
 def sref_received(request, *args, **kwargs):
 
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    id = kwargs.get('id', 0)
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     if tracked_item.state.title != 'received':
         return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
 
     contacts = Role.getSpecimenRelatedContacts(specimen)
 
@@ -115,15 +140,24 @@ def sref_received(request, *args, **kwargs):
 
 def sref_microscopy(request, *args, **kwargs):
 
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    id = kwargs.get('id', 0)
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
+    specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     if tracked_item.state.title != 'microscopy':
         return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
 
     contacts = Role.getSpecimenRelatedContacts(specimen)
 

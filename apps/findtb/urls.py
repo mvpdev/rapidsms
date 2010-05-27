@@ -24,7 +24,7 @@ urlpatterns += patterns('',
         name='findtb-eqa-tracking',
         kwargs={'view_name': 'findtb-eqa-tracking'}),
 
-    url(r'^findtb/eqa/dashboard/$', views.eqa_bashboard,
+    url(r'^findtb/eqa/dashboard/$', views.eqa_dashboard,
         name='findtb-eqa-dashboard',
         kwargs={'view_name': 'findtb-eqa-dashboard'}),
 
@@ -74,7 +74,7 @@ urlpatterns += patterns('',
         {'url': '/findtb/sreferral/dashboard/'}),
 
     url(r'^findtb/sreferral/dashboard/(?:(?P<event_type>all|alert)/)*$',
-        views.sref_bashboard,
+        views.sref_dashboard,
         name='findtb-sref-dashboard',
         kwargs={'view_name': 'findtb-sref-dashboard'}),
 

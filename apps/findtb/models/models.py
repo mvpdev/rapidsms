@@ -194,11 +194,13 @@ class Specimen(models.Model):
                                       db_index=True, unique=True)
 
     def __unicode__(self):
-        string = "specimen of patient %(patient)s, tracking tag %(tag)s" % \
-                 {'patient':self.patient, 'tag':self.tracking_tag}
+
         if self.tc_number:
-            string = '%s, TC#%s' % (string, self.tc_number)
-        return string
+            return "Specimen of patient %(patient)s, TC#%(tc)s" % \
+                             {'patient':self.patient, 'tc':self.tc_number}
+
+        return "Specimen of patient %(patient)s, tracking tag %(tag)s" % \
+                 {'patient':self.patient, 'tag':self.tracking_tag}
 
 
     def get_lab_techs(self):

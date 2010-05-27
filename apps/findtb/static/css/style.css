@@ -241,6 +241,49 @@ text-indent:1em;
 height: 2em;
 }
 
+#findtb-test-picker-tabs {
+background-color:#FFFFCC;
+height:2em;
+margin:0;
+padding-top:1em;
+border-bottom: 1px solid #EEEEEE;
+} 
+
+#findtb-test-picker-tabs li {
+display:inline;
+margin-left:2ex;
+}
+
+#findtb-test-picker-tabs .empty  {
+color:grey;
+font-style:italic;
+} 
+
+#findtb-test-picker-list {
+margin-left:0;
+padding:1em;
+}
+
+#findtb-test-picker-list li  {
+display:block;
+margin-bottom:0.5em;
+}
+
+#findtb-test-picker-list li a {
+display:block;
+height:100%;
+width:100%;
+background-color: white;
+border: 1px solid #EEEEEE;
+padding-top:0.5em;
+padding-left:1ex;
+height:2em;
+}
+
+
+#findtb-test-picker-list li a:hover{
+border: 1px solid #B8DEE3;
+}
 
 /*** ALL TRACKINGS ***/
 
