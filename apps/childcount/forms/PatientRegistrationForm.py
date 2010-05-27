@@ -3,14 +3,14 @@
 # maintainer: dgelvin
 
 import re
-from datetime import date
+from datetime import date, datetime
 
 from django.db import models
 from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
 from childcount.utils import clean_names, DOBProcessor
-from childcount.models import Patient, Encounter
+from childcount.models import Patient, Encounter, HealthId
 from locations.models import Location
 from childcount.exceptions import BadValue, ParseError
 from childcount.forms.utils import MultipleChoiceField
@@ -40,9 +40,17 @@ class PatientRegistrationForm(CCForm):
         except Patient.DoesNotExist:
             pass
         else:
-            raise BadValue(_(u"That health ID has already been registered to "\
+            raise BadValue(_(u"That health ID has already been issued to "\
                               "%(patient)s by %(chw)s") % \
                              {'patient': p, 'chw': p.chw})
+
+        valid_statuses = [HealthId.STATUS_GENERATED, HealthId.STATUS_PRINTED]
+        try:
+            health_id_obj = HealthId.objects.get(health_id__iexact=health_id, \
+                                                 status__in=valid_statuses)
+        except HealthId.DoesNotExist:
+            raise BadValue(_(u"That health ID (%(id)s) is not valid." % \
+                              {'id': health_id.upper()}))
 
         patient = Patient()
         patient.health_id = health_id
@@ -199,6 +207,11 @@ class PatientRegistrationForm(CCForm):
         if self_hoh:
             patient.household = patient
             patient.save()
+
+        health_id_obj.issued_to = patient
+        health_id_obj.issued_on = datetime.now()
+        health_id_obj.status = HealthId.STATUS_ISSUED
+        health_id_obj.save()
 
         self.response = _("You successfuly registered %(patient)s") % \
                     {'patient': patient}

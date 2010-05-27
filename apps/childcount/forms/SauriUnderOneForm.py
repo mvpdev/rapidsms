@@ -9,7 +9,7 @@ from childcount.forms import CCForm
 from childcount.models import Encounter
 from childcount.models import Vaccine
 from childcount.models.reports import UnderOneReport
-from childcount.models.reports import SauriUnderOneReport
+from childcount.models.reports import SUnderOne as SauriUnderOneReport
 from childcount.exceptions import Inapplicable, ParseError, BadValue
 from childcount.forms.utils import MultipleChoiceField
 

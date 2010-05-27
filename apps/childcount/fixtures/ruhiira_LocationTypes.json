@@ -12,5 +12,12 @@
         "fields": {
             "name": "Millenium Village"
         }
+    }, 
+    {
+        "pk": 3, 
+        "model": "locations.locationtype", 
+        "fields": {
+            "name": "Parish"
+        }
     }
 ]

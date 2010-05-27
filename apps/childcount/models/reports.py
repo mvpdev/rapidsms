@@ -350,7 +350,10 @@ class PregnancyReport(CCReport):
 reversion.register(PregnancyReport, follow=['ccreport_ptr'])
 
 
-class SauriPregnancyReport(PregnancyReport):
+class SPregnancy(PregnancyReport):
+
+    '''SauriPregnancyReport added extra fields specific to Sauri'''
+    #shortened the name because of http://code.djangoproject.com/ticket/1820
 
     class Meta:
         app_label = 'childcount'
@@ -419,7 +422,7 @@ class SauriPregnancyReport(PregnancyReport):
     pmtc_arv = models.ForeignKey('CodedItem', null=True, blank=True, \
                                     verbose_name=_(u"PMTC ARV"))
 
-reversion.register(SauriPregnancyReport, follow=['ccreport_ptr'])
+reversion.register(SPregnancy, follow=['ccreport_ptr'])
 
 
 class NeonatalReport(CCReport):
@@ -508,8 +511,11 @@ class UnderOneReport(CCReport):
 reversion.register(UnderOneReport, follow=['ccreport_ptr'])
 
 
-class SauriUnderOneReport(UnderOneReport):
+class SUnderOne(UnderOneReport):
 
+    '''Sauri under one report with the extra field for vaccine'''
+    #shortened the name because of http://code.djangoproject.com/ticket/1820
+    
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_sauri_uonerpt'
@@ -517,7 +523,7 @@ class SauriUnderOneReport(UnderOneReport):
         verbose_name_plural = _(u"Sauri Under One Reports")
 
     vaccine = models.ManyToManyField(Vaccine, verbose_name=_(u"Vaccine"))
-reversion.register(SauriUnderOneReport, follow=['ccreport_ptr'])
+reversion.register(SUnderOne, follow=['ccreport_ptr'])
 
 
 class NutritionReport(CCReport):

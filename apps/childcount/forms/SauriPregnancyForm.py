@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
 from childcount.models import Patient, Encounter
-from childcount.models.reports import SauriPregnancyReport
+from childcount.models.reports import SPregnancy as SauriPregnancyReport
 from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.forms.utils import MultipleChoiceField
 

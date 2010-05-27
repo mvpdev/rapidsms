@@ -16,6 +16,7 @@ from CodedItemTranslation import CodedItemTranslation
 from Referral import Referral
 from FamilyPlanningUsage import FamilyPlanningUsage
 from Case import Case
+from HealthId import HealthId
 
 from reports import *
 import reports

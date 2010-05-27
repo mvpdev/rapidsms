@@ -8,39 +8,24 @@ class Migration(SchemaMigration):
     
     def forwards(self, orm):
         
-        # Adding model 'Vaccine'
-        db.create_table('cc_vaccine', (
-            ('code', self.gf('django.db.models.fields.CharField')(unique=True, max_length=10)),
+        # Adding model 'HealthId'
+        db.create_table('cc_healthid', (
+            ('issued_to', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['childcount.Patient'], null=True, blank=True)),
+            ('status', self.gf('django.db.models.fields.CharField')(default='G', max_length=1)),
+            ('revoked_on', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('issued_on', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('generated_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('printed_on', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('health_id', self.gf('django.db.models.fields.CharField')(unique=True, max_length=10)),
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('description', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
-        db.send_create_signal('childcount', ['Vaccine'])
-
-        # Adding model 'SauriUnderOneReport'
-        db.create_table('cc_sauri_uonerpt', (
-            ('underonereport_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['childcount.UnderOneReport'], unique=True, primary_key=True)),
-        ))
-        db.send_create_signal('childcount', ['SauriUnderOneReport'])
-
-        # Adding M2M table for field vaccine on 'SauriUnderOneReport'
-        db.create_table('cc_sauri_uonerpt_vaccine', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('sauriunderonereport', models.ForeignKey(orm['childcount.sauriunderonereport'], null=False)),
-            ('vaccine', models.ForeignKey(orm['childcount.vaccine'], null=False))
-        ))
-        db.create_unique('cc_sauri_uonerpt_vaccine', ['sauriunderonereport_id', 'vaccine_id'])
+        db.send_create_signal('childcount', ['HealthId'])
     
     
     def backwards(self, orm):
         
-        # Deleting model 'Vaccine'
-        db.delete_table('cc_vaccine')
-
-        # Deleting model 'SauriUnderOneReport'
-        db.delete_table('cc_sauri_uonerpt')
-
-        # Removing M2M table for field vaccine on 'SauriUnderOneReport'
-        db.delete_table('cc_sauri_uonerpt_vaccine')
+        # Deleting model 'HealthId'
+        db.delete_table('cc_healthid')
     
     
     models = {
@@ -186,6 +171,17 @@ class Migration(SchemaMigration):
             'forms': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
+        'childcount.healthid': {
+            'Meta': {'object_name': 'HealthId', 'db_table': "'cc_healthid'"},
+            'generated_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'health_id': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '10'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'issued_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'issued_to': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['childcount.Patient']", 'null': 'True', 'blank': 'True'}),
+            'printed_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'revoked_on': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'status': ('django.db.models.fields.CharField', [], {'default': "'G'", 'max_length': '1'})
+        },
         'childcount.householdvisitreport': {
             'Meta': {'object_name': 'HouseholdVisitReport', 'db_table': "'cc_hhvisitrpt'", '_ormbases': ['childcount.CCReport']},
             'available': ('django.db.models.fields.BooleanField', [], {'default': 'False', 'blank': 'True'}),
@@ -254,11 +250,6 @@ class Migration(SchemaMigration):
             'ccreport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.CCReport']", 'unique': 'True', 'primary_key': 'True'}),
             'urgency': ('django.db.models.fields.CharField', [], {'max_length': '1'})
         },
-        'childcount.sauriunderonereport': {
-            'Meta': {'object_name': 'SauriUnderOneReport', 'db_table': "'cc_sauri_uonerpt'", '_ormbases': ['childcount.UnderOneReport']},
-            'underonereport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.UnderOneReport']", 'unique': 'True', 'primary_key': 'True'}),
-            'vaccine': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['childcount.Vaccine']"})
-        },
         'childcount.sickmembersreport': {
             'Meta': {'object_name': 'SickMembersReport', 'db_table': "'cc_sickrpt'", '_ormbases': ['childcount.CCReport']},
             'ccreport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.CCReport']", 'unique': 'True', 'primary_key': 'True'}),
@@ -267,10 +258,24 @@ class Migration(SchemaMigration):
             'rdts': ('django.db.models.fields.PositiveSmallIntegerField', [], {}),
             'sick': ('django.db.models.fields.PositiveSmallIntegerField', [], {})
         },
+        'childcount.spregnancy': {
+            'Meta': {'object_name': 'SPregnancy', 'db_table': "'cc_sauri_pregrpt'", '_ormbases': ['childcount.PregnancyReport']},
+            'cd4_count': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True', 'blank': 'True'}),
+            'folic_suppliment': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'iron_supplement': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'pmtc_arv': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['childcount.CodedItem']", 'null': 'True', 'blank': 'True'}),
+            'pregnancyreport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.PregnancyReport']", 'unique': 'True', 'primary_key': 'True'}),
+            'tested_hiv': ('django.db.models.fields.CharField', [], {'max_length': '2'})
+        },
         'childcount.stillbirthmiscarriagereport': {
             'Meta': {'object_name': 'StillbirthMiscarriageReport', 'db_table': "'cc_sbmcrpt'", '_ormbases': ['childcount.CCReport']},
             'ccreport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.CCReport']", 'unique': 'True', 'primary_key': 'True'}),
             'incident_date': ('django.db.models.fields.DateField', [], {})
+        },
+        'childcount.sunderone': {
+            'Meta': {'object_name': 'SUnderOne', 'db_table': "'cc_sauri_uonerpt'", '_ormbases': ['childcount.UnderOneReport']},
+            'underonereport_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['childcount.UnderOneReport']", 'unique': 'True', 'primary_key': 'True'}),
+            'vaccine': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['childcount.Vaccine']"})
         },
         'childcount.underonereport': {
             'Meta': {'object_name': 'UnderOneReport', 'db_table': "'cc_uonerpt'", '_ormbases': ['childcount.CCReport']},

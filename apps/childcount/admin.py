@@ -17,7 +17,8 @@ admin.site.register(FormGroup)
 admin.site.register(Clinic)
 class PatientAdmin(admin.ModelAdmin):
     search_fields = ['health_id']
-admin.site.register(Patient, PatientAdmin)
+admin.site.register(Patient, PatientAdmin, VersionAdmin)
+admin.site.register(HealthId, VersionAdmin)
 
 #Reports
 admin.site.register(CCReport, VersionAdmin)
