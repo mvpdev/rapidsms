@@ -41,7 +41,7 @@ class MicroscopyResult(Sref):
 
 
     def get_short_message(self):
-        return u"Microscopy result: %s" % self.result
+        return u"Microscopy result: %s" % self.get_result_display()
 
 
     def get_long_message(self):
@@ -49,7 +49,7 @@ class MicroscopyResult(Sref):
                u"tracking tag %(tag)s: %(result)s" % {
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
-               'result': self.result}
+               'result': self.get_result_display()}
 
 
 

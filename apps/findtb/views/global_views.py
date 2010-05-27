@@ -17,7 +17,7 @@ from django.shortcuts import get_object_or_404, redirect
 from findtb.libs.utils import send_to_dtu
 from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
 
-#TODO : separate these view in several modules
+
 
 def eqa_bashboard(request, *arg, **kwargs):
 
@@ -110,6 +110,7 @@ def sref_bashboard(request, *arg, **kwargs):
     return render_to_response(request, "sref/sref-dashboard.html", ctx)
 
 
+
 def eqa_tracking(request, *args, **kwargs):
 
     events = [{"title": "Pajimo HC III results have been cancelled",
@@ -171,140 +172,32 @@ def sref_tracking(request, *args, **kwargs):
 
 
 
-def sref_incoming(request, *args, **kwargs):
+def search(request, *arg, **kwargs):
+
 
     districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    eqa = Location.objects.filter(parent=districts[0])
+    sref = Location.objects.filter(parent=districts[1])
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+    results = [[], []]
 
-    if tracked_item.state.title != 'incoming':
-        return redirect("findtb-sref-tracking", id=kwargs['id'])
+    for dtu in eqa:
+        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
+                  "dtu": dtu}
+        results[0].append(result)
 
-    contacts = Role.getSpecimenRelatedContacts(specimen)
+    for dtu in sref:
+        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
+                  "dtu": dtu}
+        results[1].append(result)
 
-    form_class = tracked_item.state.content_object.get_web_form()
-
-    if request.method == 'POST':
-       form = form_class(data=request.POST, specimen=specimen)
-
-       if form.is_valid():
-            form.save()
-            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
-    else:
-        form = form_class(specimen=specimen)
-
-    events = tracked_item.get_history()
 
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())
 
-    return render_to_response(request, "sref/sref-incoming.html", ctx)
 
-
-
-def sref_invalid(request, *args, **kwargs):
-
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
-
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-
-    contacts = Role.getSpecimenRelatedContacts(specimen)
-
-    if tracked_item.state.title != 'invalid':
-        return redirect("findtb-sref-tracking", id=kwargs['id'])
-
-    events = tracked_item.get_history()
-
-    ctx = {}
-    ctx.update(kwargs)
-    ctx.update(locals())
-
-    return render_to_response(request, "sref/sref-invalid.html", ctx)
-
-
-def sref_received(request, *args, **kwargs):
-
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
-
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-
-    if tracked_item.state.title != 'received':
-        return redirect("findtb-sref-tracking", id=kwargs['id'])
-
-    contacts = Role.getSpecimenRelatedContacts(specimen)
-
-    form_class = tracked_item.state.content_object.get_web_form()
-
-    if request.method == 'POST':
-       form = form_class(data=request.POST, specimen=specimen)
-
-       if form.is_valid():
-            form.save()
-            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
-    else:
-        form = form_class(specimen=specimen)
-
-    events = tracked_item.get_history()
-
-    ctx = {}
-    ctx.update(kwargs)
-    ctx.update(locals())
-
-    return render_to_response(request, "sref/sref-received.html", ctx)
-
-
-def sref_microscopy(request, *args, **kwargs):
-
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
-
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-
-    if tracked_item.state.title != 'microscopy':
-        return redirect("findtb-sref-tracking", id=kwargs['id'])
-
-    contacts = Role.getSpecimenRelatedContacts(specimen)
-
-    form_class = tracked_item.state.content_object.get_web_form()
-
-    #isinstance doesn't work cause the class is a a factory
-    if form_class.__name__ == 'LpaForm':
-        current_test = 'LPA'
-    else:
-        current_test = 'MGIT'
-
-    if request.method == 'POST':
-       form = form_class(data=request.POST, specimen=specimen)
-
-       if form.is_valid():
-            form.save()
-            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
-            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
-    else:
-        form = form_class(specimen=specimen)
-
-    events = tracked_item.get_history()
-
-    ctx = {}
-    ctx.update(kwargs)
-    ctx.update(locals())
-
-    return render_to_response(request, "sref/sref-microscopy.html", ctx)
-
+    return render_to_response(request, "findtb-search.html", ctx)
 
 
 def sref_invalidate(request, *args, **kwargs):
@@ -365,31 +258,3 @@ def sref_invalidate(request, *args, **kwargs):
 
     return render_to_response(request, "sref/sref-invalidate.html", ctx)
 
-
-
-def search(request, *arg, **kwargs):
-
-
-    districts = Location.objects.filter(type__name=u"district")
-    eqa = Location.objects.filter(parent=districts[0])
-    sref = Location.objects.filter(parent=districts[1])
-
-    results = [[], []]
-
-    for dtu in eqa:
-        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
-                  "dtu": dtu}
-        results[0].append(result)
-
-    for dtu in sref:
-        result = {"specimen": "%s/09-150210" % random.randint(11111, 99999),
-                  "dtu": dtu}
-        results[1].append(result)
-
-
-    ctx = {}
-    ctx.update(kwargs)
-    ctx.update(locals())
-
-
-    return render_to_response(request, "findtb-search.html", ctx)
