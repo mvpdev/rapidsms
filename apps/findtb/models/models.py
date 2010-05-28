@@ -277,7 +277,7 @@ class FINDTBLocation(Location):
         dtls_group = Group.objects.get(name=dtls_group_name)
         try:
             return district.role_set.get(group=dtls_group)
-        except Location.DoesNotExist:
+        except Role.DoesNotExist:
             return None
 
     def get_ztls(self):
