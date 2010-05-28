@@ -31,14 +31,11 @@ def handle(keyword, params, message):
         raise NotAllowed("Registration failed: Registration is currently " \
                          "closed. Please contact NTRL for assistance.")
 
-
     text = ' '.join(params)
-    regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\w+)\s+(?P<names>.+)'
+    regex = r'(?P<prefix>\d+)[ \-,./]+((?P<suffix>\d+)?\s+)?(?P<names>.+)'
     match = re.match(regex, text)
 
-    if not match or not match.groupdict()['prefix'] or \
-       not match.groupdict()['suffix']:
-
+    if not match:
         if len(params) > 2:
             raise ParseError("Registration failed: %s is not a valid " \
                              "DTU code." % params[0].upper())
@@ -46,14 +43,27 @@ def handle(keyword, params, message):
             raise ParseError("Registration failed: " \
                              "You must send:\n%s LocationCode " \
                              "Surname FirstName" % keyword.upper())
-    try:
-        code = '%s-%s' % \
+
+
+    if match.groupdict()['suffix'] != None:
+        try:
+            code = '%s-%s' % \
                 (match.groupdict()['prefix'], match.groupdict()['suffix'])
-        location = Location.objects.get(code=code)
-    except Location.DoesNotExist:
-        raise BadValue("Registration failed: %(code)s is not a valid " \
-                       "location code. Please correct and send again." % \
-                       {'code':code})
+            location = Location.objects.get(code__iexact=code)
+        except Location.DoesNotExist:
+            raise BadValue(u"Registration failed: %(code)s is not a " \
+                           u"valid location code. Please correct and " \
+                           u"send again." % \
+                           {'code':code})
+    else:
+        code = match.groupdict()['prefix']
+        try:
+            location = Location.objects.get(code__iexact=code)
+        except Location.DoesNotExist:
+            raise BadValue(u"Registration failed: %(code)s is not a " \
+                           u"valid location code. Please correct and " \
+                           u"send again." % \
+                           {'code':code})
 
     names = match.groupdict()['names']
     if len(names.split()) < 2:
@@ -189,6 +199,35 @@ def create_dtls(reporter, group, location):
         raise BadValue("Registration failed: %(loc)s is not a district, it " \
                        "is a %(type)s. You must register with a district " \
                        "code." % {'loc':location, 'type':location.type.name})
+
+    try:
+        role = Role.objects.get(group=group, location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("Registration failed. %(user)s is already " \
+                             "registered as the DTLS for %(location)s. " % \
+                             {'user':role.reporter.full_name(),
+                              'location':location})
+        else:
+            raise NotAllowed("You are already registered as the " \
+                             "DTLS for %(loc)s. You do not " \
+                             "need to register again." % {'loc':location})
+
+    try:
+        old = Role.objects.get(reporter=reporter, group=group)
+    except Role.DoesNotExist:
+        pass
+    else:
+        old_location = old.location
+        old.delete()
+        return "You have moved from %(old)s to %(new)s." % \
+               {'old':old_location, 'new':location}
+
+    return "You are now registered as the DTLS for %(loc)s." % \
+           {'loc': location.name}
+
 
 def create_ztls(reporter, group, location):
     if location.type != LocationType.objects.get(name__iexact='zone'):

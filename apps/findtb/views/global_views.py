@@ -206,7 +206,7 @@ def sref_invalidate(request, *args, **kwargs):
 
         if request_new:
             msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                       u"has been declared invalid by NTLS. "\
+                       u"has been declared invalid by NTRL. "\
                        u"Please send a new specimen." %\
                        {'patient': specimen.patient,
                         'tag': specimen.tracking_tag}
@@ -220,7 +220,7 @@ def sref_invalidate(request, *args, **kwargs):
 
         else:
             msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                       u"has been declared invalid by NTLS. "\
+                       u"has been declared invalid by NTRL. "\
                        u"There is nothing to do." %\
                        {'patient': specimen.patient,
                         'tag': specimen.tracking_tag}

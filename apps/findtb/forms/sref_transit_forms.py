@@ -15,7 +15,8 @@ from findtb.models.models import Patient
 from findtb.models.sref_generic_states import SpecimenInvalid,\
                                               SpecimenReceived,\
                                               SpecimenMustBeReplaced
-from findtb.libs.utils import send_to_dtu
+from findtb.libs.utils import send_to_dtu, send_to_lab_techs, send_to_dtls, \
+                              dtls_is_lab_tech_at
 
 """
 Forms setting states for a specimen in transit from the dtu to the ntlr
@@ -115,13 +116,21 @@ class SrefRegisteredReceived(SrefForm):
             state = SpecimenReceived(specimen=self.specimen)
             ti.state = state
 
-            msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                  u"received at NTLS. TC number is now %(tc_number)s." %\
-                  {'patient': self.specimen.patient,
-                   'tag': self.specimen.tracking_tag,
-                   'tc_number': self.specimen.tc_number}
+            msg_start = u"Specimen %(id)s (NTRL ID TC%(tc)s) with tracking "\
+                        u"tag %(tag)s" % \
+                        {'id': self.specimen.patient.zero_id(), \
+                         'tc': self.specimen.tc_number, \
+                         'tag': self.specimen.tracking_tag }
+
+            msg_end = u"received by NTRL. Expect microscopy " \
+                      u"results within 2 days."
+
 
         else:
+
+            msg_start = u"Specimen %(id)s with tracking tag %(tag)s" % \
+                         {'id': self.specimen.patient.zero_id(),
+                          'tag': self.specimen.tracking_tag }
 
             if action == 'lost':
                 if requested:
@@ -133,10 +142,7 @@ class SrefRegisteredReceived(SrefForm):
                     result = SpecimenMustBeReplaced(specimen=self.specimen)
                     ti.state = State(content_object=result, is_final=True)
 
-                    msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                          u"has been lost. Please send a new specimen." %\
-                          {'patient': self.specimen.patient,
-                           'tag': self.specimen.tracking_tag}
+                    msg_end = u"has been lost. Please send a new specimen."
 
                 else:
 
@@ -144,10 +150,7 @@ class SrefRegisteredReceived(SrefForm):
                                              specimen=self.specimen)
                     ti.state = State(content_object=result, is_final=True)
 
-                    msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                          u"has been lost. There is nothing to do." %\
-                          {'patient': self.specimen.patient,
-                           'tag': self.specimen.tracking_tag}
+                    msg_end = u"has been lost. There is nothing to do."
 
             else:
                 if requested:
@@ -159,11 +162,8 @@ class SrefRegisteredReceived(SrefForm):
                     result = SpecimenMustBeReplaced(specimen=self.specimen)
                     ti.state = State(content_object=result, is_final=True)
 
-                    msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                          u"has been declared invalid by NTLS. "\
-                          u"Please send a new specimen." %\
-                          {'patient': self.specimen.patient,
-                           'tag': self.specimen.tracking_tag}
+                    msg_end = u"has been declared invalid by NTRL. " \
+                              u"Please send a new specimen."
 
                 else:
 
@@ -171,14 +171,16 @@ class SrefRegisteredReceived(SrefForm):
                                              specimen=self.specimen)
                     ti.state = State(content_object=result, is_final=True)
 
-                    msg = u"Specimen of %(patient)s with tracking tag %(tag)s "\
-                          u"has been declared invalid by NTLS. "\
-                          u"There is nothing to do." %\
-                          {'patient': self.specimen.patient,
-                           'tag': self.specimen.tracking_tag}
+                    msg_end = u"has been declared invalid by NTRL. " \
+                              u"There is nothing to do."
 
 
-        send_to_dtu(self.specimen.location, msg)
+        send_to_lab_techs(self.specimen.location, u"%s %s" % \
+                          (msg_start, msg_end))
+
+        if not dtls_is_lab_tech_at(self.specimen.location):
+            send_to_dtls(self.specimen.location, u"%s from %s %s" % \
+                              (msg_start, self.specimen.location, msg_end))
         ti.save()
 
 

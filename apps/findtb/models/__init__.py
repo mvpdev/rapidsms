@@ -18,6 +18,6 @@ from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\
                                              MgitResult
 
-from findtb.models.results import Result
+#from findtb.models.results import Result
 
 

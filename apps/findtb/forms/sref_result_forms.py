@@ -13,7 +13,7 @@ from findtb.models import SpecimenMustBeReplaced
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\
                                              MgitResult
-from findtb.libs.utils import send_to_dtu
+from findtb.libs.utils import send_to_dtu, dtls_is_lab_tech_at, send_to_dtls
 from sref_transit_forms import SrefForm
 
 """
@@ -26,20 +26,12 @@ class MicroscopyForm(SrefForm):
     Form shown when the specimen needs a microcopy.
     """
 
-    RESULT_CHOICES = (
-        ('positive', u"Positive"),
-        ('negative', u"Negative"),
-        ('na', u"N/A"),
-    )
-
-    result = forms.ChoiceField(choices=RESULT_CHOICES)
+    result = forms.ChoiceField(choices=MicroscopyResult.RESULT_CHOICES)
 
 
     def save(self, *args, **kwargs):
 
         ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
-
-
 
         result = MicroscopyResult(result=self.cleaned_data['result'],
                                   specimen=self.specimen)
@@ -47,14 +39,23 @@ class MicroscopyForm(SrefForm):
         ti.state = result
         ti.save()
 
-        msg = u"Microscopy results for specimen of %(patient)s with "\
-              u"tracking tag %(tag)s: %(result)s" % {
-               'patient': self.specimen.patient,
-               'tag': self.specimen.tracking_tag,
-               'result': self.cleaned_data['result']}
+        msg_start = u"Specimen %(id)s (%(tc)s)" % \
+              {'id': self.specimen.patient.zero_id(),
+               'tc': self.specimen.tc_number}
+        msg_end = u"Microscopy smear results: "
+        if result.is_positive():
+            msg_end += u"POSITIVE (%(result)s). Expect LPA results within 7 " \
+                   u"days." % {'result': result.result}
+        else:
+            msg_end += u"%(result)s. Expect MGIT culture results within 6" \
+                       u" weeks." % \
+                       {'result': result.result.upper()}
 
-
-        send_to_dtu(self.specimen.location, msg)
+        send_to_dtu(self.specimen.location, u"%s %s" % (msg_start, msg_end))
+        if not dtls_is_lab_tech_at(self.specimen.location):
+            send_to_dtls(self.specimen.location, u"%s from %s %s" % \
+                              (msg_start, self.specimen.location, msg_end))
+            
 
 
 
