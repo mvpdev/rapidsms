@@ -670,6 +670,10 @@ def default_parent():
 
 def get_encounter(encounter_date, type, chw, patient):
     '''create and return an encounter object'''
+    if Encounter.objects.filter(encounter_date=encounter_date, chw=chw, \
+                                patient=patient, type=type):
+        return Encounter.objects.filter(encounter_date=encounter_date, \
+                                        chw=chw, patient=patient, type=type)[0]
     enc = Encounter(encounter_date=encounter_date, type=type, chw=chw, \
                     patient=patient)
     enc.save()
@@ -678,9 +682,19 @@ def get_encounter(encounter_date, type, chw, patient):
 
 def migrate_muacs():
     for muac in ReportMalnutrition.objects.all():
-        if muac.muac > 2000:
-            continue
+        if muac.muac > 500:
+            m = muac.muac/10
+            if m > 500:
+                continue
+            muac.muac = m
+            muac.save()
         print migrate_muac(muac)
+
+
+def undo_migrate_muacs():
+    ns = NutritionReport.objects.reverse()
+    for n in ns:
+        n.encounter.delete()
 
 
 def migrate_muac(muac):
@@ -689,10 +703,23 @@ def migrate_muac(muac):
     '''
     print muac
     try:
-        chw = CHW.objects.get(reporter_ptr=muac.reporter)
+        mchw = MigrateCHW.objects.get(oldid=muac.reporter.id)
+        chw = mchw.newid
     except CHW.DoesNotExist:
-        chw = migrate_chw(reporter, autoalias=False)
-    patient = Patient.objects.get(health_id=muac.case.ref_id)
+        print "Reporter %(reporter)s does not exist" % {'reporter': \
+                    muac.reporter}
+        return
+    try:
+        mid = MigrateIDs.objects.get(oldid=muac.case.ref_id)
+    except MigrateIDs.DoesNotExist:
+        print "Case %(case)s's muac couldn't be migrated." % {'case': muac.case}
+        return
+    try:
+        patient = Patient.objects.get(health_id=mid.health_id)
+    except Patient.DoesNotExist:
+        print "Case %(case)s's muac couldn't be found." % {'case': muac.case}
+        return
+    
     oedema = NutritionReport.OEDEMA_NO
     if 'e' in muac.observed.values():
         oedema = NutritionReport.OEDEMA_YES
@@ -700,6 +727,9 @@ def migrate_muac(muac):
                                 patient)
     if muac.muac > 500:
         muac.muac = muac.muac/10
+    if NutritionReport.objects.filter(encounter=encounter):
+        return
+
     nr = NutritionReport(encounter=encounter, oedema=oedema, muac=muac.muac)
     nr.save()
 
@@ -761,13 +791,26 @@ def migrate_mrdt(mrdt):
     '''
     print mrdt
     try:
-        chw = CHW.objects.get(reporter_ptr=mrdt.reporter)
+        mchw = MigrateCHW.objects.get(oldid=muac.reporter.id)
+        chw = mchw.newid
     except CHW.DoesNotExist:
-        chw = migrate_chw(reporter, autoalias=False)
-    patient = Patient.objects.get(health_id=mrdt.case.ref_id)
-
+        print "Reporter %(reporter)s does not exist" % {'reporter': \
+                    muac.reporter}
+        return
+    try:
+        mid = MigrateIDs.objects.get(oldid=muac.case.ref_id)
+    except MigrateIDs.DoesNotExist:
+        print "Case %(case)s's muac couldn't be migrated." % {'case': muac.case}
+        return
+    try:
+        patient = Patient.objects.get(health_id=mid.health_id)
+    except Patient.DoesNotExist:
+        print "Case %(case)s's muac couldn't be found." % {'case': muac.case}
+        return
     encounter = get_encounter(mrdt.entered_at, Encounter.TYPE_PATIENT, chw, \
                                 patient)
+    if FeverReport.objects.filter(encounter=encounter):
+        return
     rdt_result = FeverReport.RDT_NEGATIVE
     if mrdt.result:
         rdt_result = FeverReport.RDT_POSITIVE
