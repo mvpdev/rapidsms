@@ -236,7 +236,7 @@ def get_specimen_by_status():
                       'SireForm': 'SIRE(Z)',
                       'SirezForm': 'SIRE(Z)'}
 
-    for state in State.objects.filter(is_current=True):
+    for state in State.objects.filter(is_current=True).order_by('pk'):
 
         try: # if webform is None
             web_form = state.content_object.get_web_form().__name__
