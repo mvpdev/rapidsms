@@ -17,6 +17,7 @@ from childcount.utils import day_end, day_start, get_dates_of_the_week
 from logger.models import IncomingMessage
 from migration.models import MigrateIDs
 
+
 class ThePatient(Patient):
 
     class Meta:

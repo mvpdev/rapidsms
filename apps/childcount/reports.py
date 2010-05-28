@@ -12,6 +12,7 @@ from childcount.models.ccreports import ThePatient
 from libreport.pdfreport import PDFReport, p
 from reportlab.lib.units import inch
 
+
 def all_patient_list_pdf(request, rfilter="all", rformat="html"):
     report_title = ThePatient._meta.verbose_name
     rows = []
@@ -140,7 +141,8 @@ def chw(request, rformat='html'):
     report_title = TheCHWReport._meta.verbose_name
     rows = []
 
-    reports = TheCHWReport.objects.filter(location__code=u'masogo', role__code='chw')
+    reports = TheCHWReport.objects.filter(location__code=u'masogo', \
+                                            role__code='chw')
     columns, sub_columns = TheCHWReport.summary()
     if rformat.lower() == 'pdf':
         rpt = PDFReport()

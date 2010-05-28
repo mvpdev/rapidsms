@@ -9,6 +9,8 @@ from reversion.models import Version, Revision
 from childcount.models import *
 from childcount.models.reports import *
 admin.site.register(Configuration)
+
+
 class CHWAdmin(admin.ModelAdmin):
     list_filter = ('location', )
 admin.site.register(CHW, CHWAdmin)
