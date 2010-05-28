@@ -58,7 +58,6 @@ class FollowUpForm(CCForm):
                               {'choices': v_field.choices_string()})
         v_db = v_field.get_db_value(v)
 
-
         if imp_db == FollowUpReport.IMPROVEMENT_YES:
             imp_string = _(u"Condition improved")
         elif imp_db == FollowUpReport.IMPROVEMENT_NO:

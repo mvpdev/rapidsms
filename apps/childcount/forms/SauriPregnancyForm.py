@@ -47,9 +47,9 @@ class SauriPregnancyForm(CCForm):
         folic_supplement_field.add_choice('en', \
                                         SauriPregnancyReport.FOLIC_NO, 'N')
         folic_supplement_field.add_choice('en', \
-                                        SauriPregnancyReport.FOLIC_UNKNOWN, 'U')
+                                    SauriPregnancyReport.FOLIC_UNKNOWN, 'U')
         folic_supplement_field.add_choice('en', \
-                                    SauriPregnancyReport.FOLIC_DOESNOTHAVE, 'X')
+                                SauriPregnancyReport.FOLIC_DOESNOTHAVE, 'X')
 
         cd4_count_field = MultipleChoiceField()
         cd4_count_field.add_choice('en', \
@@ -78,7 +78,6 @@ class SauriPregnancyForm(CCForm):
         except SauriPregnancyReport.DoesNotExist:
             pr = SauriPregnancyReport(encounter=self.encounter)
         pr.form_group = self.form_group
-
 
         month = self.params[1]
         if not month.isdigit() or int(month) not in range(1, 10):
@@ -111,10 +110,10 @@ class SauriPregnancyForm(CCForm):
         cd4_count_field.set_language(self.chw.language)
         if not iron_supplement_field.is_valid_choice(self.params[4]):
             raise ParseError(_(u"Iron Supplement %(choices)s") % \
-                            {'choices': iron_supplement_field.choices_string()})
+                            {'choices': \
+                                iron_supplement_field.choices_string()})
 
         iron_supplement = iron_supplement_field.get_db_value(self.params[4])
-        
 
         if not folic_supplement_field.is_valid_choice(self.params[5]):
             raise ParseError(_(u"Folic Acid Supplement %(choices)s") % \
@@ -150,8 +149,6 @@ class SauriPregnancyForm(CCForm):
 
             pr.cd4_count = cd4_count
             pr.pmtc_arv = pmtc_arv
-            
-
 
         #TODO Cases
         '''
@@ -189,7 +186,6 @@ class SauriPregnancyForm(CCForm):
             last_str = _(u" one week ago")
         elif weeks > 1:
             last_str = _(u" %(weeks)d weeks ago") % {'weeks': weeks}
-
 
         self.response = _(u"%(month)d months pregnant with %(visits)d ANC " \
                            "visits") % {'month': month, \

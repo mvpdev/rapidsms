@@ -37,7 +37,6 @@ class UnderOneForm(CCForm):
             uor = UnderOneReport(encounter=self.encounter)
         uor.form_group = self.form_group
 
-
         breast_field.set_language(self.chw.language)
         imm_field.set_language(self.chw.language)
 
@@ -61,7 +60,6 @@ class UnderOneForm(CCForm):
                                 "%(choices)s") % \
                                 {'choices': imm_field.choices_string()})
         imm_db = imm_field.get_db_value(imm)
-
 
         uor.breast_only = breast_db
         uor.immunized = imm_db

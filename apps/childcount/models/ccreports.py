@@ -9,7 +9,7 @@ from datetime import date, timedelta
 from childcount.models import Patient
 from childcount.models import CHW
 from childcount.models.reports import NutritionReport
-from childcount.models.reports import FeverReport 
+from childcount.models.reports import FeverReport
 from childcount.models.reports import HouseholdVisitReport
 
 from childcount.utils import day_end, day_start, get_dates_of_the_week
@@ -143,22 +143,31 @@ class TheCHWReport(CHW):
 
     @classmethod
     def muac_summary(cls):
-        num_healthy = NutritionReport.objects.filter(status=NutritionReport.STATUS_HEALTHY).count()
-        num_mam = NutritionReport.objects.filter(status=NutritionReport.STATUS_MODERATE).count()
-        num_sam = NutritionReport.objects.filter(status=NutritionReport.STATUS_SEVERE).count()
-        num_comp = NutritionReport.objects.filter(status=NutritionReport.STATUS_SEVERE_COMP).count()
+        num_healthy = NutritionReport.objects.filter(\
+                        status=NutritionReport.STATUS_HEALTHY).count()
+        num_mam = NutritionReport.objects.filter(\
+                        status=NutritionReport.STATUS_MODERATE).count()
+        num_sam = NutritionReport.objects.filter(\
+                        status=NutritionReport.STATUS_SEVERE).count()
+        num_comp = NutritionReport.objects.filter(\
+                        status=NutritionReport.STATUS_SEVERE_COMP).count()
         num_eligible = TheCHWReport.total_muac_eligible()
-        info = {'%s%% HEALTHY' % round((num_healthy / float(num_eligible)) * 100): num_healthy,
-                '%s%% MAM' % round((num_mam / float(num_eligible)) * 100): num_mam,
-                '%s%% SAM' % round((num_sam / float(num_eligible)) * 100): num_sam,
-                '%s%% SAM+' % round((num_comp / float(num_eligible)) * 100): num_comp}
-        return info 
+        info = {'%s%% HEALTHY' %\
+                round((num_healthy / float(num_eligible)) * 100): num_healthy,
+                '%s%% MAM' %\
+                    round((num_mam / float(num_eligible)) * 100): num_mam,
+                '%s%% SAM' %\
+                    round((num_sam / float(num_eligible)) * 100): num_sam,
+                '%s%% SAM+' %\
+                    round((num_comp / float(num_eligible)) * 100): num_comp}
+        return info
 
     @classmethod
     def total_at_risk(cls):
-        num = NutritionReport.objects.filter(status__in=(NutritionReport.STATUS_SEVERE, \
-                                            NutritionReport.STATUS_SEVERE_COMP, \
-                                            NutritionReport.STATUS_MODERATE)).count()
+        num = NutritionReport.objects.filter(\
+                                status__in=(NutritionReport.STATUS_SEVERE, \
+                                NutritionReport.STATUS_SEVERE_COMP, \
+                                NutritionReport.STATUS_MODERATE)).count()
         return num
 
     @classmethod

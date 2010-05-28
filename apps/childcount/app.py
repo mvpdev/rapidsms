@@ -152,15 +152,12 @@ class App (rapidsms.app.App):
                 params = re.split(r'\s+', group)
                 forms.append(params)
 
-
             # okay, health_ids is a list containing all health ids:
             # i.e: ['df2d', 'se23', 'di24']
-
 
             # forms is a list of lists containing the forms and
             # thier params:
             # i.e: [['birth', 'p', 'm'], ['h', 'y'], ['mob', '12345678']]
-
 
             # Write now, we are only going to accept a single health ID.
             if len(health_ids) != 1:
@@ -172,7 +169,6 @@ class App (rapidsms.app.App):
                                    {'pre': self.FORM_PREFIX}, 'error')
                 return handled
             health_id = health_ids[0]
-
 
             failed_forms = []
             successful_forms = []
@@ -301,7 +297,6 @@ class App (rapidsms.app.App):
                                                                ',' + class_name
                     form_groups[form.ENCOUNTER_TYPE].save()
 
-
             for form_type in [Encounter.TYPE_PATIENT, \
                               Encounter.TYPE_HOUSEHOLD]:
                 # Delete the form_group objects if there weren't any successful
@@ -364,7 +359,6 @@ class App (rapidsms.app.App):
                                                 successful_string)
                 message.respond(response, 'warning')
             return handled
-
 
         ### Commands
         params = re.split(r'\s+', input_text)

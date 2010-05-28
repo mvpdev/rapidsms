@@ -50,7 +50,6 @@ class SickMembersForm(CCForm):
                                 "must be a number"))
         smr.on_treatment = int(on_treatment)
 
-
         smr.save()
 
         self.response = smr.summary()

@@ -10,6 +10,7 @@ from childcount.forms import CCForm
 from childcount.models import Encounter
 from childcount.models.reports import VerbalAutopsyReport
 
+
 class VerbalAutopsyForm(CCForm):
     KEYWORDS = {
         'en': ['va'],

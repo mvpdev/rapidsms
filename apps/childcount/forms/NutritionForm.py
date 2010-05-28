@@ -24,8 +24,6 @@ class NutritionForm(CCForm):
     MIN_WEIGHT = 3
 
     def process(self, patient):
-
-
         oedema_field = MultipleChoiceField()
         oedema_field.add_choice('en', NutritionReport.OEDEMA_YES, 'Y')
         oedema_field.add_choice('en', NutritionReport.OEDEMA_NO, 'N')

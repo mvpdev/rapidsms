@@ -78,11 +78,9 @@ class RegistrationCommand(CCCommand):
         else:
             chw.groups.add(chw_group)
 
-
         # attach the reporter to the current connection
         self.message.persistant_connection.reporter = chw.reporter_ptr
         self.message.persistant_connection.save()
-
 
         # inform target
         self.message.respond(

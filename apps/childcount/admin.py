@@ -15,10 +15,12 @@ admin.site.register(CHW, CHWAdmin)
 admin.site.register(Encounter, VersionAdmin)
 admin.site.register(FormGroup)
 admin.site.register(Clinic)
-class PatientAdmin(admin.ModelAdmin):
+admin.site.register(Patient, VersionAdmin)
+
+
+class HealthIdAdmin(VersionAdmin):
     search_fields = ['health_id']
-admin.site.register(Patient, PatientAdmin, VersionAdmin)
-admin.site.register(HealthId, VersionAdmin)
+admin.site.register(HealthId, HealthIdAdmin)
 
 #Reports
 admin.site.register(CCReport, VersionAdmin)
@@ -39,6 +41,8 @@ admin.site.register(BedNetReport, VersionAdmin)
 admin.site.register(SickMembersReport, VersionAdmin)
 admin.site.register(DangerSignsReport, VersionAdmin)
 admin.site.register(MedicineGivenReport, VersionAdmin)
+
+
 class CodedItemAdmin(admin.ModelAdmin):
     list_filter = ('type', )
 

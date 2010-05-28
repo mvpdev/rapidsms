@@ -10,7 +10,6 @@ from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from django.template import Template, Context
 from django.contrib.auth.decorators import login_required
-from CairoPlot import PiePlot, BarPlot
 
 from childcount.models import Patient, CHW
 from childcount.models.ccreports import TheCHWReport
@@ -149,33 +148,3 @@ def patient(request):
     else:
         return render_to_response(\
                 request, 'childcount/patient.html', context_dict)
-
-
-def nutrition_png(request):
-    nutdata = TheCHWReport.muac_summary()
-    filename = 'nutrition_summary.png'
-    pie = PiePlot(filename, nutdata, 450, 300, shadow=True)
-    pie.render()
-    pie.commit()
-    f = open(filename)
-    data = f.read()
-    f.close()
-    os.unlink(filename)
-    response = HttpResponse(mimetype="image/png")
-    response.write(data)
-    return response
-
-
-def sms_png(request):
-    data = TheCHWReport.sms_per_day()
-    filename = 'sms.png'
-    pie = BarPlot(filename, data, 450, 300)
-    pie.render()
-    pie.commit()
-    f = open(filename)
-    data = f.read()
-    f.close()
-    os.unlink(filename)
-    response = HttpResponse(mimetype="image/png")
-    response.write(data)
-    return response

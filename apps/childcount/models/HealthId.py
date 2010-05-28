@@ -9,6 +9,7 @@ import reversion
 
 from childcount.models import Patient
 
+
 class HealthId(models.Model):
 
     class Meta:

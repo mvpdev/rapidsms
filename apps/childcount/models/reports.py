@@ -213,7 +213,7 @@ class FollowUpReport(CCReport):
     def get_omrs_dict(self):
 
         improv_map = {
-            self.IMPROVEMENT_YES: OpenMRSConsultationForm.YES, 
+            self.IMPROVEMENT_YES: OpenMRSConsultationForm.YES,
             self.IMPROVEMENT_NO: OpenMRSConsultationForm.NO,
             self.IMPROVEMENT_UNKOWN: OpenMRSConsultationForm.UNKNOWN,
             self.IMPROVEMENT_UNAVAILABLE: OpenMRSConsultationForm.UNAVAILABLE,
@@ -256,13 +256,15 @@ class DangerSignsReport(CCReport):
         i = 0
         for ds in self.danger_signs.all():
             if i == 0:
-                igive.update({'danger_signs_present': OpenMRSConsultationForm.YES})
+                igive.update({'danger_signs_present': \
+                                OpenMRSConsultationForm.YES})
                 i = 1
                 igive.update({'reasons_for_referral__regimen_failure': True})
             if ds.code.upper() == 'AS':
                 igive.update({'reasons_for_referral__physical_trauma': True})
             if ds.code.upper() == 'BM':
-                igive.update({'reasons_for_referral__no_fetal_movements': True})
+                igive.update({'reasons_for_referral__no_fetal_movements': \
+                                True})
             if ds.code.upper() == 'BV':
                 igive.update({'reasons_for_referral__blurred_vision': True})
             if ds.code.upper() == 'CC':
@@ -270,9 +272,11 @@ class DangerSignsReport(CCReport):
             if ds.code.upper() == 'CV':
                 igive.update({'reasons_for_referral__convulsions': True})
             if ds.code.upper() == 'CW':
-                igive.update({'reasons_for_referral__cough_lasting_more_than_3_weeks': True})
+                igive.update({'reasons_for_referral__cough_lasting_more'\
+                                '_than_3_weeks': True})
             if ds.code.upper() == 'FP':
-                igive.update({'reasons_for_referral__fever_in_first_trimester_of_pregnancy': True})
+                igive.update({'reasons_for_referral__fever_in_first_'\
+                                'trimester_of_pregnancy': True})
             if ds.code.upper() == 'NB':
                 igive.update({'reasons_for_referral__night_blindness': True})
             if ds.code.upper() == 'OD':
@@ -286,23 +290,21 @@ class DangerSignsReport(CCReport):
                 igive.update({'reasons_for_referral__dysuria': True})
             if ds.code.upper() == 'SF':
                 igive.update({'reasons_for_referral__dermatitis': True})
-            if ds.code.upper() == 'SW': # HERE
+            if ds.code.upper() == 'SW':
                 igive.update({'reasons_for_referral__peripheral_edema': True})
             if ds.code.upper() == 'VB':
-                igive.update({'reasons_for_referral__abnormal_vaginal_bleeding': True})
+                igive.update({'reasons_for_referral__abnormal_vaginal_'\
+                                'bleeding': True})
             if ds.code.upper() == 'VD':
                 igive.update({'reasons_for_referral__vaginal_discharge': True})
-            if ds.code.upper() == 'VP': # HERE
+            if ds.code.upper() == 'VP':
                 igive.update({'reasons_for_referral__acute_vaginitis': True})
             if ds.code.upper() == 'WL':
                 igive.update({'reasons_for_referral__weight_loss': True})
-            if ds.code.upper() == 'NF': # HERE
+            if ds.code.upper() == 'NF':
                 igive.update({'reasons_for_referral__unable_to_drink': True})
             if ds.code.upper() == 'Z':
                 igive.update({'reasons_for_referral__other_non_coded': True})
-            # HERE not found
-            # igive.update({'reasons_for_referral__postpartum_depression': True})
-
         return igive
 reversion.register(DangerSignsReport, follow=['ccreport_ptr'])
 
@@ -404,8 +406,8 @@ class SPregnancy(PregnancyReport):
                               help_text=_(u"Is the mother taking iron "\
                                             "supplement?"))
 
-    folic_suppliment = models.CharField(_(u"Taking Folic Acid"), max_length=1, \
-                                   choices=FOLIC_CHOICES, \
+    folic_suppliment = models.CharField(_(u"Taking Folic Acid"), max_length=1,\
+                                   choices=FOLIC_CHOICES,\
                               help_text=_(u"Is the mother taking folic acid "\
                                             "suppliment?"))
 
@@ -414,9 +416,8 @@ class SPregnancy(PregnancyReport):
                               help_text=_(u"Did the mother get tested for "\
                                             "HIV?"))
 
-
     cd4_count = models.CharField(_(u"Done CD4 Count"), max_length=1, \
-                                   choices=CD4_CHOICES, null=True, blank=True, \
+                                   choices=CD4_CHOICES, null=True, blank=True,\
                                    help_text=_(u"Was CD4 count done?"))
 
     pmtc_arv = models.ForeignKey('CodedItem', null=True, blank=True, \
@@ -443,9 +444,8 @@ class NeonatalReport(CCReport):
               self.clinic_visits)
 
     def get_omrs_dict(self):
-        return {
-            'number_of_health_facility_visits_since_birth': self.clinic_visits
-        }
+        return {'number_of_health_facility_visits_since_birth':
+                    self.clinic_visits}
 reversion.register(NeonatalReport, follow=['ccreport_ptr'])
 
 
@@ -473,7 +473,6 @@ class UnderOneReport(CCReport):
         (IMMUNIZED_NO, _(u"No")),
         (IMMUNIZED_UNKOWN, _(u"Unkown")))
 
-
     breast_only = models.CharField(_(u"Breast feeding Only"), max_length=1, \
                                    choices=BREAST_CHOICES, \
                                    help_text=_(u"Does the mother breast " \
@@ -490,24 +489,22 @@ class UnderOneReport(CCReport):
              self.get_breast_only_display(),
              self._meta.get_field_by_name('immunized')[0].verbose_name, \
              self.get_immunized_display())
+
     def get_omrs_dict(self):
 
         breast_map = {
             self.BREAST_YES: OpenMRSConsultationForm.YES,
             self.BREAST_NO: OpenMRSConsultationForm.NO,
-            self.BREAST_UNKOWN: OpenMRSConsultationForm.UNKNOWN
-        }
+            self.BREAST_UNKOWN: OpenMRSConsultationForm.UNKNOWN}
 
         immun_map = {
             self.IMMUNIZED_YES: OpenMRSConsultationForm.YES,
             self.IMMUNIZED_NO: OpenMRSConsultationForm.NO,
-            self.IMMUNIZED_UNKOWN: OpenMRSConsultationForm.UNKNOWN
-        }
+            self.IMMUNIZED_UNKOWN: OpenMRSConsultationForm.UNKNOWN}
 
         return {
             'breastfed_exclusively': breast_map[self.breast_only],
-            'immunizations_up_to_date': immun_map[self.immunized],
-        }
+            'immunizations_up_to_date': immun_map[self.immunized]}
 reversion.register(UnderOneReport, follow=['ccreport_ptr'])
 
 
@@ -515,7 +512,7 @@ class SUnderOne(UnderOneReport):
 
     '''Sauri under one report with the extra field for vaccine'''
     #shortened the name because of http://code.djangoproject.com/ticket/1820
-    
+
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_sauri_uonerpt'
@@ -653,8 +650,7 @@ class FeverReport(CCReport):
         }
 
         return {
-            'rapid_test_for_malaria': rdt_map[self.rdt_result]
-        }
+            'rapid_test_for_malaria': rdt_map[self.rdt_result]}
 reversion.register(FeverReport, follow=['ccreport_ptr'])
 
 
@@ -726,9 +722,7 @@ class ReferralReport(CCReport):
             self.URGENCY_CONVENIENT: \
                               OpenMRSConsultationForm.REFERRAL_WHEN_CONVENIENT,
         }
-        return {
-            'referral_priority': prio_map[self.urgency]
-        }
+        return {'referral_priority': prio_map[self.urgency]}
 reversion.register(ReferralReport, follow=['ccreport_ptr'])
 
 
@@ -739,7 +733,6 @@ class HouseholdVisitReport(CCReport):
         db_table = 'cc_hhvisitrpt'
         verbose_name = _(u"Household Visit Report")
         verbose_name_plural = _(u"Household Visit Reports")
-
 
     available = models.BooleanField(_(u"HH Member Available"), \
                                 help_text=_(u"Was a houshold member " \
@@ -778,7 +771,8 @@ class HouseholdVisitReport(CCReport):
             if ct.code.upper() in ('FP', 'BP'):
                 igive.update({'counseling_topics__family_planning': True})
             if ct.code.upper() == 'EC':
-                igive.update({'counseling_topics__sanitation_and_hygiene': True})
+                igive.update({'counseling_topics__sanitation_and_hygiene': \
+                            True})
             if ct.code.upper() in ('ED', 'PH', 'IM'):
                 igive.update({'counseling_topics__other_non_coded': True})
             # HERE not found

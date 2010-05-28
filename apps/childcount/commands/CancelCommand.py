@@ -20,7 +20,7 @@ class CancelCommand(CCCommand):
         'en': ['cancel'],
     }
 
-    # The time (in minutes) during which a report can be canceled. 
+    # The time (in minutes) during which a report can be canceled.
     CANCEL_TIMEOUT_MIN = 10
 
     @authenticated
@@ -33,7 +33,7 @@ class CancelCommand(CCCommand):
         revision.invalidate()
 
         user = self.message.persistant_connection.reporter.user_ptr
-        
+
         if not Revision.objects.filter(user=user).count():
             raise Inapplicable(_(u"Cancel failed. There is nothing to " \
                                   "cancel."))
@@ -44,8 +44,7 @@ class CancelCommand(CCCommand):
            timedelta(minutes=self.CANCEL_TIMEOUT_MIN) < datetime.now():
             raise Inapplicable(_(u"Cancel failed. You cannot cancel a " \
                                   "report after more than %(num)d minutes.") %\
-                                  {'num':self.CANCEL_TIMEOUT_MIN})
-            
+                                  {'num': self.CANCEL_TIMEOUT_MIN})
 
         # If the current version's revision is not equal to the last revision
         # by this user then someone else has modified it since.  This could

@@ -20,8 +20,6 @@ class PregnancyForm(CCForm):
     MIN_PREG_AGE = 9
 
     def process(self, patient):
-
-
         if patient.gender != Patient.GENDER_FEMALE:
             raise Inapplicable(_(u"Only female patients can be pregnant"))
 
@@ -41,7 +39,6 @@ class PregnancyForm(CCForm):
         except PregnancyReport.DoesNotExist:
             pr = PregnancyReport(encounter=self.encounter)
         pr.form_group = self.form_group
-
 
         month = self.params[1]
         if not month.isdigit() or int(month) not in range(1, 10):
@@ -104,7 +101,6 @@ class PregnancyForm(CCForm):
             last_str = _(u" one week ago")
         elif weeks > 1:
             last_str = _(u" %(weeks)d weeks ago") % {'weeks': weeks}
-
 
         self.response = _(u"%(month)d months pregnant with %(visits)d ANC " \
                            "visits") % {'month': month, \

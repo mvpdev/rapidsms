@@ -55,7 +55,6 @@ class Patient(models.Model):
                                                    "was created"))
     updated_on = models.DateTimeField(auto_now=True)
 
-
     first_name = models.CharField(_(u"First name"), max_length=100)
     last_name = models.CharField(_(u"Last name"), max_length=50, \
                                  help_text=_(u"Family name or surname"))
@@ -86,7 +85,6 @@ class Patient(models.Model):
                                verbose_name=_(u"Health facility"), \
                                help_text=_(u"The primary health facility " \
                                             "that this patient visits"))
-
 
     mobile = models.CharField(_(u"Mobile phone number"), max_length=16, \
                               blank=True, null=True)

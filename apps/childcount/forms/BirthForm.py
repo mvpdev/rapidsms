@@ -55,8 +55,8 @@ class BirthForm(CCForm):
 
         if len(self.params) < 3:
             raise ParseError(_(u"Not enough information, expected: " \
-                                "|Mom Health ID|delivered in health facility| " \
-                                "weight(kg)(optional)"))
+                                "|Mom Health ID|delivered in health facility" \
+                                "| weight(kg)(optional)"))
 
         cd_field.set_language(self.chw.language)
         lang = self.message.reporter.language
@@ -105,7 +105,6 @@ class BirthForm(CCForm):
                                      {'min': self.MIN_BIRTH_WEIGHT})
             else:
                 raise ParseError(_(u"Unkown value. Weight should be a number"))
-
 
         if cd_db == BirthReport.CLINIC_DELIVERY_YES:
             cd_string = _(u"Delivered in health facility")

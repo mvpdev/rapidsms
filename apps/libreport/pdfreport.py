@@ -27,7 +27,7 @@ except ImportError:
     pass
 
 styles = getSampleStyleSheet()
-HeaderStyle = styles["Heading1"] # XXXX
+HeaderStyle = styles["Heading1"]
 
 
 def pheader(txt, style=HeaderStyle, klass=Paragraph, sep=0.3):
@@ -161,7 +161,8 @@ class PDFReport():
         for i in elements:
             self.data.append(i)
 
-    def setTableData(self, queryset, fields, title, colWidths=None, hasCounter=False):
+    def setTableData(self, queryset, fields, title, colWidths=None, \
+                                                            hasCounter=False):
         '''set table data
 
         @var queryset: data
@@ -209,10 +210,12 @@ class PDFReport():
             ts = [
                   ('ALIGNMENT', (0, 1), (-1, -1), 'CENTER'),
                   ('LINEBELOW', (0, 0), (-1, -0), 2, colors.brown),
-                  ('LINEBELOW', (0, 1), (-1, -1), 0.8, colors.lightgoldenrodyellow),
+                  ('LINEBELOW', (0, 1), (-1, -1), 0.8, \
+                                                colors.lightgoldenrodyellow),
                   ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
                   ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-                  ('TOPPADDING', (0, 0), (-1, -1), 2),('ROWBACKGROUNDS', (0, 0), (-1, -1), \
+                  ('TOPPADDING', (0, 0), (-1, -1), 2), ('ROWBACKGROUNDS', \
+                                                    (0, 0), (-1, -1), \
                  [colors.whitesmoke, colors.white]),
                 ('FONT', (0, 0), (-1, -1), "Times-Roman", self.fontSize)]
 
@@ -226,7 +229,8 @@ class PDFReport():
                 ts.append(('FONT', (0, -1), (-1, -1), "Times-Roman", 7))
 
             #table.setStyle(TableStyle(ts))
-            table = PDFTable(data, colWidths, len(data)*[0.25*inch], style=ts, splitByRow=1)
+            table = PDFTable(data, colWidths, len(data) * [0.25 * inch], \
+                                style=ts, splitByRow=1)
 
             table.hAlign = "LEFT"
             self.data.append(table)
