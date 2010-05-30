@@ -13,15 +13,13 @@ class MicroscopyResult(Sref):
     Specimen sample state to be used when a specimen has been
     tested with microscopy.
     """
-    result_list = []
-    result_list.append(('negative', u"Negative"))
-    for i in range(1, 4):
-        result_list.append(('%d+' % i, u"%d+" % i))
-    for i in range(1, 20):
-        result_list.append(('%d AFB' % i, u"%d AFB" % i))
-    result_list.append(('invalid', u"Invalid"))
 
-    RESULT_CHOICES = tuple(result_list)
+    RESULT_CHOICES = [('negative', u"Negative")]
+    RESULT_CHOICES.extend(('%d+' % i, u"%d+" % i) for i in xrange(1, 4))
+    RESULT_CHOICES.extend(('%d AFB' % i, u"%d AFB" % i) for i in xrange(1, 20))
+    RESULT_CHOICES.append(('invalid', u"Invalid"))
+
+    RESULT_CHOICES = tuple(RESULT_CHOICES)
 
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
 
@@ -41,6 +39,7 @@ class MicroscopyResult(Sref):
             return LpaForm
 
         return MgitForm
+
 
     def is_positive(self):
         return self.result != 'negative' and self.result != 'invalid'

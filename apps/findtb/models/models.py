@@ -14,7 +14,6 @@ from locations.models import Location
 from reporters.models import Reporter
 
 
-
 class Role(models.Model):
     """
     Link between a Django group, a location and a reporter
@@ -123,8 +122,8 @@ class Patient(models.Model):
         (GENDER_MALE, _(u"Male")),
         (GENDER_FEMALE, _(u"Female")))
 
-    first_name = models.CharField(max_length=50, blank=True, null=True)
-    last_name = models.CharField(max_length=50, blank=True, null=True)
+    first_name = models.CharField(max_length=50, blank=True, default="")
+    last_name = models.CharField(max_length=50, blank=True, default="")
 
     gender = models.CharField(_(u"Gender"),
                               max_length=1,
@@ -159,7 +158,13 @@ class Patient(models.Model):
 
 
     def full_name(self):
-        return '%s %s' % (self.last_name, self.first_name)
+        """
+        Return last_name and/or first_name, or an empty string.
+        """
+        name = '%s %s' % (self.last_name, self.first_name)
+        if name != " ":
+            return name
+        return ''
 
 
     def __unicode__(self):

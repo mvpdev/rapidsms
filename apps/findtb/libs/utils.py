@@ -9,7 +9,6 @@ from functools import wraps
 from urllib import urlencode
 
 from django.utils.datastructures import SortedDict
-from django.utils.translation import ugettext as _
 
 import rapidsms
 from rapidsms.webui import settings
@@ -17,6 +16,7 @@ from rapidsms.webui import settings
 from findtb.exceptions import NotRegistered
 from findtb.models import FINDTBGroup, Role, FINDTBLocation
 from findtb import config
+from format_timedelta import humanize_timedelta
 
 from django_tracking.models import State
 
@@ -213,14 +213,14 @@ def generate_tracking_tag(start=None):
     return ''.join(next_tag)
 
 
-
 def get_specimen_by_status():
     """
     Return a dictionary of specimen by status. Example: every incoming
     specimen, every specimen waiting for a microscopy.
+    Incomming specimen get a special formating.
     """
 
-    specimen = SortedDict((('Incoming', []),
+    specimens = SortedDict((('Incoming', []),
                           ('Microscopy', []),
                           ('LPA', []),
                           ('LJ', []),
@@ -236,6 +236,10 @@ def get_specimen_by_status():
                       'SireForm': 'SIRE(Z)',
                       'SirezForm': 'SIRE(Z)'}
 
+    # sent are put on top of registered incomming specimens
+    sent = []
+    registered = []
+
     for state in State.objects.filter(is_current=True).order_by('pk'):
 
         try: # if webform is None
@@ -243,8 +247,20 @@ def get_specimen_by_status():
         except AttributeError:
             pass
         else:
-            specimen[name_and_cat[web_form]].append(state.tracked_item.content_object)
+            specimen = state.tracked_item.content_object
+            specimen.delay = humanize_timedelta(state.created, suffix="") or 'N/A'
+
+            if 'Received' in web_form:
+                if not 'Registered' in web_form:
+                    registered.append(specimen)
+                else:
+                    specimen.delay = 'N/A'
+                    sent.append(specimen)
+            else:
+                specimens[name_and_cat[web_form]].append(state.tracked_item.content_object)
+
+    specimens['Incoming'].extend(registered + sent)
+
+    return specimens
 
 
-
-    return specimen

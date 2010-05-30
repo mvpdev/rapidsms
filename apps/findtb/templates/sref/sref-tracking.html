@@ -137,13 +137,13 @@
    {% for specimen in displayed_specimens %}
        <li>
            <a href="{% url findtb-sref-tracking specimen.pk %}">
-               {{ specimen|cut:"Specimen of "|capfirst }}
+               {{ specimen.delay }} - {{ specimen|cut:"Specimen of "|capfirst }}
            </a>
        </li>
    {% endfor %}
    </ul>
    {% else %}
-   <p>Nothing to test yes</p>
+   <p>Nothing to test yet</p>
    {% endif %}
         
 {% endblock %}

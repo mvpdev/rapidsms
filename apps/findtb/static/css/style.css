@@ -249,6 +249,12 @@ padding-top:1em;
 border-bottom: 1px solid #EEEEEE;
 } 
 
+#findtb-test-picker-tabs{
+margin-left:0;
+padding-left:0;
+text-align:center;
+}
+
 #findtb-test-picker-tabs li {
 display:inline;
 margin-left:2ex;
@@ -260,29 +266,33 @@ font-style:italic;
 } 
 
 #findtb-test-picker-list {
-margin-left:0;
-padding:1em;
+border-collapse: collapse;
+width:100%;
 }
 
-#findtb-test-picker-list li  {
-display:block;
-margin-bottom:0.5em;
+#findtb-test-picker-list tr th,
+#findtb-test-picker-list tr td  {
+border-collapse: collapse;
+text-indent:3ex;
 }
 
-#findtb-test-picker-list li a {
+#findtb-test-picker-list tr td  {
+padding:0;
+margin:0;
+height:3em;
+}
+
+#findtb-test-picker-list td a {
 display:block;
 height:100%;
 width:100%;
-background-color: white;
-border: 1px solid #EEEEEE;
 padding-top:0.5em;
-padding-left:1ex;
-height:2em;
+padding-left:3ex;
 }
 
-
-#findtb-test-picker-list li a:hover{
-border: 1px solid #B8DEE3;
+#findtb-test-picker-list tbody .selectable:hover{
+border: 2px solid #B8DEE3;
+background: white;
 }
 
 /*** ALL TRACKINGS ***/
@@ -371,6 +381,10 @@ text-align:center;
 #sref-tracking #right-column a {
 text-align:left;
 text-indent: 1em;
+}
+
+#sref-tracking #tracking-form  {
+text-align:center;
 }
 
 #sref-tracking #tracking-form  {

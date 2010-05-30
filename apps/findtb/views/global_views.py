@@ -20,7 +20,6 @@ from findtb.models import Specimen, Role
 
 
 
-
 def eqa_dashboard(request, *arg, **kwargs):
 
     events = [{"title": "Namokora HC IV slides have arrived",
