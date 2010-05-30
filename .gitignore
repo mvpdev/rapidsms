@@ -43,3 +43,4 @@ settings.py
 # dev
 *.sqlite
 *.db
+gitg.sh
