@@ -67,6 +67,7 @@ class MgitResult(Sref):
     RESULT_CHOICES = (
         ('positive', u"Positive"),
         ('negative', u"Negative"),
+        ('invalid', u"Invalid")
     )
 
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
@@ -99,7 +100,7 @@ class MgitResult(Sref):
 class LpaResult(Sref):
     """
     Specimen sample state to be used when a specimen has been
-    tested with microscopy.
+    tested with LPA.
     """
 
     state_name = 'lpa'
@@ -108,13 +109,13 @@ class LpaResult(Sref):
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
-        ('susceptible', u"RIF suceptible"),
+        ('Susceptible', u"RIF Susceptible"),
         ('na', u"N/A"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
-        ('susceptible', u"INH suceptible"),
+        ('Susceptible', u"INH Susceptible"),
         ('na', u"N/A"),
     )
 
@@ -127,8 +128,8 @@ class LpaResult(Sref):
 
 
     def get_web_form(self):
-
-        return None
+        from findtb.forms.sref_result_forms import LjForm
+        return LjForm
 
 
     def get_short_message(self):
@@ -146,4 +147,115 @@ class LpaResult(Sref):
                'rif': self.rif}
 
 
+
+class LjResult(Sref):
+    """
+    Specimen sample state to be used when a specimen has been
+    used for LJ.
+    """
+
+    state_name = 'lj'
+    state_type = 'result'
+    is_final = False
+
+    RESULT_CHOICES = (
+        ('positive', u"Positive"),
+        ('negative', u"Negative"),
+        ('invalid', u"Invalid")
+    )
+
+    result = models.CharField(max_length=10, choices=RESULT_CHOICES)
+
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    def get_web_form(self):
+        from findtb.forms.sref_result_forms import SirezForm
+        return SirezForm
+
+
+    def get_short_message(self):
+        return u"LJ result: %s" % self.get_result_display()
+
+
+    def get_long_message(self):
+        return u"LJ result for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': self.get_result_display()}
+
+
+
+class SirezResult(Sref):
+    """
+    Specimen sample state to be used when a specimen has been
+    tested with SIREZ.
+    """
+
+    state_name = 'sirez'
+    state_type = 'result'
+    is_final = False
+
+    RIF_CHOICES = (
+        ('resistant', u"RIF Resistant") ,
+        ('susceptible', u"RIF Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    INH_CHOICES = (
+        ('resistant', u"INH Resistant") ,
+        ('susceptible', u"INH Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    STR_CHOICES = (
+        ('resistant', u"STR Resistant") ,
+        ('susceptible', u"STR Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    EMB_CHOICES = (
+        ('resistant', u"EMB Resistant") ,
+        ('susceptible', u"EMB Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    PZA_CHOICES = (
+        ('untested', u"PZA Untested"),
+        ('resistant', u"PZA Resistant"),
+        ('susceptible', u"PZA Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    rif = models.CharField(max_length=15, choices=RIF_CHOICES)
+    inh = models.CharField(max_length=15, choices=INH_CHOICES)
+    str = models.CharField(max_length=15, choices=STR_CHOICES)
+    emb = models.CharField(max_length=15, choices=EMB_CHOICES)
+    pza = models.CharField(max_length=15, choices=PZA_CHOICES)
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    def get_web_form(self):
+        None
+
+
+    def get_short_message(self):
+        tests = ('rif', 'inh', 'str', 'emb', 'pza')
+        results = ", ".join("%s: %s" % (test.upper(), getattr(self, test).upper()) for test in tests)
+        return u"SIREZ results: %s" % results
+
+
+    def get_long_message(self):
+        tests = ('rif', 'inh', 'str', 'emb', 'pza')
+        results = ", ".join("%s: %s" % (test.upper(), getattr(self, test).upper()) for test in tests)
+        return u"SIREZ result for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': results}
 

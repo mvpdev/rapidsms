@@ -68,6 +68,16 @@ urlpatterns += patterns('',
         name='findtb-sref-microscopy',
         kwargs={'view_name': 'findtb-sref-microscopy'}),
 
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/lpa/$',
+        views.sref_lpa,
+        name='findtb-sref-lpa',
+        kwargs={'view_name': 'findtb-sref-lpa'}),
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/lj/$',
+        views.sref_lj,
+        name='findtb-sref-lj',
+        kwargs={'view_name': 'findtb-sref-lj'}),
+
 )
 
 
