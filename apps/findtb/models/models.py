@@ -169,8 +169,9 @@ class Patient(models.Model):
 
     def __unicode__(self):
 
-        if self.first_name and self.last_name:
-            return self.full_name()
+        name = self.full_name()
+        if name:
+            return name
 
         return self.zero_id()
 
@@ -228,11 +229,15 @@ class Specimen(models.Model):
         except IndexError:
             return None
 
+
     def get_dtls(self):
         return self.location.get_dtls()
 
+
     def get_ztls(self):
         return self.location.get_ztls()
+
+
 
 class FINDTBGroup(Group):
 
@@ -261,43 +266,56 @@ class FINDTBGroup(Group):
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
 
+
+
 class FINDTBLocation(Location):
+
     class Meta:
         app_label = 'findtb'
         proxy = True
+
 
     def get_zone(self):
         for location in self.ancestors(include_self=True):
             if location.type.name == 'zone':
                 return location
 
+
     def get_district(self):
         for location in self.ancestors(include_self=True):
             if location.type.name == 'district':
                 return location
 
+
     def get_dtls(self):
+
         district = self.get_district()
         dtls_group_name = FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME
         dtls_group = Group.objects.get(name=dtls_group_name)
+
         try:
             return district.role_set.get(group=dtls_group)
         except Role.DoesNotExist:
             return None
 
+
     def get_ztls(self):
+
         zone = self.get_zone()
         ztls_group_name = FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME
         ztls_group = Group.objects.get(name=ztls_group_name)
+
         try:
             return zone.role_set.get(group=ztls_group)
         except Location.DoesNotExist:
             return None
 
+
     def get_lab_techs(self):
         lab_tech_group_name = FINDTBGroup.DTU_LAB_TECH_GROUP_NAME
         lab_group = Group.objects.get(name=lab_tech_group_name)
         return self.role_set.filter(group=lab_group)
+
 
 
 class Configuration(models.Model):

@@ -5,7 +5,7 @@
 
 from django import forms
 from django_tracking.models import State, TrackedItem
-from findtb.models import SpecimenMustBeReplaced
+from findtb.models import SpecimenMustBeReplaced, AllTestsDone
 
 # this line needs to be that twisted to by pass recursive import
 # TODO: use the django tool that let you import model indirectly
@@ -55,25 +55,23 @@ class MicroscopyForm(SrefForm):
         if not dtls_is_lab_tech_at(self.specimen.location):
             send_to_dtls(self.specimen.location, u"%s from %s %s" % \
                               (msg_start, self.specimen.location, msg_end))
-            
-
 
 
 class LpaForm(SrefForm):
     """
-    Form shown when the specimen needs a a LPA.
+    Form shown when the specimen needs a LPA.
     """
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
         ('susceptible', u"RIF suceptible"),
-        ('na', u"N/A"),
+        ('invalid', u"Invalid"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
         ('susceptible', u"INH suceptible"),
-        ('na', u"N/A"),
+        ('invalid', u"Invalid"),
     )
 
     rif = forms.ChoiceField(choices=RIF_CHOICES)
@@ -84,20 +82,24 @@ class LpaForm(SrefForm):
 
         ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
 
-
-        result = LpaResult(rif=self.clean_date['rif'],
-                           inh=self.clean_date['inh'],
+        result = LpaResult(rif=self.cleaned_data['rif'],
+                           inh=self.cleaned_data['inh'],
                            specimen=self.specimen)
         ti.state = result
         ti.save()
 
         msg = u"LPA results for specimen of %(patient)s with "\
-              u"tracking tag %(tag)s: %s(inh)s and %s(rif)s" % {
+              u"tracking tag %(tag)s: INH %(inh)s and RIF %(rif)s." % {
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
-               'inh': self.clean_date['inh'],
-               'rif': self.clean_date['rif']}
+               'inh': self.cleaned_data['inh'],
+               'rif': self.cleaned_data['rif']}
 
+        if (self.cleaned_data['rif'] == 'susceptible'):
+            msg = "Start category 1 treatment - %s" % msg
+            result = AllTestsDone(specimen=self.specimen)
+            ti.state = result
+            ti.save()
 
         send_to_dtu(self.specimen.location, msg)
 
@@ -120,12 +122,12 @@ class MgitForm(SrefForm):
 
         ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
 
-        result = MgitResult(result=self.clean_date['result'],
+        result = MgitResult(result=self.cleaned_data['result'],
                             specimen=self.specimen)
         ti.state = result
         ti.save()
 
-        if self.clean_date['result'] == 'negative':
+        if self.cleaned_data['result'] == 'negative':
             result = SpecimenMustBeReplaced(specimen=self.specimen)
             ti.state = State(content_object=result, is_final=True)
             ti.save()
@@ -134,7 +136,9 @@ class MgitForm(SrefForm):
               u"tracking tag %(tag)s: %s(result)s" % {
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
-               'result': self.clean_date['result']}
+               'result': self.cleaned_data['result']}
 
 
         send_to_dtu(self.specimen.location, msg)
+
+

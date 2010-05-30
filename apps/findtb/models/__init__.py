@@ -12,7 +12,8 @@ from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenRegistered,\
                                               SpecimenSent,\
                                               SpecimenReceived,\
-                                              SpecimenMustBeReplaced
+                                              SpecimenMustBeReplaced,\
+                                              AllTestsDone
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

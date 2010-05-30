@@ -7,7 +7,6 @@ from django_tracking.models import TrackedItem
 from django.db import models
 
 
-
 class MicroscopyResult(Sref):
     """
     Specimen sample state to be used when a specimen has been
@@ -24,6 +23,7 @@ class MicroscopyResult(Sref):
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
 
     state_name = 'microscopy'
+    state_type = 'result'
 
     class Meta:
         app_label = 'findtb'
@@ -72,6 +72,7 @@ class MgitResult(Sref):
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
 
     state_name = 'mgit'
+    state_type = 'result'
 
     class Meta:
         app_label = 'findtb'
@@ -102,6 +103,8 @@ class LpaResult(Sref):
     """
 
     state_name = 'lpa'
+    state_type = 'result'
+    is_final = False
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
@@ -125,16 +128,22 @@ class LpaResult(Sref):
 
     def get_web_form(self):
 
-        pass
+        return None
 
 
     def get_short_message(self):
-       return u"Received at NTRL"
+        return u"LPA results: INH %(inh)s and RIF %(rif)s." % {
+               'inh': self.inh,
+               'rif': self.rif}
 
 
     def get_long_message(self):
-        return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \
-                "from %(dtu)s" % \
-               {'dtu': self.specimen.location, \
-                'patient': self.specimen.patient, \
-                'tc_number': self.specimen.tc_number}
+        return u"LPA results for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: INH %(inh)s and RIF %(rif)s." % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'inh': self.inh,
+               'rif': self.rif}
+
+
+

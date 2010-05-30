@@ -130,6 +130,10 @@ background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
 background: #FFFFFF url("/static/findtb/images/cancelled.png") no-repeat 8px 8px;
 }
 
+#findtb-event-picker-selection li.result {
+background: #FFFFFF url("/static/findtb/images/result.png") no-repeat 8px 8px;
+}
+
 #findtb-event-picker-selection li strong {
 display:block;
 margin-left:55px;
@@ -279,14 +283,15 @@ text-indent:3ex;
 #findtb-test-picker-list tr td  {
 padding:0;
 margin:0;
-height:3em;
+height:2em;
+text-align:center;
 }
 
 #findtb-test-picker-list td a {
 display:block;
 height:100%;
 width:100%;
-padding-top:0.5em;
+padding-top:1em;
 padding-left:3ex;
 }
 

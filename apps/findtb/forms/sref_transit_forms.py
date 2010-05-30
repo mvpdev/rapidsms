@@ -189,32 +189,11 @@ class SrefLostOrReceived(SrefRegisteredReceived):
     """
     Form shown in webui when specimen is in the sent state.
     """
-    class Meta:
-        model = Patient
-        exclude = ('created_by', 'created_on', 'location', \
-                   'registration_number', 'estimated_dob', 'dob')
+
 
     ACTION_CHOICES = SrefRegisteredReceived.ACTION_CHOICES + (
         ('lost_request', u"Lost: Request new specimen"),
         ('lost', u"Lost"),
     )
 
-    def get_next_state(self):
-        # TODO Send SMSs for all different states below
-        action = self.cleaned_data['chosen_action']
-        requested = 'request' in action
-        action = action.split('_')[0]
-
-        if action == 'received':
-            return SpecimenReceived(specimen=self.specimen)
-
-        if requested:
-            if action == 'invalid':
-                pass # Send SMS
-            elif action == 'lost':
-                pass # Send SMS
-
-        # only invalid or lost
-        return State(content_object=SpecimenInvalid(cause=action,
-                                                    specimen=self.specimen),
-                     is_final=True)
+    chosen_action = forms.ChoiceField(choices=ACTION_CHOICES)

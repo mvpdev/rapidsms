@@ -35,7 +35,7 @@ class FtbState(models.Model):
         app_label = 'findtb'
         abstract = True
 
-    STATE_TYPES = ('notice','result','alert','cancelled')
+    STATE_TYPES = ('notice','result','alert','cancelled', 'checked')
     STATE_ORIGINS = ('findtb','sref','eqa')
 
     note = models.CharField(max_length=200, null=True, blank=True)
@@ -73,10 +73,9 @@ class FtbState(models.Model):
             Set the type of all states pointing to the current model instance.
             Type is a string that must be one of STATE_TYPES.
         """
-
         if self.state_type not in self.STATE_TYPES:
-            raise TypeError("State type must be one of " % \
-                            (', '.join(self.STATE_TYPES)))
+            raise TypeError('State type must be one of: "%s"' % \
+                            ('", "'.join(self.STATE_TYPES)))
 
         self.states.exclude(type=self.state_type).update(type=self.state_type)
 
@@ -102,8 +101,9 @@ class FtbState(models.Model):
             Type is a bool.
         """
 
-        is_final = kwargs.get('is_final', False)
-
+        is_final = kwargs.get('is_final',
+                               False) or getattr(self, 'is_final', False)
+        print self, is_final
         self.states.exclude(is_final=is_final)\
                    .update(is_final=is_final)
 
