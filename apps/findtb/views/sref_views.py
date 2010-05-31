@@ -276,3 +276,48 @@ def sref_lj(request, *args, **kwargs):
     ctx.update(locals())
 
     return render_to_response(request, "sref/sref-lj.html", ctx)
+
+
+def sref_mgit(request, *args, **kwargs):
+
+    id = kwargs.get('id', 0)
+
+    specimen = get_object_or_404(Specimen, pk=id)
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    if tracked_item.state.title != 'mgit':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
+
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    form_class = tracked_item.state.content_object.get_web_form()
+
+    #isinstance doesn't work cause the class is a a factory
+    if request.method == 'POST':
+       form = form_class(data=request.POST, specimen=specimen)
+
+       if form.is_valid():
+            form.save()
+            ti, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+            return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
+    else:
+        form = form_class(specimen=specimen)
+
+    events = tracked_item.get_history()
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "sref/sref-mgit.html", ctx)

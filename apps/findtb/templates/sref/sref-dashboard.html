@@ -93,7 +93,7 @@
        </caption>
    
        <thead>
-       <tr><th>Waiting</th><th>Health Unit</th><th>Patient</th></tr>
+       <tr><th>Waiting</th><th>Health Unit</th><th>Specimen</th></tr>
        </thead>
        
        <tbody>
@@ -113,10 +113,12 @@
                <td>
                <a href="{% url findtb-sref-tracking specimen.pk %}">
                     {% if specimen.patient.full_name %}
-                     {{ specimen.patient.full_name }}
+                     From {{ specimen.patient.full_name }}
+                    {% else %}{%if specimen.tc_number %}
+                     TC #{{ specimen.tc_number }}
                     {% else %}
-                     {{ specimen.patient.registration_number }}
-                    {% endif %}
+                     From Patient N°{{ specimen.patient.registration_number }}
+                    {% endif %}{% endif %}
                </a>
                </td>
            </tr>

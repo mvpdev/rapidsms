@@ -80,8 +80,8 @@ class MgitResult(Sref):
 
 
     def get_web_form(self):
-
-        pass
+        from findtb.forms.sref_result_forms import SireForm
+        return SireForm
 
 
     def get_short_message(self):
@@ -247,16 +247,16 @@ class SirezResult(Sref):
 
     def get_short_message(self):
         tests = ('rif', 'inh', 'str', 'emb', 'pza')
-        results = ", ".join("%s: %s" % (test.upper(), getattr(self, test).upper()) for test in tests)
-        return u"SIREZ results: %s" % results
+        results = ", ".join(test.upper() for test in tests if getattr(self, test) == "resistant")
+        return u"SIREZ shows resistance for: %s" % (results or "Nothing")
 
 
     def get_long_message(self):
         tests = ('rif', 'inh', 'str', 'emb', 'pza')
-        results = ", ".join("%s: %s" % (test.upper(), getattr(self, test).upper()) for test in tests)
-        return u"SIREZ result for specimen of %(patient)s with "\
-               u"tracking tag %(tag)s: %(result)s" % {
+        results = ", ".join(test.upper() for test in tests if getattr(self, test) == "resistant")
+        return u"SIREZ for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s shows resitance for: %(result)s" % {
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
-               'result': results}
+               'result': (results or "Nothing")}
 

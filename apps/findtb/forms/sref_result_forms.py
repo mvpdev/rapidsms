@@ -189,6 +189,7 @@ class LjForm(SrefForm):
         send_to_dtu(self.specimen.location, msg)
 
 
+
 class SirezForm(SrefForm):
     """
     Form shown when the specimen needs to be tested against SIREZ.
@@ -273,7 +274,7 @@ class SirezForm(SrefForm):
             if res == 'resistant':
                 resistances.append(test.upper())
 
-        msg = u"SIREZ shows resistances for: %s. " % ", ".join(resistances)
+        msg = u"SIREZ shows resistances for: %s. " % ", ".join(resistances) or "Nothing"
 
         # check the difference with lpa
         lpa = ti.get_history().get(title='lpa').content_object
@@ -303,7 +304,7 @@ class SirezForm(SrefForm):
 
 
 
-class SireForm(SrefForm):
+class SireForm(SirezForm):
     """
     Form shown when the specimen needs to be tested against SIRE(Z).
     """
@@ -318,3 +319,57 @@ class SireForm(SrefForm):
     pza = forms.ChoiceField(choices=PZA_CHOICES)
 
 
+    def save(self, *args, **kwargs):
+
+        ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
+
+        result = SirezResult(rif=self.cleaned_data['rif'],
+                             inh=self.cleaned_data['inh'],
+                             str=self.cleaned_data['str'],
+                             emb=self.cleaned_data['emb'],
+                             pza=self.cleaned_data['pza'],
+                                 specimen=self.specimen)
+        ti.state = result
+        ti.save()
+
+        # if one test is invalid, request a new specimen, but do not
+        # mark the test as invalid
+        # count the number of resitances, the SMS response if different
+        # according to the level of resistance
+        resistances = []
+        sent = False
+        for test in ('rif', 'inh', 'str', 'emb', 'pza'):
+
+            res = self.cleaned_data[test]
+
+            if res == 'invalid' and not sent:
+
+                msg = u"SIRE(Z) results for specimen of %(patient)s with "\
+                      u"tracking tag %(tag)s is invalid for %(test)s. "\
+                      u"Please send a new specimen." % {
+                        'patient': self.specimen.patient,
+                        'tag': self.specimen.tracking_tag,
+                        'test': test.upper()}
+
+                send_to_dtu(self.specimen.location, msg)
+                sent = True
+
+                result = SpecimenMustBeReplaced(specimen=self.specimen)
+                ti.state = State(content_object=result, is_final=True)
+                ti.save()
+
+            if res == 'resistant':
+                resistances.append(test.upper())
+
+        msg = u"SIRE(Z) shows resistances for: %s. " % (", ".join(resistances) or "Nothing")
+
+        if len(resistances) >= 2 or self.cleaned_data['rif'] == 'resistant':
+            msg = u"Carry on with category 2 treatment. %s" % msg
+        else:
+            msg = u"Carry on with category 1 treatment. %s" % msg
+
+        send_to_dtu(self.specimen.location, msg)
+
+        result = AllTestsDone(specimen=self.specimen)
+        ti.state = result
+        ti.save()

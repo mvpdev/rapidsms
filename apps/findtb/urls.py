@@ -78,6 +78,11 @@ urlpatterns += patterns('',
         name='findtb-sref-lj',
         kwargs={'view_name': 'findtb-sref-lj'}),
 
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/mgit/$',
+        views.sref_mgit ,
+        name='findtb-sref-mgit',
+        kwargs={'view_name': 'findtb-sref-mgit'}),
+
 )
 
 
