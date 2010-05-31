@@ -7,7 +7,7 @@ from django import forms
 from django_tracking.models import State, TrackedItem
 from findtb.models import SpecimenMustBeReplaced, AllTestsDone,\
                           MicroscopyResult, LpaResult, MgitResult,\
-                          SpecimenInvalid, LjResult, SirezResult
+                          LjResult, SirezResult
 from findtb.libs.utils import send_to_dtu, dtls_is_lab_tech_at, send_to_dtls
 from sref_transit_forms import SrefForm
 
@@ -62,13 +62,13 @@ class LpaForm(SrefForm):
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
-        ('Susceptible', u"RIF Susceptible"),
+        ('susceptible', u"RIF Susceptible"),
         ('invalid', u"Invalid"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
-        ('Susceptible', u"INH Susceptible"),
+        ('susceptible', u"INH Susceptible"),
         ('invalid', u"Invalid"),
     )
 
@@ -93,7 +93,7 @@ class LpaForm(SrefForm):
                'inh': self.cleaned_data['inh'].upper(),
                'rif': self.cleaned_data['rif'].upper()}
 
-        if self.cleaned_data['rif'] == 'Susceptible':
+        if self.cleaned_data['rif'] == 'susceptible':
             msg = "Start category 1 treatment - %s" % msg
             result = AllTestsDone(specimen=self.specimen)
             ti.state = result
@@ -134,7 +134,12 @@ class MgitForm(SrefForm):
                        'tag': self.specimen.tracking_tag,
                        'result': self.cleaned_data['result'].upper()}
 
-        if self.cleaned_data['result'] != 'positive':
+
+        # if this specimen is a replacement for a failed LPA + LJ
+        # do not ask for a new specimen
+        ask_new = not self.specimen.should_shortcut_test_flow()
+
+        if self.cleaned_data['result'] != 'positive' and ask_new:
             result = SpecimenMustBeReplaced(specimen=self.specimen)
             ti.state = State(content_object=result, is_final=True)
             ti.save()
@@ -197,31 +202,31 @@ class SirezForm(SrefForm):
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
-        ('Susceptible', u"RIF Susceptible"),
+        ('susceptible', u"RIF Susceptible"),
         ('invalid', u"Invalid"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
-        ('Susceptible', u"INH Susceptible"),
+        ('susceptible', u"INH Susceptible"),
         ('invalid', u"Invalid"),
     )
 
     STR_CHOICES = (
         ('resistant', u"STR Resistant") ,
-        ('Susceptible', u"STR Susceptible"),
+        ('susceptible', u"STR Susceptible"),
         ('invalid', u"Invalid"),
     )
 
     EMB_CHOICES = (
         ('resistant', u"EMB Resistant") ,
-        ('Susceptible', u"EMB Susceptible"),
+        ('susceptible', u"EMB Susceptible"),
         ('invalid', u"Invalid"),
     )
 
     PZA_CHOICES = (
         ('resistant', u"PZA Resistant") ,
-        ('Susceptible', u"PZA Susceptible"),
+        ('susceptible', u"PZA Susceptible"),
         ('invalid', u"Invalid"),
     )
 
@@ -312,7 +317,7 @@ class SireForm(SirezForm):
     PZA_CHOICES = (
         ('untested', u"PZA Untested"),
         ('resistant', u"PZA Resistant") ,
-        ('Susceptible', u"PZA Susceptible"),
+        ('susceptible', u"PZA Susceptible"),
         ('invalid', u"Invalid"),
     )
 

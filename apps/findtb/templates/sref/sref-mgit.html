@@ -5,7 +5,7 @@
 
 {% block tracking-form %}
 
-<h2>SIRE</h2> 
+<h2>{{ current_test }}</h2> 
 
 <form id="tracking-form" action='.' method='post'>
 
@@ -13,12 +13,21 @@
    <p class="error"> {{ error }}</p>
    {% endfor %}
    
-   <p>{{ form.rif }}<br/>
-   {{ form.inh }}<br/>
-   {{ form.str }}<br/>
-   {{ form.emb }}<br/>
-   {{ form.pza }}<br/>
-   <input type="submit" value="Ok"></p>
+   {% ifequal current_test "LJ" %}
+   
+        <p>{{ form.result }}<input type="submit" value="Ok"></p>
+   
+   {% else %}
+   
+       <p>{{ form.rif }}<br/>
+       {{ form.inh }}<br/>
+       {{ form.str }}<br/>
+       {{ form.emb }}<br/>
+       {{ form.pza }}<br/>
+       <input type="submit" value="Ok"></p>
+       
+    {% endifequal %}
+    
    <p>
         <a href="{% url findtb-sref-invalidate specimen.id %}">
             Declare specimen invalid

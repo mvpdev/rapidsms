@@ -12,7 +12,6 @@ from django.db import models
 from findtb.models.models import Specimen
 from findtb.models.ftbstate import FtbState
 
-
 class Sref(FtbState):
     """
     Common parent extended by all models in SREF
@@ -112,7 +111,7 @@ class SpecimenMustBeReplaced(Sref):
         if self.next_specimen:
             return u"Has been replaced: new specimen is %s" % self.next_specimen
 
-        return u"Must be replaced: waiting for a new one"
+        return u"Specimen must be replaced: waiting for a new one"
 
 
     def get_long_message(self):
@@ -236,6 +235,12 @@ class SpecimenReceived(Sref):
 
 
     def get_web_form(self):
+
+        if self.specimen.should_shortcut_test_flow():
+            # we import it here to avoid circular reference
+            from findtb.forms.sref_result_forms import MgitForm
+            return MgitForm
+
         # we import it here to avoid circular reference
         from findtb.forms.sref_result_forms import MicroscopyForm
         return MicroscopyForm

@@ -128,6 +128,12 @@ def sref_received(request, *args, **kwargs):
     else:
         form = form_class(specimen=specimen)
 
+    #isinstance doesn't work cause the class is a a factory
+    if form_class.__name__ == 'MgitForm':
+        current_test = 'Mgit'
+    else:
+        current_test = 'Microscopy'
+
     events = tracked_item.get_history()
 
     ctx = {}
@@ -135,7 +141,6 @@ def sref_received(request, *args, **kwargs):
     ctx.update(locals())
 
     return render_to_response(request, "sref/sref-received.html", ctx)
-
 
 
 def sref_microscopy(request, *args, **kwargs):
@@ -313,6 +318,12 @@ def sref_mgit(request, *args, **kwargs):
             return redirect("findtb-sref-%s" % ti.state.title, id=specimen.id)
     else:
         form = form_class(specimen=specimen)
+
+    #isinstance doesn't work cause the class is a a factory
+    if form_class.__name__ == 'LjForm':
+        current_test = 'LJ'
+    else:
+        current_test = 'SIRE(Z)'
 
     events = tracked_item.get_history()
 

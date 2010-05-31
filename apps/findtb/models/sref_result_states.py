@@ -80,6 +80,11 @@ class MgitResult(Sref):
 
 
     def get_web_form(self):
+        if self.specimen.should_shortcut_test_flow() and self.result != 'positive':
+            # we import it here to avoid circular reference
+            from findtb.forms.sref_result_forms import LjForm
+            return LjForm
+
         from findtb.forms.sref_result_forms import SireForm
         return SireForm
 
@@ -110,13 +115,13 @@ class LpaResult(Sref):
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
-        ('Susceptible', u"RIF Susceptible"),
+        ('susceptible', u"RIF Susceptible"),
         ('na', u"N/A"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
-        ('Susceptible', u"INH Susceptible"),
+        ('susceptible', u"INH Susceptible"),
         ('na', u"N/A"),
     )
 

@@ -10,6 +10,8 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_delete, pre_save
 
+from django_tracking.models import TrackedItem, State
+
 from locations.models import Location
 from reporters.models import Reporter
 
@@ -237,6 +239,36 @@ class Specimen(models.Model):
     def get_ztls(self):
         return self.location.get_ztls()
 
+
+    def should_shortcut_test_flow(self):
+        """
+            Test if the previous state was LPA with invalid result then
+            a LJ with an invalid result.
+        """
+        try:
+            prev_spec = self.patient.specimen_set.all().order_by('-created_on')[1]
+        except IndexError, e:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=prev_spec)
+            try:
+                history = ti.get_history()
+                lj = history.get(title="lj").content_object.result
+                if lj != 'positive':
+                    try:
+                        lpa = history.get(title="lpa").content_object.rif
+                        return lpa == 'invalid'
+                    except State.DoesNotExist, e:
+                        try:
+                            mgit = history.get(title="mgit").content_object.result
+                            return mgit != 'positive'
+                        except State.DoesNotExist, e:
+                            pass
+
+            except State.DoesNotExist, e:
+                pass
+
+        return False
 
 
 class FINDTBGroup(Group):
