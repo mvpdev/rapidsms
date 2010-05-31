@@ -35,7 +35,7 @@ class FtbState(models.Model):
         app_label = 'findtb'
         abstract = True
 
-    STATE_TYPES = ('notice','result','alert','cancelled')
+    STATE_TYPES = ('notice','result','alert','cancelled', 'checked')
     STATE_ORIGINS = ('findtb','sref','eqa')
 
     note = models.CharField(max_length=200, null=True, blank=True)
@@ -50,12 +50,9 @@ class FtbState(models.Model):
 
     def save(self, *args, **kwargs):
 
-        print "\tFBSTATE: save start"
-        print '\t\tself.note: ', self.note
         super(FtbState, self).save(*args, **kwargs)
         # will update the type once the state is save
         post_save.connect(self.update_upper_state, sender=State)
-        print "\tFBSTATE: save end"
 
 
     def update_upper_state(self, sender, **kwars):
@@ -67,8 +64,7 @@ class FtbState(models.Model):
         self.set_type(**kwars)
         self.set_origin( **kwars)
         self.set_name( **kwars)
-        self.set_is_final(is_final=bool(self.get_next_state_class()),
-                          **kwars)
+        self.set_is_final(**kwars)
 
 
     # TODO: make these functions working without a side effect.
@@ -77,19 +73,11 @@ class FtbState(models.Model):
             Set the type of all states pointing to the current model instance.
             Type is a string that must be one of STATE_TYPES.
         """
-
-        print "\tFBSTATE: set_type start"
-        print '\t\tstate_type: ', self.state_type
-
         if self.state_type not in self.STATE_TYPES:
-            raise TypeError("State type must be one of " % \
-                            (', '.join(self.STATE_TYPES)))
-
-        print '\t\tGetting states for:', self
+            raise TypeError('State type must be one of: "%s"' % \
+                            ('", "'.join(self.STATE_TYPES)))
 
         self.states.exclude(type=self.state_type).update(type=self.state_type)
-
-        print "\tFBSTATE: set_type end"
 
 
     def set_origin(self, **kwargs):
@@ -98,19 +86,13 @@ class FtbState(models.Model):
             Type is a string that must be one of STATE_ORIGINS.
         """
 
-        print "\tFBSTATE: set_origin start"
-        print '\t\tstate_origin: ', self.state_origin
-
         if self.state_origin not in self.STATE_ORIGINS:
             raise TypeError("State origin must be one of " % \
                             (', '.join(self.STATE_ORIGINS)))
 
-        print '\t\tGetting states for:', self
 
         self.states.exclude(origin=self.state_origin)\
                    .update(origin=self.state_origin)
-
-        print "\tFBSTATE: set_origin end"
 
 
     def set_is_final(self, **kwargs):
@@ -119,16 +101,11 @@ class FtbState(models.Model):
             Type is a bool.
         """
 
-        print "\tFBSTATE: set_origin start"
-        is_final = kwargs.get('is_final', False)
-        print '\t\tfinal: ', is_final
-
-        print '\t\tGetting states for:', self
-
+        is_final = kwargs.get('is_final',
+                               False) or getattr(self, 'is_final', False)
+        print self, is_final
         self.states.exclude(is_final=is_final)\
                    .update(is_final=is_final)
-
-        print "\tFBSTATE: set_is_final end"
 
 
     def set_name(self, **kwargs):
@@ -137,8 +114,6 @@ class FtbState(models.Model):
             Type is a string that must be one of STATE_NAMES.
         """
 
-        print "\tFBSTATE: set_name start"
-        print '\t\tstate_name: ', self.state_name
 
         #TODO : look at that later
 
@@ -146,18 +121,7 @@ class FtbState(models.Model):
 #            raise TypeError("State name must be one of " % \
 #                            (', '.join(self.STATE_NAMES)))
 
-        print '\t\tGetting states for:', self
-
         self.states.exclude(title=self.state_name)\
                    .update(title=self.state_name)
 
-        print "\tFBSTATE: set_name end"
 
-
-    def get_next_state_class(self, **kwargs):
-        """
-            Return the class of the next state after this one.
-            If none, the this state is a final.
-        """
-
-        None

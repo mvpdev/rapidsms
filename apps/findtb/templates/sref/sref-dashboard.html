@@ -74,33 +74,60 @@
 
 {% block findtb-test-picker-selection %}
 
-   <ul id="findtb-test-picker-tabs" >
-       {% for status, specimens_list in specimens.iteritems %}
-           {% if specimens_list %}
-              {% ifequal status task %}
-                  <li><strong>{{ status }}</strong></li>
-              {% else %}
-                  <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
-              {% endifequal %}
-           {% else %}
-              <li class="empty">{{ status }}</li>
-           {% endif %}
-       {% endfor %}
-   </ul>
+   <table id="findtb-test-picker-list">
+
+       <caption>
+       <ul id="findtb-test-picker-tabs" >
+           {% for status, specimens_list in specimens.iteritems %}
+               {% if specimens_list %}
+                  {% ifequal status task %}
+                      <li><strong>{{ status }}</strong></li>
+                  {% else %}
+                      <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
+                  {% endifequal %}
+               {% else %}
+                  <li class="empty">{{ status }}</li>
+               {% endif %}
+           {% endfor %}
+       </ul>
+       </caption>
    
-   {% if displayed_specimens %}
-   <ul id="findtb-test-picker-list">
-   {% for specimen in displayed_specimens %}
-       <li>
-           <a href="{% url findtb-sref-tracking specimen.pk %}">
-               {{ specimen|cut:"Specimen of "|capfirst }}
-           </a>
-       </li>
-   {% endfor %}
-   </ul>
-   {% else %}
-   <p>Nothing to test yet</p>
-   {% endif %}
+       <thead>
+       <tr><th>Waiting</th><th>Health Unit</th><th>Specimen</th></tr>
+       </thead>
+       
+       <tbody>
+       {% if displayed_specimens %}
+           {% for specimen in displayed_specimens %}
+           <tr class="selectable">
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.delay }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.location }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                    {% if specimen.patient.full_name %}
+                     From {{ specimen.patient.full_name }}
+                    {% else %}{%if specimen.tc_number %}
+                     TC #{{ specimen.tc_number }}
+                    {% else %}
+                     From Patient N°{{ specimen.patient.registration_number }}
+                    {% endif %}{% endif %}
+               </a>
+               </td>
+           </tr>
+           {% endfor %}
+       {% else %}
+         <tr><td colspan="3">Nothing to test yet</td></tr>
+       {% endif %}
+       <tbody>
+   </table>
         
 {% endblock %}
 

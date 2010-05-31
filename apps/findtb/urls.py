@@ -48,6 +48,11 @@ urlpatterns += patterns('',
         name='findtb-sref-invalid',
         kwargs={'view_name': 'findtb-sref-invalid'}),
 
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/done/$',
+        views.sref_done,
+        name='findtb-sref-done',
+        kwargs={'view_name': 'findtb-sref-done'}),
+
     url(r'findtb/sreferral/tracking/(?P<id>\d+)/received/$',
         views.sref_received,
         name='findtb-sref-received',
@@ -62,6 +67,21 @@ urlpatterns += patterns('',
         views.sref_microscopy,
         name='findtb-sref-microscopy',
         kwargs={'view_name': 'findtb-sref-microscopy'}),
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/lpa/$',
+        views.sref_lpa,
+        name='findtb-sref-lpa',
+        kwargs={'view_name': 'findtb-sref-lpa'}),
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/lj/$',
+        views.sref_lj,
+        name='findtb-sref-lj',
+        kwargs={'view_name': 'findtb-sref-lj'}),
+
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/mgit/$',
+        views.sref_mgit ,
+        name='findtb-sref-mgit',
+        kwargs={'view_name': 'findtb-sref-mgit'}),
 
 )
 

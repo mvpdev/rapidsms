@@ -7,25 +7,23 @@ from django_tracking.models import TrackedItem
 from django.db import models
 
 
-
 class MicroscopyResult(Sref):
     """
     Specimen sample state to be used when a specimen has been
     tested with microscopy.
     """
-    result_list = []
-    result_list.append(('negative', u"Negative"))
-    for i in range(1, 4):
-        result_list.append(('%d+' % i, u"%d+" % i))
-    for i in range(1, 20):
-        result_list.append(('%d AFB' % i, u"%d AFB" % i))
-    result_list.append(('invalid', u"Invalid"))
 
-    RESULT_CHOICES = tuple(result_list)
+    RESULT_CHOICES = [('negative', u"Negative")]
+    RESULT_CHOICES.extend(('%d+' % i, u"%d+" % i) for i in xrange(1, 4))
+    RESULT_CHOICES.extend(('%d AFB' % i, u"%d AFB" % i) for i in xrange(1, 20))
+    RESULT_CHOICES.append(('invalid', u"Invalid"))
+
+    RESULT_CHOICES = tuple(RESULT_CHOICES)
 
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
 
     state_name = 'microscopy'
+    state_type = 'result'
 
     class Meta:
         app_label = 'findtb'
@@ -41,6 +39,7 @@ class MicroscopyResult(Sref):
             return LpaForm
 
         return MgitForm
+
 
     def is_positive(self):
         return self.result != 'negative' and self.result != 'invalid'
@@ -68,51 +67,61 @@ class MgitResult(Sref):
     RESULT_CHOICES = (
         ('positive', u"Positive"),
         ('negative', u"Negative"),
+        ('invalid', u"Invalid")
     )
 
     result = models.CharField(max_length=10, choices=RESULT_CHOICES)
 
     state_name = 'mgit'
+    state_type = 'result'
 
     class Meta:
         app_label = 'findtb'
 
 
     def get_web_form(self):
+        if self.specimen.should_shortcut_test_flow() and self.result != 'positive':
+            # we import it here to avoid circular reference
+            from findtb.forms.sref_result_forms import LjForm
+            return LjForm
 
-        pass
+        from findtb.forms.sref_result_forms import SireForm
+        return SireForm
 
 
     def get_short_message(self):
-       return u"Received at NTRL"
+        return u"MGIT result: %s" % self.get_result_display()
 
 
     def get_long_message(self):
-        return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \
-                "from %(dtu)s" % \
-               {'dtu': self.specimen.location, \
-                'patient': self.specimen.patient, \
-                'tc_number': self.specimen.tc_number}
+        return u"MGIT result for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': self.get_result_display()}
+
 
 
 
 class LpaResult(Sref):
     """
     Specimen sample state to be used when a specimen has been
-    tested with microscopy.
+    tested with LPA.
     """
 
     state_name = 'lpa'
+    state_type = 'result'
+    is_final = False
 
     RIF_CHOICES = (
         ('resistant', u"RIF Resistant") ,
-        ('susceptible', u"RIF suceptible"),
+        ('susceptible', u"RIF Susceptible"),
         ('na', u"N/A"),
     )
 
     INH_CHOICES = (
         ('resistant', u"INH Resistant") ,
-        ('susceptible', u"INH suceptible"),
+        ('susceptible', u"INH Susceptible"),
         ('na', u"N/A"),
     )
 
@@ -125,17 +134,134 @@ class LpaResult(Sref):
 
 
     def get_web_form(self):
-
-        pass
+        from findtb.forms.sref_result_forms import LjForm
+        return LjForm
 
 
     def get_short_message(self):
-       return u"Received at NTRL"
+        return u"LPA results: INH %(inh)s and RIF %(rif)s." % {
+               'inh': self.inh,
+               'rif': self.rif}
 
 
     def get_long_message(self):
-        return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \
-                "from %(dtu)s" % \
-               {'dtu': self.specimen.location, \
-                'patient': self.specimen.patient, \
-                'tc_number': self.specimen.tc_number}
+        return u"LPA results for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: INH %(inh)s and RIF %(rif)s." % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'inh': self.inh,
+               'rif': self.rif}
+
+
+
+class LjResult(Sref):
+    """
+    Specimen sample state to be used when a specimen has been
+    used for LJ.
+    """
+
+    state_name = 'lj'
+    state_type = 'result'
+    is_final = False
+
+    RESULT_CHOICES = (
+        ('positive', u"Positive"),
+        ('negative', u"Negative"),
+        ('invalid', u"Invalid")
+    )
+
+    result = models.CharField(max_length=10, choices=RESULT_CHOICES)
+
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    def get_web_form(self):
+        from findtb.forms.sref_result_forms import SirezForm
+        return SirezForm
+
+
+    def get_short_message(self):
+        return u"LJ result: %s" % self.get_result_display()
+
+
+    def get_long_message(self):
+        return u"LJ result for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': self.get_result_display()}
+
+
+
+class SirezResult(Sref):
+    """
+    Specimen sample state to be used when a specimen has been
+    tested with SIREZ.
+    """
+
+    state_name = 'sirez'
+    state_type = 'result'
+    is_final = False
+
+    RIF_CHOICES = (
+        ('resistant', u"RIF Resistant") ,
+        ('susceptible', u"RIF Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    INH_CHOICES = (
+        ('resistant', u"INH Resistant") ,
+        ('susceptible', u"INH Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    STR_CHOICES = (
+        ('resistant', u"STR Resistant") ,
+        ('susceptible', u"STR Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    EMB_CHOICES = (
+        ('resistant', u"EMB Resistant") ,
+        ('susceptible', u"EMB Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    PZA_CHOICES = (
+        ('untested', u"PZA Untested"),
+        ('resistant', u"PZA Resistant"),
+        ('susceptible', u"PZA Susceptible"),
+        ('invalid', u"Invalid"),
+    )
+
+    rif = models.CharField(max_length=15, choices=RIF_CHOICES)
+    inh = models.CharField(max_length=15, choices=INH_CHOICES)
+    str = models.CharField(max_length=15, choices=STR_CHOICES)
+    emb = models.CharField(max_length=15, choices=EMB_CHOICES)
+    pza = models.CharField(max_length=15, choices=PZA_CHOICES)
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    def get_web_form(self):
+        None
+
+
+    def get_short_message(self):
+        tests = ('rif', 'inh', 'str', 'emb', 'pza')
+        results = ", ".join(test.upper() for test in tests if getattr(self, test) == "resistant")
+        return u"SIREZ shows resistance for: %s" % (results or "Nothing")
+
+
+    def get_long_message(self):
+        tests = ('rif', 'inh', 'str', 'emb', 'pza')
+        results = ", ".join(test.upper() for test in tests if getattr(self, test) == "resistant")
+        return u"SIREZ for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s shows resitance for: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': (results or "Nothing")}
+

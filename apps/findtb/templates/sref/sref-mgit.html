@@ -12,8 +12,22 @@
    {% for error in form.errors.chosen_action %}
    <p class="error"> {{ error }}</p>
    {% endfor %}
-   <p>{{ form.result }} <input type="submit" value="Ok"></p>
    
+   {% ifequal current_test "LJ" %}
+   
+        <p>{{ form.result }}<input type="submit" value="Ok"></p>
+   
+   {% else %}
+   
+       <p>{{ form.rif }}<br/>
+       {{ form.inh }}<br/>
+       {{ form.str }}<br/>
+       {{ form.emb }}<br/>
+       {{ form.pza }}<br/>
+       <input type="submit" value="Ok"></p>
+       
+    {% endifequal %}
+    
    <p>
         <a href="{% url findtb-sref-invalidate specimen.id %}">
             Declare specimen invalid

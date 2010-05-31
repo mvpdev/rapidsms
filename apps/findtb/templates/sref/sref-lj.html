@@ -5,15 +5,20 @@
 
 {% block tracking-form %}
 
-<h2>{{ current_test }}</h2> 
+<h2>LJ</h2> 
 
 <form id="tracking-form" action='.' method='post'>
 
    {% for error in form.errors.chosen_action %}
    <p class="error"> {{ error }}</p>
    {% endfor %}
-   <p>{{ form.result }} <input type="submit" value="Ok"></p>
    
+   <p>{{ form.rif }}<br/>
+   {{ form.inh }}<br/>
+   {{ form.str }}<br/>
+   {{ form.emb }}<br/>
+   {{ form.pza }}<br/>
+   <input type="submit" value="Ok"></p>
    <p>
         <a href="{% url findtb-sref-invalidate specimen.id %}">
             Declare specimen invalid

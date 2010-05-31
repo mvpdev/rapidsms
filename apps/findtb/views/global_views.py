@@ -20,7 +20,6 @@ from findtb.models import Specimen, Role
 
 
 
-
 def eqa_dashboard(request, *arg, **kwargs):
 
     events = [{"title": "Namokora HC IV slides have arrived",
@@ -189,13 +188,17 @@ def search(request, *arg, **kwargs):
 
 def sref_invalidate(request, *args, **kwargs):
 
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
+    id = kwargs.get('id', 0)
 
-    specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
-
+    specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    # get navigation data
+    #TODO: put this code in a function
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
 
     request_new = bool(request.GET.get('request_new', 0))
     confirm = bool(request.GET.get('confirm', 0))
@@ -239,9 +242,49 @@ def sref_invalidate(request, *args, **kwargs):
 
     events = tracked_item.get_history()
 
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
+
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())
 
     return render_to_response(request, "sref/sref-invalidate.html", ctx)
 
+
+def sref_done(request, *args, **kwargs):
+
+    id = kwargs.get('id', 0)
+
+    specimen = get_object_or_404(Specimen, pk=id)
+    tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
+
+    if tracked_item.state.title != 'done':
+        return redirect("findtb-sref-tracking", id=kwargs['id'])
+
+    # get navigation data
+    #TODO: put this code in a function
+    task = request.GET.get('task', None)\
+           or request.session.get('task', 'Incoming')
+    request.session['task'] = task
+    task_url = reverse(kwargs['view_name'], args=(id,))
+
+    request_new = bool(request.GET.get('request_new', 0))
+    confirm = bool(request.GET.get('confirm', 0))
+
+    contacts = Role.getSpecimenRelatedContacts(specimen)
+
+    form_class = tracked_item.state.content_object.get_web_form()
+
+    events = tracked_item.get_history()
+
+    # getting the list of specimens to test
+    specimens = get_specimen_by_status()
+    displayed_specimens = specimens[task]
+
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "sref/sref-done.html", ctx)

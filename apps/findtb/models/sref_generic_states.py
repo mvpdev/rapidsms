@@ -12,7 +12,6 @@ from django.db import models
 from findtb.models.models import Specimen
 from findtb.models.ftbstate import FtbState
 
-
 class Sref(FtbState):
     """
     Common parent extended by all models in SREF
@@ -59,8 +58,6 @@ class SpecimenInvalid(Sref):
     Final state used to declare the specimen as invalid or lost.
     """
 
-    state_name = 'invalid'
-
     class Meta:
         app_label = 'findtb'
 
@@ -72,7 +69,10 @@ class SpecimenInvalid(Sref):
 
     cause = models.CharField(max_length=10, choices=INVALID_CHOICES)
     new_requested = models.BooleanField(default=True)
+
+    state_name = 'invalid'
     state_type = 'cancelled'
+    is_final = True
 
 
     def get_short_message(self):
@@ -103,6 +103,7 @@ class SpecimenMustBeReplaced(Sref):
 
     next_specimen = models.ForeignKey(Specimen, blank=True, null=True)
     state_type = 'cancelled'
+    is_final = True
 
 
     def get_short_message(self):
@@ -110,7 +111,7 @@ class SpecimenMustBeReplaced(Sref):
         if self.next_specimen:
             return u"Has been replaced: new specimen is %s" % self.next_specimen
 
-        return u"Must be replaced: waiting for a new one"
+        return u"Specimen must be replaced: waiting for a new one"
 
 
     def get_long_message(self):
@@ -234,6 +235,12 @@ class SpecimenReceived(Sref):
 
 
     def get_web_form(self):
+
+        if self.specimen.should_shortcut_test_flow():
+            # we import it here to avoid circular reference
+            from findtb.forms.sref_result_forms import MgitForm
+            return MgitForm
+
         # we import it here to avoid circular reference
         from findtb.forms.sref_result_forms import MicroscopyForm
         return MicroscopyForm
@@ -250,3 +257,24 @@ class SpecimenReceived(Sref):
                 'patient': self.specimen.patient, \
                 'tc_number': self.specimen.tc_number}
 
+
+class AllTestsDone(Sref):
+
+    state_name = 'done'
+    state_type = 'checked'
+    is_final = True
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    def get_short_message(self):
+       return u"All tests for this specimen have been done"
+
+
+    def get_long_message(self):
+        return u"All test for specimen TC#%(tc_number)s, patient %(patient)s " \
+                "from %(dtu)s have been done" % \
+               {'dtu': self.specimen.location, \
+                'patient': self.specimen.patient, \
+                'tc_number': self.specimen.tc_number}

@@ -14,6 +14,27 @@ text-align:center;
 margin-bottom:1em;
 }
 
+/*remove rapid sms and unicef logo*/
+#branding h1 b {
+background: transparent url("/static/findtb/images/logo_2.png") no-repeat 865px 8px;
+text-indent: 0;
+text-align:center;
+color:white;
+}
+
+#branding h1 {
+background: transparent url("/static/findtb/images/logo_1.png") no-repeat 8px 8px;
+}
+
+#findtb-footer {
+text-align:center;
+font-size:0.8em;
+color: #8E8F87;
+}
+
+#auth p {
+padding-right:1ex;
+}
 
 
 /*** MENU ***/
@@ -35,7 +56,6 @@ list-style-type: none;
 border-left: 1px solid black;
 padding-left: 1ex;
 }
-
 
 /*** SEARCH FIELD ***/
 
@@ -128,6 +148,10 @@ background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
 
 #findtb-event-picker-selection li.cancelled {
 background: #FFFFFF url("/static/findtb/images/cancelled.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li.result {
+background: #FFFFFF url("/static/findtb/images/result.png") no-repeat 8px 8px;
 }
 
 #findtb-event-picker-selection li strong {
@@ -233,6 +257,7 @@ font-weight:normal;
 }
 
 
+
 /*** SREF DASHBOARD ***/
 
 #sref-dashboard #right-column a {
@@ -249,6 +274,12 @@ padding-top:1em;
 border-bottom: 1px solid #EEEEEE;
 } 
 
+#findtb-test-picker-tabs{
+margin-left:0;
+padding-left:0;
+text-align:center;
+}
+
 #findtb-test-picker-tabs li {
 display:inline;
 margin-left:2ex;
@@ -260,29 +291,34 @@ font-style:italic;
 } 
 
 #findtb-test-picker-list {
-margin-left:0;
-padding:1em;
+border-collapse: collapse;
+width:100%;
 }
 
-#findtb-test-picker-list li  {
-display:block;
-margin-bottom:0.5em;
+#findtb-test-picker-list tr th,
+#findtb-test-picker-list tr td  {
+border-collapse: collapse;
+text-indent:3ex;
 }
 
-#findtb-test-picker-list li a {
+#findtb-test-picker-list tr td  {
+padding:0;
+margin:0;
+height:2em;
+text-align:center;
+}
+
+#findtb-test-picker-list td a {
 display:block;
 height:100%;
 width:100%;
-background-color: white;
-border: 1px solid #EEEEEE;
-padding-top:0.5em;
-padding-left:1ex;
-height:2em;
+padding-top:1em;
+padding-left:3ex;
 }
 
-
-#findtb-test-picker-list li a:hover{
-border: 1px solid #B8DEE3;
+#findtb-test-picker-list tbody .selectable:hover{
+border: 2px solid #B8DEE3;
+background: white;
 }
 
 /*** ALL TRACKINGS ***/
@@ -371,6 +407,10 @@ text-align:center;
 #sref-tracking #right-column a {
 text-align:left;
 text-indent: 1em;
+}
+
+#sref-tracking #tracking-form  {
+text-align:center;
 }
 
 #sref-tracking #tracking-form  {

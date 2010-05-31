@@ -5,13 +5,14 @@
 
 {% block tracking-form %}
 
-<h2>{{ current_test }}</h2> 
+<h2>LJ</h2> 
 
 <form id="tracking-form" action='.' method='post'>
 
    {% for error in form.errors.chosen_action %}
    <p class="error"> {{ error }}</p>
    {% endfor %}
+   
    <p>{{ form.result }} <input type="submit" value="Ok"></p>
    
    <p>
@@ -23,7 +24,7 @@
             Declare invalid and request a new specimen
         </a>
    </p>
-   
+
 </form>
 
 {% endblock %}
