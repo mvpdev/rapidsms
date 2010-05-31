@@ -103,7 +103,6 @@ class FtbState(models.Model):
 
         is_final = kwargs.get('is_final',
                                False) or getattr(self, 'is_final', False)
-        print self, is_final
         self.states.exclude(is_final=is_final)\
                    .update(is_final=is_final)
 
