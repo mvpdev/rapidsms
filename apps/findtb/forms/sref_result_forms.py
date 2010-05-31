@@ -34,7 +34,7 @@ class MicroscopyForm(SrefForm):
         ti.state = result
         ti.save()
 
-        msg_start = u"Specimen %(id)s (%(tc)s)" % \
+        msg_start = u"Specimen %(id)s (TC%(tc)s)" % \
               {'id': self.specimen.patient.zero_id(),
                'tc': self.specimen.tc_number}
 

@@ -79,11 +79,10 @@ def tsrs(params, location, reporter, message):
 
     match = re.match(regex, text)
     if not match:
-        raise ParseError("FAILED: Invalid patient registration number. " \
-                         "Should be in the " \
-                         "format XXXX/YY where XXXX is a number and YY " \
-                         "is the last two digits of year when specimen " \
-                         "was registered.")
+        raise ParseError(u"FAILED: Invalid patient lab number. " \
+                         u"Must be " \
+                         u"XXXX/YY where XXXX is a number and YY " \
+                         u"is the last two digits of year of specimen.")
 
 
     id_first = int(match.groupdict()['patient'])
