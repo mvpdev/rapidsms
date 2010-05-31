@@ -32,7 +32,9 @@ font-size:0.8em;
 color: #8E8F87;
 }
 
-
+#auth p {
+padding-right:1ex;
+}
 
 
 /*** MENU ***/
