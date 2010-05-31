@@ -128,17 +128,17 @@ class MgitForm(SrefForm):
         ti.state = result
         ti.save()
 
-        if self.cleaned_data['result'] == 'negative':
+        msg = u"MGIT results for specimen of %(patient)s with "\
+                      u"tracking tag %(tag)s: %(result)s." % {
+                       'patient': self.specimen.patient,
+                       'tag': self.specimen.tracking_tag,
+                       'result': self.cleaned_data['result'].upper()}
+
+        if self.cleaned_data['result'] != 'positive':
             result = SpecimenMustBeReplaced(specimen=self.specimen)
             ti.state = State(content_object=result, is_final=True)
             ti.save()
-
-        msg = u"MGIT results for specimen of %(patient)s with "\
-              u"tracking tag %(tag)s: %s(result)s." % {
-               'patient': self.specimen.patient,
-               'tag': self.specimen.tracking_tag,
-               'result': self.cleaned_data['result'].upper()}
-
+            msg += " Please send a new specimen."
 
         send_to_dtu(self.specimen.location, msg)
 

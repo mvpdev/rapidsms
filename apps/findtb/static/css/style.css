@@ -14,6 +14,25 @@ text-align:center;
 margin-bottom:1em;
 }
 
+/*remove rapid sms and unicef logo*/
+#branding h1 b {
+background: transparent url("/static/findtb/images/logo_2.png") no-repeat 865px 8px;
+text-indent: 0;
+text-align:center;
+color:white;
+}
+
+#branding h1 {
+background: transparent url("/static/findtb/images/logo_1.png") no-repeat 8px 8px;
+}
+
+#findtb-footer {
+text-align:center;
+font-size:0.8em;
+color: #8E8F87;
+}
+
+
 
 
 /*** MENU ***/
@@ -35,7 +54,6 @@ list-style-type: none;
 border-left: 1px solid black;
 padding-left: 1ex;
 }
-
 
 /*** SEARCH FIELD ***/
 
@@ -235,6 +253,7 @@ text-align:center;
 #findtb-subject-picker label {
 font-weight:normal;
 }
+
 
 
 /*** SREF DASHBOARD ***/

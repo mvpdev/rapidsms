@@ -85,15 +85,16 @@ class MgitResult(Sref):
 
 
     def get_short_message(self):
-       return u"Received at NTRL"
+        return u"MGIT result: %s" % self.get_result_display()
 
 
     def get_long_message(self):
-        return u"Received specimen TC#%(tc_number)s, patient %(patient)s " \
-                "from %(dtu)s" % \
-               {'dtu': self.specimen.location, \
-                'patient': self.specimen.patient, \
-                'tc_number': self.specimen.tc_number}
+        return u"MGIT result for specimen of %(patient)s with "\
+               u"tracking tag %(tag)s: %(result)s" % {
+               'patient': self.specimen.patient,
+               'tag': self.specimen.tracking_tag,
+               'result': self.get_result_display()}
+
 
 
 
