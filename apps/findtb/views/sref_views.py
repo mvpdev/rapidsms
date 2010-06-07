@@ -2,6 +2,8 @@
 # -*- coding= UTF-8 -*-
 
 
+from django.contrib.auth.decorators import login_required
+
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
 # careful : first parameter must be the request, not a template
@@ -15,7 +17,7 @@ from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 
 
-
+@login_required
 def sref_incoming(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -60,7 +62,7 @@ def sref_incoming(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-incoming.html", ctx)
 
 
-
+@login_required
 def sref_invalid(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -93,6 +95,7 @@ def sref_invalid(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-invalid.html", ctx)
 
 
+@login_required
 def sref_received(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -143,6 +146,7 @@ def sref_received(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-received.html", ctx)
 
 
+@login_required
 def sref_microscopy(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -193,6 +197,7 @@ def sref_microscopy(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-microscopy.html", ctx)
 
 
+@login_required
 def sref_lpa(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -238,6 +243,7 @@ def sref_lpa(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-lpa.html", ctx)
 
 
+@login_required
 def sref_lj(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -283,6 +289,7 @@ def sref_lj(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-lj.html", ctx)
 
 
+@login_required
 def sref_mgit(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)

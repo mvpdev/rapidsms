@@ -12,6 +12,7 @@ from locations.models import Location
 from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 from findtb.libs.utils import send_to_dtu, get_specimen_by_status
 from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
@@ -19,7 +20,7 @@ from django_tracking.models import State
 from findtb.models import Specimen, Role
 
 
-
+@login_required
 def eqa_dashboard(request, *arg, **kwargs):
 
     events = [{"title": "Namokora HC IV slides have arrived",
@@ -43,6 +44,7 @@ def eqa_dashboard(request, *arg, **kwargs):
     return render_to_response(request, "eqa/eqa-dashboard.html", ctx)
 
 
+@login_required
 def sref_dashboard(request, *arg, **kwargs):
 
     # get navigation data
@@ -96,7 +98,7 @@ def sref_dashboard(request, *arg, **kwargs):
     return render_to_response(request, "sref/sref-dashboard.html", ctx)
 
 
-
+@login_required
 def eqa_tracking(request, *args, **kwargs):
 
     events = [{"title": "Pajimo HC III results have been cancelled",
@@ -148,7 +150,7 @@ def eqa_tracking(request, *args, **kwargs):
     return render_to_response(request, "eqa/eqa-tracking.html", ctx)
 
 
-
+@login_required
 def sref_tracking(request, *args, **kwargs):
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
@@ -157,7 +159,7 @@ def sref_tracking(request, *args, **kwargs):
     return redirect("findtb-sref-%s" % ti.state.title, id=kwargs['id'])
 
 
-
+@login_required
 def search(request, *arg, **kwargs):
 
 
@@ -186,6 +188,7 @@ def search(request, *arg, **kwargs):
     return render_to_response(request, "findtb-search.html", ctx)
 
 
+@login_required
 def sref_invalidate(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -253,6 +256,7 @@ def sref_invalidate(request, *args, **kwargs):
     return render_to_response(request, "sref/sref-invalidate.html", ctx)
 
 
+@login_required
 def sref_done(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
