@@ -1,8 +1,7 @@
 <ul id="findtb-menu">
 
         {% ifnotequal view_name "findtb-eqa-dashboard" %}
-     	    <!--<li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>-->
-     	    <li>EQA dashboard</li>
+     	    <li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
      	{% else %}
      	    <li>EQA dashboard</li>
      	{% endifnotequal %}

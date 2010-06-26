@@ -11,7 +11,7 @@ from findtb.libs.utils import respond_exceptions, clean_msg
 from findtb.exceptions import SMSException
 from findtb.handlers import registration, unregister, tsrs
 
-#TODO: when creating a new speciment, if it's a replacment, set the replacement
+#TODO: when creating a new specimen, if it's a replacment, set the replacement
 # in the previous one
 
 class App(rapidsms.app.App):

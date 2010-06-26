@@ -20,7 +20,8 @@ urlpatterns = patterns('',
 
 # EQA
 urlpatterns += patterns('',
-    url(r'findtb/eqa/tracking/(?P<id>\d+)/$', views.eqa_tracking,
+
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/$', views.eqa_tracking,
         name='findtb-eqa-tracking',
         kwargs={'view_name': 'findtb-eqa-tracking'}),
 
@@ -28,7 +29,7 @@ urlpatterns += patterns('',
         name='findtb-eqa-dashboard',
         kwargs={'view_name': 'findtb-eqa-dashboard'}),
 
-    url(r'findtb/eqa/$', redirect_to, {'url': '/findtb/eqa/dashboard/'}),
+    url(r'^findtb/eqa/$', redirect_to, {'url': '/findtb/eqa/dashboard/'}),
 
 )
 

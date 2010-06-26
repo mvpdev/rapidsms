@@ -16,16 +16,20 @@ CLINICIAN_KEYWORD = 'cli'
 DTU_LAB_TECH_KEYWORD = 'lab'
 DISTRICT_TB_SUPERVISOR_KEYWORD = 'dtls'
 ZONAL_TB_SUPERVISOR_KEYWORD = 'ztls'
+DTU_FOCAL_PERSON_KEYWORD = 'eqa'
+
 
 KEYWORDS = [
     CLINICIAN_KEYWORD,
     DTU_LAB_TECH_KEYWORD,
     DISTRICT_TB_SUPERVISOR_KEYWORD,
-    ZONAL_TB_SUPERVISOR_KEYWORD
+    ZONAL_TB_SUPERVISOR_KEYWORD,
+    DTU_FOCAL_PERSON_KEYWORD
 ]
 
 
 def handle(keyword, params, message):
+
     if Configuration.has_key('registration') and \
        Configuration.get('registration') != 'open':
         raise NotAllowed("Registration failed: Registration is currently " \
@@ -82,7 +86,9 @@ def handle(keyword, params, message):
         DISTRICT_TB_SUPERVISOR_KEYWORD:
             (FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME, create_dtls),
         ZONAL_TB_SUPERVISOR_KEYWORD:
-            (FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME, create_ztls)
+            (FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME, create_ztls),
+        DTU_FOCAL_PERSON_KEYWORD:
+            (FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME, create_dtu_focal_person)
     }
 
     group = FINDTBGroup.objects.get(name=group_mapping[keyword][0])
@@ -96,6 +102,7 @@ def handle(keyword, params, message):
     message.persistant_connection.save()
     role = Role(location=location, reporter=reporter, group=group)
     role.save()
+
 
 def create_or_update_reporter(name, persistant_connection):
     reporter = persistant_connection.reporter
@@ -120,7 +127,16 @@ def create_or_update_reporter(name, persistant_connection):
     reporter.is_active = True
     return reporter
 
+
 def create_clinician(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a Clinician for this
+    location. If no, raise a raise an exception, if yes, return a registration
+    message. Be careful that this method DOES NOT CREATE a role object for the
+    corresponding clinician. However, it may delete the previous role object if
+    if detect you can replace it by a new one. Object creation is made in
+    the handle() method.
+    """
     reject_non_dtus(location)
     try:
         role = Role.objects.get(group=group, location=location)
@@ -159,7 +175,16 @@ def create_clinician(reporter, group, location):
     return "You are now registered as the clinician at %(loc)s." % \
            {'loc': location.name}
 
+
 def create_lab_tech(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a Lab Technician for this
+    location. If no, raise a raise an exception, if yes, return a registration
+    message. Be careful that this method DOES NOT CREATE a role object for the
+    corresponding lab tech. However, it may delete the previous role object if
+    if detect you can replace it by a new one. Object creation is made in
+    the handle() method.
+    """
     reject_non_dtus(location)
 
     if Role.objects.filter(group=group, location=location,
@@ -188,13 +213,23 @@ def create_lab_tech(reporter, group, location):
     return "You are now registered as a lab technician at %(loc)s." % \
            {'loc': location.name}
 
+
 def reject_non_dtus(location):
     if location.type != LocationType.objects.get(name__iexact='dtu'):
         raise BadValue("Registration failed: %(loc)s is not a DTU, it " \
                        "is a %(type)s. You must register with a DTU code." %
                         {'loc':location, 'type':location.type.name})
 
+
 def create_dtls(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a DTLS for this
+    location. If no, raise a raise an exception, if yes, return a registration
+    message. Be careful that this method DOES NOT CREATE a role object for the
+    corresponding DTLS. However, it may delete the previous role object if
+    if detect you can replace it by a new one. Object creation is made in
+    the handle() method.
+    """
     if location.type != LocationType.objects.get(name__iexact='district'):
         raise BadValue("Registration failed: %(loc)s is not a district, it " \
                        "is a %(type)s. You must register with a district " \
@@ -230,7 +265,85 @@ def create_dtls(reporter, group, location):
 
 
 def create_ztls(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a ZTLS for this
+    location. If no, raise a raise an exception, if yes, return a registration
+    message. Be careful that this method DOES NOT CREATE a role object for the
+    corresponding ZTLS. However, it may delete the previous role object if
+    if detect you can replace it by a new one. Object creation is made in
+    the handle() method.
+    """
     if location.type != LocationType.objects.get(name__iexact='zone'):
         raise BadValue("Registration failed: %(loc)s is not a zone, it " \
-                       "is a %(type)s. You must register with a zone " \
+                       "is a %(type)s. You must register with a zone." \
                        "code." % {'loc':location, 'type':location.type.name})
+
+    try:
+        role = Role.objects.get(group=group, location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("Registration failed. %(user)s is already " \
+                             "registered as the ZTLS for %(location)s. " % \
+                             {'user':role.reporter.full_name(),
+                              'location':location})
+        else:
+            raise NotAllowed("You are already registered as the " \
+                             "ZTLS for %(loc)s. You do not " \
+                             "need to register again." % {'loc':location})
+
+    try:
+        old = Role.objects.get(reporter=reporter, group=group)
+    except Role.DoesNotExist:
+        pass
+    else:
+        old_location = old.location
+        old.delete()
+        return "You have moved from %(old)s to %(new)s." % \
+               {'old':old_location, 'new':location}
+
+    return "You are now registered as the ZTLS for %(loc)s." % \
+           {'loc': location.name}
+
+
+def create_dtu_focal_person(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a DTU focal person for this
+    location. If no, raise a raise an exception, if yes, return a registration
+    message. Be careful that this method DOES NOT CREATE a role object for the
+    corresponding DTU focal person. However, it may delete the previous role object if
+    if detect you can replace it by a new one. Object creation is made in
+    the handle() method.
+    """
+    reject_non_dtus(location)
+    try:
+        role = Role.objects.get(group=group, location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("Registration failed. %(user)s is already " \
+                             "registered as the DTU Focal Person at %(location)s. " \
+                             "Only one DTU Focal Person can be registered per " \
+                             "DTU." % \
+                             {'user':role.reporter.full_name(),
+                              'location':location})
+        else:
+            raise NotAllowed("You are already registered as the " \
+                             "DTU Focal Person at %(loc)s. You do not " \
+                             "need to register again." % {'loc':location})
+
+    existing_roles = Role.objects.filter(reporter=reporter)
+    try:
+        old = existing_roles.get(group=group)
+    except Role.DoesNotExist:
+        pass
+    else:
+        old_location = old.location
+        old.delete()
+        return "You have moved from %(old)s to %(new)s." % \
+               {'old':old_location, 'new':location}
+
+    return "You are now registered as the DTU Focal Person at %(loc)s." % \
+           {'loc': location.name}

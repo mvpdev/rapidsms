@@ -68,5 +68,13 @@
             "name": "district tb supervisor", 
             "permissions": []
         }
+    },
+    {
+        "pk": 9, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dtu focal person", 
+            "permissions": []
+        }
     }
 ]

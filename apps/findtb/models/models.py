@@ -31,7 +31,7 @@ class Role(models.Model):
 
     def __unicode__(self):
         return "%(reporter)s as %(group)s at %(location)s" % \
-               {'reporter':self.reporter, 'group':self.group, \
+               {'reporter':self.reporter, 'group':self.group,
                 'location':self.location}
 
 
@@ -76,7 +76,7 @@ def Role_delete_handler(sender, **kwargs):
     class Meta:
         app_label = 'findtb'
     role = kwargs['instance']
-    if not Role.objects.filter(reporter=role.reporter, \
+    if not Role.objects.filter(reporter=role.reporter,
                                group=role.group).count():
         role.reporter.groups.remove(role.group)
 
@@ -97,12 +97,12 @@ def Role_presave_handler(sender, **kwargs):
     if role.pk:
         orig_role = Role.objects.get(pk=role.pk)
         if orig_role.reporter != role.reporter:
-            if Role.objects.filter(reporter=orig_role.reporter, \
+            if Role.objects.filter(reporter=orig_role.reporter,
                                    group=orig_role.group).count() == 1:
                 orig_role.reporter.groups.remove(orig_role.group)
         else:
             if orig_role.group != role.group:
-                if Role.objects.filter(reporter=role.reporter, \
+                if Role.objects.filter(reporter=role.reporter,
                                        group=orig_role.group).count() == 1:
                     role.reporter.groups.remove(orig_role.group)
 
@@ -198,7 +198,7 @@ class Specimen(models.Model):
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
     tracking_tag = models.CharField(max_length=8, unique=True, db_index=True)
-    tc_number = models.CharField(max_length=12, blank=True, null=True, \
+    tc_number = models.CharField(max_length=12, blank=True, null=True,
                                       db_index=True, unique=True)
 
     def __unicode__(self):
@@ -277,10 +277,12 @@ class FINDTBGroup(Group):
         app_label = 'findtb'
         proxy = True
 
+
     CLINICIAN_GROUP_NAME = 'clinician'
     DTU_LAB_TECH_GROUP_NAME = 'dtu lab tech'
     DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
     ZONAL_TB_SUPERVISOR_GROUP_NAME = 'zonal tb supervisor'
+    DTU_FOCAL_PERSON_GROUP_NAME = 'dtu focal person'
 
 
     def isClinician(self):
@@ -297,6 +299,10 @@ class FINDTBGroup(Group):
 
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
+
+
+    def isDtuFocalPerson(self):
+        return self.name == self.DTU_FOCAL_PERSON_GROUP_NAME
 
 
 
@@ -357,10 +363,10 @@ class Configuration(models.Model):
 
     '''Store Key/value config options'''
 
-    description = models.CharField(_('Description'), max_length=255, \
+    description = models.CharField(_('Description'), max_length=255,
                                    db_index=True)
     key = models.CharField(_('Key'), max_length=50, db_index=True)
-    value = models.CharField(_('Value'), max_length=255, \
+    value = models.CharField(_('Value'), max_length=255,
                              db_index=True, blank=True)
 
     def __unicode__(self):
@@ -368,7 +374,7 @@ class Configuration(models.Model):
 
 
     def get_dictionary(self):
-        return {'key': self.key, 'value': self.value, \
+        return {'key': self.key, 'value': self.value,
                 'description': self.description}
 
 
@@ -383,3 +389,88 @@ class Configuration(models.Model):
         cfg = cls.objects.get(key__iexact=key)
         return cfg.value
 
+
+
+class SlidesBatch(models.Model):
+    """
+        Group of slides, hold slides origin and date.
+    """
+
+    QUARTERS = {
+                1: 1, 2: 1, 3: 1,
+                4: 2, 5: 2, 6: 2,
+                7: 3, 8: 3, 9: 3,
+                10: 4, 11: 4, 12: 4
+                }
+
+    class Meta:
+        app_label = 'findtb'
+
+    location = models.ForeignKey(Location)
+    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
+    created_by = models.ForeignKey(Reporter)
+
+
+    @classmethod
+    def getQuarter(cls, date):
+        """
+        Return the quarter the given date is in. A quarter is a tuple with a number
+        between 1 and 4 and a year.
+        """
+        return (cls.QUARTERS[date.month], date.year)
+
+
+    def __unicode__(self):
+
+        q, y = self.getQuarter(self.created_on)
+        return u"Batch of %(slides)s slides from %(location)s for EQA of "\
+                "Q%(quarter)s %(year)s" % {'slides': self.slide_set.all().count(),
+                                           'location': self.location,
+                                           'quarter': q,
+                                           'year': y}
+
+
+class Slide(models.Model):
+    """
+    A slide of sputum to be tested for EQA. Hold an id and the tests results
+    for the DTU, the first controller and the second controller.
+    """
+
+    RESULTS_CHOICES = (('negative', "Negative"),
+                       ('1', "1+"),
+                       ('2', "2+"),
+                       ('3', "3+")) +\
+                        tuple(('%s_afb' % x, "%s AFB" % x) for x in range(1, 20))
+
+    class Meta:
+        app_label = 'findtb'
+
+    batch = models.ForeignKey(SlidesBatch)
+    number = models.CharField(max_length=20, blank=True, null=True,
+                              db_index=True, unique=True)
+
+    dtu_results = models.CharField(max_length=10, blank=True,
+                                   choices=RESULTS_CHOICES)
+
+    first_ctrl_results = models.CharField(max_length=10, blank=True,
+                                          choices=RESULTS_CHOICES)
+
+    second_ctrl_results = models.CharField(max_length=10, blank=True,
+                                           choices=RESULTS_CHOICES)
+
+    def save(self, *args, **kwargs):
+
+        if not self.number:
+            self.number = None
+
+        super(Slide, self).save(self, *args, **kwargs)
+
+
+    def __unicode__(self):
+
+        q, y = self.batch.getQuarter(self.batch.created_on)
+        return u"Slides %(number)s from %(location)s for EQA of "\
+                "Q%(quarter)s %(year)s" % {'number': self.number or '',
+                                           'location': self.batch.location,
+                                           'quarter': q,
+                                           'year': y}
