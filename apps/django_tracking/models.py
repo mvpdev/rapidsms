@@ -80,7 +80,7 @@ class State(models.Model):
     type = models.CharField(max_length=30, blank=True)
 
     # allow filtering state by origin, whatever it means
-    origin = models.BooleanField(max_length=30, blank=True)
+    origin = models.CharField(max_length=30, blank=True)
 
     # allow filtering state by a title, whatever it means
     title = models.CharField(max_length=60, blank=True)

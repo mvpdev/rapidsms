@@ -25,7 +25,7 @@ urlpatterns += patterns('',
         name='findtb-eqa-tracking',
         kwargs={'view_name': 'findtb-eqa-tracking'}),
 
-    url(r'^findtb/eqa/dashboard/$', views.eqa_dashboard,
+    url(r'^findtb/eqa/dashboard/(?:(?P<event_type>all|alert)/)*$', views.eqa_dashboard,
         name='findtb-eqa-dashboard',
         kwargs={'view_name': 'findtb-eqa-dashboard'}),
 

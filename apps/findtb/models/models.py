@@ -5,7 +5,7 @@
 import re
 import datetime
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_delete, pre_save
@@ -457,6 +457,18 @@ class SlidesBatch(models.Model):
     comment = models.CharField(max_length=100, blank=True)
 
     objects = SlidesBatchManager()
+
+
+    def save(self, *args, **kwargs):
+
+        try:
+            SlidesBatch.objects.get_for_quarter_including_date(self.location,
+                                                                self.created_on)
+        except SlidesBatch.DoesNotExist:
+            super(SlidesBatch, self).save(*args, **kwargs)
+        else:
+            raise IntegrityError(u"A Slides Batch already exists for this "\
+                                  u"DTU and this quarter")
 
 
     @classmethod
