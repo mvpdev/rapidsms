@@ -62,7 +62,7 @@ def eqa_dashboard(request, *arg, **kwargs):
 
     #  getting slides you should look at, grouped by dtu
     states = State.objects.filter(is_final=False, origin='eqa',
-                                  is_current=True).order_by('-created')
+                                  is_current=True).order_by('created')
 
     # get data for the right navigation pannel
     districts = Location.objects.filter(type__name=u"district")

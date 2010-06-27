@@ -42,7 +42,7 @@ def handle(keyword, params, message):
     if not match:
         if len(params) > 2:
             raise ParseError("Registration failed: %s is not a valid " \
-                             "DTU code." % params[0].upper())
+                             "location code." % params[0].upper())
         else:
             raise ParseError("Registration failed: " \
                              "You must send:\n%s LocationCode " \

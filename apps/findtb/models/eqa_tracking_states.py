@@ -48,7 +48,7 @@ class Eqa(FtbState):
 
 class EqaStarts(Eqa):
     """
-    State declaring the slides are ready to be picked up by the DTLS form the
+    State declaring the slides are ready to be picked up by the DTLS from the
     DTU.
     """
 
@@ -67,3 +67,28 @@ class EqaStarts(Eqa):
 
         return u"Slides from %(dtu)s are ready to be picked up by DTLS" % {
                                             'dtu': self.slides_batch.location }
+
+
+class CollectedFromDtu(Eqa):
+    """
+    State declaring the slides have been collected by DTLS from the
+    DTU.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'collected_from_dtu'
+
+
+    def get_short_message(self):
+
+        return u"%s slides have been picked up by DTLS" %\
+               self.slides_batch.slide_set.all().count()
+
+
+    def get_long_message(self):
+
+        return u"%(number)s slides have been picked up from %(dtu)s by DTLS" % {
+                                            'dtu': self.slides_batch.location.name,
+                                            'number': self.slides_batch.slide_set.all().count()}

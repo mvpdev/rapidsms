@@ -15,7 +15,7 @@ from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenMustBeReplaced,\
                                               AllTestsDone
 
-from findtb.models.eqa_tracking_states import Eqa, EqaStarts
+from findtb.models.eqa_tracking_states import Eqa, EqaStarts, CollectedFromDtu
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

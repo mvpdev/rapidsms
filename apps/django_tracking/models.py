@@ -270,8 +270,6 @@ class TrackedItem(models.Model):
 
         self.current_state = next_state
 
-        print "\tTrackedItem: set_to_next_state() end"
-
 
     def cancel_current_state(self):
         """

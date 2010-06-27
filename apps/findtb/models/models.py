@@ -15,6 +15,7 @@ from django_tracking.models import TrackedItem, State
 from locations.models import Location
 from reporters.models import Reporter
 
+# TODO : break this file in several smaller files
 
 class SlidesBatchManager(models.Manager):
 
@@ -35,9 +36,7 @@ class SlidesBatchManager(models.Manager):
         begin = datetime.date(year, begin[1], begin[0])
         end = datetime.date(year, end[1], end[0])
 
-        return self.filter(location=dtu,
-                           created_on__gte=begin,
-                           created_on__lte=end).get()
+        return self.filter(location=dtu, created_on__gte=begin, created_on__lte=end).get()
 
 
     def get_for_quarter_including_date(self, dtu, date=None):
@@ -47,9 +46,7 @@ class SlidesBatchManager(models.Manager):
         none is provided.
         """
 
-        if not date:
-            date = datetime.date.today()
-
+        date = date or datetime.date.today()
         return self.get_for_quarter(dtu, *SlidesBatch.get_quarter(date))
 
 
@@ -165,11 +162,9 @@ class Patient(models.Model):
     first_name = models.CharField(max_length=50, blank=True, default="")
     last_name = models.CharField(max_length=50, blank=True, default="")
 
-    gender = models.CharField(_(u"Gender"),
-                              max_length=1,
+    gender = models.CharField(_(u"Gender"), max_length=1,
                               choices=GENDER_CHOICES,
-                              blank=True,
-                              null=True)
+                              blank=True, null=True)
 
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
@@ -221,6 +216,7 @@ class Patient(models.Model):
             Return age calculated from date or birth
         """
         return datetime.date.today().year - self.dob.year
+
 
 
 class Specimen(models.Model):
@@ -434,19 +430,11 @@ class SlidesBatch(models.Model):
         Group of slides, hold slides origin and date.
     """
 
-    MONTH_QUARTERS = {
-                1: 1, 2: 1, 3: 1,
-                4: 2, 5: 2, 6: 2,
-                7: 3, 8: 3, 9: 3,
-                10: 4, 11: 4, 12: 4
-                }
+    MONTH_QUARTERS = { 1: 1, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2,
+                      7: 3, 8: 3, 9: 3,10: 4, 11: 4, 12: 4 }
 
-    QUARTER_BOUNDARIES = {
-                         1: ((1, 1), (31, 3)),
-                         2: ((1, 4), (30, 6)),
-                         3: ((1, 7), (30, 9)),
-                         4: ((1, 10), (31, 12))
-                        }
+    QUARTER_BOUNDARIES = { 1: ((1, 1), (31, 3)), 2: ((1, 4), (30, 6)),
+                           3: ((1, 7), (30, 9)), 4: ((1, 10), (31, 12))}
 
     class Meta:
         app_label = 'findtb'
@@ -496,7 +484,6 @@ class SlidesBatch(models.Model):
 
 
 
-
 class Slide(models.Model):
     """
     A slide of sputum to be tested for EQA. Hold an id and the tests results
@@ -525,6 +512,8 @@ class Slide(models.Model):
 
     second_ctrl_results = models.CharField(max_length=10, blank=True,
                                            choices=RESULTS_CHOICES)
+
+    cancelled = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
 
