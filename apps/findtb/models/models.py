@@ -16,6 +16,44 @@ from locations.models import Location
 from reporters.models import Reporter
 
 
+class SlidesBatchManager(models.Manager):
+
+
+    def get_for_quarter(self, dtu, quarter=None, year=None):
+        """
+        Get the slides batch from a DTU for the EQA of the corresponding quarter
+        of the given year or the current quarter and year if none is provided.
+        """
+
+        if bool(quarter) != bool(year):
+            raise ValueError("You must define 'quarter' AND 'year' or none of them")
+
+        if not quarter:
+            quarter, year = SlidesBatch.get_quarter(datetime.date.today())
+
+        begin, end = SlidesBatch.QUARTER_BOUNDARIES[quarter]
+        begin = datetime.date(year, begin[1], begin[0])
+        end = datetime.date(year, end[1], end[0])
+
+        return self.filter(location=dtu,
+                           created_on__gte=begin,
+                           created_on__lte=end).get()
+
+
+    def get_for_quarter_including_date(self, dtu, date=None):
+        """
+        Get the slides batch from a DTU for the EQA of the corresponding quarter
+        of the given year that includes this date or the current date if
+        none is provided.
+        """
+
+        if not date:
+            date = datetime.date.today()
+
+        return self.get_for_quarter(dtu, *SlidesBatch.get_quarter(date))
+
+
+
 class Role(models.Model):
     """
     Link between a Django group, a location and a reporter
@@ -396,38 +434,55 @@ class SlidesBatch(models.Model):
         Group of slides, hold slides origin and date.
     """
 
-    QUARTERS = {
+    MONTH_QUARTERS = {
                 1: 1, 2: 1, 3: 1,
                 4: 2, 5: 2, 6: 2,
                 7: 3, 8: 3, 9: 3,
                 10: 4, 11: 4, 12: 4
                 }
 
+    QUARTER_BOUNDARIES = {
+                         1: ((1, 1), (31, 3)),
+                         2: ((1, 4), (30, 6)),
+                         3: ((1, 7), (30, 9)),
+                         4: ((1, 10), (31, 12))
+                        }
+
     class Meta:
         app_label = 'findtb'
 
     location = models.ForeignKey(Location)
-    created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
+    created_on = models.DateField(_(u"Created on"), default=datetime.date.today)
     created_by = models.ForeignKey(Reporter)
+    comment = models.CharField(max_length=100, blank=True)
+
+    objects = SlidesBatchManager()
 
 
     @classmethod
-    def getQuarter(cls, date):
+    def get_quarter(cls, date):
         """
         Return the quarter the given date is in. A quarter is a tuple with a number
         between 1 and 4 and a year.
         """
-        return (cls.QUARTERS[date.month], date.year)
+        return (cls.MONTH_QUARTERS[date.month], date.year)
+
+
+    @property
+    def quarter(self):
+        return SlidesBatch.get_quarter(self.created_on)
 
 
     def __unicode__(self):
 
-        q, y = self.getQuarter(self.created_on)
+        q, y = self.get_quarter(self.created_on)
         return u"Batch of %(slides)s slides from %(location)s for EQA of "\
                 "Q%(quarter)s %(year)s" % {'slides': self.slide_set.all().count(),
                                            'location': self.location,
                                            'quarter': q,
                                            'year': y}
+
+
 
 
 class Slide(models.Model):
@@ -444,6 +499,7 @@ class Slide(models.Model):
 
     class Meta:
         app_label = 'findtb'
+
 
     batch = models.ForeignKey(SlidesBatch)
     number = models.CharField(max_length=20, blank=True, null=True,
@@ -468,7 +524,7 @@ class Slide(models.Model):
 
     def __unicode__(self):
 
-        q, y = self.batch.getQuarter(self.batch.created_on)
+        q, y = self.batch.get_quarter(self.batch.created_on)
         return u"Slides %(number)s from %(location)s for EQA of "\
                 "Q%(quarter)s %(year)s" % {'number': self.number or '',
                                            'location': self.batch.location,
