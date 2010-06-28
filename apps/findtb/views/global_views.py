@@ -3,7 +3,6 @@
 
 
 import random
-import datetime
 
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
@@ -47,7 +46,7 @@ def eqa_dashboard(request, *arg, **kwargs):
 
     if event_type == 'alert':
         events = State.objects.filter(is_final=False,
-                                      origin='sref',
+                                      origin='eqa',
                                      is_current=True)\
                               .filter(type=event_type).order_by('-created')
 
