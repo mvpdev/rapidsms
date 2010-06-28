@@ -1,119 +1,144 @@
 {% extends "findtb-tracking.html" %}
 
-{% block page-id %}eqa-tracking{% endblock %}
+{% load findtb_format  %}
+
+{% block javascripts %}
+
+     <script type="text/javascript" 
+             src="/static/findtb/js/eqa.js">
+    </script>
+
+        
+{% endblock %}
+
+{% block page-id %}EQA-tracking{% endblock %}
 
 {% block title %}EQA Tracking{% endblock %}
 
-{% block findtb-title %}EQA for Pajimo HC III{% endblock %}
-
-
-{% block tracking-pagination %}  
- 
-   <ul id="findtb-tracking-pagination">
-       
-       {% if previous_quarter %}
-       <li><a href="#">&lt; Q2 of 2009</a></li>
-       {% endif %}
-       
-       <li class="current"><strong>Q3 of 2009</strong></li>
-       
-       {% if next_quarter %}
-       <li><a href="#">Q4 of 2009 &gt;</a></li>
-       {% endif %}
-       
-       {% if current_quarter %}
-       <li><a href="#">Now &gt;&gt;</a></li>
-       {% endif %}
-       
-   </ul>
-
+{% block findtb-title %}
+    EQA tracking: {{ slides_batch.location.name }}
 {% endblock %}
 
-{% block tracking-form %}
 
-    {% if batch_arrived %}
-  
-    <h2>Test results</h2>
-  
-    <form id="batch-results"> 
+<p> Navigation links</p>
+
+
+{% if not forms %}
+
+<h2>Results</h2> 
+
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Not implemented yet</p>
+
+{% endif %}
+   
+
     
-        <table>
-        
-            <thead>
-            <tr>
-              <th>Slide</th>
-              <th>Initial result</th>
-              <th>First control</th>
-              <th>Second control</th>
-            </tr>
-            </thead>
-           
-            <tbody>
-            {% for slide in slides %}
-                <tr>
-                   <td><input type="text" maxlength="15" size="16" value="{{ slide }}"/></td>
-                   {% for col in "123" %}
-                    <td>
-                        <select>
-                           {% for possible_result in possible_results %}
-                                <option>{{ possible_result }}</option>
-                           {% endfor %}
-                        </select>
-                    </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-       
-        <input class="save-button" value="Save" type="submit"/>
-   
-    </form> 
-   {% endif %}
-   
-{% endblock %}
-   
-   
 {% block findtb-events-title %}Follow up{% endblock %}
 
 {% block findtb-events-selection %}
-    <ul id="findtb-event-picker-selection">
-        {% for event in events %}
-        <li class="{{ event.type }}">
-                <strong>{{ event.title }}</strong>
-                <span>{{ event.date }}</span>
-        </li>
-        {% endfor %}
-    </ul>
-{% endblock %}
 
+    <!-- TODO : add a cancel link in the last event so they can always undo 
+    something. A good place to put it would be next to the date. 
+    Cancel must be confirmed -->
+    
+    {% if events.count %}
+        <ul id="findtb-event-picker-selection">
+            {% for state in events %}
+            <li class="{{ state.type }}">
+                    <strong>{{ state.content_object.get_short_message }}</strong>
+                    <span>{{ state.created|humanize_time_delta|default_if_none:"1 second ago" }}</span> 
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing has happened yet</p>   
+    {% endif %}
+
+{% endblock %}
+        
 {% block findtb-contacts %}
-            {% if contacts %}
-               <dl id="findtb-contacts">
-                {% for contact in contacts %}
-                    <dt>{{ contact.type }}:</dt>
-                    <dl><a href="#">{{ contact.name }}</a></dl>
-               {% endfor %}
-               </dl>
-            {% else %}
-               <p>No contact for these slides</p>
-            {% endif %}
-{% endblock %}
 
-{% block findtb-test-picker-title %}
-    Select a <acronym title="Diagnostic and Treatment Unit">DTU</acronyme>
+    {% if contacts %}
+    
+       <dl id="findtb-contacts">
+       
+       {% for role in contacts.iteritems %}
+       
+            <dt>{{ role.0.title }}:</dt>
+            
+            {% for reporter in role.1 %}
+                <dd>
+                    <em>
+                    {{ reporter.last_name|upper }}
+                    {{ reporter.first_name }} 
+                    </em>:
+                    {{reporter.connection.identity}}
+                </dd>
+            {% endfor %}
+            
+       {% endfor %}
+       
+       </dl>
+       
+    {% else %}
+       <p id="findtb-contacts">No phone contact for this slides batch </p>
+    {% endif %}
+            
 {% endblock %}
+   
+   
+{% block findtb-test-picker-title %}Select DTU{% endblock %}
 
 {% block findtb-test-picker-selection %}
+
+   <form id="zone-selector" method="post" action='.'>
+   <p><label for="zone">Zones</label>
+   <select name="zone" id="zone">
+       <option value="all">All</option>
+       {% for zone in zones %}
+       <option
+               {% ifequal zone.pk selected_zone %}
+               selected="selected"
+               {% endifequal %}
+               value="{{ zone.pk }}">
+        {{ zone.name }}
+       </option>
+       {% endfor %}
+   </select>
+   <input type="submit" value="OK"/></p>
+   </form>
    
+   <form id="district-selector" method="post" action='.'>
+   <p><label for="district">Districts</label>
+   <select name="district" id="district">
+       <option value="all">All</option>
+       {% for district in districts %}
+       <option 
+               {% ifequal district.id selected_district %}
+               selected="selected"
+               {% endifequal %}
+               value="{{ district.id }}">
+        {{ district.name }}
+       </option>
+       {% endfor %}}
+   </select>
+   <input type="submit"  value="OK"/></p>
+   </form>
+
    {% if dtus %}
-       <ul id="findtb-test-picker-selection">
+       <ul id="findtb-dtu-selector">
        {% for dtu in dtus %}
-         <li><a href="{% url findtb-eqa-tracking 1984 %}">{{ dtu }}</a></li>
+           <li>
+                <a href="{% url findtb-eqa-tracking dtu.pk %}">
+                    {{ dtu.name }}
+                </a>
+           </li>
        {% endfor %}
        </ul>
    {% else %}    
-        <p>Nothing to test yet</p>
+        <p>No slides to test yet</p>
    {% endif%}
    
 {% endblock %}

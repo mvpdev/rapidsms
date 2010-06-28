@@ -21,7 +21,8 @@ urlpatterns = patterns('',
 # EQA
 urlpatterns += patterns('',
 
-    url(r'^findtb/eqa/tracking/(?P<id>\d+)/$', views.eqa_tracking,
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)?$',
+        views.eqa_views.eqa_tracking,
         name='findtb-eqa-tracking',
         kwargs={'view_name': 'findtb-eqa-tracking'}),
 

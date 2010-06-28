@@ -93,7 +93,37 @@ class Role(models.Model):
         """
 
         roles = cls.getSpecimenRelatedRoles(specimen)
-        roles = list(Role.objects.filter(location=specimen.location))
+
+        roles_dict = {}
+        for role in roles:
+            roles_dict.setdefault(role.group.name, []).append(role.reporter)
+
+        return roles_dict
+
+
+    @classmethod
+    def getSlidesBatchRelatedRoles(cls, slides_batch):
+        """
+            Return roles for a given slides batch according to its location
+        """
+
+        roles = list(Role.objects.filter(location=slides_batch.location))
+        try:
+            roles.extend(Role.objects.filter(location=slides_batch.location.parent))
+            roles.extend(Role.objects.filter(location=slides_batch.location.parent.parent))
+        except AttributeError:
+            pass
+
+        return roles
+
+
+    @classmethod
+    def getSlidesBatchRelatedContacts(cls, slides_batch):
+        """
+            Return contacts for a given slides batch according to its location
+        """
+
+        roles = cls.getSlidesBatchRelatedRoles(slides_batch)
 
         roles_dict = {}
         for role in roles:
@@ -460,11 +490,12 @@ class SlidesBatch(models.Model):
 
 
     @classmethod
-    def get_quarter(cls, date):
+    def get_quarter(cls, date=None):
         """
         Return the quarter the given date is in. A quarter is a tuple with a number
         between 1 and 4 and a year.
         """
+        date = date or datetime.date.today()
         return (cls.MONTH_QUARTERS[date.month], date.year)
 
 

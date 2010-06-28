@@ -31,7 +31,7 @@ def eqa_dashboard(request, *arg, **kwargs):
     request.session['event_type'] = event_type
     events_url = reverse(kwargs['view_name'], args=(event_type,))
 
-    quarter, year = SlidesBatch.get_quarter(datetime.date.today())
+    quarter, year = SlidesBatch.get_quarter()
 
     # calculating pagination in the 'see more' link
     # Fix: incremental pagination doesn't increment
@@ -60,7 +60,7 @@ def eqa_dashboard(request, *arg, **kwargs):
     # 'see more' display more and more events at every clic
     events_count += events_inc
 
-    #  getting slides you should look at, grouped by dtu
+    #  getting slides currently in EQA
     states = State.objects.filter(is_final=False, origin='eqa',
                                   is_current=True).order_by('created')
 
@@ -160,64 +160,13 @@ def sref_dashboard(request, *arg, **kwargs):
 
 
 @login_required
-def eqa_tracking(request, *args, **kwargs):
-
-    events = [{"title": "Pajimo HC III results have been cancelled",
-                          "type": "cancelled", "date": "3 hours ago"},
-             {"title": "Pajimo HC III results are completed",
-              "type": "checked", "date": "Yesterday"},
-             {"title": "Pajimo HC III slides have arrived at NTRL",
-                              "type": "notice", "date": "2 hours ago"},
-             {"title": "Pajimo HC III slides are 3 days late",
-              "type": "warning", "date": "2 days ago"},
-           ]
-
-    previous_quarter = True
-    next_quarter = True
-    current_quarter = True
-
-    batchs = ["#%s" % random.randint(1000, 9999) for x in range(5)]
-
-    # TODO : don't make the second controle mandatory  since it the first
-    # ones agree, there is no need to check
-    # make it even grey in the UI in that case
-    # Carefull to what "agree" mean : it's not just stricly equal results
-    possible_results = ("Choose", "Negative","1+", "2+", "3+") +\
-                        tuple("%s AFB" % x for x in range(1, 20))
-
-
-    batch_arrived = True
-
-    slides = ["%s/09-150210" % random.randint(1000, 9999) for x in range(10)]
-
-
-    districts = Location.objects.filter(type__name=u"district")
-    zones = Location.objects.filter(type__name=u"zone")
-    dtus = Location.objects.filter(parent=districts[0])
-
-    batch_arrives = True
-
-    types = ["DTU", "DTLS", "DLAB", "DLFP"]
-    names = ["Keyta", "Kamara", "Camara", "Dolo", "Cissoko"]
-    contacts = []
-    for x in range(0, random.randint(0, 5)) :
-        contacts.append({"type": types.pop(), "name": names.pop()})
-
-    ctx = {}
-    ctx.update(kwargs)
-    ctx.update(locals())
-
-
-    return render_to_response(request, "eqa/eqa-tracking.html", ctx)
-
-
-@login_required
 def sref_tracking(request, *args, **kwargs):
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
     ti, c = TrackedItem.get_tracker_or_create(content_object=specimen)
 
     return redirect("findtb-sref-%s" % ti.state.title, id=kwargs['id'])
+
 
 
 @login_required

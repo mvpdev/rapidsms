@@ -28,7 +28,7 @@
 
 <div id="findtb-events">
     
-    <h2>Recent follow up for all the specimens</h2>
+    <h2>Recent follow up for all the slides</h2>
 
     {% if all_events %}
     
@@ -52,7 +52,7 @@
             <ul id="findtb-event-picker-selection">
                 {% for state in events %}
                 <li class="{{ state.type }}">
-                    <a href="{% url findtb-eqa-tracking state.tracked_item.content_object.pk %}">
+                    <a href="{% url findtb-eqa-tracking state.tracked_item.content_object.location.pk %}">
                         <strong>{{ state.content_object.get_long_message }}</strong>
                         <span>{{ state.created|humanize_time_delta }}</span> 
                     </a>
