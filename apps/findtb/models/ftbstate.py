@@ -21,6 +21,7 @@ class FtbStateManager(models.Manager):
         return self.get_states().filter(is_current=True)
 
 
+    # TODO: move get_specimen in a manager in sref states
     def get_specimens(self):
         return [state.tracked_item.content_object \
                 for state in self.get_current_states()]

@@ -176,6 +176,8 @@ def send(params, location, reporter, message):
     if len(params) < 2:
         raise ParseError(PARSE_ERROR_MSG)
 
+    params[0] = params[0].replace('0','o')
+
     # If the first param is not POST, ZTLS, or OTHER, reject it.
     if params[0] not in dict(SpecimenSent.SENDING_METHOD_CHOICES).keys():
         raise ParseError(PARSE_ERROR_MSG)

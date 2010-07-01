@@ -4,7 +4,7 @@
 
 from findtb.models.models import Role, Patient, Specimen,\
                                  FINDTBGroup, Configuration,\
-                                 FINDTBLocation
+                                 FINDTBLocation, SlidesBatch, Slide
 
 from findtb.models.ftbstate import FtbStateManager, FtbState
 
@@ -14,6 +14,8 @@ from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenReceived,\
                                               SpecimenMustBeReplaced,\
                                               AllTestsDone
+
+from findtb.models.eqa_tracking_states import Eqa, EqaStarts, CollectedFromDtu
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

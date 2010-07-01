@@ -5,7 +5,7 @@
 import re
 import datetime
 
-from django.db import models
+from django.db import models, IntegrityError
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group
 from django.db.models.signals import post_delete, pre_save
@@ -14,6 +14,41 @@ from django_tracking.models import TrackedItem, State
 
 from locations.models import Location
 from reporters.models import Reporter
+
+# TODO : break this file in several smaller files
+
+class SlidesBatchManager(models.Manager):
+
+
+    def get_for_quarter(self, dtu, quarter=None, year=None):
+        """
+        Get the slides batch from a DTU for the EQA of the corresponding quarter
+        of the given year or the current quarter and year if none is provided.
+        """
+
+        if bool(quarter) != bool(year):
+            raise ValueError("You must define 'quarter' AND 'year' or none of them")
+
+        if not quarter:
+            quarter, year = SlidesBatch.get_quarter(datetime.date.today())
+
+        begin, end = SlidesBatch.QUARTER_BOUNDARIES[quarter]
+        begin = datetime.date(year, begin[1], begin[0])
+        end = datetime.date(year, end[1], end[0])
+
+        return self.filter(location=dtu, created_on__gte=begin, created_on__lte=end).get()
+
+
+    def get_for_quarter_including_date(self, dtu, date=None):
+        """
+        Get the slides batch from a DTU for the EQA of the corresponding quarter
+        of the given year that includes this date or the current date if
+        none is provided.
+        """
+
+        date = date or datetime.date.today()
+        return self.get_for_quarter(dtu, *SlidesBatch.get_quarter(date))
+
 
 
 class Role(models.Model):
@@ -31,7 +66,7 @@ class Role(models.Model):
 
     def __unicode__(self):
         return "%(reporter)s as %(group)s at %(location)s" % \
-               {'reporter':self.reporter, 'group':self.group, \
+               {'reporter':self.reporter, 'group':self.group,
                 'location':self.location}
 
 
@@ -58,7 +93,37 @@ class Role(models.Model):
         """
 
         roles = cls.getSpecimenRelatedRoles(specimen)
-        roles = list(Role.objects.filter(location=specimen.location))
+
+        roles_dict = {}
+        for role in roles:
+            roles_dict.setdefault(role.group.name, []).append(role.reporter)
+
+        return roles_dict
+
+
+    @classmethod
+    def getSlidesBatchRelatedRoles(cls, slides_batch):
+        """
+            Return roles for a given slides batch according to its location
+        """
+
+        roles = list(Role.objects.filter(location=slides_batch.location))
+        try:
+            roles.extend(Role.objects.filter(location=slides_batch.location.parent))
+            roles.extend(Role.objects.filter(location=slides_batch.location.parent.parent))
+        except AttributeError:
+            pass
+
+        return roles
+
+
+    @classmethod
+    def getSlidesBatchRelatedContacts(cls, slides_batch):
+        """
+            Return contacts for a given slides batch according to its location
+        """
+
+        roles = cls.getSlidesBatchRelatedRoles(slides_batch)
 
         roles_dict = {}
         for role in roles:
@@ -76,7 +141,7 @@ def Role_delete_handler(sender, **kwargs):
     class Meta:
         app_label = 'findtb'
     role = kwargs['instance']
-    if not Role.objects.filter(reporter=role.reporter, \
+    if not Role.objects.filter(reporter=role.reporter,
                                group=role.group).count():
         role.reporter.groups.remove(role.group)
 
@@ -97,12 +162,12 @@ def Role_presave_handler(sender, **kwargs):
     if role.pk:
         orig_role = Role.objects.get(pk=role.pk)
         if orig_role.reporter != role.reporter:
-            if Role.objects.filter(reporter=orig_role.reporter, \
+            if Role.objects.filter(reporter=orig_role.reporter,
                                    group=orig_role.group).count() == 1:
                 orig_role.reporter.groups.remove(orig_role.group)
         else:
             if orig_role.group != role.group:
-                if Role.objects.filter(reporter=role.reporter, \
+                if Role.objects.filter(reporter=role.reporter,
                                        group=orig_role.group).count() == 1:
                     role.reporter.groups.remove(orig_role.group)
 
@@ -127,11 +192,9 @@ class Patient(models.Model):
     first_name = models.CharField(max_length=50, blank=True, default="")
     last_name = models.CharField(max_length=50, blank=True, default="")
 
-    gender = models.CharField(_(u"Gender"),
-                              max_length=1,
+    gender = models.CharField(_(u"Gender"), max_length=1,
                               choices=GENDER_CHOICES,
-                              blank=True,
-                              null=True)
+                              blank=True, null=True)
 
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
@@ -185,6 +248,7 @@ class Patient(models.Model):
         return datetime.date.today().year - self.dob.year
 
 
+
 class Specimen(models.Model):
 
     class Meta:
@@ -198,7 +262,7 @@ class Specimen(models.Model):
     created_on = models.DateTimeField(_(u"Created on"), auto_now_add=True)
     created_by = models.ForeignKey(Reporter)
     tracking_tag = models.CharField(max_length=8, unique=True, db_index=True)
-    tc_number = models.CharField(max_length=12, blank=True, null=True, \
+    tc_number = models.CharField(max_length=12, blank=True, null=True,
                                       db_index=True, unique=True)
 
     def __unicode__(self):
@@ -277,10 +341,12 @@ class FINDTBGroup(Group):
         app_label = 'findtb'
         proxy = True
 
+
     CLINICIAN_GROUP_NAME = 'clinician'
     DTU_LAB_TECH_GROUP_NAME = 'dtu lab tech'
     DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
     ZONAL_TB_SUPERVISOR_GROUP_NAME = 'zonal tb supervisor'
+    DTU_FOCAL_PERSON_GROUP_NAME = 'dtu focal person'
 
 
     def isClinician(self):
@@ -297,6 +363,10 @@ class FINDTBGroup(Group):
 
     def isZTLS(self):
         return self.name == self.ZONAL_TB_SUPERVISOR
+
+
+    def isDtuFocalPerson(self):
+        return self.name == self.DTU_FOCAL_PERSON_GROUP_NAME
 
 
 
@@ -357,10 +427,10 @@ class Configuration(models.Model):
 
     '''Store Key/value config options'''
 
-    description = models.CharField(_('Description'), max_length=255, \
+    description = models.CharField(_('Description'), max_length=255,
                                    db_index=True)
     key = models.CharField(_('Key'), max_length=50, db_index=True)
-    value = models.CharField(_('Value'), max_length=255, \
+    value = models.CharField(_('Value'), max_length=255,
                              db_index=True, blank=True)
 
     def __unicode__(self):
@@ -368,7 +438,7 @@ class Configuration(models.Model):
 
 
     def get_dictionary(self):
-        return {'key': self.key, 'value': self.value, \
+        return {'key': self.key, 'value': self.value,
                 'description': self.description}
 
 
@@ -383,3 +453,112 @@ class Configuration(models.Model):
         cfg = cls.objects.get(key__iexact=key)
         return cfg.value
 
+
+
+class SlidesBatch(models.Model):
+    """
+        Group of slides, hold slides origin and date.
+    """
+
+    MONTH_QUARTERS = { 1: 1, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2,
+                      7: 3, 8: 3, 9: 3,10: 4, 11: 4, 12: 4 }
+
+    QUARTER_BOUNDARIES = { 1: ((1, 1), (31, 3)), 2: ((1, 4), (30, 6)),
+                           3: ((1, 7), (30, 9)), 4: ((1, 10), (31, 12))}
+
+    class Meta:
+        app_label = 'findtb'
+
+    location = models.ForeignKey(Location)
+    created_on = models.DateField(_(u"Created on"), default=datetime.date.today)
+    created_by = models.ForeignKey(Reporter)
+    comment = models.CharField(max_length=100, blank=True)
+
+    objects = SlidesBatchManager()
+
+
+    def save(self, *args, **kwargs):
+
+        try:
+            SlidesBatch.objects.get_for_quarter_including_date(self.location,
+                                                                self.created_on)
+        except SlidesBatch.DoesNotExist:
+            super(SlidesBatch, self).save(*args, **kwargs)
+        else:
+            raise IntegrityError(u"A Slides Batch already exists for this "\
+                                  u"DTU and this quarter")
+
+
+    @classmethod
+    def get_quarter(cls, date=None):
+        """
+        Return the quarter the given date is in. A quarter is a tuple with a number
+        between 1 and 4 and a year.
+        """
+        date = date or datetime.date.today()
+        return (cls.MONTH_QUARTERS[date.month], date.year)
+
+
+    @property
+    def quarter(self):
+        return SlidesBatch.get_quarter(self.created_on)
+
+
+    def __unicode__(self):
+
+        q, y = self.get_quarter(self.created_on)
+        return u"Batch of %(slides)s slides from %(location)s for EQA of "\
+                "Q%(quarter)s %(year)s" % {'slides': self.slide_set.all().count(),
+                                           'location': self.location,
+                                           'quarter': q,
+                                           'year': y}
+
+
+
+class Slide(models.Model):
+    """
+    A slide of sputum to be tested for EQA. Hold an id and the tests results
+    for the DTU, the first controller and the second controller.
+    """
+
+    RESULTS_CHOICES = (('negative', "Negative"),
+                       ('1', "1+"),
+                       ('2', "2+"),
+                       ('3', "3+")) +\
+                        tuple(('%s_afb' % x, "%s AFB" % x) for x in range(1, 20))
+
+    class Meta:
+        app_label = 'findtb'
+
+
+    batch = models.ForeignKey(SlidesBatch)
+    number = models.CharField(max_length=20, blank=True, null=True,
+                              db_index=True, unique=True)
+
+    dtu_results = models.CharField(max_length=10, blank=True,
+                                   choices=RESULTS_CHOICES)
+
+    first_ctrl_results = models.CharField(max_length=10, blank=True,
+                                          choices=RESULTS_CHOICES)
+
+    second_ctrl_results = models.CharField(max_length=10, blank=True,
+                                           choices=RESULTS_CHOICES)
+
+    cancelled = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+
+        if not self.number:
+            self.number = None
+
+        super(Slide, self).save(self, *args, **kwargs)
+
+
+    def __unicode__(self):
+
+        q, y = self.batch.get_quarter(self.batch.created_on)
+        return u"Slides %(number)s from %(location)s for EQA of "\
+                "Q%(quarter)s %(year)s" % {'number': self.number or '',
+                                           'location': self.batch.location,
+                                           'quarter': q,
+                                           'year': y}
