@@ -36,7 +36,7 @@ def handle(keyword, params, message):
                          "closed. Please contact NTRL for assistance.")
 
     text = ' '.join(params)
-    regex = r'(?P<prefix>\d+)[ \-,./]+((?P<suffix>\d+)?\s+)?(?P<names>.+)'
+    regex = r'(?P<prefix>\d+[a-z]?)[ \-,./]+((?P<suffix>\d+)?\s+)?(?P<names>.+)'
     match = re.match(regex, text)
 
     if not match:

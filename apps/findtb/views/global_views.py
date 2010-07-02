@@ -3,6 +3,7 @@
 
 
 import random
+import datetime
 
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
