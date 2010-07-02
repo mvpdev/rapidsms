@@ -17,6 +17,8 @@ DTU_LAB_TECH_KEYWORD = 'lab'
 DISTRICT_TB_SUPERVISOR_KEYWORD = 'dtls'
 ZONAL_TB_SUPERVISOR_KEYWORD = 'ztls'
 DTU_FOCAL_PERSON_KEYWORD = 'eqa'
+FIRST_CONTROL_FOCAL_PERSON_KEYWORD = 'first'
+SECOND_CONTROL_FOCAL_PERSON_KEYWORD = 'second'
 
 
 KEYWORDS = [
@@ -24,7 +26,9 @@ KEYWORDS = [
     DTU_LAB_TECH_KEYWORD,
     DISTRICT_TB_SUPERVISOR_KEYWORD,
     ZONAL_TB_SUPERVISOR_KEYWORD,
-    DTU_FOCAL_PERSON_KEYWORD
+    DTU_FOCAL_PERSON_KEYWORD,
+    FIRST_CONTROL_FOCAL_PERSON_KEYWORD,
+    SECOND_CONTROL_FOCAL_PERSON_KEYWORD
 ]
 
 
@@ -88,7 +92,14 @@ def handle(keyword, params, message):
         ZONAL_TB_SUPERVISOR_KEYWORD:
             (FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME, create_ztls),
         DTU_FOCAL_PERSON_KEYWORD:
-            (FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME, create_dtu_focal_person)
+            (FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME, create_dtu_focal_person),
+        FIRST_CONTROL_FOCAL_PERSON_KEYWORD:
+            (FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
+             create_first_control_focal_person),
+        SECOND_CONTROL_FOCAL_PERSON_KEYWORD:
+            (FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME,
+             create_second_control_focal_person),
+
     }
 
     group = FINDTBGroup.objects.get(name=group_mapping[keyword][0])
@@ -214,11 +225,24 @@ def create_lab_tech(reporter, group, location):
            {'loc': location.name}
 
 
+def reject_wrong_location_type(location, type):
+    """
+    Check if a location is a certain type, raise and exception if not.
+    """
+    if location.type != LocationType.objects.get(name__iexact=type):
+        raise BadValue("Registration failed: %(loc)s is not a %(expected_type)s"\
+                        ", it is a %(type)s. You must register with a DTU code." %
+                        {'loc': location,
+                        'type': location.type.name,
+                        'expected_type': type})
+
+
 def reject_non_dtus(location):
-    if location.type != LocationType.objects.get(name__iexact='dtu'):
-        raise BadValue("Registration failed: %(loc)s is not a DTU, it " \
-                       "is a %(type)s. You must register with a DTU code." %
-                        {'loc':location, 'type':location.type.name})
+    """
+    Check if a location is a DTU, raise and exception if not.
+    """
+    reject_wrong_location_type(location, 'DTU')
+
 
 
 def create_dtls(reporter, group, location):
@@ -307,6 +331,7 @@ def create_ztls(reporter, group, location):
            {'loc': location.name}
 
 
+# TODO: refactor user creation, it's a lot of duplicate code
 def create_dtu_focal_person(reporter, group, location):
     """
     Perform checks to see if the current reporter can be a DTU focal person for this
@@ -347,3 +372,88 @@ def create_dtu_focal_person(reporter, group, location):
 
     return "You are now registered as the DTU Focal Person at %(loc)s." % \
            {'loc': location.name}
+
+
+def create_first_control_focal_person(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a First Control Focal
+    Person for this location. If no, raise a raise an exception, if yes, return
+    a registration message. Be careful that this method DOES NOT CREATE a role
+    object for the corresponding focal person. However, it may delete the
+    previous role object if if detect you can replace it by a new one. Object
+    creation is made in the handle() method.
+    """
+    reject_wrong_location_type(location, 'district')
+    try:
+        role = Role.objects.get(group=group, location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("Registration failed. %(user)s is already " \
+                             "registered as the First Control Focal Person at "
+                             "%(location)s. Only one First Control Focal "
+                             "Person can be registered per district." % \
+                             {'user':role.reporter.full_name(),
+                              'location':location})
+        else:
+            raise NotAllowed("You are already registered as the " \
+                             "First Control Focal Person at %(loc)s. You do not " \
+                             "need to register again." % {'loc':location})
+
+    existing_roles = Role.objects.filter(reporter=reporter)
+    try:
+        old = existing_roles.get(group=group)
+    except Role.DoesNotExist:
+        pass
+    else:
+        old_location = old.location
+        old.delete()
+        return "You have moved from %(old)s to %(new)s." % \
+               {'old':old_location, 'new':location}
+
+    return "You are now registered as the First Control Focal Person at %(loc)s." % \
+           {'loc': location.name}
+
+
+def create_second_control_focal_person(reporter, group, location):
+    """
+    Perform checks to see if the current reporter can be a Second Control Focal
+    Person for this location. If no, raise a raise an exception, if yes, return
+    a registration message. Be careful that this method DOES NOT CREATE a role
+    object for the corresponding focal person. However, it may delete the
+    previous role object if if detect you can replace it by a new one. Object
+    creation is made in the handle() method.
+    """
+    reject_wrong_location_type(location, 'zone')
+    try:
+        role = Role.objects.get(group=group, location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("Registration failed. %(user)s is already " \
+                             "registered as the Second Control Focal Person at "
+                             "%(location)s. Only one Second Control Focal "
+                             "Person can be registered per district." % \
+                             {'user':role.reporter.full_name(),
+                              'location':location})
+        else:
+            raise NotAllowed("You are already registered as the " \
+                             "Second Control Focal Person at %(loc)s. You do not " \
+                             "need to register again." % {'loc':location})
+
+    existing_roles = Role.objects.filter(reporter=reporter)
+    try:
+        old = existing_roles.get(group=group)
+    except Role.DoesNotExist:
+        pass
+    else:
+        old_location = old.location
+        old.delete()
+        return "You have moved from %(old)s to %(new)s." % \
+               {'old':old_location, 'new':location}
+
+    return "You are now registered as the Second Control Focal Person at %(loc)s." % \
+           {'loc': location.name}
+

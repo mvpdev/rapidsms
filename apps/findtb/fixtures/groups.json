@@ -76,5 +76,21 @@
             "name": "dtu focal person", 
             "permissions": []
         }
+    },
+    {
+        "pk": 10, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "first control focal person", 
+            "permissions": []
+        }
+    },
+    {
+        "pk": 11, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "second control focal person", 
+            "permissions": []
+        }
     }
 ]

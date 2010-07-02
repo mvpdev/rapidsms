@@ -347,6 +347,8 @@ class FINDTBGroup(Group):
     DISTRICT_TB_SUPERVISOR_GROUP_NAME = 'district tb supervisor'
     ZONAL_TB_SUPERVISOR_GROUP_NAME = 'zonal tb supervisor'
     DTU_FOCAL_PERSON_GROUP_NAME = 'dtu focal person'
+    FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME = 'first control focal person'
+    SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME = 'second control focal person'
 
 
     def isClinician(self):
