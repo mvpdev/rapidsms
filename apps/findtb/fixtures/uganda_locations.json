@@ -1,40 +1,5 @@
 [
     {
-        "pk": 6, 
-        "model": "locations.locationtype", 
-        "fields": {
-            "name": "district"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "locations.locationtype", 
-        "fields": {
-            "name": "zone"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "locations.locationtype", 
-        "fields": {
-            "name": "dlab"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "locations.locationtype", 
-        "fields": {
-            "name": "rlab"
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "locations.locationtype", 
-        "fields": {
-            "name": "dtu"
-        }
-    }, 
-    {
         "pk": 4722, 
         "model": "locations.location", 
         "fields": {
@@ -74,7 +39,7 @@
         "pk": 5608, 
         "model": "locations.location", 
         "fields": {
-            "code": "EAST", 
+            "code": "e", 
             "name": "East", 
             "parent": null, 
             "longitude": null, 
@@ -185,6 +150,282 @@
             "code": "401-66", 
             "name": "TASO Mbale", 
             "parent": 4721, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5609, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "n", 
+            "name": "North", 
+            "parent": null, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 5
+        }
+    }, 
+    {
+        "pk": 5610, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801", 
+            "name": "Apac", 
+            "parent": 5609, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 6
+        }
+    }, 
+    {
+        "pk": 5611, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-17", 
+            "name": "Apac Hospital", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5612, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-24", 
+            "name": "Ibuje HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5613, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-3", 
+            "name": "Aboke HC IV", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5614, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-22", 
+            "name": "Bara HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5615, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-7", 
+            "name": "Aduku HC IV", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5616, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-11", 
+            "name": "Akalo HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5617, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-15", 
+            "name": "Alito HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5618, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-12", 
+            "name": "Akokoro HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5619, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-14", 
+            "name": "Alenga HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5620, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-30", 
+            "name": "Nambieso HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5621, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-23", 
+            "name": "Chawente HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5622, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-4", 
+            "name": "Abongomola HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5623, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "801-26", 
+            "name": "Inomo HC III", 
+            "parent": 5610, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5624, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "ne", 
+            "name": "North East", 
+            "parent": null, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 5
+        }
+    }, 
+    {
+        "pk": 5625, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "502n", 
+            "name": "Nakapiripirit", 
+            "parent": 5624, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 6
+        }
+    }, 
+    {
+        "pk": 5626, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "502n-2", 
+            "name": "Amudat Hospital", 
+            "parent": 5625, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5627, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "502n-19", 
+            "name": "Nabilatuk HC IV", 
+            "parent": 5625, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5628, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "504", 
+            "name": "Kaabong", 
+            "parent": 5624, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 6
+        }
+    }, 
+    {
+        "pk": 5629, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "504-1", 
+            "name": "Kaabong Hospital", 
+            "parent": 5628, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5630, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "504-2", 
+            "name": "Karenga HC IV", 
+            "parent": 5628, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5631, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "502n-33", 
+            "name": "Tokora HC IV", 
+            "parent": 5625, 
             "longitude": null, 
             "latitude": null, 
             "type": 7
