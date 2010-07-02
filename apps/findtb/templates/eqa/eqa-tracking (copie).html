@@ -1,0 +1,119 @@
+{% extends "findtb-tracking.html" %}
+
+{% block page-id %}eqa-tracking{% endblock %}
+
+{% block title %}EQA Tracking{% endblock %}
+
+{% block findtb-title %}EQA for Pajimo HC III{% endblock %}
+
+
+{% block tracking-pagination %}  
+ 
+   <ul id="findtb-tracking-pagination">
+       
+       {% if previous_quarter %}
+       <li><a href="#">&lt; Q2 of 2009</a></li>
+       {% endif %}
+       
+       <li class="current"><strong>Q3 of 2009</strong></li>
+       
+       {% if next_quarter %}
+       <li><a href="#">Q4 of 2009 &gt;</a></li>
+       {% endif %}
+       
+       {% if current_quarter %}
+       <li><a href="#">Now &gt;&gt;</a></li>
+       {% endif %}
+       
+   </ul>
+
+{% endblock %}
+
+{% block tracking-form %}
+
+    {% if batch_arrived %}
+  
+    <h2>Test results</h2>
+  
+    <form id="batch-results"> 
+    
+        <table>
+        
+            <thead>
+            <tr>
+              <th>Slide</th>
+              <th>Initial result</th>
+              <th>First control</th>
+              <th>Second control</th>
+            </tr>
+            </thead>
+           
+            <tbody>
+            {% for slide in slides %}
+                <tr>
+                   <td><input type="text" maxlength="15" size="16" value="{{ slide }}"/></td>
+                   {% for col in "123" %}
+                    <td>
+                        <select>
+                           {% for possible_result in possible_results %}
+                                <option>{{ possible_result }}</option>
+                           {% endfor %}
+                        </select>
+                    </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+       
+        <input class="save-button" value="Save" type="submit"/>
+   
+    </form> 
+   {% endif %}
+   
+{% endblock %}
+   
+   
+{% block findtb-events-title %}Follow up{% endblock %}
+
+{% block findtb-events-selection %}
+    <ul id="findtb-event-picker-selection">
+        {% for event in events %}
+        <li class="{{ event.type }}">
+                <strong>{{ event.title }}</strong>
+                <span>{{ event.date }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block findtb-contacts %}
+            {% if contacts %}
+               <dl id="findtb-contacts">
+                {% for contact in contacts %}
+                    <dt>{{ contact.type }}:</dt>
+                    <dl><a href="#">{{ contact.name }}</a></dl>
+               {% endfor %}
+               </dl>
+            {% else %}
+               <p>No contact for these slides</p>
+            {% endif %}
+{% endblock %}
+
+{% block findtb-test-picker-title %}
+    Select a <acronym title="Diagnostic and Treatment Unit">DTU</acronyme>
+{% endblock %}
+
+{% block findtb-test-picker-selection %}
+   
+   {% if dtus %}
+       <ul id="findtb-test-picker-selection">
+       {% for dtu in dtus %}
+         <li><a href="{% url findtb-eqa-tracking 1984 %}">{{ dtu }}</a></li>
+       {% endfor %}
+       </ul>
+   {% else %}    
+        <p>Nothing to test yet</p>
+   {% endif%}
+   
+{% endblock %}

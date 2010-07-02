@@ -1,0 +1,3 @@
+Add groups for focal persons in the database
+Move django tracking at the same time as findtb since the models changed as well. Therefor, changes the field manually on the data base
+Check if the static address is the same

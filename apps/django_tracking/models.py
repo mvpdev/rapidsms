@@ -79,11 +79,11 @@ class State(models.Model):
     # allow filtering state by a type, whatever it means
     type = models.CharField(max_length=30, blank=True)
 
-    # allow filtering state by origin, whatever it means
-    origin = models.BooleanField(max_length=30, blank=True)
-
     # allow filtering state by a title, whatever it means
     title = models.CharField(max_length=60, blank=True)
+
+    # allow filtering state by origin, whatever it means
+    origin = models.CharField(max_length=30, blank=True)
 
     # a cancelled state don't appear in the history, but is not distroyed
     cancelled = models.BooleanField(default=False)
@@ -269,8 +269,6 @@ class TrackedItem(models.Model):
             next_state.tracked_item = self
 
         self.current_state = next_state
-
-        print "\tTrackedItem: set_to_next_state() end"
 
 
     def cancel_current_state(self):
