@@ -92,3 +92,27 @@ class CollectedFromDtu(Eqa):
         return u"%(number)s slides have been picked up from %(dtu)s by DTLS" % {
                                             'dtu': self.slides_batch.location.name,
                                             'number': self.slides_batch.slide_set.all().count()}
+
+
+class DeliveredToFirstController(Eqa):
+    """
+    State declaring the slides have been delivered by DTLS to the first
+    controller.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'delivered_to_first_controller'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been delivered to first controller"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been delivered to first controller" % {
+                                            'dtu': self.slides_batch.location.name}
+

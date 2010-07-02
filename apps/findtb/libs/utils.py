@@ -40,7 +40,11 @@ def send_to_group_at_location(group_name, location, msg):
         send_msg(role.reporter, msg)
 
 def send_to_lab_techs(location, msg):
-    send_to_group_at_location(FINDTBGroup.DTU_LAB_TECH_GROUP_NAME, \
+    send_to_group_at_location(FINDTBGroup.DTU_LAB_TECH_GROUP_NAME,
+                              location, msg)
+
+def send_to_dtu_focal_person(location, msg):
+    send_to_group_at_location(FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME,
                               location, msg)
 
 def send_to_dtu(location, msg):
@@ -49,7 +53,7 @@ def send_to_dtu(location, msg):
 
 def send_to_ztls(location, msg):
     zone = FINDTBGroup.objects.get(pk=location.pk).get_zone()
-    send_to_group_at_location(FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME, \
+    send_to_group_at_location(FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
                               zone, msg)
 
 def send_to_dtls(location, msg):

@@ -401,6 +401,16 @@ def create_first_control_focal_person(reporter, group, location):
                              "First Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
+    role = Role.objects.get(group='second control focal person',
+                            location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("You are already registered as a " \
+                             "Second Control Focal Person at %(loc)s. You " \
+                             "can't be both." % {'loc':location})
+
     existing_roles = Role.objects.filter(reporter=reporter)
     try:
         old = existing_roles.get(group=group)
@@ -442,6 +452,17 @@ def create_second_control_focal_person(reporter, group, location):
             raise NotAllowed("You are already registered as the " \
                              "Second Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
+
+    role = Role.objects.get(group='first control focal person',
+                            location=location)
+    except Role.DoesNotExist:
+        pass
+    else:
+        if role.reporter != reporter:
+            raise NotAllowed("You are already registered as a " \
+                             "First Control Focal Person at %(loc)s. You " \
+                             "can't be both." % {'loc':location})
+
 
     existing_roles = Role.objects.filter(reporter=reporter)
     try:
