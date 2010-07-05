@@ -13,8 +13,7 @@ from locations.models import Location
 from findtb.models import *
 from findtb.libs.utils import registered, send_msg, \
                               send_to_dtls, send_to_dtu_focal_person, \
-                              send_to_ztls, send_to_first_control_focal_person, \
-                              send_to_second_control_focal_person
+                              send_to_ztls, send_to_first_control_focal_person
 from findtb.exceptions import ParseError, NotAllowed, BadValue
 
 # TODO : lot of duplicate code here, refactor
@@ -64,8 +63,7 @@ def start(params, reporter, message):
                              u'be sent without anything else')
 
         role = reporter.role_set.get(group__name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME)
-        dtu = role.location
-        district = role.location.parent
+        dtu, district = role.location, role.location.parent
 
         # DTLS must exists
         try:
@@ -90,7 +88,8 @@ def start(params, reporter, message):
 
         message.respond(u"SUCCESS: Your DTLS is being notified that slides are ready.")
 
-        send_msg(dtls, u"Slides from %s are ready to be picked up for EQA" % dtu.name)
+        send_to_dtls(district, 
+                     u"Slides from %s are ready to be picked up for EQA" % dtu.name)
 
     else:
          raise NotAllowed(u"You are not allowed to use the 'START' keyword. Only "\
@@ -99,155 +98,145 @@ def start(params, reporter, message):
 
 def collect(params, reporter, message):
     """
-    Triggered when DTLS or ZTLS comes to pick up slides.
+    Triggered when DTLS comes to pick up slides.
     """
 
     if reporter.groups.filter(name=FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME).count():
+    
         format_error = u"Collection failed: you must send: "\
-                       u"COLLECT LocationCode NumberOfSlides"
+                       u"'COLLECT DTU DTUCode NumberOfSlides' or "\
+                       u"'COLLECT first DTUCode1' or 'COLLECT first all'"
 
-        # syntax check for the sms
-        l = len(params)
-        if l < 2:
+        if not params:
             raise ParseError(format_error)
 
-        text = ' '.join(params)
-        if l == 2:
-            regex = r'(?P<prefix>[0-9\-,./]+)\s+(?P<number>\d+)'
-        else:
-            regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
-
-        match = re.match(regex, text)
-        if not match:
-            raise ParseError(format_error)
-
-        groupdict = match.groupdict()
-
-        # check if the location code exists
-        if groupdict.get('suffix', None) is not None:
-            try:
-                code = '-'.join((groupdict['prefix'], groupdict.get('suffix', '')))
-                location = Location.objects.get(code__iexact=code)
-            except Location.DoesNotExist:
-                raise BadValue(u"Collection failed: %(code)s is not a " \
-                               u"valid location code. Please correct and " \
-                               u"send again." % \
-                               {'code': code})
-        else:
-            code = groupdict['prefix']
-            try:
-                location = Location.objects.get(code__iexact=code)
-            except Location.DoesNotExist:
-                raise BadValue(u"Collection failed: %(code)s is not a " \
-                               u"valid location code. Please correct and " \
-                               u"send again." % \
-                               {'code':code})
-
-        # location must be a dtu
-        if location.type.name != 'dtu':
-            raise BadValue(u"Collection failed: %s is not a DTU" % location.name)
-
-        if not Role.objects.filter(location=location,
-                                   group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
-            raise NotAllowed(u"There are no registered First Control Focal Person for your district. "\
-                             u"Please contact your first controller and ask him to register with the system.")
-
-        number = int(groupdict['number'])
-        if 20 < number < 5:
-            raise BadValue(u"Collection failed: you must collect between 5 "\
-                           u"and 20 slides. You entered %s." % number)
-
-        # slides batch must exists to be collected
-        try:
-            sb = SlidesBatch.objects.get_for_quarter(location)
-        except SlidesBatch.DoesNotExist:
-            raise BadValue(u"Collection failed: %s never notified the "\
-                           u"system it started EQA. Ask the DTU Focal Person "\
-                           u"to send the 'START' keyword." % location.name)
-
-        # slides batch must be in ready state
-        ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
-        if ti.state.title != 'eqa_starts':
-            raise BadValue(u"Collection failed: slides from %s have already "\
-                           u"been collected" % location.name)
-
-        # set batch in state "collected_from_dtu"
-
-        state = CollectedFromDtu(slides_batch=sb)
-        state.save()
-        TrackedItem.add_state_to_item(sb, state)
-
-        # create slides and attache to batch
-        for i in range(number):
-            Slide(batch=sb).save()
-
-        message.respond(u"SUCCESS: %(number)s slides from %(dtu)s "\
-                        u"are registered for EQA." % {'dtu': location.name,
-                                                      'number': number })
-
-        dtu_focal_person = Role.objects.get(location=location,
-                                            group__name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME
-                                            ).reporter
-
-        send_msg(dtu_focal_person,
-                 u"DTLS have reported picking up %(number)s slides from your "\
-                 u"DTU for EQA." % {'number': number })
-
-        send_to_first_control_focal_person(location.parent,
-                                           u"Slides from %(dtu)s have been collected by DTLS." % {
-                                           'dtu': location.name })
-
-    elif reporter.groups.filter(name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME).count():
-
-        format_error = u"Collection failed: you must send: "\
-                       u"'COLLECT DTUCode' or 'COLLECT DistrictCode'. You can "\
-                       u"send several DTU codes at the same time: "\
-                       u"'COLLECT DTUcode1 DTUcode1'. Locations "\
-                       u"must be DTU(s) or one district."
-
-        # syntax check for the sms
-        text = ' '.join(params)
-        regex = r'''
-                  ^(\d+(?:[\-,./]+\d+)*)           # first location code
-                  (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
-                 '''
-
-        # check syntax
-        if not re.match(regex, text, re.VERBOSE):
-            raise ParseError(format_error)
-
-        # extract codes
-        codes = re.findall(r'\D*(\d+(?:[\-,./]+\d+)*)\D*', text)
-
-        # if one code check if code is a district code
-        all_batches = len(codes) == 1
-        if all_batches == 1:
-
-            try:
-                district = Location.objects.get(code=codes[0],
-                                                type__name='district')
-            except Location.DoesNotExist:
-                all_batches = False
+        collect_from = params.pop(0)
+    
+        if collect_from == 'dtu':
+        
+            # syntax check for the sms
+            l = len(params)
+            text = ' '.join(params)
+            
+            if l < 2:
+                raise ParseError(format_error)
+            elif l == 2:
+                regex = r'(?P<prefix>[0-9\-,./]+)\s+(?P<number>\d+)'
             else:
-               dtus = district.descendants()
-               accepted_batches = []
-               for dtu in dtus:
-                   try:
-                       sb = SlidesBatch.objects.get_for_quarter(dtu)
-                   except SlidesBatch.DoesNotExist:
-                       pass
-                   else:
-                       ti, c = TrackedItem.get_tracker_or_create(sb)
-                       if ti.state.title == 'passed_first_control':
-                           accepted_batches.append(sb)
+                regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
 
-               if not accepted_batches:
-                  raise BadValue(u"No slides have just passed first control in "\
-                                 u"your district.")
+            match = re.match(regex, text)
+            if not match:
+                raise ParseError(format_error)
 
+            groupdict = match.groupdict()
 
-        # check if codes are valid and for a DTU
-        if not all_batches:
+            # check if the location code exists
+            if groupdict.get('suffix', None) is not None:
+                try:
+                    code = '-'.join((groupdict['prefix'], groupdict.get('suffix', '')))
+                    location = Location.objects.get(code__iexact=code)
+                except Location.DoesNotExist:
+                    raise BadValue(u"Collection failed: %(code)s is not a " \
+                                   u"valid location code. Please correct and " \
+                                   u"send again." % \
+                                   {'code': code})
+            else:
+                code = groupdict['prefix']
+                try:
+                    location = Location.objects.get(code__iexact=code)
+                except Location.DoesNotExist:
+                    raise BadValue(u"Collection failed: %(code)s is not a " \
+                                   u"valid location code. Please correct and " \
+                                   u"send again." % \
+                                   {'code':code})
+
+            # location must be a dtu
+            if location.type.name != 'dtu':
+                raise BadValue(u"Collection failed: %s is not a DTU" % location.name)
+
+            # there must be a first controller for the dtu
+            if not Role.objects.filter(location=location,
+                                       group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
+                raise NotAllowed(u"Collection failed: there are no registered "\
+                                 u"First Controller for this DTU. "\
+                                 u"Please contact the first controller and ask him to register with the system.")
+                                 
+            # dtu must be in the district of the dtls
+            if not Role.objects.filter(location=location.parent,
+                                       group__name=FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME,
+                                       reporter=reporter).count():
+                raise NotAllowed(u"Collection failed: the district of this DTU "\
+                                 u"is %s(expected_district), and yours is "\
+                                 u"%(dtls_district)s. You"\
+                                 u"can't collect slides outsides of you district." % {
+                                 'expected_district': location.parent.name,
+                                 'dtls_district': reporter.role_set.get(group__name=FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME).location.name
+                                 })
+
+            number = int(groupdict['number'])
+            if 20 < number or number < 1:
+                raise BadValue(u"Collection failed: you must collect between 1 "\
+                               u"and 20 slides. You entered %s." % number)
+
+            # slides batch must exists to be collected
+            try:
+                sb = SlidesBatch.objects.get_for_quarter(location)
+            except SlidesBatch.DoesNotExist:
+                raise BadValue(u"Collection failed: the system didn't start "\
+                               u"EQA automatically. Ask the DTU Focal Person "\
+                               u"to send the 'START' keyword." % location.name)
+
+            # slides batch must be in ready state
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title != 'eqa_starts':
+                raise BadValue(u"Collection failed: slides from %s have already "\
+                               u"been collected" % location.name)
+
+            # set batch in state "collected_from_dtu"
+
+            state = CollectedFromDtu(slides_batch=sb)
+            state.save()
+            TrackedItem.add_state_to_item(sb, state)
+
+            # create slides and attache to batch
+            for i in range(number):
+                Slide(batch=sb).save()
+
+            message.respond(u"SUCCESS: %(number)s slide(s) from %(dtu)s "\
+                            u"have been registered as collected for EQA." % {
+                            'dtu': location.name,
+                            'number': number })
+
+            dtu_focal_person = Role.objects.get(location=location,
+                                                group__name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME
+                                                ).reporter
+
+            send_msg(dtu_focal_person,
+                     u"DTLS have reported picking up %(number)s slides from your "\
+                     u"DTU for EQA." % {'number': number })
+
+            send_to_first_control_focal_person(location,
+                                               u"Slides from %(dtu)s have been collected by DTLS." % {
+                                               'dtu': location.name })
+
+        elif collect_from == 'first':
+
+            # syntax check for the sms
+            text = ' '.join(params)
+            regex = r'''
+                      ^(\d+(?:[\-,./]+\d+)*)           # first dtu code
+                      (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                     '''
+
+            # check syntax
+            if not re.match(regex, text, re.VERBOSE):
+                raise ParseError(format_error)
+
+            # extract codes
+            codes = re.findall(r'\D*(\d+(?:[\-,./]+\d+)*)\D*', text)
+   
+            # check if codes are dtus codes
             dtus = []
             not_dtus = []
             for code in codes:
@@ -256,6 +245,7 @@ def collect(params, reporter, message):
                                                      code=code))
                 except Location.DoesNotExist:
                     not_dtus.append(code)
+                    
             if not_dtus:
                 if len(not_dtus) > 1:
                     msg = u"Collection failed: %(codes)s are not " \
@@ -266,7 +256,26 @@ def collect(params, reporter, message):
                            u"valid DTU code. Please correct and " \
                            u"send again."
                 raise BadValue(msg % {'codes': ', '.join(not_dtus)})
-
+           
+            # check that codes all belong to the same first controller
+            first_ctrl = Role.objects.get(location=dtus[0],
+                                              group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).reporter
+            for dtu in dtus[1:]:
+            
+                second_ctrl = Role.objects.get(location=dtus[0],
+                                              group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).reporter
+                                              
+                if first_reporter != second_reporter:
+                    raise NotAllowed(u"Collection failed. You tried to collect "\
+                                     u" slides from different First Controllers:"\
+                                     u"%(first_ctrl)s for DTU %(dtu1)s and "\
+                                     u"%(second_ctrl)s for DTU %(dtu2)s" % {
+                                     'first_ctrl': first_ctrl,
+                                     'second_ctrl': second_ctrl,
+                                     'dtu1': dtus[0].name,
+                                     'dtu2': dtu
+                                     })
+                                              
             # check that these slides are meant to leave first control
             accepted_batches = []
             rejected_batches = []
@@ -285,56 +294,48 @@ def collect(params, reporter, message):
                                u"been tested and haven't been picked up already." % {
                                'codes': ', '.join(rejected_batches)})
 
-        district = Location.objects.get(code=codes[0]).parent
+            # set states
+            codes = ', '.join(sb.location.code for sb in accepted_batches)
+            for sb in accepted_batches:
+                state = CollectedFromFirstController(slides_batch=sb)
+                state.save()
+                TrackedItem.add_state_to_item(sb, state)
+
+            message.respond(u"SUCCESS: you collected slides from %(codes)s form first controller"  % {
+                            'codes': codes})
+
+            first_control_focal_person = Role.objects.get(location=dtus[0],
+                                                          group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME
+                                                          ).reporter
+
+            send_msg(first_control_focal_person,
+                     u"ZTLS have reported picking up slides from %(codes)s from your "\
+                     u"facilities for EQA." % {'codes': codes })
 
 
-        if not Role.objects.filter(location=district.parent,
-                                     group__name=FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
-              raise NotAllowed(u"There are no registered Second Control Focal Person for your zone. "\
-                               u"Please contact your second controller and ask him to register with the system.")
-
-        codes = ', '.join(sb.location.code for sb in accepted_batches)
-        for sb in accepted_batches:
-            state = CollectedFromFirstController(slides_batch=sb)
-            state.save()
-            TrackedItem.add_state_to_item(sb, state)
-
-        message.respond(u"SUCCESS: you collected slides from %(codes)s form first controller"  % {
-                        'codes': codes})
-
-        first_control_focal_person = Role.objects.get(location=district,
-                                                      group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME
-                                                      ).reporter
-
-        send_msg(first_control_focal_person,
-                 u"ZTLS have reported picking up slides from %(codes)s from your "\
-                 u"facilities for EQA." % {'codes': codes })
-
-        send_to_second_control_focal_person(district.parent,
-                                           u"Slides from %(dtu)s have been "\
-                                           u"collected by ZTLS from first controller." % {
-                                           'dtu': location.name })
-
-        for dtu in dtus:
-            send_to_dtu_focal_person(dtu, u"EQA slides have been collected ZTLS")
+            for dtu in dtus:
+                send_to_dtu_focal_person(dtu, u"EQA slides have been collected "\
+                                              u"from First Control by DTLS")
+                
+        else:
+            raise ParseError(format_error)
 
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. Only "\
-                          u"DTLS and ZTLS are.")
+                          u"DTLS are.")
 
 
 def receive(params, reporter, message):
     """
-    Triggered when Control Focal Persons notify they received slides
+    Triggered when First Controllers notify they received slides
     """
 
     if reporter.groups.filter(name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
 
         format_error = u"Reception failed: you must send: "\
-                       u"'RECEIVE LocationCode' or 'RECEIVE all'. You can "\
+                       u"'RECEIVE DTUCode' or 'RECEIVE all'. You can "\
                        u"send several codes at the same time: "\
-                       u"'RECEIVE LocationCode1 LocationCode2'. Locations "\
-                       u"must all be DTUs."
+                       u"'RECEIVE DTUCode1 DTUCode2'."
 
         # syntax check for the sms
         text = ' '.join(params)
@@ -354,8 +355,8 @@ def receive(params, reporter, message):
 
         # if 'all', receive every collected slides
         if codes[0] == 'all':
-            district = reporter.role_set.get(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).location
-            dtus = district.descendants()
+            roles = reporter.role_set.filter(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME)
+            dtus = [role.location for role in roles]
             accepted_batches = []
             for dtu in dtus:
                 try:
@@ -373,24 +374,49 @@ def receive(params, reporter, message):
 
         # check is codes are valid and for a DTU
         else:
+        
             dtus = []
             not_dtus = []
+            not_for_this_controller = []
             for code in codes:
                 try:
-                    dtus.append(Location.objects.get(type__name=u'dtu',
-                                                     code=code))
+                    dtu = Location.objects.get(type__name=u'dtu', code=code)
                 except Location.DoesNotExist:
-                    not_dtus.append(code)
+                    not_dtus.append(dtu)
+                else:
+                    try:
+                        reporter.role_set.get(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
+                                              location=dtu)
+                    except Role.DoesNotExist:
+                        not_for_this_controller.append(dtu)
+                    else:
+                        dtus.append(dtu)
+                    
             if not_dtus:
+            
                 if len(not_dtus) > 1:
-                    msg = u"Reception failed: %(codes)s are not " \
+                    msg = u"Reception failed: %(dtus)s are not " \
                                u"valid DTU codes. Please correct and " \
                                u"send again."
                 else:
-                    msg = u"Reception failed: %(codes)s is not a " \
+                    msg = u"Reception failed: %(dtus)s is not a " \
                            u"valid DTU code. Please correct and " \
                            u"send again."
-                raise BadValue(msg % {'codes': ', '.join(not_dtus)})
+                           
+                raise BadValue(msg % {'dtus': ', '.join(not_dtus)})
+                
+                
+            if not_for_this_controller:
+            
+                if len(not_for_this_controller) > 1:
+                    msg = u"Reception failed: you are not the First Controller "\
+                          u" for %(dtus)s. You can't receive their slides."
+                else:
+                    msg = u"Reception failed: you are not the First Controller "\
+                          u" for %(dtus)s. You can't receive its slides."
+                           
+                raise BadValue(msg % {'dtus': 
+                                      ', '.join(dtu.name for dtu in not_for_this_controller)})                
 
             # check that these slides are meant to go to first control
             accepted_batches = []
@@ -411,159 +437,44 @@ def receive(params, reporter, message):
                                u"control already." % {
                                'codes': ', '.join(rejected_batches)})
 
-        codes = ', '.join(sb.location.code for sb in accepted_batches)
+        dtus_names = ', '.join(sb.location.name for sb in accepted_batches)
         for sb in accepted_batches:
             state = DeliveredToFirstController(slides_batch=sb)
             state.save()
             TrackedItem.add_state_to_item(sb, state)
 
-        message.respond(u"SUCCESS: slides from %(codes)s are ready for first "\
+        message.respond(u"SUCCESS: slides from %(dtus_names)s are ready for first "\
                         u"control" % {
-                        'codes': codes
+                        'dtus_names': dtus_names
                         })
 
         send_to_dtls(sb.location,
-                     u"Slides from %(codes)s have been received by first "\
-                     u"controller" % {
-                        'codes': codes
+                     u"Slides from %(dtus_names)s have been received by First "\
+                     u"Controller" % {
+                        'dtus_names': dtus_names
                         })
 
         for dtu in dtus:
             send_to_dtu_focal_person(dtu,
-                                     u"EQA slides arrived at first control")
-
-    elif reporter.groups.filter(name=FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
-
-        format_error = u"Reception failed: you must send: "\
-                       u"'RECEIVE DTUCode' or 'RECEIVE DistrictCode'. You can "\
-                       u"send several DTU codes at the same time: "\
-                       u"'RECEIVE DTUcode1 DTUcode1'. Locations "\
-                       u"must be DTU(s) or one district."
-
-        # syntax check for the sms
-        text = ' '.join(params)
-        regex = r'''
-                  ^(\d+(?:[\-,./]+\d+)*)           # location dtu code
-                  (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
-                 '''
-
-        # check syntax
-        if not re.match(regex, text, re.VERBOSE):
-            raise ParseError(format_error)
-
-        # extract codes
-        codes = re.findall(r'\D*(\d+(?:[\-,./]+\d+)*)\D*', text)
-
-        # if one code check if code is a zone code
-        all_batches = len(codes) == 1
-        if all_batches == 1:
-
-            try:
-                zone = Location.objects.get(code=codes[0], type__name='zone')
-            except Location.DoesNotExist:
-                all_batches = False
-            else:
-               dtus = []
-               for district in zone.descendants():
-                    dtus.extend(district.descendants())
-               accepted_batches = []
-               for dtu in dtus:
-                   try:
-                       sb = SlidesBatch.objects.get_for_quarter(dtu)
-                   except SlidesBatch.DoesNotExist:
-                       pass
-                   else:
-                       ti, c = TrackedItem.get_tracker_or_create(sb)
-                       if ti.state.title == 'collected_from_first_controller':
-                           accepted_batches.append(sb)
-
-               if not accepted_batches:
-                  raise BadValue(u"No slides have been collected by ZTLS in "\
-                                 u"your zone.")
-
-
-        # check if codes are valid and for a DTU
-        if not all_batches:
-            dtus = []
-            not_dtus = []
-            for code in codes:
-                try:
-                    dtus.append(Location.objects.get(type__name=u'dtu',
-                                                     code=code))
-                except Location.DoesNotExist:
-                    not_dtus.append(code)
-            if not_dtus:
-                if len(not_dtus) > 1:
-                    msg = u"Collection failed: %(codes)s are not " \
-                               u"valid DTU codes. Please correct and " \
-                               u"send again."
-                else:
-                    msg = u"Collection failed: %(codes)s is not a " \
-                           u"valid DTU code. Please correct and " \
-                           u"send again."
-                raise BadValue(msg % {'codes': ', '.join(not_dtus)})
-
-            # check that these slides are meant to leave first control
-            accepted_batches = []
-            rejected_batches = []
-
-            for dtu in dtus:
-                sb = SlidesBatch.objects.get_for_quarter(dtu)
-                ti, c = TrackedItem.get_tracker_or_create(sb)
-                if ti.state.title != 'collected_from_first_controller':
-                    rejected_batches.append(sb.location.name)
-                else:
-                    accepted_batches.append(sb)
-
-            if rejected_batches:
-                raise BadValue(u"Collection failed: slides from %(codes)s have " \
-                               u"just been collected by ZTLS. Check they have " \
-                               u"been collected and haven't be received already." % {
-                               'codes': ', '.join(rejected_batches)})
-
-        district = Location.objects.get(code=codes[0]).parent
-
-        codes = ', '.join(sb.location.code for sb in accepted_batches)
-        for sb in accepted_batches:
-            state = DeliveredToSecondController(slides_batch=sb)
-            state.save()
-            TrackedItem.add_state_to_item(sb, state)
-
-        message.respond(u"SUCCESS: you received slides from %(codes)s form ZTLS"  % {
-                        'codes': codes})
-
-        send_to_dtls(district,
-                 u"The First Controller have reported receiption of slides from" \
-                 u"%(codes)s." % {'codes': codes })
-
-        for dtu in dtus:
-            send_to_dtu_focal_person(dtu, u"EQA slides have been collected ZTLS")
-
+                                     u"EQA slides have been received by First "\
+                                     u"Controller")
 
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. Only "\
-                          u"First and Second Control Focal Persons are.")
+                          u"First Controllers are.")
 
 
 def ready(params, reporter, message):
     """
-    Triggered when Control Focal Persons notify slides have been tested
+    Triggered when First Controllers notify slides have been tested
     """
 
     if reporter.groups.filter(name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
 
-        district = reporter.role_set.get(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).location
-
-        if not Role.objects.filter(location=district.parent,
-                                   group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME).count():
-            raise NotAllowed(u"There are no registered ZTLS for your zone. Please contact "\
-                             u"your ZTLS and ask him to register with the system.")
-
         format_error = u"Reception failed: you must send: "\
-                       u"'READY LocationCode' or 'READY all'. You can "\
+                       u"'READY DTUCode' or 'READY all'. You can "\
                        u"send several codes at the same time: "\
-                       u"'READY LocationCode1 LocationCode2'. Locations "\
-                       u"must all be DTUs."
+                       u"'READY DTUCode1 DTUCode2'."
 
         # syntax check for the sms
         text = ' '.join(params)
@@ -583,7 +494,9 @@ def ready(params, reporter, message):
 
         # if 'all', receive every collected slides
         if codes[0] == 'all':
-           dtus = district.descendants()
+           roles = Role.objects.filter(reporter=reporter,
+                                      group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME)
+           dtus = [role.location for role in roles]
            accepted_batches = []
            for dtu in dtus:
                try:
@@ -596,30 +509,53 @@ def ready(params, reporter, message):
                        accepted_batches.append(sb)
 
            if not accepted_batches:
-               raise BadValue(u"No slides are waiting for first control in "\
-                              u"your district.")
+               raise BadValue(u"No slides are waiting for you to be controlled.")
 
 
         # check if codes are valid and for a DTU
         else:
             dtus = []
             not_dtus = []
+            not_for_this_controller = []
             for code in codes:
                 try:
-                    dtus.append(Location.objects.get(type__name=u'dtu',
-                                                     code=code))
+                    dtu = Location.objects.get(type__name=u'dtu', code=code)
                 except Location.DoesNotExist:
-                    not_dtus.append(code)
+                    not_dtus.append(dtu)
+                else:
+                    try:
+                        reporter.role_set.get(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
+                                              location=dtu)
+                    except Role.DoesNotExist:
+                        not_for_this_controller.append(dtu)
+                    else:
+                        dtus.append(dtu)
+                    
             if not_dtus:
+            
                 if len(not_dtus) > 1:
-                    msg = u"Reception failed: %(codes)s are not " \
+                    msg = u"Reception failed: %(dtus)s are not " \
                                u"valid DTU codes. Please correct and " \
                                u"send again."
                 else:
-                    msg = u"Reception failed: %(codes)s is not a " \
+                    msg = u"Reception failed: %(dtus)s is not a " \
                            u"valid DTU code. Please correct and " \
                            u"send again."
-                raise BadValue(msg % {'codes': ', '.join(not_dtus)})
+                           
+                raise BadValue(msg % {'dtus': ', '.join(not_dtus)})
+                
+                
+            if not_for_this_controller:
+            
+                if len(not_for_this_controller) > 1:
+                    msg = u"Reception failed: you are not the First Controller "\
+                          u" for %(dtus)s. You can't control their slides."
+                else:
+                    msg = u"Reception failed: you are not the First Controller "\
+                          u" for %(dtus)s. You can't control its slides."
+                           
+                raise BadValue(msg % {'dtus': 
+                                      ', '.join(dtu.name for dtu in not_for_this_controller)})   
 
             # check that these slides are meant to go to first control
             accepted_batches = []
@@ -640,28 +576,25 @@ def ready(params, reporter, message):
                                u"control already." % {
                                'codes': ', '.join(rejected_batches)})
 
-        codes = ', '.join(sb.location.code for sb in accepted_batches)
+        dtus_names = ', '.join(sb.location.name for sb in accepted_batches)
         for sb in accepted_batches:
             state = PassedFirstControl(slides_batch=sb)
             state.save()
             TrackedItem.add_state_to_item(sb, state)
 
-        message.respond(u"SUCCESS: your ZTLS have been notified to pick up "\
-                        u"slides from %(codes)s." % {
-                        'codes': codes
+        message.respond(u"SUCCESS: your DTLS have been notified to pick up "\
+                        u"slides from %(dtus_names)s." % {
+                        'dtus_names': dtus_names
                         })
 
-        send_to_ztls(sb.location,
-                     u"Slides from %(codes)s have been tested by first "\
-                     u"by first controller in %(district)s. You can bring "\
-                     u"them to second control" % {
-                        'codes': codes, 'district': district.name
-                        })
+        send_to_dtls(sb.location,
+                     u"Slides from %(dtus_names)s have been tested by First "\
+                     u"Controller. You can bring them to second control" % {
+                        'dtus_names': dtus_names})
 
         for dtu in dtus:
             send_to_dtu_focal_person(dtu,
-                                     u"EQA slides have been tested by first controller")
-
+                                     u"EQA slides have been tested by First Controller")
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. Only "\
-                          u"First and Second Control Focal Persons are.")
+                          u"First Controllers are.")
