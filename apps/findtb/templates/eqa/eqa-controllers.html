@@ -27,7 +27,7 @@
             <tr><td width="180">{{dtu.name}}</td>
                 <td>1st Control:
                     <select class="ctrl_select" name="dtu_1st_{{dtu.id}}">
-                    <option value='none'>None</option>
+                    <option value='none'></option>
                     {% for control in 1sts %}
                     <option value='{{control.id}}'{% ifequal dtu.1st.id control.id %} selected="selected"{% endifequal %}>{{control.full_name}}</option>
                     {% endfor %}
@@ -35,7 +35,7 @@
                 </td>
                 <td>2nd Control:
                     <select class="ctrl_select" name="dtu_2nd_{{dtu.id}}">
-                    <option value='none'>None</option>
+                    <option value='none'></option>
                     {% for control in 2nds %}
                         <option value='{{control.id}}'{% ifequal dtu.2nd.id control.id %} selected="selected"{% endifequal %}>{{control.full_name}}</option>
                     {% endfor %}

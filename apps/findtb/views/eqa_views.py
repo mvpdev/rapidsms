@@ -2,9 +2,11 @@
 # -*- coding= UTF-8 -*-
 
 from operator import itemgetter
+import re
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 from rapidsms.webui.utils import render_to_response
 
@@ -97,6 +99,35 @@ def controllers(request, *arg, **kwargs):
     second_group = FINDTBGroup.objects.get(name=\
                         FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME)
 
+    if request.method == 'POST':
+        changed = False
+        for field, value in request.POST.iteritems():
+            match = re.match(r'^dtu_1st_(?P<id>\d+)$',field)
+            if match:
+                loc = Location.objects.get(id=int(match.groupdict()['id']))
+                exists = Role.objects.filter(location=loc, \
+                                             group=first_group).count()
+                if exists and value == 'none':
+                    Role.objects.get(location=loc, group=first_group).delete()
+                elif value != 'none':
+                    rep = Reporter.objects.get(id=int(value))
+                    if exists:
+                        role = Role.objects.get(location=loc, group=first_group)
+                        if role.reporter != rep:
+                            role.reporter = rep
+                            role.save()
+                            changed = True
+                    else:
+                        Role(location=loc, group=first_group, \
+                             reporter=rep).save()
+                        changed = True
+
+        if changed:
+            request.user.message_set.create(message=\
+                                        "Controllers successfully updated")
+
+        return HttpResponseRedirect('/findtb/eqa/dashboard')
+
     dtus = []
     for loc in FINDTBLocation.objects.filter(type__name='dtu'):
         dtu = {'id':loc.id, 'name':loc.name, 'zone':loc.get_zone().name, \
@@ -115,10 +146,8 @@ def controllers(request, *arg, **kwargs):
 
     dtus.sort(key=itemgetter('zone','district'))
 
-    first_controllers = Reporter.objects.filter(\
-                                        role__in=first_group.role_set.all())
-    second_controllers = Reporter.objects.filter(\
-                                        role__in=second_group.role_set.all())
+    first_controllers = [ u.reporter for u in first_group.user_set.all() ]
+    second_controllers = [ u.reporter for u in second_group.user_set.all() ]
     ctx = {'dtus':dtus, '1sts':first_controllers, '2nds':second_controllers}
 
     return render_to_response(request, "eqa/eqa-controllers.html", ctx)
