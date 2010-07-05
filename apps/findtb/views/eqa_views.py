@@ -15,6 +15,7 @@ from reporters.models import Reporter
 
 from django_tracking.models import State, TrackedItem
 
+
 @login_required
 def eqa_tracking(request, *arg, **kwargs):
 
@@ -37,7 +38,12 @@ def eqa_tracking(request, *arg, **kwargs):
         contacts = []
     else:
 
-        tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)
+        tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
+
+        return redirect("findtb-eqa-%s" % ti.state.title, id=id, 
+                             year=year, quarter=quarter )
+        
+        
         # getting specimen related event to look at, filtered by type
         events = tracked_item.get_history()
 

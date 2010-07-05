@@ -51,10 +51,6 @@ def send_to_first_control_focal_person(location, msg):
     send_to_group_at_location(FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
                               location, msg)
 
-def send_to_second_control_focal_person(location, msg):
-    send_to_group_at_location(FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME,
-                              location, msg)
-
 def send_to_dtu(location, msg):
     send_to_lab_techs(location, msg)
     send_to_group_at_location(FINDTBGroup.CLINICIAN_GROUP_NAME, location, msg)

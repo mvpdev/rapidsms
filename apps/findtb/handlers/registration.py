@@ -17,8 +17,8 @@ DTU_LAB_TECH_KEYWORD = 'lab'
 DISTRICT_TB_SUPERVISOR_KEYWORD = 'dtls'
 ZONAL_TB_SUPERVISOR_KEYWORD = 'ztls'
 DTU_FOCAL_PERSON_KEYWORD = 'eqa'
-FIRST_CONTROL_FOCAL_PERSON_KEYWORD = 'first'
-SECOND_CONTROL_FOCAL_PERSON_KEYWORD = 'second'
+FIRST_CONTROL_FOCAL_PERSON_KEYWORD = 'controller'
+
 
 
 KEYWORDS = [
@@ -28,7 +28,6 @@ KEYWORDS = [
     ZONAL_TB_SUPERVISOR_KEYWORD,
     DTU_FOCAL_PERSON_KEYWORD,
     FIRST_CONTROL_FOCAL_PERSON_KEYWORD,
-    SECOND_CONTROL_FOCAL_PERSON_KEYWORD
 ]
 
 
@@ -40,43 +39,48 @@ def handle(keyword, params, message):
                          "closed. Please contact NTRL for assistance.")
 
     text = ' '.join(params)
-    regex = r'(?P<prefix>\d*[a-z]{0,2})[ \-,./]+((?P<suffix>\d+)?\s+)?(?P<names>.+)'
-    match = re.match(regex, text)
+    
+    if keyword != FIRST_CONTROL_FOCAL_PERSON_KEYWORD: # big last minute hack to accept first controllers
+        regex = r'(?P<prefix>\d*[a-z]{0,2})[ \-,./]+((?P<suffix>\d+)?\s+)?(?P<names>.+)'
+        match = re.match(regex, text)
 
-    if not match:
-        if len(params) > 2:
-            raise ParseError("Registration failed: %s is not a valid " \
-                             "location code." % params[0].upper())
+        if not match:
+            if len(params) > 2:
+                raise ParseError("Registration failed: %s is not a valid " \
+                                 "location code." % params[0].upper())
+            else:
+                raise ParseError("Registration failed: " \
+                                 "You must send:\n%s LocationCode " \
+                                 "Surname FirstName" % keyword.upper())
+
+
+        if match.groupdict()['suffix'] != None:
+            try:
+                code = '%s-%s' % \
+                    (match.groupdict()['prefix'], match.groupdict()['suffix'])
+                location = Location.objects.get(code__iexact=code)
+            except Location.DoesNotExist:
+                raise BadValue(u"Registration failed: %(code)s is not a " \
+                               u"valid location code. Please correct and " \
+                               u"send again." % \
+                               {'code':code})
         else:
-            raise ParseError("Registration failed: " \
-                             "You must send:\n%s LocationCode " \
-                             "Surname FirstName" % keyword.upper())
+            code = match.groupdict()['prefix']
+            try:
+                location = Location.objects.get(code__iexact=code)
+            except Location.DoesNotExist:
+                raise BadValue(u"Registration failed: %(code)s is not a " \
+                               u"valid location code. Please correct and " \
+                               u"send again." % \
+                               {'code':code})
 
-
-    if match.groupdict()['suffix'] != None:
-        try:
-            code = '%s-%s' % \
-                (match.groupdict()['prefix'], match.groupdict()['suffix'])
-            location = Location.objects.get(code__iexact=code)
-        except Location.DoesNotExist:
-            raise BadValue(u"Registration failed: %(code)s is not a " \
-                           u"valid location code. Please correct and " \
-                           u"send again." % \
-                           {'code':code})
+        names = match.groupdict()['names']
+        if len(names.split()) < 2:
+            raise ParseError("Registration failed: You must provide both a " \
+                             "surname and firstname.")
     else:
-        code = match.groupdict()['prefix']
-        try:
-            location = Location.objects.get(code__iexact=code)
-        except Location.DoesNotExist:
-            raise BadValue(u"Registration failed: %(code)s is not a " \
-                           u"valid location code. Please correct and " \
-                           u"send again." % \
-                           {'code':code})
-
-    names = match.groupdict()['names']
-    if len(names.split()) < 2:
-        raise ParseError("Registration failed: You must provide both a " \
-                         "surname and firstname.")
+        names = text
+        location = ''
 
     reporter = create_or_update_reporter(names, \
                                          message.persistant_connection)
@@ -96,9 +100,6 @@ def handle(keyword, params, message):
         FIRST_CONTROL_FOCAL_PERSON_KEYWORD:
             (FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
              create_first_control_focal_person),
-        SECOND_CONTROL_FOCAL_PERSON_KEYWORD:
-            (FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME,
-             create_second_control_focal_person),
 
     }
 
@@ -110,8 +111,12 @@ def handle(keyword, params, message):
 
     reporter.save()
     message.persistant_connection.reporter = reporter
+
     message.persistant_connection.save()
-    role = Role(location=location, reporter=reporter, group=group)
+    if location:  # big last minute hack to accept first controllers
+        role = Role(location=location, reporter=reporter, group=group)
+    else:
+        role = Role(reporter=reporter, group=group)
     role.save()
 
 
@@ -155,23 +160,23 @@ def create_clinician(reporter, group, location):
         pass
     else:
         if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the clinician at %(location)s. " \
-                             "Only one clinician can be registered per " \
-                             "DTU." % \
+            raise NotAllowed(u"Registration failed. %(user)s is already " \
+                             u"registered as the clinician at %(location)s. " \
+                             u"Only one clinician can be registered per " \
+                             u"DTU." % \
                              {'user':role.reporter.full_name(),
                               'location':location})
         else:
-            raise NotAllowed("You are already registered as the " \
-                             "clinician at %(loc)s. You do not " \
-                             "need to register again." % {'loc':location})
+            raise NotAllowed(u"You are already registered as the " \
+                             u"clinician at %(loc)s. You do not " \
+                             u"need to register again." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
     lab_group = Group.objects.get(name=FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
     if existing_roles.filter(group=lab_group).count():
-        raise NotAllowed("Registration failed. You are already registered " \
-                         "as a lab technician. You cannot also register as " \
-                         "a clinician.")
+        raise NotAllowed(u"Registration failed. You are already registered " \
+                         u"as a lab technician. You cannot also register as " \
+                         u"a clinician.")
 
     try:
         old = existing_roles.get(group=group)
@@ -180,10 +185,10 @@ def create_clinician(reporter, group, location):
     else:
         old_location = old.location
         old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
+        return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as the clinician at %(loc)s." % \
+    return u"You are now registered as the clinician at %(loc)s." % \
            {'loc': location.name}
 
 
@@ -200,16 +205,16 @@ def create_lab_tech(reporter, group, location):
 
     if Role.objects.filter(group=group, location=location,
                                 reporter=reporter).count():
-        raise NotAllowed("You are already registered as the " \
-                         "lab technician at %(loc)s. You do not " \
-                         "need to register again." % {'loc':location})
+        raise NotAllowed(u"You are already registered as the " \
+                         u"lab technician at %(loc)s. You do not " \
+                         u"need to register again." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
     clinic_group = Group.objects.get(name=FINDTBGroup.CLINICIAN_GROUP_NAME)
     if existing_roles.filter(group=clinic_group).count():
-        raise NotAllowed("Registration failed. You are already registered " \
-                         "as a clinician. You cannot also register as " \
-                         "a lab technician.")
+        raise NotAllowed(u"Registration failed. You are already registered " \
+                         u"as a clinician. You cannot also register as " \
+                         u"a lab technician.")
 
     try:
         old = existing_roles.get(group=group)
@@ -218,10 +223,10 @@ def create_lab_tech(reporter, group, location):
     else:
         old_location = old.location
         old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
+        return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as a lab technician at %(loc)s." % \
+    return u"You are now registered as a lab technician at %(loc)s." % \
            {'loc': location.name}
 
 
@@ -230,9 +235,9 @@ def reject_wrong_location_type(location, type):
     Check if a location is a certain type, raise and exception if not.
     """
     if location.type != LocationType.objects.get(name__iexact=type):
-        raise BadValue("Registration failed: %(loc)s is not a %(expected_type)s"\
-                        ", it is a %(type)s. You must register with a "\
-                        "%(expected_type)s code." %
+        raise BadValue(u"Registration failed: %(loc)s is not a %(expected_type)s"\
+                        u", it is a %(type)s. You must register with a "\
+                        u"%(expected_type)s code." %
                         {'loc': location,
                         'type': location.type.name,
                         'expected_type': type})
@@ -256,9 +261,9 @@ def create_dtls(reporter, group, location):
     the handle() method.
     """
     if location.type != LocationType.objects.get(name__iexact='district'):
-        raise BadValue("Registration failed: %(loc)s is not a district, it " \
-                       "is a %(type)s. You must register with a district " \
-                       "code." % {'loc':location, 'type':location.type.name})
+        raise BadValue(u"Registration failed: %(loc)s is not a district, it " \
+                       u"is a %(type)s. You must register with a district " \
+                       u"code." % {'loc':location, 'type':location.type.name})
 
     try:
         role = Role.objects.get(group=group, location=location)
@@ -266,19 +271,19 @@ def create_dtls(reporter, group, location):
         pass
     else:
         if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the DTLS for %(location)s. " % \
+            raise NotAllowed(u"Registration failed. %(user)s is already " \
+                             u"registered as the DTLS for %(location)s. " % \
                              {'user':role.reporter.full_name(),
                               'location':location})
         else:
-            raise NotAllowed("You are already registered as the " \
-                             "DTLS for %(loc)s. You do not " \
-                             "need to register again." % {'loc':location})
+            raise NotAllowed(u"You are already registered as the " \
+                             u"DTLS for %(loc)s. You do not " \
+                             u"need to register again." % {'loc':location})
 
     if Role.objects.filter(group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
                            reporter=reporter).count():
-        raise NotAllowed("You are already registered as a " \
-                             "ZTLS  You can't be both.")
+        raise NotAllowed(u"You are already registered as a " \
+                             u"ZTLS  You can't be both.")
 
     try:
         old = Role.objects.get(reporter=reporter, group=group)
@@ -287,10 +292,10 @@ def create_dtls(reporter, group, location):
     else:
         old_location = old.location
         old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
+        return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as the DTLS for %(loc)s." % \
+    return u"You are now registered as the DTLS for %(loc)s." % \
            {'loc': location.name}
 
 
@@ -304,9 +309,9 @@ def create_ztls(reporter, group, location):
     the handle() method.
     """
     if location.type != LocationType.objects.get(name__iexact='zone'):
-        raise BadValue("Registration failed: %(loc)s is not a zone, it " \
-                       "is a %(type)s. You must register with a zone." \
-                       "code." % {'loc':location, 'type':location.type.name})
+        raise BadValue(u"Registration failed: %(loc)s is not a zone, it " \
+                       u"is a %(type)s. You must register with a zone " \
+                       u"code." % {'loc':location, 'type':location.type.name})
 
     try:
         role = Role.objects.get(group=group, location=location)
@@ -314,18 +319,18 @@ def create_ztls(reporter, group, location):
         pass
     else:
         if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the ZTLS for %(location)s. " % \
+            raise NotAllowed(u"Registration failed. %(user)s is already " \
+                             u"registered as the ZTLS for %(location)s. " % \
                              {'user':role.reporter.full_name(),
                               'location':location})
         else:
-            raise NotAllowed("You are already registered as the " \
-                             "ZTLS for %(loc)s. You do not " \
-                             "need to register again." % {'loc':location})
+            raise NotAllowed(u"You are already registered as the " \
+                             u"ZTLS for %(loc)s. You do not " \
+                             u"need to register again." % {'loc':location})
 
     if Role.objects.filter(group__name=FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME,
                            reporter=reporter).count():
-        raise NotAllowed("You are already registered as a " \
+        raise NotAllowed(u"You are already registered as a " \
                              "DTLS  You can't be both.")
 
     try:
@@ -335,10 +340,10 @@ def create_ztls(reporter, group, location):
     else:
         old_location = old.location
         old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
+        return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as the ZTLS for %(loc)s." % \
+    return u"You are now registered as the ZTLS for %(loc)s." % \
            {'loc': location.name}
 
 
@@ -359,15 +364,15 @@ def create_dtu_focal_person(reporter, group, location):
         pass
     else:
         if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the DTU Focal Person at %(location)s. " \
-                             "Only one DTU Focal Person can be registered per " \
-                             "DTU." % \
+            raise NotAllowed(u"Registration failed. %(user)s is already " \
+                             u"registered as the DTU Focal Person at %(location)s. " \
+                             u"Only one DTU Focal Person can be registered per " \
+                             u"DTU." % \
                              {'user':role.reporter.full_name(),
                               'location':location})
         else:
-            raise NotAllowed("You are already registered as the " \
-                             "DTU Focal Person at %(loc)s. You do not " \
+            raise NotAllowed(u"You are already registered as the " \
+                             u"DTU Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
@@ -378,105 +383,31 @@ def create_dtu_focal_person(reporter, group, location):
     else:
         old_location = old.location
         old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
+        return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return "You are now registered as the DTU Focal Person at %(loc)s." % \
+    return u"You are now registered as the DTU Focal Person at %(loc)s." % \
            {'loc': location.name}
 
 
 def create_first_control_focal_person(reporter, group, location):
     """
-    Perform checks to see if the current reporter can be a First Control Focal
-    Person for this location. If no, raise a raise an exception, if yes, return
+    Perform checks to see if the current reporter can be a First Control Foca. 
+    If no, raise a raise an exception, if yes, return
     a registration message. Be careful that this method DOES NOT CREATE a role
     object for the corresponding focal person. However, it may delete the
     previous role object if if detect you can replace it by a new one. Object
     creation is made in the handle() method.
     """
-    reject_wrong_location_type(location, 'district')
-    try:
-        role = Role.objects.get(group=group, location=location)
-    except Role.DoesNotExist:
-        pass
-    else:
-        if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the First Control Focal Person at "
-                             "%(location)s. Only one First Control Focal "
-                             "Person can be registered per district." % \
-                             {'user':role.reporter.full_name(),
-                              'location':location})
-        else:
-            raise NotAllowed("You are already registered as the " \
-                             "First Control Focal Person at %(loc)s. You do not " \
-                             "need to register again." % {'loc':location})
+    
+    if Role.objects.filter(group=group, reporter=reporter).count():
 
-    if Role.objects.filter(group__name=FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME,
-                           reporter=reporter).count():
         raise NotAllowed("You are already registered as a " \
-                             "Second Control Focal Person.  You " \
-                             "can't be both." )
+                         u"First Controller. You do not " \
+                         u"need to register again.")
 
-    existing_roles = Role.objects.filter(reporter=reporter)
-    try:
-        old = existing_roles.get(group=group)
-    except Role.DoesNotExist:
-        pass
-    else:
-        old_location = old.location
-        old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
-               {'old':old_location, 'new':location}
-
-    return "You are now registered as the First Control Focal Person at %(loc)s." % \
-           {'loc': location.name}
+    return u"SUCESS: NTRL will then designate "\
+           u"you as the First Controller for the appropriate DTUs. "
 
 
-def create_second_control_focal_person(reporter, group, location):
-    """
-    Perform checks to see if the current reporter can be a Second Control Focal
-    Person for this location. If no, raise a raise an exception, if yes, return
-    a registration message. Be careful that this method DOES NOT CREATE a role
-    object for the corresponding focal person. However, it may delete the
-    previous role object if if detect you can replace it by a new one. Object
-    creation is made in the handle() method.
-    """
-    reject_wrong_location_type(location, 'zone')
-    try:
-        role = Role.objects.get(group=group, location=location)
-    except Role.DoesNotExist:
-        pass
-    else:
-        if role.reporter != reporter:
-            raise NotAllowed("Registration failed. %(user)s is already " \
-                             "registered as the Second Control Focal Person at "
-                             "%(location)s. Only one Second Control Focal "
-                             "Person can be registered per district." % \
-                             {'user':role.reporter.full_name(),
-                              'location':location})
-        else:
-            raise NotAllowed("You are already registered as the " \
-                             "Second Control Focal Person at %(loc)s. You do not " \
-                             "need to register again." % {'loc':location})
-
-    if Role.objects.filter(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
-                           reporter=reporter).count():
-        raise NotAllowed("You are already registered as a " \
-                         "First Control Focal Person. You " \
-                         "can't be both." )
-
-    existing_roles = Role.objects.filter(reporter=reporter)
-    try:
-        old = existing_roles.get(group=group)
-    except Role.DoesNotExist:
-        pass
-    else:
-        old_location = old.location
-        old.delete()
-        return "You have moved from %(old)s to %(new)s." % \
-               {'old':old_location, 'new':location}
-
-    return "You are now registered as the Second Control Focal Person at %(loc)s." % \
-           {'loc': location.name}
 
