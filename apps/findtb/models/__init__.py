@@ -19,9 +19,9 @@ from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
                                               CollectedFromDtu, \
                                               DeliveredToFirstController, \
                                               PassedFirstControl, \
-                                              CollectedFromFirstController,
-                                              DeliveredToSecondController,
-                                              SentToNtrl,
+                                              CollectedFromFirstController, \
+                                              DeliveredToSecondController, \
+                                              SentToNtrl, \
                                               DeliveredToNtrl
 
 from findtb.models.sref_result_states import MicroscopyResult,\
