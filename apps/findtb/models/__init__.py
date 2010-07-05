@@ -17,7 +17,12 @@ from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
 
 from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
                                               CollectedFromDtu, \
-                                              DeliveredToFirstController
+                                              DeliveredToFirstController, \
+                                              PassedFirstControl, \
+                                              CollectedFromFirstController,
+                                              DeliveredToSecondController,
+                                              SentToNtrl,
+                                              DeliveredToNtrl
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

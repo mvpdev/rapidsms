@@ -275,6 +275,11 @@ def create_dtls(reporter, group, location):
                              "DTLS for %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
+    if Role.objects.filter(group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
+                           reporter=reporter).count():
+        raise NotAllowed("You are already registered as a " \
+                             "ZTLS  You can't be both.")
+
     try:
         old = Role.objects.get(reporter=reporter, group=group)
     except Role.DoesNotExist:
@@ -317,6 +322,11 @@ def create_ztls(reporter, group, location):
             raise NotAllowed("You are already registered as the " \
                              "ZTLS for %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
+
+    if Role.objects.filter(group__name=FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME,
+                           reporter=reporter).count():
+        raise NotAllowed("You are already registered as a " \
+                             "DTLS  You can't be both.")
 
     try:
         old = Role.objects.get(reporter=reporter, group=group)
@@ -402,11 +412,11 @@ def create_first_control_focal_person(reporter, group, location):
                              "First Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
-    if Role.objects.filter(group__name='second control focal person',
+    if Role.objects.filter(group__name=FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME,
                            reporter=reporter).count():
         raise NotAllowed("You are already registered as a " \
-                             "Second Control Focal Person  You " \
-                             "can't be both." % {'loc':location})
+                             "Second Control Focal Person.  You " \
+                             "can't be both." )
 
     existing_roles = Role.objects.filter(reporter=reporter)
     try:
@@ -450,11 +460,11 @@ def create_second_control_focal_person(reporter, group, location):
                              "Second Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
-    if Role.objects.filter(group__name='first control focal person',
+    if Role.objects.filter(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
                            reporter=reporter).count():
         raise NotAllowed("You are already registered as a " \
-                         "First Control Focal Person at %(loc)s. You " \
-                         "can't be both." % {'loc':location})
+                         "First Control Focal Person. You " \
+                         "can't be both." )
 
     existing_roles = Role.objects.filter(reporter=reporter)
     try:

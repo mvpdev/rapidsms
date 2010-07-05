@@ -41,7 +41,7 @@ def eqa_tracking(request, *arg, **kwargs):
 
         #  getting slides currently in EQA
         states = State.objects.filter(is_final=False, origin='eqa',
-                                      is_current=True).order_by('created')
+                                      is_current=True).order_by('-created')
 
     contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
 

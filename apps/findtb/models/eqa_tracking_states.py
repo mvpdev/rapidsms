@@ -116,3 +116,117 @@ class DeliveredToFirstController(Eqa):
         return u"Slides from %(dtu)s have been delivered to first controller" % {
                                             'dtu': self.slides_batch.location.name}
 
+
+
+class PassedFirstControl(Eqa):
+    """
+    State declaring the slides have been tested by the first
+    controller.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'passed_first_control'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been tested by first controller"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been tested by first controller" % {
+                                            'dtu': self.slides_batch.location.name}
+
+
+class CollectedFromFirstController(Eqa):
+    """
+    State declaring the slides have been collected by ZTLS from the
+    first controller.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'collected_from_first_controller'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been picked up by ZTLS"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been picked up from first controller by ZTLS" % {
+                'dtu': self.slides_batch.location.name}
+
+
+class DeliveredToSecondController(Eqa):
+    """
+    State declaring the slides have been delivered by ZTLS to the second
+    controller.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'delivered_to_second_controller'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been delivered to second controller"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been delivered to second controller" % {
+                                            'dtu': self.slides_batch.location.name}
+
+
+class SentToNtrl(Eqa):
+    """
+    State declaring the slides have been sent to NTRL
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'sent_to_ntrl'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been sent to NTRL"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been sent to NTRL" % {
+                                            'dtu': self.slides_batch.location.name}
+
+
+
+class DeliveredToNtrl(Eqa):
+    """
+    State declaring the slides have been delivered to NTRL
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'delivered_to_ntrl'
+
+
+    def get_short_message(self):
+
+        return u"Slides have been delivered to NTRL"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have been delivered to NTRL" % {
+                                            'dtu': self.slides_batch.location.name}
