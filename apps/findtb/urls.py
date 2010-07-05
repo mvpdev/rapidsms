@@ -31,6 +31,7 @@ urlpatterns += patterns('',
         kwargs={'view_name': 'findtb-eqa-dashboard'}),
 
     url(r'^findtb/eqa/$', redirect_to, {'url': '/findtb/eqa/dashboard/'}),
+    url(r'^findtb/eqa/controllers$', views.controllers),
 
 )
 

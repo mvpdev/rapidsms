@@ -1,0 +1,49 @@
+{% extends base_template %}
+
+
+{% block page_stylesheets %}
+
+        <link rel="stylesheet" href="/static/findtb/css/blueprint/screen.css" type="text/css" />
+        <link rel="stylesheet" href="/static/findtb/css/style.css" type="text/css" />
+        
+{% endblock %}
+
+{% block title %}EQA Controllers{% endblock %}
+
+{% block content %}
+<a href="../eqa">Back to EQA Dashboard</a>
+
+{% regroup dtus by zone as zone_list %}
+
+<form name="controllers" action="" method="post">
+{% for zone in zone_list %}
+    <div class="ctlr_zone">{{zone.grouper}} Zone</div>
+    {% regroup zone.list by district as district_list %}
+
+    {% for district in district_list %}
+        <div class="ctlr_district">{{district.grouper}}</div>
+        <table>{% spaceless %}
+        {% for dtu in district.list %}
+            <tr><td width="180">{{dtu.name}}</td>
+                <td>1st Control:
+                    <select class="ctrl_select" name="dtu_1st_{{dtu.id}}">
+                    <option value='none'>None</option>
+                    {% for control in 1sts %}
+                    <option value='{{control.id}}'{% ifequal dtu.1st.id control.id %} selected="selected"{% endifequal %}>{{control.full_name}}</option>
+                    {% endfor %}
+                    </select>
+                </td>
+                <td>2nd Control:
+                    <select class="ctrl_select" name="dtu_2nd_{{dtu.id}}">
+                    <option value='none'>None</option>
+                    {% for control in 2nds %}
+                        <option value='{{control.id}}'{% ifequal dtu.2nd.id control.id %} selected="selected"{% endifequal %}>{{control.full_name}}</option>
+                    {% endfor %}
+                </td></tr>
+        {% endfor %}
+        </table>{% endspaceless %}
+    {% endfor %}
+{% endfor %}
+<input type="submit" value="Save"/>
+</form>
+{% endblock %}

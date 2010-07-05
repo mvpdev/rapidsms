@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 # -*- coding= UTF-8 -*-
 
+from operator import itemgetter
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from rapidsms.webui.utils import render_to_response
 
-from findtb.models import SlidesBatch, Role
+from findtb.models import SlidesBatch, Role, FINDTBGroup, FINDTBLocation
 
 from locations.models import Location
+from reporters.models import Reporter
 
 from django_tracking.models import State, TrackedItem
 
@@ -81,3 +83,36 @@ def eqa_tracking(request, *arg, **kwargs):
     ctx.update(locals())
 
     return render_to_response(request, "eqa/eqa-tracking.html", ctx)
+
+@login_required
+def controllers(request, *arg, **kwargs):
+    first_group = FINDTBGroup.objects.get(name=\
+                        FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME)
+    second_group = FINDTBGroup.objects.get(name=\
+                        FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME)
+
+    dtus = []
+    for loc in FINDTBLocation.objects.filter(type__name='dtu'):
+        dtu = {'id':loc.id, 'name':loc.name, 'zone':loc.get_zone().name, \
+               'district':loc.get_district().name}
+        try:
+            dtu['1st'] = \
+                    Role.objects.get(location=loc, group=first_group).reporter
+        except Role.DoesNotExist:
+            dtu['1st'] = None
+        try:
+            dtu['2nd'] = \
+                    Role.objects.get(location=loc, group=second_group).reporter
+        except Role.DoesNotExist:
+            dtu['2nd'] = None
+        dtus.append(dtu)
+
+    dtus.sort(key=itemgetter('zone','district'))
+
+    first_controllers = Reporter.objects.filter(\
+                                        role__in=first_group.role_set.all())
+    second_controllers = Reporter.objects.filter(\
+                                        role__in=second_group.role_set.all())
+    ctx = {'dtus':dtus, '1sts':first_controllers, '2nds':second_controllers}
+
+    return render_to_response(request, "eqa/eqa-controllers.html", ctx)

@@ -383,3 +383,21 @@ text-align:center;
 #sref-tracking #tracking-form  {
 text-align:center;
 }
+
+
+/*** EQA Controller designation form ***/
+.ctlr_zone {
+font-weight:bold;
+font-size:16pt;
+border-bottom: 2px solid black;
+margin-top:10px;
+}
+.ctlr_district {
+margin-top:8px;
+font-size:13pt;
+font-weight:bold;
+}
+.ctrl_select {
+margin:0px;
+}
+    
