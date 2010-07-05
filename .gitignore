@@ -44,3 +44,4 @@ settings.py
 *.sqlite
 *.db
 gitg.sh
+dropbox
