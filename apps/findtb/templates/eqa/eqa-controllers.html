@@ -1,17 +1,10 @@
-{% extends base_template %}
+{% extends "findtb-base.html" %}
 
-
-{% block page_stylesheets %}
-
-        <link rel="stylesheet" href="/static/findtb/css/blueprint/screen.css" type="text/css" />
-        <link rel="stylesheet" href="/static/findtb/css/style.css" type="text/css" />
-        
-{% endblock %}
 
 {% block title %}EQA Controllers{% endblock %}
 
 {% block content %}
-<a href="../eqa">Back to EQA Dashboard</a>
+<a href="{% url findtb-eqa-dashboard %}">&lt; EQA Dashboard</a>
 
 {% regroup dtus by zone as zone_list %}
 

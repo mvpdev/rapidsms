@@ -51,7 +51,7 @@ display: inline;
 list-style-type: none;
 }
 
-#findtb-menu li.last {
+#findtb-menu li.not-first {
 border-left: 1px solid black;
 padding-left: 1ex;
 }

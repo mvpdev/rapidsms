@@ -3,8 +3,9 @@
 
 from operator import itemgetter
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import NoReverseMatch
 
 from rapidsms.webui.utils import render_to_response
 
@@ -40,8 +41,11 @@ def eqa_tracking(request, *arg, **kwargs):
 
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
 
-        return redirect("findtb-eqa-%s" % ti.state.title, id=id, 
+        try:
+            return redirect("findtb-eqa-%s" % tracked_item.state.title, id=id, 
                              year=year, quarter=quarter )
+        except NoReverseMatch:
+            pass
         
         
         # getting specimen related event to look at, filtered by type

@@ -6,10 +6,14 @@
      	    <li>EQA dashboard</li>
      	{% endifnotequal %}
      	
+     	{% ifequal view_name "findtb-eqa-dashboard" %}
+     	    <li class="not-first"><a href="{% url findtb-eqa-controllers %}">Assign controllers</a></li>
+     	{% endifequal %}
+     	
      	{% ifnotequal view_name "findtb-sref-dashboard" %}
-     	    <li class="last"><a href="{% url findtb-sref-dashboard %}">Specimen referral dashboard</a></li>
+     	    <li class="not-first"><a href="{% url findtb-sref-dashboard %}">Specimen referral dashboard</a></li>
      	{% else %}
-     	    <li class="last">Specimen referral dashboard</li>
+     	    <li class="not-first">Specimen referral dashboard</li>
      	{% endifnotequal %}
      	
 </ul>
