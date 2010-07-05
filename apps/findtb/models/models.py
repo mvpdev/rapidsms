@@ -7,7 +7,7 @@ import datetime
 
 from django.db import models, IntegrityError
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.db.models.signals import post_delete, pre_save
 
 from django_tracking.models import TrackedItem, State
@@ -564,3 +564,24 @@ class Slide(models.Model):
                                            'location': self.batch.location,
                                            'quarter': q,
                                            'year': y}
+
+class Notice(models.Model):
+    """
+    A message sent as part of the stock management / notice system
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    location = models.ForeignKey(Location, blank=True, null=True)
+    reporter = models.ForeignKey(Reporter, blank=True, null=True)
+    recieved_on = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=450, blank=True, null=True)
+    response = models.CharField(max_length=450, blank=True, null=True)
+    responded_on = models.DateTimeField(blank=True, null=True)
+    responded_by = models.ForeignKey(User, related_name='notice_response', \
+                                     blank=True, null=True)
+
+    def __unicode__(self):
+        return u"%(loc)s - %(text)s" % \
+               {'loc': self.location, 'text':self.text}

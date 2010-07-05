@@ -9,7 +9,7 @@ import rapidsms
 from reporters.models import Reporter
 from findtb.libs.utils import respond_exceptions, clean_msg
 from findtb.exceptions import SMSException
-from findtb.handlers import registration, unregister, tsrs, eqa
+from findtb.handlers import registration, unregister, tsrs, eqa, notice
 
 #TODO: when creating a new specimen, if it's a replacment, set the replacement
 # in the previous one
@@ -53,7 +53,7 @@ class App(rapidsms.app.App):
 
         keyword_dispatcher = {}
 
-        modules = [registration, unregister, tsrs, eqa]
+        modules = [registration, unregister, tsrs, eqa, notice]
         keyword_dispatcher = {}
         for module in modules:
             for kw in module.KEYWORDS:

@@ -4,7 +4,7 @@
 
 from findtb.models.models import Role, Patient, Specimen,\
                                  FINDTBGroup, Configuration,\
-                                 FINDTBLocation, SlidesBatch, Slide
+                                 FINDTBLocation, SlidesBatch, Slide, Notice
 
 from findtb.models.ftbstate import FtbStateManager, FtbState
 
