@@ -11,12 +11,14 @@ from django.http import HttpResponseRedirect
 
 from rapidsms.webui.utils import render_to_response
 
-from findtb.models import SlidesBatch, Role, FINDTBGroup, FINDTBLocation
+from findtb.models import SlidesBatch, Role, FINDTBGroup, FINDTBLocation,\
+                          DeliveredToSecondController
 
 from locations.models import Location
 from reporters.models import Reporter
 
 from django_tracking.models import State, TrackedItem
+
 
 
 @login_required
@@ -187,8 +189,14 @@ def eqa_collected_from_first_controller(request, *arg, **kwargs):
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
 
-        
-        
+        if request.method == 'POST' and request.POST.get('received', None) == 'on':
+            state = DeliveredToSecondController(slides_batch=slides_batch)
+            state.save()
+            tracked_item.state = state
+            tracked_item.save()
+            return redirect("findtb-eqa-tracking", id=id, 
+                             year=year, quarter=quarter )
+                
         # getting specimen related event to look at, filtered by type
         events = tracked_item.get_history()
 

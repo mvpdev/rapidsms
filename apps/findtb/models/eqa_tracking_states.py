@@ -178,12 +178,12 @@ class DeliveredToSecondController(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been delivered to second controller"
+        return u"Slides have been delivered to Second Sontroller"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been delivered to second controller" % {
+        return u"Slides from %(dtu)s have been delivered to Second Controller" % {
                                             'dtu': self.slides_batch.location.name}
 
 
