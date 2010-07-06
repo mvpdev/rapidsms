@@ -1,20 +1,21 @@
 {% extends "findtb-base.html" %}
 
+{% block page-class %}eqa-controllers{% endblock %}
 
 {% block title %}EQA Controllers{% endblock %}
 
-{% block content %}
-<a href="{% url findtb-eqa-dashboard %}">&lt; EQA Dashboard</a>
+{% block findtb-content %}
 
 {% regroup dtus by zone as zone_list %}
 
-<form name="controllers" action="" method="post">
+<form name="controllers" action="" method="post" class="span-18 last prepend-3">
+<div class="span-16">
 {% for zone in zone_list %}
-    <div class="ctlr_zone">{{zone.grouper}} Zone</div>
+    <h2 class="ctlr_zone">{{zone.grouper}} Zone</h2>
     {% regroup zone.list by district as district_list %}
 
     {% for district in district_list %}
-        <div class="ctlr_district">{{district.grouper}}</div>
+        <h3 class="ctlr_district">{{district.grouper}}</h3>
         <table>{% spaceless %}
         {% for dtu in district.list %}
             <tr><td width="180">{{dtu.name}}</td>
@@ -37,6 +38,9 @@
         </table>{% endspaceless %}
     {% endfor %}
 {% endfor %}
+</div>
+<div class="span-2 last">
 <input type="submit" value="Save"/>
+</div>
 </form>
 {% endblock %}

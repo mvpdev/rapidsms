@@ -369,35 +369,32 @@ text-align:center;
 }
 
 
-/*** SREF TRAKING ***/
+/*** SREF  / EQA TRAKING ***/
 
 #sref-tracking #right-column a {
 text-align:left;
 text-indent: 1em;
 }
 
-#sref-tracking #tracking-form  {
+.findtb #tracking-form  {
 text-align:center;
 }
 
-#sref-tracking #tracking-form  {
-text-align:center;
-}
 
 
 /*** EQA Controller designation form ***/
-.ctlr_zone {
-font-weight:bold;
-font-size:16pt;
-border-bottom: 2px solid black;
-margin-top:10px;
+
+.eqa-controllers h2 {
+margin-top:1em;
+text-align: left;
 }
-.ctlr_district {
-margin-top:8px;
-font-size:13pt;
-font-weight:bold;
+
+.eqa-controllers table {
+border: 1px solid #EEEEEE;
+width:100%;
+}  
+
+.eqa-controllers .span-2 input {
+margin-top:1em;
+position:fixed;
 }
-.ctrl_select {
-margin:0px;
-}
-    

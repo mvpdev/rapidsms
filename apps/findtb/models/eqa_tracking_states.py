@@ -143,7 +143,7 @@ class PassedFirstControl(Eqa):
 
 class CollectedFromFirstController(Eqa):
     """
-    State declaring the slides have been collected by ZTLS from the
+    State declaring the slides have been collected by DTLS from the
     first controller.
     """
 
@@ -155,18 +155,18 @@ class CollectedFromFirstController(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been picked up by ZTLS"
+        return u"Slides have been picked up by DTLS"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been picked up from first controller by ZTLS" % {
+        return u"Slides from %(dtu)s have been picked up from first controller by DTLS" % {
                 'dtu': self.slides_batch.location.name}
 
 
 class DeliveredToSecondController(Eqa):
     """
-    State declaring the slides have been delivered by ZTLS to the second
+    State declaring the slides have been delivered by DTLS to the second
     controller.
     """
 
@@ -187,46 +187,8 @@ class DeliveredToSecondController(Eqa):
                                             'dtu': self.slides_batch.location.name}
 
 
-class SentToNtrl(Eqa):
-    """
-    State declaring the slides have been sent to NTRL
-    """
-
-    class Meta:
-        app_label = 'findtb'
-
-    state_name = 'sent_to_ntrl'
-
-
-    def get_short_message(self):
-
-        return u"Slides have been sent to NTRL"
-
-
-    def get_long_message(self):
-
-        return u"Slides from %(dtu)s have been sent to NTRL" % {
-                                            'dtu': self.slides_batch.location.name}
 
 
 
-class DeliveredToNtrl(Eqa):
-    """
-    State declaring the slides have been delivered to NTRL
-    """
-
-    class Meta:
-        app_label = 'findtb'
-
-    state_name = 'delivered_to_ntrl'
 
 
-    def get_short_message(self):
-
-        return u"Slides have been delivered to NTRL"
-
-
-    def get_long_message(self):
-
-        return u"Slides from %(dtu)s have been delivered to NTRL" % {
-                                            'dtu': self.slides_batch.location.name}

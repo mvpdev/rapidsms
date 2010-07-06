@@ -1,0 +1,21 @@
+{% extends "eqa/eqa-tracking.html" %}
+
+{% load findtb_format  %}
+
+{% block tracking-form %}
+
+
+<h2>Receive slides at Second Controller</h2> 
+
+<form id="tracking-form" action='.' method='post'>
+
+   <p>       
+   <input type="checkbox" name="received" id="received" /> <label for="frites">Received at Second Controller</label>
+   <input type="submit" value="Save">
+   </p>
+   
+</form>
+
+{% endblock %}
+   
+
