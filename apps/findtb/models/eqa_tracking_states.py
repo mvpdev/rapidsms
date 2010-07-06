@@ -65,7 +65,7 @@ class EqaStarts(Eqa):
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s are ready to be picked up by DTLS" % {
+        return u"Slides from %(dtu)s are ready to be picked up by the DTLS" % {
                                             'dtu': self.slides_batch.location }
 
 
@@ -83,13 +83,13 @@ class CollectedFromDtu(Eqa):
 
     def get_short_message(self):
 
-        return u"%s slides have been picked up by DTLS" %\
+        return u"%s slides have been picked up by the DTLS" %\
                self.slides_batch.slide_set.all().count()
 
 
     def get_long_message(self):
 
-        return u"%(number)s slides have been picked up from %(dtu)s by DTLS" % {
+        return u"%(number)s slides have been picked up from %(dtu)s by the DTLS" % {
                                             'dtu': self.slides_batch.location.name,
                                             'number': self.slides_batch.slide_set.all().count()}
 
@@ -108,12 +108,12 @@ class DeliveredToFirstController(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been delivered to first controller"
+        return u"Slides have been delivered to the first controller"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been delivered to first controller" % {
+        return u"Slides from %(dtu)s have been delivered to the first controller" % {
                                             'dtu': self.slides_batch.location.name}
 
 
@@ -132,12 +132,12 @@ class PassedFirstControl(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been tested by first controller"
+        return u"Slides have been tested by the first controller"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been tested by first controller" % {
+        return u"Slides from %(dtu)s have been tested by the first controller" % {
                                             'dtu': self.slides_batch.location.name}
 
 
@@ -155,12 +155,12 @@ class CollectedFromFirstController(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been picked up by DTLS"
+        return u"Slides have been picked up by the DTLS"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been picked up from first controller by DTLS" % {
+        return u"Slides from %(dtu)s have been picked up from the first controller by the DTLS" % {
                 'dtu': self.slides_batch.location.name}
 
 
@@ -178,12 +178,12 @@ class DeliveredToSecondController(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have been delivered to Second Sontroller"
+        return u"Slides have been delivered to the second controller"
 
 
     def get_long_message(self):
 
-        return u"Slides from %(dtu)s have been delivered to Second Controller" % {
+        return u"Slides from %(dtu)s have been delivered to the second controller" % {
                                             'dtu': self.slides_batch.location.name}
 
 

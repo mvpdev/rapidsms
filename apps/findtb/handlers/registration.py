@@ -372,7 +372,7 @@ def create_dtu_focal_person(reporter, group, location):
                               'location':location})
         else:
             raise NotAllowed(u"You are already registered as the " \
-                             u"DTU Focal Person at %(loc)s. You do not " \
+                             u"EQA DTU Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
@@ -386,7 +386,7 @@ def create_dtu_focal_person(reporter, group, location):
         return u"You have moved from %(old)s to %(new)s." % \
                {'old':old_location, 'new':location}
 
-    return u"You are now registered as the DTU Focal Person at %(loc)s." % \
+    return u"You are now registered as the EQA DTU Focal Person at %(loc)s." % \
            {'loc': location.name}
 
 
