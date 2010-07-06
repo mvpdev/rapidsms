@@ -475,20 +475,24 @@ class SlidesBatch(models.Model):
     created_on = models.DateField(_(u"Created on"), default=datetime.date.today)
     created_by = models.ForeignKey(Reporter)
     comment = models.CharField(max_length=100, blank=True)
+    results = models.CharField(max_length=100, blank=True)
 
     objects = SlidesBatchManager()
 
 
     def save(self, *args, **kwargs):
 
-        try:
-            SlidesBatch.objects.get_for_quarter_including_date(self.location,
-                                                                self.created_on)
-        except SlidesBatch.DoesNotExist:
-            super(SlidesBatch, self).save(*args, **kwargs)
-        else:
-            raise IntegrityError(u"A Slides Batch already exists for this "\
-                                  u"DTU and this quarter")
+        if not self.pk:
+            try:
+                SlidesBatch.objects.get_for_quarter_including_date(self.location,
+                                                                    self.created_on)
+            except SlidesBatch.DoesNotExist:
+                pass
+            else:
+                raise IntegrityError(u"A Slides Batch already exists for this "\
+                                      u"DTU and this quarter")
+                                      
+        super(SlidesBatch, self).save(*args, **kwargs)
 
 
     @classmethod
@@ -550,10 +554,11 @@ class Slide(models.Model):
 
     def save(self, *args, **kwargs):
 
-        if not self.number:
+        # django doesn't provide contrainst "unique if not blank"
+        if not self.number: 
             self.number = None
 
-        super(Slide, self).save(self, *args, **kwargs)
+        super(Slide, self).save(*args, **kwargs)
 
 
     def __unicode__(self):

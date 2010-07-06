@@ -1,0 +1,56 @@
+{% extends "eqa/eqa-tracking.html" %}
+
+{% load findtb_format  %}
+
+{% block tracking-form %}
+
+
+<h2>Enter your results</h2> 
+
+<form id="results-form" action='.' method='post'>
+
+    {{ form.slide_form_set.management_form }}
+    
+    {% for errors in form.errors.itervalues %}
+        {% for error in errors %}
+        <p class="error">{{ error }}</p>
+        {% endfor %}
+    {% endfor %}
+
+   <table> 
+   
+   <thead><tr>
+       <th>Slide number</th>
+       <th>DTU results</th>
+       <th>1<sup>st</sup> Controller results</th>
+       <th>2<sup>nd</sup> Controller results</th>
+       <th>Cancelled</th>
+   </tr></thead>
+   
+   <tbody>
+       {% for slide_form in form.slide_form_set.forms %}
+       <tr>
+            <td>{{ slide_form.number }}</td>
+            <td>{{ slide_form.dtu_results }}</td>
+            <td>{{ slide_form.first_ctrl_results }}</td>
+            <td>{{ slide_form.second_ctrl_results }}</td>
+            <td>{{ slide_form.cancelled }}{{ slide_form.id }}</td>
+       </tr>
+       {% endfor %}
+   </tbody>
+   
+   </table>
+   
+   <p>
+    <label for="comment">
+    {{ form.slides_batch_form.comment.label }} 
+    {{ form.slides_batch_form.comment }}
+    </label>
+    <input class="button" type="submit" value="Save">
+   </p>
+   
+</form>
+
+{% endblock %}
+   
+
