@@ -107,25 +107,27 @@ def controllers(request, *arg, **kwargs):
     if request.method == 'POST':
         changed = False
         for field, value in request.POST.iteritems():
-            match = re.match(r'^dtu_1st_(?P<id>\d+)$',field)
-            if match:
-                loc = Location.objects.get(id=int(match.groupdict()['id']))
-                exists = Role.objects.filter(location=loc, \
-                                             group=first_group).count()
-                if exists and value == 'none':
-                    Role.objects.get(location=loc, group=first_group).delete()
-                elif value != 'none':
-                    rep = Reporter.objects.get(id=int(value))
-                    if exists:
-                        role = Role.objects.get(location=loc, group=first_group)
-                        if role.reporter != rep:
-                            role.reporter = rep
-                            role.save()
+            for string, group in (('1st', first_group), \
+                                  ('2nd', second_group)):
+                match = re.match(r'^dtu_%s_(?P<id>\d+)$' % string, field)
+                if match:
+                    loc = Location.objects.get(id=int(match.groupdict()['id']))
+                    exists = Role.objects.filter(location=loc, \
+                                                 group=group).count()
+                    if exists and value == 'none':
+                        Role.objects.get(location=loc, group=group).delete()
+                    elif value != 'none':
+                        rep = Reporter.objects.get(id=int(value))
+                        if exists:
+                            role = Role.objects.get(location=loc, group=group)
+                            if role.reporter != rep:
+                                role.reporter = rep
+                                role.save()
+                                changed = True
+                        else:
+                            Role(location=loc, group=group, \
+                                 reporter=rep).save()
                             changed = True
-                    else:
-                        Role(location=loc, group=first_group, \
-                             reporter=rep).save()
-                        changed = True
 
         if changed:
             request.user.message_set.create(message=\
