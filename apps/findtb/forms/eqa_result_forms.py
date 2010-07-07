@@ -10,10 +10,8 @@ from django.db import IntegrityError
 
 from django_tracking.models import State, TrackedItem
 
-from findtb.models import SpecimenMustBeReplaced, AllTestsDone,\
-                          MicroscopyResult, LpaResult, MgitResult,\
-                          LjResult, SirezResult, Slide
-from findtb.libs.utils import send_to_dtu, dtls_is_lab_tech_at, send_to_dtls
+from findtb.models import ResultsAvailable, Slide
+from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls
 
 from forms import SlidesBatchForm
 
@@ -29,6 +27,11 @@ class EqaResultsForm(forms.Form):
     rates.
     """
     
+    RECOMMENDATIONS = {
+    'HFP': u"Check register. Filter stains and check staining procedure. "\
+           u"Clean microscope.",
+    'HFN': u"Check register. Check stain expiry and staining procedure. " \
+           u"Ensure 100 fields read before reporting as negative."}
 
     class Media:
         js = ('/static/findtb/js/eqa_results.js',)
@@ -100,14 +103,25 @@ class EqaResultsForm(forms.Form):
             results = {}
             
             for slide in self.slides_batch.slide_set.filter(cancelled=False):
+            
                 result = result_table[slide.dtu_results][slide.second_ctrl_results]
                 results[result] = results.get(result, 0) + 1
+                
+                if result.startswith('H'):
+                    send_to_dtu_focal_person(self.slides_batch.location,
+                        "EQA results for slide %(slide)s: %(result)s. "\
+                        "%(recommendation)s" % {
+                        'slide': slide.number, 
+                        'result': result,
+                        'recommendation': self.RECOMMENDATIONS[result]
+                        } )
+                        
                     
-            res = ', '.join("%s: %s" % (x, y) in results.iteritems())
+            res = ', '.join("%s: %s" % (x, y) for x, y in results.iteritems())
             self.slides_batch.results = res
             self.slides_batch.save()
             
-            state = ResultsAvailable(slide_batch=self.slides_batch)
+            state = ResultsAvailable(slides_batch=self.slides_batch)
             #state.save()
             ti, c = TrackedItem.get_tracker_or_create(content_object=self.slides_batch)
             ti.state = state
@@ -122,9 +136,12 @@ class EqaResultsForm(forms.Form):
                         "EQA results for %(dtu)s are: %(results)s" % {
                         'dtu': self.slides_batch.location, 'results': res
                         } )
-            
-            send_to_dtu_focal_person(self.slides_batch.location,
-                        "EQA results are: %(results)s" % {'results': res } )
+                        
+            if self.slides_batch.comment:
+               send_to_dtu_focal_person(self.slides_batch.location,
+                            "NTRL commented: %(comment)s."% {
+                            'comment': self.slides_batch.comment, 
+                            } )
             
         
     def is_filled(self):

@@ -187,8 +187,71 @@ class DeliveredToSecondController(Eqa):
                                             'dtu': self.slides_batch.location.name}
 
 
+class ResultsAvailable(Eqa):
+    """
+    State declaring the results for the slides are available.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'results_available'
+    state_type = 'result'
 
 
+    def get_short_message(self):
+
+        return u"EQA results: %s" % self.slides_batch.results
 
 
+    def get_long_message(self):
 
+        return u"EQA results for slides from %(dtu)s: %(results)s" % {
+                'dtu': self.slides_batch.location.name,
+                'results': self.slides_batch.results }
+                
+                
+class ReadyToLeaveNtrl(Eqa):
+    """
+    State declaring the slides are ready to leave NTRL.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'read_to_leave_ntrl'
+
+
+    def get_short_message(self):
+
+        return u"Slides are ready to be sent back to DTU"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s are ready to be sent back to DTU" % {
+                'dtu': self.slides_batch.location.name}
+
+
+class ReceivedAtDTU(Eqa):
+    """
+    State declaring have been received at DTU.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+
+    state_name = 'received_at_dtu'
+    state_type = 'checked'
+    is_final = True
+
+
+    def get_short_message(self):
+
+        return u"Slides have arrived at DTU"
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s have arrived at DTU" % {
+                'dtu': self.slides_batch.location.name}

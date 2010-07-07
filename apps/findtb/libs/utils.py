@@ -56,7 +56,7 @@ def send_to_dtu(location, msg):
     send_to_group_at_location(FINDTBGroup.CLINICIAN_GROUP_NAME, location, msg)
 
 def send_to_ztls(location, msg):
-    zone = FINDTBGroup.objects.get(pk=location.pk).get_zone()
+    zone = FINDTBLocation.objects.get(pk=location.pk).get_zone()
     send_to_group_at_location(FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
                               zone, msg)
 

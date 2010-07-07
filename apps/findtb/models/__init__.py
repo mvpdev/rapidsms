@@ -20,7 +20,10 @@ from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
                                               DeliveredToFirstController, \
                                               PassedFirstControl, \
                                               CollectedFromFirstController, \
-                                              DeliveredToSecondController
+                                              DeliveredToSecondController,\
+                                              ResultsAvailable,\
+                                              ReadyToLeaveNtrl,\
+                                              ReceivedAtDTU
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

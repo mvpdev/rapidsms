@@ -293,6 +293,13 @@ def collect(params, reporter, message):
                                u"not recently passed first control. Check they have " \
                                u"been tested and haven't been picked up already." % {
                                'codes': ', '.join(rejected_batches)})
+                               
+        # ZTLS must exists
+        if not Role.objects.get(group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
+                                location=sb.location.parent.parent)
+            NotAllowed(u"FAILED: No ZTLS is registered for your zone."
+                       u"Please contact your ZTLS so he registers with "\
+                       u"the system.")
 
             # set states
             codes = ', '.join(sb.location.code for sb in accepted_batches)
