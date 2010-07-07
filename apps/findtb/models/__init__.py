@@ -23,7 +23,7 @@ from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
                                               DeliveredToSecondController,\
                                               ResultsAvailable,\
                                               ReadyToLeaveNtrl,\
-                                              ReceivedAtDTU
+                                              ReceivedAtDtu
 
 from findtb.models.sref_result_states import MicroscopyResult,\
                                              LpaResult,\

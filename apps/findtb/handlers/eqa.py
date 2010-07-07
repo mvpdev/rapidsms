@@ -183,14 +183,14 @@ def collect(params, reporter, message):
             try:
                 sb = SlidesBatch.objects.get_for_quarter(location)
             except SlidesBatch.DoesNotExist:
-                raise BadValue(u"Collection failed: The system didn't start "\
+                raise NotAllowed(u"Collection failed: The system didn't start "\
                                u"EQA automatically. Ask the DTU Focal Person "\
                                u"to send the 'START' keyword.")
 
             # slides batch must be in ready state
             ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
             if ti.state.title != 'eqa_starts':
-                raise BadValue(u"Collection failed: slides from %s have already "\
+                raise NotAllowed(u"Collection failed: slides from %s have already "\
                                u"been collected" % location.name)
 
             # set batch in state "collected_from_dtu"
@@ -296,7 +296,7 @@ def collect(params, reporter, message):
                                
         # ZTLS must exists
         if not Role.objects.get(group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
-                                location=sb.location.parent.parent)
+                                location=sb.location.parent.parent):
             NotAllowed(u"FAILED: No ZTLS is registered for your zone."
                        u"Please contact your ZTLS so he registers with "\
                        u"the system.")
@@ -465,10 +465,45 @@ def receive(params, reporter, message):
             send_to_dtu_focal_person(dtu,
                                      u"EQA slides have been received by the first "\
                                      u"controller")
+                                     
+    elif reporter.groups.filter(name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME).count():
+    
+        if params:
+            raise ParseError("'RECEIVE' must be sent without anything else.")
+            
+        error = u"Reception failed: check that NTRL declared slides ready "\
+                u"to go back to NTRL."
+        
+        role = Role.objects.get(reporter=reporter,
+                                group__name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME)
+        
+        # slides batch must exists to be collected
+        try:
+            sb = SlidesBatch.objects.get_for_quarter(role.location)
+        except SlidesBatch.DoesNotExist:
+            raise NotAllowed(error)
 
+        # slides batch must be in ready state
+        ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+        if ti.state.title != 'ready_to_leave_ntrl':
+            raise NotAllowed(error)
+            
+        state = ReceivedAtDtu(slides_batch=sb)
+        state.save()
+        TrackedItem.add_state_to_item(sb, state)
+
+        message.respond(u"SUCCESS: DTLS and NTRL are being notified. "\
+                        u"End of EQA for your DTU during this quarter.")
+
+        send_to_dtls(sb.location,
+                     u"Slides from %(dtu)s have been received by DTU. "\
+                     u"End of EQA for this DTU during this quarter" % {
+                        'dtu': sb.location.name
+                        })
+            
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. Only "\
-                          u"first controllers are.")
+                          u"First Controllers and DTU focal persons are.")
 
 
 def ready(params, reporter, message):

@@ -219,7 +219,7 @@ class ReadyToLeaveNtrl(Eqa):
     class Meta:
         app_label = 'findtb'
 
-    state_name = 'read_to_leave_ntrl'
+    state_name = 'ready_to_leave_ntrl'
 
 
     def get_short_message(self):
@@ -233,7 +233,7 @@ class ReadyToLeaveNtrl(Eqa):
                 'dtu': self.slides_batch.location.name}
 
 
-class ReceivedAtDTU(Eqa):
+class ReceivedAtDtu(Eqa):
     """
     State declaring have been received at DTU.
     """
@@ -248,7 +248,7 @@ class ReceivedAtDTU(Eqa):
 
     def get_short_message(self):
 
-        return u"Slides have arrived at DTU"
+        return u"Slides have arrived at DTU. End of EQA for this quarter."
 
 
     def get_long_message(self):
