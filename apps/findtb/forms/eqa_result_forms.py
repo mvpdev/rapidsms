@@ -103,9 +103,11 @@ class EqaResultsForm(forms.Form):
             results = {}
             
             for slide in self.slides_batch.slide_set.filter(cancelled=False):
-            
-                result = result_table[slide.dtu_results][slide.second_ctrl_results]
-                results[result] = results.get(result, 0) + 1
+                try:
+                    result = result_table[slide.dtu_results][slide.second_ctrl_results]
+                    results[result] = results.get(result, 0) + 1
+                except:
+                    import ipdb; ipdb.set_trace()
                 
                 if result.startswith('H'):
                     send_to_dtu_focal_person(self.slides_batch.location,
@@ -181,9 +183,9 @@ class EqaResultsForm(forms.Form):
             _table['negative'].update(dict(((afb, 'LFN') for afb in afbs)))
             
             for afb in afbs:
-                _table['afb'] = {'negative': 'LFP', '1': 'Correct',
+                _table[afb] = {'negative': 'LFP', '1': 'Correct',
                                  '2': 'QE', '3': 'QE'}
-                _table['afb'].update(dict(((afb, 'Correct') for afb in afbs)))
+                _table[afb].update(dict(((afb, 'Correct') for afb in afbs)))
                 
             _table['1'] = {'negative': 'HPF', 
                            '1': 'Correct', '2': 'Correct', '3': 'QE'}

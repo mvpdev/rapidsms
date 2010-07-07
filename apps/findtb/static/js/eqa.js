@@ -9,6 +9,7 @@ $(document).ready(function() {
     
    var change_district = function() {
     
+        
        $('#district-selector').submit();
 
            

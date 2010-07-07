@@ -276,7 +276,9 @@ def delivered_to_second_controller(request, *arg, **kwargs):
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
 
-        if request.method == 'POST':
+        if request.method == 'POST' \
+           and not request.POST.get('district', None)\
+           and not request.POST.get('zone', None): # second check is to avoid mixing up with navigation form
             form = EqaResultsForm(slides_batch=slides_batch,
                                   data=request.POST)
             if form.is_valid():
