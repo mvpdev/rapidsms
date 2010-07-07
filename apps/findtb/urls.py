@@ -45,6 +45,11 @@ urlpatterns += patterns('',
         views.delivered_to_second_controller,
         name='findtb-eqa-delivered_to_second_controller',
         kwargs={'view_name': 'findtb-eqa-delivered_to_second_controller'}),
+        
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)results-available/$',
+        views.results_available,
+        name='findtb-eqa-results_available',
+        kwargs={'view_name': 'findtb-eqa-results_available'}),
 )
 
 

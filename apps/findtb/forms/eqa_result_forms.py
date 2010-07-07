@@ -103,11 +103,8 @@ class EqaResultsForm(forms.Form):
             results = {}
             
             for slide in self.slides_batch.slide_set.filter(cancelled=False):
-                try:
-                    result = result_table[slide.dtu_results][slide.second_ctrl_results]
-                    results[result] = results.get(result, 0) + 1
-                except:
-                    import ipdb; ipdb.set_trace()
+                result = result_table[slide.dtu_results][slide.second_ctrl_results]
+                results[result] = results.get(result, 0) + 1
                 
                 if result.startswith('H'):
                     send_to_dtu_focal_person(self.slides_batch.location,
@@ -124,10 +121,10 @@ class EqaResultsForm(forms.Form):
             self.slides_batch.save()
             
             state = ResultsAvailable(slides_batch=self.slides_batch)
-            #state.save()
+            state.save()
             ti, c = TrackedItem.get_tracker_or_create(content_object=self.slides_batch)
             ti.state = state
-            #ti.save()
+            ti.save()
             
             send_to_ztls(self.slides_batch.location,
                         "EQA results for %(dtu)s are: %(results)s" % {

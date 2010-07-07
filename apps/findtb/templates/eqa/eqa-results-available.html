@@ -1,0 +1,24 @@
+{% extends "eqa/eqa-tracking.html" %}
+
+{% load findtb_format  %}
+
+{% block tracking-form %}
+
+
+<h2>Declare these slides ready</h2> 
+
+<form id="tracking-form" action='.' method='post'>
+
+   <p> 
+   <label for="received">      
+    <input type="checkbox" name="received" id="received" />
+    Slides ready to go back to EQA
+   </label>
+   <input type="submit" value="Save">
+   </p>
+   
+</form>
+
+{% endblock %}
+   
+
