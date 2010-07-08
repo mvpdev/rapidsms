@@ -293,13 +293,7 @@ def collect(params, reporter, message):
                                u"not recently passed first control. Check they have " \
                                u"been tested and haven't been picked up already." % {
                                'codes': ', '.join(rejected_batches)})
-                               
-        # ZTLS must exists
-        if not Role.objects.get(group__name=FINDTBGroup.ZONAL_TB_SUPERVISOR_GROUP_NAME,
-                                location=sb.location.parent.parent):
-            NotAllowed(u"FAILED: No ZTLS is registered for your zone."
-                       u"Please contact your ZTLS so he registers with "\
-                       u"the system.")
+
 
             # set states
             codes = ', '.join(sb.location.code for sb in accepted_batches)
@@ -316,16 +310,13 @@ def collect(params, reporter, message):
                                                           ).reporter
 
             send_msg(first_control_focal_person,
-                     u"DTLS has reported picking up slides from %(codes)s from your "\
-                     u"facilities for EQA." % {'codes': codes })
+                     u"DTLS has reported picking up slides from %(codes)s "\
+                     u"from you." % {'codes': codes })
 
 
             for dtu in dtus:
                 send_to_dtu_focal_person(dtu, u"EQA slides have been collected "\
-                                              u"from first control by DTLS")
-                
-        else:
-            raise ParseError(format_error)
+                                              u"from the first controller by DTLS")
 
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. It is "\
@@ -450,8 +441,8 @@ def receive(params, reporter, message):
             state.save()
             TrackedItem.add_state_to_item(sb, state)
 
-        message.respond(u"SUCCESS: Slides from %(dtus_names)s are ready for the first "\
-                        u"controller." % {
+        message.respond(u"SUCCESS: You have received slides from "\
+                        u"%(dtus_names)s." % {
                         'dtus_names': dtus_names
                         })
 

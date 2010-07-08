@@ -197,6 +197,12 @@ def collected_from_first_controller(request, *arg, **kwargs):
             state.save()
             tracked_item.state = state
             tracked_item.save()
+            send_to_dtls(slides_batch.location,
+                         "EQA slides from %s received by second controller" % slides_batch.location)
+            
+            send_to_dtu_focal_person(slides_batch.location,
+                         "EQA slides received by second controller")
+            #TODO send notifications to DTU, DTLS, etc...
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
                                  
@@ -371,10 +377,10 @@ def results_available(request, *arg, **kwargs):
             tracked_item.save()
             
             send_to_dtls(slides_batch.location,
-                         "EQA slides from %s are ready to go back to DTU" % slides_batch.location)
+                         "EQA slides from %s are ready to go back to the DTU" % slides_batch.location)
             
             send_to_dtu_focal_person(slides_batch.location,
-                         "EQA slides are ready to go back to DTU")
+                         "Your EQA slides and results are finished and are being sent to you. Send RECEIVE when you receive them.")
             
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
