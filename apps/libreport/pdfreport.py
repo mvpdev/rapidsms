@@ -10,6 +10,7 @@ from django.template import Template, Context
 from django.http import HttpResponse
 
 try:
+    from reportlab.platypus.flowables import Flowable
     from reportlab.lib.styles import getSampleStyleSheet
     from reportlab.platypus import BaseDocTemplate, PageTemplate, \
         Paragraph, PageBreak, Frame, FrameBreak, NextPageTemplate, Spacer, \
@@ -86,6 +87,7 @@ class PDFReport():
     pageinfo = ""
     filename = "report"
     styles = getSampleStyleSheet()
+    table_style = None
     data = []
     landscape = False
     hasfooter = False
@@ -95,6 +97,8 @@ class PDFReport():
     fontSize = 8
     rowsperpage = 90
     print_on_both_sides = False
+    firstRowHeight = 0.25
+    rotateTextFirstRow = False
 
     def __init__(self):
         self.headers.append("")
@@ -161,6 +165,52 @@ class PDFReport():
         for i in elements:
             self.data.append(i)
 
+    def setTableStyle(self, ts):
+        self.table_style = ts
+
+    def getTableStyle(self):
+        if self.table_style:
+            return self.table_style
+        ts = [
+              ('ALIGNMENT', (0, 1), (-1, -1), 'LEFT'),
+              ('LINEBELOW', (0, 0), (-1, -0), 2, colors.black),
+              ('GRID', (0, 0), (-1, -0), 0.25, colors.black),
+              ('LINEBELOW', (0, 1), (-1, -1), 0.8, \
+                                            colors.lightgrey),
+              ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+              ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+              ('TOPPADDING', (0, 0), (-1, -1), 2), ('ROWBACKGROUNDS', \
+                                                (0, 1), (-1, -1), \
+             [colors.whitesmoke, colors.white]),
+            ('FONT', (0, 0), (-1, -1), "Times-Roman", self.fontSize)]
+
+        #last row formatting when required
+        if self.hasfooter is True:
+            ts.append(('LINEABOVE', (0, -1), (-1, -1), 1, colors.black))
+            ts.append(('LINEBELOW', (0, -1), (-1, -1), 2, colors.black))
+            ts.append(('LINEBELOW', (0, 3), (-0, -0), 2, colors.green))
+            ts.append(('LINEBELOW', (0, -1), (-1, -1), 0.8, \
+                       colors.lightgrey))
+            ts.append(('FONT', (0, -1), (-1, -1), "Times-Roman", 7))
+        return ts
+
+    def setFirstRowHeight(self, height):
+        '''Set the height of the first row'''
+        self.firstRowHeight = height
+
+    def getFirstRowHeight(self):
+        return  self.firstRowHeight
+
+    def getRowHeights(self, numOfRows):
+        '''retuns the row heights'''
+        rh = [self.getFirstRowHeight() * inch]
+        numOfRows -= 1
+        rh.extend(numOfRows * [0.25 * inch])
+        return rh
+
+    def rotateText(self, bl):
+        self.rotateTextFirstRow = bl
+
     def setTableData(self, queryset, fields, title, colWidths=None, \
                                                             hasCounter=False):
         '''set table data
@@ -179,10 +229,10 @@ class PDFReport():
         pStyle.spaceAfter = 0
         pStyle.leading = pStyle.fontSize + 2.8
         hStyle = copy.copy(self.styles["Normal"])
-        hStyle.fontName = "Times-Roman"
-        hStyle.fontSize = 7
+        #hStyle.fontName = "Arial Narrow-Bold"
+        hStyle.fontSize = 8
         hStyle.alignment = TA_CENTER
-        hStyle.spaceBefore = 0
+        #hStyle.spaceBefore = 0
         hStyle.spaceAfter = 0
         #pStyle.leading = pStyle.fontSize + 2.8
         #prepare the data
@@ -190,7 +240,17 @@ class PDFReport():
         for row in queryset:
             counter += 1
             if not header:
-                value = [pheader(f["name"], hStyle, sep=0) for f in fields]
+                if self.rotateTextFirstRow:
+                    hStyle.borderWidth = 0
+                    hStyle.alignment = TA_LEFT
+                    hStyle.borderPadding = 5
+                    value = [RotatedParagraph( Paragraph('<b>' + f["name"] + \
+                                                    '</b>', hStyle), \
+                                            self.getFirstRowHeight() * inch, \
+                                            0.25 * inch) \
+                                            for f in fields]
+                else:
+                    value = [pheader(f["name"], hStyle, sep=0) for f in fields]
                 if hasCounter:
                     value.insert(0, '#')
                 data.append(value)
@@ -205,31 +265,9 @@ class PDFReport():
             data.append(values)
 
         if len(data):
-            #table = PDFTable(data, colWidths, None, None, 1)
-            #table rows n cols formatting
-            ts = [
-                  ('ALIGNMENT', (0, 1), (-1, -1), 'CENTER'),
-                  ('LINEBELOW', (0, 0), (-1, -0), 2, colors.brown),
-                  ('LINEBELOW', (0, 1), (-1, -1), 0.8, \
-                                                colors.lightgoldenrodyellow),
-                  ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-                  ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
-                  ('TOPPADDING', (0, 0), (-1, -1), 2), ('ROWBACKGROUNDS', \
-                                                    (0, 0), (-1, -1), \
-                 [colors.whitesmoke, colors.white]),
-                ('FONT', (0, 0), (-1, -1), "Times-Roman", self.fontSize)]
+            ts = self.getTableStyle()
 
-            #last row formatting when required
-            if self.hasfooter is True:
-                ts.append(('LINEABOVE', (0, -1), (-1, -1), 1, colors.black))
-                ts.append(('LINEBELOW', (0, -1), (-1, -1), 2, colors.black))
-                ts.append(('LINEBELOW', (0, 3), (-0, -0), 2, colors.green))
-                ts.append(('LINEBELOW', (0, -1), (-1, -1), 0.8, \
-                           colors.lightgrey))
-                ts.append(('FONT', (0, -1), (-1, -1), "Times-Roman", 7))
-
-            #table.setStyle(TableStyle(ts))
-            table = PDFTable(data, colWidths, len(data) * [0.25 * inch], \
+            table = PDFTable(data, colWidths, self.getRowHeights(len(data)), \
                                 style=ts, splitByRow=1)
 
             table.hAlign = "LEFT"
@@ -434,3 +472,37 @@ class MultiColDocTemplate(BaseDocTemplate):
 
     def setHeaders(self, headers):
         self.headers = headers
+
+
+class RotatedText(Flowable):
+
+    '''Rotates text in a table cell.'''
+
+    def __init__(self, text ):
+        Flowable.__init__(self)
+        self.text=text
+
+    def draw(self):
+        canv = self.canv
+        canv.rotate(90)
+        canv.drawString( 0, -1, self.text)
+
+    def wrap(self, aW, aH) :
+        canv = self.canv
+        return canv._leading, canv.stringWidth(self.text)
+
+
+class RotatedParagraph(Flowable):
+    '''Rotates a paragraph'''
+    def __init__(self, paragraph, aW, aH):
+        self.paragraph = paragraph
+        self.width = aW
+        self.height = aH
+        print 'W: ', self.width, ' H: ', self.height
+    def draw(self):
+        canv = self.canv
+        canv.rotate(90)
+        self.paragraph.wrap(self.width, self.height)
+        #drawOn(canvas, x, y)
+        self.paragraph.drawOn(canv, -(self.width / 2) + 15, -(self.height))
+

@@ -14,6 +14,7 @@ from childcount.models import Encounter
 class MobileForm(CCForm):
     KEYWORDS = {
         'en': ['mob', 'mobile'],
+        'fr': ['mob', 'mobile'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -21,10 +22,10 @@ class MobileForm(CCForm):
         mobile = ''.join(self.params[1:])
         mobile = re.sub('\D', '', mobile)
         if len(self.params) < 2 or not mobile.isdigit():
-            raise BadValue(_('Expected phone number'))
+            raise BadValue(_(u"Expected: phone number."))
 
         if len(mobile) > 16:
-            raise BadValue(_('Phone number cannot be longer than 16 digits'))
+            raise BadValue(_(u"Phone number cannot be longer than 16 digits."))
         patient.mobile = mobile
         patient.save()
         self.response = _(u"Mobile phone number: %(mobile)s") % \

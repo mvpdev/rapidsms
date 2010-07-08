@@ -15,12 +15,13 @@ from childcount.exceptions import ParseError
 class DangerSignsForm(CCForm):
     KEYWORDS = {
         'en': ['s'],
+        'fr': ['s'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
     def process(self, patient):
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info, expected danger sign " \
+            raise ParseError(_(u"Not enough info. Expected: danger sign " \
                                 "codes"))
 
         try:
@@ -29,7 +30,7 @@ class DangerSignsForm(CCForm):
             dsr = DangerSignsReport(encounter=self.encounter)
         dsr.form_group = self.form_group
 
-        danger_signs = dict([(danger_sign.code.lower(), danger_sign) \
+        danger_signs = dict([(danger_sign.local_code.lower(), danger_sign) \
                              for danger_sign in \
                              CodedItem.objects.filter(\
                                 type=CodedItem.TYPE_DANGER_SIGN)])

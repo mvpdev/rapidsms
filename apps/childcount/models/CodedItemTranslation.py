@@ -21,7 +21,7 @@ class CodedItemTranslation(models.Model):
     LANGUAGE_CHOICES = (
         (LANGUAGE_FRENCH, _(u"French")),)
 
-    language = models.CharField(_(u"Langauge"), choices=LANGUAGE_CHOICES, \
+    language = models.CharField(_(u"Language"), choices=LANGUAGE_CHOICES, \
                                                                 max_length=6)
     coded_item = models.ForeignKey('CodedItem', verbose_name=_(u"Coded Item"))
     code = models.CharField(_(u"Code"), max_length=10)

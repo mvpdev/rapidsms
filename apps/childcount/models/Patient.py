@@ -64,9 +64,9 @@ class Patient(models.Model):
     estimated_dob = models.BooleanField(_(u"Estimated DOB"), \
                                         help_text=_(u"True or false: the " \
                                                      "date of birth is only " \
-                                                     "an approximation"))
+                                                     "an approximation."))
     mother = models.ForeignKey('self', blank=True, null=True, \
-                               verbose_name=_(u"Mother or guardian"), \
+                               verbose_name=_(u"Mother or Guardian."), \
                                related_name='child')
     household = models.ForeignKey('self', blank=True, null=True, \
                                   verbose_name=_(u"Head of House"), \
@@ -75,7 +75,7 @@ class Patient(models.Model):
                                                "(self if primary caregiver)"),\
                                   related_name='household_member')
     chw = models.ForeignKey('CHW', db_index=True,
-                            verbose_name=_(u"Community health worker"))
+                            verbose_name=_(u"Community Health Worker"))
     location = models.ForeignKey(Location, blank=True, null=True, \
                                  related_name='resident', \
                                  verbose_name=_(u"Location"), \
@@ -90,9 +90,6 @@ class Patient(models.Model):
                               blank=True, null=True)
     status = models.SmallIntegerField(_(u"Status"), choices=STATUS_CHOICES, \
                                       default=STATUS_ACTIVE)
-
-    def __unicode__(self):
-        return u"%s %s" % (self.last_name, self.first_name)
 
     def is_head_of_household(self):
         return self.household == self
@@ -186,7 +183,7 @@ class Patient(models.Model):
             {'name': cls._meta.get_field('gender').verbose_name, \
             'bit': '{{object.gender}}'})
         columns.append(
-            {'name': _('age'), \
+            {'name': _(u"Age"), \
             'bit': '{{object.humanised_age}}'})
         columns.append(
             {'name': cls._meta.get_field('chw').verbose_name, \

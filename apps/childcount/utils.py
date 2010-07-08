@@ -29,9 +29,21 @@ class DOBProcessor:
         YEARS: ['y', 'yr', 'yrs', 'year', 'years'],
     }
 
+    UNITS['fr'] = {
+        DAYS: ['j', 'jour', 'jours', 'd', 'day', 'days'],
+        WEEKS: ['s', 'sem', 'semaine', 'semaines', 'w', 'wk', 'wks', \
+                'week', 'weeks'],
+        MONTHS: ['m', 'moi', 'mois', 'mon', 'mths', 'month', 'months'],
+        YEARS: ['a', 'an', 'ans', 'ann', 'annee', 'année', 'années', \
+                'annees', 'y', 'yr', 'yrs', 'year', 'years'],
+    }
+
     ABRV_MONTHS = {}
     ABRV_MONTHS['en'] = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', \
                          'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+
+    ABRV_MONTHS['fr'] = ['jan', 'fev', 'mar', 'avr', 'mai', 'juin', \
+                         'juil', 'aou', 'sep', 'oct', 'nov', 'dec']
 
     #TODO Site specific stuff:
     #           Date order
@@ -43,7 +55,7 @@ class DOBProcessor:
     MAX_AGE = 105
 
     @classmethod
-    def from_age_or_dob(cls, lang, age_or_dob):
+    def from_age_or_dob(cls, lang, age_or_dob, date_ref=None):
         age_or_dob = age_or_dob.strip().lower()
 
         if len(age_or_dob) == 0:
@@ -54,38 +66,38 @@ class DOBProcessor:
             age_or_dob = unicode(age_or_dob)
 
         try:
-            dob, variance = cls.from_age(lang, age_or_dob)
+            dob, variance = cls.from_age(lang, age_or_dob, date_ref)
         except InvalidAge:
             pass
         else:
-            if cls.is_valid_dob(lang, age_or_dob):
+            if cls.is_valid_dob(lang, age_or_dob, date_ref):
                 raise AmbiguousAge
             return dob, variance
 
         try:
-            dob, variance = cls.from_dob(lang, age_or_dob)
+            dob, variance = cls.from_dob(lang, age_or_dob, date_ref)
         except InvalidDOB:
             return None, None
         else:
             return dob, variance
 
     @classmethod
-    def is_valid_dob_or_age(cls, lang, age_or_dob):
-        return cls.is_valid_dob(lang, age_or_dob) or \
-               cls.is_valid_age(lang, age_or_dob)
+    def is_valid_dob_or_age(cls, lang, age_or_dob, date_ref=None):
+        return cls.is_valid_dob(lang, age_or_dob, date_ref) or \
+               cls.is_valid_age(lang, age_or_dob, date_ref)
 
     @classmethod
-    def is_valid_dob(cls, lang, dob_string):
+    def is_valid_dob(cls, lang, dob_string, date_ref=None):
         try:
-            dob, variance = cls.from_dob(lang, dob_string)
+            dob, variance = cls.from_dob(lang, dob_string, date_ref)
         except InvalidDOB:
             return False
         return True
 
     @classmethod
-    def is_valid_age(cls, lang, age_string):
+    def is_valid_age(cls, lang, age_string, date_ref=None):
         try:
-            dob, variance = cls.from_age(lang, age_string)
+            dob, variance = cls.from_age(lang, age_string, date_ref)
         except InvalidAge:
             return False
         return True
@@ -97,7 +109,12 @@ class DOBProcessor:
         return list(itertools.chain(*cls.UNITS[lang].values()))
 
     @classmethod
-    def from_dob(cls, lang, string):
+    def from_dob(cls, lang, string, date_ref=None):
+
+        # if no reference date specified, default to today
+        if not date_ref:
+            date_ref = date.today()
+
         FIELD_DELIMTERS = ['\\', '/', '.', ',', '-']
         string = string.strip().lower()
         variance = 0
@@ -145,7 +162,7 @@ class DOBProcessor:
         if match and int(match.groupdict()['m']) <= 12:
             month = int(match.groupdict()['m'])
             year = int(match.groupdict()['y'])
-            if date(int('2%03d' % year), month, 1) > date.today():
+            if date(int('2%03d' % year), month, 1) > date_ref:
                 year_prefix = 19
             else:
                 year_prefix = 20
@@ -153,7 +170,7 @@ class DOBProcessor:
             variance = 15
             dob = date(year=year, month=month, day=15)
 
-            if (date.today().year - dob.year) > cls.MAX_AGE:
+            if (date_ref.year - dob.year) > cls.MAX_AGE:
                 raise InvalidDOB
             return dob, variance
 
@@ -225,7 +242,7 @@ class DOBProcessor:
                     dob = date(int('2%03d' % year), month, day)
                 except ValueError:
                     raise InvalidDOB
-                if dob > date.today():
+                if dob > date_ref:
                     year = int('19%02d' % year)
                 else:
                     year = int('2%03d' % year)
@@ -235,7 +252,7 @@ class DOBProcessor:
             except ValueError:
                 raise InvalidDOB
 
-            if (date.today().year - dob.year) > cls.MAX_AGE:
+            if (date_ref.year - dob.year) > cls.MAX_AGE:
                 raise InvalidDOB
             variance = 0
             return dob, variance
@@ -244,7 +261,12 @@ class DOBProcessor:
         raise InvalidDOB
 
     @classmethod
-    def from_age(cls, lang, string):
+    def from_age(cls, lang, string, date_ref):
+
+        # if no reference date specified, default to today
+        if not date_ref:
+            date_ref = date.today()
+
         MONTH_IN_DAYS = 30.4368499
         MONTH_IN_WEEKS = 4.34812141
         YEAR_IN_DAYS = 365.242199
@@ -332,7 +354,7 @@ class DOBProcessor:
             age_in_days = buckets[cls.DAYS] + buckets[cls.WEEKS] * 7 + \
                           buckets[cls.MONTHS] * MONTH_IN_DAYS + \
                           buckets[cls.YEARS] * YEAR_IN_DAYS
-            dob = date.today() - timedelta(days=age_in_days)
+            dob = date_ref - timedelta(days=age_in_days)
 
         elif buckets[cls.WEEKS] > 0:
             variance = 3
@@ -343,7 +365,7 @@ class DOBProcessor:
                 age_in_weeks += 0.5
             else:
                 age_in_weeks -= 0.5
-            dob = date.today() - timedelta(weeks=age_in_weeks)
+            dob = date_ref - timedelta(weeks=age_in_weeks)
 
         elif buckets[cls.MONTHS] > 0:
             variance = 15
@@ -353,7 +375,7 @@ class DOBProcessor:
                 age_in_weeks += MONTH_IN_WEEKS * 0.5
             else:
                 age_in_weeks -= MONTH_IN_WEEKS * 0.5
-            dob = date.today() - timedelta(weeks=age_in_weeks)
+            dob = date_ref - timedelta(weeks=age_in_weeks)
 
         elif buckets[cls.YEARS] > 0:
             variance = 182
@@ -362,11 +384,11 @@ class DOBProcessor:
                 age_in_weeks += YEAR_IN_WEEKS * 0.5
             else:
                 age_in_weeks -= YEAR_IN_WEEKS * 0.5
-            dob = date.today() - timedelta(weeks=age_in_weeks)
+            dob = date_ref - timedelta(weeks=age_in_weeks)
         else:
             raise InvalidAge
 
-        if (date.today().year - dob.year) > cls.MAX_AGE:
+        if (date_ref.year - dob.year) > cls.MAX_AGE:
             raise InvalidAge
 
         return dob, variance
@@ -398,7 +420,7 @@ def clean_names(flat_name, surname_first=True):
     flat_name = re.sub('\d', '', flat_name)
 
     # break up the name into a list
-    names = re.findall('\w+', flat_name)
+    names = re.findall('\w+', flat_name, re.U)
 
     surname = firstnames = alias = u''
 
@@ -407,6 +429,7 @@ def clean_names(flat_name, surname_first=True):
         surname = names.pop(pop_index).title()
         firstnames = ' '.join(names).title()
         alias = ''.join([c[0] for c in names] + [surname]).lower()
+        alias = ''.join(re.findall('\w+', alias))
 
         if not names and not surname_first:
             surname, firstnames = firstnames, surname
@@ -450,7 +473,7 @@ def respond_exceptions(func):
         try:
             return func(self, *args)
         except Exception, e:
-            message.respond(_(u"An error has occured (%(e)s).") % {'e': e}, \
+            message.respond(_(u"An error has occured: %(e)s") % {'e': e}, \
                             'error')
             raise
     return wrapper
@@ -468,12 +491,12 @@ class KeywordMapper(object):
         try:
             cls_keywords = eval('cls.%s' % self.KEYWORDS_VAR)
         except AttributeError:
-            raise Exception(_(u"You tried to load %(cls)s but it does not " \
-                               "have %(k)s defined.") % \
-                               {'cls': cls, 'k': self.KEYWORDS_VAR})
+            raise Exception(_(u"You attempted to load %(cls)s without " \
+                              "%(k)s defined.") % \
+                              {'cls': cls, 'k': self.KEYWORDS_VAR})
 
         if not isinstance(cls_keywords, dict):
-            raise Exception(_(u"%(k)s must be a dictionary in %(cls)s") % \
+            raise Exception(_(u"%(k)s must be a dictionary in %(cls)s.") % \
                              {'cls': cls, 'k': self.KEYWORDS_VAR})
 
         for lang in cls_keywords.keys():
@@ -538,7 +561,21 @@ def get_dates_of_the_week(givendate=None):
     i = 0
     for i in range(0, 6):
         day = start_of_the_week + timedelta(i)
-        week.append({'date': day, 'day': day.strftime("%A")})
+        week.append({'date': day, 'day': day.strftime("%a")})
+    return week
+
+
+def seven_days_to_date(givendate=None):
+    if not givendate:
+        today = datetime.today()
+    else:
+        today = givendate
+    start_of_the_week = today - timedelta(6)
+    week = []
+    i = 0
+    for i in range(0, 7):
+        day = start_of_the_week + timedelta(i)
+        week.append({'date': day, 'day': day.strftime("%a")})
     return week
 
 
@@ -556,3 +593,33 @@ def day_end(date):
     return datetime '''
     t = date.time().replace(hour=23, minute=59)
     return datetime.combine(date.date(), t)
+
+
+def get_median(listOfNumericValues):
+    ''' get the median of a list of numeric values '''
+    ls = sorted(listOfNumericValues)
+    if len(ls) % 2 == 1:
+        return ls[((len(ls) + 1) / 2) - 1]
+    else:
+        lowerv = ls[(len(ls) / 2) - 1]
+        upperv = ls[len(ls)/2]
+    return float(lowerv + upperv) / 2
+
+
+from reportlab.platypus.flowables import Flowable
+
+
+class RotatedParagraph(Flowable):
+    '''Rotates a paragraph'''
+    def __init__(self, paragraph, aW, aH):
+        self.paragraph = paragraph
+        self.width = aW
+        self.height = aH
+        print 'W: ', self.width, ' H: ', self.height
+    def draw(self):
+        canv = self.canv
+        canv.rotate(90)
+        self.paragraph.wrap(self.width, self.height)
+        #drawOn(canvas, x, y)
+        self.paragraph.drawOn(canv, 0, -(self.height))
+

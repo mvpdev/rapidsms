@@ -1,0 +1,19 @@
+{% load i18n %}{
+'id': 'A', 
+'fields': [
+        {'id': 'healthid', 'type': 'f', 'name': "{% trans "ID" %}", 'title': "{% trans "HEALTH ID" %}"},
+        {'id': 'registration', 'type': 's', 'name': "{% trans "NEW" %}", 'title': "{% trans "General Registration" %}"},
+        {'id': 'location', 'type': 'f', 'name': "{% trans "Loc" %}", 'title': "{% trans "Location #" %}"},
+        {'id': 'first_name', 'type': 'f', 'name': "{% trans "Fir" %}", 'title': "{% trans "First Name" %}"},
+        {'id': 'family_name', 'type': 'f', 'name': "{% trans "Sur" %}", 'title': "{% trans "Family Name (surname)" %}"},
+        {'id': 'sex', 'type': 'f', 'name': "{% trans "Sex" %}", 'title': "{% trans "Sex (M-F)" %}"},
+        {'id': 'birthdate', 'type': 'f', 'name': "{% trans "Age" %}", 'title': "{% trans "Birth Date [DDMMYY] or Age [+m,y]" %}"},
+        {'id': 'hh_caregiver', 'type': 'f', 'name': "{% trans "PHH" %}", 'title': "{% trans "Primary HH Caregiver ID [H = Same as ID]" %}"},
+        {'id': 'birth', 'type': 's', 'name': "{% trans "BIR" %}", 'title': "{% trans "Birth" %}"},
+        {'id': 'mother_id', 'type': 'f', 'name': "{% trans "Mom" %}", 'title': "{% trans "Mother's HEALTH ID [U = Unknown]" %}"},
+        {'id': 'delivered', 'type': 'f', 'name': "{% trans "Del" %}", 'title': "{% trans "Delivered in Health Facility (Y-N-U)" %}"},
+        {'id': 'weight', 'type': 'f', 'name': "{% trans "KG" %}", 'title': "{% trans "Weight at Birth (KG)" %}"},
+        {'id': 'mobile', 'type': 's', 'name': "{% trans "MOB" %}", 'title': "{% trans "Mobile Phone" %}"},
+        {'id': 'mobile_number', 'type': 'f', 'name': "{% trans "Num" %}", 'title': "{% trans "Mobile Phone Number" %}"},
+    ]
+}

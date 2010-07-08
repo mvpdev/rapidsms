@@ -156,12 +156,23 @@ class StillbirthMiscarriageReport(CCReport):
         verbose_name = _(u"Stillbirth / Miscarriage Report")
         verbose_name_plural = _(u"Stillbirth / Miscarriage Reports")
 
+    TYPE_STILL_BIRTH = 'S'
+    TYPE_MISCARRIAGE = 'M'
+    TYPE_CHOICES = (
+                       (TYPE_STILL_BIRTH, _('Still birth')),
+                       (TYPE_MISCARRIAGE, _('Miscarriage')))
+
     incident_date = models.DateField(_(u"Date of stillbirth or miscarriage"))
+    type = models.CharField(_(u"Type"), max_length=1, choices=TYPE_CHOICES, \
+                            blank=True, null=True)
 
     def summary(self):
-        return u"%s: %s" % \
-             (self._meta.get_field_by_name('incident_date')[0].verbose_name, \
-              self.incident_date)
+        if self.type is None:
+            type = _(u"Still birth or miscarriage")
+        else:
+            type = self.get_type_display()
+        return _(u"%(type)s on %(date)s") % \
+             {'type': type, 'date': self.incident_date}
 reversion.register(StillbirthMiscarriageReport, follow=['ccreport_ptr'])
 
 
@@ -196,12 +207,14 @@ class FollowUpReport(CCReport):
     improvement = models.CharField(_(u"Improvement"), max_length=1, \
                                    choices=IMPROVEMENT_CHOICES, \
                               help_text=_(u"Has the patient's condition " \
-                                           "improved since last CHW visit?"))
+                                           "improved since the last " \
+                                           "CHW visit?"))
 
     visited_clinic = models.CharField(_(u"Visited clinic"), max_length=1, \
                                    choices=VISITED_CHOICES, \
                               help_text=_(u"Did the patient visit a health "\
-                                           "facility since last CHW visit?"))
+                                           "facility since the last " \
+                                           "CHW visit?"))
 
     def summary(self):
         return u"%s: %s, %s: %s" % \
@@ -244,7 +257,7 @@ class DangerSignsReport(CCReport):
         verbose_name_plural = _(u"Danger Signs Reports")
 
     danger_signs = models.ManyToManyField('CodedItem', \
-                                          verbose_name=_(u"Danger signs"))
+                                          verbose_name=_(u"Danger Signs"))
 
     def summary(self):
         return u"%s: %s" % \
@@ -328,7 +341,7 @@ class PregnancyReport(CCReport):
                                         null=True, blank=True,
                             help_text=_(u"How many weeks since the patient's "\
                                          "last ANC visit (0 for less " \
-                                         "than 7 days)"))
+                                         "than 7 days)?"))
 
     def summary(self):
         string = u"%s: %d, %s: %d" % \
@@ -390,7 +403,7 @@ class SPregnancy(PregnancyReport):
     TESTED_CHOICES = (
                        (TESTED_YESREACTIVE, _('Yes Reactive')),
                        (TESTED_NOREACTIVE, _('No Reactive')),
-                       (TESTED_NOUNKNOWN, _('No Status Unkown')),
+                       (TESTED_NOUNKNOWN, _('No Status Unknown')),
                        (TESTED_YESNOTREACTIVE, _('Yes Not Reactive')))
 
     CD4_YES = 'Y'
@@ -401,29 +414,47 @@ class SPregnancy(PregnancyReport):
         (CD4_NO, _(u"No")),
         (CD4_UNKNOWN, _(u"Unkown")))
 
-    iron_supplement = models.CharField(_(u"Taking Iron"), max_length=1, \
+    iron_supplement = models.CharField(_(u"Taking Iron supplements"), max_length=1, \
                                    choices=IRON_CHOICES, \
                               help_text=_(u"Is the mother taking iron "\
                                             "supplement?"))
 
-    folic_suppliment = models.CharField(_(u"Taking Folic Acid"), max_length=1,\
+    folic_suppliment = models.CharField(_(u"Taking Folic Acid supplements"), max_length=1,\
                                    choices=FOLIC_CHOICES,\
                               help_text=_(u"Is the mother taking folic acid "\
-                                            "suppliment?"))
+                                            "supplement?"))
 
     tested_hiv = models.CharField(_(u"Tested for HIV"), max_length=2, \
                                    choices=TESTED_CHOICES, \
                               help_text=_(u"Did the mother get tested for "\
                                             "HIV?"))
 
-    cd4_count = models.CharField(_(u"Done CD4 Count"), max_length=1, \
+    cd4_count = models.CharField(_(u"Completed CD4 Count"), max_length=1, \
                                    choices=CD4_CHOICES, null=True, blank=True,\
-                                   help_text=_(u"Was CD4 count done?"))
+                                   help_text=_(u"Was CD4 count taken?"))
 
     pmtc_arv = models.ForeignKey('CodedItem', null=True, blank=True, \
                                     verbose_name=_(u"PMTC ARV"))
 
 reversion.register(SPregnancy, follow=['ccreport_ptr'])
+
+
+class BCPillReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_bcprpt'
+        verbose_name = _(u"Birth Control Pill Report")
+        verbose_name_plural = _(u"Birth Control Pill Reports")
+
+    pills = models.PositiveSmallIntegerField(_(u"Pills given"))
+
+    def summary(self):
+        return u"%s: %d" % \
+             (self._meta.get_field_by_name('pills')[0].verbose_name, \
+              self.pills)
+
+reversion.register(BCPillReport, follow=['ccreport_ptr'])
 
 
 class NeonatalReport(CCReport):
@@ -463,7 +494,7 @@ class UnderOneReport(CCReport):
     BREAST_CHOICES = (
         (BREAST_YES, _(u"Yes")),
         (BREAST_NO, _(u"No")),
-        (BREAST_UNKOWN, _(u"Unkown")))
+        (BREAST_UNKOWN, _(u"Unknown")))
 
     IMMUNIZED_YES = 'Y'
     IMMUNIZED_NO = 'N'
@@ -473,10 +504,10 @@ class UnderOneReport(CCReport):
         (IMMUNIZED_NO, _(u"No")),
         (IMMUNIZED_UNKOWN, _(u"Unkown")))
 
-    breast_only = models.CharField(_(u"Breast feeding Only"), max_length=1, \
-                                   choices=BREAST_CHOICES, \
-                                   help_text=_(u"Does the mother breast " \
-                                                "feed only?"))
+    breast_only = models.CharField(_(u"Breast feeding exclusively"), \
+                                   max_length=1, choices=BREAST_CHOICES, \
+                                   help_text=_(u"Does the mother " \
+                                               "exclusively breast feed?"))
 
     immunized = models.CharField(_(u"Immunized"), max_length=1, \
                                    choices=IMMUNIZED_CHOICES, \
@@ -738,7 +769,7 @@ class HouseholdVisitReport(CCReport):
                                 help_text=_(u"Was a houshold member " \
                                              "available?"))
 
-    children = models.SmallIntegerField(_("Children under five"), \
+    children = models.SmallIntegerField(_("Children Under Five"), \
                                         blank=True, null=True, \
                             help_text=_("Number of children under 5 seen"))
 
@@ -823,36 +854,6 @@ reversion.register(FamilyPlanningReport, \
                    follow=['ccreport_ptr', 'familyplanningusage_set'])
 
 
-class BedNetReport(CCReport):
-
-    class Meta:
-        app_label = 'childcount'
-        db_table = 'cc_bnrpt'
-        verbose_name = _(u"Bednet Report")
-        verbose_name_plural = _(u"Bednet Reports")
-
-    sleeping_sites = models.PositiveSmallIntegerField(_(u"Sleeping sites"),\
-                            help_text=_(u"Number of sleeping sites"))
-
-    nets = models.PositiveSmallIntegerField(_(u"Bednets"), \
-                            help_text=_(u"Number of functioning bednets " \
-                                         "in the household"))
-
-    def summary(self):
-        return u"%s: %d, %s: %d" % \
-            (self._meta.get_field_by_name('sleeping_sites')[0].verbose_name, \
-             self.sleeping_sites, \
-             self._meta.get_field_by_name('nets')[0].verbose_name, \
-             self.nets)
-
-    def get_omrs_dict(self):
-        return {
-            'sleeping_sites': self.sleeping_sites,
-            'bednets': self.nets,
-        }
-reversion.register(BedNetReport, follow=['ccreport_ptr'])
-
-
 class SickMembersReport(CCReport):
 
     class Meta:
@@ -907,5 +908,196 @@ class VerbalAutopsyReport(CCReport):
         verbose_name = _(u"Verbal Autopsy Report")
         verbose_name_plural = _(u"Verbal Autopsy Reports")
 
-    done = models.BooleanField(_("Done?"), \
-                                help_text=_('Was a Verbal Autopsy done?'))
+    done = models.BooleanField(_("Completed?"), \
+                                help_text=_('Was a Verbal Autopsy conducted?'))
+
+
+class BedNetReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_bnrpt'
+        verbose_name = _(u"Bednet Report")
+        verbose_name_plural = _(u"Bednet Reports")
+
+    sleeping_sites = models.PositiveSmallIntegerField(_(u"Sleeping sites"),\
+                            help_text=_(u"Number of sleeping sites"))
+
+    nets = models.PositiveSmallIntegerField(_(u"Bednets"), \
+                            help_text=_(u"Number of functioning bednets " \
+                                         "in the household"))
+
+    def summary(self):
+        return u"%s: %d, %s: %d" % \
+            (self._meta.get_field_by_name('sleeping_sites')[0].verbose_name, \
+             self.sleeping_sites, \
+             self._meta.get_field_by_name('nets')[0].verbose_name, \
+             self.nets)
+
+    def get_omrs_dict(self):
+        return {
+            'sleeping_sites': self.sleeping_sites,
+            'bednets': self.nets,
+        }
+reversion.register(BedNetReport, follow=['ccreport_ptr'])
+
+
+class BednetUtilization(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_bdnutil_rpt'
+        verbose_name = _(u"Bednet utilization Report")
+        verbose_name_plural = _(u"Bednet utilization reports")
+
+    child_underfive = models.PositiveSmallIntegerField(_(u"Number of " \
+                                            "children under five "), \
+                            help_text=_(u"Number of children under five who " \
+                                        " slept here last nite "))
+
+    child_lastnite = models.PositiveSmallIntegerField(_(u"Number of children" \
+                                            "under five "), \
+                            help_text=_(u"Number of children under five who " \
+                                           "slept here  under bednet "))
+
+    def summary(self):
+        return u"%s: %d, %s: %d" % \
+            (self._meta.get_field_by_name('child_underfive')[0].verbose_name, \
+             self.child_underfive, \
+             self._meta.get_field_by_name('child_lastnite')[0].verbose_name, \
+             self.child_lastnite)
+
+reversion.register(BednetUtilization, follow=['ccreport_ptr'])
+
+
+class SanitationReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_sanitation_rpt'
+        verbose_name = _(u"Sanitation Report")
+        verbose_name_plural = _(u"Sanitation Reports")
+
+    FLUSH = 'FL'
+    VENTILATED_IMPROVED_PIT = 'VP'
+    PITLAT_WITH_SLAB = 'PY'
+    PITLAT_WITHOUT_SLAB = 'PN'
+    COMPOSTING_TOILET = 'CT'
+    BUCKET = 'BT'
+    HANGING_TOILET_LAT = 'HT'
+    NO_FACILITY_OR_BUSH = 'NS'
+    OTHER = 'Z'
+
+    TOILET_LAT_CHOICES = (
+        (FLUSH, _(u'Flush')),
+        (VENTILATED_IMPROVED_PIT, _(u'Ventilated Improved Pit Latrine')),
+        (PITLAT_WITH_SLAB, _(u'Pit Latrine with slab')),
+        (PITLAT_WITHOUT_SLAB, _(u'Pit Latrine without slab')),
+        (COMPOSTING_TOILET, _(u'Compositing Pit Toilet')),
+        (BUCKET, _(u'Bucket')),
+        (HANGING_TOILET_LAT, _(u'Hanging Toilet Latrine')),
+        (NO_FACILITY_OR_BUSH, _(u'No facility')),
+        (OTHER, _(u'Other')))
+
+    SHARE_YES = 'Y'
+    SHARE_NO = 'N'
+    SHARE_UNKOWN = 'U'
+    SHARE_CHOICES = (
+        (SHARE_YES, _(u"Yes")),
+        (SHARE_NO, _(u"No")),
+        (SHARE_UNKOWN, _(u"Unknown")))
+
+    toilet_lat = models.CharField(_(u"Toilet Type"), max_length=1, \
+                              choices=TOILET_LAT_CHOICES)
+    share_toilet = models.CharField(_(u"Do you share"), max_length=1, \
+                              choices=SHARE_CHOICES, help_text=_(u"Do you " \
+                                "share the tolet"))
+reversion.register(SanitationReport, follow=['ccreport_ptr'])
+
+
+class DrinkingWaterReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_drnkwater_rpt'
+        verbose_name = _(u"Drinking Water Report")
+        verbose_name_plural = _(u"Drinking Water Reports")
+
+    PIPED_WATER = 'PP'
+    PUBLIC_TAP_STANDPIPE = 'PT'
+    TUBEWELL_BOREHOLE = 'TB'
+    PROTECTED_DUG_WELL = 'PW'
+    UNPROTECTED_DUG_WELL = 'UW'
+    PROTECTED_SPRING = 'PS'
+    UNPROTECTED_SPRING = 'UP'
+    RAIN_COLLECTION = 'RW'
+    SURFACE_WATER = 'SU'
+    OTHER = 'Z'
+
+    DRNKWATER_CHOICES = (
+        (PIPED_WATER, _(u'Piped water into dwelling or yard/plot')),
+        (PUBLIC_TAP_STANDPIPE, _(u'Public Tap/Standpipe')),
+        (TUBEWELL_BOREHOLE, _(u'Tube well / Borehole')),
+        (PROTECTED_DUG_WELL, _(u'Protected dug well')),
+        (UNPROTECTED_DUG_WELL, _(u'Unprotected Dug well')),
+        (PROTECTED_SPRING, _(u'Protected Spring')),
+        (UNPROTECTED_SPRING, _(u'Unprotected spring')),
+        (RAIN_COLLECTION, _(u'Rain water collection')),
+        (SURFACE_WATER, _(u'Surface water (river, dam, lake, pond, stream')),
+        (OTHER, _(u'Other')))
+
+    TREAT_YES = 'Y'
+    TREAT_NO = 'N'
+    TREAT_UNKOWN = 'U'
+    TREAT_CHOICES = (
+        (TREAT_YES, _(u"Yes")),
+        (TREAT_NO, _(u"No")),
+        (TREAT_UNKOWN, _(u"Dont know")))
+
+    TREATMENT_METHOD_BOIL = 'BW'
+    TREATMENT_METHOD_ADDBLEACH_CHLORINE = 'AC'
+    TREATMENT_METHOD_CLOTH = 'SC'
+    TREATMENT_METHOD_WATERFILTER = 'WF'
+    TREATMENT_METHOD_SOLARDISINFECTION = 'SR'
+    TREATMENT_METHOD_STAND_SETTLE = 'LS'
+    TREATMENT_METHOD_OTHER = 'Z'
+    TREATMENT_METHOD_DONTKNOW = 'U'
+    TREATMENT_CHOICES = (
+        (TREATMENT_METHOD_BOIL, _(u"Boil water")),
+        (TREATMENT_METHOD_ADDBLEACH_CHLORINE, _(u"Add bleach/chlorine")),
+        (TREATMENT_METHOD_CLOTH, _(u"Strain it through cloth")),
+        (TREATMENT_METHOD_WATERFILTER, _(u"Use water filter: sand/ceramic")),
+        (TREATMENT_METHOD_SOLARDISINFECTION, _(u"Solar disinfection")),
+        (TREATMENT_METHOD_STAND_SETTLE, _(u"Let it stand and settle")),
+        (TREATMENT_METHOD_OTHER, _(u"Other")),
+        (TREATMENT_METHOD_DONTKNOW, _(u"Dont know")),)
+
+    water_source = models.CharField(_(u"Water Source"), max_length=1, \
+                              choices=DRNKWATER_CHOICES)
+    treat_water = models.CharField(_(u"Do you treat water"), max_length=1, \
+                              choices=TREAT_CHOICES, help_text=_(u"Do you " \
+                                "treat water"))
+
+    water_source = models.CharField(_(u"Water Source"), max_length=1, \
+                              choices=DRNKWATER_CHOICES)
+    treat_water = models.CharField(_(u"Do you treat water"), max_length=1, \
+                              choices=TREAT_CHOICES, help_text=_(u"Do you " \
+                                "treat water"))
+    treatment_method = models.CharField(_(u"Treatment method"), max_length=1, \
+                              choices=TREATMENT_CHOICES, help_text=_(u"What " \
+                                "do you use to make it safer to drink"), \
+                                blank=True)
+reversion.register(DrinkingWaterReport, follow=['ccreport_ptr'])
+
+
+class BednetIssuedReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_bdnstc_rpt'
+        verbose_name = _(u"Bednet Distribution Report")
+        verbose_name = _(u"Betnet Distribution Reports")
+
+    bednet_received = models.PositiveSmallIntegerField(_(u"Bed net received"))
+
+reversion.register(BednetIssuedReport, follow=['ccreport_ptr'])

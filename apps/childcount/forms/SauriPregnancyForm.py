@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
-from childcount.models import Patient, Encounter
+from childcount.models import Patient, Encounter, CodedItem
 from childcount.models.reports import SPregnancy as SauriPregnancyReport
 from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.forms.utils import MultipleChoiceField
@@ -15,6 +15,7 @@ from childcount.forms.utils import MultipleChoiceField
 class SauriPregnancyForm(CCForm):
     KEYWORDS = {
         'en': ['p'],
+        'fr': ['p'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -60,15 +61,15 @@ class SauriPregnancyForm(CCForm):
                                         SauriPregnancyReport.CD4_UNKNOWN, 'U')
 
         if patient.gender != Patient.GENDER_FEMALE:
-            raise Inapplicable(_(u"Only female patients can be pregnant"))
+            raise Inapplicable(_(u"Only female patients can be pregnant."))
 
         if patient.years() < self.MIN_PREG_AGE:
             raise Inapplicable(_(u"Patient is too young to be pregnant " \
-                                "(%(age)s)") % \
+                                "(%(age)s).") % \
                                 {'age': patient.humanised_age()})
 
         if len(self.params) < 7:
-            raise ParseError(_(u"Not enough info, expected: " \
+            raise ParseError(_(u"Not enough info. Expected: " \
                                 "| month of pregnancy | number of ANC " \
                                 "visits | weeks since last ANC visit |"))
 
@@ -82,24 +83,25 @@ class SauriPregnancyForm(CCForm):
         month = self.params[1]
         if not month.isdigit() or int(month) not in range(1, 10):
             raise BadValue(_("Month of pregnancy must be a number between "\
-                               "1 and 9"))
+                               "1 and 9."))
         month = int(month)
 
         anc_visits = self.params[2]
         if not anc_visits.isdigit():
-            raise ParseError(_('Number of ANC visits must be a number'))
+            raise ParseError(_(u"Number of ANC visits must be entered as " \
+                               "a number."))
         anc_visits = int(anc_visits)
 
         if anc_visits != 0 and len(self.params) < 4:
             raise ParseError(_(u"You must include the weeks since the last " \
                                 "ANC visit after the total number of ANC "
-                                "visits"))
+                                "visits."))
 
         if anc_visits != 0:
             weeks = self.params[3]
             if not weeks.isdigit():
-                raise ParseError(_(u"Weeks since last ANC visit must be a " \
-                                    "number"))
+                raise ParseError(_(u"Weeks since last ANC visit must be " \
+                                   "entered as a number"))
             weeks = int(weeks)
         else:
             weeks = None
@@ -109,20 +111,21 @@ class SauriPregnancyForm(CCForm):
         folic_supplement_field.set_language(self.chw.language)
         cd4_count_field.set_language(self.chw.language)
         if not iron_supplement_field.is_valid_choice(self.params[4]):
-            raise ParseError(_(u"Iron Supplement %(choices)s") % \
+            raise ParseError(_(u"| Iron Supplement | must be %(choices)s") % \
                             {'choices': \
                                 iron_supplement_field.choices_string()})
 
         iron_supplement = iron_supplement_field.get_db_value(self.params[4])
 
         if not folic_supplement_field.is_valid_choice(self.params[5]):
-            raise ParseError(_(u"Folic Acid Supplement %(choices)s") % \
+            raise ParseError(_(u"| Folic Acid Supplement | must be " \
+                                "%(choices)s") % \
                         {'choices': folic_supplement_field.choices_string()})
 
         folic_supplement = folic_supplement_field.get_db_value(self.params[5])
 
         if not tested_hiv_field.is_valid_choice(self.params[6]):
-            raise ParseError(_(u"Tested HIV %(choices)s") % \
+            raise ParseError(_(u"| Tested HIV | must be %(choices)s") % \
                             {'choices': tested_hiv_field.choices_string()})
 
         tested_hiv = tested_hiv_field.get_db_value(self.params[6])
@@ -130,25 +133,60 @@ class SauriPregnancyForm(CCForm):
         pr.tested_hiv = tested_hiv
         pr.iron_supplement = iron_supplement
         pr.folic_suppliment = folic_supplement
+        
+        supplement_str = u''
+        if pr.iron_supplement == SauriPregnancyReport.IRON_YES\
+            and pr.folic_suppliment == SauriPregnancyReport.FOLIC_YES:
+            supplement_str = _(u"taking iron and folic supplements")
+        elif pr.iron_supplement == SauriPregnancyReport.IRON_NO\
+            and pr.folic_suppliment == SauriPregnancyReport.FOLIC_NO:
+            supplement_str = _(u"not taking iron and folic supplements")
+        elif pr.iron_supplement == SauriPregnancyReport.IRON_DOESNOTHAVE\
+            and pr.folic_suppliment == SauriPregnancyReport.FOLIC_DOESNOTHAVE:
+            supplement_str = _(u"does not have iron and folic supplements")
+        else:
+            if pr.iron_supplement == SauriPregnancyReport.IRON_YES:
+                supplement_str = _(u"taking iron supplements")
+            elif pr.iron_supplement == SauriPregnancyReport.IRON_NO:
+                supplement_str = _(u"not taking iron supplements")
+            elif pr.iron_supplement == SauriPregnancyReport.IRON_DOESNOTHAVE:
+                supplement_str = _(u"does not iron supplements")
+            else:
+                supplement_str += _(u"taking iron unkown status")
+            supplement_str += ", "
+            if pr.folic_suppliment == SauriPregnancyReport.FOLIC_YES:
+                supplement_str += _(u"taking folic supplement")
+            elif pr.folic_suppliment == SauriPregnancyReport.FOLIC_NO:
+                supplement_str += _(u"not taking folic supplement")
+            elif pr.folic_suppliment == SauriPregnancyReport.FOLIC_DOESNOTHAVE:
+                supplement_str += _(u"does not have folic supplement")
+            else:
+                supplement_str += _(u"taking folic unkown status")
+            
 
         if tested_hiv in (SauriPregnancyReport.TESTED_YESREACTIVE, \
                             SauriPregnancyReport.TESTED_NOREACTIVE):
 
             if len(self.params) < 9:
-                raise ParseError(_(u"Not enough info, expected: " \
-                                "please ask if CD4 count has been done and "\
-                                "check if the patient is on pmtc arvs"))
+                raise ParseError(_(u"Not enough info. Expected: " \
+                                "Please ask if CD4 count has been taken and "\
+                                "check if the patient is on PMTC ARVs."))
             if not cd4_count_field.is_valid_choice(self.params[7]):
-                raise ParseError(_(u"CD4 Count %(choices)s") % \
+                raise ParseError(_(u"| CD4 Count | must be %(choices)s") % \
                                 {'choices': cd4_count_field.choices_string()})
 
             cd4_count = cd4_count_field.get_db_value(self.params[7])
 
             pmtc_arv = self.params[8]
-            #TODO check against Coded items
-
+            if pmtc_arv.lower() is not 'n':
+                medicines = dict([(medicine.local_code.lower(), medicine) \
+                                 for medicine in \
+                                 CodedItem.objects.filter(\
+                                    type=CodedItem.TYPE_MEDICINE)])
+                obj = medicines.get(pmtc_arv.lower(), None)
+                if obj is not None:
+                    pr.pmtc_arv = obj
             pr.cd4_count = cd4_count
-            pr.pmtc_arv = pmtc_arv
 
         #TODO Cases
         '''
@@ -192,3 +230,6 @@ class SauriPregnancyForm(CCForm):
                                         'visits': anc_visits}
         if weeks is not None:
             self.response += _(u", last ANC visit %s") % last_str
+
+        if supplement_str is not None:
+            self.response += _(u", %s") % supplement_str

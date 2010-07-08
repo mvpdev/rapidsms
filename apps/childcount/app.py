@@ -45,14 +45,14 @@ class App (rapidsms.app.App):
                 try:
                     self.forms.append(eval(form))
                 except NameError:
-                    self.debug(_(u'%s form not found') % form)
+                    self.debug(_(u'%s form not found.') % form)
         if commands is not None:
             commands = commands.replace(' ', '').split(',')
             for command in commands:
                 try:
                     self.commands.append(eval(command))
                 except:
-                    self.debug(_(u'%s command not found') % command)
+                    self.debug(_(u'%s command not found.') % command)
 
     def start(self):
         self.command_mapper = KeywordMapper()
@@ -69,7 +69,22 @@ class App (rapidsms.app.App):
     def handle(self, message):
         handled = False
 
-        reporter = message.persistant_connection.reporter
+
+        # If this is coming from debackend, it will have message.chw and
+        # message.encounter_date.  Otherwise, the reporter is the chw,
+        # and the encounter date is from the backend
+        if 'chw' in message.__dict__:
+            try:
+                chw = CHW.objects.get(pk=message.chw)
+            except CHW.DoesNotExist:
+                message.respond(_(u"Problem getting CHW from backend."), \
+                                'error')
+                return handled
+            reporter = chw.reporter
+            message.reporter = reporter
+        else:
+            reporter = message.persistant_connection.reporter
+
         if reporter and reporter.language:
             lang = reporter.language
         else:
@@ -102,39 +117,24 @@ class App (rapidsms.app.App):
         forms_match = split_regex.match(input_text)
 
         if forms_match:
-
             handled = True
-
-            #TODO make this form specific
-            if not message.persistant_connection.reporter:
-                message.respond(_(u"You must register before you can send " \
-                                   "any reports."), 'error')
+            if not reporter:
+                message.respond(_(u"You must register before you can send"\
+                                  u" reports."), 'error')
                 return handled
 
-            # If this is coming from debackend, it will have message.chw and
-            # message.encounter_date.  Otherwise, the reporter is the chw,
-            # and the encounter date is from the backend
-            if 'chw' in message.__dict__:
-                try:
-                    chw = CHW.objects.get(pk=message.chw)
-                except CHW.DoesNotExist:
-                    message.respond(_(u"Problem getting chw from "\
-                                       "backend."), 'error')
-                    return handled
-            else:
-                chw = message.persistant_connection.reporter.chw
+            chw = reporter.chw
             if 'encounter_date' in message.__dict__:
                 try:
                     date = datetime.strptime(message.encounter_date, \
                                              "%Y-%m-%d")
                     # set it to midday on that day...
-                    encounter_date = date + timedelta(hours=12)
+                    message.date = date + timedelta(hours=12)
                 except ValueError:
                     message.respond(_(u"Problem getting encounter_date from "\
                                        "backend."), 'error')
                     return handled
-            else:
-                encounter_date = message.date
+            encounter_date = message.date
 
             health_ids_text = forms_match.groupdict()['health_ids']
             forms_text = forms_match.groupdict()['forms']
@@ -161,11 +161,11 @@ class App (rapidsms.app.App):
 
             # Write now, we are only going to accept a single health ID.
             if len(health_ids) != 1:
-                message.respond(_(u"Error: Could not understand your " \
-                                   "message. Your message must start with " \
+                message.respond(_(u"Error: Message not understood. " \
+                                   "Your message must start with " \
                                    "a single health ID, followed by a space " \
-                                   "then a %(pre)s then the form keyword " \
-                                   "you are sending.") % \
+                                   "then a %(pre)s, then the keyword of the " \
+                                   "form you are sending.") % \
                                    {'pre': self.FORM_PREFIX}, 'error')
                 return handled
             health_id = health_ids[0]
@@ -179,7 +179,7 @@ class App (rapidsms.app.App):
 
                 if keyword not in self.form_mapper.get_keywords(lang):
                     failed_forms.append({'keyword': keyword, \
-                                         'error': _(u"Not a recognised form")})
+                                        'error': _(u"Not a recognised form.")})
                     continue
                 cls = self.form_mapper.get_class(lang, keyword)
                 form = cls(message, encounter_date, chw, params, health_id)
@@ -192,9 +192,9 @@ class App (rapidsms.app.App):
                     pretty_form = '%s%s' % (self.FORM_PREFIX, \
                                             keyword.upper())
 
-                    message.respond(_(u"Error while processing %(frm)s: " \
-                                       "%(e)s - Please correct and send all " \
-                                       "information again.") % \
+                    message.respond(_(u"Error occurred while processing " \
+                                      "%(frm)s: %(e)s Please correct and " \
+                                      "send all information again.") % \
                                        {'frm': pretty_form, 'e': e}, \
                                         'error')
                     return handled
@@ -206,8 +206,8 @@ class App (rapidsms.app.App):
             try:
                 patient = Patient.objects.get(health_id__iexact=health_id)
             except Patient.DoesNotExist:
-                message.respond(_(u"%(id)s is not a valid Health ID. " \
-                                   "Please check and try again.") % \
+                message.respond(_(u"%(id)s is not a valid health ID. " \
+                                   "Please correct and try again.") % \
                                    {'id': health_id}, 'error')
                 return handled
 
@@ -221,11 +221,11 @@ class App (rapidsms.app.App):
                                    pre_processed_form_objects)
             if len(patient_forms) == 0 and not patient.is_head_of_household():
                 message.respond(_(u"Error: You tried to send househould " \
-                                   "forms for someone who is not head of " \
-                                   "household. You must send those forms " \
-                                   "with their head of household health id. " \
-                                   "Their head of household is " \
-                                   "%(hoh)s (Health ID: %(hohid)s)") % \
+                                  "forms for someone who is not head of" \
+                                  "household. You must send the forms with " \
+                                  "the head of household health ID." \
+                                  "Their head of household health ID " \
+                                  "is %(hoh)s (Health ID: %(hohid)s)") % \
                               {'hoh': patient.household.full_name(), \
                                'hohid': patient.household.health_id.upper()}, \
                                'error')
@@ -245,8 +245,8 @@ class App (rapidsms.app.App):
                 if form.ENCOUNTER_TYPE == Encounter.TYPE_HOUSEHOLD and \
                    not patient.is_head_of_household():
                     failed_forms.append({'keyword': keyword, \
-                                         'error': _(u"This form is for head " \
-                                                     "of households only")})
+                                         'error': _(u"This form is only for " \
+                                                    "head of households.")})
                     continue
 
                 # If we haven't created the encounter objects, we'll create
@@ -318,7 +318,7 @@ class App (rapidsms.app.App):
                 keywords = [self.FORM_PREFIX + f['keyword'].upper() \
                                                    for f in successful_forms]
                 successful_string += ', '.join(keywords) + \
-                                                _(u" successfuly processed:")
+                                                _(u" Successfully processed:")
 
                 for form in successful_forms:
                     successful_string += ' [%s]' % form['response']
@@ -333,9 +333,9 @@ class App (rapidsms.app.App):
                 if 'e' in form and not isinstance(form['e'], Inapplicable):
                     send_again = True
             if send_again and len(failed_forms) == 1:
-                failed_string += _(" You must send that form again.")
+                failed_string += _(" You must resend the form.")
             elif send_again and len(failed_forms) > 1:
-                failed_string += _(" You must send those forms again.")
+                failed_string += _(" You must resend the forms.")
 
             if successful_forms and not failed_forms:
                 message.respond(successful_string, 'success')
@@ -345,14 +345,14 @@ class App (rapidsms.app.App):
                 return handled
             else:
                 if len(failed_forms) == 1:
-                    cnt_failed = _(u"1 form failed")
+                    cnt_failed = _(u"One form failed.")
                 else:
-                    cnt_failed = _(u"%d forms failed") % len(failed_forms)
+                    cnt_failed = _(u"%d forms failed.") % len(failed_forms)
 
                 if len(successful_forms) == 1:
-                    cnt_successful = _(u"1 successful")
+                    cnt_successful = _(u"One successful.")
                 else:
-                    cnt_successful = _(u"%d forms successful") % \
+                    cnt_successful = _(u"%d forms successful.") % \
                                                         len(successful_forms)
                 response = u"%s, %s: %s, %s" % (cnt_failed, cnt_successful, \
                                                 failed_string, \
@@ -370,7 +370,7 @@ class App (rapidsms.app.App):
             try:
                 obj.process()
             except CCException, e:
-                message.respond(e, 'error')
+                message.respond(e.message, 'error')
         return handled
 
     def cleanup(self, message):

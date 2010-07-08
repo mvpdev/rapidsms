@@ -29,6 +29,15 @@ except Configuration.DoesNotExist:
         'server': "192.168.5.202",
     }
 
+try:
+    openmrs_config['store_xforms'] = \
+                                bool(Configuration.get('openmrs_store_xforms'))
+    openmrs_config['path_store_xforms'] = \
+                                 Configuration.get('openmrs_path_store_xforms')
+except Configuration.DoesNotExist:
+    openmrs_config['store_xforms'] = False
+    openmrs_config['path_store_xforms'] = u"/tmp"
+
 
 def transmit_form(form):
     ''' send a Form to the OpenMRS system
@@ -68,4 +77,12 @@ def transmit_form(form):
     # data is useless right now
     data = response.read()
     conn.close()
+
+    # we assume data went to OMRS now ; we shoult thus record the file.
+    if openmrs_config['store_xforms']:
+        f = open("%(path)s/omrs_%(date)s.xform" % {\
+                                 'path': openmrs_config['path_store_xforms'], \
+                                 'date': datetime.now().strftime("%s")}, 'w')
+        f.write(xml_form)
+        f.close()
     #print data

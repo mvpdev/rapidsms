@@ -17,6 +17,7 @@ from childcount.forms.utils import MultipleChoiceField
 class SauriUnderOneForm(CCForm):
     KEYWORDS = {
         'en': ['t'],
+        'fr': ['t'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -44,22 +45,22 @@ class SauriUnderOneForm(CCForm):
 
         days, weeks, months = patient.age_in_days_weeks_months()
         if months > 12:
-            raise Inapplicable(_(u"Child is too old for this report"))
+            raise Inapplicable(_(u"Child is too old for this report."))
 
         if len(self.params) < 3:
-            raise ParseError(_(u"Not enough info, expected | breast feeding " \
-                                "only | up-to-date immunisations"))
+            raise ParseError(_(u"Not enough info. Expected: | breast feeding " \
+                                "only | up-to-date immunisations |"))
 
         breast = self.params[1]
         if not breast_field.is_valid_choice(breast):
-            raise ParseError(_(u"|Breast feeding only?| must be %(choices)s") \
+            raise ParseError(_(u"| Breast feeding only? | must be %(choices)s.") \
                              % {'choices': breast_field.choices_string()})
         breast_db = breast_field.get_db_value(breast)
 
         imm = self.params[2]
         if not imm_field.is_valid_choice(imm):
-            raise ParseError(_(u"|Up-to-date Immunisations?| must be " \
-                                "%(choices)s") % \
+            raise ParseError(_(u"| Up-to-date Immunisations? | must be " \
+                                "%(choices)s.") % \
                                 {'choices': imm_field.choices_string()})
         imm_db = imm_field.get_db_value(imm)
 
@@ -96,17 +97,17 @@ class SauriUnderOneForm(CCForm):
         uor.save()
 
         if breast_db == UnderOneReport.BREAST_YES:
-            breast_str = _(u"Exclusive breast feeding")
+            breast_str = _(u"Exclusive breast feeding.")
         elif breast_db == UnderOneReport.BREAST_NO:
-            breast_str = _(u"Not exclusive breast feeding")
+            breast_str = _(u"Not exclusive breast feeding.")
         elif breast_db == UnderOneReport.BREAST_UNKOWN:
-            breast_str = _(u"Unkown if exclusively breast feeding")
+            breast_str = _(u"Unkown if exclusively breast feeding.")
 
         if imm_db == UnderOneReport.IMMUNIZED_YES:
-            imm_str = _(u"Up-to-date on immunisations")
+            imm_str = _(u"Up-to-date on immunisations.")
         elif imm_db == UnderOneReport.IMMUNIZED_NO:
-            imm_str = _(u"Not up-to-date on immunisations")
+            imm_str = _(u"Not up-to-date on immunisations.")
         elif imm_db == UnderOneReport.IMMUNIZED_UNKOWN:
-            imm_str = _(u"Unkown if up-to-date on immunisations")
+            imm_str = _(u"Unkown if up-to-date on immunisations.")
 
         self.response = breast_str + ', ' + imm_str + vaccine_str

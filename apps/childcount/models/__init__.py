@@ -12,11 +12,12 @@ from FormGroup import FormGroup
 
 from Vaccine import Vaccine
 from CodedItem import CodedItem
-from CodedItemTranslation import CodedItemTranslation
 from Referral import Referral
 from FamilyPlanningUsage import FamilyPlanningUsage
 from Case import Case
 from HealthId import HealthId
 
+from CHWHealthId import CHWHealthId
+from DeadPerson import DeadPerson
+
 from reports import *
-import reports

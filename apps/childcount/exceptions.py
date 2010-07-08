@@ -25,23 +25,23 @@ class AmbiguousAge(CCException):
 
 
 class NotRegistered(CCException):
-    def __init__(self, message=_(u"Error: You must be registered first")):
+    def __init__(self, message=_(u"Error: You must first be registered.")):
         self.message = message
 
 
 class ParseError(CCException):
 
-    def __init__(self, message=_(u"FAILED. unable to understand")):
+    def __init__(self, message=_(u"FAILED. Unable to understand message. ")):
         self.message = message
 
 
 class BadValue(CCException):
 
-    def __init__(self, message=_(u"FAILED. Bad value")):
+    def __init__(self, message=_(u"FAILED. Bad value. ")):
         self.message = message
 
 
 class Inapplicable(CCException):
 
-    def __init__(self, message=_(u"FAILED. Not applicable")):
+    def __init__(self, message=_(u"FAILED. Not applicable.")):
         self.message = message

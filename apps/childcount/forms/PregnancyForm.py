@@ -14,6 +14,7 @@ from childcount.exceptions import ParseError, BadValue, Inapplicable
 class PregnancyForm(CCForm):
     KEYWORDS = {
         'en': ['p'],
+        'fr': ['p'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -29,7 +30,7 @@ class PregnancyForm(CCForm):
                                 {'age': patient.humanised_age()})
 
         if len(self.params) < 3:
-            raise ParseError(_(u"Not enough info, expected: " \
+            raise ParseError(_(u"Not enough info. expected: " \
                                 "| month of pregnancy | number of ANC " \
                                 "visits | weeks since last ANC visit |"))
 

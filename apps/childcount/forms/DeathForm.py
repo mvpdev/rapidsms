@@ -19,12 +19,13 @@ from childcount.utils import DOBProcessor
 class DeathForm(CCForm):
     KEYWORDS = {
         'en': ['dda'],
+        'fr': ['dda'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
     def process(self, patient):
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info, expected date of death"))
+            raise ParseError(_(u"Not enough info. Expected: date of death."))
 
         try:
             dr = DeathReport.objects.get(encounter=self.encounter)
@@ -39,14 +40,16 @@ class DeathForm(CCForm):
         if DeathReport.objects.filter(encounter__patient=patient).count() > 0:
             dr = DeathReport.objects.filter(encounter__patient=patient)[0]
             raise Inapplicable(_(u"A death report for %(p)s was already " \
-                                  "submited by %(chw)s") % \
+                                  "submited by %(chw)s.") % \
                                   {'p': patient, 'chw': dr.chw()})
 
         dod_str = ' '.join(self.params[1:])
         try:
-            dod, variance = DOBProcessor.from_dob(self.chw.language, dod_str)
+            dod, variance = DOBProcessor.from_dob(self.chw.language, dod_str, \
+                                                  self.date.date())
         except InvalidDOB:
-            raise BadValue(_(u"Could not understand date of death: %(dod)s") %\
+            raise BadValue(_(u"Could not understand date of death: " \
+                             "%(dod)s.") % \
                              {'dod': dod_str})
 
         dr.death_date = dod

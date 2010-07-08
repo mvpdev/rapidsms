@@ -18,6 +18,7 @@ from childcount.exceptions import ParseError, Inapplicable
 class FeverForm(CCForm):
     KEYWORDS = {
         'en': ['f'],
+        'fr': ['f'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -36,11 +37,11 @@ class FeverForm(CCForm):
 
         rdt_field.set_language(self.chw.language)
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info, expected %s") % \
+            raise ParseError(_(u"Not enough info. Expected: %s") % \
                                                 rdt_field.choices_string)
 
         if not rdt_field.is_valid_choice(self.params[1]):
-            raise ParseError(_(u"RDT Result must be %(choices)s") % \
+            raise ParseError(_(u"RDT Result must be %(choices)s.") % \
                               {'choices': rdt_field.choices_string()})
 
         days, weeks, months = patient.age_in_days_weeks_months()
@@ -66,11 +67,11 @@ class FeverForm(CCForm):
             # no tabs means too young
             if not tabs:
                 instructions = (_(u"Child is too young for treatment." \
-                    " Please refer IMMEDIATELY to clinic"))
+                    " Please refer IMMEDIATELY to clinic."))
             else:
                 instructions = _(u"Child is %(age)s. Please provide "\
                                   "%(tabs)s tab%(plural)s of Coartem "\
-                                  "(ACT) twice a day for 3 days") % \
+                                  "(ACT) twice a day for 3 days.") % \
                                    {'age': yage, \
                                     'tabs': tabs, \
                                     'plural': (tabs > 1) and 's' or ''}
@@ -88,9 +89,9 @@ class FeverForm(CCForm):
             case.save()
             '''
         elif rdt == FeverReport.RDT_NEGATIVE:
-            self.response = _(u"Negative RDT result")
+            self.response = _(u"Negative RDT result.")
         elif rdt == FeverReport.RDT_UNKOWN:
-            self.response = _(u"Unkown RDT result")
+            self.response = _(u"Unkown RDT result.")
 
         fr.rdt_result = rdt
         fr.save()

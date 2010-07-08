@@ -4,7 +4,7 @@
 
 import re
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, activate
 from django.contrib.auth.models import User, Group
 
 from reporters.models import Reporter
@@ -20,16 +20,22 @@ class RegistrationCommand(CCCommand):
     ENGLISH = 'en'
     ENGLISH_CHW_JOIN = 'chw'
 
+    FRENCH = 'fr'
+    FRENCH_CHW_JOIN = 'asc'
+
     KEYWORDS = {
-        '*': [ENGLISH_CHW_JOIN],
+        '*': [ENGLISH_CHW_JOIN, FRENCH_CHW_JOIN],
     }
 
     def process(self):
         if self.params[0] == self.ENGLISH_CHW_JOIN:
             reporter_language = self.ENGLISH
 
+        if self.params[0] == self.FRENCH_CHW_JOIN:
+            reporter_language = self.FRENCH
+
         if len(self.params) < 3:
-            raise ParseError(_(u"Not enough information. Expected: " \
+            raise ParseError(_(u"Not enough info. Expected: " \
                                 "%(keyword)s location names") % \
                                 {'keyword': self.params[0]})
 
@@ -37,7 +43,7 @@ class RegistrationCommand(CCCommand):
         try:
             location = Location.objects.get(code=location_code)
         except Location.DoesNotExist:
-            raise BadValue(_(u"Location %(location)s does not exist") % \
+            raise BadValue(_(u"Location %(location)s does not exist.") % \
                               {'location': location_code})
 
         flat_name = ' '.join(self.params[2:])
@@ -65,7 +71,10 @@ class RegistrationCommand(CCCommand):
 
         chw.first_name = firstnames
         chw.last_name = surname
+
+        # change language
         chw.language = reporter_language
+        activate(chw.language)
 
         chw.location = location
 
@@ -84,7 +93,7 @@ class RegistrationCommand(CCCommand):
 
         # inform target
         self.message.respond(
-            _(u"Success. You are now registered at %(location)s with " \
+            _(u"You are now registered at %(location)s with " \
                "alias @%(alias)s.") \
                % {'location': location, 'alias': chw.alias}, 'success')
 

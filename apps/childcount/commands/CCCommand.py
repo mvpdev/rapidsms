@@ -10,6 +10,7 @@ class CCCommand(object):
 
     def __init__(self, message, params):
         self.message = message
+        self.date = self.message.date
         self.params = params
 
     def process(self):

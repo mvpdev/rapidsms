@@ -24,6 +24,7 @@ class LookupCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['lookup'],
+        'fr': ['lookup'],
     }
 
     @authenticated
@@ -32,7 +33,7 @@ class LookupCommand(CCCommand):
         # warn if no search criteria
         if self.params.__len__() < 2:
             self.message.respond(_(u"Lookup command requires at least a " \
-                                   "first or last name"), 'error')
+                                   "first or last name."), 'error')
             return True
 
         terms = self.params[1:]
@@ -72,8 +73,8 @@ class LookupCommand(CCCommand):
 
         # no results
         if results.__len__() == 0:
-            self.message.respond(_(u"No matching patient found. Please, " \
-                                   "retry with only first or last name"))
+            self.message.respond(_(u"No matching patient found. Please " \
+                                   "retry with only first or last name."))
             return True
 
         # only one result (best case)
@@ -93,9 +94,9 @@ class LookupCommand(CCCommand):
 
         # advise on quality of answers
         if exact:
-            intro = _(u"%(total)s matchs") % {'total': results.__len__()}
+            intro = _(u"%(total)s matches") % {'total': results.__len__()}
         else:
-            intro = _(u"%(total)s approx. matchs") % {'total': \
+            intro = _(u"%(total)s approx. matches") % {'total': \
                                                              results.__len__()}
 
         # send list (max 10 patient)

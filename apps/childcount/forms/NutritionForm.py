@@ -15,6 +15,7 @@ from childcount.forms.utils import MultipleChoiceField
 class NutritionForm(CCForm):
     KEYWORDS = {
         'en': ['m', 'muac'],
+        'fr': ['m', 'muac'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -40,33 +41,33 @@ class NutritionForm(CCForm):
         days, weeks, months = patient.age_in_days_weeks_months()
 
         if days <= 30:
-            raise Inapplicable(_(u"Child is too young for MUAC"))
+            raise Inapplicable(_(u"Child is too young for MUAC."))
         elif months > 59:
-            raise Inapplicable(_(u"Child is older then 59 months. For any " \
-                                  "concerns about child please refer to " \
-                                  "a clinic."))
+            raise Inapplicable(_(u"Child is older than 59 months. If there " \
+                                  "are any concerns about the child, " \
+                                  "please refer to a clinic."))
 
         if len(self.params) < 3:
-            raise ParseError(_(u"Not enough info, expected: | muac | oedema " \
-                                "| weight (optional)"))
+            raise ParseError(_(u"Not enough info. Expected: | muac | oedema " \
+                                "| weight (optional) |"))
 
         if not self.params[1].isdigit():
-            raise ParseError(_(u"MUAC must be a number"))
+            raise ParseError(_(u"| MUAC | must be entered as a number."))
 
         muac = int(self.params[1])
         if muac == 0:
             muac = None
         elif muac < 50:
-            raise BadValue(_('MUAC too low. If correct, refer child ' \
-                             'IMMEDIATELY!'))
+            raise BadValue(_(u"MUAC too low. If correct, refer child to " \
+                             "clinic IMMEDIATELY!"))
         elif muac > 250:
-            raise BadValue(_('MUAC too high. Correct and resend.'))
+            raise BadValue(_(u"MUAC too high. Correct and resend."))
 
         oedema_field.set_language(self.chw.language)
 
         if not oedema_field.is_valid_choice(self.params[2]):
-            raise ParseError(_(u"Oedema must be " \
-                                "%(choices)s") % \
+            raise ParseError(_(u"| Oedema | must be " \
+                                "%(choices)s.") % \
                                {'choices': oedema_field.choices_string()})
 
         oedema_db = oedema_field.get_db_value(self.params[2])
@@ -79,14 +80,14 @@ class NutritionForm(CCForm):
                 weight = float(match.groupdict()['w'])
                 if weight > self.MAX_WEIGHT:
                     raise BadValue(_(u"Weight can not be greater than " \
-                                      "%(max)skg") % \
+                                      "%(max)skg.") % \
                                      {'max': self.MAX_WEIGHT})
                 if weight < self.MIN_WEIGHT:
                     raise BadValue(_(u"Weight can not be less than " \
-                                      "%(min)skg") % \
+                                      "%(min)skg.") % \
                                      {'min': self.MIN_WEIGHT})
             else:
-                raise ParseError(_(u"Unkown value. Weight should be a number"))
+                raise ParseError(_(u"Unkown value. Weight should be entered as a number."))
 
         nr.oedema = oedema_db
         nr.muac = muac
@@ -94,16 +95,16 @@ class NutritionForm(CCForm):
         nr.save()
 
         if muac is None:
-            self.response = _(u"MUAC not taking, ")
+            self.response = _(u"MUAC not taken, ")
         else:
             self.response = _(u"MUAC of %(muac)smm, ") % {'muac': muac}
 
         if oedema_db == NutritionReport.OEDEMA_YES:
-            self.response += _(u"Oedema present")
+            self.response += _(u"Oedema present.")
         elif oedema_db == NutritionReport.OEDEMA_NO:
-            self.response += _(u"No signs of oedema")
+            self.response += _(u"No signs of oedema.")
         elif oedema_db == NutritionReport.OEDEMA_UNKOWN:
-            self.response += _(u"Oedema unkown")
+            self.response += _(u"Oedema unkown.")
 
         if weight is not None:
             self.response += _(", Weight %(w)skg") % {'w': weight}

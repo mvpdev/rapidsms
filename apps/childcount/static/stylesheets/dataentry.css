@@ -179,7 +179,7 @@ input[type = 'submit'], label, h2 {
     display:none;
 }
 
-table.rsmsList thead.free tr td, table.rsmsList tbody.free tr td {
+table.rsmsList thead.free tr td, table.rsmsList tbody.free tr td, table.rsmsList:first-child tr td {
     text-align: left;
 }
 

@@ -14,6 +14,7 @@ from childcount.models.reports import VerbalAutopsyReport
 class VerbalAutopsyForm(CCForm):
     KEYWORDS = {
         'en': ['va'],
+        'fr': ['va'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -21,4 +22,4 @@ class VerbalAutopsyForm(CCForm):
         va = VerbalAutopsyReport(encounter=self.encounter)
         va.done = True
         va.save()
-        self.response = _("Verbal autopsy done!")
+        self.response = _("Verbal autopsy complete!")

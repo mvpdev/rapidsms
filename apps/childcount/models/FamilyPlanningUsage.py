@@ -16,7 +16,7 @@ class FamilyPlanningUsage(models.Model):
         verbose_name_plural = _(u"Family Planning Usages")
 
     fp_report = models.ForeignKey('FamilyPlanningReport', \
-                                   verbose_name=_(u"Family planning report"))
+                                   verbose_name=_(u"Family Planning Report"))
     method = models.ForeignKey('CodedItem', verbose_name=_(u"Method"))
     count = models.PositiveSmallIntegerField(_(u"Count"))
 

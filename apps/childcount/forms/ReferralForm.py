@@ -10,6 +10,7 @@ from childcount.forms.utils import MultipleChoiceField
 class ReferralForm(CCForm):
     KEYWORDS = {
         'en': ['r'],
+        'fr': ['r'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
@@ -22,11 +23,12 @@ class ReferralForm(CCForm):
         urgency_field.add_choice('en', ReferralReport.URGENCY_CONVENIENT, 'C')
         urgency_field.set_language(self.chw.language)
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info, expected %s") % \
+            raise ParseError(_(u"Not enough info. Expected: %s") % \
                               urgency_field.choices_string())
 
         if not urgency_field.is_valid_choice(self.params[1]):
-            raise ParseError(_(u"Referral to clinic choices are %(choices)s") \
+            raise ParseError(_(u"Referral to clinic, choices are " \
+                               "%(choices)s.") \
                              % {'choices': urgency_field.choices_string()})
 
         try:
@@ -43,7 +45,7 @@ class ReferralForm(CCForm):
         if urgency == ReferralReport.URGENCY_EMERGENCY:
             self.response = _(u"Emergency Referral")
         if urgency == ReferralReport.URGENCY_BASIC:
-            self.response = _(u"Basic Referral(24hrs)")
+            self.response = _(u"Basic Referral (24hrs)")
         if urgency == ReferralReport.URGENCY_CONVENIENT:
             self.response = _(u"Convenient Referral")
 

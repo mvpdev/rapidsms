@@ -1,0 +1,23 @@
+{% extends base_template %}
+
+{% block title %}Add CHW{% endblock %}
+
+{% block content %}
+
+<h1>All Community Health Workers</h1>
+<table>
+<thead>
+<tr>
+<td>Username</td><td>First Name</td><td>Last Name</td><td>Language</td><td>Location</td><td>Active?</td>
+</tr>
+</thead>
+<tbody>
+{% for chw in chews %}
+<tr>
+<td>{{ chw.username }}</td><td>{{ chw.first_name }}</td><td>{{ chw.last_name }}</td><td>{{ chw.language }}</td><td>{{ chw.location }}</td><td>{% if chw.is_active %}yes{% else %}no{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endblock %}
