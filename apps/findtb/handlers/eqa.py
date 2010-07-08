@@ -302,7 +302,7 @@ def collect(params, reporter, message):
                 state.save()
                 TrackedItem.add_state_to_item(sb, state)
 
-            message.respond(u"SUCCESS: You collected slides from %(codes)s from the first controller"  % {
+            message.respond(u"SUCCESS: You collected slides of %(codes)s from the first controller"  % {
                             'codes': codes})
 
             first_control_focal_person = Role.objects.get(location=dtus[0],
@@ -483,8 +483,10 @@ def receive(params, reporter, message):
         state.save()
         TrackedItem.add_state_to_item(sb, state)
 
-        message.respond(u"SUCCESS: DTLS and NTRL are being notified. "\
-                        u"End of EQA for your DTU during this quarter.")
+        message.respond(u"SUCCESS: You have acknowledged receiving the " \
+                        u"discordant slides and feedback report. Contact " \
+                        u"your DTLS if you have any questions about the " \
+                        u"results.")
 
         send_to_dtls(sb.location,
                      u"Slides from %(dtu)s have been received by DTU. "\
@@ -615,14 +617,12 @@ def ready(params, reporter, message):
             state.save()
             TrackedItem.add_state_to_item(sb, state)
 
-        message.respond(u"SUCCESS: Your DTLS has been notified to collect "\
-                        u"slides from %(dtus_names)s." % {
-                        'dtus_names': dtus_names
-                        })
+        message.respond(u"SUCCESS: Your DTLS has been notified to collect the "\
+                        u"slides from you for second control.")
 
         send_to_dtls(sb.location,
                      u"Slides from %(dtus_names)s have been tested by the first "\
-                     u"controller. You can take them to the second controller" % {
+                     u"controller. Please collect them for second control" % {
                         'dtus_names': dtus_names})
 
         for dtu in dtus:

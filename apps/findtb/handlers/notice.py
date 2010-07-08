@@ -23,9 +23,15 @@ def handle(keyword, params, message):
                                            FINDTBGroup.DTU_LAB_TECH_GROUP_NAME)
         clinician_group = FINDTBGroup.objects.get(name= \
                                            FINDTBGroup.CLINICIAN_GROUP_NAME)
+        first_group = FINDTBGroup.objects.get(name= \
+                            FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME)
+        eqa_group = FINDTBGroup.objects.get(name= \
+                            FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME)
         try:
             role = Role.objects.get(Q(group=lab_group) | \
-                                    Q(group=clinician_group), \
+                                    Q(group=clinician_group) | \
+                                    Q(group=first_group) | \
+                                    Q(group=eqa_group), \
                                     reporter=reporter)
         except Role.DoesNotExist:
             raise NotAllowed(u"You must be registered as a DTU Lab " \

@@ -83,7 +83,7 @@ class CollectedFromDtu(Eqa):
 
     def get_short_message(self):
 
-        return u"%s slides have been picked up by the DTLS" %\
+        return u"%s slides have been collected by the DTLS from the first controller." %\
                self.slides_batch.slide_set.all().count()
 
 
