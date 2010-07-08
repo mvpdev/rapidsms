@@ -473,7 +473,7 @@ class SlidesBatch(models.Model):
 
     location = models.ForeignKey(Location)
     created_on = models.DateField(_(u"Created on"), default=datetime.date.today)
-    created_by = models.ForeignKey(Reporter)
+    created_by = models.ForeignKey(Reporter, blank=True, null=True)
     comment = models.CharField(max_length=100, blank=True)
     results = models.CharField(max_length=100, blank=True)
 
