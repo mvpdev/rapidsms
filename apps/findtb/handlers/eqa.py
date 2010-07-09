@@ -159,8 +159,8 @@ def collect(params, reporter, message):
             if not Role.objects.filter(location=location,
                                        group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).count():
                 raise NotAllowed(u"Collection failed: there are no registered "\
-                                 u"first fontrollers for this DTU. "\
-                                 u"Please contact the first controller and ask them to register with the system.")
+                                 u"First Controller for this DTU. "\
+                                 u"Please contact the First Controller and ask them to register with the system.")
                                  
             # dtu must be in the district of the dtls
             if not Role.objects.filter(location=location.parent,
@@ -208,17 +208,13 @@ def collect(params, reporter, message):
                             'dtu': location.name,
                             'number': number })
 
-            dtu_focal_person = Role.objects.get(location=location,
-                                                group__name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME
-                                                ).reporter
-
-            send_msg(dtu_focal_person,
-                     u"DTLS has reported picking up %(number)s slides from your "\
-                     u"DTU for EQA." % {'number': number })
-
             send_to_first_control_focal_person(location,
                                                u"Slides from %(dtu)s have been collected by DTLS." % {
                                                'dtu': location.name })
+             
+            send_to_dtu_focal_person(location,
+                     u"DTLS has reported picking up %(number)s slides from your "\
+                     u"DTU for EQA." % {'number': number })
 
         elif collect_from == 'first':
 
@@ -313,10 +309,6 @@ def collect(params, reporter, message):
                      u"DTLS has reported picking up slides from %(codes)s "\
                      u"from you." % {'codes': codes })
 
-
-            for dtu in dtus:
-                send_to_dtu_focal_person(dtu, u"EQA slides have been collected "\
-                                              u"from the first controller by DTLS")
 
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. It is "\
@@ -452,10 +444,6 @@ def receive(params, reporter, message):
                         'dtus_names': dtus_names
                         })
 
-        for dtu in dtus:
-            send_to_dtu_focal_person(dtu,
-                                     u"EQA slides have been received by the first "\
-                                     u"controller")
                                      
     elif reporter.groups.filter(name=FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME).count():
     
@@ -625,9 +613,6 @@ def ready(params, reporter, message):
                      u"controller. Please collect them for second control" % {
                         'dtus_names': dtus_names})
 
-        for dtu in dtus:
-            send_to_dtu_focal_person(dtu,
-                                     u"EQA slides have been tested by the first controller")
     else:
          raise NotAllowed(u"You are not allowed to use this keyword. Only "\
                           u"first controllers are.")
