@@ -15,22 +15,17 @@ from childcount.models import BedNetReport, BednetUtilization, \
 from logger.models import IncomingMessage
 
 
-class BdnethouseHold(Patient):
+class BdnethouseHold():
 
     class Meta:
         verbose_name = _("Household Report")
-    '''
-    def total_bednet(self):
-        try:
-            sum = BednetReport.objects.filter()
-    '''
 
     @property
-    def active_ssleepingsite(self):
+    def active_sleepingsite(self):
         try:
             bdnt_issued = BednetReport.objects.get(encounter__patient \
                                      =self.encounter.patient)
-        except BCPillReport.DoesNotExist:
+        except BednetReport.DoesNotExist:
             slipingsite = 0
             activebednet = 0
         else:
@@ -51,7 +46,7 @@ class BdnethouseHold(Patient):
     def summary(cls):
         columns = []
         columns.append(
-            {'name': cls._meta.get_field('household').verbose_name.upper(), \
+            {'name': _("Household ".upper()), \
             'bit': '{{object.household.health_id.upper}}'})
         columns.append(
             {'name': _("Household Name".upper()), \

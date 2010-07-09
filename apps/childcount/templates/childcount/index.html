@@ -6,37 +6,7 @@
 {% endblock page_stylesheets %}
 
 {% block javascripts %}
-<!--<script type="text/javascript" src="http://www.google.com/jsapi">
-    </script>
-<script type="text/javascript">
 
-     // google.load('visualization', '1',       {packages: ['piechart']});
-  //google.load('visualization', '1', {packages: ['corechart']});
-    </script>
-    <script type="text/javascript">
-function drawVisualization() {
-  // Create and populate the data table.
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'x');
-  data.addColumn('number', 'Total');
-  data.addColumn('number', 'Correct');
-  data.addColumn('number', 'Error');
-{% for sm in sms %}
-	data.addRow(["{{sm.day|safe}}", {{sm.total|safe}}, {{sm.correcct_sm|safe}}, {{sm.wrong_sms|safe}}]);    
-
-{% endfor %}
-
- 
-  // Create and draw the visualization.
-  new google.visualization.LineChart(document.getElementById('visualize')).
-      draw(data, {curveType: "function",
-                  	width: 400, height: 230, 
-			title: 'SMS Received ',
-			colors:['black','green', 'red']}
-          );
-}
-//google.setOnLoadCallback(drawVisualization);
-</script>-->
 {% endblock javascripts %}
 
 {% block page_tabs %}
@@ -44,6 +14,7 @@ function drawVisualization() {
 {% endblock %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
+
 
 <table width="100%" class='summary'>
     <tr>
@@ -59,6 +30,35 @@ function drawVisualization() {
         <td>{{summary.num_pregnant}}</td>
     </tr>
 </table>
+<style type="text/css">
+.dashboard p.data{
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+}
+.dashboard h2{
+    font-size: 20px;
+}
+
+#ch-l {
+float:left;
+width: 50%
+}
+#ch-r {
+float:right;
+position:relative;
+width: 50%
+}
+
+.system_messages li {
+font-size:11px;
+left:0;
+list-style:none outside none;
+margin:0 0 7px;
+padding:6px 0 6px 38px;
+}
+
+</style>
 <div id='ch-bd'><div id='ch-l'>
     <p>General Options:
     <a href='{% url add_chw %}' class='html'>Create CHW Account</a>
@@ -66,10 +66,10 @@ function drawVisualization() {
     </p>
 <div class='block'>
     <div class="block_child">
-	    <div class="hd">
-		    <h2>ChildCount Reports</h2>
-		</div>
-	    <div class="bd">
+<div class="hd">
+<h2>ChildCount Reports</h2>
+</div>
+<div class="bd">
         <ul>
             <li>Operational Report <a href='/childcount/operationalreport/pdf' class='pdf'>pdf</a>
             </li>
@@ -80,9 +80,9 @@ function drawVisualization() {
                 {% endfor %}
                 </ul>
             </li>
-            <li>Patient List <a href='/childcount/patients' class='html'>html</a> 
+            <li>Patient List <a href='/childcount/patients' class='html'>html</a>
             </li>
-            <li>Under five Patient List <a href='/childcount/patients/underfive/html' class='html'>html</a> 
+            <li>Under five Patient List <a href='/childcount/patients/underfive/html' class='html'>html</a>
                 | <a href='/childcount/patients/underfive/pdf' class='pdf'>pdf</a>
             </li>
             <li>Patient list per community health worker <a href='/childcount/patients_per_chw/pdf' class='pdf'>pdf</a>
@@ -94,28 +94,35 @@ function drawVisualization() {
 
     </div>
 
-    <div class="ft">		
-	    <div class="first"></div>
-	    <div class="last"></div>
+    <div class="ft">
+<div class="first"></div>
+<div class="last"></div>
     </div>
 </div>
 </div>
 <div id='ch-r'>
+
+<ul class="system_messages">
+<li >+SAM / MAM {{week_report.num_mam_sam}}</li>
+<li >MALARIA {{week_report.num_rdt}}</li>
+<li >PREGNANCY {{week_report.num_pregnant}}</li>
+</ul>
+
     <div class='block'>
     <div class="block_child">
-	    <div class="hd">
-		    <h2>SMS Graph
-		    </h2>
-	    </div>
-	    <div class="bd" >
-	    	<div id='visualize'></div>
-	    </div>
+<div class="hd">
+<h2>SMS Graph
+</h2>
+</div>
+<div class="bd" >
+<div id='visualize'></div>
+</div>
 
     </div>
 
-    <div class="ft">		
-	    <div class="first"></div>
-	    <div class="last"></div>
+    <div class="ft">
+<div class="first"></div>
+<div class="last"></div>
     </div>
 </div>
 </div>
@@ -125,4 +132,3 @@ function drawVisualization() {
 <div>
 </div>
 {% endblock %}
-

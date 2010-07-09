@@ -12,6 +12,7 @@ import re
 from rapidsms.webui.utils import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from django.utils.translation import gettext_lazy as _, activate
 from django.template import Template, Context, loader
 from django.contrib.auth.decorators import login_required
@@ -23,7 +24,7 @@ from locations.models import Location
 
 from childcount.models import Patient, CHW, Configuration, Clinic
 from childcount.models.ccreports import TheCHWReport, ClinicReport
-from childcount.models.ccreports import SummaryReport
+from childcount.models.ccreports import SummaryReport, Week_Summary_Report
 from childcount.models.bdntreports import BdnethouseHold
 from childcount.utils import clean_names
 
@@ -69,6 +70,9 @@ def index(request):
     #Summary Report
     sr = SummaryReport.summary()
     info.update(sr)
+    #This Week Summary Report
+    wsr = Week_Summary_Report.summary()
+    info.update(wsr)
 
     return render_to_response(request, template_name, info)
 
@@ -229,23 +233,33 @@ def patient(request):
     '''Patients page '''
     report_title = Patient._meta.verbose_name
     rows = []
+    MAX_PAGE_PER_PAGE = 100
+    DEFAULT_PAGE = 1
     columns, sub_columns = Patient.table_columns()
 
-    reports = Patient.objects.all()
-    i = 0
-    for report in reports:
-        i += 1
+    getpages = Paginator(Patient.objects.all(), 100)
+    
+    try:
+        page = int(request.GET.get('page', DEFAULT_PAGE))
+    except ValueError:
+        page = 1
+
+    try:
+        reports = getpages.page(page)
+    except (EmptyPage, InvalidPage):
+        reports = getpages.page(getpages.num_pages)
+
+    for report in reports.object_list:
         row = {}
         row["cells"] = []
         row["cells"] = [{'value': \
                         Template(col['bit']).render(Context({'object': \
                             report}))} for col in columns]
-        if i == 100:
-            row['complete'] = True
-            rows.append(row)
-            break
         rows.append(row)
-
+        
+        
+    #rows.append(row)
+        
     aocolumns_js = "{ \"sType\": \"html\" },"
     for col in columns[1:] + (sub_columns if sub_columns != None else []):
         if not 'colspan' in col:
@@ -261,21 +275,9 @@ def patient(request):
     context_dict = {'get_vars': request.META['QUERY_STRING'],
                     'columns': columns, 'sub_columns': sub_columns,
                     'rows': rows, 'report_title': report_title,
-                    'aggregate': aggregate, 'aocolumns_js': aocolumns_js}
+                    'reports': reports, 'aocolumns_js': aocolumns_js}
 
-    if request.method == 'GET' and 'excel' in request.GET:
-        '''response = HttpResponse(mimetype="application/vnd.ms-excel")
-        filename = "%s %s.xls" % \
-                   (report_title, datetime.now().strftime("%d%m%Y"))
-        response['Content-Disposition'] = "attachment; " \
-                                          "filename=\"%s\"" % filename
-        from findug.utils import create_excel
-        response.write(create_excel(context_dict))
-        return response'''
-        return render_to_response(\
-                request, 'childcount/patient.html', context_dict)
-    else:
-        return render_to_response(\
+    return render_to_response(\
                 request, 'childcount/patient.html', context_dict)
 
 

@@ -35,7 +35,6 @@ from childcount.forms.SauriUnderOneForm import SauriUnderOneForm
 from childcount.forms.SauriPregnancyForm import SauriPregnancyForm
 from childcount.forms.HouseholdForm import HouseholdForm
 from childcount.forms.UpdateNameForm import UpdateNameForm
-from childcount.forms.UpdateDOBForm import UpdateDOBForm
 #endsauri
 
 from childcount.forms.BednetCoverageForm import BednetCoverageForm
