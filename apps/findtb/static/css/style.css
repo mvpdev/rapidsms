@@ -36,6 +36,11 @@ padding-right:1ex;
 }
 
 
+#footer {
+background: transparent url("/static/findtb/images/logo_find.png") no-repeat 12px 8px;
+}
+
+
 /*** MENU ***/
 
 
