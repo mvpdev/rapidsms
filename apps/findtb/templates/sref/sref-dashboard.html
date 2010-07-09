@@ -74,6 +74,8 @@
 
 {% block findtb-test-picker-selection %}
 
+   {% if displayed_specimens %}
+
    <table id="findtb-test-picker-list">
 
        <caption>
@@ -97,7 +99,6 @@
        </thead>
        
        <tbody>
-       {% if displayed_specimens %}
            {% for specimen in displayed_specimens %}
            <tr class="selectable">
                <td>
@@ -123,11 +124,16 @@
                </td>
            </tr>
            {% endfor %}
-       {% else %}
-         <tr><td colspan="3">Nothing to test yet</td></tr>
-       {% endif %}
+         
+       
        <tbody>
    </table>
+   
+   {% else %}
+        
+   <p>Nothing to test yet</p>
+        
+   {% endif %}
         
 {% endblock %}
 
