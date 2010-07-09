@@ -255,7 +255,7 @@
         "model": "locations.location", 
         "fields": {
             "code": "801-22", 
-            "name": "Bara HC III", 
+            "name": "Bala HC III", 
             "parent": 5610, 
             "longitude": null, 
             "latitude": null, 
