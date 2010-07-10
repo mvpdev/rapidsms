@@ -75,6 +75,13 @@ text-align: center;
 .findtb .search .suggestion {
 text-align: left;
 }
+
+/*** DOC ***/
+
+.findtb .doc p {
+margin-left: 3em;
+}
+
 /*** RIGHT COLUMN NAVIGATION ***/
 
 #place-selection{

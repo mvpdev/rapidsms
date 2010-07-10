@@ -15,6 +15,10 @@ urlpatterns = patterns('',
     url(r'^findtb/search/$', views.FindtbSearchView(),
         name='findtb-search'),
 
+    # DOC
+    url(r'^findtb/doc/$', views.global_views.doc,
+        name='findtb-doc'),
+
 )
 
 

@@ -4,6 +4,8 @@
 
 import random
 import datetime
+import os
+import glob
 
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
@@ -15,6 +17,7 @@ from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from haystack.views import SearchView
 
@@ -311,7 +314,7 @@ class FindtbSearchView(SearchView):
         Wrapper around the Haystack SearchView so it uses sutff that rapidsms
         wrapped and requires.
     """
-    
+    # todo : test @login_required
     def create_response(self):
         """
             Use the "render_to_response" wrappper from rapidsms and
@@ -332,4 +335,19 @@ class FindtbSearchView(SearchView):
                                   self.template, 
                                   context, 
                                   context_instance=self.context_class(self.request))
+                                  
+                                  
+@login_required
+def doc(request, *args, **kwargs):
+
+    f = os.path.abspath(__file__)
+    doc_dir = os.path.join(os.path.dirname(os.path.dirname(f)), 'static/files')
+    files = glob.glob(doc_dir + '/*.pdf')
+    files_name = (os.path.split(f)[1] for f in files)
+    
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "doc.html", ctx)                          
 
