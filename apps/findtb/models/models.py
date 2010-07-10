@@ -9,6 +9,7 @@ from django.db import models, IntegrityError
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import Group, User
 from django.db.models.signals import post_delete, pre_save
+from django.contrib.contenttypes import generic
 
 from django_tracking.models import TrackedItem, State
 
@@ -268,11 +269,13 @@ class Specimen(models.Model):
     def __unicode__(self):
 
         if self.tc_number:
-            return "Specimen of patient %(patient)s, TC#%(tc)s" % \
-                             {'patient':self.patient, 'tc':self.tc_number}
+            return "Specimen of patient %(patient)s, TC#%(tc)s from %(dtu)s" % \
+                             {'patient':self.patient, 'tc':self.tc_number,
+                              'dtu': self.location}
 
-        return "Specimen of patient %(patient)s, tracking tag %(tag)s" % \
-                 {'patient':self.patient, 'tag':self.tracking_tag}
+        return "Specimen of patient %(patient)s, tracking tag %(tag)s from %(dtu)s" % \
+                 {'patient':self.patient, 'tag':self.tracking_tag,
+                  'dtu': self.location}
 
 
     def get_lab_techs(self):
@@ -333,6 +336,12 @@ class Specimen(models.Model):
                 pass
 
         return False
+        
+        
+    @models.permalink
+    def get_absolute_url(self):
+        return ('findtb-sref-tracking', (),  {'id':self.id})
+        
 
 
 class FINDTBGroup(Group):
@@ -476,7 +485,6 @@ class SlidesBatch(models.Model):
     created_by = models.ForeignKey(Reporter, blank=True, null=True)
     comment = models.CharField(max_length=100, blank=True)
     results = models.CharField(max_length=100, blank=True)
-
     objects = SlidesBatchManager()
 
 
@@ -518,6 +526,12 @@ class SlidesBatch(models.Model):
                                            'location': self.location,
                                            'quarter': q,
                                            'year': y}
+                                           
+    @models.permalink
+    def get_absolute_url(self):
+        q, y = self.get_quarter(self.created_on)
+        return ('findtb-eqa-tracking', (),
+                {'id':self.location.id, 'quarter':q, 'year':y})
 
 
 

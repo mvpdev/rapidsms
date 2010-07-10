@@ -56,11 +56,11 @@
     
        <dl id="findtb-contacts">
        
-       {% for role in contacts.iteritems %}
+       {% for role, reporters in contacts.iteritems %}
        
-            <dt>{{ role.0.title }}:</dt>
+            <dt>{{ role.title }}:</dt>
             
-            {% for reporter in role.1 %}
+            {% for reporter in reporters %}
                 <dd>
                     <em>
                     {{ reporter.last_name|upper }}

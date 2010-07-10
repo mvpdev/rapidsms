@@ -16,6 +16,8 @@ from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
+from haystack.views import SearchView
+
 from findtb.libs.utils import send_to_dtu, get_specimen_by_status
 from findtb.models import SpecimenInvalid, SpecimenMustBeReplaced
 from django_tracking.models import State
@@ -302,3 +304,32 @@ def sref_done(request, *args, **kwargs):
     ctx.update(locals())
 
     return render_to_response(request, "sref/sref-done.html", ctx)
+    
+    
+class FindtbSearchView(SearchView):
+    """
+        Wrapper around the Haystack SearchView so it uses sutff that rapidsms
+        wrapped and requires.
+    """
+    
+    def create_response(self):
+        """
+            Use the "render_to_response" wrappper from rapidsms and
+            add spelling suggestion.
+        """
+        (paginator, page) = self.build_page()
+        
+        context = {
+            'query': self.query,
+            'form': self.form,
+            'page': page,
+            'paginator': paginator,
+            'suggestion': self.results.spelling_suggestion()
+        }
+        context.update(self.extra_context())
+        
+        return render_to_response(self.request, 
+                                  self.template, 
+                                  context, 
+                                  context_instance=self.context_class(self.request))
+

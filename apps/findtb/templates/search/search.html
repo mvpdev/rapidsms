@@ -1,0 +1,47 @@
+{% extends "findtb-base.html" %}
+
+{% block page-class %}findtb-search{% endblock %}
+
+{% block findtb-content %}
+
+<div  id="left-column"  class="span-23 last search">  
+
+{% if query %}
+    <h2>Results</h2>
+
+    {% for result in page.object_list %}
+        {% if suggestion %}
+            <p class='suggestion'>Did you mean 
+            <a href="{% url findtb-search %}?q={{ suggestion|iriencode }}" >
+            {{ suggestion }}</a>?</p>
+        {% endif %}
+        <p>
+            <a href="{{ result.object.content_object.get_absolute_url }}">{{ result.object.content_object }}</a>
+        </p>
+    {% empty %}
+        {% if suggestion %}
+        <p>No results found. Did you mean 
+        <a href="{% url findtb-search %}?q={{ suggestion|iriencode }}" >
+        {{ suggestion }}</a>?</p>
+        {% else %}
+        <p>No results found</p>
+        {% endif %}
+    {% endfor %}
+
+    {% if page.has_previous or page.has_next %}
+        <div>
+            {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+            |
+            {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+        </div>
+    {% endif %}
+{% else %}
+    <p>
+        Search for Specimens or EQA slides using DTUs name, 
+        TC number, tracking tags and patients name or number</p>
+{% endif %}
+   
+</div>
+
+
+{% endblock %} 

@@ -45,3 +45,6 @@ settings.py
 *.db
 gitg.sh
 dropbox
+find_tb
+env
+index

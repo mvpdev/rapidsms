@@ -27,16 +27,28 @@
         {% include "_menu.html" %}
     {% endblock %}
     
-    <form id="findtb-search-form" 
-     action="{% url findtb-search %}" 
-     method="get">
-   
-        <p>
-            <input disabled="disabled" id="findtb-search" name="findtb-search" type="text"/>
-            <input disabled="disabled" value="Search" type="submit"/>
-        </p>
     
+    
+    <!-- We use the form var all other the code. To avoid changing it,
+    we just manually check if we are in the search page where there is only
+    one form. In that case we want the form object to have a filled input field -->
+    <form id="findtb-search-form" 
+        {% if not form.search %}
+            action="{% url findtb-search %}" 
+             method="get">
+             <p>
+            <input type="text" name="q" id="id_q" />
+         {% else %}
+             action="." 
+             method="get">
+             <p>
+             {{ form.q }}
+        {% endif %}
+        <input value="Search" type="submit"/>
+     </p>
     </form>
+    
+   
     
     <h1>{% block findtb-title %}{% endblock %}</h1>
 

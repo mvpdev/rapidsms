@@ -61,13 +61,20 @@ border-left: 1px solid black;
 padding-left: 1ex;
 }
 
-/*** SEARCH FIELD ***/
+/*** SEARCH  ***/
 
 #findtb-search-form {
 text-align: right;
 margin-right:30px;
 }
 
+.findtb .search p {
+text-align: center;
+}
+
+.findtb .search .suggestion {
+text-align: left;
+}
 /*** RIGHT COLUMN NAVIGATION ***/
 
 #place-selection{

@@ -12,9 +12,9 @@ urlpatterns = patterns('',
        {'url': '/findtb/sreferral/'}, name='findtb-home'),
 
     # SEARCH
-    url(r'^findtb/search/$', views.search,
-        name='findtb-search',
-        kwargs={'view_name': 'findtb-search'}),
+    url(r'^findtb/search/$', views.FindtbSearchView(),
+        name='findtb-search'),
+
 )
 
 

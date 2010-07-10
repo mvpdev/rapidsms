@@ -2,20 +2,20 @@
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
 # maintainer: dgelvin
 
-from findtb.models.models import Role, Patient, Specimen,\
+from models import Role, Patient, Specimen,\
                                  FINDTBGroup, Configuration,\
                                  FINDTBLocation, SlidesBatch, Slide, Notice
 
-from findtb.models.ftbstate import FtbStateManager, FtbState
+from ftbstate import FtbStateManager, FtbState
 
-from findtb.models.sref_generic_states import Sref, SpecimenInvalid,\
+from sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenRegistered,\
                                               SpecimenSent,\
                                               SpecimenReceived,\
                                               SpecimenMustBeReplaced,\
                                               AllTestsDone
 
-from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
+from eqa_tracking_states import Eqa, EqaStarts, \
                                               CollectedFromDtu, \
                                               DeliveredToFirstController, \
                                               PassedFirstControl, \
@@ -25,10 +25,9 @@ from findtb.models.eqa_tracking_states import Eqa, EqaStarts, \
                                               ReadyToLeaveNtrl,\
                                               ReceivedAtDtu
 
-from findtb.models.sref_result_states import MicroscopyResult,\
+from sref_result_states import MicroscopyResult,\
                                              LpaResult,\
                                              MgitResult, LjResult, SirezResult
 
-#from findtb.models.results import Result
 
 

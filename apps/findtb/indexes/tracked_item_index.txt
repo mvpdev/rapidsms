@@ -1,0 +1,7 @@
+{{ object.content_object }}
+
+{% for state in object.get_history %}
+ - state.content_object.get_long_description
+{% endfor %}
+
+
