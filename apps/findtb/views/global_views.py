@@ -322,12 +322,19 @@ class FindtbSearchView(SearchView):
         """
         (paginator, page) = self.build_page()
         
+        # self.results is a list and not a result object if no match
+        # TODO: report that as a bug to Haystack Devs
+        try:
+            suggestion = self.results.spelling_suggestion()     
+        except AttributeError:
+            suggestion = ''   
+        
         context = {
             'query': self.query,
             'form': self.form,
             'page': page,
             'paginator': paginator,
-            'suggestion': self.results.spelling_suggestion()
+            'suggestion': suggestion
         }
         context.update(self.extra_context())
         

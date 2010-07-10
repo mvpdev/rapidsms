@@ -1,5 +1,15 @@
 {% extends "findtb-base.html" %}
 
+{% block title %}
+
+Search
+
+{% if query %}
+"{{ query }}"
+{% endif %}
+
+{% endblock %}
+
 {% block page-class %}findtb-search{% endblock %}
 
 {% block findtb-content %}
@@ -13,7 +23,7 @@
         {% if suggestion %}
             <p class='suggestion'>Did you mean 
             <a href="{% url findtb-search %}?q={{ suggestion|iriencode }}" >
-            {{ suggestion }}</a>?</p>
+            {{ suggestion }}</a> ?</p>
         {% endif %}
         <p>
             <a href="{{ result.object.content_object.get_absolute_url }}">{{ result.object.content_object }}</a>
@@ -22,7 +32,7 @@
         {% if suggestion %}
         <p>No results found. Did you mean 
         <a href="{% url findtb-search %}?q={{ suggestion|iriencode }}" >
-        {{ suggestion }}</a>?</p>
+        {{ suggestion }}</a> ?</p>
         {% else %}
         <p>No results found</p>
         {% endif %}

@@ -33,7 +33,7 @@
     we just manually check if we are in the search page where there is only
     one form. In that case we want the form object to have a filled input field -->
     <form id="findtb-search-form" 
-        {% if not form.search %}
+        {% if not query %}
             action="{% url findtb-search %}" 
              method="get">
              <p>
