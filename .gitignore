@@ -43,3 +43,8 @@ settings.py
 # dev
 *.sqlite
 *.db
+gitg.sh
+dropbox
+find_tb
+env
+index
