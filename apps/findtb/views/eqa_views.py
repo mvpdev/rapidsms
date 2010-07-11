@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import NoReverseMatch
 from django.http import HttpResponseRedirect
+from django.template.defaultfilters import slugify
 
 from rapidsms.webui.utils import render_to_response
 
@@ -22,7 +23,10 @@ from reporters.models import Reporter
 
 from django_tracking.models import State, TrackedItem
 
-
+# WARNING: the ugly use of quarter decrement/increment is used to add 
+# feature the client ask but was too time consumming to implement quickly
+# it's really giving the illusion that we are currently working with
+# the previous quarter of the year instead of the previous
 
 @login_required
 def eqa_tracking(request, *arg, **kwargs):
@@ -52,11 +56,13 @@ def eqa_tracking(request, *arg, **kwargs):
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
 
         try:
-            return redirect("findtb-eqa-%s" % tracked_item.state.title, id=id, 
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
+            return redirect("findtb-eqa-%s" % tracked_item.state.title, id=id,
+                             dtu=slugify(slides_batch.location), 
                              year=year, quarter=quarter )
+                         
         except NoReverseMatch:
             pass
-        
         
         # getting specimen related event to look at, filtered by type
         events = tracked_item.get_history()
@@ -184,11 +190,11 @@ def collected_from_first_controller(request, *arg, **kwargs):
         
     quarter, year = SlidesBatch.increment_quarter(quarter, year)
 
-
     # TODO: time pagination
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
+        quarter, year = SlidesBatch.decrement_quarter(quarter, year)
         return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
     else:
@@ -196,6 +202,7 @@ def collected_from_first_controller(request, *arg, **kwargs):
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
         
         if tracked_item.state.title != 'collected_from_first_controller':
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
         
@@ -210,6 +217,7 @@ def collected_from_first_controller(request, *arg, **kwargs):
             send_to_dtu_focal_person(slides_batch.location,
                          "EQA slides received by second controller")
             #TODO send notifications to DTU, DTLS, etc...
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
                                  
@@ -283,6 +291,7 @@ def delivered_to_second_controller(request, *arg, **kwargs):
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
+        quarter, year = SlidesBatch.decrement_quarter(quarter, year)
         return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
     else:
@@ -290,6 +299,7 @@ def delivered_to_second_controller(request, *arg, **kwargs):
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
 
         if tracked_item.state.title != 'delivered_to_second_controller':
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
 
@@ -300,7 +310,7 @@ def delivered_to_second_controller(request, *arg, **kwargs):
                                   data=request.POST)
             if form.is_valid():
                 form.save()
-                
+                quarter, year = SlidesBatch.decrement_quarter(quarter, year)
                 return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
         else:
@@ -373,6 +383,7 @@ def results_available(request, *arg, **kwargs):
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
+        quarter, year = SlidesBatch.decrement_quarter(quarter, year)
         return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
     else:
@@ -380,6 +391,7 @@ def results_available(request, *arg, **kwargs):
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
         
         if tracked_item.state.title != 'results_available':
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
         
@@ -395,6 +407,7 @@ def results_available(request, *arg, **kwargs):
             send_to_dtu_focal_person(slides_batch.location,
                          "Your EQA slides and results are finished and are being sent to you. Send RECEIVE when you receive them.")
             
+            quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
                              year=year, quarter=quarter )
                                  
