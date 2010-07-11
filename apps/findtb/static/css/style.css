@@ -356,8 +356,8 @@ text-indent:1em;
 margin:1ex;
 }
 
-.findtb-tracking #findtb-contacts p {
-text-indent:1em;
+.findtb-tracking p#findtb-contacts {
+text-align:center;
 }
 
 .findtb-tracking #findtb-patient-details {
