@@ -39,11 +39,11 @@ from django.contrib.auth.models import Group, Permission
 '''
 
 permissions_list = [
-    ('dtu lab tech',
-        ('add_specimen', 'send_specimen')
-    ),
     ('ntrl lab tech',
-        ('change_specimen', 'receive_specimen')
+        ('change_sref', 'change_role', 'change_eqa',)
+    ),
+    ('second control focal person',
+        ('change_eqa',)
     ),
 ]
 

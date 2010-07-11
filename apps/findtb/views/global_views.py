@@ -16,8 +16,9 @@ from locations.models import Location
 from django.core.urlresolvers import reverse
 from django_tracking.models import TrackedItem
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.conf import settings
+from django.http import HttpResponseRedirect
 
 from haystack.views import SearchView
 
@@ -28,6 +29,14 @@ from findtb.models import Specimen, Role, SlidesBatch
 
 
 @login_required
+def index(request, *arg, **kwargs):
+    if request.user.has_perm('findtb.change_sref'):
+        return HttpResponseRedirect('/findtb/sreferral/')
+    else:
+        return HttpResponseRedirect('/findtb/eqa/')        
+
+@login_required
+@permission_required('findtb.change_eqa')
 def eqa_dashboard(request, *arg, **kwargs):
 
     # get navigation data
@@ -111,6 +120,7 @@ def eqa_dashboard(request, *arg, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_dashboard(request, *arg, **kwargs):
 
     # get navigation data
@@ -165,6 +175,7 @@ def sref_dashboard(request, *arg, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_tracking(request, *args, **kwargs):
 
     specimen = get_object_or_404(Specimen, pk=kwargs.get('id', 0))
@@ -204,6 +215,7 @@ def search(request, *arg, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_invalidate(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -272,6 +284,7 @@ def sref_invalidate(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_done(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)

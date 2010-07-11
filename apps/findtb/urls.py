@@ -8,8 +8,7 @@ from django.views.generic.simple import redirect_to
 urlpatterns = patterns('',
 
     # HOME
-    url(r'findtb/$', redirect_to,
-       {'url': '/findtb/sreferral/'}, name='findtb-home'),
+    url(r'findtb/$', views.index, name='findtb-home'),
 
     # SEARCH
     url(r'^findtb/search/$', views.FindtbSearchView(),

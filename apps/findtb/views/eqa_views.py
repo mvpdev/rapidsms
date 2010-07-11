@@ -5,7 +5,7 @@ from operator import itemgetter
 import re
 
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import NoReverseMatch
 from django.http import HttpResponseRedirect
 
@@ -103,6 +103,7 @@ def eqa_tracking(request, *arg, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_role')
 def controllers(request, *arg, **kwargs):
     first_group = FINDTBGroup.objects.get(name=\
                         FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME)

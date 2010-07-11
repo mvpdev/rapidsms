@@ -2,7 +2,7 @@
 # -*- coding= UTF-8 -*-
 
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 
 # we use rapidsms render_to_response wiwh is a wrapper giving access to
 # some additional data such as rapidsms base templates
@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404, redirect
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_incoming(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -63,6 +64,7 @@ def sref_incoming(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_invalid(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -96,6 +98,7 @@ def sref_invalid(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_received(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -147,6 +150,7 @@ def sref_received(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_microscopy(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -198,6 +202,7 @@ def sref_microscopy(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_lpa(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -244,6 +249,7 @@ def sref_lpa(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_lj(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
@@ -290,6 +296,7 @@ def sref_lj(request, *args, **kwargs):
 
 
 @login_required
+@permission_required('findtb.change_sref')
 def sref_mgit(request, *args, **kwargs):
 
     id = kwargs.get('id', 0)
