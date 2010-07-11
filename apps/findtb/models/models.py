@@ -511,16 +511,53 @@ class SlidesBatch(models.Model):
         """
         date = date or datetime.date.today()
         return (cls.MONTH_QUARTERS[date.month], date.year)
+        
+
+    @classmethod
+    def get_previous_quarter(cls, date=None):
+        """
+        Return the quarter the given date is in. A quarter is a tuple with a number
+        between 1 and 4 and a year.
+        """
+        quarter, year = SlidesBatch.get_quarter(date)
+        return SlidesBatch.decrement_quarter(quarter, year)
+        
+        
+    @classmethod
+    def decrement_quarter(cls, quarter, year):
+        """
+        Given a quarter, gives the quarter right before. Used because we learned
+        afterward that the current quarter for the system is the one before,
+        as EQA tests the previous quarter.
+        """
+        if quarter != 1:
+            return (quarter - 1), year
+            
+        return 4, (year - 1)
+        
+
+    @classmethod
+    def increment_quarter(cls, quarter, year):
+        """
+        Given a quarter, gives the quarter right after. Used because we learned
+        afterward that the current quarter for the system is the one before,
+        as EQA tests the previous quarter.
+        """
+        if quarter != 4:
+            return (quarter + 1), year
+            
+        return 4, (year + 1)
 
 
     @property
     def quarter(self):
-        return SlidesBatch.get_quarter(self.created_on)
+        quarter, year = SlidesBatch.get_quarter(self.created_on)
+        return SlidesBatch.decrement_quarter(quarter, year)
 
 
     def __unicode__(self):
 
-        q, y = self.get_quarter(self.created_on)
+        q, y = self.quarter
         return u"Batch of %(slides)s slides from %(location)s for EQA of "\
                 "Q%(quarter)s %(year)s" % {'slides': self.slide_set.all().count(),
                                            'location': self.location,

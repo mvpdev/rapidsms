@@ -33,9 +33,11 @@ def eqa_tracking(request, *arg, **kwargs):
 
     quarter = int(kwargs.get('quarter', None) or 0)
     if not quarter:
-        quarter, year = SlidesBatch.get_quarter()
+        quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
     else:
         year = int(kwargs['year'])
+        
+    quarter, year = SlidesBatch.increment_quarter(quarter, year)
 
     # TODO: time pagination
 
@@ -44,6 +46,7 @@ def eqa_tracking(request, *arg, **kwargs):
     except SlidesBatch.DoesNotExist:
         events = []
         contacts = []
+        states = []
     else:
 
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
@@ -62,7 +65,7 @@ def eqa_tracking(request, *arg, **kwargs):
         states = State.objects.filter(is_final=False, origin='eqa',
                                       is_current=True).order_by('-created')
 
-    contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
+        contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
 
     # get data for the right navigation pannel
     districts = Location.objects.filter(type__name=u"district")
@@ -175,16 +178,19 @@ def collected_from_first_controller(request, *arg, **kwargs):
 
     quarter = int(kwargs.get('quarter', None) or 0)
     if not quarter:
-        quarter, year = SlidesBatch.get_quarter()
+        quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
     else:
-        year  = int(kwargs['year'])
+        year = int(kwargs['year'])
+        
+    quarter, year = SlidesBatch.increment_quarter(quarter, year)
+
 
     # TODO: time pagination
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
-        events = []
-        contacts = []
+        return redirect("findtb-eqa-tracking", id=id, 
+                             year=year, quarter=quarter )
     else:
 
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
@@ -215,7 +221,7 @@ def collected_from_first_controller(request, *arg, **kwargs):
         states = State.objects.filter(is_final=False, origin='eqa',
                                       is_current=True).order_by('-created')
 
-    contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
+        contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
 
     # get data for the right navigation pannel
     districts = Location.objects.filter(type__name=u"district")
@@ -266,16 +272,19 @@ def delivered_to_second_controller(request, *arg, **kwargs):
 
     quarter = int(kwargs.get('quarter', None) or 0)
     if not quarter:
-        quarter, year = SlidesBatch.get_quarter()
+        quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
     else:
-        year  = int(kwargs['year'])
+        year = int(kwargs['year'])
+        
+    quarter, year = SlidesBatch.increment_quarter(quarter, year)
+
 
     # TODO: time pagination
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
-        events = []
-        contacts = []
+        return redirect("findtb-eqa-tracking", id=id, 
+                             year=year, quarter=quarter )
     else:
 
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
@@ -304,7 +313,7 @@ def delivered_to_second_controller(request, *arg, **kwargs):
         states = State.objects.filter(is_final=False, origin='eqa',
                                       is_current=True).order_by('-created')
 
-    contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
+        contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
 
     # get data for the right navigation pannel
     districts = Location.objects.filter(type__name=u"district")
@@ -353,16 +362,19 @@ def results_available(request, *arg, **kwargs):
 
     quarter = int(kwargs.get('quarter', None) or 0)
     if not quarter:
-        quarter, year = SlidesBatch.get_quarter()
+        quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
     else:
-        year  = int(kwargs['year'])
+        year = int(kwargs['year'])
+        
+    quarter, year = SlidesBatch.increment_quarter(quarter, year)
+
 
     # TODO: time pagination
     try:
         slides_batch = SlidesBatch.objects.get_for_quarter(dtu, quarter, year)
     except SlidesBatch.DoesNotExist:
-        events = []
-        contacts = []
+        return redirect("findtb-eqa-tracking", id=id, 
+                             year=year, quarter=quarter )
     else:
 
         tracked_item, created = TrackedItem.get_tracker_or_create(content_object=slides_batch)        
@@ -394,7 +406,7 @@ def results_available(request, *arg, **kwargs):
         states = State.objects.filter(is_final=False, origin='eqa',
                                       is_current=True).order_by('-created')
 
-    contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
+        contacts = Role.getSlidesBatchRelatedContacts(slides_batch)
 
     # get data for the right navigation pannel
     districts = Location.objects.filter(type__name=u"district")

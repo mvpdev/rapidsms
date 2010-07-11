@@ -45,7 +45,7 @@ def eqa_dashboard(request, *arg, **kwargs):
     request.session['event_type'] = event_type
     events_url = reverse(kwargs['view_name'], args=(event_type,))
 
-    quarter, year = SlidesBatch.get_quarter()
+    quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
 
     # calculating pagination in the 'see more' link
     # Fix: incremental pagination doesn't increment
