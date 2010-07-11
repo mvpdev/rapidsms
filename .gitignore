@@ -48,3 +48,4 @@ dropbox
 find_tb
 env
 index
+whoosh_index
