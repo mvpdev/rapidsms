@@ -43,3 +43,6 @@ settings.py
 
 # dev
 *.sqlite
+
+#reports
+apps/childcount/rpts

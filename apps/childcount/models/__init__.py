@@ -21,3 +21,6 @@ from CHWHealthId import CHWHealthId
 from DeadPerson import DeadPerson
 
 from reports import *
+
+from ImmunizationSchedule import ImmunizationSchedule
+from ImmunizationSchedule import ImmunizationNotification

@@ -18,9 +18,10 @@ from childcount.forms.utils import MultipleChoiceField
 
 class PatientRegistrationForm(CCForm):
     KEYWORDS = {
-        'en': ['new'],
+        'en': ['new', 'new!'],
         'fr': ['new'],
     }
+    OVERIDE_KEYWORDS = ['new!']
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
     MIN_HH_AGE = 10
     MULTIPLE_PATIENTS = False
@@ -200,7 +201,12 @@ class PatientRegistrationForm(CCForm):
                 patient_chw = _(u"you")
             else:
                 patient_chw = patient_check[0].chw
-            raise BadValue(_(u"%(name)s %(sex)s/%(age)s was already " \
+            #override if it is a different CHW and they used the override
+            if self.params[0] in self.OVERIDE_KEYWORDS and \
+                        old_p.chw != self.chw:
+                pass
+            else:
+                raise BadValue(_(u"%(name)s %(sex)s/%(age)s was already " \
                               "registered by %(chw)s. Their health id is " \
                               "%(id)s.") % \
                               {'name': old_p.full_name(), \

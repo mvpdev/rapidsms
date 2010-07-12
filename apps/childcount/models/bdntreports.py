@@ -23,9 +23,9 @@ class BdnethouseHold():
     @property
     def active_sleepingsite(self):
         try:
-            bdnt_issued = BednetReport.objects.get(encounter__patient \
+            bdnt_issued = BedNetReport.objects.get(encounter__patient \
                                      =self.encounter.patient)
-        except BednetReport.DoesNotExist:
+        except BedNetReport.DoesNotExist:
             slipingsite = 0
             activebednet = 0
         else:
@@ -98,19 +98,19 @@ class BdntClinicReport():
              'bit': '{{ object.first_name }} {{ object.last_name }}'})
         columns.append(
             {'name':  _("% Full Bednet coverage".upper()),\
-             'bit': '{{ object.location }}'})
+             'bit': ''})
         columns.append(
             {'name': "% Partial Bednet coverage".upper(), \
-             'bit': '{{ object.num_of_patients }}'})
+             'bit': ''})
         columns.append(
             {'name': "% Partial Bednet coverage".upper(), \
-             'bit': '{{ object.num_of_underfive }}'})
+             'bit': ''})
         columns.append(
             {'name': " Partial/full Bednet coverage".upper(), \
-             'bit': '{{ object.num_of_visits }}'})
+             'bit': ''})
         columns.append(
             {'name': "% Partial/full Bednet coverage".upper(), \
-             'bit': '{{ object.num_of_sam }}'})
+             'bit': ''})
 
 
         sub_columns = None

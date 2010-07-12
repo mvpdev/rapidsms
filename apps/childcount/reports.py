@@ -232,13 +232,22 @@ def chw(request, rformat='html'):
 def operationalreport(request, rformat):
     filename = 'operationalreport.pdf'
     story = []
-
+    fn = os.path.abspath(os.path.join(os.path.dirname(__file__), \
+                    './rpts/%s' % filename))
+    if not os.path.isfile(fn):
+        return HttpResponse("No Report Generated yet")
+    else:
+        f = open(fn, 'r')
+        pdf = f.read()
     response = HttpResponse(mimetype='application/pdf')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-
+    '''
     buffer = StringIO()
-
-    for location in Clinic.objects.all():
+    if Clinic.objects.all().count():
+        locations = Clinic.objects.all()
+    else:
+        locations = Location.objects.all()
+    for location in locations:
         if not TheCHWReport.objects.filter(location=location).count():
             continue
         tb = operationalreportable(location, TheCHWReport.objects.\
@@ -253,7 +262,8 @@ def operationalreport(request, rformat):
 
     # Get the value of the StringIO buffer and write it to the response.
     pdf = buffer.getvalue()
-    buffer.close()
+    buffer.close()'''
+    
     response.write(pdf)
     return response
 

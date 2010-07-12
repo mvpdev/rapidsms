@@ -30,35 +30,6 @@
         <td>{{summary.num_pregnant}}</td>
     </tr>
 </table>
-<style type="text/css">
-.dashboard p.data{
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-}
-.dashboard h2{
-    font-size: 20px;
-}
-
-#ch-l {
-float:left;
-width: 50%
-}
-#ch-r {
-float:right;
-position:relative;
-width: 50%
-}
-
-.system_messages li {
-font-size:11px;
-left:0;
-list-style:none outside none;
-margin:0 0 7px;
-padding:6px 0 6px 38px;
-}
-
-</style>
 <div id='ch-bd'><div id='ch-l'>
     <p>General Options:
     <a href='{% url add_chw %}' class='html'>Create CHW Account</a>
@@ -66,47 +37,61 @@ padding:6px 0 6px 38px;
     </p>
 <div class='block'>
     <div class="block_child">
-<div class="hd">
-<h2>ChildCount Reports</h2>
-</div>
-<div class="bd">
-        <ul>
-            <li>Operational Report <a href='/childcount/operationalreport/pdf' class='pdf'>pdf</a>
-            </li>
-            <li>Patient Register
-                <ul>
-                {% for clinic in clinics %}
-                    <li><a href='/childcount/registerlist/{{ clinic.id }}'>{{ clinic }}</a></li>
-                {% endfor %}
-                </ul>
-            </li>
-            <li>Patient List <a href='/childcount/patients' class='html'>html</a>
-            </li>
-            <li>Under five Patient List <a href='/childcount/patients/underfive/html' class='html'>html</a>
-                | <a href='/childcount/patients/underfive/pdf' class='pdf'>pdf</a>
-            </li>
-            <li>Patient list per community health worker <a href='/childcount/patients_per_chw/pdf' class='pdf'>pdf</a>
-            </li>
-            <li>Under five list per community health worker <a href='/childcount/under_five' class='pdf'>pdf</a>
-            </li>
-        </ul>
-    </div>
+        <div class="hd">
+            <h2>ChildCount Reports</h2>
+        </div>
+        <div class="bd">
+            <ul>
+                <li>Operational Report <a href='/childcount/operationalreport/pdf' class='pdf'>pdf</a>
+                </li>
+                <li>Patient Register
+                    <ul>
+                    {% for clinic in clinics %}
+                        <li><a href='/childcount/registerlist/{{ clinic.id }}'>{{ clinic }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li>Patient List <a href='/childcount/patients' class='html'>html</a>
+                </li>
+                <li>Under five Patient List <a href='/childcount/patients/underfive/html' class='html'>html</a>
+                    | <a href='/childcount/patients/underfive/pdf' class='pdf'>pdf</a>
+                </li>
+                <li>Patient list per community health worker <a href='/childcount/patients_per_chw/pdf' class='pdf'>pdf</a>
+                </li>
+                <li>Under five list per community health worker <a href='/childcount/under_five' class='pdf'>pdf</a>
+                </li>
+            </ul>
+        </div>
 
     </div>
 
     <div class="ft">
-<div class="first"></div>
-<div class="last"></div>
+        <div class="first"></div>
+        <div class="last"></div>
     </div>
 </div>
 </div>
 <div id='ch-r'>
 
-<ul class="system_messages">
-<li >+SAM / MAM {{week_report.num_mam_sam}}</li>
-<li >MALARIA {{week_report.num_rdt}}</li>
-<li >PREGNANCY {{week_report.num_pregnant}}</li>
-</ul>
+<div class='block'>
+    <div class="block_child">
+        <div class="hd">
+            <h2>&nbsp</h2>
+        </div>
+        <div class="bd">
+    <ul class="system_messages">
+    <li><span>{{week_report.num_mam_sam}}</span> +SAM / MAM</li>
+    <li><span>{{week_report.num_rdt}}</span> MALARIA</li>
+    <li><span>{{week_report.num_pregnant}}</span> PREGNANCY</li>
+    </ul></div>
+
+    </div>
+
+    <div class="ft">
+        <div class="first"></div>
+        <div class="last"></div>
+    </div>
+</div>
 
     <div class='block'>
     <div class="block_child">

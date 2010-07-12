@@ -61,7 +61,7 @@ def index(request):
     info.update({"title": title})
     info.update({'risk': nutrition_png(request)})
     info.update(clinic_report(request))
-    clinics = Clinic.objects.all()
+    clinics = Location.objects.all()
     info.update({'sms': sms_png(request)})
     info.update({'clinics': clinics})
     info.update({'atrisk': TheCHWReport.total_at_risk(), \
