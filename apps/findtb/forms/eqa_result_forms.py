@@ -11,9 +11,7 @@ from django.db import IntegrityError
 from django_tracking.models import State, TrackedItem
 
 from findtb.models import ResultsAvailable, Slide
-from findtb.libs.utils import send_to_dtu_focal_person, \
-                              send_to_dtls, send_to_ztls, \
-                              send_to_first_controller
+from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls
 
 from forms import SlidesBatchForm
 
@@ -53,8 +51,7 @@ class EqaResultsForm(forms.Form):
                                            *args, **kwargs)
 
         for form in self.slide_form_set.forms:
-            form.fields['number'].widget.attrs['size'] = 8
- 
+            form.fields['number'].widget.attrs['size'] = 8   
             
     
     def clean(self):    
@@ -83,10 +80,9 @@ class EqaResultsForm(forms.Form):
         Validation is made on the slides batch form and all the slides form.
         """
         
-        # we don't want to report django validation
-        # it will fail on an uncompete form which we want to save
-        #self.slides_batch_form.is_valid()
-        #self.slide_form_set.is_valid()
+        # we don't want do use django validatin
+        self.slides_batch_form.is_valid()
+        self.slide_form_set.is_valid()
         return super(EqaResultsForm, self).is_valid()        
 
 
@@ -99,13 +95,12 @@ class EqaResultsForm(forms.Form):
 
         self.slides_batch_form.save(*args, **kwargs)
         self.slide_form_set.save(*args, **kwargs)
-        
+
         # calculate all results
         if self.is_filled():
         
             result_table = self.result_table()
-            dtu_checks = {}
-            first_ctrl_checks = {}
+            results = {}
             
             for slide in self.slides_batch.slide_set.filter(cancelled=False):
             
@@ -114,32 +109,14 @@ class EqaResultsForm(forms.Form):
                 # If second controller disagree with first, first got 
                 # error reports just like DTU
                 dtu_check = result_table[slide.dtu_results][slide.first_ctrl_results]
+                
                 if dtu_check.lower() != 'correct':
                     dtu_check = result_table[slide.dtu_results][slide.second_ctrl_results]
                     first_ctrl_check = result_table[slide.first_ctrl_results][slide.second_ctrl_results]
                     first_ctrl_checks[first_ctrl_check] = first_ctrl_checks.get(first_ctrl_check, 0) + 1
                     
-                    if first_ctrl_check.startswith('H'):
-                        send_to_first_controller(self.slides_batch.location,
-                        "EQA : major error on slide %(slide)s: "\
-                        "%(result)s. %(recommendation)s" % {
-                        'slide': slide.number, 
-                        'result': first_ctrl_check,
-                        'recommendation': self.RECOMMENDATIONS[first_ctrl_check]
-                        } )
-            
                 dtu_checks[dtu_check] = dtu_checks.get(dtu_check, 0) + 1
                 
-                if dtu_check.startswith('H'):
-                    send_to_dtu_focal_person(self.slides_batch.location,
-                        "EQA results for slide %(slide)s: %(result)s. "\
-                        "%(recommendation)s" % {
-                        'slide': slide.number, 
-                        'result': dtu_check,
-                        'recommendation': self.RECOMMENDATIONS[dtu_check]
-                        } )
-                        
-                    
             res = ', '.join("%s: %s" % (x, y) for x, y in dtu_checks.iteritems())
             self.slides_batch.results = res
             self.slides_batch.save()
@@ -150,21 +127,32 @@ class EqaResultsForm(forms.Form):
             ti.state = state
             ti.save()
             
+            if first_ctrl_check:
+                send_to_first_controller(self.slides_batch.location,
+                        u"NTRL detected errors in your EQA results for DTU "\
+                        u"%(dtu): %(results)s" % { 
+                        'results': ', '.join("%s: %s" % (x, y) for x, y in first_ctrl_checks.iteritems()),
+                        'dtu': self.slides_batch.location })
+            
             send_to_ztls(self.slides_batch.location,
-                        "EQA results for %(dtu)s are: %(results)s" % {
+                        u"EQA results for %(dtu)s are: %(results)s" % {
                         'dtu': self.slides_batch.location, 'results': res
                         } )
                         
             send_to_dtls(self.slides_batch.location,
-                        "EQA results for %(dtu)s are: %(results)s" % {
+                        u"EQA results for %(dtu)s are: %(results)s" % {
                         'dtu': self.slides_batch.location, 'results': res
                         } )
-                        
+
             if self.slides_batch.comment:
                send_to_dtu_focal_person(self.slides_batch.location,
-                            "NTRL commented: %(comment)s."% {
-                            'comment': self.slides_batch.comment, 
-                            } )
+                          u"EQA results for your DTU are: %(results)s. "\
+                          u"%(comment)s."% {
+                          'comment': self.slides_batch.comment, 'results': res})
+            else:
+                send_to_dtu_focal_person(self.slides_batch.location,
+                        u"EQA results for your DTU are: %(results)s" % \
+                        { 'results': res })
             
         
     def is_filled(self):
@@ -229,7 +217,7 @@ class EqaResultsForm(forms.Form):
             _table['3'] = {'negative': 'HFP', 
                             '1': 'QE', '2': 'Correct', '3': 'Correct'}
             _table['3'].update(dict(((afb, 'QE') for afb in afbs)))
-        
+            
         return _table
         
     

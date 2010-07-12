@@ -40,7 +40,7 @@ from django.contrib.auth.models import Group, Permission
 
 permissions_list = [
     ('ntrl lab tech',
-        ('change_sref', 'change_role', 'change_eqa',)
+        ('change_sref', 'change_role', 'change_eqa', 'change_notice')
     ),
     ('second control focal person',
         ('change_eqa',)
