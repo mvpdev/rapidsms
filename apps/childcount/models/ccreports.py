@@ -15,7 +15,8 @@ from childcount.models import BirthReport, PregnancyReport
 from childcount.models import HouseholdVisitReport, FollowUpReport
 
 from childcount.utils import day_end, day_start, get_dates_of_the_week, \
-                                get_median, seven_days_to_date
+                                get_median, seven_days_to_date, \
+                                first_day_of_month, last_day_of_month
 
 from migration.models import MigrateIDs
 
@@ -717,7 +718,7 @@ class SummaryReport():
 
 class Week_Summary_Report():
 
-    '''Last-seven-days-wide Summary Reports'''
+    '''This week Summary Reports'''
     def num_of_patients(self, startDate=None, endDate=None):
         return Patient.objects.filter(created_on__gte=startDate, \
                                       created_on__lte=endDate).count()
@@ -772,6 +773,120 @@ class Week_Summary_Report():
         startDate = endDate - timedelta(endDate.weekday())
 
         return {"week_report": {"num_mam_sam": sr.num_of_muac(\
+                                    startDate=startDate, endDate=endDate), \
+                            "num_rdt": sr.num_of_rdts( \
+                                    startDate=startDate, endDate=endDate), \
+                            "num_pregnant": sr.num_pregnant( \
+                                    startDate=startDate, endDate=endDate)}}
+
+class Month_Summary_Report():
+
+    '''This month Summary Reports'''
+    def num_of_patients(self, startDate=None, endDate=None):
+        return Patient.objects.filter(created_on__gte=startDate, \
+                                      created_on__lte=endDate).count()
+
+    def num_of_underfive(self, startDate=None, endDate=None):
+        sixtym = date.today() - timedelta(int(30.4375 * 59))
+        return Patient.objects.filter(dob__gte=sixtym, \
+                                      created_on__gte=startDate, \
+                                      created_on__lte=endDate).count()
+
+    def num_of_households(self, startDate=None, endDate=None):
+        return Patient.objects\
+                    .filter(health_id=F('household__health_id')).count()
+
+    def num_of_muac(self, startDate=None, endDate=None):
+        num = NutritionReport.objects.filter(\
+                            status=NutritionReport.STATUS_SEVERE_COMP, \
+                            encounter__encounter_date__gte=startDate, \
+                            encounter__encounter_date__lte=endDate).count()
+        num += NutritionReport.objects.filter(\
+                                status=NutritionReport.STATUS_SEVERE, \
+                            encounter__encounter_date__gte=startDate, \
+                            encounter__encounter_date__lte=endDate).count()
+
+        return num
+
+    def num_of_rdts(self, startDate=None, endDate=None):
+        return FeverReport.objects.filter(\
+                                encounter__encounter_date__gte=startDate, \
+                                encounter__encounter_date__lte=endDate).count()
+
+    def num_pregnant(self, startDate=None, endDate=None):
+        c = 0
+        pregs = PregnancyReport.objects.filter(\
+                                encounter__encounter_date__gte=startDate, \
+                                encounter__encounter_date__lte=endDate)\
+                                .values('encounter__patient').distinct()
+        for preg in pregs:
+            patient = Patient.objects.get(id=preg['encounter__patient'])
+            pr = PregnancyReport.objects.filter(encounter__patient=patient)\
+                                        .latest()
+            days = (pr.encounter.encounter_date - datetime.now()).days
+            months = round(days / 30.4375)
+            if pr.pregnancy_month + months < 9:
+                c += 1
+        return c
+
+    @classmethod
+    def summary(cls):
+        sr = cls()
+        endDate = last_day_of_month(datetime.today())
+        startDate = first_day_of_month(datetime.today())
+
+        return {"month_report": {"num_mam_sam": sr.num_of_muac(\
+                                    startDate=startDate, endDate=endDate), \
+                            "num_rdt": sr.num_of_rdts( \
+                                    startDate=startDate, endDate=endDate), \
+                            "num_pregnant": sr.num_pregnant( \
+                                    startDate=startDate, endDate=endDate)}}
+class General_Summary_Report():
+
+    '''This month Summary Reports'''
+    def num_of_patients(self, startDate=None, endDate=None):
+        return Patient.objects.filter().count()
+
+    def num_of_underfive(self, startDate=None, endDate=None):
+        sixtym = date.today() - timedelta(int(30.4375 * 59))
+        return Patient.objects.filter(dob__gte=sixtym).count()
+
+    def num_of_households(self, startDate=None, endDate=None):
+        return Patient.objects\
+                    .filter(health_id=F('household__health_id')).count()
+
+    def num_of_muac(self, startDate=None, endDate=None):
+        num = NutritionReport.objects.filter(\
+                            status=NutritionReport.STATUS_SEVERE_COMP).count()
+        num += NutritionReport.objects.filter(\
+                                status=NutritionReport.STATUS_SEVERE).count()
+
+        return num
+
+    def num_of_rdts(self, startDate=None, endDate=None):
+        return FeverReport.objects.filter().count()
+
+    def num_pregnant(self, startDate=None, endDate=None):
+        c = 0
+        pregs = PregnancyReport.objects.filter()\
+                                .values('encounter__patient').distinct()
+        for preg in pregs:
+            patient = Patient.objects.get(id=preg['encounter__patient'])
+            pr = PregnancyReport.objects.filter(encounter__patient=patient)\
+                                        .latest()
+            days = (pr.encounter.encounter_date - datetime.now()).days
+            months = round(days / 30.4375)
+            if pr.pregnancy_month + months < 9:
+                c += 1
+        return c
+
+    @classmethod
+    def summary(cls):
+        sr = cls()
+        endDate = last_day_of_month(datetime.today())
+        startDate = first_day_of_month(datetime.today())
+
+        return {"general_summary_report": {"num_mam_sam": sr.num_of_muac(\
                                     startDate=startDate, endDate=endDate), \
                             "num_rdt": sr.num_of_rdts( \
                                     startDate=startDate, endDate=endDate), \

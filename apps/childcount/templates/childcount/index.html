@@ -2,11 +2,54 @@
 {% block page_stylesheets %}
 {{ block.super }}
 <link type="text/css" rel="stylesheet" href="/static/childcount/stylesheets/basic.css"/>
+<style >
+/*
+* jQuery UI CSS Framework
+* Copyright (c) 2010 AUTHORS.txt (http://jqueryui.com/about)
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* To view and modify this theme, visit http://jqueryui.com/themeroller/
+*/
 
+
+/* Component containers
+----------------------------------*/
+.ui-widget { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1.1em/*{fsDefault}*/; }
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif/*{ffDefault}*/; font-size: 1em; }
+.ui-widget-content { border: 1px solid #aaaaaa/*{borderColorContent}*/; background: #ffffff/*{bgColorContent}*/ url(images/ui-bg_flat_75_ffffff_40x100.png)/*{bgImgUrlContent}*/ 50%/*{bgContentXPos}*/ 50%/*{bgContentYPos}*/ repeat-x/*{bgContentRepeat}*/; color: #222222/*{fcContent}*/; }
+.ui-widget-content a { color: #222222/*{fcContent}*/; }
+.ui-widget-header { border: 1px solid #aaaaaa/*{borderColorHeader}*/; background: #cccccc/*{bgColorHeader}*/ url(images/ui-bg_highlight-soft_75_cccccc_1x100.png)/*{bgImgUrlHeader}*/ 50%/*{bgHeaderXPos}*/ 50%/*{bgHeaderYPos}*/ repeat-x/*{bgHeaderRepeat}*/; color: #222222/*{fcHeader}*/; font-weight: bold; }
+.ui-widget-header a { color: #222222/*{fcHeader}*/; }
+
+
+
+
+/* Corner radius */
+.ui-corner-tl { -moz-border-radius-topleft: 4px/*{cornerRadius}*/; -webkit-border-top-left-radius: 4px/*{cornerRadius}*/; border-top-left-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-tr { -moz-border-radius-topright: 4px/*{cornerRadius}*/; -webkit-border-top-right-radius: 4px/*{cornerRadius}*/; border-top-right-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-bl { -moz-border-radius-bottomleft: 4px/*{cornerRadius}*/; -webkit-border-bottom-left-radius: 4px/*{cornerRadius}*/; border-bottom-left-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-br { -moz-border-radius-bottomright: 4px/*{cornerRadius}*/; -webkit-border-bottom-right-radius: 4px/*{cornerRadius}*/; border-bottom-right-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-top { -moz-border-radius-topleft: 4px/*{cornerRadius}*/; -webkit-border-top-left-radius: 4px/*{cornerRadius}*/; border-top-left-radius: 4px/*{cornerRadius}*/; -moz-border-radius-topright: 4px/*{cornerRadius}*/; -webkit-border-top-right-radius: 4px/*{cornerRadius}*/; border-top-right-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-bottom { -moz-border-radius-bottomleft: 4px/*{cornerRadius}*/; -webkit-border-bottom-left-radius: 4px/*{cornerRadius}*/; border-bottom-left-radius: 4px/*{cornerRadius}*/; -moz-border-radius-bottomright: 4px/*{cornerRadius}*/; -webkit-border-bottom-right-radius: 4px/*{cornerRadius}*/; border-bottom-right-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-right {  -moz-border-radius-topright: 4px/*{cornerRadius}*/; -webkit-border-top-right-radius: 4px/*{cornerRadius}*/; border-top-right-radius: 4px/*{cornerRadius}*/; -moz-border-radius-bottomright: 4px/*{cornerRadius}*/; -webkit-border-bottom-right-radius: 4px/*{cornerRadius}*/; border-bottom-right-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-left { -moz-border-radius-topleft: 4px/*{cornerRadius}*/; -webkit-border-top-left-radius: 4px/*{cornerRadius}*/; border-top-left-radius: 4px/*{cornerRadius}*/; -moz-border-radius-bottomleft: 4px/*{cornerRadius}*/; -webkit-border-bottom-left-radius: 4px/*{cornerRadius}*/; border-bottom-left-radius: 4px/*{cornerRadius}*/; }
+.ui-corner-all { -moz-border-radius: 4px/*{cornerRadius}*/; -webkit-border-radius: 4px/*{cornerRadius}*/; border-radius: 4px/*{cornerRadius}*/; }
+
+
+
+</style>
 {% endblock page_stylesheets %}
 
-{% block javascripts %}
 
+{% block javascripts %}
+<script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.core.js"></script>
+<script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.widget.js"></script>
+<script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.accordion.js"></script>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$("#accordion").accordion();
+	});
+</script>
 {% endblock javascripts %}
 
 {% block page_tabs %}
@@ -79,11 +122,33 @@
             <h2>&nbsp</h2>
         </div>
         <div class="bd">
+    
+    <div id="accordion">
+    
+    <h2>This Week </h2>
     <ul class="system_messages">
     <li><span>{{week_report.num_mam_sam}}</span> +SAM / MAM</li>
     <li><span>{{week_report.num_rdt}}</span> MALARIA</li>
     <li><span>{{week_report.num_pregnant}}</span> PREGNANCY</li>
-    </ul></div>
+    
+    
+    </ul>
+    
+     <h2>This Month </h2>      
+     <ul class="system_messages">
+     <li ><span>{{month_report.num_mam_sam}}</span> +SAM / MAM</li>
+     <li ><span>{{month_report.num_rdt}}</span> MALARIA</li>
+     <li ><span>{{month_report.num_pregnant}}</span> PREGNANCY</li>
+     </ul>
+     
+     <h2>General </h2>
+     <ul class="system_messages">
+     <li ><span>{{general_summary_report.num_mam_sam}}</span> +SAM / MAM</li>
+     <li ><span>{{general_summary_report.num_rdt}}</span> MALARIA</li>
+     <li ><span>{{general_summary_report.num_pregnant}}</span> PREGNANCY</li>
+     </ul>
+   </div>
+    </div>
 
     </div>
 

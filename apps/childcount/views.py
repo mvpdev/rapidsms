@@ -8,7 +8,6 @@ from datetime import date, timedelta, datetime
 
 import re
 
-
 from rapidsms.webui.utils import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -24,8 +23,10 @@ from locations.models import Location
 
 from childcount.models import Patient, CHW, Configuration, Clinic
 from childcount.models.ccreports import TheCHWReport, ClinicReport
+from childcount.models.ccreports import Month_Summary_Report
+from childcount.models.ccreports import General_Summary_Report
 from childcount.models.ccreports import SummaryReport, Week_Summary_Report
-from childcount.models.bdntreports import BdnethouseHold
+from childcount.models.bdntreports import BednetHousehold
 from childcount.utils import clean_names
 
 form_config = Configuration.objects.get(key='dataentry_forms').value
@@ -73,6 +74,13 @@ def index(request):
     #This Week Summary Report
     wsr = Week_Summary_Report.summary()
     info.update(wsr)
+    #This month summary report
+    msr = Month_Summary_Report.summary()
+    info.update(msr)
+    #General Summary report -  all
+    gsr = General_Summary_Report.summary()
+    info.update(gsr)
+    
 
     return render_to_response(request, template_name, info)
 
@@ -231,13 +239,14 @@ def chw(request):
 
 def patient(request):
     '''Patients page '''
+    MAX_PAGE_PER_PAGE = 30
+    DEFAULT_PAGE = 1
     report_title = Patient._meta.verbose_name
     rows = []
-    MAX_PAGE_PER_PAGE = 100
-    DEFAULT_PAGE = 1
+
     columns, sub_columns = Patient.table_columns()
 
-    getpages = Paginator(Patient.objects.all(), 100)
+    getpages = Paginator(Patient.objects.all(), MAX_PAGE_PER_PAGE)
     
     try:
         page = int(request.GET.get('page', DEFAULT_PAGE))
@@ -248,6 +257,7 @@ def patient(request):
         reports = getpages.page(page)
     except (EmptyPage, InvalidPage):
         reports = getpages.page(getpages.num_pages)
+
 
     for report in reports.object_list:
         row = {}
@@ -275,7 +285,8 @@ def patient(request):
     context_dict = {'get_vars': request.META['QUERY_STRING'],
                     'columns': columns, 'sub_columns': sub_columns,
                     'rows': rows, 'report_title': report_title,
-                    'reports': reports, 'aocolumns_js': aocolumns_js}
+                    'aocolumns_js': aocolumns_js}
+    context_dict.update(pagenator(getpages, reports))
 
     return render_to_response(\
                 request, 'childcount/patient.html', context_dict)
@@ -322,9 +333,9 @@ def bednet_summary(request):
     '''House Patients page '''
     report_title = Patient._meta.verbose_name
     rows = []
-    columns, sub_columns = BdnethouseHold.summary()
+    columns, sub_columns = BednetHousehold.summary()
 
-    reports = BdnethouseHold.return_household()
+    reports = BednetHousehold.return_household()
     i = 0
     for report in reports:
         i += 1
@@ -334,6 +345,10 @@ def bednet_summary(request):
                         Template(col['bit']).render(Context({'object': \
                             report}))} for col in columns]
 
+        if i == 100:
+            row['complete'] = True
+            rows.append(row)
+            break
         rows.append(row)
 
     aocolumns_js = "{ \"sType\": \"html\" },"
@@ -392,3 +407,59 @@ def clinic_report(request):
                     'aggregate': aggregate, 'aocolumns_js': aocolumns_js}
 
     return context_dict
+
+
+def pagenator(getpages, reports):
+    LEADING_PAGE_RANGE_DISPLAYED = TRAILING_PAGE_RANGE_DISPLAYED = 10
+    LEADING_PAGE_RANGE = TRAILING_PAGE_RANGE = 8
+    NUM_PAGES_OUTSIDE_RANGE = 2
+    ADJACENT_PAGES = 4
+
+    if(getpages.num_pages > 1):
+        " Initialize variables "
+        in_leading_range = in_trailing_range = False
+        pages_outside_leading_range = pages_outside_trailing_range = range(0)
+
+
+        if (getpages.num_pages <= LEADING_PAGE_RANGE_DISPLAYED):
+            in_leading_range = in_trailing_range = True
+            page_numbers = [n for n in range(1,\
+                  getpages.num_pages + 1) if n > 0 and n <= getpages.num_pages]
+        elif (reports.number <= LEADING_PAGE_RANGE):
+            in_leading_range = True
+            page_numbers = [n for n in range(1,\
+                         LEADING_PAGE_RANGE_DISPLAYED + 1) \
+                         if n > 0 and n <= getpages.num_pages]
+            pages_outside_leading_range = [n + getpages.num_pages\
+                         for n in range(0, -NUM_PAGES_OUTSIDE_RANGE, -1)]
+        elif (reports.number > getpages.num_pages - TRAILING_PAGE_RANGE):
+            in_trailing_range = True
+            page_numbers = [n for n in range(\
+            getpages.num_pages - TRAILING_PAGE_RANGE_DISPLAYED + 1, \
+            getpages.num_pages + 1) if n > 0 and n <= getpages.num_pages]
+            pages_outside_trailing_range = [n + 1 for n in range(0, \
+                                    NUM_PAGES_OUTSIDE_RANGE)]
+        else:
+            page_numbers = [n for n in range(\
+                    getpages.num_pages - ADJACENT_PAGES, \
+                    getpages.num_pages + ADJACENT_PAGES + 1) \
+                    if n > 0 and n <= getpages.num_pages]
+            pages_outside_leading_range = [n + getpages.num_pages \
+                            for n in range(0, -NUM_PAGES_OUTSIDE_RANGE, -1)]
+            pages_outside_trailing_range = [n + 1 for n in range(0, \
+                            NUM_PAGES_OUTSIDE_RANGE)]
+
+        return {
+            "is_paginated": getpages.num_pages > 1,
+            "previous": reports.previous_page_number(),
+            "has_previous": reports.has_previous(),
+            "next": reports.next_page_number(),
+            "has_next":  reports.has_next(),
+            "page": reports.number,
+            "pages": getpages.num_pages,
+            "page_numbers": page_numbers,
+            "last_page": getpages.num_pages,
+            "in_leading_range": in_leading_range,
+            "in_trailing_range": in_trailing_range,
+            "pages_outside_leading_range": pages_outside_leading_range,
+            "pages_outside_trailing_range": pages_outside_trailing_range}

@@ -15,21 +15,29 @@ from childcount.models import BedNetReport, BednetUtilization, \
 from logger.models import IncomingMessage
 
 
-class BdnethouseHold():
+class BednetHousehold(Patient):
 
     class Meta:
         verbose_name = _("Household Report")
+        proxy = True
 
     @property
     def active_sleepingsite(self):
         try:
-            bdnt_issued = BedNetReport.objects.get(encounter__patient \
+            sleeping_site = BedNetReport.objects.get(encounter__patient \
                                      =self.encounter.patient)
         except BedNetReport.DoesNotExist:
-            slipingsite = 0
-            activebednet = 0
-        else:
-            return bdnt_issued
+            sleeping_site = 0
+        return sleeping_site
+
+    @property
+    def functioning_bednet(self):
+        try:
+            functioning_bednet = BedNetReport.objects.get(encounter__patient \
+                                     =self.encounter.patient).nets
+        except BedNetReport.DoesNotExist:
+            functioning_bednet = 0
+        return 2
 
     @classmethod
     def return_household(cls):
@@ -53,13 +61,13 @@ class BdnethouseHold():
             'bit': '{{object.last_name}} {{object.first_name}}'})
         columns.append(
             {'name': "No. Sleeping site".upper(), \
-             'bit': ''})
+             'bit': '{{active_sleepingsite.sleeping_sites}}'})
         columns.append(
-            {'name': "Bednet Received".upper(), \
-             'bit': '{{bdnt_issued.sleeping_sites}}'})
+            {'name': "Functioning Bednet".upper(), \
+             'bit': '{{object.functioning_bednet}}'})
         columns.append(
             {'name': "Bed Net needed".upper(), \
-             'bit': ''})
+             'bit': '2'})
         columns.append(
             {'name': "ChW".upper(), \
              'bit': '{{object.chw}}'})
@@ -73,7 +81,6 @@ class BdntClinicReport():
 
     class Meta:
         verbose_name = _("Community Health Worker Report")
-        proxy = True
 
     @classmethod
     def summary(cls):

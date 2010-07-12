@@ -594,6 +594,13 @@ def day_end(date):
     t = date.time().replace(hour=23, minute=59)
     return datetime.combine(date.date(), t)
 
+def last_day_of_month(date):
+    if date.month == 12:
+        return date.replace(day=31)
+    return date.replace(month=date.month+1, day=1) - timedelta(days=1)
+
+def first_day_of_month(date):
+    return date.replace(day=1)
 
 def get_median(listOfNumericValues):
     ''' get the median of a list of numeric values '''
