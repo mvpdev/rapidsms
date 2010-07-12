@@ -1,1 +1,0 @@
-[{"pk": 1, "model": "findtb.configuration", "fields": {"value": "open", "description": "Registration- set to 'open' to allow registration through SMS, set to 'closed' to prevent it", "key": "registration"}}]
