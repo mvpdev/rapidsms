@@ -405,7 +405,6 @@ class MigrateIDs(models.Model):
         return u"%s: %s" % (self.health_id, self.oldid)
 
 
-
 class Case(models.Model):
 
     '''Holds the patient details, properties and methods related to it'''
@@ -530,6 +529,12 @@ class MigrationLog(models.Model):
     case = models.ForeignKey(Case, db_index=True)
     success = models.BooleanField(default=False)
     type = models.CharField(max_length=255, db_index=True)
+
+
+class MuacProgress(models.Model):
+    class Meta:
+        app_label = 'migration'
+    page = models.PositiveIntegerField(_("Page"))
 
 
 def migrate_chw(reporter, autoalias=True):
@@ -701,7 +706,6 @@ def migrate_muac(muac):
     '''migrate nutrition reports
     muac - a ReportMalnutrition report
     '''
-    print muac
     try:
         mchw = MigrateCHW.objects.get(oldid=muac.reporter.id)
         chw = mchw.newid
@@ -789,23 +793,22 @@ def migrate_mrdt(mrdt):
     '''Migrate malaria reports
     mrdt - a ReportMalaria object
     '''
-    print mrdt
     try:
-        mchw = MigrateCHW.objects.get(oldid=muac.reporter.id)
+        mchw = MigrateCHW.objects.get(oldid=mrdt.reporter.id)
         chw = mchw.newid
     except CHW.DoesNotExist:
         print "Reporter %(reporter)s does not exist" % {'reporter': \
-                    muac.reporter}
+                    mrdt.reporter}
         return
     try:
-        mid = MigrateIDs.objects.get(oldid=muac.case.ref_id)
+        mid = MigrateIDs.objects.get(oldid=mrdt.case.ref_id)
     except MigrateIDs.DoesNotExist:
-        print "Case %(case)s's muac couldn't be migrated." % {'case': muac.case}
+        print "Case %(case)s's mrdt couldn't be migrated." % {'case': mrdt.case}
         return
     try:
         patient = Patient.objects.get(health_id=mid.health_id)
     except Patient.DoesNotExist:
-        print "Case %(case)s's muac couldn't be found." % {'case': muac.case}
+        print "Case %(case)s's mrdt couldn't be found." % {'case': mrdt.case}
         return
     encounter = get_encounter(mrdt.entered_at, Encounter.TYPE_PATIENT, chw, \
                                 patient)
