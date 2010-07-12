@@ -64,6 +64,10 @@ def send_to_dtls(location, msg):
     district = FINDTBLocation.objects.get(pk=location.pk).get_district()
     send_to_group_at_location(FINDTBGroup.DISTRICT_TB_SUPERVISOR_GROUP_NAME, \
                               district, msg)
+                              
+def send_to_first_controller(dtu, msg):
+    send_to_group_at_location(FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME, \
+                              dtu, msg)
 
 def dtls_is_lab_tech_at(location):
     find_location = FINDTBLocation.objects.get(pk=location.pk)
