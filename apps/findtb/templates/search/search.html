@@ -20,11 +20,6 @@ Search
     <h2>Results</h2>
 
     {% for result in page.object_list %}
-        {% if suggestion %}
-            <p class='suggestion'>Did you mean 
-            <a href="{% url findtb-search %}?q={{ suggestion|iriencode }}" >
-            {{ suggestion }}</a> ?</p>
-        {% endif %}
         <p>
             <a href="{{ result.object.content_object.get_absolute_url }}">{{ result.object.content_object }}</a>
         </p>
