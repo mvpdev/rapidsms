@@ -11,7 +11,9 @@ from django.db import IntegrityError
 from django_tracking.models import State, TrackedItem
 
 from findtb.models import ResultsAvailable, Slide
-from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls
+from findtb.libs.utils import send_to_dtu_focal_person, \
+                              send_to_dtls, send_to_ztls, \
+                              send_to_first_controller
 
 from forms import SlidesBatchForm
 
@@ -80,9 +82,10 @@ class EqaResultsForm(forms.Form):
         Validation is made on the slides batch form and all the slides form.
         """
         
-        # we don't want do use django validatin
-        self.slides_batch_form.is_valid()
-        self.slide_form_set.is_valid()
+        # we don't want to report django validation
+        # it will fail on an uncomlete form which we want to save
+        #self.slides_batch_form.is_valid()
+        #self.slide_form_set.is_valid()
         return super(EqaResultsForm, self).is_valid()        
 
 
@@ -100,7 +103,6 @@ class EqaResultsForm(forms.Form):
         if self.is_filled():
         
             result_table = self.result_table()
-            results = {}
             dtu_checks = {}
             first_ctrl_checks = {}
             
@@ -129,15 +131,12 @@ class EqaResultsForm(forms.Form):
             ti.state = state
             ti.save()
             
-            '''
-            # Commented out, not working.
             if first_ctrl_check:
                 send_to_first_controller(self.slides_batch.location,
                         u"NTRL detected errors in your EQA results for DTU "\
                         u"%(dtu): %(results)s" % { 
                         'results': ', '.join("%s: %s" % (x, y) for x, y in first_ctrl_checks.iteritems()),
                         'dtu': self.slides_batch.location })
-            '''
             
             send_to_ztls(self.slides_batch.location,
                         u"EQA results for %(dtu)s are: %(results)s" % {

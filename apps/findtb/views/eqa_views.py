@@ -7,7 +7,6 @@ import re
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import NoReverseMatch
-from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
 
 from rapidsms.webui.utils import render_to_response
@@ -143,12 +142,8 @@ def controllers(request, *arg, **kwargs):
                             Role(location=loc, group=group, \
                                  reporter=rep).save()
                             changed = True
-
-        if changed:
-            request.user.message_set.create(message=\
-                                        "Controllers successfully updated")
-
-        return HttpResponseRedirect('/findtb/eqa/dashboard')
+                            
+        return redirect("findtb-eqa-controllers")
 
     dtus = []
     for loc in FINDTBLocation.objects.filter(type__name='dtu'):

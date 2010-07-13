@@ -39,3 +39,4 @@ class BadValue(SMSException):
     def __init__(self, sms="Sorry, your message contains invalid " \
                            "information. Please check and try again "):
         self._sms = sms
+
