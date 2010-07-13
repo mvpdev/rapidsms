@@ -104,7 +104,7 @@ def collect(params, reporter, message):
     
         format_error = u"Collection failed: you must send: "\
                        u"'COLLECT DTU DTUCode NumberOfSlides' or "\
-                       u"'COLLECT first DTUCode1' or 'COLLECT first all'"
+                       u"'COLLECT first DTUCode1'"
 
         if not params:
             raise ParseError(format_error)
@@ -307,6 +307,9 @@ def collect(params, reporter, message):
             send_msg(first_control_focal_person,
                      u"DTLS has reported picking up slides from %(codes)s "\
                      u"from you." % {'codes': codes })
+
+        else:
+            raise BadValue(format_error)
 
 
     else:
