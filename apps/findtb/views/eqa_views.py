@@ -214,8 +214,6 @@ def collected_from_first_controller(request, *arg, **kwargs):
             send_to_dtls(slides_batch.location,
                          "EQA slides from %s received by second controller" % slides_batch.location)
             
-            send_to_dtu_focal_person(slides_batch.location,
-                         "EQA slides received by second controller")
             #TODO send notifications to DTU, DTLS, etc...
             quarter, year = SlidesBatch.decrement_quarter(quarter, year)
             return redirect("findtb-eqa-tracking", id=id, 
