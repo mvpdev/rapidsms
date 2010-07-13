@@ -101,6 +101,8 @@ class EqaResultsForm(forms.Form):
         
             result_table = self.result_table()
             results = {}
+            dtu_checks = {}
+            first_ctrl_checks = {}
             
             for slide in self.slides_batch.slide_set.filter(cancelled=False):
             
@@ -127,12 +129,15 @@ class EqaResultsForm(forms.Form):
             ti.state = state
             ti.save()
             
+            '''
+            # Commented out, not working.
             if first_ctrl_check:
                 send_to_first_controller(self.slides_batch.location,
                         u"NTRL detected errors in your EQA results for DTU "\
                         u"%(dtu): %(results)s" % { 
                         'results': ', '.join("%s: %s" % (x, y) for x, y in first_ctrl_checks.iteritems()),
                         'dtu': self.slides_batch.location })
+            '''
             
             send_to_ztls(self.slides_batch.location,
                         u"EQA results for %(dtu)s are: %(results)s" % {
