@@ -120,9 +120,9 @@ def collect(params, reporter, message):
             if l < 2:
                 raise ParseError(format_error)
             elif l == 2:
-                regex = r'(?P<prefix>[0-9\-,./]+[a-z]{0,2})\s+(?P<number>\d+)'
+                regex = r'(?P<prefix>[0-9\-,./n]+)\s+(?P<number>\d+)'
             else:
-                regex = r'(?P<prefix>\d+[a-z]{0,2})[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
+                regex = r'(?P<prefix>\d+n?)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
 
             match = re.match(regex, text)
             if not match:
