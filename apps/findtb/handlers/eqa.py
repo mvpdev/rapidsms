@@ -120,9 +120,9 @@ def collect(params, reporter, message):
             if l < 2:
                 raise ParseError(format_error)
             elif l == 2:
-                regex = r'(?P<prefix>[0-9\-,./]+)\s+(?P<number>\d+)'
+                regex = r'(?P<prefix>\d+n?(?:[\-,./]+\d+)?)\s+(?P<number>\d+)'
             else:
-                regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
+                regex = r'(?P<prefix>\d+n?)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
 
             match = re.match(regex, text)
             if not match:
@@ -220,8 +220,8 @@ def collect(params, reporter, message):
             # syntax check for the sms
             text = ' '.join(params)
             regex = r'''
-                      ^(\d+(?:[\-,./]+\d+)*)           # first dtu code
-                      (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                      ^(\d+n?(?:[\-,./]+\d+)*)           # first dtu code
+                       (?:$|(?:\s+(\d+n?[\-,./]+\d+))*)$  # following dtu codes if any
                      '''
 
             # check syntax
@@ -229,7 +229,7 @@ def collect(params, reporter, message):
                 raise ParseError(format_error)
 
             # extract codes
-            codes = re.findall(r'\D*(\d+(?:[\-,./]+\d+)*)\D*', text)
+            codes = re.findall(r'\D*(\d+n?(?:[\-,./]+\d+)*)\D*', text)
    
             # check if codes are dtus codes
             dtus = []
@@ -333,8 +333,8 @@ def receive(params, reporter, message):
         text = ' '.join(params)
         regex = r'''
                  (?:
-                  ^(\d+[\-,./]+\d+)                # first dtu code
-                  (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                  ^(\d+n?[\-,./]+\d+)                # first dtu code
+                  (?:$|(?:\s+(\d+n?[\-,./]+\d+))*)$  # following dtu codes if any
                  ) | all                           # or 'all' keyword
                  '''
 
@@ -343,7 +343,7 @@ def receive(params, reporter, message):
             raise ParseError(format_error)
 
         # extract codes
-        codes = re.findall(r'\D*(\d+[\-,./]+\d+|all)\D*', text)
+        codes = re.findall(r'\D*(\d+n?[\-,./]+\d+|all)\D*', text)
 
         # if 'all', receive every collected slides
         if codes[0] == 'all':
@@ -505,8 +505,8 @@ def ready(params, reporter, message):
         text = ' '.join(params)
         regex = r'''
                  (?:
-                  ^(\d+[\-,./]+\d+)                # first dtu code
-                  (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                  ^(\d+n?[\-,./]+\d+)                # first dtu code
+                  (?:$|(?:\s+(\d+n?[\-,./]+\d+))*)$  # following dtu codes if any
                  ) | all                           # or 'all' keyword
                  '''
 
@@ -515,7 +515,7 @@ def ready(params, reporter, message):
             raise ParseError(format_error)
 
         # extract codes
-        codes = re.findall(r'\D*(\d+[\-,./]+\d+|all)\D*', text)
+        codes = re.findall(r'\D*(\d+n?[\-,./]+\d+|all)\D*', text)
 
         # if 'all', receive every collected slides
         if codes[0] == 'all':

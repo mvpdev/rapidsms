@@ -7,13 +7,12 @@ from django import forms
 from django.forms.models import modelformset_factory
 from django.forms import ValidationError
 from django.db import IntegrityError
+from django.db.models import Q
 
 from django_tracking.models import State, TrackedItem
 
 from findtb.models import ResultsAvailable, Slide
-from findtb.libs.utils import send_to_dtu_focal_person, \
-                              send_to_dtls, send_to_ztls, \
-                              send_to_first_controller
+from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls
 
 from forms import SlidesBatchForm
 
@@ -67,12 +66,13 @@ class EqaResultsForm(forms.Form):
             if 'number' in name and value:
                 
                 if value in existing_numbers:
-                    raise ValidationError("The number '%s' is used twice" % value)
+                    raise ValidationError("The number '%s' is used twice in this form" % value)
                 
-                if not self.slides_batch.slide_set.filter(number=value).count() \
-                   and Slide.objects.filter(number=value).count():
+                if Slide.objects.filter(number=value, 
+                                        batch__location=slides_batch.location)\
+                        .exclude(Q(batch=slides_batch)) .count():
                     
-                    raise ValidationError("The number '%s' is already used by another slide" % value)
+                    raise ValidationError("The number '%s' is already used by another slide in this DTU" % value)
                  
                 existing_numbers.add(value)    
                 
@@ -82,10 +82,9 @@ class EqaResultsForm(forms.Form):
         Validation is made on the slides batch form and all the slides form.
         """
         
-        # we don't want to report django validation
-        # it will fail on an uncomlete form which we want to save
-        #self.slides_batch_form.is_valid()
-        #self.slide_form_set.is_valid()
+        # we don't want do use django validatin
+        self.slides_batch_form.is_valid()
+        self.slide_form_set.is_valid()
         return super(EqaResultsForm, self).is_valid()        
 
 
@@ -103,6 +102,7 @@ class EqaResultsForm(forms.Form):
         if self.is_filled():
         
             result_table = self.result_table()
+            results = {}
             dtu_checks = {}
             first_ctrl_checks = {}
             
@@ -131,12 +131,15 @@ class EqaResultsForm(forms.Form):
             ti.state = state
             ti.save()
             
+            '''
+            # Commented out, not working.
             if first_ctrl_check:
                 send_to_first_controller(self.slides_batch.location,
                         u"NTRL detected errors in your EQA results for DTU "\
                         u"%(dtu): %(results)s" % { 
                         'results': ', '.join("%s: %s" % (x, y) for x, y in first_ctrl_checks.iteritems()),
                         'dtu': self.slides_batch.location })
+            '''
             
             send_to_ztls(self.slides_batch.location,
                         u"EQA results for %(dtu)s are: %(results)s" % {
