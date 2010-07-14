@@ -122,7 +122,7 @@ def collect(params, reporter, message):
             elif l == 2:
                 regex = r'(?P<prefix>[0-9\-,./]+)\s+(?P<number>\d+)'
             else:
-                regex = r'(?P<prefix>\d+)[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
+                regex = r'(?P<prefix>\d+[a-z]{0,2})[ \-,./]+(?P<suffix>\d+)\s+(?P<number>\d+)'
 
             match = re.match(regex, text)
             if not match:
@@ -220,8 +220,8 @@ def collect(params, reporter, message):
             # syntax check for the sms
             text = ' '.join(params)
             regex = r'''
-                      ^(\d+(?:[\-,./]+\d+)*)           # first dtu code
-                      (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                      ^(\d+[a-z]{0,2}(?:[\-,./]+\d+)*)           # first dtu code
+                      (?:$|(?:\s+(\d+[a-z]{0,2}[\-,./]+\d+))*)$  # following dtu codes if any
                      '''
 
             # check syntax
@@ -229,7 +229,7 @@ def collect(params, reporter, message):
                 raise ParseError(format_error)
 
             # extract codes
-            codes = re.findall(r'\D*(\d+(?:[\-,./]+\d+)*)\D*', text)
+            codes = re.findall(r'\D*(\d+[a-z]{0,2}(?:[\-,./]+\d+)*)\D*', text)
    
             # check if codes are dtus codes
             dtus = []
@@ -333,8 +333,8 @@ def receive(params, reporter, message):
         text = ' '.join(params)
         regex = r'''
                  (?:
-                  ^(\d+[\-,./]+\d+)                # first dtu code
-                  (?:$|(?:\s+(\d+[\-,./]+\d+))*)$  # following dtu codes if any
+                  ^(\d+[a-z]{0,2}[\-,./]+\d+)                # first dtu code
+                  (?:$|(?:\s+(\d+[a-z]{0,2}[\-,./]+\d+))*)$  # following dtu codes if any
                  ) | all                           # or 'all' keyword
                  '''
 
@@ -343,7 +343,7 @@ def receive(params, reporter, message):
             raise ParseError(format_error)
 
         # extract codes
-        codes = re.findall(r'\D*(\d+[\-,./]+\d+|all)\D*', text)
+        codes = re.findall(r'\D*(\d+[a-z]{0,2}[\-,./]+\d+|all)\D*', text)
 
         # if 'all', receive every collected slides
         if codes[0] == 'all':
