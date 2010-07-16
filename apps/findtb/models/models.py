@@ -590,7 +590,7 @@ class Slide(models.Model):
 
     batch = models.ForeignKey(SlidesBatch)
     number = models.CharField(max_length=20, blank=True, null=True,
-                              db_index=True, unique=True)
+                              db_index=True)
 
     dtu_results = models.CharField(max_length=10, blank=True,
                                    choices=RESULTS_CHOICES)

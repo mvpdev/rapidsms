@@ -540,27 +540,31 @@ $(document).ready(function() {
                   'negative': 'Correct'}}
 
 
-    /* check if dtu and first ctrl result match, and disable second ctrl if so */
+    /* check if dtu and first ctrl result match, and hide second ctrl if so */
     function update_result_match(event) {
 
+        console.log("update_result_match")
         $("tr").slice(start=1).each(
         
           function() {
           
               $this = $(this);
-              if ( ! $this.find('input[type=checkbox]').attr('checked')) {
-                   dtu_result = $this.find('select').eq(0).val();
-                   first_ctrl_result = $this.find('select').eq(1).val();
-                   var field = $this.find('select').eq(2);
-                   if (results_table[dtu_result] && results_table[dtu_result][first_ctrl_result] == 'Correct')
-                   {
-                        field.val($('option:first', field).val());
-                        field.attr('disabled', 'disabled' );
-                   }
-                   else {
-                        field.removeAttr('disabled', 'disabled' );
-                   }
-              }
+               
+               dtu_result = $this.find('select').eq(0).val();
+               first_ctrl_result = $this.find('select').eq(1).val();
+               var field = $this.find('select').eq(2);
+               
+               if (!results_table[dtu_result] || results_table[dtu_result][first_ctrl_result] == 'Correct')
+               {
+                    console.log("hidding")
+                    field.css('visibility', 'hidden' );
+               }
+               else 
+               {
+                    console.log("showing")
+                    field.css('visibility', 'visible' );
+               }
+               
           }
         );
     }
@@ -572,15 +576,13 @@ $(document).ready(function() {
               function() {
 
                   $this = $(this);
-                  $this.parent('td').siblings('td').children().attr('disabled', 'disabled' );
+                  $this.parent('td').siblings('td').children()
+                       .attr('disabled', 'disabled' );
               }
             );
     }
 
 
-   update_result_match()
-   update_cancelled_item_disabling()
-    
     
    var cancel_checkbox_handler = function(event) {
         
@@ -588,15 +590,15 @@ $(document).ready(function() {
           function() {
 
               $this = $(this);
-              $this.parent('td').siblings('td').children().removeAttr('disabled', 'disabled' );
+              $this.parent('td').siblings('td').children()
+                   .removeAttr('disabled', 'disabled' )
+                   .css('visibility', 'visible' );
         });
     
+        update_result_match()
         update_cancelled_item_disabling()
         
     }
-
-    $("input:checkbox").change(cancel_checkbox_handler).keypress(cancel_checkbox_handler);
-    $("#results-form select").change(update_result_match).keypress(update_result_match);
     
     /* To prevent the server side form from refusing the form, remove all disabling
     before submission */
@@ -606,6 +608,14 @@ $(document).ready(function() {
         $("select").removeAttr('disabled');
       
     });
+
+    
+    $("#results-form input:checkbox").change(cancel_checkbox_handler).keypress(cancel_checkbox_handler);
+    $("#results-form select").change(update_result_match).keypress(update_result_match);
+    update_result_match()
+    update_cancelled_item_disabling()
+    
+
    
 });
 

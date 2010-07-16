@@ -12,7 +12,8 @@ from django.db.models import Q
 from django_tracking.models import State, TrackedItem
 
 from findtb.models import ResultsAvailable, Slide
-from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls
+from findtb.libs.utils import send_to_dtu_focal_person, send_to_dtls, send_to_ztls,\
+                              send_to_first_controller
 
 from forms import SlidesBatchForm
 
@@ -69,8 +70,8 @@ class EqaResultsForm(forms.Form):
                     raise ValidationError("The number '%s' is used twice in this form" % value)
                 
                 if Slide.objects.filter(number=value, 
-                                        batch__location=slides_batch.location)\
-                        .exclude(Q(batch=slides_batch)) .count():
+                                        batch__location=self.slides_batch.location)\
+                        .exclude(Q(batch=self.slides_batch)) .count():
                     
                     raise ValidationError("The number '%s' is already used by another slide in this DTU" % value)
                  
@@ -83,8 +84,8 @@ class EqaResultsForm(forms.Form):
         """
         
         # we don't want do use django validatin
-        self.slides_batch_form.is_valid()
-        self.slide_form_set.is_valid()
+        #self.slides_batch_form.is_valid()
+        #self.slide_form_set.is_valid()
         return super(EqaResultsForm, self).is_valid()        
 
 
@@ -131,15 +132,14 @@ class EqaResultsForm(forms.Form):
             ti.state = state
             ti.save()
             
-            '''
-            # Commented out, not working.
+
             if first_ctrl_check:
                 send_to_first_controller(self.slides_batch.location,
                         u"NTRL detected errors in your EQA results for DTU "\
-                        u"%(dtu): %(results)s" % { 
+                        u"%(dtu)s: %(results)s" % { 
                         'results': ', '.join("%s: %s" % (x, y) for x, y in first_ctrl_checks.iteritems()),
                         'dtu': self.slides_batch.location })
-            '''
+
             
             send_to_ztls(self.slides_batch.location,
                         u"EQA results for %(dtu)s are: %(results)s" % {
