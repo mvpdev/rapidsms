@@ -15,7 +15,7 @@ from haystack import site
 from django_tracking.models import TrackedItem
 
 
-class TrackedItemIndex(SearchIndex):
+class TrackedItemIndex(RealTimeSearchIndex):
 
     text = CharField(document=True, use_template=True,
                      template_name='search/tracked_item_index.txt')

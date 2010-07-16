@@ -566,7 +566,7 @@ class SlidesBatch(models.Model):
                                            
     @models.permalink
     def get_absolute_url(self):
-        q, y = self.get_quarter(self.created_on)
+        q, y = self.quarter
         return ('findtb-eqa-tracking', (),
                 {'id':self.location.id, 'quarter':q, 'year':y})
 
@@ -614,7 +614,7 @@ class Slide(models.Model):
 
     def __unicode__(self):
 
-        q, y = self.batch.get_quarter(self.batch.created_on)
+        q, y = self.batch.quarter
         return u"Slides %(number)s from %(location)s for EQA of "\
                 "Q%(quarter)s %(year)s" % {'number': self.number or '',
                                            'location': self.batch.location,
