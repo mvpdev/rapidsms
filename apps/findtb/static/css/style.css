@@ -156,7 +156,7 @@ border: 1px solid #B8DEE3;
 background: #FFFFFF url("/static/findtb/images/notice.png") no-repeat 8px 8px;
 }
 
-#findtb-event-picker-selection li.warning {
+#findtb-event-picker-selection li.alert {
 background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 8px 8px;
 }
 
