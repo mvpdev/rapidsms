@@ -561,5 +561,53 @@
             "latitude": null, 
             "type": 7
         }
+    }, 
+    {
+        "pk": 5647, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "401-84", 
+            "name": "Namawanga HC III", 
+            "parent": 4721, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5648, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "401-78", 
+            "name": "Naiku HC III", 
+            "parent": 4721, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5649, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "401-82", 
+            "name": "Lwangoli HC III", 
+            "parent": 4721, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
+    }, 
+    {
+        "pk": 5650, 
+        "model": "locations.location", 
+        "fields": {
+            "code": "401-80", 
+            "name": "Busano HC III", 
+            "parent": 4721, 
+            "longitude": null, 
+            "latitude": null, 
+            "type": 7
+        }
     }
 ]

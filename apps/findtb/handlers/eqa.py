@@ -260,7 +260,7 @@ def collect(params, reporter, message):
                 second_ctrl = Role.objects.get(location=dtus[0],
                                               group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME).reporter
                                               
-                if first_reporter != second_reporter:
+                if first_ctrl != second_ctrl:
                     raise NotAllowed(u"Collection failed. You tried to collect "\
                                      u" slides from different first controllers:"\
                                      u"%(first_ctrl)s for DTU %(dtu1)s and "\
