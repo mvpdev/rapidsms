@@ -143,7 +143,7 @@ def add_chw(request):
                                                    slug__iexact='dataentry'), \
                                      identity=chw.username, \
                                      reporter=chw, \
-                                     last_seen=datetime.datetime.now())
+                                     last_seen=datetime.now())
             c.save()
 
             # add mobile connection
@@ -157,7 +157,7 @@ def add_chw(request):
                 c = PersistantConnection(backend=pygsm, \
                                          identity=mobile, \
                                          reporter=chw, \
-                                         last_seen=datetime.datetime.now())
+                                         last_seen=datetime.now())
                 c.save()
 
             return HttpResponseRedirect(reverse('childcount.views.index'))
