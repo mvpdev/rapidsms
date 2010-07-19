@@ -33,10 +33,15 @@ from rapidsms import manager
 ### END - SETUP RAPIDSMS ENVIRONMENT
 ###
 
+from reversion import revision
 
 from migration.utils import *
 
-#fix_migrate_ids()
-check_mismatchs()
+revision.start()
+
+fix_migrate_ids()
+#check_mismatchs()
 #move_rdts()
 #move_muacs()
+
+revision.end()
