@@ -543,7 +543,6 @@ $(document).ready(function() {
     /* check if dtu and first ctrl result match, and hide second ctrl if so */
     function update_result_match(event) {
 
-        console.log("update_result_match")
         $("tr").slice(start=1).each(
         
           function() {
@@ -556,12 +555,10 @@ $(document).ready(function() {
                
                if (!results_table[dtu_result] || results_table[dtu_result][first_ctrl_result] == 'Correct')
                {
-                    console.log("hidding")
                     field.css('visibility', 'hidden' );
                }
                else 
                {
-                    console.log("showing")
                     field.css('visibility', 'visible' );
                }
                
