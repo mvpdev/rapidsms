@@ -15,16 +15,15 @@ def match_patient_status(mid):
     try:
         patient = Patient.objects.get(health_id=mid.health_id)
         case = Case.objects.get(ref_id=mid.oldid)
-        if case.STATUS_ACTIVE == patient.STATUS_ACTIVE or \
-                case.STATUS_INACTIVE == patient.STATUS_INACTIVE or \
-                case.STATUS_DEAD == patient.STATUS_DEAD:
+        if case.status == patient.status:
             return True
         else:
+            patient.status = case.status
+            patient.save()
             return False
     except (Patient.DoesNotExist, Case.DoesNotExist):
         print mid, " Not Migrated"
         return False
-
 
 def paged_patients(page=1):
     '''Paged Patients List'''
