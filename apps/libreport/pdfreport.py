@@ -303,6 +303,12 @@ class PDFReport():
         #exit((needsSecondPage, c, self.headers, title, i))
 
     def render(self):
+        filename = self.filename + \
+            datetime.now().strftime("%Y%m%d%H%M%S") + ".pdf"
+        response = HttpResponse(mimetype='application/pdf')
+        response['Cache-Control'] = ""
+        response['Content-Disposition'] = "attachment; filename=%s" % filename
+
         elements = []
 
         self.styles['Title'].alignment = TA_LEFT
@@ -312,8 +318,6 @@ class PDFReport():
         self.styles["Normal"].fontSize = 7
         #self.styles["Normal"].fontWeight = "BOLD"
 
-        filename = self.filename + \
-            datetime.now().strftime("%Y%m%d%H%M%S") + ".pdf"
         #doc = SimpleDocTemplate(filename)
 
         #now create the title page
@@ -333,18 +337,14 @@ class PDFReport():
 
         if self.landscape is True:
             self.PAGESIZE = landscape(A4)
-        doc = MultiColDocTemplate(filename, self.cols, \
+        doc = MultiColDocTemplate(response, self.cols, \
                         pagesize=self.PAGESIZE, allowSplitting=1, \
                             showBoundary=0)
         doc.setTitle(self.title)
         doc.setHeaders(self.headers)
         doc.build(elements)
-
-        response = HttpResponse(mimetype='application/pdf')
-        response['Cache-Control'] = ""
-        response['Content-Disposition'] = "attachment; filename=%s" % filename
-        response.write(open(filename).read())
-        os.remove(filename)
+        #response.write(open(filename).read())
+        #os.remove(filename)
         return response
 
     # what should appear on the first page

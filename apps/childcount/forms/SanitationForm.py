@@ -52,9 +52,10 @@ class SanitationForm(CCForm):
         share_field.set_language(self.chw.language)
 
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info. What kind of toilet " \
+            raise ParseError(_(u"Not enough info. Expected: | What kind of " \
+                                "toilet " \
                                 "facility do members of your household " \
-                                "use | do you share?"))
+                                "use | do you share? |"))
 
         toilet_latrine = self.params[1]
         if not sanit_field.is_valid_choice(toilet_latrine):

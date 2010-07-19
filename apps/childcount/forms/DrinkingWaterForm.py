@@ -75,8 +75,9 @@ class DrinkingWaterForm(CCForm):
         tmethod_field.set_language(self.chw.language)
 
         if len(self.params) < 2:
-            raise ParseError(_(u"Not enough info. What is source of water  " \
-                                "do you treat | what do u use to treat"))
+            raise ParseError(_(u"Not enough info. Expected: | What is " \
+                                "source of water | do you treat ? | what do " \
+                                "you use to treat? |"))
 
         wats = self.params[1]
         if not wats_field.is_valid_choice(wats):

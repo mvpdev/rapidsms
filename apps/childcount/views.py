@@ -251,7 +251,7 @@ def patient(request):
     try:
         page = int(request.GET.get('page', DEFAULT_PAGE))
     except ValueError:
-        page = 1
+        page = DEFAULT_PAGE
 
     try:
         reports = getpages.page(page)
@@ -286,7 +286,9 @@ def patient(request):
                     'columns': columns, 'sub_columns': sub_columns,
                     'rows': rows, 'report_title': report_title,
                     'aocolumns_js': aocolumns_js}
-    context_dict.update(pagenator(getpages, reports))
+                    
+    if getpages.num_pages > 1:
+        context_dict.update(pagenator(getpages, reports))
 
     return render_to_response(\
                 request, 'childcount/patient.html', context_dict)

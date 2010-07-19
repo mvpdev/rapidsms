@@ -19,9 +19,9 @@ class BednetUtilizationForm(CCForm):
 
     def process(self, patient):
         if len(self.params) < 3:
-            raise ParseError(_(u"Not enough info. Expected: number of " \
-                                "children who slept here last nite | "\
-                                " how many slept under of bednets."))
+            raise ParseError(_(u"Not enough info. Expected: | number of " \
+                                "children who slept here last night | "\
+                                " how many slept under bednets |"))
 
         try:
             bnut_rpt = BednetUtilization.objects.get(encounter=self.encounter)
@@ -31,18 +31,19 @@ class BednetUtilizationForm(CCForm):
 
         bnut_rpt.form_group = self.form_group
         if not self.params[1].isdigit():
-            raise ParseError(_(u"Number of children who slept here last" \
-                                "nite should be number"))
+            raise ParseError(_(u"| Number of children who slept here last" \
+                                "night | should be a number."))
 
         bnut_rpt.child_underfive = int(self.params[1])
         if not self.params[2].isdigit():
-            raise ParseError(_(u"Number of children under bednet should " \
-                                "be number "))
+            raise ParseError(_(u"| Number of children under bednet | should " \
+                                "be a number."))
 
         bnut_rpt.child_lastnite = int(self.params[2])
         if bnut_rpt.child_lastnite > bnut_rpt.child_underfive:
-            raise ParseError(_(u"Number of children who slept under bednet " \
-                                " should be more than who slept here"))
+            raise ParseError(_(u"| Number of children who slept under bednet |" \
+                                " should be more than number of whom " \
+                                "slept here."))
 
         bnut_rpt.save()
 

@@ -45,8 +45,7 @@ class HouseholdForm(CCForm):
             mother = Patient.objects.get(health_id__iexact=motherid, \
                                         household__health_id__iexact=household)
             if mother == patient:
-                raise BadValue(_(u"Please enter the correct information " \
-                                  "you cant be patient then guardian/mother"))
+                raise BadValue(_(u"you can't be patient and guardian/mother"))
 
         except Patient.DoesNotExist:
             raise BadValue(_(u"Could not find mother/guardian " \

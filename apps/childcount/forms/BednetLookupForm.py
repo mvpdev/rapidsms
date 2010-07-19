@@ -24,9 +24,9 @@ class BednetLookupForm(CCForm):
             bnr = BedNetReport.objects.get(encounter__patient=self.\
                                         encounter.patient)
         except BedNetReport.DoesNotExist:
-            raise ParseError(_(u"Survey Report doesnt exist for %(pat)s" \
-                                "Contact your CHW please") % \
-                                {'pat': patient})
+            raise ParseError(_(u"Survey Report doesnt exist for %(patient)s." \
+                                " Please, contact your CHW") % \
+                                {'patient': patient})
         else:
             ssite = int(bnr.sleeping_sites)
             active_bdnet = int(bnr.nets)
@@ -44,12 +44,12 @@ class BednetLookupForm(CCForm):
 
             if bdnt_required <= 0:
                 self.response = _(u"%(patient)s has already %(nets)d bednets" \
-                                   "for %(site)d .Last received from ") % \
+                                   "for %(site)d sites.") % \
                                    {'patient': patient, 'nets': bdnt_needed, \
                                     'site': bdnt_needed}
 
             else:
-                self.response = _(u"%(patient)s. Need %(nets)d bednets " \
-                                  "for %(site)d sites.Last received from ") % \
+                self.response = _(u"%(patient)s need %(nets)d bednets " \
+                                  "for %(site)d sites.") % \
                                     {'patient': patient, 'nets': bdnt_needed, \
                                      'site': bdnt_needed}

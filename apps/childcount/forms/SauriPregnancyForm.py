@@ -150,7 +150,7 @@ class SauriPregnancyForm(CCForm):
             elif pr.iron_supplement == SauriPregnancyReport.IRON_NO:
                 supplement_str = _(u"not taking iron supplements")
             elif pr.iron_supplement == SauriPregnancyReport.IRON_DOESNOTHAVE:
-                supplement_str = _(u"does not iron supplements")
+                supplement_str = _(u"does not take iron supplements")
             else:
                 supplement_str += _(u"taking iron unkown status")
             supplement_str += ", "

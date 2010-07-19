@@ -86,7 +86,7 @@ border:1px solid brown;
 {% if is_paginated %}
 <div class="paginator">
   {% ifnotequal  page 1 %}
-<span class="next"><a href="/childcount/patients?page=1" title="First Page">First Last</a></span>
+<span class="next"><a href="/childcount/patients?page=1" title="First Page">First</a></span>
  {%endifnotequal%}
  
 {% if has_previous %}<span class="prev"><a href="/childcount/patients?page={{previous}}" title="Previous Page">&laquo; Previous</a></span>{% else %}<span class="prev-na">&laquo; Previous</span>{% endif %}

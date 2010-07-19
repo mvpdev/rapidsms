@@ -48,7 +48,7 @@ class BednetIssuedForm(CCForm):
             raise ParseError(_(u"Bednet issued should be number"))
         bdnt = self.params[1]
 
-        self.response = _(u"%(patient)s. Has received %(bdnt)s bednet") % \
+        self.response = _(u"%(patient)s has received %(bdnt)d bednet(s).") % \
                                     {'patient': patient, 'bdnt': bdnt}
 
         pr.bednet_received = bdnt

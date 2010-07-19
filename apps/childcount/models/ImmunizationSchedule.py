@@ -9,7 +9,6 @@ import reversion
 
 from childcount.models import Patient
 
-
 class ImmunizationSchedule(models.Model):
 
     class Meta:
@@ -29,7 +28,8 @@ class ImmunizationSchedule(models.Model):
 
     period = models.PositiveIntegerField(_(u"Period"), \
                                  help_text=_(u"Time period after birth"))
-    period_type = models.CharField(_(u"Period type"), max_length=10)
+    period_type = models.CharField(_(u"Period type"), max_length=10,\
+                                    choices=PERIOD_CHOICES)
     immunization = models.CharField(_(u"Immunization"), max_length=100, \
                                  help_text=_(u"Name of the immunization"))
 
@@ -57,6 +57,5 @@ class ImmunizationNotification(models.Model):
                                  help_text=_(u"When to notified"))
 
     def __unicode__(self):
-        return u"After %s %s: %s" % (self.period, self.period_type, \
-                    self.immunization)
+        return u" %s %s " % (self.patient, self.immunization)
 reversion.register(ImmunizationNotification)

@@ -466,12 +466,14 @@ class TheCHWReport(CHW):
         num_eligible = TheCHWReport.total_muac_eligible()
 
         unkwn = num_eligible - num_healthy - num_mam - num_sam - num_comp
-
-        hp = int(round((num_healthy / float(num_eligible)) * 100))
-        modp = int(round((num_mam / float(num_eligible)) * 100))
-        svp = int(round((num_sam / float(num_eligible)) * 100))
-        svcomp = int(round((num_comp / float(num_eligible)) * 100))
-        unkp = int(round((unkwn / float(num_eligible)) * 100))
+        if num_eligible > 0:
+            hp = int(round((num_healthy / float(num_eligible)) * 100))
+            modp = int(round((num_mam / float(num_eligible)) * 100))
+            svp = int(round((num_sam / float(num_eligible)) * 100))
+            svcomp = int(round((num_comp / float(num_eligible)) * 100))
+            unkp = int(round((unkwn / float(num_eligible)) * 100))
+        else:
+            hp = modp = svp = svcomp = unkp = 0
 
         info = _(u"[%(hel)d, %(mmod)d, %(sev)d, %(sevcomp)d, %(unkwn)d], {" \
                         "legend: [\"%(hp)d%% Healthy\", \"%(mp)d%% " \
@@ -587,7 +589,7 @@ class OperationalReport():
         columns.append({'name': _("% Under-5 receiving on-time MUAC "\
                                     "(within 90 days) [S11]"), \
                 'bit': '{{object.percentage_ontime_muac}}%'})
-        columns.append({'name': _("# of Active GAM cases"), \
+        columns.append({'name': _("# of Active SAM cases"), \
                 'bit': '{{object.num_of_active_sam_cases}}'})
         columns.append({'name': _("# of Pregnant Women"), \
                 'bit': '{{object.num_of_pregnant_women}}'})
