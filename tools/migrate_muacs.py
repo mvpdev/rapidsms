@@ -36,4 +36,7 @@ from rapidsms import manager
 
 from migration.utils import *
 
+#fix_migrate_ids()
+#check_mismatchs()
+#move_rdts()
 move_muacs()
