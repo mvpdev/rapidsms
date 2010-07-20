@@ -49,3 +49,7 @@ find_tb
 env
 index
 whoosh_index
+make.bat
+makefile
+build
+celerybeat-schedule
