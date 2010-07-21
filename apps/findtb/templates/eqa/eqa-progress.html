@@ -1,0 +1,90 @@
+{% extends "findtb-base.html" %}
+
+{% block page-class %}eqa-progress{% endblock %}
+
+{% block findtb-title %}EQA progress for Q{{ quarter }} {{ year }}{% endblock %}
+
+{% block findtb-content %}
+
+<form name="progress" action="." method="post" class="span-20 last prepend-2">
+
+
+
+<table>
+
+<!--
+    <caption>
+        <form id="zone-selector" method="post" action='.'>
+        <p><label for="zone">Zones</label>
+        <select name="zone" id="zone">
+           <option value="all">All</option>
+           {% for zone in zones %}
+           <option
+                   {% ifequal zone.pk selected_zone %}
+                   selected="selected"
+                   {% endifequal %}
+                   value="{{ zone.pk }}">
+            {{ zone.name }}
+           </option>
+           {% endfor %}
+        </select>
+        <input type="submit" value="OK"/></p>
+        </form>
+    </caption>
+
+-->
+   
+    <thead>
+    <tr>
+    <th>Zone</th>
+    <th>District</th>
+    <th>DTU</th>
+    <th>Leaved DTU</th>
+    <th>Delivered to 1st Ctrl</th>
+    <th>Passed 1st Ctrl</th>
+    <th>Leaved 1st Ctrl</th>
+    <th>Delivered to 2nd Ctrl</th>
+    <th>Results available</th>
+    <th>Ready to send</th>
+    <th>Received at DTU</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      
+    {% for zone, districts in slides_batches.iteritems %}
+        {% for district, dtus in districts.iteritems %}
+            {% for dtu, history in dtus.iteritems %}
+                
+                <tr>
+            
+                {% if forloop.first %}
+                    
+                    {% if forloop.parentloop.first %}
+                     <td rowspan="{{ zone.span }}">{{ zone.name }}</td>
+                    {% endif %}
+                
+                    <td rowspan="{{ dtus|length }}">{{ district.name }}</td>
+                {% endif %}
+            
+                <td>{{ dtu.name }}</td>
+            
+                {% for state in history.done %}
+                    <td><img src="/static/findtb/images/checked.png" alt="Done" /></td>
+                {% endfor %}
+                
+                {% for state in history.todo %}
+                    <td class='todo'>To Do</td>
+                {% endfor %}
+                
+                </tr>
+                
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+            
+    <tbody>
+    
+</table>
+
+{% endblock %}

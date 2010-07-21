@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.urlresolvers import NoReverseMatch
 from django.template.defaultfilters import slugify
+from django.db.models import Q
 
 from rapidsms.webui.utils import render_to_response
 
@@ -19,6 +20,8 @@ from findtb.libs.utils import send_to_dtls, send_to_dtu_focal_person
 
 from locations.models import Location
 from reporters.models import Reporter
+
+
 
 from django_tracking.models import State, TrackedItem
 
@@ -452,3 +455,47 @@ def results_available(request, *arg, **kwargs):
     return render_to_response(request, 
                               "eqa/eqa-results-available.html", 
                               ctx)
+         
+                              
+@login_required
+def progress(request, *arg, **kwargs):
+    """
+        Display EQA progress for the current quarter.
+    """
+
+    
+    quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
+
+    begin, end = SlidesBatch.quarter_to_dates(*SlidesBatch.get_quarter())
+    states = State.objects.filter(title="eqa_starts", 
+                         created__gte=begin, created__lte=end)
+
+    # get all DTU history and format them
+    slides_batches = {}
+    for state in states:
+        ti = state.tracked_item
+        slides_batch = ti.content_object
+        dtu = slides_batch.location
+        district = dtu.parent
+        zone = district.parent
+        # we don't  want alert (except "collected_from_first_controller")
+        # nor the first state
+        done = ti.get_history().exclude((Q(type="alert") \
+                                           & ~Q(title="collected_from_first_controller"))\
+                                           | Q(title="eqa_starts")).count()
+                                  
+        slides_batches.setdefault(zone, {})\
+                      .setdefault(district, {})\
+                      .setdefault(dtu, {'done': xrange(done),
+                                        'todo': xrange(8 - done)})
+                                       # ^ this is to fill html rowspan
+    # this is to fill html colspan
+    for zone, data in slides_batches.iteritems():
+        zone.span = sum(len(dtus) for dtus in data.itervalues())
+                         
+    ctx = {}
+    ctx.update(kwargs)
+    ctx.update(locals())
+
+    return render_to_response(request, "eqa/eqa-progress.html", ctx)
+    

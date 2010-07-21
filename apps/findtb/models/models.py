@@ -33,11 +33,10 @@ class SlidesBatchManager(models.Manager):
         if not quarter:
             quarter, year = SlidesBatch.get_quarter(datetime.date.today())
 
-        begin, end = SlidesBatch.QUARTER_BOUNDARIES[quarter]
-        begin = datetime.date(year, begin[1], begin[0])
-        end = datetime.date(year, end[1], end[0])
-
-        return self.filter(location=dtu, created_on__gte=begin, created_on__lte=end).get()
+        begin, end = SlidesBatch.quarter_to_dates(quarter, date)
+        
+        return self.filter(location=dtu, created_on__gte=begin, 
+                           created_on__lte=end).get()
 
 
     def get_for_quarter_including_date(self, dtu, date=None):
@@ -547,6 +546,18 @@ class SlidesBatch(models.Model):
             return (quarter + 1), year
             
         return 4, (year + 1)
+
+
+    @classmethod
+    def quarter_to_dates(cls, quarter, year):
+        """
+        Given a quarter, give the begining and ending dates.
+        """
+        begin, end = SlidesBatch.QUARTER_BOUNDARIES[quarter]
+        begin = datetime.date(year, begin[1], begin[0])
+        end = datetime.date(year, end[1], end[0])
+
+        return begin, end
 
 
     @property

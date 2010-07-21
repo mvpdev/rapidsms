@@ -21,7 +21,26 @@ urlpatterns = patterns('',
 )
 
 
-# EQA
+# EQA (tracking)
+urlpatterns += patterns('',
+
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?collected-from-first-controller/$',
+        views.collected_from_first_controller,
+        name='findtb-eqa-collected_from_first_controller',
+        kwargs={'view_name': 'findtb-eqa-collected_from_first_controller'}),
+
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?delivered-to-second-controller/$',
+        views.delivered_to_second_controller,
+        name='findtb-eqa-delivered_to_second_controller',
+        kwargs={'view_name': 'findtb-eqa-delivered_to_second_controller'}),
+        
+    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?results-available/$',
+        views.results_available,
+        name='findtb-eqa-results_available',
+        kwargs={'view_name': 'findtb-eqa-results_available'}),
+)
+
+# EQA (general)
 urlpatterns += patterns('',
 
     url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/(?:(?P<dtu>[a-z0-9\-]+)/)?)?$',
@@ -39,22 +58,11 @@ urlpatterns += patterns('',
         name='findtb-eqa-controllers',
         kwargs={'view_name': 'findtb-eqa-controllers'}),
         
-    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?collected-from-first-controller/$',
-        views.collected_from_first_controller,
-        name='findtb-eqa-collected_from_first_controller',
-        kwargs={'view_name': 'findtb-eqa-collected_from_first_controller'}),
+    url(r'^findtb/eqa/progress/$', views.progress,
+        name='findtb-eqa-progress',
+        kwargs={'view_name': 'findtb-eqa-progress'}),
 
-    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?delivered-to-second-controller/$',
-        views.delivered_to_second_controller,
-        name='findtb-eqa-delivered_to_second_controller',
-        kwargs={'view_name': 'findtb-eqa-delivered_to_second_controller'}),
-        
-    url(r'^findtb/eqa/tracking/(?P<id>\d+)/(?:(?P<year>\d{4})/(?P<quarter>[1-4])/)(?:(?P<dtu>[a-z0-9\-]+)/)?results-available/$',
-        views.results_available,
-        name='findtb-eqa-results_available',
-        kwargs={'view_name': 'findtb-eqa-results_available'}),
 )
-
 
 
 # SREF (tracking)

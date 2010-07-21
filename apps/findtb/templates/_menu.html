@@ -8,6 +8,7 @@
         {% endif %}
      	
      	{% ifequal view_name "findtb-eqa-dashboard" %}{% if perms.findtb.change_role %}
+     	    <li class="not-first"><a href="{% url findtb-eqa-progress %}">EQA Progress</a></li>
      	    <li class="not-first"><a href="{% url findtb-eqa-controllers %}">Assign controllers</a></li>
      	{% endif %}{% endifequal %}
      	

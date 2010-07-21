@@ -22,8 +22,6 @@ class Eqa(FtbState):
     slides_batch = models.ForeignKey(SlidesBatch)
     state_origin = 'eqa'
 
-    STATE_NAMES = ('eqa_starts')
-
     form_class = None
 
 

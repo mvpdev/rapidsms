@@ -110,8 +110,6 @@ def eqa_dashboard(request, *arg, **kwargs):
     request.session['zone'] = selected_zone
 
 
-
-
     ctx = {}
     ctx.update(kwargs)
     ctx.update(locals())

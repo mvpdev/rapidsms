@@ -428,3 +428,11 @@ width:100%;
 margin-top:1em;
 position:fixed;
 }
+
+/*** EQA Progress***/
+
+.eqa-progress .todo {
+color:#EEEEEE;
+}
+
+
