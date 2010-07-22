@@ -462,6 +462,33 @@ def progress(request, *arg, **kwargs):
     """
         Display EQA progress for the current quarter.
     """
+    
+    # get data for the right navigation pannel
+    districts = Location.objects.filter(type__name=u"district")
+    zones = Location.objects.filter(type__name=u"zone")
+
+    zone = request.POST.get('zone', None)
+    if zone:
+        selected_zone = zone
+    else:
+        selected_zone = request.session.get('zone', 'all')
+    if selected_zone != 'all':
+         selected_zone = int(selected_zone)
+         districts = districts.filter(parent__pk=selected_zone)
+
+    district = request.POST.get('district', None)
+    if district:
+        selected_district = district
+        if district != 'all':
+            selected_zone = Location.objects.get(pk=selected_district).parent.pk
+    else:
+        selected_district = request.session.get('district', 'all')
+    if selected_district != 'all':
+        selected_district = int(selected_district)
+
+
+    request.session['district'] = selected_district
+    request.session['zone'] = selected_zone
 
     quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
 
@@ -478,18 +505,21 @@ def progress(request, *arg, **kwargs):
         district = dtu.parent
         zone = district.parent
         
-        # we don't  want alert (except "collected_from_first_controller")
-        # nor the first state
-        done = ti.get_history().exclude((Q(type="alert") \
-                                           & ~Q(title="collected_from_first_controller"))\
-                                           | Q(title="eqa_starts")).count()
-                                  
-        slides_batches.setdefault(zone, {})\
-                      .setdefault(district, {})\
-                      .setdefault(dtu, {'slides_batch': slides_batch,
-                                        'done': xrange(done),
-                                        'todo': xrange(8 - done)})
-                                       # ^ this is to fill html rowspan
+        if (selected_zone == 'all' or selected_zone == zone.pk)\
+           and (selected_district == 'all' or selected_district == district.pk):
+        
+            # we don't  want alert (except "collected_from_first_controller")
+            # nor the first state
+            done = ti.get_history().exclude((Q(type="alert") \
+                                               & ~Q(title="collected_from_first_controller"))\
+                                               | Q(title="eqa_starts")).count()
+                                      
+            slides_batches.setdefault(zone, {})\
+                          .setdefault(district, {})\
+                          .setdefault(dtu, {'slides_batch': slides_batch,
+                                            'done': xrange(done),
+                                            'todo': xrange(8 - done)})
+                                           # ^ this is to fill html rowspan
     # this is to fill html colspan
     for zone, data in slides_batches.iteritems():
         zone.span = sum(len(dtus) for dtus in data.itervalues())
