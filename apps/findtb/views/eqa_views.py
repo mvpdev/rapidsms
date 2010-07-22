@@ -463,7 +463,6 @@ def progress(request, *arg, **kwargs):
         Display EQA progress for the current quarter.
     """
 
-    
     quarter, year = SlidesBatch.decrement_quarter(*SlidesBatch.get_quarter())
 
     begin, end = SlidesBatch.quarter_to_dates(*SlidesBatch.get_quarter())
@@ -478,6 +477,7 @@ def progress(request, *arg, **kwargs):
         dtu = slides_batch.location
         district = dtu.parent
         zone = district.parent
+        
         # we don't  want alert (except "collected_from_first_controller")
         # nor the first state
         done = ti.get_history().exclude((Q(type="alert") \
@@ -486,7 +486,8 @@ def progress(request, *arg, **kwargs):
                                   
         slides_batches.setdefault(zone, {})\
                       .setdefault(district, {})\
-                      .setdefault(dtu, {'done': xrange(done),
+                      .setdefault(dtu, {'slides_batch': slides_batch,
+                                        'done': xrange(done),
                                         'todo': xrange(8 - done)})
                                        # ^ this is to fill html rowspan
     # this is to fill html colspan

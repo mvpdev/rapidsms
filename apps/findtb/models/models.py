@@ -33,7 +33,7 @@ class SlidesBatchManager(models.Manager):
         if not quarter:
             quarter, year = SlidesBatch.get_quarter(datetime.date.today())
 
-        begin, end = SlidesBatch.quarter_to_dates(quarter, date)
+        begin, end = SlidesBatch.quarter_to_dates(quarter, year)
         
         return self.filter(location=dtu, created_on__gte=begin, 
                            created_on__lte=end).get()

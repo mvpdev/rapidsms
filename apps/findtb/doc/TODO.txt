@@ -1,18 +1,14 @@
-
-TODO : use the patient name instead of the specimen number in sref
-Careful : if there is no name, use the number. In search, put "Add a name to the patient"
-button if there is no patient.
-
-TODO : in search, they should be able to enter either a location, a patient name
-or an id.
-
 TODO: Figure out how to make this thing work with proxy models
 
-TODO : put a modal page that force the user to answer to request before accessing the tool
-
-TODO : create a stock management tool which just let you to require stuff when needed
-
-FIX: check for the send of the same specimen twice a day is broken
-
 TODO: In sreg, the navigation pannel should display "Nothing to test yet" with no header
+
+TODO: in EQA, time navigation in tracking and progress
+
+TODO: cache EQA navigation pannel and progress and tie refresh to TrackedItem PostSave
+
+TODO: cache sref navigation pannel tie refresh to TrackedItem PostSave
+
+TODO: add filter to the EQA controller page
+
+TODO: fix javascript pull down that must not appear if two first column are empty
 
