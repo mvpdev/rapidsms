@@ -14,7 +14,7 @@ import rapidsms
 from rapidsms.webui import settings
 
 from findtb.exceptions import NotRegistered
-from findtb.models import FINDTBGroup, Role, FINDTBLocation
+from findtb.models.models import FINDTBGroup, Role, FINDTBLocation
 from findtb import config
 from format_timedelta import humanize_timedelta
 

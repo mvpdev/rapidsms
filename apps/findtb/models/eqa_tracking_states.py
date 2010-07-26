@@ -3,14 +3,22 @@
 # maintainer: dgelvin
 
 """
-Models collection to manage Specimen Referral system statuses and results.
+Models collection to manage EQA system statuses and results.
 All models rely on the django_tracking application.
 """
 
+from dateutil.relativedelta import relativedelta
+
 from django.db import models
 
-from findtb.models.models import SlidesBatch
-from findtb.models.ftbstate import FtbState
+from celery.registry import tasks
+from celery.decorators import task
+
+from django_tracking.models import TrackedItem
+
+from models import SlidesBatch
+from ftbstate import FtbState
+
 
 class Eqa(FtbState):
     """
@@ -54,6 +62,44 @@ class EqaStarts(Eqa):
         app_label = 'findtb'
 
     state_name = 'eqa_starts'
+
+    @task()
+    def eqa_dtu_collection_reminder(self):
+        """
+        Check if EQA is late, and if yes trigger and alerts.
+        """
+        print "in reminder"
+        try:
+            sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
+        except SlidesBatch.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title == u'eqa_starts' and ti.state.type != 'alert':
+                state = DtuCollectionIsLate(slides_batch=sb)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                from findtb.libs.utils import send_to_ztls, send_to_dtu_focal_person, send_to_dtls
+                send_to_dtu_focal_person(sb.location, msg)
+                send_to_dtls(sb.location, msg)
+                send_to_ztls(sb.location, msg)
+    tasks.register(eqa_dtu_collection_reminder)
+
+
+    def save(self, *args, **kwargs):
+        """
+        Setup the alert.
+        """
+
+        if not self.pk:
+            in_one_week = self.slides_batch.created_on + relativedelta(weeks=+1)
+            self.eqa_dtu_collection_reminder.apply_async(eta=in_one_week,
+                                                              args=(self,))
+        
+        super(EqaStarts, self).save(*args, **kwargs)
+
 
 
     def get_short_message(self):
@@ -255,3 +301,41 @@ class ReceivedAtDtu(Eqa):
 
         return u"Slides from %(dtu)s have arrived at DTU" % {
                 'dtu': self.slides_batch.location.name}
+                
+         
+         
+class DtuCollectionIsLate(EqaStarts):
+    """
+    State declaring the slides haven't been picked up from DTU for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+        
+    state_type = 'alert'
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because EqaStarts does and we inherit from it.
+        This is just a reset.
+        """
+        super(EqaStarts, self).save(*args, **kwargs)
+        
+        
+    def get_deadline(self):
+        return self.slides_batch.created_on + relativedelta(weeks=+1)
+
+
+    def get_short_message(self):
+
+        return u"Slides are late for collection from DTU. "\
+               u"The deadline was %s." % self.get_deadline()
+
+
+    def get_long_message(self):
+
+        return u"Slides from %(dtu)s are late for collection from DTU. "\
+               u"The deadline was %(deadline)s." % {
+               'dtu': self.slides_batch.location,
+               'deadline': self.get_deadline() }
