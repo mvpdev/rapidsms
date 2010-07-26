@@ -24,6 +24,8 @@ from eqa_tracking_states import Eqa, EqaStarts, \
                                               ResultsAvailable,\
                                               ReadyToLeaveNtrl,\
                                               ReceivedAtDtu
+                                              
+from eqa_alert_states import DtuCollectionIsLate
 
 from sref_result_states import MicroscopyResult,\
                                              LpaResult,\

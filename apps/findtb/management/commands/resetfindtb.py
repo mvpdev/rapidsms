@@ -34,18 +34,26 @@ class Command(BaseCommand):
             dest='no_input',
             default=False,
             help=u"Don't prompt user for any input. Delete without warnings."),
+            
+       make_option('--load-tests',
+            action='store_true',
+            dest='load_tests',
+            default=False,
+            help=u"Load test fixtures."),
     )
     
     
-    def loaddata(self, files=()):
+    def loaddata(self, load_tests=False, files=()):
         """
         Load fixtures of findtb using the manage.py command line.
         """
     
         if not files:
             fixtures = ('locations', 'groups', 'configurations')
-            files = (os.path.join(FIXTURE_DIR, f + '.json') for f in fixtures)     
-       
+            files = [os.path.join(FIXTURE_DIR, f + '.json') for f in fixtures]  
+            if load_tests:
+                files.append(os.path.join(FIXTURE_DIR, 'tests.json'))     
+        
         cmd = loaddata.Command()
         cmd.handle(*files)
         
@@ -57,8 +65,8 @@ class Command(BaseCommand):
         """
         
         # filtering all non sref related reporter prior to deletion
-        reporters_to_keep = set()
-        locations_to_keep = set()
+        reporters_to_keep = set((None,))
+        locations_to_keep = set((None,))
         for state in State.objects.exclude(origin=app):
             item = state.tracked_item.content_object
             location = item.created_by
@@ -80,7 +88,8 @@ class Command(BaseCommand):
                 role.location.delete()
                 
             role.delete()
-                
+            
+        FINDTBGroup.objects.filter(name__in= groups_to_remove).delete()
         
         print "Deleting states"
         for state in State.objects.filter(origin=app):
@@ -100,6 +109,7 @@ class Command(BaseCommand):
             
         app = args[0].strip().lower()
         no_input = options['no_input']
+        load_tests = options['load_tests']
         
         if app not in ('sref', 'eqa', 'stock', 'all'):
             raise CommandError(u"Accept only: 'sref', 'eqa', 'all'")
@@ -137,8 +147,6 @@ class Command(BaseCommand):
             print "Deleting notices"
             Notice.objects.all().delete()
             
-            self.loaddata()
-            
         if app == "sref":
         
             sref_only_groups = (FINDTBGroup.DTU_LAB_TECH_GROUP_NAME,
@@ -151,8 +159,6 @@ class Command(BaseCommand):
             print "Deleting patients"
             Patient.objects.all().delete()
 
-            self.loaddata()
-            
         if app == "eqa":
             sref_only_groups = (FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME,
                                 FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
@@ -164,7 +170,7 @@ class Command(BaseCommand):
             Slide.objects.all().delete()
             SlidesBatch.objects.all().delete()
 
-            self.loaddata()
-            
         if app == "notice":
             raise CommandError("Not implemented")
+            
+        self.loaddata(load_tests=load_tests)
