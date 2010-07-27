@@ -137,13 +137,19 @@ class MgitForm(SrefForm):
 
         # if this specimen is a replacement for a failed LPA + LJ
         # do not ask for a new specimen
-        ask_new = not self.specimen.should_shortcut_test_flow()
+        #ask_new = not self.specimen.should_shortcut_test_flow()
 
-        if self.cleaned_data['result'] != 'positive' and ask_new:
-            result = SpecimenMustBeReplaced(specimen=self.specimen)
-            ti.state = State(content_object=result, is_final=True)
+        #if self.cleaned_data['result'] != 'positive' and ask_new:
+        #    result = SpecimenMustBeReplaced(specimen=self.specimen)
+        #    ti.state = State(content_object=result, is_final=True)
+        #    ti.save()
+        #    msg += " Please send a new specimen."
+        
+        if self.cleaned_data['result'] != 'positive':
+            msg += " There is nothing more to do."
+            result = AllTestsDone(specimen=self.specimen)
+            ti.state = result
             ti.save()
-            msg += " Please send a new specimen."
 
         send_to_dtu(self.specimen.location, msg)
 

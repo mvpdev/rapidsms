@@ -20,6 +20,8 @@ from format_timedelta import humanize_timedelta
 
 from django_tracking.models import State
 
+# TODO: move the send_msg stuff to reporters and locations sublasses
+
 def send_msg(reporter, text):
     '''
     Sends a message to a reporter using the ajax app.  This goes to

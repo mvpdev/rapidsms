@@ -68,7 +68,6 @@ class EqaStarts(Eqa):
         """
         Check if EQA is late, and if yes trigger and alerts.
         """
-        print "in reminder"
         try:
             sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
         except SlidesBatch.DoesNotExist:
@@ -81,6 +80,7 @@ class EqaStarts(Eqa):
                 ti.state = state
                 ti.save()
                 msg = state.get_long_message()
+                # must import here to avoid circular references
                 from findtb.libs.utils import send_to_ztls, send_to_dtu_focal_person, send_to_dtls
                 send_to_dtu_focal_person(sb.location, msg)
                 send_to_dtls(sb.location, msg)
