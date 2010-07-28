@@ -29,7 +29,7 @@ def notices(request, *arg, **kwargs):
                     n.response = response
                     n.responded_by = request.user
                     n.responded_on = datetime.now()
-                    #send_msg(n.reporter, response)
+                    send_msg(n.reporter, response)
                     n.save()
 
         return redirect("findtb-notices")
