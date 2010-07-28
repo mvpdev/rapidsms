@@ -79,8 +79,12 @@ def handle(keyword, params, message):
             raise ParseError("Registration failed: You must provide both a " \
                              "surname and firstname.")
     else:
-        names = text
+        regex = r'(?P<names>[^\s0-9]+\s+[^\s0-9]+)'
+        if not re.match(regex, text):
+            raise ParseError("Registration failed: You must provide both a " \
+                             "surname and firstname.")
         location = ''
+        names = text
 
     reporter = create_or_update_reporter(names, \
                                          message.persistant_connection)
