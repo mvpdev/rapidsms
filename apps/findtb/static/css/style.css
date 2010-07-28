@@ -438,6 +438,77 @@ color:#EEEEEE;
 .eqa-progress table {
 border: 1px solid #EEEEEE;
 text-align: center;
+}
 
+/*** Notices ***/
 
+.notices table.ntable {
+margin: 5px;
+border: 1px solid #000000;
+width: 700px;
+margin-left: auto;
+margin-right: auto;
+}
 
+.notices td {
+padding:2px;
+border:0;
+}
+
+.notices th {
+padding: 0;
+border-top:0;
+width: 40px;
+height: 20px;
+}
+
+.notices th.warning {
+background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 2px 2px;
+background-position:center;
+}
+
+.notices th.checked {
+background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 2px 2px;
+background-position:center;
+}
+
+.notices td.message {
+font-size:14px;
+}
+
+.notices td.by {
+padding-top:0;
+font-style:italic;
+color:#005f0d;
+}
+
+.notices td.resp {
+padding-top:10px;
+font-weight:bold;
+font-size:14px;
+}
+
+.notices td.responded {
+padding-top:0;
+font-style:italic;
+color:#660000;
+}
+
+.notices textarea {
+width: 628px;
+height: 50px;
+margin-bottom:0px;
+border: 1px solid #cccccc;
+padding: 1px;
+background:#ededed;
+font-size:14px;
+}
+
+.notices table.pagination {
+margin-left:auto;
+margin-right:auto;
+}
+
+.notices table.pagination td {
+width:100px;
+}

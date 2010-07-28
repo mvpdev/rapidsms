@@ -1,0 +1,51 @@
+{% extends "findtb-base.html" %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block page-class %}notices{% endblock %}
+
+{% block title %}Notices{% endblock %}
+
+{% block findtb-title %}Notices{% endblock %}
+
+{% block findtb-content %}
+
+
+{% for notice in notices.object_list %}
+<table class="ntable">
+<tr>
+{% if notice.response %}
+    <th rowspan="5" class="checked"></th>
+{% else %}
+    <th rowspan="3" class="warning"></th>
+{% endif %}
+<td class="message">{{notice.text}}</td></tr>
+<tr><td class="by">{{notice.recieved_on|date:"d N P"}} from {{notice.reporter}} ({{notice.reporter.connection.identity}}) at <b>{{notice.location}}</b></td></tr>
+{% if notice.response %}
+    <tr><td class="resp">Response:</td></tr>
+    <tr><td class="message">{{notice.response}}</td></tr>
+    <tr><td class="responded">{{notice.responded_on|date:"d N P"}} by {{notice.responded_by}}</td></tr>
+{% else %}
+    <tr><td><form method="post" action=""><textarea name="response_{{notice.id}}"></textarea><input type="submit" value="Respond"/></td></tr>
+{% endif %}
+</table>
+{% endfor %}
+
+
+<table class="pagination">
+<tr><td>
+        {% if notices.has_previous %}
+            <a href="?page={{ notices.previous_page_number }}">Previous</a>
+        {% endif %}
+</td><td>
+            Page {{ notices.number }} of {{ notices.paginator.num_pages }}
+</td><td>
+        {% if notices.has_next %}
+            <a href="?page={{ notices.next_page_number }}">Next</a>
+        {% endif %}
+</td></tr>
+</table>
+
+
+{% endblock %}

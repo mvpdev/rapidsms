@@ -1,9 +1,17 @@
 <ul id="findtb-menu">
+
+     	{% ifnotequal view_name "findtb-notices" %}
+            {% if perms.findtb.change_notice %}
+     	    <li><a href="{% url findtb-notices %}">Notices</a></li>
+     	    {% endif %}
+        {% else %}
+            <li>Notices</li>
+        {% endifnotequal %}
         {% if perms.findtb.change_eqa %}
         {% ifnotequal view_name "findtb-eqa-dashboard" %}
-     	    <li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
+     	    <li class="not-first"><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
      	{% else %}
-     	    <li>EQA dashboard</li>
+     	    <li class="not-first">EQA dashboard</li>
      	{% endifnotequal %}
         {% endif %}
      	
