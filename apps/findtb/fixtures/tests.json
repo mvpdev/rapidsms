@@ -351,6 +351,15 @@
         }
     }, 
     {
+        "pk": 166, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_deliverytofirstcontrolislate", 
+            "name": "Can add delivery to first control is late", 
+            "content_type": 55
+        }
+    }, 
+    {
         "pk": 163, 
         "model": "auth.permission", 
         "fields": {
@@ -621,6 +630,15 @@
         }
     }, 
     {
+        "pk": 167, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_deliverytofirstcontrolislate", 
+            "name": "Can change delivery to first control is late", 
+            "content_type": 55
+        }
+    }, 
+    {
         "pk": 164, 
         "model": "auth.permission", 
         "fields": {
@@ -888,6 +906,15 @@
             "codename": "delete_deliveredtosecondcontroller", 
             "name": "Can delete delivered to second controller", 
             "content_type": 39
+        }
+    }, 
+    {
+        "pk": 168, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_deliverytofirstcontrolislate", 
+            "name": "Can delete delivery to first control is late", 
+            "content_type": 55
         }
     }, 
     {
@@ -1657,6 +1684,26 @@
         }
     }, 
     {
+        "pk": 5, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "eqa1", 
+            "first_name": "", 
+            "last_name": "Eqa", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-07-28 15:57:52", 
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "password": "", 
+            "email": "", 
+            "date_joined": "2010-07-28 15:57:52"
+        }
+    }, 
+    {
         "pk": 3, 
         "model": "reporters.reporter", 
         "fields": {
@@ -1670,6 +1717,18 @@
     }, 
     {
         "pk": 2, 
+        "model": "reporters.reporter", 
+        "fields": {
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "location": null, 
+            "language": ""
+        }
+    }, 
+    {
+        "pk": 5, 
         "model": "reporters.reporter", 
         "fields": {
             "groups": [
@@ -1741,6 +1800,16 @@
         }
     }, 
     {
+        "pk": 8, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-28 15:58:18", 
+            "reporter": 5, 
+            "identity": "4", 
+            "backend": 1
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "findtb.role", 
         "fields": {
@@ -1777,6 +1846,24 @@
         }
     }, 
     {
+        "pk": 5, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 9, 
+            "location": 4729, 
+            "reporter": 5
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 10, 
+            "location": 4729, 
+            "reporter": 4
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "findtb.configuration", 
         "fields": {
@@ -1797,6 +1884,17 @@
         }
     }, 
     {
+        "pk": 2, 
+        "model": "findtb.slidesbatch", 
+        "fields": {
+            "comment": "", 
+            "created_on": "2010-07-28", 
+            "location": 4729, 
+            "created_by": 5, 
+            "results": ""
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "findtb.eqa", 
         "fields": {
@@ -1805,9 +1903,38 @@
         }
     }, 
     {
+        "pk": 2, 
+        "model": "findtb.eqa", 
+        "fields": {
+            "note": null, 
+            "slides_batch": 2
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "findtb.eqastarts", 
         "fields": {}
+    }, 
+    {
+        "pk": 2, 
+        "model": "findtb.eqastarts", 
+        "fields": {}
+    }, 
+    {
+        "pk": 2, 
+        "model": "django_tracking.state", 
+        "fields": {
+            "origin": "eqa", 
+            "title": "eqa_starts", 
+            "created": "2010-07-28 15:58:19", 
+            "object_id": 2, 
+            "tracked_item": 2, 
+            "is_current": true, 
+            "is_final": false, 
+            "content_type": 34, 
+            "cancelled": false, 
+            "type": "notice"
+        }
     }, 
     {
         "pk": 1, 
@@ -1830,6 +1957,14 @@
         "model": "django_tracking.trackeditem", 
         "fields": {
             "object_id": 1, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "django_tracking.trackeditem", 
+        "fields": {
+            "object_id": 2, 
             "content_type": 23
         }
     }

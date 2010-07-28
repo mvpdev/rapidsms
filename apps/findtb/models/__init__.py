@@ -23,7 +23,8 @@ from eqa_tracking_states import Eqa, EqaStarts, \
                                               DeliveredToSecondController,\
                                               ResultsAvailable,\
                                               ReadyToLeaveNtrl,\
-                                              ReceivedAtDtu, DtuCollectionIsLate
+                                              ReceivedAtDtu, DtuCollectionIsLate,\
+                                              DeliveryToFirstControlIsLate
                                               
 from sref_result_states import MicroscopyResult,\
                                              LpaResult,\

@@ -1,6 +1,7 @@
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
-
+from celery.registry import tasks
+from celery.decorators import task
 from findtb.management.commands import starteqa
 
 
@@ -11,6 +12,5 @@ def start_eqa():
     """
     cmd = starteqa.Command()
     cmd.handle(all=True)
-
 
 
