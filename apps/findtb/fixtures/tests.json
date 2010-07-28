@@ -1,0 +1,1971 @@
+[
+    {
+        "pk": 22, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_logentry", 
+            "name": "Can add log entry", 
+            "content_type": 8
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_logentry", 
+            "name": "Can change log entry", 
+            "content_type": 8
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_logentry", 
+            "name": "Can delete log entry", 
+            "content_type": 8
+        }
+    }, 
+    {
+        "pk": 67, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_findtbgroup", 
+            "name": "Can add findtb group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_group", 
+            "name": "Can add group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_message", 
+            "name": "Can add message", 
+            "content_type": 4
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_permission", 
+            "name": "Can add permission", 
+            "content_type": 1
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_user", 
+            "name": "Can add user", 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 68, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_findtbgroup", 
+            "name": "Can change findtb group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_group", 
+            "name": "Can change group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_message", 
+            "name": "Can change message", 
+            "content_type": 4
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_permission", 
+            "name": "Can change permission", 
+            "content_type": 1
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_user", 
+            "name": "Can change user", 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 69, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_findtbgroup", 
+            "name": "Can delete findtb group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_group", 
+            "name": "Can delete group", 
+            "content_type": 2
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_message", 
+            "name": "Can delete message", 
+            "content_type": 4
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_permission", 
+            "name": "Can delete permission", 
+            "content_type": 1
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_user", 
+            "name": "Can delete user", 
+            "content_type": 3
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_contenttype", 
+            "name": "Can add content type", 
+            "content_type": 5
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_contenttype", 
+            "name": "Can change content type", 
+            "content_type": 5
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_contenttype", 
+            "name": "Can delete content type", 
+            "content_type": 5
+        }
+    }, 
+    {
+        "pk": 50, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_state", 
+            "name": "Can add state", 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 53, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_trackeditem", 
+            "name": "Can add tracked item", 
+            "content_type": 18
+        }
+    }, 
+    {
+        "pk": 51, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_state", 
+            "name": "Can change state", 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 54, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_trackeditem", 
+            "name": "Can change tracked item", 
+            "content_type": 18
+        }
+    }, 
+    {
+        "pk": 52, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_state", 
+            "name": "Can delete state", 
+            "content_type": 17
+        }
+    }, 
+    {
+        "pk": 55, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_trackeditem", 
+            "name": "Can delete tracked item", 
+            "content_type": 18
+        }
+    }, 
+    {
+        "pk": 151, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_taskmeta", 
+            "name": "Can add task meta", 
+            "content_type": 50
+        }
+    }, 
+    {
+        "pk": 154, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_tasksetmeta", 
+            "name": "Can add taskset meta", 
+            "content_type": 51
+        }
+    }, 
+    {
+        "pk": 152, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_taskmeta", 
+            "name": "Can change task meta", 
+            "content_type": 50
+        }
+    }, 
+    {
+        "pk": 155, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_tasksetmeta", 
+            "name": "Can change taskset meta", 
+            "content_type": 51
+        }
+    }, 
+    {
+        "pk": 153, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_taskmeta", 
+            "name": "Can delete task meta", 
+            "content_type": 50
+        }
+    }, 
+    {
+        "pk": 156, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_tasksetmeta", 
+            "name": "Can delete taskset meta", 
+            "content_type": 51
+        }
+    }, 
+    {
+        "pk": 103, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_alltestsdone", 
+            "name": "Can add all tests done", 
+            "content_type": 32
+        }
+    }, 
+    {
+        "pk": 112, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_collectedfromdtu", 
+            "name": "Can add collected from dtu", 
+            "content_type": 35
+        }
+    }, 
+    {
+        "pk": 121, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_collectedfromfirstcontroller", 
+            "name": "Can add collected from first controller", 
+            "content_type": 38
+        }
+    }, 
+    {
+        "pk": 73, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_configuration", 
+            "name": "Can add configuration", 
+            "content_type": 22
+        }
+    }, 
+    {
+        "pk": 115, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_deliveredtofirstcontroller", 
+            "name": "Can add delivered to first controller", 
+            "content_type": 36
+        }
+    }, 
+    {
+        "pk": 124, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_deliveredtosecondcontroller", 
+            "name": "Can add delivered to second controller", 
+            "content_type": 39
+        }
+    }, 
+    {
+        "pk": 166, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_deliverytofirstcontrolislate", 
+            "name": "Can add delivery to first control is late", 
+            "content_type": 55
+        }
+    }, 
+    {
+        "pk": 163, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_dtucollectionislate", 
+            "name": "Can add dtu collection is late", 
+            "content_type": 54
+        }
+    }, 
+    {
+        "pk": 106, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_eqa", 
+            "name": "Can add eqa", 
+            "content_type": 33
+        }
+    }, 
+    {
+        "pk": 109, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_eqastarts", 
+            "name": "Can add eqa starts", 
+            "content_type": 34
+        }
+    }, 
+    {
+        "pk": 145, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_ljresult", 
+            "name": "Can add lj result", 
+            "content_type": 46
+        }
+    }, 
+    {
+        "pk": 142, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_lparesult", 
+            "name": "Can add lpa result", 
+            "content_type": 45
+        }
+    }, 
+    {
+        "pk": 139, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_mgitresult", 
+            "name": "Can add mgit result", 
+            "content_type": 44
+        }
+    }, 
+    {
+        "pk": 136, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_microscopyresult", 
+            "name": "Can add microscopy result", 
+            "content_type": 43
+        }
+    }, 
+    {
+        "pk": 82, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_notice", 
+            "name": "Can add notice", 
+            "content_type": 25
+        }
+    }, 
+    {
+        "pk": 118, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_passedfirstcontrol", 
+            "name": "Can add passed first control", 
+            "content_type": 37
+        }
+    }, 
+    {
+        "pk": 59, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_patient", 
+            "name": "Can add patient", 
+            "content_type": 20
+        }
+    }, 
+    {
+        "pk": 130, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_readytoleaventrl", 
+            "name": "Can add ready to leave ntrl", 
+            "content_type": 41
+        }
+    }, 
+    {
+        "pk": 133, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_receivedatdtu", 
+            "name": "Can add received at dtu", 
+            "content_type": 42
+        }
+    }, 
+    {
+        "pk": 127, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_resultsavailable", 
+            "name": "Can add results available", 
+            "content_type": 40
+        }
+    }, 
+    {
+        "pk": 56, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_role", 
+            "name": "Can add role", 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 148, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_sirezresult", 
+            "name": "Can add sirez result", 
+            "content_type": 47
+        }
+    }, 
+    {
+        "pk": 79, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_slide", 
+            "name": "Can add slide", 
+            "content_type": 24
+        }
+    }, 
+    {
+        "pk": 76, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_slidesbatch", 
+            "name": "Can add slides batch", 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 62, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimen", 
+            "name": "Can add specimen", 
+            "content_type": 21
+        }
+    }, 
+    {
+        "pk": 88, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimeninvalid", 
+            "name": "Can add specimen invalid", 
+            "content_type": 27
+        }
+    }, 
+    {
+        "pk": 91, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimenmustbereplaced", 
+            "name": "Can add specimen must be replaced", 
+            "content_type": 28
+        }
+    }, 
+    {
+        "pk": 100, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimenreceived", 
+            "name": "Can add specimen received", 
+            "content_type": 31
+        }
+    }, 
+    {
+        "pk": 94, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimenregistered", 
+            "name": "Can add specimen registered", 
+            "content_type": 29
+        }
+    }, 
+    {
+        "pk": 97, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_specimensent", 
+            "name": "Can add specimen sent", 
+            "content_type": 30
+        }
+    }, 
+    {
+        "pk": 85, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_sref", 
+            "name": "Can add sref", 
+            "content_type": 26
+        }
+    }, 
+    {
+        "pk": 104, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_alltestsdone", 
+            "name": "Can change all tests done", 
+            "content_type": 32
+        }
+    }, 
+    {
+        "pk": 113, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_collectedfromdtu", 
+            "name": "Can change collected from dtu", 
+            "content_type": 35
+        }
+    }, 
+    {
+        "pk": 122, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_collectedfromfirstcontroller", 
+            "name": "Can change collected from first controller", 
+            "content_type": 38
+        }
+    }, 
+    {
+        "pk": 74, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_configuration", 
+            "name": "Can change configuration", 
+            "content_type": 22
+        }
+    }, 
+    {
+        "pk": 116, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_deliveredtofirstcontroller", 
+            "name": "Can change delivered to first controller", 
+            "content_type": 36
+        }
+    }, 
+    {
+        "pk": 125, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_deliveredtosecondcontroller", 
+            "name": "Can change delivered to second controller", 
+            "content_type": 39
+        }
+    }, 
+    {
+        "pk": 167, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_deliverytofirstcontrolislate", 
+            "name": "Can change delivery to first control is late", 
+            "content_type": 55
+        }
+    }, 
+    {
+        "pk": 164, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_dtucollectionislate", 
+            "name": "Can change dtu collection is late", 
+            "content_type": 54
+        }
+    }, 
+    {
+        "pk": 107, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_eqa", 
+            "name": "Can change eqa", 
+            "content_type": 33
+        }
+    }, 
+    {
+        "pk": 110, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_eqastarts", 
+            "name": "Can change eqa starts", 
+            "content_type": 34
+        }
+    }, 
+    {
+        "pk": 146, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_ljresult", 
+            "name": "Can change lj result", 
+            "content_type": 46
+        }
+    }, 
+    {
+        "pk": 143, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_lparesult", 
+            "name": "Can change lpa result", 
+            "content_type": 45
+        }
+    }, 
+    {
+        "pk": 140, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_mgitresult", 
+            "name": "Can change mgit result", 
+            "content_type": 44
+        }
+    }, 
+    {
+        "pk": 137, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_microscopyresult", 
+            "name": "Can change microscopy result", 
+            "content_type": 43
+        }
+    }, 
+    {
+        "pk": 83, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_notice", 
+            "name": "Can change notice", 
+            "content_type": 25
+        }
+    }, 
+    {
+        "pk": 119, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_passedfirstcontrol", 
+            "name": "Can change passed first control", 
+            "content_type": 37
+        }
+    }, 
+    {
+        "pk": 60, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_patient", 
+            "name": "Can change patient", 
+            "content_type": 20
+        }
+    }, 
+    {
+        "pk": 131, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_readytoleaventrl", 
+            "name": "Can change ready to leave ntrl", 
+            "content_type": 41
+        }
+    }, 
+    {
+        "pk": 134, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_receivedatdtu", 
+            "name": "Can change received at dtu", 
+            "content_type": 42
+        }
+    }, 
+    {
+        "pk": 128, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_resultsavailable", 
+            "name": "Can change results available", 
+            "content_type": 40
+        }
+    }, 
+    {
+        "pk": 57, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_role", 
+            "name": "Can change role", 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 149, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_sirezresult", 
+            "name": "Can change sirez result", 
+            "content_type": 47
+        }
+    }, 
+    {
+        "pk": 80, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_slide", 
+            "name": "Can change slide", 
+            "content_type": 24
+        }
+    }, 
+    {
+        "pk": 77, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_slidesbatch", 
+            "name": "Can change slides batch", 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 63, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimen", 
+            "name": "Can change specimen", 
+            "content_type": 21
+        }
+    }, 
+    {
+        "pk": 89, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimeninvalid", 
+            "name": "Can change specimen invalid", 
+            "content_type": 27
+        }
+    }, 
+    {
+        "pk": 92, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimenmustbereplaced", 
+            "name": "Can change specimen must be replaced", 
+            "content_type": 28
+        }
+    }, 
+    {
+        "pk": 101, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimenreceived", 
+            "name": "Can change specimen received", 
+            "content_type": 31
+        }
+    }, 
+    {
+        "pk": 95, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimenregistered", 
+            "name": "Can change specimen registered", 
+            "content_type": 29
+        }
+    }, 
+    {
+        "pk": 98, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_specimensent", 
+            "name": "Can change specimen sent", 
+            "content_type": 30
+        }
+    }, 
+    {
+        "pk": 86, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_sref", 
+            "name": "Can change sref", 
+            "content_type": 26
+        }
+    }, 
+    {
+        "pk": 105, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_alltestsdone", 
+            "name": "Can delete all tests done", 
+            "content_type": 32
+        }
+    }, 
+    {
+        "pk": 114, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_collectedfromdtu", 
+            "name": "Can delete collected from dtu", 
+            "content_type": 35
+        }
+    }, 
+    {
+        "pk": 123, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_collectedfromfirstcontroller", 
+            "name": "Can delete collected from first controller", 
+            "content_type": 38
+        }
+    }, 
+    {
+        "pk": 75, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_configuration", 
+            "name": "Can delete configuration", 
+            "content_type": 22
+        }
+    }, 
+    {
+        "pk": 117, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_deliveredtofirstcontroller", 
+            "name": "Can delete delivered to first controller", 
+            "content_type": 36
+        }
+    }, 
+    {
+        "pk": 126, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_deliveredtosecondcontroller", 
+            "name": "Can delete delivered to second controller", 
+            "content_type": 39
+        }
+    }, 
+    {
+        "pk": 168, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_deliverytofirstcontrolislate", 
+            "name": "Can delete delivery to first control is late", 
+            "content_type": 55
+        }
+    }, 
+    {
+        "pk": 165, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_dtucollectionislate", 
+            "name": "Can delete dtu collection is late", 
+            "content_type": 54
+        }
+    }, 
+    {
+        "pk": 108, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_eqa", 
+            "name": "Can delete eqa", 
+            "content_type": 33
+        }
+    }, 
+    {
+        "pk": 111, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_eqastarts", 
+            "name": "Can delete eqa starts", 
+            "content_type": 34
+        }
+    }, 
+    {
+        "pk": 147, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_ljresult", 
+            "name": "Can delete lj result", 
+            "content_type": 46
+        }
+    }, 
+    {
+        "pk": 144, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_lparesult", 
+            "name": "Can delete lpa result", 
+            "content_type": 45
+        }
+    }, 
+    {
+        "pk": 141, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_mgitresult", 
+            "name": "Can delete mgit result", 
+            "content_type": 44
+        }
+    }, 
+    {
+        "pk": 138, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_microscopyresult", 
+            "name": "Can delete microscopy result", 
+            "content_type": 43
+        }
+    }, 
+    {
+        "pk": 84, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_notice", 
+            "name": "Can delete notice", 
+            "content_type": 25
+        }
+    }, 
+    {
+        "pk": 120, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_passedfirstcontrol", 
+            "name": "Can delete passed first control", 
+            "content_type": 37
+        }
+    }, 
+    {
+        "pk": 61, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_patient", 
+            "name": "Can delete patient", 
+            "content_type": 20
+        }
+    }, 
+    {
+        "pk": 132, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_readytoleaventrl", 
+            "name": "Can delete ready to leave ntrl", 
+            "content_type": 41
+        }
+    }, 
+    {
+        "pk": 135, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_receivedatdtu", 
+            "name": "Can delete received at dtu", 
+            "content_type": 42
+        }
+    }, 
+    {
+        "pk": 129, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_resultsavailable", 
+            "name": "Can delete results available", 
+            "content_type": 40
+        }
+    }, 
+    {
+        "pk": 58, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_role", 
+            "name": "Can delete role", 
+            "content_type": 19
+        }
+    }, 
+    {
+        "pk": 150, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_sirezresult", 
+            "name": "Can delete sirez result", 
+            "content_type": 47
+        }
+    }, 
+    {
+        "pk": 81, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_slide", 
+            "name": "Can delete slide", 
+            "content_type": 24
+        }
+    }, 
+    {
+        "pk": 78, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_slidesbatch", 
+            "name": "Can delete slides batch", 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 64, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimen", 
+            "name": "Can delete specimen", 
+            "content_type": 21
+        }
+    }, 
+    {
+        "pk": 90, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimeninvalid", 
+            "name": "Can delete specimen invalid", 
+            "content_type": 27
+        }
+    }, 
+    {
+        "pk": 93, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimenmustbereplaced", 
+            "name": "Can delete specimen must be replaced", 
+            "content_type": 28
+        }
+    }, 
+    {
+        "pk": 102, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimenreceived", 
+            "name": "Can delete specimen received", 
+            "content_type": 31
+        }
+    }, 
+    {
+        "pk": 96, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimenregistered", 
+            "name": "Can delete specimen registered", 
+            "content_type": 29
+        }
+    }, 
+    {
+        "pk": 99, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_specimensent", 
+            "name": "Can delete specimen sent", 
+            "content_type": 30
+        }
+    }, 
+    {
+        "pk": 87, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_sref", 
+            "name": "Can delete sref", 
+            "content_type": 26
+        }
+    }, 
+    {
+        "pk": 66, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "receive_specimen", 
+            "name": "Can send receive", 
+            "content_type": 21
+        }
+    }, 
+    {
+        "pk": 65, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "send_specimen", 
+            "name": "Can send specimen", 
+            "content_type": 21
+        }
+    }, 
+    {
+        "pk": 160, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_message", 
+            "name": "Can add message", 
+            "content_type": 53
+        }
+    }, 
+    {
+        "pk": 157, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_queue", 
+            "name": "Can add queue", 
+            "content_type": 52
+        }
+    }, 
+    {
+        "pk": 161, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_message", 
+            "name": "Can change message", 
+            "content_type": 53
+        }
+    }, 
+    {
+        "pk": 158, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_queue", 
+            "name": "Can change queue", 
+            "content_type": 52
+        }
+    }, 
+    {
+        "pk": 162, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_message", 
+            "name": "Can delete message", 
+            "content_type": 53
+        }
+    }, 
+    {
+        "pk": 159, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_queue", 
+            "name": "Can delete queue", 
+            "content_type": 52
+        }
+    }, 
+    {
+        "pk": 70, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_findtblocation", 
+            "name": "Can add findtb location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_location", 
+            "name": "Can add location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_locationtype", 
+            "name": "Can add Type", 
+            "content_type": 9
+        }
+    }, 
+    {
+        "pk": 71, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_findtblocation", 
+            "name": "Can change findtb location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_location", 
+            "name": "Can change location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_locationtype", 
+            "name": "Can change Type", 
+            "content_type": 9
+        }
+    }, 
+    {
+        "pk": 72, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_findtblocation", 
+            "name": "Can delete findtb location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_location", 
+            "name": "Can delete location", 
+            "content_type": 10
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_locationtype", 
+            "name": "Can delete Type", 
+            "content_type": 9
+        }
+    }, 
+    {
+        "pk": 41, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_incomingmessage", 
+            "name": "Can add incoming message", 
+            "content_type": 14
+        }
+    }, 
+    {
+        "pk": 44, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_outgoingmessage", 
+            "name": "Can add outgoing message", 
+            "content_type": 15
+        }
+    }, 
+    {
+        "pk": 42, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_incomingmessage", 
+            "name": "Can change incoming message", 
+            "content_type": 14
+        }
+    }, 
+    {
+        "pk": 45, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_outgoingmessage", 
+            "name": "Can change outgoing message", 
+            "content_type": 15
+        }
+    }, 
+    {
+        "pk": 43, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_incomingmessage", 
+            "name": "Can delete incoming message", 
+            "content_type": 14
+        }
+    }, 
+    {
+        "pk": 46, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_outgoingmessage", 
+            "name": "Can delete outgoing message", 
+            "content_type": 15
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_persistantbackend", 
+            "name": "Can add Backend", 
+            "content_type": 12
+        }
+    }, 
+    {
+        "pk": 38, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_persistantconnection", 
+            "name": "Can add Connection", 
+            "content_type": 13
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_reporter", 
+            "name": "Can add reporter", 
+            "content_type": 11
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "can_view", 
+            "name": "Can view", 
+            "content_type": 11
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_persistantbackend", 
+            "name": "Can change Backend", 
+            "content_type": 12
+        }
+    }, 
+    {
+        "pk": 39, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_persistantconnection", 
+            "name": "Can change Connection", 
+            "content_type": 13
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_reporter", 
+            "name": "Can change reporter", 
+            "content_type": 11
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_persistantbackend", 
+            "name": "Can delete Backend", 
+            "content_type": 12
+        }
+    }, 
+    {
+        "pk": 40, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_persistantconnection", 
+            "name": "Can delete Connection", 
+            "content_type": 13
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_reporter", 
+            "name": "Can delete reporter", 
+            "content_type": 11
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_session", 
+            "name": "Can add session", 
+            "content_type": 6
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_session", 
+            "name": "Can change session", 
+            "content_type": 6
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_session", 
+            "name": "Can delete session", 
+            "content_type": 6
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_site", 
+            "name": "Can add site", 
+            "content_type": 7
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_site", 
+            "name": "Can change site", 
+            "content_type": 7
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_site", 
+            "name": "Can delete site", 
+            "content_type": 7
+        }
+    }, 
+    {
+        "pk": 47, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "add_migrationhistory", 
+            "name": "Can add migration history", 
+            "content_type": 16
+        }
+    }, 
+    {
+        "pk": 48, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "change_migrationhistory", 
+            "name": "Can change migration history", 
+            "content_type": 16
+        }
+    }, 
+    {
+        "pk": 49, 
+        "model": "auth.permission", 
+        "fields": {
+            "codename": "delete_migrationhistory", 
+            "name": "Can delete migration history", 
+            "content_type": 16
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dtu lab tech", 
+            "permissions": [
+                53, 
+                56
+            ]
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "clinician", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "ntrl lab tech", 
+            "permissions": [
+                54, 
+                57
+            ]
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "district focal person", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "district lab tech", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "zonal tb supervisor", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "national tb coordinator", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "district tb supervisor", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "dtu focal person", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "first control focal person", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "auth.group", 
+        "fields": {
+            "name": "second control focal person", 
+            "permissions": []
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "admin", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2010-07-18 17:34:58", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$0b1ff$fdb9ee6993f9597e6b5cbd18c414e0708210759b", 
+            "email": "admin@admin.admin", 
+            "date_joined": "2010-07-13 13:02:00"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "eqa", 
+            "first_name": "", 
+            "last_name": "Eqa", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-07-26 20:54:16", 
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "password": "", 
+            "email": "", 
+            "date_joined": "2010-07-26 20:54:16"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "dtls", 
+            "first_name": "", 
+            "last_name": "Dtls", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-07-26 20:54:19", 
+            "groups": [
+                8
+            ], 
+            "user_permissions": [], 
+            "password": "", 
+            "email": "", 
+            "date_joined": "2010-07-26 20:54:19"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "co", 
+            "first_name": "Controller", 
+            "last_name": "O", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-07-26 20:54:23", 
+            "groups": [
+                10
+            ], 
+            "user_permissions": [], 
+            "password": "", 
+            "email": "", 
+            "date_joined": "2010-07-26 20:54:23"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "eqa1", 
+            "first_name": "", 
+            "last_name": "Eqa", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2010-07-28 15:57:52", 
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "password": "", 
+            "email": "", 
+            "date_joined": "2010-07-28 15:57:52"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "reporters.reporter", 
+        "fields": {
+            "groups": [
+                8
+            ], 
+            "user_permissions": [], 
+            "location": null, 
+            "language": ""
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "reporters.reporter", 
+        "fields": {
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "location": null, 
+            "language": ""
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "reporters.reporter", 
+        "fields": {
+            "groups": [
+                9
+            ], 
+            "user_permissions": [], 
+            "location": null, 
+            "language": ""
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "reporters.reporter", 
+        "fields": {
+            "groups": [
+                10
+            ], 
+            "user_permissions": [], 
+            "location": null, 
+            "language": ""
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "reporters.persistantbackend", 
+        "fields": {
+            "slug": "debackend", 
+            "title": "debackend"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-13 14:10:26", 
+            "reporter": null, 
+            "identity": "133", 
+            "backend": 1
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-26 21:02:56", 
+            "reporter": 2, 
+            "identity": "1", 
+            "backend": 1
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-26 20:54:19", 
+            "reporter": 3, 
+            "identity": "2", 
+            "backend": 1
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-26 20:54:22", 
+            "reporter": 4, 
+            "identity": "3", 
+            "backend": 1
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "reporters.persistantconnection", 
+        "fields": {
+            "last_seen": "2010-07-28 15:58:18", 
+            "reporter": 5, 
+            "identity": "4", 
+            "backend": 1
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 9, 
+            "location": 4722, 
+            "reporter": 2
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 8, 
+            "location": 4721, 
+            "reporter": 3
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 10, 
+            "location": null, 
+            "reporter": 4
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 10, 
+            "location": 4722, 
+            "reporter": 4
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 9, 
+            "location": 4729, 
+            "reporter": 5
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "findtb.role", 
+        "fields": {
+            "group": 10, 
+            "location": 4729, 
+            "reporter": 4
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "findtb.configuration", 
+        "fields": {
+            "value": "open", 
+            "description": "Registration- set to 'open' to allow registration through SMS, set to 'closed' to prevent it", 
+            "key": "registration"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "findtb.slidesbatch", 
+        "fields": {
+            "comment": "", 
+            "created_on": "2010-07-26", 
+            "location": 4722, 
+            "created_by": 2, 
+            "results": ""
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "findtb.slidesbatch", 
+        "fields": {
+            "comment": "", 
+            "created_on": "2010-07-28", 
+            "location": 4729, 
+            "created_by": 5, 
+            "results": ""
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "findtb.eqa", 
+        "fields": {
+            "note": null, 
+            "slides_batch": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "findtb.eqa", 
+        "fields": {
+            "note": null, 
+            "slides_batch": 2
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "findtb.eqastarts", 
+        "fields": {}
+    }, 
+    {
+        "pk": 2, 
+        "model": "findtb.eqastarts", 
+        "fields": {}
+    }, 
+    {
+        "pk": 2, 
+        "model": "django_tracking.state", 
+        "fields": {
+            "origin": "eqa", 
+            "title": "eqa_starts", 
+            "created": "2010-07-28 15:58:19", 
+            "object_id": 2, 
+            "tracked_item": 2, 
+            "is_current": true, 
+            "is_final": false, 
+            "content_type": 34, 
+            "cancelled": false, 
+            "type": "notice"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "django_tracking.state", 
+        "fields": {
+            "origin": "eqa", 
+            "title": "eqa_starts", 
+            "created": "2010-07-26 21:02:57", 
+            "object_id": 1, 
+            "tracked_item": 1, 
+            "is_current": true, 
+            "is_final": false, 
+            "content_type": 34, 
+            "cancelled": false, 
+            "type": "notice"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "django_tracking.trackeditem", 
+        "fields": {
+            "object_id": 1, 
+            "content_type": 23
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "django_tracking.trackeditem", 
+        "fields": {
+            "object_id": 2, 
+            "content_type": 23
+        }
+    }
+]

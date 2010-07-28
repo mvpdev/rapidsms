@@ -157,19 +157,25 @@ def Role_presave_handler(sender, **kwargs):
     '''
     class Meta:
         app_label = 'findtb'
+        
     role = kwargs['instance']
     role.reporter.groups.add(role.group)
+    
     if role.pk:
-        orig_role = Role.objects.get(pk=role.pk)
-        if orig_role.reporter != role.reporter:
-            if Role.objects.filter(reporter=orig_role.reporter,
-                                   group=orig_role.group).count() == 1:
-                orig_role.reporter.groups.remove(orig_role.group)
+        try:
+            orig_role = Role.objects.get(pk=role.pk)
+        except Role.DoesNotExist:
+            pass
         else:
-            if orig_role.group != role.group:
-                if Role.objects.filter(reporter=role.reporter,
+            if orig_role.reporter != role.reporter:
+                if Role.objects.filter(reporter=orig_role.reporter,
                                        group=orig_role.group).count() == 1:
-                    role.reporter.groups.remove(orig_role.group)
+                    orig_role.reporter.groups.remove(orig_role.group)
+            else:
+                if orig_role.group != role.group:
+                    if Role.objects.filter(reporter=role.reporter,
+                                           group=orig_role.group).count() == 1:
+                        role.reporter.groups.remove(orig_role.group)
 
 pre_save.connect(Role_presave_handler, sender=Role)
 

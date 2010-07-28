@@ -11,7 +11,7 @@ There is a lot of code but the principle is simple:
 mostly traking slides from one place to another by sms
 and then enter tests results in a web form.
  
-**Specimen referal** is a part of the application that deals with tuberculosis testing.
+**Specimen referal** (sref) is a part of the application that deals with tuberculosis testing.
 There is a few tracking with SMS, but most of the work is on forms saving tests results.
 
 **Specimens and slides are associated to states**, from the django_tracking application.
@@ -30,7 +30,11 @@ All the sms are processed by app.py that delegates the work in functions in the
 
 In the tracking views, every real state object holds the information of 
 which form to display on the web site, and it's name is used to choose the view
-to use.
+to use. 
+
+e.g: in sref, if the speciment passed microscopy, it's current state is 
+"MicroscopyResults". MicroscopyResults state, according to previous results,
+choose to display either the for for LJ or MGIT.
 
 Knowing that, most of the code is:
 

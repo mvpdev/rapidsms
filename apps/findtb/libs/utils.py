@@ -14,11 +14,13 @@ import rapidsms
 from rapidsms.webui import settings
 
 from findtb.exceptions import NotRegistered
-from findtb.models import FINDTBGroup, Role, FINDTBLocation
+from findtb.models.models import FINDTBGroup, Role, FINDTBLocation
 from findtb import config
 from format_timedelta import humanize_timedelta
 
 from django_tracking.models import State
+
+# TODO: move the send_msg stuff to reporters and locations sublasses
 
 def send_msg(reporter, text):
     '''

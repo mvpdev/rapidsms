@@ -92,13 +92,8 @@ Crontab like::
     # no need to call it, just restart celeryd
     d = timedelta(seconds=1)
     @periodic_task(run_every=d)
-    def clock(name="ticker"):
+    def clock():
         print("Tic") # send an SMS
-        
-    # Want to know what's going on ? 
-    # use the task_id to get your task back (task_id is automatically calculated or equal to "name" if given)
-    task = TaskMeta.objects.get_task("ticker")
-    task_status = MyTask.AsyncResult("ticker")
 
 You can choose a recurring date instead of a duration::
 
@@ -190,3 +185,4 @@ Good practices
 #. Set a condition in the task to abort. Data may have changed in the meantime.
 #. Update querysets and models objets in the task code if you pass them as parameters.
    Indeed, the database may have changed but your object didn't.  
+#. If you plan to revoke a task, you must store it's id somewhere
