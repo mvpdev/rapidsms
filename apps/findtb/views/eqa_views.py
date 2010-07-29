@@ -169,6 +169,7 @@ def controllers(request, *arg, **kwargs):
     first_controllers = [ u.reporter for u in first_group.user_set.all() ]
     second_controllers = [ u.reporter for u in second_group.user_set.all() ]
     ctx = {'dtus':dtus, '1sts':first_controllers, '2nds':second_controllers}
+    ctx.update(kwargs)
 
     return render_to_response(request, "eqa/eqa-controllers.html", ctx)
     

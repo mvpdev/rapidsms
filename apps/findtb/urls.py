@@ -18,6 +18,11 @@ urlpatterns = patterns('',
     url(r'^findtb/doc/$', views.global_views.doc,
         name='findtb-doc'),
 
+    # NOTICE
+    url(r'^findtb/notices/$', views.notices,
+        name='findtb-notices',
+        kwargs={'view_name': 'findtb-notices'}),
+
 )
 
 
@@ -38,13 +43,6 @@ urlpatterns += patterns('',
         views.results_available,
         name='findtb-eqa-results_available',
         kwargs={'view_name': 'findtb-eqa-results_available'}),
-)
-
-# Notices
-urlpatterns += patterns('',
-    url(r'^findtb/notices/$', views.notices,
-        name='findtb-notices',
-        kwargs={'view_name': 'findtb-notices'}),
 )
 
 # EQA (general)

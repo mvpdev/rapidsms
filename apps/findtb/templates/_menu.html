@@ -1,39 +1,45 @@
+{% load comparison %} 
+
 <ul id="findtb-menu">
 
-     	{% ifnotequal view_name "findtb-notices" %}
-            {% if perms.findtb.change_notice %}
-     	    <li><a href="{% url findtb-notices %}">Notices</a></li>
-     	    {% endif %}
-        {% else %}
-            <li>Notices</li>
-        {% endifnotequal %}
-        {% if perms.findtb.change_eqa %}
+{% if_in "eqa" view_name  %}
+
+    {% if perms.findtb.change_eqa %}
         {% ifnotequal view_name "findtb-eqa-dashboard" %}
-     	    <li class="not-first"><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
-     	{% else %}
-     	    <li class="not-first">EQA dashboard</li>
-     	{% endifnotequal %}
-        {% endif %}
-     	
-     	{% ifnotequal view_name "findtb-sref-dashboard" %}
-     	{% ifnotequal view_name "findtb-eqa-progress" %}
-     	<li class="not-first"><a href="{% url findtb-eqa-progress %}">EQA Progress</a></li>
-     	{% else %}
-     	<li class="not-first">EQA Progress</li>
-     	{% endifnotequal %}
-     	{% endifnotequal %}
-     	
-     	{% ifequal view_name "findtb-eqa-dashboard" %}{% if perms.findtb.change_role %}
-     	    <li class="not-first"><a href="{% url findtb-eqa-controllers %}">Assign controllers</a></li>
-     	{% endif %}{% endifequal %}
-     	
-        {% if perms.findtb.change_sref %}
-     	{% ifnotequal view_name "findtb-sref-dashboard" %}
-     	    <li class="not-first"><a href="{% url findtb-sref-dashboard %}">Specimen referral dashboard</a></li>
-     	{% else %}
-     	    <li class="not-first">Specimen referral dashboard</li>
-     	{% endifnotequal %}
-     	{% endif %}
-  	    <li class="not-first"><a href="{% url findtb-doc %}">Documentation</a></li>
+ 	        <li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
+ 	    {% else %}
+ 	        <li>EQA dashboard</li>
+        {% endifnotequal %}
+    {% endif %}
+ 	
+    {% ifnotequal view_name "findtb-eqa-progress" %}
+        <li class="not-first"><a href="{% url findtb-eqa-progress %}">EQA Progress</a></li>
+    {% else %}
+        <li class="not-first">EQA Progress</li>
+    {% endifnotequal %}
+	
+	{% if perms.findtb.change_role %}
+	    {% ifnotequal view_name "findtb-eqa-controllers" %}
+            <li class="not-first"><a href="{% url findtb-eqa-controllers %}">Assign controllers</a></li>
+        {% else %}
+            <li class="not-first">Assign controllers</li>
+        {% endifnotequal %}
+ 	{% endif %}
+ 	
+{% endif_in %}
+
+{% if_in "sref" view_name  %}
+
+    {% if perms.findtb.change_sref %}
+
+        {% ifnotequal view_name "findtb-sref-dashboard" %}
+            <li><a href="{% url findtb-sref-dashboard %}">&lt;&lt; Specimen referral dashboard</a></li>
+        {% else %}
+            <li>Specimen referral dashboard</li>
+        {% endifnotequal %}
+
+    {% endif %}
+
+{% endif_in %}
      	
 </ul>
