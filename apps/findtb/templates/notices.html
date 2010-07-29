@@ -1,5 +1,7 @@
 {% extends "findtb-base.html" %}
 
+{% load findtb_format  %}
+
 {% block javascripts %}
 {% endblock %}
 
@@ -11,41 +13,54 @@
 
 {% block findtb-content %}
 
-
+<div class="notices span-22 last">
 {% for notice in notices.object_list %}
-<table class="ntable">
-<tr>
-{% if notice.response %}
-    <th rowspan="5" class="checked"></th>
-{% else %}
-    <th rowspan="3" class="warning"></th>
-{% endif %}
-<td class="message">{{notice.text}}</td></tr>
-<tr><td class="by">{{notice.recieved_on|date:"d N P"}} from {{notice.reporter}} ({{notice.reporter.connection.identity}}) at <b>{{notice.location}}</b></td></tr>
-{% if notice.response %}
-    <tr><td class="resp">Response:</td></tr>
-    <tr><td class="message">{{notice.response}}</td></tr>
-    <tr><td class="responded">{{notice.responded_on|date:"d N P"}} by {{notice.responded_by}}</td></tr>
-{% else %}
-    <tr><td><form method="post" action=""><textarea name="response_{{notice.id}}"></textarea><input type="submit" value="Respond"/></td></tr>
-{% endif %}
-</table>
+
+<div class="notice span-12 prepend-6">
+
+    <h4 class="span-12 message">{{notice.text}}</h4>
+
+    <p class="by">
+        {{notice.recieved_on|humanize_time_delta}} 
+        from {{notice.reporter}} ({{notice.reporter.connection.identity}}) 
+        at <strong>{{notice.location}}</strong>
+    </p>
+    {% if notice.response %}
+        <p class="response">
+            <span><strong>Response:</strong> {{notice.response}}</span>
+            <span class="resp_auth">
+                ({{notice.responded_on|humanize_time_delta}} 
+                by {{notice.responded_by}})
+            </span>
+        </p>
+    {% else %}
+        <p>
+            <form method="post" action="">
+            <textarea class="span-12" name="response_{{notice.id}}"></textarea>
+            <input type="submit" value="Respond"/>
+            </form>
+        </p>
+    {% endif %}
+
+</div>
+
 {% endfor %}
 
-
-<table class="pagination">
-<tr><td>
+<p class="pagination span-12 prepend-6">
+<span>
         {% if notices.has_previous %}
             <a href="?page={{ notices.previous_page_number }}">Previous</a>
         {% endif %}
-</td><td>
+</span>
             Page {{ notices.number }} of {{ notices.paginator.num_pages }}
-</td><td>
+<span>
         {% if notices.has_next %}
             <a href="?page={{ notices.next_page_number }}">Next</a>
         {% endif %}
-</td></tr>
-</table>
+</span>
+</p>
+
+</div>
 
 
 {% endblock %}

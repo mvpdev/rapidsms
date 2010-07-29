@@ -28,8 +28,7 @@ def send_msg(reporter, text):
     ajax_POST_send_message in findtb app.py
     '''
     conf = settings.RAPIDSMS_APPS['ajax']
-    slug = config.title.replace(' ','-').lower()
-    url = "http://%s:%s/%s/send_message" % (conf["host"], conf["port"], slug)
+    url = "http://%s:%s/findtb/send_message" % (conf["host"], conf["port"])
 
     data = {'reporter': reporter.pk, \
             'text': text}

@@ -442,73 +442,63 @@ text-align: center;
 
 /*** Notices ***/
 
-.notices table.ntable {
-margin: 5px;
-border: 1px solid #000000;
-width: 700px;
-margin-left: auto;
-margin-right: auto;
+.notices .message {
+color:black;
+font-size:1.2em;
+padding-bottom:5px;
+margin-top:0px;
+border-bottom: 1px solid #8FBCC9;
+font-weight:normal;
+margin-bottom:5px;
 }
 
-.notices td {
-padding:2px;
-border:0;
-}
-
-.notices th {
-padding: 0;
-border-top:0;
-width: 40px;
-height: 20px;
-}
-
-.notices th.warning {
+.notices .warning {
 background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 2px 2px;
 background-position:center;
 }
 
-.notices th.checked {
+.notices .checked {
 background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 2px 2px;
 background-position:center;
 }
 
-.notices td.message {
-font-size:14px;
-}
 
-.notices td.by {
-padding-top:0;
+.notices .by {
+padding:0;
+margin:0;
 font-style:italic;
-color:#005f0d;
+color:#8FBCC9;
+font-size:0.8em;
 }
 
-.notices td.resp {
-padding-top:10px;
-font-weight:bold;
-font-size:14px;
+.notices .response {
+padding:1em;
+display: block;
 }
 
-.notices td.responded {
-padding-top:0;
-font-style:italic;
-color:#660000;
+.notices .resp_auth {
+font-size:0.8em;
+font-style:italic
 }
 
 .notices textarea {
-width: 628px;
 height: 50px;
-margin-bottom:0px;
+margin-bottom:5px;
+margin-top:0px;
 border: 1px solid #cccccc;
-padding: 1px;
 background:#ededed;
 font-size:14px;
 }
 
-.notices table.pagination {
-margin-left:auto;
-margin-right:auto;
+.notices form  {
+text-align:right;
 }
 
-.notices table.pagination td {
-width:100px;
+.notices .notice {
+margin:1em;
 }
+
+.notices .pagination {
+text-align:center;
+}
+

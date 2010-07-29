@@ -152,3 +152,5 @@ if settings.DEBUG:
             {'document_root': 'apps/findtb/static', 'show_indexes': True}),
 
     )
+    
+    
