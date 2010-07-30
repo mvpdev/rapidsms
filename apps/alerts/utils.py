@@ -17,7 +17,7 @@ def send_msg(reporter, text):
     '''
 
    conf = settings.RAPIDSMS_APPS['ajax']
-   url = "http://%s:%s/direct-sms/send_message" % (conf["host"], conf["port"])
+   url = "http://%s:%s/alerts/send_message" % (conf["host"], conf["port"])
 
    data = {'reporter': reporter.pk, \
            'text': text}
