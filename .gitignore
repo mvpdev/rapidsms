@@ -50,3 +50,7 @@ apps/childcount/rpts
 #celery
 celerybeat-schedule
 
+#sphinx
+Makefile
+make.bat
+build
