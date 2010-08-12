@@ -12,25 +12,27 @@ from urllib import urlencode
 import rapidsms
 from rapidsms.webui import settings
 
-from logger_ng import config
+import config
+from models import LoggedMessage
+
+from direct_sms.utils import send_msg
+
+
+def watermak(outgoing_message, in_response_to):
+    """
+        Inject the in the outgoing message id of the message we want to respond 
+        to.
+    """
+    outgoing_message.logger_id = in_response_to
+    outgoing_message.status = LoggedMessage.STATUS_LOGGER_RESPONSE
 
 
 def respond_to_msg(msg, text):
     '''
     Sends a message to a reporter using the ajax app.  This goes to
-    ajax_POST_send_message in logger_ng app.py.
-
-    It is passed a LoggedMessage object (to which we are responding) and the
-    text of our response.
-
-    This is dependent on the rapidsms ajax app.
+    ajax_POST_send_message in direct_sms app.py and use a callback to 
+    watermark the response.
     '''
-    conf = settings.RAPIDSMS_APPS['ajax']
-    slug = config.title.replace(' ', '-').lower()
-    url = "http://%s:%s/%s/send_message" % (conf["host"], conf["port"], slug)
-
-    data = {'msg_pk': msg.pk, \
-            'text': text}
-    req = urllib2.Request(url, urlencode(data))
-    stream = urllib2.urlopen(req)
-    stream.close()
+    send_msg(backend=msg.backend, text=text, identity=msg.identity,
+             callback=watermak, callback_kwargs={'in_response_to': msg.id})
+             
