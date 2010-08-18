@@ -10,8 +10,11 @@ class NoticeCounterMiddleware(object):
     """
     def process_request(self, request):
         
+        
         notices_count = Notice.objects.filter(response__isnull=True).count()
 
         if notices_count:
             settings.RAPIDSMS_APPS['notice']['title'] = "Notice (%s)" % notices_count
-
+        else:
+            settings.RAPIDSMS_APPS['notice']['title'] = "Notice"
+            

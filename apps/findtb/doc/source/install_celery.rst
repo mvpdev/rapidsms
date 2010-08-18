@@ -2,13 +2,13 @@
 Installing Celery
 ******************
 
+.. note:: It's recommanded to use a virtualenv for you setup
 
-Dependancies on Ubuntu 10.04
-==============================
+Dependancies 
+=============
 
 ::
 
-    sudo aptitude rabbitmq-server
     easy_install django-celery
 
 
@@ -27,9 +27,21 @@ It's easy to set up and sufficient::
 
     easy_install ghettoq
     
+.. warning:: 
+    Old versions on ghettoq don't allow timeout, and we use it in taskadmin.
+    You can install it from the trunk using pip and git::
+    
+        sudo aptitude install git-core
+        easy_install pip
+        pip install git+http://github.com/ask/ghettoq.git
+    
 
 The champion's way: use RabbitMQ
 ---------------------------------
+
+Install it this way on Ubuntu 10.04::
+
+    sudo aptitude install rabbitmq-server
 
 If you want to use RabbitMQ, which is faster and more reliable, and includes
 more features:

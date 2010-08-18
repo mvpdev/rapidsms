@@ -17,6 +17,7 @@ from locations.models import Location
 from reporters.models import Reporter
 
 # TODO : break this file in several smaller files
+# TODO: notice should be a separate app, it's something will need often
 
 class SlidesBatchManager(models.Manager):
 
