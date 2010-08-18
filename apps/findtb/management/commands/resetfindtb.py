@@ -3,10 +3,12 @@
 
 from optparse import make_option
 import os
+import sys
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.management.commands import loaddata
 from django.conf import settings
+from django.contrib.auth.models import Group
 
 from locations.models import Location
 
@@ -64,7 +66,7 @@ class Command(BaseCommand):
         for the given app.
         """
         
-        # filtering all non sref related reporter prior to deletion
+        # filtering all non app related reporter prior to deletion
         reporters_to_keep = set((None,))
         locations_to_keep = set((None,))
         for state in State.objects.exclude(origin=app):
@@ -80,26 +82,48 @@ class Command(BaseCommand):
         print "Deleting roles, reporter, groups and locations"
         for role in Role.objects.filter(group__name__in= groups_to_remove):
             
-            role.group.delete()
+            try:
+                role.group.delete()
+            except Group.DoesNotExist:
+                pass # no group
             
-            if role.reporter not in reporters_to_keep:
-                role.reporter.delete()
-            if role.location not in locations_to_keep:
-                role.location.delete()
+            try:
+                if role.reporter not in reporters_to_keep:
+                    role.reporter.delete()
+            except Reporter.DoesNotExist:
+                pass # no reporter
                 
-            role.delete()
+            try:
+                if role.location not in locations_to_keep:
+                    role.location.delete()
+            except Location.DoesNotExist:
+                pass # no location
+                
+            try:
+                role.delete()
+            except (Group.DoesNotExist, Reporter.DoesNotExist, 
+                   Location.DoesNotExist), e:
+                pass # no group
+            
             
         FINDTBGroup.objects.filter(name__in= groups_to_remove).delete()
         
         print "Deleting states"
         for state in State.objects.filter(origin=app):
-            ti = state.tracked_item
-            co = ti.content_object
-            reporter = co.reporter
+            try:
+                ti = state.tracked_item
+                co = ti.content_object
+                try:
+                    reporter = co.reporter
+                    if reporter not in reporters_to_keep:
+                        reporter.delete()
+                except AttributeError:
+                    pass # no reporter
+            except django_tracking.models.DoesNotExist:
+                pass # no tracked item
             state.delete()
             ti.delete()
-            if reporter not in reporters_to_keep:
-                reporter.delete()
+            
     
 
     def handle(self, *args, **options):
@@ -123,7 +147,7 @@ class Command(BaseCommand):
 
                 if not no_input and confirm.strip().lower() not in ('y', 'yes'):
                     print "Aborting"
-                    return
+                    sys.exit(1)
             
             print "Deleting states"
             Sref.objects.all().delete()
@@ -149,6 +173,16 @@ class Command(BaseCommand):
             
         if app == "sref":
         
+            if not no_input:
+                confirm = raw_input(u"This will wipe all current data for sref, "\
+                      u"and sref related entries in django_tracking, group, "\
+                      u"location and reporter then "\
+                      u"reload sref fixtures. Are you sure ? (y/N)\n")
+
+                if not no_input and confirm.strip().lower() not in ('y', 'yes'):
+                    print "Aborting"
+                    sys.exit(1)
+        
             sref_only_groups = (FINDTBGroup.DTU_LAB_TECH_GROUP_NAME,
                                 FINDTBGroup.CLINICIAN_GROUP_NAME)
         
@@ -160,6 +194,17 @@ class Command(BaseCommand):
             Patient.objects.all().delete()
 
         if app == "eqa":
+        
+            if not no_input:
+                confirm = raw_input(u"This will wipe all current data for eqa, "\
+                      u"and eqa related entries in django_tracking, group, "\
+                      u"location and reporter then "\
+                      u"reload eqa fixtures. Are you sure ? (y/N)\n")
+
+                if not no_input and confirm.strip().lower() not in ('y', 'yes'):
+                    print "Aborting"
+                    return
+        
             sref_only_groups = (FINDTBGroup.DTU_FOCAL_PERSON_GROUP_NAME,
                                 FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
                                 FINDTBGroup.SECOND_CONTROL_FOCAL_PERSON_GROUP_NAME)
