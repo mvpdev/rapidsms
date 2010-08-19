@@ -374,7 +374,7 @@ def receive(params, reporter, message):
                 try:
                     dtu = Location.objects.get(type__name=u'dtu', code=code)
                 except Location.DoesNotExist:
-                    not_dtus.append(dtu)
+                    not_dtus.append(code)
                 else:
                     try:
                         reporter.role_set.get(group__name=FINDTBGroup.FIRST_CONTROL_FOCAL_PERSON_GROUP_NAME,
