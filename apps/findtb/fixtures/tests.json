@@ -354,7 +354,7 @@
         "pk": 166, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "add_deliverytofirstcontrolislate", 
+            "codename": "add_deliverytofirstctrllate", 
             "name": "Can add delivery to first control is late", 
             "content_type": 55
         }
@@ -633,7 +633,7 @@
         "pk": 167, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "change_deliverytofirstcontrolislate", 
+            "codename": "change_deliverytofirstctrllate", 
             "name": "Can change delivery to first control is late", 
             "content_type": 55
         }
@@ -912,7 +912,7 @@
         "pk": 168, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "delete_deliverytofirstcontrolislate", 
+            "codename": "delete_deliverytofirstctrllate", 
             "name": "Can delete delivery to first control is late", 
             "content_type": 55
         }

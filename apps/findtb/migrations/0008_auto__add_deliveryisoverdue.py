@@ -113,12 +113,12 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'DeliveryIsOverdue', '_ormbases': ['findtb.SpecimenSent']},
             'specimensent_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.SpecimenSent']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'findtb.deliverytofirstcontrolislate': {
-            'Meta': {'object_name': 'DeliveryToFirstControlIsLate', '_ormbases': ['findtb.CollectedFromDtu']},
+        'findtb.deliverytofirstctrllate': {
+            'Meta': {'object_name': 'DeliveryToFirstCtrlLate', '_ormbases': ['findtb.CollectedFromDtu']},
             'collectedfromdtu_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.CollectedFromDtu']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'findtb.deliverytosecondcontrolislate': {
-            'Meta': {'object_name': 'DeliveryToSecondControlIsLate', '_ormbases': ['findtb.PassedFirstControl']},
+        'findtb.deliverytoscndctrllate': {
+            'Meta': {'object_name': 'DeliveryToScndCtrlLate', '_ormbases': ['findtb.PassedFirstControl']},
             'passedfirstcontrol_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.PassedFirstControl']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.dtucollectionislate': {
@@ -135,8 +135,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'EqaStarts', '_ormbases': ['findtb.Eqa']},
             'eqa_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.Eqa']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'findtb.firstcontrolcollectionislate': {
-            'Meta': {'object_name': 'FirstControlCollectionIsLate', '_ormbases': ['findtb.DeliveredToFirstController']},
+        'findtb.firstctrlcollectionlate': {
+            'Meta': {'object_name': 'FirstCtrlCollectionLate', '_ormbases': ['findtb.DeliveredToFirstController']},
             'deliveredtofirstcontroller_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.DeliveredToFirstController']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.ljresult': {

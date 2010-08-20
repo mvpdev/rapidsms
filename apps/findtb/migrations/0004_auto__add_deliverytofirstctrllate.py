@@ -8,17 +8,17 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'DeliveryToFirstControlIsLate'
-        db.create_table('findtb_deliverytofirstcontrolislate', (
+        # Adding model 'DeliveryToFirstCtrlLate'
+        db.create_table('findtb_deliverytofirstctrllate', (
             ('collectedfromdtu_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['findtb.CollectedFromDtu'], unique=True, primary_key=True)),
         ))
-        db.send_create_signal('findtb', ['DeliveryToFirstControlIsLate'])
+        db.send_create_signal('findtb', ['DeliveryToFirstCtrlLate'])
 
 
     def backwards(self, orm):
         
-        # Deleting model 'DeliveryToFirstControlIsLate'
-        db.delete_table('findtb_deliverytofirstcontrolislate')
+        # Deleting model 'DeliveryToFirstCtrlLate'
+        db.delete_table('findtb_deliverytofirstctrllate')
 
 
     models = {
@@ -105,8 +105,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'DeliveredToSecondController', '_ormbases': ['findtb.Eqa']},
             'eqa_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.Eqa']", 'unique': 'True', 'primary_key': 'True'})
         },
-        'findtb.deliverytofirstcontrolislate': {
-            'Meta': {'object_name': 'DeliveryToFirstControlIsLate', '_ormbases': ['findtb.CollectedFromDtu']},
+        'findtb.deliverytofirstctrllate': {
+            'Meta': {'object_name': 'DeliveryToFirstCtrlLate', '_ormbases': ['findtb.CollectedFromDtu']},
             'collectedfromdtu_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.CollectedFromDtu']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.dtucollectionislate': {

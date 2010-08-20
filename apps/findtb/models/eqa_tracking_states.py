@@ -129,7 +129,7 @@ class CollectedFromDtu(Eqa):
             
             ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
             if ti.state.title == self.state_name and ti.state.type != 'alert':
-                state = DeliveryToFirstControlIsLate(slides_batch=sb)
+                state = DeliveryToFirstCtrlLate(slides_batch=sb)
                 state.save()
                 ti.state = state
                 ti.save()
@@ -147,7 +147,7 @@ class CollectedFromDtu(Eqa):
         """ Setup the alert """
         
         if not self.pk:
-            delay = DeliveryToFirstControlIsLate.get_deadline()
+            delay = DeliveryToFirstCtrlLate.get_deadline()
             self.controller_delivery_reminder.apply_async(eta=delay, 
                                                           args=(self,))
         
@@ -190,7 +190,7 @@ class DeliveredToFirstController(Eqa):
         else:
             ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
             if ti.state.title == self.state_name and ti.state.type != 'alert':
-                state = FirstControlCollectionIsLate(slides_batch=sb)
+                state = FirstCtrlCollectionLate(slides_batch=sb)
                 state.save()
                 ti.state = state
                 ti.save()
@@ -208,7 +208,7 @@ class DeliveredToFirstController(Eqa):
         """ Setup the alert """
 
         if not self.pk:
-            delay = FirstControlCollectionIsLate.get_deadline()
+            delay = FirstCtrlCollectionLate.get_deadline()
             self.controller_collection_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
@@ -269,7 +269,7 @@ class CollectedFromFirstController(Eqa):
         else:
             ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
             if ti.state.title == self.state_name and ti.state.type != 'alert':
-                state = DeliveryToSecondControlIsLate(slides_batch=sb)
+                state = DeliveryToScndCtrlLate(slides_batch=sb)
                 state.save()
                 ti.state = state
                 ti.save()
@@ -287,7 +287,7 @@ class CollectedFromFirstController(Eqa):
         """ Setup the alert """
 
         if not self.pk:
-            delay = DeliveryToSecondControlIsLate.get_deadline()
+            delay = DeliveryToScndCtrlLate.get_deadline()
             self.second_controller_delivery_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
@@ -445,7 +445,7 @@ class DtuCollectionIsLate(AlertForBeingLate, EqaStarts):
                
                
                
-class DeliveryToFirstControlIsLate(AlertForBeingLate, CollectedFromDtu):
+class DeliveryToFirstCtrlLate(AlertForBeingLate, CollectedFromDtu):
     """
     State declaring the slides haven't been delivered to first controller
     for too long.
@@ -478,7 +478,7 @@ class DeliveryToFirstControlIsLate(AlertForBeingLate, CollectedFromDtu):
                
                
      
-class FirstControlCollectionIsLate(AlertForBeingLate, 
+class FirstCtrlCollectionLate(AlertForBeingLate, 
                                    DeliveredToFirstController):
     """
     State declaring the slides haven't been collected from first controller
@@ -512,7 +512,7 @@ class FirstControlCollectionIsLate(AlertForBeingLate,
                
                
      
-class DeliveryToSecondControlIsLate(AlertForBeingLate, PassedFirstControl):
+class DeliveryToScndCtrlLate(AlertForBeingLate, PassedFirstControl):
     """
     State declaring the slides haven't been delivered to second controller
     for too long.
