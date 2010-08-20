@@ -20,7 +20,7 @@ from sref_generic_states import Sref, SpecimenInvalid,\
 
 from eqa_tracking_states import Eqa, EqaStarts, \
                                               CollectedFromDtu, \
-                                              DeliveredToFirstController, \
+                                              DeliveredTo1stCtrler, \
                                               PassedFirstControl, \
                                               CollectedFromFirstController, \
                                               DeliveredToSecondController,\

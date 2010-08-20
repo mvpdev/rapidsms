@@ -8,17 +8,17 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Adding model 'DtuCollectionIsLate'
-        db.create_table('findtb_dtucollectionislate', (
-            ('eqastarts_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['findtb.EqaStarts'], unique=True, primary_key=True)),
+        # Adding model 'DeliveryToScndCtrlLate'
+        db.create_table('findtb_deliverytoscndctrllate', (
+            ('passedfirstcontrol_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['findtb.PassedFirstControl'], unique=True, primary_key=True)),
         ))
-        db.send_create_signal('findtb', ['DtuCollectionIsLate'])
+        db.send_create_signal('findtb', ['DeliveryToScndCtrlLate'])
 
 
     def backwards(self, orm):
         
-        # Deleting model 'DtuCollectionIsLate'
-        db.delete_table('findtb_dtucollectionislate')
+        # Deleting model 'DeliveryToScndCtrlLate'
+        db.delete_table('findtb_deliverytoscndctrllate')
 
 
     models = {
@@ -97,13 +97,21 @@ class Migration(SchemaMigration):
             'key': ('django.db.models.fields.CharField', [], {'max_length': '50', 'db_index': 'True'}),
             'value': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '255', 'blank': 'True'})
         },
-        'findtb.deliveredtofirstcontroller': {
-            'Meta': {'object_name': 'DeliveredToFirstController', '_ormbases': ['findtb.Eqa']},
+        'findtb.deliveredto1stctrler': {
+            'Meta': {'object_name': 'DeliveredTo1stCtrler', '_ormbases': ['findtb.Eqa']},
             'eqa_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.Eqa']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.deliveredtosecondcontroller': {
             'Meta': {'object_name': 'DeliveredToSecondController', '_ormbases': ['findtb.Eqa']},
             'eqa_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.Eqa']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'findtb.deliverytofirstctrllate': {
+            'Meta': {'object_name': 'DeliveryToFirstCtrlLate', '_ormbases': ['findtb.CollectedFromDtu']},
+            'collectedfromdtu_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.CollectedFromDtu']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'findtb.deliverytoscndctrllate': {
+            'Meta': {'object_name': 'DeliveryToScndCtrlLate', '_ormbases': ['findtb.PassedFirstControl']},
+            'passedfirstcontrol_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.PassedFirstControl']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.dtucollectionislate': {
             'Meta': {'object_name': 'DtuCollectionIsLate', '_ormbases': ['findtb.EqaStarts']},
@@ -118,6 +126,10 @@ class Migration(SchemaMigration):
         'findtb.eqastarts': {
             'Meta': {'object_name': 'EqaStarts', '_ormbases': ['findtb.Eqa']},
             'eqa_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.Eqa']", 'unique': 'True', 'primary_key': 'True'})
+        },
+        'findtb.firstctrlcollectionlate': {
+            'Meta': {'object_name': 'FirstCtrlCollectionLate', '_ormbases': ['findtb.DeliveredTo1stCtrler']},
+            'deliveredto1stctrler_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': "orm['findtb.DeliveredTo1stCtrler']", 'unique': 'True', 'primary_key': 'True'})
         },
         'findtb.ljresult': {
             'Meta': {'object_name': 'LjResult', '_ormbases': ['findtb.Sref']},

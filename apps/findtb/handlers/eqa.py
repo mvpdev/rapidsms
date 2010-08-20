@@ -431,7 +431,7 @@ def receive(params, reporter, message):
 
         dtus_names = ', '.join(sb.location.name for sb in accepted_batches)
         for sb in accepted_batches:
-            state = DeliveredToFirstController(slides_batch=sb)
+            state = DeliveredTo1stCtrler(slides_batch=sb)
             state.save()
             TrackedItem.add_state_to_item(sb, state)
 

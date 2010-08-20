@@ -336,7 +336,7 @@
         "pk": 115, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "add_deliveredtofirstcontroller", 
+            "codename": "add_deliveredto1stctrler", 
             "name": "Can add delivered to first controller", 
             "content_type": 36
         }
@@ -615,7 +615,7 @@
         "pk": 116, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "change_deliveredtofirstcontroller", 
+            "codename": "change_deliveredto1stctrler", 
             "name": "Can change delivered to first controller", 
             "content_type": 36
         }
@@ -894,7 +894,7 @@
         "pk": 117, 
         "model": "auth.permission", 
         "fields": {
-            "codename": "delete_deliveredtofirstcontroller", 
+            "codename": "delete_deliveredto1stctrler", 
             "name": "Can delete delivered to first controller", 
             "content_type": 36
         }

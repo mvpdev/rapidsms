@@ -166,7 +166,7 @@ class CollectedFromDtu(Eqa):
 
 
 
-class DeliveredToFirstController(Eqa):
+class DeliveredTo1stCtrler(Eqa):
     """
     State declaring the slides have been delivered by DTLS to the 1st
     controller.
@@ -212,7 +212,7 @@ class DeliveredToFirstController(Eqa):
             self.controller_collection_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
-        super(DeliveredToFirstController, self).save(*args, **kwargs)
+        super(DeliveredTo1stCtrler, self).save(*args, **kwargs)
         
 
     def get_short_message(self):
@@ -479,7 +479,7 @@ class DeliveryToFirstCtrlLate(AlertForBeingLate, CollectedFromDtu):
                
      
 class FirstCtrlCollectionLate(AlertForBeingLate, 
-                                   DeliveredToFirstController):
+                                   DeliveredTo1stCtrler):
     """
     State declaring the slides haven't been collected from first controller
     for too long.
@@ -493,10 +493,10 @@ class FirstCtrlCollectionLate(AlertForBeingLate,
     
     def save(self, *args, **kwargs):
         """
-        We must override it because DeliveredToFirstController does and we
+        We must override it because DeliveredTo1stCtrler does and we
         inherit from it. This is just a reset to prevent recursive calls.
         """
-        super(DeliveredToFirstController, self).save(*args, **kwargs)
+        super(DeliveredTo1stCtrler, self).save(*args, **kwargs)
 
 
     def get_short_message(self):
