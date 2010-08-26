@@ -408,7 +408,7 @@ class AlertForBeingLate(object):
         Get the deadline in a readable format
         """
         d = self.get_deadline(self.specimen)
-        return d.strftime('%m/%d/%Y')
+        return d.strftime('%B %d')
     formated_deadline = property(_formated_deadline)  
                 
                 
@@ -433,13 +433,13 @@ class DeliveryIsLate(AlertForBeingLate, SpecimenSent):
 
 
     def get_short_message(self):
-        return u"Specimen is late for delivery: delivery was expected before "\
+        return u"Specimen is late for delivery: delivery was expected by "\
                u"%(deadline)s." % {'deadline': self.formated_deadline}
 
 
     def get_long_message(self):
         return u"%(dtu)s - Specimen for patient %(patient)s " \
-               u"is late: delivery was expected before %(deadline)s." % {
+               u"is late: delivery was expected by %(deadline)s." % {
                'dtu': self.specimen.location, 
                'patient': self.specimen.patient, 
                'tag': self.specimen.tracking_tag.upper(),

@@ -410,7 +410,7 @@ class AlertForBeingLate(object):
         Get the deadline in a readable format
         """
         d = self.get_deadline(self.slides_batch)
-        return d.strftime('%m/%d/%Y')
+        return d.strftime('%B %d')
     formated_deadline = property(_formated_deadline)      
       
       
