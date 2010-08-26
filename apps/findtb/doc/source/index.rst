@@ -12,6 +12,7 @@ Contents:
     :maxdepth: 2
    
     big_picture.rst
+    setup.rst
     install_celery.rst
     alerts_tuto.rst
     sphinx_doc.rst
