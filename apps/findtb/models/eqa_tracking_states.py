@@ -81,7 +81,6 @@ class EqaStarts(Eqa):
                 from findtb.libs.utils import send_to_ztls,\
                                               send_to_dtu_focal_person,\
                                               send_to_dtls
-                send_to_dtu_focal_person(sb.location, msg)
                 send_to_dtls(sb.location, msg)
                 send_to_ztls(sb.location, msg)
     tasks.register(dtu_collection_reminder)
@@ -139,7 +138,6 @@ class CollectedFromDtu(Eqa):
                                               send_to_first_controller
                 send_to_first_controller(sb.location, msg)
                 send_to_dtls(sb.location, msg)
-                send_to_ztls(sb.location, msg)
     tasks.register(controller_delivery_reminder)
     
     
@@ -179,9 +177,9 @@ class DeliveredTo1stCtrler(Eqa):
     
     
     @task()
-    def controller_collection_reminder(self):
+    def first_control_reminder(self):
         """
-        If collection from first controller is late, triggers an alerts.
+        If testing by first controller is late, triggers an alert
         """
         try:
             sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
@@ -190,7 +188,7 @@ class DeliveredTo1stCtrler(Eqa):
         else:
             ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
             if ti.state.title == self.state_name and ti.state.type != 'alert':
-                state = FirstCtrlCollectionLate(slides_batch=sb)
+                state = FirstCtrlTestingLate(slides_batch=sb)
                 state.save()
                 ti.state = state
                 ti.save()
@@ -200,16 +198,15 @@ class DeliveredTo1stCtrler(Eqa):
                                               send_to_first_controller
                 send_to_first_controller(sb.location, msg)
                 send_to_dtls(sb.location, msg)
-                send_to_ztls(sb.location, msg)
-    tasks.register(controller_collection_reminder)
+    tasks.register(first_control_reminder)
 
 
     def save(self, *args, **kwargs):
         """ Setup the alert """
 
         if not self.pk:
-            delay = FirstCtrlCollectionLate.get_deadline()
-            self.controller_collection_reminder.apply_async(eta=delay, 
+            delay = FirstCtrlTestingLate.get_deadline()
+            self.first_control_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
         super(DeliveredTo1stCtrler, self).save(*args, **kwargs)
@@ -232,6 +229,41 @@ class PassedFirstControl(Eqa):
         app_label = 'findtb'
 
     state_name = 'passed_first_control'
+
+    @task()
+    def controller_collection_reminder(self):
+        """
+        If collection from first controller is late, triggers an alerts.
+        """
+        try:
+            sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
+        except SlidesBatch.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = FirstCtrlCollectionLate(slides_batch=sb)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_ztls, send_to_dtls,\
+                                              send_to_first_controller
+                send_to_first_controller(sb.location, msg)
+                send_to_dtls(sb.location, msg)
+    tasks.register(controller_collection_reminder)
+
+
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+
+        if not self.pk:
+            delay = FirstCtrlCollectionLate.get_deadline()
+            self.controller_collection_reminder.apply_async(eta=delay, 
+                                                            args=(self,))
+        
+        super(DeliveredTo1stCtrler, self).save(*args, **kwargs)
     
 
     def get_short_message(self):
@@ -279,7 +311,6 @@ class CollectedFrom1stCtrl(Eqa):
                                               send_to_first_controller
                 send_to_first_controller(sb.location, msg)
                 send_to_dtls(sb.location, msg)
-                send_to_ztls(sb.location, msg)
     tasks.register(second_controller_delivery_reminder)
     
     
@@ -315,6 +346,36 @@ class DeliveredTo2ndCtrl(Eqa):
 
     state_name = 'delivered_to_second_controller'
 
+    @task()
+    def second_control_reminder(self):
+        """
+        If second controller is late, triggers an alerts.
+        """
+        try:
+            sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
+        except SlidesBatch.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = SecondCtrlTestingLate(slides_batch=sb)
+                state.save()
+                ti.state = state
+                ti.save()
+
+    tasks.register(second_control_reminder)
+    
+    
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+
+        if not self.pk:
+            delay = SecondCtrlTestingLate.get_deadline()
+            self.second_control_reminder.apply_async(eta=delay, 
+                                                            args=(self,))
+        
+        super(DeliveredTo2ndCtrl, self).save(*args, **kwargs)
+
 
     def get_short_message(self):
         return u"Slides have been delivered to the second controller"
@@ -334,6 +395,36 @@ class ResultsAvailable(Eqa):
     state_name = 'results_available'
     state_type = 'result'
 
+    @task()
+    def second_control_report_late(self):
+        """
+        If second controller is late in preparing report, triggers an alerts.
+        """
+        try:
+            sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
+        except SlidesBatch.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = SecondCtrlReportLate(slides_batch=sb)
+                state.save()
+                ti.state = state
+                ti.save()
+
+    tasks.register(second_control_report_late)
+    
+    
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+
+        if not self.pk:
+            delay = SecondCtrlReportLate.get_deadline()
+            self.second_control_report_late.apply_async(eta=delay, 
+                                                            args=(self,))
+        
+        super(ResultsAvailable, self).save(*args, **kwargs)
+
 
     def get_short_message(self):
         return u"EQA results: %s" % self.slides_batch.results
@@ -352,6 +443,42 @@ class ReadyToLeaveNtrl(Eqa):
         app_label = 'findtb'
 
     state_name = 'ready_to_leave_ntrl'
+
+    @task()
+    def receive_by_dtu_reminder(self):
+        """
+        If acknowledgement of receipt by the DTU is late, triggers an alerts.
+        """
+        try:
+            sb = SlidesBatch.objects.get(pk=self.slides_batch.pk)
+        except SlidesBatch.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = ReceivedByDtuLate(slides_batch=sb)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_ztls, send_to_dtls,\
+                                              send_to_first_controller
+                send_to_first_controller(sb.location, msg)
+                send_to_dtls(sb.location, msg)
+                send_to_ztls(sb.location, msg)
+    tasks.register(receive_by_dtu_reminder)
+    
+    
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+
+        if not self.pk:
+            delay = ReceivedByDtuLate.get_deadline()
+            self.receive_by_dtu_reminder.apply_async(eta=delay, 
+                                                            args=(self,))
+        
+        super(ReadyToLeaveNtrl, self).save(*args, **kwargs)
 
 
     def get_short_message(self):
@@ -438,8 +565,8 @@ class DtuCollectionIsLate(AlertForBeingLate, EqaStarts):
 
 
     def get_long_message(self):
-        return u"Slides from %(dtu)s are late for collection from DTU. "\
-               u"The deadline was %(deadline)s." % {
+        return u"Slides from %(dtu)s have not been collected by DTLS for "\
+               u"EQA. The deadline was %(deadline)s." % {
                'dtu': self.slides_batch.location,
                'deadline': self.formated_deadline }
                
@@ -454,7 +581,7 @@ class DeliveryToFirstCtrlLate(AlertForBeingLate, CollectedFromDtu):
     class Meta:
         app_label = 'findtb'
     
-    delay = datetime.timedelta(days=+3)
+    delay = datetime.timedelta(days=+7)
     
     
     def save(self, *args, **kwargs):
@@ -466,19 +593,17 @@ class DeliveryToFirstCtrlLate(AlertForBeingLate, CollectedFromDtu):
 
 
     def get_short_message(self):
-        return u"Slides are late for delivery to first controller. "\
+        return u"Slides have not been delivered to the first controller. "\
                u"The deadline was %s." % self.formated_deadline
 
 
     def get_long_message(self):
-        return u"Slides from %(dtu)s are late for delivery "\
-               u"to first controller. The deadline was %(deadline)s." % {
+        return u"Slides from %(dtu)s have not been delivered to "\
+               u"the first controller. The deadline was %(deadline)s." % {
                'dtu': self.slides_batch.location,
                'deadline': self.formated_deadline}
-               
-               
-     
-class FirstCtrlCollectionLate(AlertForBeingLate, 
+
+class FirstCtrlTestingLate(AlertForBeingLate, 
                                    DeliveredTo1stCtrler):
     """
     State declaring the slides haven't been collected from first controller
@@ -488,7 +613,7 @@ class FirstCtrlCollectionLate(AlertForBeingLate,
     class Meta:
         app_label = 'findtb'
     
-    delay = datetime.timedelta(weeks=+2)
+    delay = datetime.timedelta(weeks=+4)
     
     
     def save(self, *args, **kwargs):
@@ -500,19 +625,55 @@ class FirstCtrlCollectionLate(AlertForBeingLate,
 
 
     def get_short_message(self):
-        return u"Slides are late for collection from first controller. "\
+        return u"Slides are have not been tested by the first controller. "\
                u"The deadline was %s." % self.formated_deadline
 
 
     def get_long_message(self):
-        return u"Slides from %(dtu)s are late for collection from "\
+        return u"Slides from %(dtu)s have still not been tested by the "\
                u"first controller. The deadline was %(deadline)s." % {
                'dtu': self.slides_batch.location,
                'deadline': self.formated_deadline}
                
                
      
-class DeliveryToScndCtrlLate(AlertForBeingLate, PassedFirstControl):
+class FirstCtrlCollectionLate(AlertForBeingLate, 
+                                   PassedFirstControl):
+    """
+    State declaring the slides haven't been collected from first controller
+    for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(weeks=+1)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because PassedFirstControl does and we
+        inherit from it. This is just a reset to prevent recursive calls.
+        """
+        super(PassedFirstControl, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Slides have finished first control but have not been "\
+               u"collected by the DTLS. The deadline for collection "\
+               u"was %s." % self.formated_deadline
+
+
+    def get_long_message(self):
+        return u"Slides from %(dtu)s have finished first control but have "\
+               u"not been collected by the DTLS. The deadline was " \
+               u"%(deadline)s." % {
+               'dtu': self.slides_batch.location,
+               'deadline': self.formated_deadline}
+               
+               
+     
+class DeliveryToScndCtrlLate(AlertForBeingLate, CollectedFrom1stCtrl):
     """
     State declaring the slides haven't been delivered to second controller
     for too long.
@@ -521,15 +682,15 @@ class DeliveryToScndCtrlLate(AlertForBeingLate, PassedFirstControl):
     class Meta:
         app_label = 'findtb'
     
-    delay = datetime.timedelta(days=+3)
+    delay = datetime.timedelta(weeks=+2)
     
     
     def save(self, *args, **kwargs):
         """
-        We must override it because PassedFirstControl does and we inherit
-          from it. This is just a reset to prevent recursive calls.
+        We must override it because CollectedFrom1stCtrl does and we
+          inherit from it. This is just a reset to prevent recursive calls.
         """
-        super(PassedFirstControl, self).save(*args, **kwargs)
+        super(CollectedFrom1stCtrl, self).save(*args, **kwargs)
 
 
     def get_short_message(self):
@@ -542,5 +703,98 @@ class DeliveryToScndCtrlLate(AlertForBeingLate, PassedFirstControl):
                u" controller. The deadline was %(deadline)s." % {
                'dtu': self.slides_batch.location,
                'deadline': self.formated_deadline}
-               
+
+class SecondCtrlTestingLate(AlertForBeingLate, DeliveredTo2ndCtrl):
+    """
+    State declaring the slides haven't been tested by the second controller
+    for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(weeks=+4)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because DeliveredTo2ndCtrl does and we
+          inherit from it. This is just a reset to prevent recursive calls.
+        """
+        super(DeliveredTo2ndCtrl, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Slides have not been tested by second controller. "\
+               u"The deadline was %s." % self.formated_deadline
+
+
+    def get_long_message(self):
+        return u"Slides from %(dtu)s have not been tested by the second "\
+               u" controller. The deadline was %(deadline)s." % {
+               'dtu': self.slides_batch.location,
+               'deadline': self.formated_deadline}
+
+class SecondCtrlReportLate(AlertForBeingLate, ResultsAvailable):
+    """
+    State declaring report has not been created by the second controller
+    for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+3)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because ResultsAvailable does and we
+          inherit from it. This is just a reset to prevent recursive calls.
+        """
+        super(ResultsAvailable, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Preparing of report and preparation of discordant slides "\
+               u"is late. The deadline was %s." % self.formated_deadline
+
+
+    def get_long_message(self):
+        return u"The feedback report for %(dtu)s has not been prepared by "\
+               u" the second controller. The deadline was %(deadline)s." % {
+               'dtu': self.slides_batch.location,
+               'deadline': self.formated_deadline}
+
+class ReceivedByDtuLate(AlertForBeingLate, ReadyToLeaveNtrl):
+    """
+    State declaring report has not been created by the second controller
+    for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(weeks=+2)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because ResultsAvailable does and we
+          inherit from it. This is just a reset to prevent recursive calls.
+        """
+        super(ReadyToLeaveNtrl, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"The DTU has not receieved the feedback report and slides. "\
+               u"The deadline was %s." % self.formated_deadline
+
+
+    def get_long_message(self):
+        return u"EQA feedback report and slides have not been received by "\
+               u" %(dtu)s yet. The deadline was %(deadline)s." % {
+               'dtu': self.slides_batch.location,
+               'deadline': self.formated_deadline}
+ 
  

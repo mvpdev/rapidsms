@@ -28,8 +28,12 @@ from eqa_tracking_states import Eqa, EqaStarts, \
                                               ReadyToLeaveNtrl,\
                                               ReceivedAtDtu, DtuCollectionIsLate,\
                                               DeliveryToFirstCtrlLate,\
+                                              FirstCtrlTestingLate,\
                                               FirstCtrlCollectionLate,\
-                                              DeliveryToScndCtrlLate
+                                              DeliveryToScndCtrlLate,\
+                                              SecondCtrlTestingLate,\
+                                              SecondCtrlReportLate,\
+                                              ReceivedByDtuLate
                                               
 from sref_result_states import MicroscopyResult,\
                                              LpaResult,\
