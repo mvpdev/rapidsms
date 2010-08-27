@@ -243,7 +243,7 @@ class PassedFirstControl(Eqa):
                u"first controller" % {'dtu': self.slides_batch.location.name}
 
 
-class CollectedFromFirstController(Eqa):
+class CollectedFrom1stCtrl(Eqa):
     """
     State declaring the slides have been collected by DTLS from the
     first controller.
@@ -291,7 +291,7 @@ class CollectedFromFirstController(Eqa):
             self.second_controller_delivery_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
-        super(CollectedFromFirstController, self).save(*args, **kwargs)
+        super(CollectedFrom1stCtrl, self).save(*args, **kwargs)
         
 
     def get_short_message(self):

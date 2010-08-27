@@ -293,7 +293,7 @@ def collect(params, reporter, message):
             # set states
             codes = ', '.join(sb.location.code for sb in accepted_batches)
             for sb in accepted_batches:
-                state = CollectedFromFirstController(slides_batch=sb)
+                state = CollectedFrom1stCtrl(slides_batch=sb)
                 state.save()
                 TrackedItem.add_state_to_item(sb, state)
 
