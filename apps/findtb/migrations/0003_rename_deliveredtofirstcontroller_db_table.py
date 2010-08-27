@@ -9,16 +9,24 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         db.rename_table('findtb_deliveredtofirstcontroller', 'findtb_deliveredto1stctrler')
         if not db.dry_run:
-            ct = orm['contenttypes.ContentType'].objects.get(model='deliveredtofirstcontroller')
-            ct.model = 'deliveredto1stctrler'
-            ct.save()
+            try:
+                ct = orm['contenttypes.ContentType'].objects.get(model='deliveredtofirstcontroller')
+            except orm['contenttypes.ContentType'].DoesNotExist:
+                pass
+            else:
+                ct.model = 'deliveredto1stctrler'
+                ct.save()
 
     def backwards(self, orm):
         db.rename_table('findtb_deliveredto1stctrler', 'findtb_deliveredtofirstcontroller')
         if not db.dry_run:
-            ct = orm['contenttypes.ContentType'].objects.get(model='deliveredto1stctrler')
-            ct.model = 'deliveredtofirstcontroller'
-            ct.save()
+            try:
+                ct = orm['contenttypes.ContentType'].objects.get(model='deliveredto1stctrler')
+            except orm['contenttypes.ContentType'].DoesNotExist:
+                pass
+            else:
+                ct.model = 'deliveredtofirstcontroller'
+                ct.save()
 
     models = {
         'auth.group': {
