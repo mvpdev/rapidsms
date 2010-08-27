@@ -283,8 +283,6 @@ class CollectedFrom1stCtrl(Eqa):
 
     class Meta:
         app_label = 'findtb'
-        
-    state_type = 'alert'
 
     state_name = 'collected_from_first_controller'
     
