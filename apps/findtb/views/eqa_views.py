@@ -13,7 +13,7 @@ from django.db.models import Q
 from rapidsms.webui.utils import render_to_response
 
 from findtb.models import SlidesBatch, Role, FINDTBGroup, FINDTBLocation,\
-                          DeliveredToSecondController, ReadyToLeaveNtrl
+                          DeliveredTo2ndCtrl, ReadyToLeaveNtrl
                           
 from findtb.forms import EqaResultsForm
 from findtb.libs.utils import send_to_dtls, send_to_dtu_focal_person
@@ -206,7 +206,7 @@ def collected_from_first_controller(request, *arg, **kwargs):
                              year=year, quarter=quarter )
         
         if request.method == 'POST' and request.POST.get('received', None) == 'on':
-            state = DeliveredToSecondController(slides_batch=slides_batch)
+            state = DeliveredTo2ndCtrl(slides_batch=slides_batch)
             state.save()
             tracked_item.state = state
             tracked_item.save()

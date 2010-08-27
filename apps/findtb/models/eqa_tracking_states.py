@@ -304,7 +304,7 @@ class CollectedFrom1stCtrl(Eqa):
                 'dtu': self.slides_batch.location.name}
 
 
-class DeliveredToSecondController(Eqa):
+class DeliveredTo2ndCtrl(Eqa):
     """
     State declaring the slides have been delivered by DTLS to the second
     controller.

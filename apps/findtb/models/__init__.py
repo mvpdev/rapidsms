@@ -23,7 +23,7 @@ from eqa_tracking_states import Eqa, EqaStarts, \
                                               DeliveredTo1stCtrler, \
                                               PassedFirstControl, \
                                               CollectedFrom1stCtrl, \
-                                              DeliveredToSecondController,\
+                                              DeliveredTo2ndCtrl,\
                                               ResultsAvailable,\
                                               ReadyToLeaveNtrl,\
                                               ReceivedAtDtu, DtuCollectionIsLate,\
