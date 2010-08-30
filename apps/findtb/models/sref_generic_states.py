@@ -187,7 +187,7 @@ class SpecimenRegistered(Sref):
             delay = SendingIsLate.get_deadline()
             self.sending_reminder.apply_async(eta=delay, args=(self,))
         
-        super(SendingIsLate, self).save(*args, **kwargs)
+        super(SpecimenRegistered, self).save(*args, **kwargs)
 
 
     def get_web_form(self):
