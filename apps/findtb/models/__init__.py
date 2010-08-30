@@ -14,8 +14,8 @@ from sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenReceived,\
                                               SpecimenMustBeReplaced,\
                                               AllTestsDone,\
+                                              SendingIsLate,\
                                               DeliveryIsLate,\
-                                              DeliveryIsOverdue,\
                                               MicroscopyIsLate
 
 from eqa_tracking_states import Eqa, EqaStarts, \

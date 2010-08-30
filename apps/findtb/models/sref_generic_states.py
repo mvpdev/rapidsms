@@ -155,6 +155,40 @@ class SpecimenRegistered(Sref):
     class Meta:
         app_label = 'findtb'
 
+    @task()
+    def sending_reminder(self):
+        """ Check if the sending is late, send a reminder if it is """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = SendingIsLate(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = u"Specimen for patient %(patient)s (tracking tag " \
+                      u"%(tag)s) was registered 2 days ago but has not been "\
+                      u"sent. Please send or void." % \
+                       {'tag': self.specimen.tracking_tag.upper(),
+                        'patient': self.specimen.patient}
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_dtu
+                send_to_dtu(s.location, msg)
+                
+    tasks.register(sending_reminder)
+
+
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+        if not self.pk:
+            delay = SendingIsLate.get_deadline()
+            self.sending_reminder.apply_async(eta=delay, args=(self,))
+        
+        super(SendingIsLate, self).save(*args, **kwargs)
+
 
     def get_web_form(self):
         # we import it here to avoid circular reference
@@ -220,31 +254,6 @@ class SpecimenSent(Sref):
                 send_to_lab_techs(s.location, msg)
                 send_to_dtls(s.location, msg)
     tasks.register(delivery_reminder)
-    
-    
-    @task()
-    def delivery_alert(self):
-        """ Check if speciment delivery is late and alert if it is. """
-        try:
-            s = Specimen.objects.get(pk=self.specimen.pk)
-        except Specimen.DoesNotExist:
-            pass
-        else:
-            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
-            if ti.state.title == self.state_name and ti.state.type != 'alert':
-                state = DeliveryIsOverdue(specimen=s)
-                state.save()
-                ti.state = state
-                ti.save()
-                msg = state.get_long_message()
-                # must import here to avoid circular references
-                from findtb.libs.utils import send_to_lab_techs,\
-                                              send_to_ztls,\
-                                              send_to_dtls
-                send_to_lab_techs(s.location, msg)
-                send_to_dtls(s.location, msg)
-                send_to_ztls(s.location, msg)
-    tasks.register(delivery_alert)
 
 
     def save(self, *args, **kwargs):
@@ -252,9 +261,7 @@ class SpecimenSent(Sref):
         if not self.pk:
             delay = DeliveryIsLate.get_deadline()
             self.delivery_reminder.apply_async(eta=delay, args=(self,))
-            delay = DeliveryIsOverdue.get_deadline()
-            self.delivery_alert.apply_async(eta=delay, args=(self,))
-        
+
         super(SpecimenSent, self).save(*args, **kwargs)
         
 
@@ -409,7 +416,37 @@ class AlertForBeingLate(object):
         """
         d = self.get_deadline(self.specimen)
         return d.strftime('%B %d')
-    formated_deadline = property(_formated_deadline)  
+    formated_deadline = property(_formated_deadline)
+
+
+class SendingIsLate(AlertForBeingLate, SpecimenRegistered):
+    """
+    State declaring the specimen hasn't been delivered to NTRL for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+2)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenSent does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(SpecimenRegistered, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Specimen registered but late being sent."
+
+
+    def get_long_message(self):
+        return u"%(dtu)- Specimen for patient %(patient)s " \
+               u"was registered but has not been sent. " % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient}
                 
                 
                 
@@ -444,42 +481,6 @@ class DeliveryIsLate(AlertForBeingLate, SpecimenSent):
                'patient': self.specimen.patient, 
                'tag': self.specimen.tracking_tag.upper(),
                'deadline': self.formated_deadline}
-                                    
-
-
-class DeliveryIsOverdue(AlertForBeingLate, SpecimenSent):
-    """
-    State declaring the specimen hasn't been delivered to NTRL for more than a 
-    week.
-    """
-
-    class Meta:
-        app_label = 'findtb'
-    
-    delay = datetime.timedelta(weeks=+1)
-    
-    
-    def save(self, *args, **kwargs):
-        """
-        We must override it because SpecimenSent does and we inherit
-          from it. This is just a reset to prevent recursive calls.
-        """
-        super(SpecimenSent, self).save(*args, **kwargs)
-
-
-    def get_short_message(self):
-        return u"Specimen delivery is overdue. "\
-               u"The deadline was %(deadline)s." % {
-               'deadline': self.formated_deadline}
-
-
-    def get_long_message(self):
-        return u"%(dtu)s - Specimen for patient %(patient)s " \
-               u"delivery is overdue: deadline was %(deadline)s." % {
-               'dtu': self.specimen.location, 
-               'patient': self.specimen.patient, 
-               'tag': self.specimen.tracking_tag.upper(),
-               'deadline': self.formated_deadline}
               
               
               
@@ -492,7 +493,7 @@ class MicroscopyIsLate(AlertForBeingLate, SpecimenReceived):
     class Meta:
         app_label = 'findtb'
     
-    delay = datetime.timedelta(days=+2)
+    delay = datetime.timedelta(days=+1)
     
     
     def save(self, *args, **kwargs):
