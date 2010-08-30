@@ -443,7 +443,7 @@ class SendingIsLate(AlertForBeingLate, SpecimenRegistered):
 
 
     def get_long_message(self):
-        return u"%(dtu)- Specimen for patient %(patient)s " \
+        return u"%(dtu)s- Specimen for patient %(patient)s " \
                u"was registered but has not been sent. " % {
                'dtu': self.specimen.location, 
                'patient': self.specimen.patient}
