@@ -70,7 +70,7 @@ class MicroscopyResult(Sref):
     def save(self, *args, **kwargs):
         """ Setup the alert """
         if not self.pk:
-            if if self.is_positive():
+            if self.is_positive():
                 delay = LpaIsLate.get_deadline()
                 self.lpa_reminder.apply_async(eta=delay, args=(self,))
             else:
