@@ -69,9 +69,8 @@ class MicroscopyResult(Sref):
 
     def save(self, *args, **kwargs):
         """ Setup the alert """
-        ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
         if not self.pk:
-            if ti.state.content_object.is_positive():
+            if if self.is_positive():
                 delay = LpaIsLate.get_deadline()
                 self.lpa_reminder.apply_async(eta=delay, args=(self,))
             else:
