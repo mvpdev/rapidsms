@@ -164,7 +164,7 @@ def send(params, location, reporter, message):
 
     # Check if there are any specimens to be sent for this location
     pending = False
-    for spec in SpecimenRegistered.objects.get_specimens():
+    for spec in SpecimenRegistered.objects.get_specimens(True):
         if spec.location == location:
             pending = True
             break
@@ -209,7 +209,7 @@ def send(params, location, reporter, message):
 
     # Create a list of the pending specimens' tracking tags for this location
     pending_tags = []
-    for spec in SpecimenRegistered.objects.get_specimens():
+    for spec in SpecimenRegistered.objects.get_specimens(True):
         if spec.location == location:
             pending_tags.append(spec.tracking_tag.lower())
 
@@ -272,7 +272,7 @@ def pending(params, location, reporter, message):
     SpecimenRegistered for their location.
     """
     infos = []
-    for spec in SpecimenRegistered.objects.get_specimens():
+    for spec in SpecimenRegistered.objects.get_specimens(True):
         if spec.location == location:
             infos.append("Tag %s for patient %s" % (spec.tracking_tag, \
                                                     spec.patient))
@@ -296,7 +296,7 @@ def void(params, location, reporter, message):
 
     # Check if there are any specimens to be sent for this location
     pending = False
-    for spec in SpecimenRegistered.objects.get_specimens():
+    for spec in SpecimenRegistered.objects.get_specimens(True):
         if spec.location == location:
             pending = True
             break
@@ -320,7 +320,7 @@ def void(params, location, reporter, message):
 
     # Create a list of the pending specimens' tracking tags for this location
     pending_tags = []
-    for spec in SpecimenRegistered.objects.get_specimens():
+    for spec in SpecimenRegistered.objects.get_specimens(True):
         if spec.location == location:
             pending_tags.append(spec.tracking_tag.lower())
 
