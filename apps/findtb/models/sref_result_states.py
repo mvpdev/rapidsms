@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 import datetime
 from sref_generic_states import Sref, AlertForBeingLate
 from django_tracking.models import TrackedItem
+from findtb.models.models import Specimen
 
 from django.db import models
 
@@ -349,6 +350,10 @@ class MgitIsLate(AlertForBeingLate, MicroscopyResult):
                'patient': self.specimen.patient, 
                'deadline': self.formated_deadline}
 
+    def is_positive(self):
+        ti, c = TrackedItem.get_tracker_or_create(content_object=self.specimen)
+        return ti.get_previous_state().content_object.is_positive()
+
 
 class LpaIsLate(AlertForBeingLate, MicroscopyResult):
     """
@@ -381,4 +386,8 @@ class LpaIsLate(AlertForBeingLate, MicroscopyResult):
                'dtu': self.specimen.location, 
                'patient': self.specimen.patient, 
                'deadline': self.formated_deadline}
+
+    def is_positive(self):
+        ti, c = TrackedItem.get_tracker_or_create(content_object=self.specimen)
+        return ti.get_previous_state().content_object.is_positive()
 
