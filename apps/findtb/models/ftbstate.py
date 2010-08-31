@@ -10,21 +10,34 @@ from django.db.models.signals import post_save
 
 
 class FtbStateManager(models.Manager):
+    def get_states(self, include_siblings=False):
+        """
+        Get all the states related to this model
+        
+        include_siblings add states with the same title but not the same
+        content type
+        """
+        states = State.objects.filter(title=self.model.state_name,
+                                      origin=self.model.state_origin)
+        if not include_siblings:
+            ct = ContentType.objects.get_for_model(self.model)
+            states = states.filter(content_type=ct)
+        return states
 
 
-    def get_states(self):
-        ct = ContentType.objects.get_for_model(self.model)
-        return State.objects.filter(content_type=ct, origin='sref')
+    def get_current_states(self, include_siblings=False):
+        """
+        Get all the states related to this model, that are current states.
+        """
+        return self.get_states(include_siblings).filter(is_current=True)
 
 
-    def get_current_states(self):
-        return self.get_states().filter(is_current=True)
-
-
-    # TODO: move get_specimen in a manager in sref states
-    def get_specimens(self):
+    def get_specimens(self, include_siblings=False):
+        """
+        Get all the specimens that are in this state
+        """
         return [state.tracked_item.content_object \
-                for state in self.get_current_states()]
+                for state in self.get_current_states(include_siblings)]
 
 
 class FtbState(models.Model):

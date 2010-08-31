@@ -75,9 +75,13 @@ urlpatterns += patterns('',
 
     url(r'findtb/sreferral/tracking/(?P<id>\d+)/incoming/$',
         views.sref_incoming,
-        name='findtb-sref-incoming',
-        kwargs={'view_name': 'findtb-sref-incoming'}),
+        name='findtb-sref-registered',
+        kwargs={'view_name': 'findtb-sref-registered'}),
 
+    url(r'findtb/sreferral/tracking/(?P<id>\d+)/incoming/$',
+        views.sref_incoming,
+        name='findtb-sref-sent',
+        kwargs={'view_name': 'findtb-sref-sent'}),
 
     url(r'findtb/sreferral/tracking/(?P<id>\d+)/invalid/$',
         views.sref_invalid,

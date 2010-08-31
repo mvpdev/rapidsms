@@ -26,7 +26,8 @@ def sref_incoming(request, *args, **kwargs):
     specimen = get_object_or_404(Specimen, pk=id)
     tracked_item, created = TrackedItem.get_tracker_or_create(content_object=specimen)
 
-    if tracked_item.state.title != 'incoming':
+    if tracked_item.state.title != 'registered' and \
+       tracked_item.state.title != 'sent':
         return redirect("findtb-sref-tracking", id=kwargs['id'])
 
     # get navigation data

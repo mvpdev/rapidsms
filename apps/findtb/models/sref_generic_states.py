@@ -149,7 +149,7 @@ class SpecimenRegistered(Sref):
     """
 
     state_type = 'notice'
-    state_name = 'incoming'
+    state_name = 'registered'
 
 
     class Meta:
@@ -216,7 +216,7 @@ class SpecimenSent(Sref):
     SpecimenReceived or SpecimenLost.
     """
 
-    state_name = 'incoming'
+    state_name = 'sent'
 
     class Meta:
         app_label = 'findtb'
