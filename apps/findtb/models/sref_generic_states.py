@@ -318,14 +318,7 @@ class SpecimenReceived(Sref):
                 state.save()
                 ti.state = state
                 ti.save()
-                msg = state.get_long_message()
-                # must import here to avoid circular references
-                from findtb.libs.utils import send_to_lab_techs,\
-                                              send_to_ztls,\
-                                              send_to_dtls
-                send_to_lab_techs(s.location, msg)
-                send_to_dtls(s.location, msg)
-                send_to_ztls(s.location, msg)
+
     tasks.register(microscopy_reminder)
 
 
