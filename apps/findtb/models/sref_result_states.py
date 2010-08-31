@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 # -*- coding= UTF-8 -*-
 
-from sref_generic_states import Sref
+from dateutil.relativedelta import relativedelta
+import datetime
+from sref_generic_states import Sref, AlertForBeingLate
 from django_tracking.models import TrackedItem
 
 from django.db import models
+
+from celery.registry import tasks
+from celery.decorators import task
+
 
 
 class MicroscopyResult(Sref):
@@ -27,6 +33,52 @@ class MicroscopyResult(Sref):
 
     class Meta:
         app_label = 'findtb'
+
+    @task()
+    def mgit_reminder(self):
+        """ Check if MGIT is late and alert if it is. """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = MgitIsLate(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+    tasks.register(mgit_reminder)
+
+    @task()
+    def lpa_reminder(self):
+        """ Check if LPA is late and alert if it is. """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = LpaIsLate(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+    tasks.register(lpa_reminder)
+
+
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+        ti, created = TrackedItem.get_tracker_or_create(content_object=self.specimen)
+        if not self.pk:
+            if ti.state.content_object.is_positive():
+                delay = LpaIsLate.get_deadline()
+                self.lpa_reminder.apply_async(eta=delay, args=(self,))
+            else:
+                delay = MgitIsLate.get_deadline()
+                self.mgit_reminder.apply_async(eta=delay, args=(self,))
+
+        super(MicroscopyResult, self).save(*args, **kwargs)
 
 
     def get_web_form(self):
@@ -264,4 +316,70 @@ class SirezResult(Sref):
                'patient': self.specimen.patient,
                'tag': self.specimen.tracking_tag,
                'result': (results or "Nothing")}
+
+
+class MgitIsLate(AlertForBeingLate, MicroscopyResult):
+    """
+    State declaring that the MgitTest is not complete.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+45)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenReceived does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(MicroscopyResult, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"MGIT is late. "\
+               u"The deadline was %(deadline)s." % {
+               'deadline': self.formated_deadline}
+
+
+    def get_long_message(self):
+        return u"%(dtu)s - MGIT test of specimen for specimen %(patient)s " \
+               u"is late: deadline was %(deadline)s." % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient, 
+               'deadline': self.formated_deadline}
+
+
+class LpaIsLate(AlertForBeingLate, MicroscopyResult):
+    """
+    State declaring that the MgitTest is not complete.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+8)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenReceived does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(MicroscopyResult, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"LPA test is late. "\
+               u"The deadline was %(deadline)s." % {
+               'deadline': self.formated_deadline}
+
+
+    def get_long_message(self):
+        return u"%(dtu)s - LPA test of specimen for specimen %(patient)s " \
+               u"is late: deadline was %(deadline)s." % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient, 
+               'deadline': self.formated_deadline}
 

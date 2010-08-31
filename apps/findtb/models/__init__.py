@@ -37,7 +37,8 @@ from eqa_tracking_states import Eqa, EqaStarts, \
                                               
 from sref_result_states import MicroscopyResult,\
                                              LpaResult,\
-                                             MgitResult, LjResult, SirezResult
+                                             MgitResult, LjResult,\
+                                             SirezResult, MgitIsLate, LpaIsLate
 
 
 

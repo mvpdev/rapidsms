@@ -511,4 +511,6 @@ class MicroscopyIsLate(AlertForBeingLate, SpecimenReceived):
                'dtu': self.specimen.location, 
                'patient': self.specimen.patient, 
                'tag': self.specimen.tracking_tag.upper(),
-               'deadline': self.formated_deadline}                      
+               'deadline': self.formated_deadline}
+
+
