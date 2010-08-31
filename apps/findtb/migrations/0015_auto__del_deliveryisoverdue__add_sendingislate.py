@@ -3,6 +3,7 @@ import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
+from django.contrib.contenttypes import management
 
 class Migration(SchemaMigration):
 
@@ -16,6 +17,7 @@ class Migration(SchemaMigration):
             ('specimenregistered_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['findtb.SpecimenRegistered'], unique=True, primary_key=True)),
         ))
         db.send_create_signal('findtb', ['SendingIsLate'])
+        management.update_all_contenttypes()
 
 
     def backwards(self, orm):
@@ -28,6 +30,7 @@ class Migration(SchemaMigration):
 
         # Deleting model 'SendingIsLate'
         db.delete_table('findtb_sendingislate')
+        management.update_all_contenttypes()
 
 
     models = {
