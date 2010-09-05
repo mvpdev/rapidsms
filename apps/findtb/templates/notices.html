@@ -1,0 +1,66 @@
+{% extends "findtb-base.html" %}
+
+{% load findtb_format  %}
+
+{% block javascripts %}
+{% endblock %}
+
+{% block page-class %}notices{% endblock %}
+
+{% block title %}Notices{% endblock %}
+
+{% block findtb-title %}Notices{% endblock %}
+
+{% block findtb-content %}
+
+<div class="notices span-22 last">
+{% for notice in notices.object_list %}
+
+<div class="notice span-12 prepend-6">
+
+    <h4 class="span-12 message">{{notice.text}}</h4>
+
+    <p class="by">
+        {{notice.recieved_on|humanize_time_delta}} 
+        from {{notice.reporter}} ({{notice.reporter.connection.identity}}) 
+        at <strong>{{notice.location}}</strong>
+    </p>
+    {% if notice.response %}
+        <p class="response">
+            <span><strong>Response:</strong> {{notice.response}}</span>
+            <span class="resp_auth">
+                ({{notice.responded_on|humanize_time_delta}} 
+                by {{notice.responded_by}})
+            </span>
+        </p>
+    {% else %}
+        <p>
+            <form method="post" action="">
+            <textarea class="span-12" name="response_{{notice.id}}"></textarea>
+            <input type="submit" value="Respond"/>
+            </form>
+        </p>
+    {% endif %}
+
+</div>
+
+{% endfor %}
+
+<p class="pagination span-12 prepend-6">
+<span>
+        {% if notices.has_previous %}
+            <a href="?page={{ notices.previous_page_number }}">Previous</a>
+        {% endif %}
+</span>
+            Page {{ notices.number }} of {{ notices.paginator.num_pages }}
+<span>
+        {% if notices.has_next %}
+            <a href="?page={{ notices.next_page_number }}">Next</a>
+        {% endif %}
+</span>
+</p>
+
+</div>
+
+
+{% endblock %}

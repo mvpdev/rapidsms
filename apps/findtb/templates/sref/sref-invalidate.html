@@ -1,0 +1,29 @@
+{% extends "sref/sref-tracking.html" %}
+
+{% load findtb_format  %}
+
+
+{% block tracking-form %}
+
+<h2>Please confirm</h2>
+
+<p class="findtb-invalidate-links">
+<strong>Are you sure?</strong><br />
+This will end definitly all tests for this specimen.
+</p>
+
+<p class="findtb-invalidate-links">
+    {% if request_new %}
+    <a class="button" href="{% url findtb-sref-invalidate specimen.id %}?request_new=1&confirm=1">
+        Yes, declare specimen invalid and request a new one
+    </a> 
+    or
+    {% else %}
+    <a class="button" href="{% url findtb-sref-invalidate specimen.id %}?confirm=1">Yes, declare specimen invalid</a> or
+    {% endif %}
+    <a href="{% url findtb-sref-tracking specimen.id %}">Cancel</a>
+<p>
+
+{% endblock %}
+   
+

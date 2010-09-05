@@ -1,0 +1,45 @@
+{% load comparison %} 
+
+<ul id="findtb-menu">
+
+{% if_in "eqa" view_name  %}
+
+    {% if perms.findtb.change_eqa %}
+        {% ifnotequal view_name "findtb-eqa-dashboard" %}
+ 	        <li><a href="{% url findtb-eqa-dashboard %}">EQA dashboard</a></li>
+ 	    {% else %}
+ 	        <li>EQA dashboard</li>
+        {% endifnotequal %}
+    {% endif %}
+ 	
+    {% ifnotequal view_name "findtb-eqa-progress" %}
+        <li class="not-first"><a href="{% url findtb-eqa-progress %}">EQA Progress</a></li>
+    {% else %}
+        <li class="not-first">EQA Progress</li>
+    {% endifnotequal %}
+	
+	{% if perms.findtb.change_role %}
+	    {% ifnotequal view_name "findtb-eqa-controllers" %}
+            <li class="not-first"><a href="{% url findtb-eqa-controllers %}">Assign controllers</a></li>
+        {% else %}
+            <li class="not-first">Assign controllers</li>
+        {% endifnotequal %}
+ 	{% endif %}
+ 	
+{% endif_in %}
+
+{% if_in "sref" view_name  %}
+
+    {% if perms.findtb.change_sref %}
+
+        {% ifnotequal view_name "findtb-sref-dashboard" %}
+            <li><a href="{% url findtb-sref-dashboard %}">&lt;&lt; Specimen referral dashboard</a></li>
+        {% else %}
+            <li>Specimen referral dashboard</li>
+        {% endifnotequal %}
+
+    {% endif %}
+
+{% endif_in %}
+     	
+</ul>

@@ -5,3 +5,10 @@ Ping
 Description: A rapidsms App to check if system is still running
 Licence: Public Domain
 Documentation: http://wiki.github.com/rgaudin/rapidsms/ping
+
+You must allow users in the config file to send a ping in order to get a response.
+
+You can allow everybody using :
+
+[ping]
+auth=*

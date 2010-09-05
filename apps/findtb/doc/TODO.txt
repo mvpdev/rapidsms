@@ -1,0 +1,14 @@
+TODO: Figure out how to make this thing work with proxy models
+
+TODO: In sreg, the navigation pannel should display "Nothing to test yet" with no header
+
+TODO: in EQA, time navigation in tracking and progress
+
+TODO: cache EQA navigation pannel and progress and tie refresh to TrackedItem PostSave
+
+TODO: cache sref navigation pannel tie refresh to TrackedItem PostSave
+
+TODO: add filter to the EQA controller page
+
+TODO: fix javascript pull down that must not appear if two first column are empty
+

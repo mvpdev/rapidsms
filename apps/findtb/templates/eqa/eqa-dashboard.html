@@ -1,0 +1,144 @@
+{% extends "findtb-dashboard.html" %}
+
+{% block javascripts %}
+
+     <script type="text/javascript" 
+             src="/static/findtb/js/eqa.js">
+    </script>
+
+        
+{% endblock %}
+
+{% load findtb_format  %}
+
+{% block page-id %}eqa-dashboard{% endblock %}
+
+{% block title %}EQA Dashboard{% endblock %}
+
+
+{% block findtb-title %}EQA Dashboard - Q{{ quarter }} {{ year }}{% endblock %}
+
+
+{% block findtb-events-title %}
+    Recent follow up for all the 
+    <acronym title="Diagnostic and Treatment Units">DTUs</acronyme>
+{% endblock %}
+
+{% block findtb-events %}
+
+<div id="findtb-events">
+    
+    <h2>Recent follow up for all the slides</h2>
+
+    {% if all_events %}
+    
+    
+        <dl id="findtb-events-filter">
+            <dt>See: </dt>
+            {% ifequal event_type 'alert' %}
+             <dd><strong>Alerts</strong></dd>
+            {% else %}
+             <dd><a href="{% url findtb-eqa-dashboard 'alert' %}">Alerts</a></dd>
+            {% endifequal %}
+            {% ifequal event_type 'all' %}
+             <dd><strong>All events</strong></dd>
+            {% else %}
+             <dd><a href="{% url findtb-eqa-dashboard 'all' %}">All events</a></dd>
+            {% endifequal %}
+        </dl>
+        
+        {% if events %}
+        
+            <ul id="findtb-event-picker-selection">
+                {% for state in events %}
+                <li class="{{ state.type }}">
+                    <a href="{% url findtb-eqa-tracking state.tracked_item.content_object.location.pk state.tracked_item.content_object.quarter.1 state.tracked_item.content_object.quarter.0 state.tracked_item.content_object.location|slugify%}">
+                        <strong>{{ state.content_object.get_long_message }}</strong>
+                        <span>{{ state.created|humanize_time_delta }}</span> 
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            {% if more_events %}
+                <p>
+                    <a href="{% url findtb-eqa-dashboard event_type %}?events_count={{ events_count }}&events_inc={{ events_inc }}">
+                        See more
+                </a>
+            </p>
+            {% endif %}
+            
+        {% else %}
+            <p>No alerts yet</p>   
+        {% endif %}
+
+        
+    {% else %}
+        <p>Nothing has happened yet</p>   
+    {% endif %}
+
+</div>
+
+
+{% endblock %}
+        
+   
+{% block findtb-test-picker-title %}Select DTU{% endblock %}
+
+{% block findtb-test-picker-selection %}
+
+   <form id="zone-selector" method="post" action='.'>
+   <p><label for="zone">Zones</label>
+   <select name="zone" id="zone">
+       <option value="all">All</option>
+       {% for zone in zones %}
+       <option
+               {% ifequal zone.pk selected_zone %}
+               selected="selected"
+               {% endifequal %}
+               value="{{ zone.pk }}">
+        {{ zone.name }}
+       </option>
+       {% endfor %}
+   </select>
+   <input type="submit" value="OK"/></p>
+   </form>
+   
+   <form id="district-selector" method="post" action='.'>
+   <p><label for="district">Districts</label>
+   <select name="district" id="district">
+       <option value="all">All</option>
+       {% for district in districts %}
+       <option 
+               {% ifequal district.id selected_district %}
+               selected="selected"
+               {% endifequal %}
+               value="{{ district.id }}">
+        {{ district.name }}
+       </option>
+       {% endfor %}}
+   </select>
+   <input type="submit"  value="OK"/></p>
+   </form>
+
+   {% if dtus %}
+       <ul id="findtb-dtu-selector">
+       {% for dtu in dtus %}
+           <li>
+                <a href="{% url findtb-eqa-tracking dtu.pk %}">
+                    {{ dtu.name }}
+                </a>
+           </li>
+       {% endfor %}
+       </ul>
+   {% else %}    
+        <p>No slides to test yet</p>
+   {% endif%}
+   
+{% endblock %}
+
+
+   
+
+
+

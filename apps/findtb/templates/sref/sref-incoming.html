@@ -1,0 +1,63 @@
+{% extends "sref/sref-tracking.html" %}
+
+{% load findtb_format  %}
+
+
+{% block tracking-form %}
+
+<h2>Report specimen delivery</h2>
+
+<form id="tracking-form" action='.' method='post'>
+   {% for error in form.errors.chosen_action %}
+   <p class="error"> {{ error }}</p>
+   {% endfor %}
+   <p>{{ form.chosen_action }} <input type="submit" value="Ok"></p>
+   
+   <fieldset class='autohide' name="Patient details">
+   
+       <legend>Patient details</legend>
+       
+       {% for error in form.specimen_form.errors.tc_number %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
+       <p>
+       {{ form.specimen_form.tc_number.label }}: 
+       {{ form.specimen_form.tc_number }}
+       </p> 
+       
+       {% for error in form.patient_form.errors.gender %}
+       <p class="error">Gender: {{ error }}</p>
+       {% endfor %}
+       {% for error in form.errors.age %}
+       <p class="error">Age: {{ error }}</p>
+       {% endfor %}
+       <p>
+       {{ form.patient_form.gender.label }} 
+       {{ form.patient_form.gender }} 
+       {{ form.age.label }}: 
+       {{ form.age }}
+       </p>
+       
+       {% for error in form.patient_form.errors.last_name %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
+       <p>
+       {{ form.patient_form.last_name.label }}: 
+       {{ form.patient_form.last_name }}
+       </p>
+       
+       {% for error in form.patient_form.errors.first_name %}
+       <p class="error"> {{ error }}</p>
+       {% endfor %}
+       <p>
+       {{ form.patient_form.first_name.label }}: 
+       {{ form.patient_form.first_name }}
+       </p> 
+       
+   </fieldset>
+   
+</form>
+
+{% endblock %}
+   
+

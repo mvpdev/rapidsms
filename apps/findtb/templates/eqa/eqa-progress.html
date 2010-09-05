@@ -1,0 +1,124 @@
+{% extends "findtb-base.html" %}
+
+{% block javascripts %}
+
+     <script type="text/javascript" 
+             src="/static/findtb/js/eqa.js">
+    </script>
+
+        
+{% endblock %}
+
+{% block page-class %}eqa-progress{% endblock %}
+
+{% block title %}EQA Progress{% endblock %}
+
+{% block findtb-title %}EQA progress for Q{{ quarter }} {{ year }}{% endblock %}
+
+{% block findtb-content %}
+
+<table class="span-23 last">
+
+    <caption>
+       <form id="zone-selector" method="post" action='.'>
+       <p><label for="zone">Zones</label>
+       <select name="zone" id="zone">
+           <option value="all">All</option>
+           {% for zone in zones %}
+           <option
+                   {% ifequal zone.pk selected_zone %}
+                   selected="selected"
+                   {% endifequal %}
+                   value="{{ zone.pk }}">
+            {{ zone.name }}
+           </option>
+           {% endfor %}
+       </select>
+       <input type="submit" value="OK"/></p>
+       </form>
+       
+       <form id="district-selector" method="post" action='.'>
+       <p><label for="district">Districts</label>
+       <select name="district" id="district">
+           <option value="all">All</option>
+           {% for district in districts %}
+           <option 
+                   {% ifequal district.id selected_district %}
+                   selected="selected"
+                   {% endifequal %}
+                   value="{{ district.id }}">
+            {{ district.name }}
+           </option>
+           {% endfor %}}
+       </select>
+       <input type="submit"  value="OK"/></p>
+       </form>
+    </caption>
+
+
+   
+    <thead>
+    <tr>
+    <th>Zone</th>
+    <th>District</th>
+    <th>DTU</th>
+    <th>Collected from DTU</th>
+    <th>Delivered to 1st Ctrl</th>
+    <th>Finished 1st Ctrl</th>
+    <th>Collected from 1st Ctrl</th>
+    <th>Delivered to 2nd Ctrl</th>
+    <th>Finished 2nd Ctrl</th>
+    <th>Report Ready</th>
+    <th>Received at DTU</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+    {% if slides_batches %}
+        {% for zone, districts in slides_batches.iteritems %}
+            {% for district, dtus in districts.iteritems %}
+                {% for dtu, history in dtus.iteritems %}
+                    
+                    <tr>
+                
+                    {% if forloop.first %}
+                        
+                        {% if forloop.parentloop.first %}
+                         <td rowspan="{{ zone.span }}">
+                            {{ zone.name }}
+                         </td>
+                        {% endif %}
+                    
+                        <td rowspan="{{ dtus|length }}">{{ district.name }}</td>
+                    {% endif %}
+                
+                    <td>
+                        <a href="{% url findtb-eqa-tracking dtu.pk year quarter dtu.name|slugify %}">
+                        {{ dtu.name }}
+                        </a>
+                     </td>
+                
+                    {% for state in history.done %}
+                        <td><img src="/static/findtb/images/checked.png" alt="Done" /></td>
+                    {% endfor %}
+                    
+                    {% for state in history.todo %}
+                        <td class='todo'>To Do</td>
+                    {% endfor %}
+                    
+                    </tr>
+                    
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        
+    {% else %}
+        <td colspan="11">No activity yet</td>
+    {% endif %}
+            
+    <tbody>
+    
+</table>
+
+{% endblock %}

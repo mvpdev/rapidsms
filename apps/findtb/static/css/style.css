@@ -1,0 +1,504 @@
+/***** GLOBAL ******/
+
+#left-column, 
+#right-column {
+margin-bottom: 1em;
+}
+
+.findtb h2 {
+text-align:center;
+}
+
+.findtb fieldset {
+margin-bottom:1em;
+}
+
+/*remove rapid sms and unicef logo*/
+#branding h1 b {
+background: transparent url("/static/findtb/images/logo_2.png") no-repeat 865px 8px;
+text-indent: 0;
+text-align:center;
+color:white;
+}
+
+#branding h1 {
+background: transparent url("/static/findtb/images/logo_1.png") no-repeat 8px 8px;
+}
+
+#findtb-footer {
+text-align:center;
+font-size:0.8em;
+color: #8E8F87;
+}
+
+#auth p {
+padding-right:1ex;
+}
+
+
+#footer {
+background: transparent url("/static/findtb/images/logo_find.png") no-repeat 12px 8px;
+}
+
+
+/*** MENU ***/
+
+
+#findtb-menu {
+float: left;
+padding:0;
+margin:0;
+}
+
+#findtb-menu li {
+margin-right: 1ex;
+display: inline;
+list-style-type: none;
+}
+
+#findtb-menu li.not-first {
+border-left: 1px solid black;
+padding-left: 1ex;
+}
+
+/*** SEARCH  ***/
+
+#findtb-search-form {
+text-align: right;
+margin-right:30px;
+}
+
+.findtb .search p {
+text-align: center;
+}
+
+.findtb .search .suggestion {
+text-align: left;
+}
+
+/*** DOC ***/
+
+.findtb .doc p {
+margin-left: 3em;
+}
+
+/*** RIGHT COLUMN NAVIGATION ***/
+
+#place-selection{
+background-color:#FFFFCC;
+padding:0.5px;
+padding-left:10px;
+}
+
+/*** FOLLOW UP ***/
+
+
+#findtb-events {
+border: solid 1px #EEEEEE;
+}
+
+#findtb-events-filter dt,
+#findtb-events-filter dd {
+display: inline;
+margin-left:10px;
+}
+
+#findtb-events p {
+text-align:center;
+}
+
+#findtb-events-filter  {
+background-color:#FFFFCC;
+padding:10px;
+margin:0;
+}
+
+.findtb #left-column  {
+background-color:#F8F8F8;
+}
+
+#findtb-event-picker-selection {
+padding:0.5em;
+margin-top:0;
+}
+
+#findtb-event-picker-selection li {
+height: 5em;
+list-style-type:none;
+display:block;
+margin:1em;
+}
+
+#findtb-event-picker-selection li a {
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #EEEEEE;
+}
+
+.findtb-dashboard #left-column dl {
+border-bottom: 1px solid #EEEEEE;
+}
+
+#findtb-event-picker-selection li a:hover{
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #B8DEE3;
+}
+
+/* TODO : add a special icon for "results" event of sref,
+ like a picture of a microspcope with a check
+
+*/
+
+#findtb-event-picker-selection li.notice {
+background: #FFFFFF url("/static/findtb/images/notice.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li.alert {
+background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li.checked {
+background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li.cancelled {
+background: #FFFFFF url("/static/findtb/images/cancelled.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li.result {
+background: #FFFFFF url("/static/findtb/images/result.png") no-repeat 8px 8px;
+}
+
+#findtb-event-picker-selection li strong {
+display:block;
+margin-left:55px;
+margin-top:10px;
+padding-right: 1em;
+}
+
+#findtb-event-picker-selection li span {
+display:block;
+margin-left:55px;
+margin-top:2px;
+font-style:italic;
+}
+
+/*** Subjet PICKER ***/
+
+
+#right-column form {
+border-bottom: 1px solid #EEEEEE;
+}
+
+#right-column  {
+background-color:#F8F8F8;
+border: 1px solid #EEEEEE;
+}
+
+
+#findtb-dtu-selector {
+padding:0 1em;
+margin-top:0;
+margin-bottom:2em;
+}
+
+#findtb-dtu-selector li {
+list-style-type:none;
+display:block;
+margin-top:1em;
+margin-bottom:1em;
+height: 2em;
+}
+
+#findtb-dtu-selector li {
+margin:1em 0;
+margin-top: 1.4em;
+}
+
+#findtb-dtu-selector li a {
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #EEEEEE;
+background:#FFFFFF;
+padding-top:0.5em;
+text-indent: 1em;
+}
+
+#findtb-dtu-selector li a:hover{
+display:block;
+height:100%;
+width:100%;
+border: 1px solid #B8DEE3;
+background:#F8FBFE;
+}
+
+#findtb-subject-picker p {
+text-align:center;
+}
+
+#findtb-subject-picker label {
+font-weight:normal;
+}
+
+/*** SREF DASHBOARD ***/
+
+#sref-dashboard #right-column a {
+text-align:left;
+text-indent:1em;
+height: 2em;
+}
+
+#findtb-test-picker-tabs {
+background-color:#FFFFCC;
+height:2em;
+margin:0;
+padding-top:1em;
+border-bottom: 1px solid #EEEEEE;
+} 
+
+#findtb-test-picker-tabs{
+margin-left:0;
+padding-left:0;
+text-align:center;
+}
+
+#findtb-test-picker-tabs li {
+display:inline;
+margin-left:2ex;
+}
+
+#findtb-test-picker-tabs .empty  {
+color:grey;
+font-style:italic;
+} 
+
+#findtb-test-picker-list {
+border-collapse: collapse;
+width:100%;
+}
+
+#findtb-test-picker-list tr th,
+#findtb-test-picker-list tr td  {
+border-collapse: collapse;
+text-indent:3ex;
+}
+
+#findtb-test-picker-list tr td  {
+padding:0;
+margin:0;
+height:2em;
+text-align:center;
+}
+
+#findtb-test-picker-list td a {
+display:block;
+height:100%;
+width:100%;
+padding-top:1em;
+padding-left:3ex;
+}
+
+#findtb-test-picker-list tbody .selectable:hover{
+border: 2px solid #B8DEE3;
+background: white;
+}
+
+/*** ALL TRACKINGS ***/
+
+#findtb-tracking-pagination {
+text-align:center;
+height:2em;
+}
+
+#findtb-tracking-pagination li  {
+display:inline;
+width:13ex;
+height:1.5em;
+margin: 0 1ex;
+}
+
+#findtb-tracking-pagination form {
+width:100%;
+}
+
+.findtb-tracking #left-column {
+border: 1px solid #EEEEEE;
+}
+
+.findtb-tracking #findtb-event-picker-selection li {
+display:block;
+border: 1px solid #EEEEEE;
+}
+
+#findtb-tracking #findtb-events {
+border:0;
+}
+
+#findtb-tracking-pagination table {
+width:100%;
+text-align:center;
+}
+
+.findtb-tracking #findtb-contacts {
+margin-left:2em;
+}
+
+.findtb-tracking #findtb-contacts dt {
+font-weight:bold;
+}
+
+.findtb-tracking #findtb-contacts dd {
+text-indent:1em;
+margin:1ex;
+}
+
+.findtb-tracking p#findtb-contacts {
+text-align:center;
+}
+
+.findtb-tracking #findtb-patient-details {
+margin-left:2em;
+}
+
+.findtb-tracking .findtb-invalidate-links  {
+margin-left:2em;
+text-align:center;
+}
+
+.findtb-tracking .findtb-invalidate-links a {
+display:inline;
+float:inherit;
+}
+
+
+/*** EQA TRAKING ***/
+
+
+#left-column #batch-results .save-button {
+margin:1em;
+margin-left:85%;
+}
+
+#left-column table th {
+text-align:center;
+}
+
+#eqa-tracking #results-form {
+text-align: center;
+vertical-align:middle;
+}
+
+
+#eqa-tracking #results-form .button {
+margin-left: 12em;
+}
+
+
+
+/*** SREF  / EQA TRAKING ***/
+
+#sref-tracking #right-column a {
+text-align:left;
+text-indent: 1em;
+}
+
+.findtb #tracking-form  {
+text-align:center;
+}
+
+
+
+/*** EQA Controller designation form ***/
+
+.eqa-controllers h2 {
+margin-top:1em;
+text-align: left;
+}
+
+.eqa-controllers table {
+border: 1px solid #EEEEEE;
+width:100%;
+}  
+
+.eqa-controllers .span-2 input {
+margin-top:1em;
+position:fixed;
+}
+
+/*** EQA Progress***/
+
+.eqa-progress .todo {
+color:#EEEEEE;
+}
+
+.eqa-progress table {
+border: 1px solid #EEEEEE;
+text-align: center;
+}
+
+/*** Notices ***/
+
+.notices .message {
+color:black;
+font-size:1.2em;
+padding-bottom:5px;
+margin-top:0px;
+border-bottom: 1px solid #8FBCC9;
+font-weight:normal;
+margin-bottom:5px;
+}
+
+.notices .warning {
+background: #FFFFFF url("/static/findtb/images/warning.png") no-repeat 2px 2px;
+background-position:center;
+}
+
+.notices .checked {
+background: #FFFFFF url("/static/findtb/images/checked.png") no-repeat 2px 2px;
+background-position:center;
+}
+
+
+.notices .by {
+padding:0;
+margin:0;
+font-style:italic;
+color:#8FBCC9;
+font-size:0.8em;
+}
+
+.notices .response {
+padding:1em;
+display: block;
+}
+
+.notices .resp_auth {
+font-size:0.8em;
+font-style:italic
+}
+
+.notices textarea {
+height: 50px;
+margin-bottom:5px;
+margin-top:0px;
+border: 1px solid #cccccc;
+background:#ededed;
+font-size:14px;
+}
+
+.notices form  {
+text-align:right;
+}
+
+.notices .notice {
+margin:1em;
+}
+
+.notices .pagination {
+text-align:center;
+}
+

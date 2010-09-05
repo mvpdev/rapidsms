@@ -84,7 +84,7 @@ class App (rapidsms.app.App):
             return False
 
         identifier_match = re.match(r'^ping (?P<identifier>.+).*$', \
-                                    message.text.lower(), re.U)
+                                    message.text.lower())
         if not identifier_match:
             identifier = False
         else:

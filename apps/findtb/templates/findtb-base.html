@@ -1,0 +1,72 @@
+{% extends base_template %}
+
+
+{% block page_stylesheets %}
+
+        <link rel="stylesheet" href="/static/findtb/css/blueprint/screen.css" type="text/css" />
+        <link rel="stylesheet" href="/static/findtb/css/style.css" type="text/css" />
+        
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ form.media }}
+        
+{% endblock %}
+     
+     
+{% block branding %}
+					<h1 class="title"><b>NTRL RapidSMS System</b></h1>
+{% endblock %}     
+
+{% block content %}
+
+<div id="{% block page-id %}{% endblock %}" class="findtb {% block page-class %}{% endblock %}">
+
+    {% block menu %}
+        {% include "_menu.html" %}
+    {% endblock %}
+    
+    
+    
+    <!-- We use the form var all other the code. To avoid changing it,
+    we just manually check if we are in the search page where there is only
+    one form. In that case we want the form object to have a filled input field -->
+    <form id="findtb-search-form" 
+        {% if not query %}
+            action="{% url findtb-search %}" 
+             method="get">
+             <p>
+            <input type="text" name="q" id="id_q" />
+         {% else %}
+             action="." 
+             method="get">
+             <p>
+             {{ form.q }}
+        {% endif %}
+        <input value="Search" type="submit"/>
+     </p>
+    </form>
+    
+   
+    
+    <h1>{% block findtb-title %}{% endblock %}</h1>
+
+    {% block findtb-content %}
+    {% endblock %}
+
+</div>
+
+{% block findtb-footer %}
+
+<p class="span-24 last" id="findtb-footer">
+<em>
+If you encounter any issue with this system, please contact <br/>
+Mr. NYESIGA Barnabas: <strong>Barnabas.Nyesiga@finddiagnostics.org</strong>
+</em>
+</p>
+
+{% endblock %}
+
+{% endblock %}
+

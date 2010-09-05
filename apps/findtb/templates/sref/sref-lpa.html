@@ -1,0 +1,32 @@
+{% extends "sref/sref-tracking.html" %}
+
+{% load findtb_format  %}
+
+
+{% block tracking-form %}
+
+<h2>LJ</h2> 
+
+<form id="tracking-form" action='.' method='post'>
+
+   {% for error in form.errors.chosen_action %}
+   <p class="error"> {{ error }}</p>
+   {% endfor %}
+   
+   <p>{{ form.result }} <input type="submit" value="Ok"></p>
+   
+   <p>
+        <a href="{% url findtb-sref-invalidate specimen.id %}">
+            Declare specimen invalid
+        </a> 
+        or
+        <a href="{% url findtb-sref-invalidate specimen.id %}?request_new=1">
+            Declare invalid and request a new specimen
+        </a>
+   </p>
+
+</form>
+
+{% endblock %}
+   
+

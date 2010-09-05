@@ -1,0 +1,51 @@
+{% extends "findtb-base.html" %}
+
+{% block page-class %}findtb-tracking{% endblock %}
+
+{% block findtb-content %}
+
+
+<div  id="left-column"  class="span-13">  
+
+    {% block tracking-pagination %}{% endblock %}      
+        
+    {% block tracking-form %}{% endblock %}
+
+    <div id="findtb-events">
+        
+        <h2>{% block findtb-events-title %}{% endblock %}</h2>
+
+        {% if events %}
+            {% block findtb-events-selection %}{% endblock %}
+        {% else %}
+            <p>Nothing has happened yet</p>   
+        {% endif %}
+    
+    </div>
+    
+   <!-- Put name in full caracters like "regional lab manager" instead of rlab-->
+    
+    <h2>Contacts</h2>
+    
+    {% block findtb-contacts %}
+    
+    {% endblock %}
+   
+     
+</div>
+
+
+<div id="right-column"  class="span-10 last">
+
+    <div id="findtb-subject-picker">
+   
+       <h2>{% block findtb-test-picker-title %}{% endblock %}</h2>
+       
+       {% block findtb-test-picker-selection %}{% endblock %}
+           
+    </div>
+   
+</div>
+
+
+{% endblock %} 

@@ -1,0 +1,27 @@
+{% extends "findtb-base.html" %}
+
+{% block page-class %}findtb-dashboard{% endblock %}
+
+{% block findtb-content %}
+
+<div  id="left-column"  class="span-12">  
+
+    {% block findtb-events %}{% endblock %}  
+     
+</div>
+
+
+<div id="right-column"  class="span-11 last">
+
+    <div id="findtb-subject-picker">
+   
+       <h2>{% block findtb-test-picker-title %}{% endblock %}</h2>
+       
+       {% block findtb-test-picker-selection %}{% endblock %}
+           
+    </div>
+   
+</div>
+
+
+{% endblock %} 

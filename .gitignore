@@ -20,6 +20,7 @@ logs/*
 .settings
 #netbeans
 nbproject
+*.orig
 
 # common 3rd parties
 apps/admin
@@ -69,6 +70,7 @@ settings.py
 
 # dev
 *.sqlite
+<<<<<<< HEAD
 
 #reports
 apps/childcount/rpts
@@ -76,3 +78,16 @@ apps/childcount/rpts
 #celery
 celerybeat-schedule
 
+=======
+*.db
+gitg.sh
+dropbox
+find_tb
+env
+index
+whoosh_index
+make.bat
+makefile
+build
+celerybeat-schedule
+>>>>>>> 009fd11589dce5344084eb8a629d1725294814fd

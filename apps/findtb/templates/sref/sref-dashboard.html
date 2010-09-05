@@ -1,0 +1,138 @@
+{% extends "findtb-dashboard.html" %}
+
+{% load findtb_format  %}
+
+{% block page-id %}sref-dashboard{% endblock %}
+
+{% block title %}Specimen Referral Dashboard{% endblock %}
+
+
+{% block findtb-title %}Specimen Referral Dashboard{% endblock %}
+
+
+{% block findtb-events %}
+
+
+<div id="findtb-events">
+    
+    <h2>Recent follow up for all the specimens</h2>
+
+    {% if all_events %}
+    
+    
+        <dl id="findtb-events-filter">
+            <dt>See: </dt>
+            {% ifequal event_type 'alert' %}
+             <dd><strong>Alerts</strong></dd>
+            {% else %}
+             <dd><a href="{% url findtb-sref-dashboard 'alert' %}">Alerts</a></dd>
+            {% endifequal %}
+            {% ifequal event_type 'all' %}
+             <dd><strong>All events</strong></dd>
+            {% else %}
+             <dd><a href="{% url findtb-sref-dashboard 'all' %}">All events</a></dd>
+            {% endifequal %}
+        </dl>
+        
+        {% if events %}
+        
+            <ul id="findtb-event-picker-selection">
+                {% for state in events %}
+                <li class="{{ state.type }}">
+                    <a href="{% url findtb-sref-tracking state.tracked_item.content_object.pk %}">
+                        <strong>{{ state.content_object.get_long_message }}</strong>
+                        <span>{{ state.created|humanize_time_delta }}</span> 
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            {% if more_events %}
+                <p>
+                    <a href="{% url findtb-sref-dashboard event_type %}?events_count={{ events_count }}&events_inc={{ events_inc }}">
+                        See more
+                </a>
+            </p>
+            {% endif %}
+            
+        {% else %}
+            <p>No alerts yet</p>   
+        {% endif %}
+
+        
+    {% else %}
+        <p>Nothing has happened yet</p>   
+    {% endif %}
+
+</div>
+
+
+{% endblock %}
+        
+   
+{% block findtb-test-picker-title %}Select a specimen{% endblock %}
+
+{% block findtb-test-picker-selection %}
+
+   <table id="findtb-test-picker-list">
+
+       <caption>
+       <ul id="findtb-test-picker-tabs" >
+           {% for status, specimens_list in specimens.iteritems %}
+               {% if specimens_list %}
+                  {% ifequal status task %}
+                      <li><strong>{{ status }}</strong></li>
+                  {% else %}
+                      <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
+                  {% endifequal %}
+               {% else %}
+                  <li class="empty">{{ status }}</li>
+               {% endif %}
+           {% endfor %}
+       </ul>
+       </caption>
+   
+       <thead>
+       <tr><th>Waiting</th><th>Health Unit</th><th>Specimen</th></tr>
+       </thead>
+       
+       <tbody>
+       {% if displayed_specimens %}
+           {% for specimen in displayed_specimens %}
+           <tr class="selectable">
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.delay }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.location }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                    {% if specimen.patient.full_name %}
+                     From {{ specimen.patient.full_name }}
+                    {% else %}{%if specimen.tc_number %}
+                     TC #{{ specimen.tc_number }}
+                    {% else %}
+                     From Patient N°{{ specimen.patient.registration_number }}
+                    {% endif %}{% endif %}
+               </a>
+               </td>
+           </tr>
+           {% endfor %}
+       {% else %}
+         <tr><td colspan="3">Nothing to test yet</td></tr>
+       {% endif %}
+       <tbody>
+   </table>
+        
+{% endblock %}
+
+
+   
+
+
+

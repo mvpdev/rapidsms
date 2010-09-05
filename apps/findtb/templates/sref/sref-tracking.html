@@ -1,0 +1,176 @@
+{% extends "findtb-tracking.html" %}
+
+{% load findtb_format  %}
+
+{% block page-id %}sref-tracking{% endblock %}
+
+{% block title %}Specimen Referal Tracking{% endblock %}
+
+{% block findtb-title %}
+    {% if specimen.tc_number %}
+    Specimen Referral: {{ specimen.patient.last_name|upper }}  
+                       {{ specimen.patient.first_name }}  
+                       TC #{{ specimen.tc_number }} 
+    {% else %}
+    Specimen Referral: patient {{ specimen.patient }} 
+    from {{ specimen.location.name }}
+    {% endif %}
+{% endblock %}
+
+
+{% block tracking-form %}
+
+
+{% endblock %}
+   
+   
+{% block findtb-events-title %}Follow up{% endblock %}
+
+{% block findtb-events-selection %}
+
+    <!-- TODO : add a cancel link in the last event so they can always undo 
+    something. A good place to put it would be next to the date. 
+    Cancel must be confirmed -->
+    
+    {% if events.count %}
+        <ul id="findtb-event-picker-selection">
+            {% for state in events %}
+            <li class="{{ state.type }}">
+                    <strong>{{ state.content_object.get_short_message }}</strong>
+                    <span>{{ state.created|humanize_time_delta|default_if_none:"1 second ago" }}</span> 
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nothing has happened yet</p>   
+    {% endif %}
+
+{% endblock %}
+
+<!-- TODO : Add a form to save patient id / name / age, etc. -->
+
+{% block findtb-contacts %}
+
+    {% if specimen.tc_number %}
+    
+        {% with specimen.patient as patient %}
+    
+            <p id="findtb-patient-details">
+            
+            <strong>Patient n° {{ patient.registration_number }}: </strong>
+            
+            {% if patient.first_name or patient.last_name %}
+                {{ patient.last_name|upper }}
+                {{ patient.first_name }} -
+            {% endif%}
+            
+            {% ifequal patient.gender 'M' %}
+                Male
+            {% else %}
+                Female
+            {% endifequal %}
+            
+            {% if patient.dob %}
+                - approx. {{ patient.get_estimated_age }} years old
+            {% endif %}
+            
+            <p>
+        
+        {% endwith %}
+        
+    {% else %}
+         <p id="findtb-patient-details">
+            Patient is not registered at NTLR 
+         </p>
+    {% endif %}
+
+    {% if contacts %}
+    
+       <dl id="findtb-contacts">
+       
+       {% for role in contacts.iteritems %}
+       
+            <dt>{{ role.0.title }}:</dt>
+            
+            {% for reporter in role.1 %}
+                <dd>
+                    <em>
+                    {{ reporter.last_name|upper }}
+                    {{ reporter.first_name }} 
+                    </em>:
+                    +{{reporter.connection.identity}}
+                </dd>
+            {% endfor %}
+            
+       {% endfor %}
+       
+       </dl>
+       
+    {% else %}
+       <p id="findtb-contacts">No phone contact for this specimen </p>
+    {% endif %}
+            
+{% endblock %}
+
+
+
+{% block findtb-test-picker-title %}Select a specimen{% endblock %}
+
+{% block findtb-test-picker-selection %}
+
+   <table id="findtb-test-picker-list">
+
+       <caption>
+       <ul id="findtb-test-picker-tabs" >
+           {% for status, specimens_list in specimens.iteritems %}
+               {% if specimens_list %}
+                  {% ifequal status task %}
+                      <li><strong>{{ status }}</strong></li>
+                  {% else %}
+                      <li><a href="{{ task_url }}?task={{status}}">{{ status }}</a></li>
+                  {% endifequal %}
+               {% else %}
+                  <li class="empty">{{ status }}</li>
+               {% endif %}
+           {% endfor %}
+       </ul>
+       </caption>
+   
+       <thead>
+       <tr><th>Waiting</th><th>Health Unit</th><th>Specimen</th></tr>
+       </thead>
+       
+       <tbody>
+       {% if displayed_specimens %}
+           {% for specimen in displayed_specimens %}
+           <tr class="selectable">
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.delay }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                  {{ specimen.location }}
+               </a>
+               </td>
+               <td>
+               <a href="{% url findtb-sref-tracking specimen.pk %}">
+                    {% if specimen.patient.full_name %}
+                     From {{ specimen.patient.full_name }}
+                    {% else %}{%if specimen.tc_number %}
+                     TC #{{ specimen.tc_number }}
+                    {% else %}
+                     From Patient N°{{ specimen.patient.registration_number }}
+                    {% endif %}{% endif %}
+               </a>
+               </td>
+           </tr>
+           {% endfor %}
+       {% else %}
+         <tr><td colspan="3">Nothing to test yet</td></tr>
+       {% endif %}
+       <tbody>
+   </table>
+        
+{% endblock %}
