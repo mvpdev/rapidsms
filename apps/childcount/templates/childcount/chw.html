@@ -1,0 +1,90 @@
+{% extends base_template %}
+{% block javascripts %}
+    
+{% endblock javascripts %}
+
+{% block page_stylesheets %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="/static/childcount/datatables/media/css/datatable.css" />
+<link type="text/css" rel="stylesheet" href="/static/childcount/datatables/extras/TableTools/media/css/TableTools.css" />
+<style typ=text/css>
+    table.display tr.odd.inc{
+        background-color: #FFDDDD;
+    }
+     table.display tr.even.inc{
+        background-color: #FFEEEE;
+    }
+    table.display tr.odd.inc td.sorting_1{
+        background-color: #FFC4C4;
+    }
+    table.display tr.even.inc td.sorting_1{
+        background-color: #FFD5D5;
+    }
+    tr.row_selected{
+        background-color: #D5FFD5;
+    }
+#ch-bd {
+border:1px solid brown;
+}
+#ch-l {
+float:left;
+width:80%;
+}
+#ch-r {
+width:18%;
+float:right;
+position:relative;
+border:1px solid brown;
+}
+    #content img{
+        border: 0 solid white;
+    }
+</style>
+{% endblock page_stylesheets %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{report_title}}{% if scope %}: {{scope}}{% endif %}</h2>
+<div id='ch-bd'><div id='ch-l'>
+<table  cellpadding="0" cellspacing="0" border="0" id="report" class="display"> 
+    <thead>
+    <tr>
+    {% for column in columns %}
+            {% if sub_columns %}
+                {% if column.colspan %}
+                    <th colspan="{{column.colspan}}" class="spanned"{% ifequal columns|length 15%} style="font-size:8px"{% endifequal %}>{{column.name}}</th>
+                {% else %}
+                    <th rowspan="2">{{column.name}}</th>
+                {% endif %}
+            {% else %}
+                <th>{{column.name}}</th>
+            {% endif %}
+    {% endfor %}
+    </tr>
+    {% if sub_columns %}
+    <tr>
+        {% for column in sub_columns %}
+            <th>{{column.name}}</th>
+        {% endfor %}
+    </tr>
+    {% endif %}
+    
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr{% if not row.complete %} class="inc"{%endif%}>
+            {% for cell in row.cells %}
+                    <td{% if cell.num %} class="num"{% endif %}{% if forloop.first %} style="white-space:nowrap;"{% endif %}>{% if cell.link %}<a href="{{cell.link}}">{% endif %}{{cell.value|default_if_none:""}}{% if cell.link %}</a>{% endif %}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+</div>
+<div id='ch-r'>
+Some stuff
+</div>
+</div>
+<div style="clear:both;"></div>
+{% endblock %}

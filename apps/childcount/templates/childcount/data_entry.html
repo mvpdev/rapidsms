@@ -1,0 +1,88 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{% trans "ChildCount+ Data Entry" %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/childcount/stylesheets/dataentry.css" />
+	<link rel="stylesheet" type="text/css" href="/static/childcount/stylesheets/datepicker.css" />
+
+    <script type="text/javascript" src="/static/childcount/scripts/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="/static/childcount/scripts/jquery.scrollTo-1.4.2-min.js"></script>
+
+    <script type="text/javascript" src="/static/childcount/scripts/shortcut.js"></script>
+    <script type="text/javascript" src="/static/childcount/scripts/cc_form.js"></script>
+    <script type="text/javascript" src="/static/childcount/scripts/datepicker.js"></script>
+
+    <script type="text/javascript" src="/static/dataentry/scripts/client.js"></script>
+
+    <script type="text/javascript" src="/static/childcount/scripts/http.js"></script>
+
+    <script type="text/javascript">
+        var FORM_URL = "{% url form "FORMID" %}";
+        var forms = [];
+        {% for form in forms %}forms.push("{{ form }}");{% endfor %}
+
+        var formfree = new ChildCountForm('{% trans "free" %}');
+        var s = new ChildCountFormSection('root', 'root', 'root');
+        var f = new ChildCountFormField('message', '{% trans "message" %}', '{% trans "Full message" %}');
+        s.addField(f);
+        formfree.addSection(s);
+
+        function reset_tables(ccform_txt, feedback_txt)
+        {
+            if (ccform_txt == null)
+                ccform_txt = '<thead id="ccform_head" class="' + dataentry_form.id + '"></thead><tbody id="ccform_body" class="' + dataentry_form.id + '"><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>    <tr></tr><tr></tr></tbody>';
+
+            if (feedback_txt == null)
+                feedback_txt = '<thead class="' + dataentry_form.id + '"><tr><td>{% trans "Status" %}</td><td>{% trans "Message" %}</td></tr></thead><tbody class="' + dataentry_form.id + '" id="log"><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr></tbody>';
+
+            var doc = document.getElementById('ccform')
+            doc.innerHTML = ccform_txt;
+
+            var doc = document.getElementById('feedback')
+            doc.innerHTML = feedback_txt;
+        }
+    </script>
+
+    <script type="text/javascript" src="/static/childcount/scripts/ui.js"></script>
+</head>
+
+<body onload="loadUI();" onresize="size_adjust();">
+
+<h2>{% trans "Available forms" %}</h2>
+<ul id="form_buttons">
+</ul>
+
+<h2>{% trans "SMS Log" %}</h2>
+<div class="tester">
+    <table id="ccform" class="rsmsList">
+    </table>
+</div>
+
+
+<div id="form_wrapper">
+<form id="form" name="form">
+<div id="user_input">
+{% if user.is_authenticated %}
+{% blocktrans %}Logged in as {{ user }}{% endblocktrans %} (<a href="/accounts/logout/">{% trans "Change" %}</a>).
+<input type="hidden" id="phone" name="phone" value="{{ user.username }}" />
+{% else %}
+<label for="phone">{% trans "Phone Number:" %}</label>
+<input type="text" id="phone" name="phone" value="" />
+{% endif %}
+<p>{% trans "Date of Encounter:" %} <input type="text" name="date" id="date" value="{{ today }}" onclick="displayDatePicker('date', false, 'ymd', '-', true);" /></p>
+<p>{% trans "CHW:" %} <select name="chw" id="chw">{% for chw in chws %}<option value="{{ chw.id }}" label="{{ chw }} ({{ chw.location }})"{% ifequal chw.id user.id %} selected="true"{% endifequal %}>{{ chw }} ({{ chw.location }})</option>{% endfor %}</select></p>
+</div>
+<label for="message">{% trans "Message:" %}</label>
+<input type="text" id="message" name="message" onkeydown="" onkeyup="parse_message();" autocomplete="off" />
+<input type="submit" id="submit" name="submit" value="Send" />
+</form>
+</div>
+
+<h2>{% trans "Response Log" %}</h2>
+<table id="feedback" class="rsmsList response">
+</table>
+

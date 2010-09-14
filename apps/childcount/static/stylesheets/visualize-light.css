@@ -1,0 +1,24 @@
+/* page styles */
+
+/*demo styles*/
+table {width: 500px; height: 200px; }
+table.accessHide { position: absolute; left: -999999px; }
+td, th { padding: 2px; width: 13%; }
+th { background-color:#f4f4f4; } 
+caption {   }
+
+/*visualize extension styles*/
+.visualize { padding: 70px 40px 90px; background: #ccc url(../images/chartbg-vanilla.png) top repeat-x; border: 1px solid #ddd; -moz-border-radius: 12px; -webkit-border-radius: 12px; border-radius: 12px; }
+.visualize canvas { border: 1px solid #aaa; margin: -1px; background: #fff; }
+.visualize-labels-x { top: 70px; left: 40px; z-index: 100; }
+.visualize-labels-y { top: 70px; left: 40px; z-index: 100; }
+.visualize-pie .visualize-labels { position: absolute; top: 70px; left: 40px; }
+.visualize-labels-x li span.label, .visualize-labels-y li span.label { color: #444;  padding-right: 5px; }
+.visualize-labels-y li span.line { }
+.visualize .visualize-info { border: 0; position: static;  opacity: 1; background: none; }
+.visualize .visualize-title { text-align: center; position: absolute; top: 20px; color: #333; margin-bottom: 0; left: 20px;  font-weight: bold; }
+.visualize ul.visualize-key { position: absolute; bottom: 15px; background: #eee; z-index: 10; padding: 10px 0; color: #aaa; width: 100%; left: 0;  }
+/*style chart font size */
+.visualize ul.visualize-key li { font-size: 1.0em;  margin-left: 20px; padding-left: 18px; }
+.visualize ul.visualize-key .visualize-key-color { width: 10px; height: 10px;  margin-top: -4px; }
+.visualize ul.visualize-key .visualize-key-label { color: #333; }

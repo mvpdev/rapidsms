@@ -14,6 +14,8 @@ logs/*
 *~
 \#*
 *.log*
+.DS_Store
+._*
 # eclipse stuff
 .settings
 #netbeans
@@ -32,6 +34,32 @@ apps/reporters
 apps/scheduler
 apps/webapp
 apps/i18n
+apps/airtime
+apps/bednets
+apps/censor
+apps/counter
+apps/default
+apps/django_extensions
+apps/echo
+apps/export
+apps/ezsms
+apps/fail
+apps/form
+apps/fortune
+apps/iavi
+apps/injector
+apps/math
+apps/poll
+apps/querylog
+apps/questions
+apps/responder
+apps/sms2irc
+apps/socialsms
+apps/stringcleaning
+apps/supply
+apps/training
+apps/tree
+
 
 # web server
 django_wsgi.py
@@ -42,6 +70,15 @@ settings.py
 
 # dev
 *.sqlite
+<<<<<<< HEAD
+
+#reports
+apps/childcount/rpts
+
+#celery
+celerybeat-schedule
+
+=======
 *.db
 gitg.sh
 dropbox
@@ -53,3 +90,4 @@ make.bat
 makefile
 build
 celerybeat-schedule
+>>>>>>> 009fd11589dce5344084eb8a629d1725294814fd

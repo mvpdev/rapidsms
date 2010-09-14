@@ -1,0 +1,33 @@
+@font-face { font-family: Lekton; src: url("/static/logger_ng/lekton005_l.otf"); }
+
+div.lng_msg {
+    margin-bottom:20px;
+}
+
+.lng_msg div.details {
+    font-weight:bold;
+}
+
+.lng_msg div.msg {
+    font-family: Lekton;
+    width:700px;
+    background:#ededed;
+    font-size:12pt;
+    margin:4px;
+    padding:3px;
+    padding-top:12px;
+}
+
+.lng_msg div.msg.text {
+    background:#ededed url("/static/logger_ng/in.png") no-repeat 1px 0px;
+    border:solid 1px #ff0000;
+}
+
+.lng_msg div.msg.response {
+    background:#ededed url("/static/logger_ng/out.png") no-repeat 1px 0px;
+    border:solid 1px #19b300;
+}
+
+.lng_msg input.resp_box {
+    width:600px;
+}

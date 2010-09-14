@@ -1,0 +1,13 @@
+{% extends base_template %}
+
+{% block title %}Add CHW{% endblock %}
+
+{% block content %}
+
+<h1>Create a CHW Account</h1>
+<form action="{% url add_chw %}" method="post">
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

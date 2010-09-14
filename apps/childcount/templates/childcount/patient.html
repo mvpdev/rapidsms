@@ -1,0 +1,130 @@
+{% extends base_template %}
+{% block javascripts %}
+
+{% endblock javascripts %}
+
+{% block page_stylesheets %}
+{{ block.super }}
+<link type="text/css" rel="stylesheet" href="/static/childcount/stylesheets/basic.css"/>
+<style typ=text/css>
+    table.display tr.odd.inc{
+        background-color: #FFDDDD;
+    }
+     table.display tr.even.inc{
+        background-color: #FFEEEE;
+    }
+    table.display tr.odd.inc td.sorting_1{
+        background-color: #FFC4C4;
+    }
+    table.display tr.even.inc td.sorting_1{
+        background-color: #FFD5D5;
+    }
+    tr.row_selected{
+        background-color: #D5FFD5;
+    }
+
+#ch-l {
+float:left;
+width:80%;
+}
+#ch-r {
+width:18%;
+float:right;
+position:relative;
+}
+    #content img{
+        border: 0 solid white;
+    }
+    
+
+</style>
+{% endblock page_stylesheets %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{report_title}}{% if scope %}: {{scope}}{% endif %}</h2>
+<div id='ch-bd'><div id='ch-l'>
+
+<table  cellpadding="0" cellspacing="0" border="0" id="report" class="display">
+    <thead>
+    <tr>
+    {% for column in columns %}
+            {% if sub_columns %}
+                {% if column.colspan %}
+                    <th colspan="{{column.colspan}}" class="spanned"{% ifequal columns|length 15%} style="font-size:8px"{% endifequal %}>{{column.name}}</th>
+                {% else %}
+                    <th rowspan="2">{{column.name}}</th>
+                {% endif %}
+            {% else %}
+                <th>{{column.name}}</th>
+            {% endif %}
+    {% endfor %}
+    </tr>
+    {% if sub_columns %}
+    <tr>
+        {% for column in sub_columns %}
+            <th>{{column.name}}</th>
+        {% endfor %}
+    </tr>
+    {% endif %}
+
+    </thead>
+    <tbody>
+        {% for row in rows %}
+            <tr{% if not row.complete %} class="inc"{%endif%}>
+            {% for cell in row.cells %}
+                    <td{% if cell.num %} class="num"{% endif %}{% if forloop.first %} style="white-space:nowrap;"{% endif %}>{% if cell.link %}<a href="{{cell.link}}">{% endif %}{{cell.value|default_if_none:""}}{% if cell.link %}</a>{% endif %}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{% if is_paginated %}
+<hr>
+<div class="paginator" id ='paginator'>
+  {% ifnotequal  page 1 %}
+<span class="next"><a href="/childcount/patients?page=1" title="First Page">First</a></span>
+ {%endifnotequal%}
+ 
+{% if has_previous %}<span class="prev"><a href="/childcount/patients?page={{previous}}" title="Previous Page">&laquo; Previous</a></span>{% else %}<span class="prev-na">&laquo; Previous</span>{% endif %}
+ 
+{% if not in_leading_range %}
+	{% for num in pages_outside_trailing_range %}
+		<span class="page"><a href="/childcount/patients?page={{ num }}" >{{ num }}</a></span>
+	{% endfor %}
+	...
+{% endif %}
+ 
+{% for num in page_numbers %}
+  {% ifequal num page %}
+    <span class="curr" title="Current Page">{{ num }}</span>
+  {% else %}
+  	<span class="page"><a href="/childcount/patients?page={{ num }}" title="Page {{ num }}">{{ num }}</a></span>
+  {% endifequal %}
+{% endfor %}
+ 
+{% if not in_trailing_range %}
+	...
+	{% for num in pages_outside_leading_range reversed %}
+		<span class="page"><a href="/childcount/patients?page={{ num }}" >{{ num }}</a></span>
+	{% endfor %}
+
+{% endif %}
+ 
+{% if has_next %}<span class="next"><a href="/childcount/patients?page={{ next }}" title="Next Page">Next &raquo;</a></span>{% else %}<span class="next-na">Next &raquo;</span>{% endif %}
+
+  {% ifnotequal  page  last_page %}
+<span class="next"><a href="/childcount/patients?page={{last_page}}" title="Last Page"> Last</a></span>
+ {%endifnotequal%}
+
+</div> 
+{% endif %}
+
+</div>
+<div id='ch-r'>
+</div>
+</div>
+<div style="clear:both;"></div>
+{% endblock %}

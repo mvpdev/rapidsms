@@ -1,0 +1,48 @@
+{% extends base_template %}
+{% block title %}Message Log{% endblock %}
+
+{% block javascripts %}
+{% endblock %}
+
+
+{% block page_stylesheets %}
+<link rel="stylesheet" type="text/css" href="/static/logger_ng/style.css" />
+{% endblock %}
+
+{% block content %}
+
+
+{% for msg in msgs.object_list %}
+<div class="lng_msg">
+    <div class="details">
+        <span class="date">{{msg.date|date:"d-M-Y @ H:m:s"}}</span>
+        <span class="from">{{msg.ident_string}}</span>
+    </div>
+    <div class="msg {% if msg.is_incoming %}text{% else %}response{% endif %}">{{msg.text}}</div>
+    {% for response in msg.response.all %}
+        <div class="msg response">{{response.text}}</div>
+    {% endfor %}
+    {% if perms.logger_ng.respond and msg.is_incoming %}
+        <div class="respond"><form action="" method="post">
+            <input class="resp_box" name="respond_{{msg.id}}" type="text" />
+            <input type="submit" value="Respond" />
+        </form></div>    
+    {% endif %}
+</div>
+{% endfor %}
+
+<table class="lng_page">
+<tr><td>
+        {% if msgs.has_previous %}
+            <a href="?page={{ msgs.previous_page_number }}">Previous</a>
+        {% endif %}
+</td><td>
+            Page {{ msgs.number }} of {{ msgs.paginator.num_pages }}
+</td><td>
+        {% if msgs.has_next %}
+            <a href="?page={{ msgs.next_page_number }}">Next</a>
+        {% endif %}
+</td></tr>
+</table>
+
+{% endblock %}
