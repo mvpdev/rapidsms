@@ -524,7 +524,10 @@ class AlertForBeingLate(object):
         """
         if slides_batch:
             ti, c = TrackedItem.get_tracker_or_create(content_object=slides_batch)
-            last_state_date = ti.get_history().exclude(type='alert')[0].created
+            for state in ti.get_history().exclude(type='alert'):
+                if issubclass(cls, state.content_object.__class__):
+                    last_state_date = state.created
+                    break
         else:
             last_state_date = datetime.datetime.today()
         return last_state_date + cls.delay
