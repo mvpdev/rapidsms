@@ -62,5 +62,5 @@ def humanize_timedelta(previous_date,
                                  tStr if value == 1 else tStr + u"s",
                                  suffix)
 
-    return None
+    return u"0 second " + suffix
 

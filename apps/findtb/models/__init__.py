@@ -13,7 +13,10 @@ from sref_generic_states import Sref, SpecimenInvalid,\
                                               SpecimenSent,\
                                               SpecimenReceived,\
                                               SpecimenMustBeReplaced,\
-                                              AllTestsDone
+                                              AllTestsDone,\
+                                              DeliveryIsLate,\
+                                              DeliveryIsOverdue,\
+                                              MicroscopyIsLate
 
 from eqa_tracking_states import Eqa, EqaStarts, \
                                               CollectedFromDtu, \

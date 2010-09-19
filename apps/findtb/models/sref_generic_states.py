@@ -7,10 +7,19 @@ Models collection to manage Specimen Referral system statuses and results.
 All models rely on the django_tracking application.
 """
 
+import datetime
+
+from dateutil.relativedelta import relativedelta
+
 from django.db import models
+
+from celery.registry import tasks
+from celery.decorators import task
 
 from findtb.models.models import Specimen
 from findtb.models.ftbstate import FtbState
+
+from django_tracking.models import TrackedItem
 
 class Sref(FtbState):
     """
@@ -189,6 +198,65 @@ class SpecimenSent(Sref):
 
     sending_method = models.CharField(max_length=20, \
                                       choices=SENDING_METHOD_CHOICES)
+                                      
+    @task()
+    def delivery_reminder(self):
+        """ Check if speciment delivery is late and send sms if it is. """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = DeliveryIsLate(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_lab_techs,\
+                                              send_to_dtls
+                send_to_lab_techs(s.location, msg)
+                send_to_dtls(s.location, msg)
+    tasks.register(delivery_reminder)
+    
+    
+    @task()
+    def delivery_alert(self):
+        """ Check if speciment delivery is late and alert if it is. """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = DeliveryIsOverdue(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_lab_techs,\
+                                              send_to_ztls,\
+                                              send_to_dtls
+                send_to_lab_techs(s.location, msg)
+                send_to_dtls(s.location, msg)
+                send_to_ztls(s.location, msg)
+    tasks.register(delivery_alert)
+
+
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+        if not self.pk:
+            delay = DeliveryIsLate.get_deadline()
+            self.delivery_reminder.apply_async(eta=delay, args=(self,))
+            delay = DeliveryIsOverdue.get_deadline()
+            self.delivery_alert.apply_async(eta=delay, args=(self,))
+        
+        super(SpecimenSent, self).save(*args, **kwargs)
+        
 
     def get_web_form(self):
         # we import it here to avoid circular reference
@@ -232,6 +300,40 @@ class SpecimenReceived(Sref):
 
     class Meta:
         app_label = 'findtb'
+
+
+    @task()
+    def microscopy_reminder(self):
+        """ Check if speciment microscopy is late and alert if it is. """
+        try:
+            s = Specimen.objects.get(pk=self.specimen.pk)
+        except Specimen.DoesNotExist:
+            pass
+        else:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=s)
+            if ti.state.title == self.state_name and ti.state.type != 'alert':
+                state = MicroscopyIsLate(specimen=s)
+                state.save()
+                ti.state = state
+                ti.save()
+                msg = state.get_long_message()
+                # must import here to avoid circular references
+                from findtb.libs.utils import send_to_lab_techs,\
+                                              send_to_ztls,\
+                                              send_to_dtls
+                send_to_lab_techs(s.location, msg)
+                send_to_dtls(s.location, msg)
+                send_to_ztls(s.location, msg)
+    tasks.register(microscopy_reminder)
+
+
+    def save(self, *args, **kwargs):
+        """ Setup the alert """
+        if not self.pk:
+            delay = MicroscopyIsLate.get_deadline()
+            self.microscopy_reminder.apply_async(eta=delay, args=(self,))
+        
+        super(SpecimenReceived, self).save(*args, **kwargs)
 
 
     def get_web_form(self):
@@ -278,3 +380,139 @@ class AllTestsDone(Sref):
                {'dtu': self.specimen.location, \
                 'patient': self.specimen.patient, \
                 'tc_number': self.specimen.tc_number}
+ 
+
+class AlertForBeingLate(object):
+    """
+    Common code to share between alerts triggered when a process is late.
+    """    
+    delay = relativedelta(weeks=+1)
+    state_type = 'alert'
+    
+    
+    @classmethod
+    def get_deadline(cls, specimen=None):
+        """
+        Returns the date when this process was due.
+        """
+        if specimen:
+            ti, c = TrackedItem.get_tracker_or_create(content_object=specimen)
+            last_state_date = ti.get_history().exclude(type='alert')[0].created
+        else:
+            last_state_date = datetime.datetime.today()
+        return last_state_date + cls.delay
+    
+    
+    def _formated_deadline(self):
+        """
+        Get the deadline in a readable format
+        """
+        d = self.get_deadline(self.specimen)
+        return d.strftime('%m/%d/%Y')
+    formated_deadline = property(_formated_deadline)  
+                
+                
+                
+class DeliveryIsLate(AlertForBeingLate, SpecimenSent):
+    """
+    State declaring the specimen hasn't been delivered to NTRL for too long.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+2)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenSent does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(SpecimenSent, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Specimen is late for delivery: delivery was expected before "\
+               u"%(deadline)s." % {'deadline': self.formated_deadline}
+
+
+    def get_long_message(self):
+        return u"%(dtu)s - Specimen for patient %(patient)s " \
+               u"is late: delivery was expected before %(deadline)s." % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient, 
+               'tag': self.specimen.tracking_tag.upper(),
+               'deadline': self.formated_deadline}
+                                    
+
+
+class DeliveryIsOverdue(AlertForBeingLate, SpecimenSent):
+    """
+    State declaring the specimen hasn't been delivered to NTRL for more than a 
+    week.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(weeks=+1)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenSent does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(SpecimenSent, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Specimen delivery is overdue. "\
+               u"The deadline was %(deadline)s." % {
+               'deadline': self.formated_deadline}
+
+
+    def get_long_message(self):
+        return u"%(dtu)s - Specimen for patient %(patient)s " \
+               u"delivery is overdue: deadline was %(deadline)s." % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient, 
+               'tag': self.specimen.tracking_tag.upper(),
+               'deadline': self.formated_deadline}
+              
+              
+              
+class MicroscopyIsLate(AlertForBeingLate, SpecimenReceived):
+    """
+    State declaring the specimen hasn't been tested with microscopy for more 
+    48h.
+    """
+
+    class Meta:
+        app_label = 'findtb'
+    
+    delay = datetime.timedelta(days=+2)
+    
+    
+    def save(self, *args, **kwargs):
+        """
+        We must override it because SpecimenReceived does and we inherit
+          from it. This is just a reset to prevent recursive calls.
+        """
+        super(SpecimenReceived, self).save(*args, **kwargs)
+
+
+    def get_short_message(self):
+        return u"Microscopy is late. "\
+               u"The deadline was %(deadline)s." % {
+               'deadline': self.formated_deadline}
+
+
+    def get_long_message(self):
+        return u"%(dtu)s - Microscopy of specimen for patient %(patient)s " \
+               u"is late: deadline was %(deadline)s." % {
+               'dtu': self.specimen.location, 
+               'patient': self.specimen.patient, 
+               'tag': self.specimen.tracking_tag.upper(),
+               'deadline': self.formated_deadline}                      
