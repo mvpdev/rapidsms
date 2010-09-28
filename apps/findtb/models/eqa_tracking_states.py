@@ -263,7 +263,7 @@ class PassedFirstControl(Eqa):
             self.controller_collection_reminder.apply_async(eta=delay, 
                                                             args=(self,))
         
-        super(DeliveredTo1stCtrler, self).save(*args, **kwargs)
+        super(PassedFirstControl, self).save(*args, **kwargs)
     
 
     def get_short_message(self):
