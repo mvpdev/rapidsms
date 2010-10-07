@@ -5,3 +5,4 @@ from global_views import *
 from eqa_views import *
 from sref_views import *
 from notice_views import *
+from reports_views import *
