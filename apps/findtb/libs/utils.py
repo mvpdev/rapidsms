@@ -7,6 +7,8 @@ import itertools
 import urllib2
 from functools import wraps
 from urllib import urlencode
+import numpy
+from datetime import time, date, datetime, timedelta
 
 from django.utils.datastructures import SortedDict
 
@@ -276,4 +278,61 @@ def get_specimen_by_status():
 
     return specimens
 
+def get_stats_for_state(origin, state, location=None, cutoff=None,
+                        date_start=None, date_end=None):
+    states = State.objects.filter(title=state, origin=origin) \
+                          .exclude(type='alert') \
+                          .exclude(cancelled=True)
+
+    items = []
+    for state in states:
+        ti = state.tracked_item
+        co = ti.content_object
+        if location and \
+            location not in co.location.ancestors(include_self=True):
+            continue
+        if date_start and state.created < date_start:
+            continue
+        if date_end and state.created > date_end:
+            continue
+        all_states = list(ti.states.exclude(type='alert') \
+                                   .exclude(cancelled=True) \
+                                   .order_by('created'))
+        try:
+            previous_state = all_states[all_states.index(state)-1]
+        except IndexError:
+            continue
+        items.append({'co':co,
+                      'duration': state.created - previous_state.created})
+
+    stats = {'num': len(items)}
+    if len(items) == 0:
+        return stats
+
+    items.sort(key=lambda x: x['duration'])
+    stats['items'] = [item['co'] for item in items]
+    stats.update({'min': items[0]['duration'], 'min_item': items[0]['co']})
+    stats.update({'max': items[-1]['duration'], 'max_item': items[-1]['co']})
+
+    durations = [item['duration'] for item in items]
+    dsum = timedelta()
+    for d in durations:
+        dsum += d
+    stats['avg'] = dsum / len(durations)
+
+    stats['med'] = timedelta(seconds= \
+            numpy.median([d.seconds + d.days * 86400 for d in durations]))
+
+    if cutoff:
+        items_before = [item['co'] for item in \
+                          filter(lambda x: x['duration'] <= cutoff, items)]
+        stats['items_before_cutoff'] = items_before
+        stats['num_before_cutoff'] = len(items_before)
+
+        items_after = [item['co'] for item in \
+                          filter(lambda x: x['duration'] > cutoff, items)]
+        stats['items_after_cutoff'] = items_after
+        stats['num_after_cutoff'] = len(items_after)
+
+    return stats
 
