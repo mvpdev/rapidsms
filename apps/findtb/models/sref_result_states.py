@@ -204,6 +204,9 @@ class LpaResult(Sref):
                'inh': self.inh,
                'rif': self.rif}
 
+    def is_valid(self):
+        return self.rif != 'na' and self.inh != 'na'
+
 
 
 class LjResult(Sref):

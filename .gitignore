@@ -70,15 +70,12 @@ settings.py
 
 # dev
 *.sqlite
-<<<<<<< HEAD
+
 
 #reports
-apps/childcount/rpts
+*.xls
 
 #celery
-celerybeat-schedule
-
-=======
 *.db
 gitg.sh
 dropbox
@@ -90,4 +87,4 @@ make.bat
 makefile
 build
 celerybeat-schedule
->>>>>>> 009fd11589dce5344084eb8a629d1725294814fd
+

@@ -360,7 +360,7 @@ def doc(request, *args, **kwargs):
 
     f = os.path.abspath(__file__)
     doc_dir = os.path.join(os.path.dirname(os.path.dirname(f)), 'static/files')
-    files = glob.glob(doc_dir + '/*.pdf')
+    files = glob.glob(doc_dir + '/*.pdf') + glob.glob(doc_dir + '/*.xls')
     files_name = (os.path.split(f)[1] for f in files)
     
     ctx = {}
