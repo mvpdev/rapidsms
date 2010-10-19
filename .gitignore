@@ -53,3 +53,6 @@ make.bat
 makefile
 build
 celerybeat-schedule
+
+#reports
+*.xls

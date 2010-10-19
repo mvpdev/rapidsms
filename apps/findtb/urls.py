@@ -23,12 +23,6 @@ urlpatterns = patterns('',
         name='findtb-notices',
         kwargs={'view_name': 'findtb-notices'}),
 
-    # REPORTS
-    url(r'^findtb/reports/$', views.reports,
-        name='findtb-reports',
-        kwargs={'view_name': 'findtb-reports'}),
-
-
 )
 
 
