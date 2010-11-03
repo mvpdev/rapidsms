@@ -1,0 +1,33 @@
+This Django app serves forms to ODK Collect and logs submissions from
+ODK Collect.
+
+This work is based on previous work:
+https://github.com/nyaruka/rapidsms-xforms
+http://code.google.com/p/opendatakit/source/browse?repo=dropbox
+
+Project wide settings
+======================
+
+settings.py
+-----------
+* MEDIA_ROOT = '/absolute/path/to/this/project/directory/'
+* MEDIA_URL = 'http://127.0.0.1:8000/forms/' #this is where 'admin' will store uploaded files.
+* Add the ODK_Aggregate template directory (absolute path) to TEMPLATE_DIRS
+* Add 'ODK_Aggregate' to INSTALLED_APPS
+* Uncomment Admin enabler
+
+urls.py
+-------
+* add:
+    (r'^', include('project-name.ODK_Aggregate.urls')),
+* Uncomment Admin enabler
+
+
+Organization of code & files
+----------------------------
+* ODK_Aggregate/
+ * media (this holds stuff like css files and is static served)
+ * forms (this holds forms which have been uploaded and will be downloaded by ODK collect)
+ * submissions (this holds submitted data. subdirectories correspond to the id of the database entry)
+
+*static serve is only used for the files in "media" and the forms. Submissions will be served through django. This allows us to authorize access and control the URLs.*

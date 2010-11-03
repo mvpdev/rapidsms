@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block htitle %}
+List Submissions
+{% endblock %}
+
+{% block content %}
+<div class="half lfloat">
+<ul>
+	{% for form in forms %}
+	<li>
+		<h3>{{ form.get_name }}</h3>
+	</li>
+	<ul>
+		{% for submission in form.get_submissions %}
+		<li>
+			<a href="{{ submission.url }}" class="submissionlink">{{ submission.get_date_time }}</a>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endfor %}
+</ul>
+</div>
+{% endblock %}

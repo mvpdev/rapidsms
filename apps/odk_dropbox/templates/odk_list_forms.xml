@@ -1,0 +1,8 @@
+<forms>
+{% if files %}
+  {% for name, url in files.items %}
+  <form url="{{ url }}">{{ name }}</form>
+  {% endfor %}
+{% endif %}
+</forms>
+

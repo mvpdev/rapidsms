@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block htitle %}
+List Forms
+{% endblock %}
+
+{% block content %}
+<div class="half lfloat">
+<ul>
+	{% for form in forms %}
+	<li>
+		<a href="{{ form.url }}" class="xformlink">{{ form.get_name }}</a> [{{ form.submissions_count }} submission(s)]
+	</li>
+	{% endfor %}
+</ul>
+</div>
+<script type="text/javascript">
+<!--
+
+$('a.submissionlink').click(function(evt){
+	evt.preventDefault();
+});
+-->
+</script>
+<!--<div class="half lfloat">
+	
+</div>-->
+{% endblock %}
