@@ -275,6 +275,22 @@ def list_chw(request):
     info.update({'chews': chews})
     return render_to_response(request, 'childcount/list_chw.html', info)
 
+def list_patient(request):
+    info = {}
+    patients = Patient.objects.all()
+    paginator = Paginator(patients, 100)
+    try:
+        page = int(request.GET.get('page','1'))
+    except:
+        page = 1
+    
+    try:
+      info['patients']=paginator.page(page)
+    except:
+      info['patients']=paginator.page(paginator.num_pages)
+
+    return render_to_response(request, 'childcount/list_patient_new.html', info)
+
 
 def chw(request):
     '''Community Health Worker page '''

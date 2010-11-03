@@ -49,7 +49,7 @@ urlpatterns = patterns('',
 
     url(r'^childcount/add_chw/?$', views.add_chw, name='add_chw'),
     url(r'^childcount/list_chw/?$', views.list_chw, name='list_chw'),
-
+    url(r'^childcount/list_patient/?$', views.list_patient, name='list_patient'),
     url(r'^childcount/dataentry/?$', views.dataentry, name='dataentry'),
     url(r'^childcount/dataentry/form/(?P<formid>[a-zA-Z0-9\-\_\.]*)/?$', \
                         views.form, name='form'),

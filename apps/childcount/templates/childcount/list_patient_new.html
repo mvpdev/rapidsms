@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+{% block title %}
+Patient List
+{% endblock %}
+{% block content %}
+<style type="text/css">
+.patient-list {
+
+}
+.patient-list a {
+    text-decoration: none;
+    color: #000;
+}
+.patient-list.on tbody td {
+    cursor: pointer;
+}
+.patient-list tbody tr.even {
+
+}
+td.hh1 {
+text-indent: -999em;
+}
+</style>
+
+<h2>Patient List</h2>
+<hr />
+<table style="width:100%" class="patient-list">
+<thead>
+<tr>
+<th>ID</th>
+<th>Parent</th>
+<th>Name</th>
+<th>DOB</th>
+</thead>
+<tbody>
+{% for patient in patients.object_list %}
+<tr>
+<td>{{patient.health_id}}</td>
+<td class='hh{{patient.household_id}}'>{{patient.household.last_name}}, {{patient.household.first_name}}</td>
+<td><a href="/childcount/show_patient/{{patient.health_id}}">{{patient.last_name}}, {{patient.first_name}}</a></td>
+<td>{{patient.dob}}</td>
+</tr>
+{% endfor %}
+</tbody>
+<script type="text/javascript">
+<!--
+$('table.patient-list').addClass('on');
+$('table.patient-list tbody tr').each(function(){
+   $(this).find('a').click(function(evt){evt.preventDefault()})
+   $(this).click(function(){
+       console.log("Show Patient ",$(this).find('a').text());
+   })
+})
+-->
+</script>
+
+
+{% endblock %}
