@@ -7,6 +7,7 @@ from odk_dropbox.models import Submission
 
 from rapidsms.webui import settings
 import urllib2
+from django.utils.http import urlencode
 
 class ODKHandler(ContentHandler):
 
@@ -42,18 +43,19 @@ def fake_messages(submission):
         number = report["phone_number"]
         message = "%(ID)s +m %(Muac)s %(Edema)s" % report
 
-        # this is taken from httptester
-        conf = settings.RAPIDSMS_APPS["httptester"]
-        url = "http://%s:%s/%s/%s" % (
-            conf["host"],
-            conf["port"],
-            urllib2.quote(number),
-            urllib2.quote(message))
+        # taken from dataentry.views.post_proxy
+        # notice I'm faking some data in here
+        # we probably want to do this intelligently for the demo
+        conf = settings.RAPIDSMS_APPS['dataentry']
+        url = "http://%s:%s" % (conf["host"], conf["port"])
 
-        print number, message
-        print url
-        f = urllib2.urlopen(url)
-        print "I'm hanging on the above line."
+        data = urlencode( {"identity" : "fme",
+                           "message" : message,
+                           "chw" : 73,
+                           "encounter_date" : "2010-11-03"} )
+        req = urllib2.Request(url, data)
+        stream = urllib2.urlopen(req)
+        print stream.read()
 
 def _fake_messages(sender, **kwargs):
     # if this is a new submission parse it an fake a bunch of sms messages
