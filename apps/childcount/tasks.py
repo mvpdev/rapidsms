@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _, activate
 from dateutil import relativedelta
 from datetime import date, timedelta, datetime, time
 
-from celery.decorators import periodic_task
+from celery.decorators import periodic_task, task
 from celery.schedules import crontab
 
 from childcount.models import ImmunizationSchedule, ImmunizationNotification
@@ -21,13 +21,35 @@ from childcount.models import PregnancyReport
 from childcount.models.ccreports import TheCHWReport
 from childcount.models import FollowUpReport
 from childcount.models import AppointmentReport
+from childcount.models import Configuration as Cfg
 
 from childcount.reports.report_framework import report_objects
 
 from alerts.utils import SmsAlert
 
 
-@periodic_task(run_every=crontab(hour=16, minute=30, day_of_week=0))
+def get_tasks(key):
+    tasklist = []
+    
+    # Don't catch exception
+    tvalues = Cfg.objects.get(key=key).value
+    tnames = tvalues.split()
+  
+    print "Starting"
+    for tname in tnames:
+        print "Looking for task %s" % tname
+        # Get from childcount.tasks import task_name
+        try:
+            exec 'from childcount.tasks import ' + tname
+        except ImportError:
+            print "COULD NOT FIND Task %s" % tname
+        else:
+            print "Found module %s" % tname
+            tasklist.append(eval(tname))
+    return tasklist
+
+
+@task(ignore_result=True)
 def weekly_immunization_reminder():
     '''
     Send SMS to CHW to remind them their immunization appointments, using
@@ -72,7 +94,7 @@ def weekly_immunization_reminder():
         sms_alert.save()
 
 
-@periodic_task(run_every=crontab(hour=7, minute=0))
+@task(ignore_result=True)
 def daily_fever_reminder():
     '''
     Daily reminder of Fever followup cases after 48 hours.
@@ -109,7 +131,7 @@ def daily_fever_reminder():
         sms_alert.save()
 
 
-@periodic_task(run_every=crontab(hour=17, minute=30, day_of_week=0))
+@task(ignore_result=True)
 def weekly_muac_reminder():
     '''
     Weekly reminder of due Muac cases, 75 days or over since last chw visit
@@ -154,7 +176,7 @@ def weekly_muac_reminder():
             sms_alert.save()
 
 
-@periodic_task(run_every=crontab(hour=18, minute=0, day_of_week=0))
+@task(ignore_result=True)
 def weekly_initial_anc_visit_reminder():
     '''
     Initial ANC Visit weekly reminder
@@ -191,7 +213,7 @@ def weekly_initial_anc_visit_reminder():
         sms_alert.save()
 
 
-@periodic_task(run_every=crontab(hour=18, minute=0, day_of_week=0))
+@task(ignore_result=True)
 def weekly_anc_visit_reminder():
     '''
     ANC Visit weekly reminder - 6 weeks have passed since last ANC visit
@@ -245,7 +267,7 @@ def get_appointment_date(dt=datetime.today()):
     return (dt + relativedelta.relativedelta(days=+3, weekday=day))
 
 
-@periodic_task(run_every=crontab(hour=7, minute=30))
+@task(ignore_result=True)
 def appointment_reminders():
     '''Remind the chw to remind their clients of an appointment 3 week days
     before the date of appointment
@@ -305,7 +327,7 @@ def get_appointment_defaulter_date(dt=datetime.today()):
             + relativedelta.relativedelta(days=-7)
 
 
-@periodic_task(run_every=crontab(hour=8, minute=0))
+@task(ignore_result=True)
 def appointment_defaulter_reminders():
     '''Remind the chw to remind their defaulting clients of an appointment
     2 week days after the date of appointment
@@ -352,4 +374,55 @@ def gen_framework_nightly_reports():
         rep = thereport.apply()
     print "Done"
 
+# @periodic_task(run_every=timedelta(seconds=10), ignore_result=True)
+@task(ignore_result=True)
+def demo_print_hello():
+    print "Hello World!!!!"
 
+
+@periodic_task(run_every=crontab(hour=16, minute=30, day_of_week=0), ignore_result=True)
+def weekly_sunday_430pm():
+    for task in get_tasks('weekly_sunday_430pm'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=17, minute=30, day_of_week=0), ignore_result=True)
+def weekly_sunday_530pm():
+    for task in get_tasks('weekly_sunday_530pm'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=18, minute=0, day_of_week=0), ignore_result=True)
+def weekly_sunday_6pm():
+    for task in get_tasks('weekly_sunday_6pm'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=7, minute=0), ignore_result=True)
+def daily_7am():
+    for task in get_tasks('daily_7am'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=7, minute=30), ignore_result=True)
+def daily_730am():
+    for task in get_tasks('daily_730am'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=8, minute=0), ignore_result=True)
+def daily_8am():
+    for task in get_tasks('daily_8am'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=8, minute=0), ignore_result=True)
+def daily_830am():
+    for task in get_tasks('daily_830am'):
+        task.apply()
+
+
+@periodic_task(run_every=crontab(hour=0, minute=0), ignore_result=True)
+def daily_midnight():
+    for task in get_tasks('daily_midnight'):
+        task.apply()
