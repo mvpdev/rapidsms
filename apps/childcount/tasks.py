@@ -40,12 +40,12 @@ def get_tasks(key):
         print "Looking for task %s" % tname
         # Get from childcount.tasks import task_name
         try:
-            exec 'from childcount.tasks import ' + tname
-        except ImportError:
+            tname = eval(tname, globals(), locals())
+        except:
             print "COULD NOT FIND Task %s" % tname
         else:
-            print "Found module %s" % tname
-            tasklist.append(eval(tname))
+            print "Found task ", tname
+            tasklist.append(tname)
     return tasklist
 
 
