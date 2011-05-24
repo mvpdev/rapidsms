@@ -302,6 +302,8 @@ class ThePatient(Patient):
             total = self.survey()['num_site'] - self.survey()['function']
             if bdnt_issued:
                 total -= bdnt_issued
+            if total < 0:
+                total = 0
         except:
             total = '-'
 
@@ -565,6 +567,39 @@ class ThePatient(Patient):
         columns.append(
             {'name': _("Reason".upper()),
              'bit': '{{object.survey.reason}}'})
+        sub_columns = None
+        return columns, sub_columns
+
+    @classmethod
+    def mini_bednet_coverage(cls):
+        columns = []
+        columns.append(
+            {'name': _("HH".upper()),
+            'bit': '{{object.household.health_id.upper}}'})
+        columns.append(
+            {'name': cls._meta.get_field('location').verbose_name.upper(), \
+             'bit': '{{ object.location.name }}'})
+        columns.append(
+            {'name': _("HH Name".upper()), \
+             'bit': '{{ object.first_name }} {{ object.last_name }}'})
+        columns.append(
+            {'name': _("# SSs".upper()),
+             'bit': '{{object.survey.num_site}}'})
+        columns.append(
+            {'name': _("# Func. Nets".upper()),
+             'bit': '{{object.survey.function}}'})
+        columns.append(
+            {'name': _("# Elr. Nets".upper()),
+             'bit': '{{object.survey.earlier}}'})
+        columns.append(
+            {'name': _("# Dmgd. Nets".upper()),
+             'bit': '{{object.survey.damaged}}'})
+        columns.append(
+            {'name': _("# Nets Issued".upper()),
+             'bit': '{{object.survey.issued}}'})
+        columns.append(
+            {'name': _("# Rqrd. Nets".upper()),
+             'bit': '{{object.required_bednet}}'})
         sub_columns = None
         return columns, sub_columns
 
@@ -1142,6 +1177,8 @@ class TheCHWReport(CHW):
 
     def required_bednet(self):
         total = self.num_sleepingsite() - self.num_funcbednet()
+        if total < 0:
+            total = 0
         return total
 
     def num_sanitation(self):
