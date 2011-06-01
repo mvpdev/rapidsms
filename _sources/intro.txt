@@ -1,0 +1,80 @@
+
+Introduction
+============
+
+Target Audience
+---------------
+
+This documentation is meant for **programmers** and **project managers**
+who are interested in deploying ChildCount+.
+Project managers and health professionals might focus on 
+the :doc:`human` section.
+Programmers and medical records specialists can focus on
+the :doc:`tech/index` section.
+
+
+What is ChildCount+?
+--------------------
+
+ChildCount+ [#f1]_ is a light-weight health data management
+system designed for day-to-day use by community health workers.
+From a technical perspective, ChildCount+:
+
+#. Collects health information from community health workers,
+
+#. Sends SMS alerts to health workers and health managers,
+
+#. Calculates the values of key health and CHW performance indicators, and
+
+#. Produces concise printed performance reports for CHWs and their managers.
+
+
+In an ideal wor
+
+.. figure:: images/intro/diagram_mobile.png
+    :scale: 50%
+    :alt: ChildCount+ mobile data flow diagram.
+
+    A representation of the mobile-phone-based ChildCount+ workflow.
+
+
+Should You Use ChildCount+?
+---------------------------
+
+* Do you have a CHW program?
+
+* Do you have health managers with enough time to maintain the system?
+
+* Do you have a technical team?
+
+* Do you have money to pay for paper and SMS fees?
+
+* Do you have cell phones?
+
+* Do you have the means (i.e., transport) to meet regularly with your CHWs?
+
+
+Deployment Background
+---------------------
+
+`Millennium Villages Project <http://www.millenniumvillages.org/>`_
+has deployed ChildCount+ at its sites across sub-Saharan Africa.
+As of May 2011, these deployments are the *only* ChildCount+
+deployments.
+For more information on the history of ChildCount+, please see
+:doc:`history`.
+
+
+System Components
+-----------------
+
+
+..rubric:: Footnotes
+
+.. [#f1] **Why the +?** We call our system ChildCount+ 
+    (read: "Child count plus") because it has expanded from
+    a system for collecting data about children to a system
+    for collecting data about people -- including adults.
+    The "+" represents the fact that we count children *and*
+    adults too.
+
