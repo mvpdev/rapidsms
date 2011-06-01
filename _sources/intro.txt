@@ -72,11 +72,20 @@ is sometimes not possible.
     A representation of the paper-based ChildCount+ workflow.
 
 
-System Components
+What's in the Box 
 -----------------
 
-* Forms
-* Software 
+The two major open-source components of ChildCount+ are:
+
+* **Paper Forms**: See :ref:`human__forms` to check out
+  our paper data collection forms.
+
+* **Software**: See the :doc:`tech/index` section for details
+  on our software and what you need to get it up and running.
+
+For everything else (community health workers, data entry clerks,
+programmers, servers, mobile phones, airtime, ...) you are on
+your own!
 
 
 Should You Use ChildCount+?
@@ -90,12 +99,28 @@ deployment:
     You can customize ChildCount+ to suit your application (tracking
     levels of drug stocks, for example) but that would require extensive
     programming and customization.
+    See :ref:`human__prereqs` for more information.
 
-* Do you have health managers with enough time to maintain the system?
+* **Do you have health managers with enough time to maintain the system?**
+    Many of the Millennium Village Project sites aim to have feedback
+    meetings with the community health workers *every month*.
+    If you have scores of CHWs distributed over a large geographical
+    area, these meetings can take a non-trivial amount of time.
+    Don't bother deploying the system if you don't have time to use
+    the data it produces.
+    See :ref:`human__prereqs` for more information.
+    
+* **Do you have a technical team (or at least a technical person)?**
+    ChildCount+ is not a "plug-and-play" solution.
+    In fact, it is more like "download-and-hack" solution.
+    You will need, at least, 
+    one on-call Python programmer with some Linux systems
+    administration experience to install the software 
+    and to maintain the server.
+    See :ref:`human__prereqs` for more information.
 
-* Do you have a technical team?
-
-* Do you have money to pay for paper and SMS fees?
+* **Do you have money to pay for paper and SMS fees?**
+    
 
 * Do you have enough cell phones for your CHWs?
 

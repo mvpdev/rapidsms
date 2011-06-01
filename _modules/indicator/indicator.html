@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>indicator.indicator &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for indicator.indicator</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+
+<span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="kn">from</span> <span class="nn">percentage</span> <span class="kn">import</span> <span class="n">Percentage</span>
+<span class="kn">from</span> <span class="nn">cache</span> <span class="kn">import</span> <span class="n">cache_indicator</span>
+<span class="kn">from</span> <span class="nn">query_set_type</span> <span class="kn">import</span> <span class="n">QuerySetType</span>
+
+<span class="kn">from</span> <span class="nn">django.db.models.query</span> <span class="kn">import</span> <span class="n">QuerySet</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
+
+<div class="viewcode-block" id="Indicator"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator">[docs]</a><span class="k">class</span> <span class="nc">Indicator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">type_in</span>     <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">type_out</span>    <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">slug</span>        <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">short_name</span>  <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">long_name</span>   <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">cache</span>       <span class="o">=</span> <span class="bp">True</span>
+    <span class="c"># Default to two hours</span>
+    <span class="n">valid_for</span>   <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;No value method implemented!&quot;</span><span class="p">))</span>
+
+    
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    You shouldn&#39;t have implement anything below this line</span>
+<span class="sd">    in your Indicator subclasses...</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Indicator.output_is_number"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator.output_is_number">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_number</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Indicator.output_is_percentage"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator.output_is_percentage">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_percentage</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">Percentage</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_check_type</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">expected</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">slug</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Indicator slug cannot be None&quot;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">expected</span> <span class="ow">is</span> <span class="n">QuerySet</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Expected </span><span class="si">%(str)s</span><span class="s"> type cannot be a QuerySet. &quot;</span>\
+                            <span class="s">&quot;Use an indicator.QuerySetType object instead.&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                            <span class="p">{</span><span class="s">&#39;str&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">})</span>
+
+        <span class="c"># First, check if we&#39;re dealing with a QuerySetType object</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">QuerySetType</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">QuerySet</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Expected </span><span class="si">%(str)s</span><span class="s"> type </span><span class="si">%(exp)s</span><span class="s"> but got illegal &quot;</span> \
+                                    <span class="s">&quot;</span><span class="si">%(str)s</span><span class="s"> type </span><span class="si">%(ill)s</span><span class="s">!&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                                    <span class="p">{</span><span class="s">&#39;exp&#39;</span><span class="p">:</span> <span class="n">QuerySet</span><span class="p">,</span> <span class="s">&#39;ill&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s">&#39;str&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">expected</span><span class="o">.</span><span class="n">mtype</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Expected </span><span class="si">%(str)s</span><span class="s"> QuerySet of type </span><span class="si">%(exp)s</span><span class="s"> but got illegal &quot;</span> \
+                                    <span class="s">&quot;</span><span class="si">%(str)s</span><span class="s"> QuerySet of type </span><span class="si">%(ill)s</span><span class="s">!&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                                    <span class="p">{</span><span class="s">&#39;exp&#39;</span><span class="p">:</span> <span class="n">expected</span><span class="o">.</span><span class="n">mtype</span><span class="p">,</span> <span class="s">&#39;ill&#39;</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;str&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">})</span>
+
+        <span class="c"># If we don&#39;t have a QuerySetType, then just do regular type checking</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Expected </span><span class="si">%(str)s</span><span class="s"> type </span><span class="si">%(exp)s</span><span class="s"> but got illegal &quot;</span> \
+                                    <span class="s">&quot;</span><span class="si">%(str)s</span><span class="s"> type </span><span class="si">%(ill)s</span><span class="s">!&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                                    <span class="p">{</span><span class="s">&#39;exp&#39;</span><span class="p">:</span> <span class="n">expected</span><span class="p">,</span> <span class="s">&#39;ill&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="s">&#39;str&#39;</span><span class="p">:</span> <span class="n">s</span><span class="p">})</span>
+
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_in</span><span class="p">,</span> <span class="n">data_in</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;input&quot;</span><span class="p">))</span>
+        <span class="n">data_out</span> <span class="o">=</span> <span class="n">cache_indicator</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">)</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">data_out</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data_out</span> 
+</div>
+<div class="viewcode-block" id="IndicatorPercentage"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.IndicatorPercentage">[docs]</a><span class="k">class</span> <span class="nc">IndicatorPercentage</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+    <span class="n">cls_num</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">cls_den</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">type_out</span> <span class="o">=</span> <span class="n">Percentage</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Percentage</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">cls_num</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">),</span> <span class="n">cls</span><span class="o">.</span><span class="n">cls_den</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="IndicatorDifference"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.IndicatorDifference">[docs]</a><span class="k">class</span> <span class="nc">IndicatorDifference</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+    <span class="n">cls_first</span>   <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">cls_second</span>  <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">cls_first</span><span class="o">.</span><span class="n">type_out</span> <span class="o">!=</span> <span class="n">cls</span><span class="o">.</span><span class="n">cls_second</span><span class="o">.</span><span class="n">type_out</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Cannot compute difference of indicators &quot;</span>\
+                                <span class="s">&quot;with unequal types!&quot;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">cls_first</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">)</span> <span class="o">-</span> <span class="n">cls</span><span class="o">.</span><span class="n">cls_second</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">))</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
