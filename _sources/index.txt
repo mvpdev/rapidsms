@@ -12,6 +12,10 @@ Welcome to ChildCount+'s documentation!
    intro
    human
    tech/index
+
+.. toctree::
+   :maxdepth: 1
+
    api/index
    history
     

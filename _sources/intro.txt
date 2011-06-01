@@ -2,6 +2,9 @@
 Introduction
 ============
 
+.. contents::
+    :local:
+
 Target Audience
 ---------------
 
@@ -20,13 +23,13 @@ ChildCount+ [#f1]_ is a health data management
 system designed for day-to-day use by community health workers.
 To be specific, ChildCount+:
 
-#. Collects health information from community health workers 
-    (by text message or paper forms),
+#. Collects health information from community 
+   health workers (by text message or paper forms),
 
 #. Sends text message alerts to health workers and health managers,
 
 #. Calculates the values of key health and CHW performance indicators
-    using data collected from the CHWs, and
+   using data collected from the CHWs, and
 
 #. Produces concise printed performance reports for CHWs and their managers.
 
@@ -101,7 +104,7 @@ deployment:
     programming and customization.
     See :ref:`human__prereqs` for more information.
 
-* **Do you have health managers with enough time to maintain the system?**
+* **Do you have the means (i.e., transport) to meet regularly with your CHWs?**
     Many of the Millennium Village Project sites aim to have feedback
     meetings with the community health workers *every month*.
     If you have scores of CHWs distributed over a large geographical
@@ -110,6 +113,12 @@ deployment:
     the data it produces.
     See :ref:`human__prereqs` for more information.
     
+* **Do you have health managers with enough time to maintain the system?**
+    One major purpose of ChildCount+ is to collect and display public health data.
+    If there's no one who has time to look at the data, and act based
+    on what they are seeing, then maybe you should skip ChildCount+ and focus
+    on that problem instead.
+
 * **Do you have a technical team (or at least a technical person)?**
     ChildCount+ is not a "plug-and-play" solution.
     In fact, it is more like "download-and-hack" solution.
@@ -120,14 +129,29 @@ deployment:
     See :ref:`human__prereqs` for more information.
 
 * **Do you have money to pay for paper and SMS fees?**
+    As an example: in Uganda (May 2011), an on-network SMS costs
+    US$0.02.
+    If you have 100 CHWs each sending or receiving 20 SMS messages
+    per day, that is:
     
+        100 CHWs * 20 SMS/day * $0.02/SMS * 30 days/month = **$1200.00/month**
 
-* Do you have enough cell phones for your CHWs?
+    Do you have $1200/month for SMS fees? 
+    Paper-only deployments are cheaper, but then you miss out
+    on all of good things that come with SMS.
 
-* Do you have a system in place to manage airtime for CHWs?
+* **Do you have enough cell phones and phone chargers for your CHWs?**
+    ChildCount+ makes the assumption that there is one phone
+    per community health worker.
+    With a bit of engineering you could modify the system
+    to allow CHWs to share phones, but you might lose some of the
+    benefits of real-time CHW-to-server communication.
 
-* Do you have the means (i.e., transport) to meet regularly with your CHWs?
-
+* **Do you have a system in place to manage airtime for CHWs?**
+    If community health workers are spending US$12/month on SMS messages,
+    you will need a reliable way to get money or airtime to them.
+    Millennium Villages Project has tried to negotiate with the local
+    mobile operator for "toll-free SMS" lines, but it's not a quick process.
 
 Deployment Background
 ---------------------
@@ -149,4 +173,11 @@ For more information on the history of ChildCount+, please see
     for collecting data about people -- including adults.
     The "+" represents the fact that we count children *and*
     adults too.
+
+.. [#f2] We are considering a GPRS/EDGE-based alternative
+    to our SMS-based transport. In Uganda, that would bring
+    the monthly data cost down to less than US$10.
+
+
+
 
