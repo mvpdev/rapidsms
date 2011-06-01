@@ -61,30 +61,86 @@ the <a class="reference internal" href="tech/index.html"><em>Technology</em></a>
 </div>
 <div class="section" id="what-is-childcount">
 <h2>What is ChildCount+?<a class="headerlink" href="#what-is-childcount" title="Permalink to this headline">¶</a></h2>
-<p>ChildCount+ <a class="footnote-reference" href="#f1" id="id1">[1]</a> is a light-weight health data management
+<p>ChildCount+ <a class="footnote-reference" href="#f1" id="id1">[1]</a> is a health data management
 system designed for day-to-day use by community health workers.
-From a technical perspective, ChildCount+:</p>
-<ol class="arabic simple">
-<li>Collects health information from community health workers,</li>
-<li>Sends SMS alerts to health workers and health managers,</li>
-<li>Calculates the values of key health and CHW performance indicators, and</li>
-<li>Produces concise printed performance reports for CHWs and their managers.</li>
+To be specific, ChildCount+:</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Collects health information from community health workers</dt>
+<dd><p class="first last">(by text message or paper forms),</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Sends text message alerts to health workers and health managers,</p>
+</li>
+<li><dl class="first docutils">
+<dt>Calculates the values of key health and CHW performance indicators</dt>
+<dd><p class="first last">using data collected from the CHWs, and</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Produces concise printed performance reports for CHWs and their managers.</p>
+</li>
 </ol>
-<p>In an ideal wor</p>
-<div class="figure">
-<a class="reference internal image-reference" href="_images/diagram_mobile12.png"><img alt="ChildCount+ mobile data flow diagram." src="_images/diagram_mobile12.png" style="width: 357.0px; height: 219.0px;" /></a>
+</div>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>ChildCount+&#8217;s original design revolved around mobile phones:
+community health workers would submit information to the ChildCount+
+server by text message (SMS).
+Based on the submitted data, the server would then periodically
+send information and alerts to the community health workers.
+The ChildCount+ deployment in <a class="reference external" href="http://millenniumvillages.org/the-villages/sauri-kenya/">Sauri, Kenya</a>,
+where Millennium Villages Project first piloted ChildCount+, uses
+the mobile-phone-based workflow depicted in the
+<a class="reference internal" href="#diagram-mobile"><em>accompanying figure</em></a>.</p>
+<div class="figure" id="diagram-mobile">
+<a class="reference internal image-reference" href="_images/diagram_mobile26.png"><img alt="ChildCount+ mobile data flow diagram." src="_images/diagram_mobile26.png" style="width: 428.4px; height: 262.8px;" /></a>
 <p class="caption">A representation of the mobile-phone-based ChildCount+ workflow.</p>
 </div>
+<p>It is possible to deploy ChildCount+ without mobile phones.
+In fact, most Millennium Village sites use a
+<a class="reference internal" href="#diagram-dataentry"><em>paper-based workflow</em></a>
+for ChildCount+, since managing airtime credit and fleet of mobile phones
+is sometimes not possible.</p>
+<div class="figure" id="diagram-dataentry">
+<a class="reference internal image-reference" href="_images/diagram_dataentry13.png"><img alt="ChildCount+ paper-based data flow diagram." src="_images/diagram_dataentry13.png" style="width: 431.4px; height: 274.2px;" /></a>
+<p class="caption">A representation of the paper-based ChildCount+ workflow.</p>
+</div>
+</div>
+<div class="section" id="system-components">
+<h2>System Components<a class="headerlink" href="#system-components" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Forms</li>
+<li>Software</li>
+</ul>
 </div>
 <div class="section" id="should-you-use-childcount">
 <h2>Should You Use ChildCount+?<a class="headerlink" href="#should-you-use-childcount" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Do you have a CHW program?</li>
-<li>Do you have health managers with enough time to maintain the system?</li>
-<li>Do you have a technical team?</li>
-<li>Do you have money to pay for paper and SMS fees?</li>
-<li>Do you have cell phones?</li>
-<li>Do you have the means (i.e., transport) to meet regularly with your CHWs?</li>
+<p>Here are some questions to consider before embarking on a ChildCount+
+deployment:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><strong>Do you have a community health worker program?</strong></dt>
+<dd><p class="first last">If not, ChildCount+ might not be the best platform for your project.
+You can customize ChildCount+ to suit your application (tracking
+levels of drug stocks, for example) but that would require extensive
+programming and customization.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Do you have health managers with enough time to maintain the system?</p>
+</li>
+<li><p class="first">Do you have a technical team?</p>
+</li>
+<li><p class="first">Do you have money to pay for paper and SMS fees?</p>
+</li>
+<li><p class="first">Do you have enough cell phones for your CHWs?</p>
+</li>
+<li><p class="first">Do you have a system in place to manage airtime for CHWs?</p>
+</li>
+<li><p class="first">Do you have the means (i.e., transport) to meet regularly with your CHWs?</p>
+</li>
 </ul>
 </div>
 <div class="section" id="deployment-background">
@@ -95,10 +151,7 @@ As of May 2011, these deployments are the <em>only</em> ChildCount+
 deployments.
 For more information on the history of ChildCount+, please see
 <a class="reference internal" href="history.html"><em>History / Credits</em></a>.</p>
-</div>
-<div class="section" id="system-components">
-<h2>System Components<a class="headerlink" href="#system-components" title="Permalink to this headline">¶</a></h2>
-<p>..rubric:: Footnotes</p>
+<p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -124,9 +177,10 @@ adults too.</td></tr>
 <li><a class="reference internal" href="#">Introduction</a><ul>
 <li><a class="reference internal" href="#target-audience">Target Audience</a></li>
 <li><a class="reference internal" href="#what-is-childcount">What is ChildCount+?</a></li>
+<li><a class="reference internal" href="#workflow">Workflow</a></li>
+<li><a class="reference internal" href="#system-components">System Components</a></li>
 <li><a class="reference internal" href="#should-you-use-childcount">Should You Use ChildCount+?</a></li>
 <li><a class="reference internal" href="#deployment-background">Deployment Background</a></li>
-<li><a class="reference internal" href="#system-components">System Components</a></li>
 </ul>
 </li>
 </ul>
