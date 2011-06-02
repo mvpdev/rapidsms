@@ -1,0 +1,436 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.helpers.chw &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for childcount.helpers.chw</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+
+<span class="sd">&quot;&quot;&quot;Helper functions that operate on or</span>
+<span class="sd">relate to :class:`childcount.models.CHW`</span>
+<span class="sd">objects.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">registration</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">household</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">family_planning</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">danger_signs</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">referral</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">follow_up</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">pregnancy</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">birth</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">neonatal</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">under_one</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">nutrition</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">fever</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">medicine_given</span>
+
+<span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">Patient</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">PregnancyReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">FollowUpReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">ReferralReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">NutritionReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">UnderOneReport</span>
+
+<span class="n">report_indicators</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Household&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Households&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">registration</span><span class="o">.</span><span class="n">Household</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Total HH Visits&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">household</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;% HH Coverage&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">household</span><span class="o">.</span><span class="n">CoveragePerc</span><span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Family Planning&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Women 15-49 Seen&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">family_planning</span><span class="o">.</span><span class="n">Women</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Women Using FP&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">family_planning</span><span class="o">.</span><span class="n">Using</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Women Starting FP (or Never Registered)&quot;</span><span class="p">),</span>
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">family_planning</span><span class="o">.</span><span class="n">Starting</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Follow Up&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;People with DSs&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">danger_signs</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Urgent (Non-Convenient) Referrals&quot;</span><span class="p">),</span>
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">referral</span><span class="o">.</span><span class="n">Urgent</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;On-Time Follow-Up Visits (between 18 and 72 hours)&quot;</span><span class="p">),</span> \
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">follow_up</span><span class="o">.</span><span class="n">OnTime</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Late Follow-Up Visits (between 72 hours and 7 days)&quot;</span><span class="p">),</span> \
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">follow_up</span><span class="o">.</span><span class="n">Late</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;No Follow-Up Visits (never or after 7 days)&quot;</span><span class="p">),</span> \
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">follow_up</span><span class="o">.</span><span class="n">Never</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Pregnancy&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Pregnant Women&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">pregnancy</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Births&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">birth</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Births with 4 ANC&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">birth</span><span class="o">.</span><span class="n">WithAncFour</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Babies Known Delivered in Clinic&quot;</span><span class="p">),</span> \
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">birth</span><span class="o">.</span><span class="n">DeliveredInClinic</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Neonatal Reports (within 7 days)&quot;</span><span class="p">),</span> \
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">neonatal</span><span class="o">.</span><span class="n">WithinSevenDaysOfBirth</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Under Five&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Children U5&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">registration</span><span class="o">.</span><span class="n">UnderFive</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Children U5 Known Immunized&quot;</span><span class="p">),</span>\
+                <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">under_one</span><span class="o">.</span><span class="n">UnderFiveImmunizationUpToDate</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;MUACs Taken&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">nutrition</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Active SAM/MAM Cases&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">nutrition</span><span class="o">.</span><span class="n">SamOrMam</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Malaria&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Tested RDTs&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">fever</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Positive RDTs&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">fever</span><span class="o">.</span><span class="n">RdtPositive</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Anti-malarials Given&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">medicine_given</span><span class="o">.</span><span class="n">Antimalarial</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Diarrhea&quot;</span><span class="p">),</span>
+        <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;U5 Diarrhea Cases&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">danger_signs</span><span class="o">.</span><span class="n">UnderFiveDiarrhea</span><span class="p">},</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;ORS Given&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">medicine_given</span><span class="o">.</span><span class="n">Ors</span><span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;The common set of :class:`indicator.Indicator` objects</span>
+<span class="sd">used in the CHW reports.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="pregnant_needing_anc"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.pregnant_needing_anc">[docs]</a><span class="k">def</span> <span class="nf">pregnant_needing_anc</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of women assigned to this CHW</span>
+<span class="sd">    who are in their 2nd or 3rd trimester of pregnancy</span>
+<span class="sd">    who haven&#39;t had ANC visits in last 5 five weeks</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param chw: CHW</span>
+<span class="sd">    :type chw: :class:`childcount.models.CHW`</span>
+
+<span class="sd">    :returns: list of (:class:`childcount.models.Patient`, </span>
+<span class="sd">              last_anc_date, approx_due_date) tuples </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">patients</span> <span class="o">=</span> <span class="n">Patient</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">chw</span><span class="o">=</span><span class="n">chw</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">pregnant_months</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">9.5</span><span class="p">,</span>\
+            <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+
+    <span class="n">pregs</span> <span class="o">=</span> <span class="n">PregnancyReport</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__gt</span><span class="o">=</span>\
+                <span class="n">period</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="mf">30.4375</span><span class="p">),</span>
+            <span class="n">encounter__encounter_date__lte</span><span class="o">=</span>\
+                <span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+            <span class="n">encounter__patient__in</span><span class="o">=</span><span class="n">patients</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-encounter__encounter_date&#39;</span><span class="p">)</span>
+
+    <span class="n">seen</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">no_anc</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">women</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pregs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">pk</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="n">days_ago</span> <span class="o">=</span> <span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
+        <span class="n">weeks_ago</span> <span class="o">=</span> <span class="n">days_ago</span> <span class="o">/</span> <span class="mf">7.0</span>
+        <span class="n">months_ago</span> <span class="o">=</span> <span class="n">weeks_ago</span> <span class="o">/</span> <span class="mf">4.0</span>
+
+        <span class="n">preg_month</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pregnancy_month</span> <span class="o">+</span> <span class="n">months_ago</span>
+
+        <span class="n">months_left</span> <span class="o">=</span> <span class="mi">9</span> <span class="o">-</span> <span class="n">preg_month</span>
+        <span class="n">days_left</span> <span class="o">=</span> <span class="n">months_left</span> <span class="o">*</span> <span class="mf">30.475</span>
+        <span class="n">due_date</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days_left</span><span class="p">)</span>
+
+        <span class="c"># Current weeks since ANC</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">weeks_since_anc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">no_anc</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
+                <span class="bp">None</span><span class="p">,</span>\
+                <span class="n">due_date</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weeks_since_anc</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">weeks_since_anc</span> <span class="o">+</span> <span class="n">weeks_ago</span>
+            <span class="k">if</span> <span class="n">weeks_since_anc</span> <span class="o">&gt;</span> <span class="mf">5.0</span><span class="p">:</span>
+                <span class="n">women</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
+                    <span class="n">p</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span> <span class="o">-</span> \
+                        <span class="n">timedelta</span><span class="p">(</span><span class="mi">7</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">weeks_since_anc</span><span class="p">),</span> \
+                    <span class="n">due_date</span><span class="p">))</span>
+
+    <span class="n">women</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">no_anc</span> <span class="o">+</span> <span class="n">women</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="people_without_followup"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.people_without_followup">[docs]</a><span class="k">def</span> <span class="nf">people_without_followup</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of people assigned to this CHW</span>
+<span class="sd">    who were referred urgently to a clinic</span>
+<span class="sd">    who got a late follow-up visit (3-7 days after referral) or no follow-up </span>
+<span class="sd">    visit (more than 7 days after referral or never)</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param chw: CHW</span>
+<span class="sd">    :type chw: :class:`childcount.models.CHW`</span>
+
+<span class="sd">    :returns: list of :class:`childcount.models.reports.ReferralReport`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">referrals</span> <span class="o">=</span> <span class="n">ReferralReport</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__chw</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> \
+            <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>\
+            <span class="n">encounter__encounter_date__gte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">urgency</span><span class="o">=</span><span class="n">ReferralReport</span><span class="o">.</span><span class="n">URGENCY_CONVENIENT</span><span class="p">)</span>
+
+    <span class="n">num_referrals</span> <span class="o">=</span> <span class="n">referrals</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">num_referrals</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;No referrals&quot;</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="n">ontime</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">nofup</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">referral</span> <span class="ow">in</span> <span class="n">referrals</span><span class="p">:</span>
+        <span class="n">rdate</span> <span class="o">=</span> <span class="n">referral</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fur</span> <span class="o">=</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__chw</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> \
+                        <span class="n">encounter__patient</span><span class="o">=</span><span class="n">referral</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
+                        <span class="n">encounter__encounter_date__gte</span><span class="o">=</span>\
+                            <span class="n">rdate</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_ON_TIME</span><span class="p">,</span> \
+                        <span class="n">encounter__encounter_date__lt</span><span class="o">=</span>\
+                            <span class="n">rdate</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_LATE</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">pass</span>
+            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: None&quot;</span> <span class="o">%</span> <span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">fur</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> \
+                <span class="n">fur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">.</span><span class="n">date</span><span class="p">())</span>
+            <span class="n">ontime</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">referral</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nofup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">referral</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: None&quot;</span> <span class="o">%</span> <span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">ontime</span><span class="p">,</span> <span class="n">nofup</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="kids_needing_muac"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.kids_needing_muac">[docs]</a><span class="k">def</span> <span class="nf">kids_needing_muac</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of MUAC-eligible patients assigned to this CHW</span>
+<span class="sd">    who have not had a recorded MUAC in the past 90 days</span>
+<span class="sd">    (for known healthy children) or the past 30 days</span>
+<span class="sd">    (for known malnourished children and children with</span>
+<span class="sd">    unknown nutrition status).</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param chw: CHW</span>
+<span class="sd">    :type chw: :class:`childcount.models.CHW`</span>
+
+<span class="sd">    :returns: list of (:class:`childcount.models.Patient`,</span>
+<span class="sd">              :class:`childcount.models.reports.NutritionReport`) tuples</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># people eligible for MUAC</span>
+    <span class="n">muac_list</span> <span class="o">=</span> <span class="n">Patient</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">chw</span><span class="o">=</span><span class="n">chw</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">muac_eligible</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;encounter__patient__location__code&#39;</span><span class="p">)</span>
+
+    <span class="n">seen</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">need_muac</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">no_muac</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">one_month_ago</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="mf">30.4375</span><span class="p">)</span>
+    <span class="n">three_months_ago</span> <span class="o">=</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="mf">30.4375</span><span class="p">)</span>
+
+    <span class="n">danger</span> <span class="o">=</span> <span class="p">(</span><span class="n">NutritionReport</span><span class="o">.</span><span class="n">STATUS_SEVERE</span><span class="p">,</span> \
+                    <span class="n">NutritionReport</span><span class="o">.</span><span class="n">STATUS_SEVERE_COMP</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">muac_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">pk</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">seen</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">pk</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">nut</span> <span class="o">=</span> <span class="n">NutritionReport</span>\
+                <span class="o">.</span><span class="n">objects</span>\
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient__pk</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span>
+                    <span class="n">muac__isnull</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                    <span class="n">status__isnull</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="s">&#39;encounter__encounter_date&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NutritionReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="n">no_muac</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">nut</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="n">danger</span> <span class="ow">and</span> \
+                <span class="n">nut</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span> <span class="o">&lt;</span> <span class="n">one_month_ago</span><span class="p">:</span>
+            <span class="n">need_muac</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">nut</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">nut</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span> <span class="o">&lt;</span> <span class="n">three_months_ago</span><span class="p">:</span>
+            <span class="n">need_muac</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="p">,</span> <span class="n">nut</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">need_muac</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span>\
+        <span class="nb">cmp</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">,</span> \
+            <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">no_muac</span> <span class="o">+</span> <span class="n">need_muac</span>
+</div>
+<div class="viewcode-block" id="kids_needing_immunizations"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.kids_needing_immunizations">[docs]</a><span class="k">def</span> <span class="nf">kids_needing_immunizations</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of children under five years old assigned to this CHW</span>
+<span class="sd">    who are:</span>
+
+<span class="sd">    #. More than 12 months old who have no known immunization</span>
+<span class="sd">       record or who were last known to be not fully immunized, or</span>
+
+<span class="sd">    #. Less than 12 months old who have not had an immunization</span>
+<span class="sd">       report in the past 90 days.</span>
+
+
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param chw: CHW</span>
+<span class="sd">    :type chw: :class:`childcount.models.CHW`</span>
+
+<span class="sd">    :returns: :class:`django.db.models.query.QuerySet` of :class:`childcount.models.Patient`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="n">patients</span> <span class="o">=</span> <span class="n">Patient</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">chw</span><span class="o">=</span><span class="n">chw</span><span class="p">)</span>
+
+    <span class="n">u1imms</span> <span class="o">=</span> <span class="n">UnderOneReport</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">encounter_age</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">365</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient__in</span><span class="o">=</span><span class="n">patients</span><span class="p">,</span>
+            <span class="n">encounter__encounter_date__gte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="o">-</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">90</span><span class="p">),</span>
+            <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">latest_for_patient</span><span class="p">()</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">immunized</span><span class="o">=</span><span class="n">UnderOneReport</span><span class="o">.</span><span class="n">IMMUNIZED_YES</span><span class="p">)</span>
+
+    <span class="n">u5imms</span> <span class="o">=</span> <span class="n">UnderOneReport</span>\
+        <span class="o">.</span><span class="n">objects</span>\
+        <span class="o">.</span><span class="n">encounter_age</span><span class="p">(</span><span class="mi">366</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mf">365.25</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient__in</span><span class="o">=</span><span class="n">patients</span><span class="p">,</span>
+            <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">latest_for_patient</span><span class="p">()</span>\
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">immunized</span><span class="o">=</span><span class="n">UnderOneReport</span><span class="o">.</span><span class="n">IMMUNIZED_YES</span><span class="p">)</span>
+
+    <span class="n">imms</span> <span class="o">=</span> <span class="p">(</span><span class="n">u1imms</span><span class="o">|</span><span class="n">u5imms</span><span class="p">)</span>
+    <span class="n">pks</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">imms</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s">&#39;encounter__patient__pk&#39;</span><span class="p">)]</span>
+    <span class="k">print</span> <span class="n">pks</span>
+    <span class="k">return</span> <span class="n">patients</span>\
+        <span class="o">.</span><span class="n">under_five</span><span class="p">(</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk__in</span><span class="o">=</span><span class="n">pks</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;location__code&#39;</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

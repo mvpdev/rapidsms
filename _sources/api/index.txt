@@ -2,7 +2,7 @@ ChildCount+ API / Developer Docs
 ================================
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
     apps/index
     lib/index

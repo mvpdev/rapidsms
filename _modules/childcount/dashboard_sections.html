@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.dashboard_sections &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for childcount.dashboard_sections</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: mvpdev</span>
+
+<span class="sd">&quot;&quot;&quot;Holds view logic for the dashboard.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">simplejson</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">Patient</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">nutrition</span>
+<span class="kn">from</span> <span class="nn">childcount.helpers</span> <span class="kn">import</span> <span class="n">site</span>
+
+<span class="kn">from</span> <span class="nn">reportgen.timeperiods</span> <span class="kn">import</span> <span class="n">Month</span><span class="p">,</span> <span class="n">FourWeeks</span>
+
+<div class="viewcode-block" id="registration_chart"><a class="viewcode-back" href="../../api/apps/childcount/dashboard_sections.html#childcount.dashboard_sections.registration_chart">[docs]</a><span class="k">def</span> <span class="nf">registration_chart</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This method corresponds to the template </span>
+<span class="sd">    :file:`dashboard_sections/registration_chart.html`</span>
+
+<span class="sd">    It returns only the data needed to build the chart, which is passed to a javascript</span>
+<span class="sd">    object in a JSON string using :func:`simplejson.dumps()`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">days_past</span><span class="p">,</span> <span class="n">num_registrations</span> <span class="o">=</span> <span class="n">Patient</span><span class="o">.</span><span class="n">registrations_by_date</span><span class="p">()</span>
+    
+    <span class="n">reg_chart_data</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;yAxis&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Total Number of Patients&quot;</span><span class="p">),</span> \
+                       <span class="s">&#39;xAxis&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of days ago&quot;</span><span class="p">),</span>
+            <span class="s">&#39;daysPast&#39;</span> <span class="p">:</span> <span class="n">days_past</span><span class="p">,</span> <span class="s">&#39;regCount&#39;</span><span class="p">:</span> <span class="n">num_registrations</span> <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">reg_chart_data</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="highlight_stats_bar"><a class="viewcode-back" href="../../api/apps/childcount/dashboard_sections.html#childcount.dashboard_sections.highlight_stats_bar">[docs]</a><span class="k">def</span> <span class="nf">highlight_stats_bar</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Corresponds to template: :file:`dashboard_sections/highlight_stats_bar.html`</span>
+<span class="sd">    </span>
+<span class="sd">    This :func:`dict` is structured to easily pump into an HTML table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;titles&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;# of Households&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;# of Patients&quot;</span><span class="p">),</span> \
+                       <span class="n">_</span><span class="p">(</span><span class="s">u&quot;# of Underfives&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;# of Pregnant Women&quot;</span><span class="p">)],</span> \
+                        <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">532</span><span class="p">,</span> <span class="mi">1521</span><span class="p">,</span> <span class="mi">534</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">}</span>
+</div>
+<div class="viewcode-block" id="nutrition_chart"><a class="viewcode-back" href="../../api/apps/childcount/dashboard_sections.html#childcount.dashboard_sections.nutrition_chart">[docs]</a><span class="k">def</span> <span class="nf">nutrition_chart</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Data for a pie chart</span>
+<span class="sd">    of nutrition statistics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="n">FourWeeks</span><span class="o">.</span><span class="n">periods</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">unknown</span> <span class="o">=</span> <span class="n">nutrition</span><span class="o">.</span><span class="n">Unknown</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+    <span class="n">healthy</span> <span class="o">=</span> <span class="n">nutrition</span><span class="o">.</span><span class="n">Healthy</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+    <span class="n">moderate</span> <span class="o">=</span> <span class="n">nutrition</span><span class="o">.</span><span class="n">Mam</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">Patient</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+
+    <span class="n">nutrition_data_for_dashboard</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">),</span> <span class="n">unknown</span><span class="p">],</span> \
+                                    <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Healthy&quot;</span><span class="p">),</span> <span class="n">healthy</span><span class="p">],</span> \
+                                    <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Moderate&quot;</span><span class="p">),</span> <span class="n">moderate</span><span class="p">]]</span>
+    
+    <span class="k">return</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">nutrition_data_for_dashboard</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="recent_numbers"><a class="viewcode-back" href="../../api/apps/childcount/dashboard_sections.html#childcount.dashboard_sections.recent_numbers">[docs]</a><span class="k">def</span> <span class="nf">recent_numbers</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pumps a python :func:`dict` with &quot;columns&quot; and &quot;rows&quot;(&amp;data) which is</span>
+<span class="sd">    then turned into a pretty HTML table</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">month</span> <span class="o">=</span> <span class="n">Month</span><span class="o">.</span><span class="n">periods</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">last_month</span> <span class="o">=</span> <span class="n">Month</span><span class="o">.</span><span class="n">periods</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">generated_report_data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;month&#39;</span><span class="p">:</span> <span class="n">site</span><span class="o">.</span><span class="n">summary_stats</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> \
+                            <span class="s">&#39;last_month&#39;</span><span class="p">:</span> <span class="n">site</span><span class="o">.</span><span class="n">summary_stats</span><span class="p">(</span><span class="n">last_month</span><span class="p">)</span> <span class="p">}</span>
+   
+    <span class="k">print</span> <span class="n">generated_report_data</span>
+    <span class="n">recent_numbers_columns</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;This Month (to date)&quot;</span><span class="p">),</span> <span class="s">&#39;month&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Last Month&quot;</span><span class="p">),</span> <span class="s">&#39;last_month&#39;</span><span class="p">]]</span>
+    <span class="n">named_rows</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;+SAM / MAM&quot;</span><span class="p">),</span><span class="s">&quot;num_mam_sam&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;RDT+&quot;</span><span class="p">),</span> <span class="s">&#39;num_rdt&#39;</span><span class="p">]]</span>
+   
+    <span class="n">recent_numbers_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">named_rows</span><span class="p">:</span>
+        <span class="n">row_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">recent_numbers_data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">generated_report_data</span><span class="p">[</span><span class="n">dt</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="n">row_id</span><span class="p">]</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">recent_numbers_columns</span><span class="p">]])</span>
+    
+    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">recent_numbers_columns</span><span class="p">],</span> <span class="s">&#39;rows&#39;</span><span class="p">:</span> <span class="n">recent_numbers_data</span><span class="p">}</span>
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

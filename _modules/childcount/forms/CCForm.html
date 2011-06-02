@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.forms.CCForm &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for childcount.forms.CCForm</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: dgelvin</span>
+
+
+<div class="viewcode-block" id="CCForm"><a class="viewcode-back" href="../../../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm">[docs]</a><span class="k">class</span> <span class="nc">CCForm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An abstract class to hold the logic</span>
+<span class="sd">    for an SMS form.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c">#KEYWORDS = {}</span>
+    <span class="n">MULTIPLE_PATIENTS</span> <span class="o">=</span> <span class="bp">True</span>
+    
+    <span class="n">PREFIX</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span>
+    <span class="sd">&quot;&quot;&quot;The character prefix that should precede the</span>
+<span class="sd">    form keyword.</span>
+<span class="sd">    We use &quot;+&quot; everywhere to keep things standardized.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">chw</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">health_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param message: SMS message being processed by this form</span>
+<span class="sd">        :type message: :class:`rapidsms.Message`</span>
+<span class="sd">        :param date: Encounter date of this form</span>
+<span class="sd">        :type date: :class:`datetime.datetime`</span>
+<span class="sd">        :param chw: CHW who submitted this form</span>
+<span class="sd">        :type chw: :class:`childcount.models.CHW`</span>
+<span class="sd">        :param params: Parameters passed to this form (as in :func:`sys.argv`)</span>
+<span class="sd">        :type params: list</span>
+<span class="sd">        :param health_id: Health ID for the encounter&#39;s patient</span>
+<span class="sd">        :type health_id: str </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chw</span> <span class="o">=</span> <span class="n">chw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">health_id</span> <span class="o">=</span> <span class="n">health_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encounter</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">form_group</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+<div class="viewcode-block" id="CCForm.pre_process"><a class="viewcode-back" href="../../../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm.pre_process">[docs]</a>    <span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Processing to be done by this form *before*</span>
+<span class="sd">        the patient&#39;s health ID is validated.</span>
+
+<span class="sd">        This method used primarily for patient registration --</span>
+<span class="sd">        when the health ID is not valid until the registration</span>
+<span class="sd">        has completed. See</span>
+<span class="sd">        :file:`apps/childcount/forms/PatientRegistrationForm.py` for</span>
+<span class="sd">        an example.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="CCForm.process"><a class="viewcode-back" href="../../../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Processing to be done by this form once the</span>
+<span class="sd">        encounter patient has been identified.</span>
+<span class="sd">        Most forms implement their validation</span>
+<span class="sd">        and DB logic here.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="CCForm.post_process"><a class="viewcode-back" href="../../../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm.post_process">[docs]</a>    <span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forms_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Processing to be done *after* all :meth:`.process` has</span>
+<span class="sd">        been called on all submitted forms.</span>
+
+<span class="sd">        :param forms_list: List of successfully processed forms</span>
+<span class="sd">        :type forms_list: list of instantiated </span>
+<span class="sd">                          :class:`childcount.forms.CCForm` objects</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

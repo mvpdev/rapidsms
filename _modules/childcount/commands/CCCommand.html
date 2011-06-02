@@ -50,20 +50,71 @@
 <span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
 <span class="c"># maintainer: dgelvin</span>
 
+<span class="sd">&quot;&quot;&quot;Module defining ChildCount+ command object.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="CCCommand"><a class="viewcode-back" href="../../../api/apps/childcount.html#childcount.commands.CCCommand.CCCommand">[docs]</a><span class="k">class</span> <span class="nc">CCCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CCCommand"><a class="viewcode-back" href="../../../api/apps/childcount/commands.html#childcount.commands.CCCommand.CCCommand">[docs]</a><span class="k">class</span> <span class="nc">CCCommand</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CCCommand is the abstract base</span>
+<span class="sd">    class used to define new SMS commands.</span>
+
+<span class="sd">    Command definitions should inherit from</span>
+<span class="sd">    CCCommand, should define KEYWORDS </span>
+<span class="sd">    and should implement the `self.process`</span>
+<span class="sd">    method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">KEYWORDS</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="sd">&quot;&quot;&quot;A dictionary of two-character language</span>
+<span class="sd">    codes to a list of keyword names for this</span>
+<span class="sd">    command.</span>
+<span class="sd">    For example the command &quot;FAMILY&quot; might</span>
+<span class="sd">    have a KEYWORDS that looks like::</span>
+
+<span class="sd">        KEYWORDS = {</span>
+<span class="sd">            &#39;en&#39;: [&#39;family&#39;, &#39;fam&#39;],</span>
+<span class="sd">            &#39;fr&#39;: [&#39;famille&#39;, &#39;fam&#39;],</span>
+<span class="sd">        }</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">message</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The `rapidsms.Message` object</span>
+<span class="sd">    that is being processed by this</span>
+<span class="sd">    command.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">params</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;A list of parameters to this</span>
+<span class="sd">    command -- like the `sys.argv`</span>
+<span class="sd">    for a python script.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load command data.</span>
+
+<span class="sd">        :param message: The SMS object that called this command</span>
+<span class="sd">        :type message: rapidsms.Message</span>
+<span class="sd">        :param params: A list of &quot;arguments&quot; to this command</span>
+<span class="sd">                       (like :attr:`sys.argv`)</span>
+<span class="sd">        :type params: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">date</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
 
-<div class="viewcode-block" id="CCCommand.process"><a class="viewcode-back" href="../../../api/apps/childcount.html#childcount.commands.CCCommand.CCCommand.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span></div></div>
-</pre></div>
+<div class="viewcode-block" id="CCCommand.process"><a class="viewcode-back" href="../../../api/apps/childcount/commands.html#childcount.commands.CCCommand.CCCommand.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run the command.</span>
+
+<span class="sd">        You should override this method</span>
+<span class="sd">        in your command definition.</span>
+
+<span class="sd">        :returns: True if command is successful</span>
+<span class="sd">                  (otherwise raises an exception)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span>
+</pre></div></div></div>
 
           </div>
         </div>
