@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.dashboard_sections &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="childcount" href="index.html" />
+    <link rel="next" title="childcount.exceptions" href="exceptions.html" />
+    <link rel="prev" title="childcount.commands" href="commands.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="childcount.exceptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="childcount.commands"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">childcount</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-childcount.dashboard_sections">
+<span id="childcount-dashboard-sections"></span><h1>childcount.dashboard_sections<a class="headerlink" href="#module-childcount.dashboard_sections" title="Permalink to this headline">¶</a></h1>
+<p>Holds view logic for the dashboard.</p>
+<dl class="function">
+<dt id="childcount.dashboard_sections.highlight_stats_bar">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">highlight_stats_bar</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#highlight_stats_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.highlight_stats_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds to template: <tt class="file docutils literal"><span class="pre">dashboard_sections/highlight_stats_bar.html</span></tt></p>
+<p>This <tt class="xref py py-func docutils literal"><span class="pre">dict()</span></tt> is structured to easily pump into an HTML table.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.nutrition_chart">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">nutrition_chart</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#nutrition_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.nutrition_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data for a pie chart
+of nutrition statistics.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.recent_numbers">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">recent_numbers</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#recent_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.recent_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pumps a python <tt class="xref py py-func docutils literal"><span class="pre">dict()</span></tt> with &#8220;columns&#8221; and &#8220;rows&#8221;(&amp;data) which is
+then turned into a pretty HTML table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.registration_chart">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">registration_chart</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#registration_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.registration_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method corresponds to the template 
+<tt class="file docutils literal"><span class="pre">dashboard_sections/registration_chart.html</span></tt></p>
+<p>It returns only the data needed to build the chart, which is passed to a javascript
+object in a JSON string using <tt class="xref py py-func docutils literal"><span class="pre">simplejson.dumps()</span></tt>.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="commands.html"
+                        title="previous chapter">childcount.commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="exceptions.html"
+                        title="next chapter">childcount.exceptions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/apps/childcount/dashboard_sections.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="childcount.exceptions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="commands.html" title="childcount.commands"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" >childcount</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

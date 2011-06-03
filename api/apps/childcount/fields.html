@@ -1,0 +1,155 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.fields &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="childcount" href="index.html" />
+    <link rel="next" title="childcount.forms" href="forms.html" />
+    <link rel="prev" title="childcount.exceptions" href="exceptions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="childcount.forms"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="childcount.exceptions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">childcount</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-childcount.fields">
+<span id="childcount-fields"></span><h1>childcount.fields<a class="headerlink" href="#module-childcount.fields" title="Permalink to this headline">¶</a></h1>
+<p>Useful form fields and widgets for
+dealing with health IDs.</p>
+<dl class="class">
+<dt id="childcount.fields.HealthIdField">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">HealthIdField</tt><big>(</big><em>required=True</em>, <em>widget=None</em>, <em>label=None</em>, <em>initial=None</em>, <em>help_text=None</em>, <em>error_messages=None</em>, <em>show_hidden_initial=False</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#HealthIdField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.HealthIdField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form field for health IDs
+that does validation of an inputted
+health ID against the existing IDs
+in the database.</p>
+<dl class="attribute">
+<dt id="childcount.fields.HealthIdField.widget">
+<tt class="descname">widget</tt><a class="headerlink" href="#childcount.fields.HealthIdField.widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#childcount.fields.HealthIdWidget" title="childcount.fields.HealthIdWidget"><tt class="xref py py-class docutils literal"><span class="pre">HealthIdWidget</span></tt></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.fields.HealthIdWidget">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">HealthIdWidget</tt><big>(</big><em>attrs=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#HealthIdWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.HealthIdWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a widget for health IDs
+that looks like normal text input box but
+displays health IDs nicely.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.fields.PatientForm">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">PatientForm</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#PatientForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.PatientForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Django form for editing <a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>
+objects.
+Uses the custom health ID input fields.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="exceptions.html"
+                        title="previous chapter">childcount.exceptions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="forms.html"
+                        title="next chapter">childcount.forms</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/apps/childcount/fields.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="forms.html" title="childcount.forms"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="childcount.exceptions"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" >childcount</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
