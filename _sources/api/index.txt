@@ -1,4 +1,4 @@
-ChildCount+ API / Developer Docs 
+ChildCount+ Module Reference
 ================================
 
 .. toctree::
@@ -8,16 +8,6 @@ ChildCount+ API / Developer Docs
     lib/index
 
 #. ChildCount+ "API"
-
-    #. apps/childcount
-
-        #. apps/childcount/commands
-
-        #. apps/childcount/forms
-
-        #. apps/childcount/helpers
-        
-        #. apps/childcount/indicators
 
     #. apps/libreport
 

@@ -90,6 +90,7 @@ For everything else (community health workers, data entry clerks,
 programmers, servers, mobile phones, airtime, ...) you are on
 your own!
 
+.. _intro__should_you_use:
 
 Should You Use ChildCount+?
 ---------------------------
@@ -121,7 +122,7 @@ deployment:
 
 * **Do you have a technical team (or at least a technical person)?**
     ChildCount+ is not a "plug-and-play" solution.
-    In fact, it is more like "download-and-hack" solution.
+    In fact, it is more like a "download-and-hack" solution.
     You will need, at least, 
     one on-call Python programmer with some Linux systems
     administration experience to install the software 

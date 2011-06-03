@@ -50,10 +50,11 @@
 <span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
 <span class="c"># maintainer: ukanga</span>
 
-<span class="sd">&#39;&#39;&#39;ChildCount Models</span>
-
-<span class="sd">Patient - Patient model</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;A model representing a single resident of the</span>
+<span class="sd">catchment area. </span>
+<span class="sd">We do not document the model fields, because you</span>
+<span class="sd">can find those yourself in the code!</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
 
@@ -76,17 +77,20 @@
 <span class="kn">import</span> <span class="nn">childcount.models.CHW</span>
 
 
-<div class="viewcode-block" id="queries"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.queries">[docs]</a><span class="k">def</span> <span class="nf">queries</span><span class="p">():</span>
-    <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">connection</span><span class="o">.</span><span class="n">queries</span><span class="p">)</span>
-    <span class="n">connection</span><span class="o">.</span><span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>
-</div>
-<div class="viewcode-block" id="PatientManager"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.PatientManager">[docs]</a><span class="k">class</span> <span class="nc">PatientManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
-<div class="viewcode-block" id="PatientManager.get_query_set"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.PatientManager.get_query_set">[docs]</a>    <span class="k">def</span> <span class="nf">get_query_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">QuerySet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
-</div></div>
-<div class="viewcode-block" id="Patient"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient">[docs]</a><span class="k">class</span> <span class="nc">Patient</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="PatientManager"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.PatientManager">[docs]</a><span class="k">class</span> <span class="nc">PatientManager</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom manager for :class:`Patient`</span>
+<span class="sd">    that return our custom :class:`Patient.QuerySet`</span>
+<span class="sd">    model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="sd">&#39;&#39;&#39;Holds the patient details, properties and methods related to it&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">get_query_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">QuerySet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Patient"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient">[docs]</a><span class="k">class</span> <span class="nc">Patient</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Holds the patient details, </span>
+<span class="sd">    properties and methods related to it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;childcount&#39;</span>
         <span class="n">db_table</span> <span class="o">=</span> <span class="s">&#39;cc_patient&#39;</span>
@@ -100,6 +104,7 @@
     <span class="n">GENDER_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">(</span><span class="n">GENDER_MALE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Male&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">GENDER_FEMALE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Female&quot;</span><span class="p">)))</span>
+    <span class="sd">&quot;&quot;&quot;Patient genders&quot;&quot;&quot;</span>
 
     <span class="n">STATUS_ACTIVE</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">STATUS_INACTIVE</span> <span class="o">=</span> <span class="mi">0</span>
@@ -109,6 +114,7 @@
         <span class="p">(</span><span class="n">STATUS_ACTIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Alive&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">STATUS_INACTIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Relocated&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">STATUS_DEAD</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Dead&quot;</span><span class="p">)))</span>
+    <span class="sd">&quot;&quot;&quot;Status options for Patients&quot;&quot;&quot;</span>
 
     <span class="n">objects</span> <span class="o">=</span> <span class="n">PatientManager</span><span class="p">()</span>
     <span class="n">health_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Health ID&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
@@ -159,10 +165,11 @@
     <span class="n">hiv_exposed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;HIV Exposed?&quot;</span><span class="p">),</span>
                                             <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Patient.is_head_of_household"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.is_head_of_household">[docs]</a>    <span class="k">def</span> <span class="nf">is_head_of_household</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.is_head_of_household"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.is_head_of_household">[docs]</a>    <span class="k">def</span> <span class="nf">is_head_of_household</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if patient is the head his/her own household&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">household</span> <span class="o">==</span> <span class="bp">self</span>
 </div>
-<div class="viewcode-block" id="Patient.get_dictionary"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.get_dictionary">[docs]</a>    <span class="k">def</span> <span class="nf">get_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_dictionary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">days</span><span class="p">,</span> <span class="n">months</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_in_days_months</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">&#39;full_name&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">),</span>
                 <span class="s">&#39;age&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">m&#39;</span> <span class="o">%</span> <span class="n">months</span><span class="p">,</span>
@@ -173,20 +180,25 @@
                 <span class="s">&#39;chw&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">chw</span><span class="p">,</span>
                 <span class="s">&#39;gender&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">gender</span><span class="p">,</span>
                 <span class="s">&#39;guardian&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">guardian</span><span class="p">}</span>
-</div>
-<div class="viewcode-block" id="Patient.age_in_days_weeks_months"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.age_in_days_weeks_months">[docs]</a>    <span class="k">def</span> <span class="nf">age_in_days_weeks_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relative_to</span><span class="o">=</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()):</span>
-        <span class="sd">&#39;&#39;&#39;return the age of the patient in days and in months&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="Patient.age_in_days_weeks_months"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.age_in_days_weeks_months">[docs]</a>    <span class="k">def</span> <span class="nf">age_in_days_weeks_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">relative_to</span><span class="o">=</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()):</span>
+        <span class="sd">&quot;&quot;&quot;return the age of the patient in days and in months</span>
+<span class="sd">        </span>
+<span class="sd">        :param relative_to: Date from which to compute the patient&#39;s age</span>
+<span class="sd">        :type relative_to: :class:`datetime.date`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">days</span> <span class="o">=</span> <span class="p">(</span><span class="n">relative_to</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">dob</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
         <span class="n">weeks</span> <span class="o">=</span> <span class="n">days</span> <span class="o">/</span> <span class="mi">7</span>
         <span class="n">months</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">days</span> <span class="o">/</span> <span class="mf">30.4375</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">days</span><span class="p">,</span> <span class="n">weeks</span><span class="p">,</span> <span class="n">months</span>
 </div>
-<div class="viewcode-block" id="Patient.years"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.years">[docs]</a>    <span class="k">def</span> <span class="nf">years</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.years"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.years">[docs]</a>    <span class="k">def</span> <span class="nf">years</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate patient&#39;s age in years&quot;&quot;&quot;</span>
         <span class="n">days</span><span class="p">,</span> <span class="n">weeks</span><span class="p">,</span> <span class="n">months</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_in_days_weeks_months</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">months</span> <span class="o">/</span> <span class="mi">12</span>
 </div>
-<div class="viewcode-block" id="Patient.humanised_age"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.humanised_age">[docs]</a>    <span class="k">def</span> <span class="nf">humanised_age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;return a string containing a human readable age&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="Patient.humanised_age"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.humanised_age">[docs]</a>    <span class="k">def</span> <span class="nf">humanised_age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;return a string containing a human readable age&quot;&quot;&quot;</span>
         <span class="n">days</span><span class="p">,</span> <span class="n">weeks</span><span class="p">,</span> <span class="n">months</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">age_in_days_weeks_months</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">days</span> <span class="o">&lt;</span> <span class="mi">21</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%(days)s</span><span class="s">d&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;days&#39;</span><span class="p">:</span> <span class="n">days</span><span class="p">}</span>
@@ -198,7 +210,8 @@
             <span class="n">years</span> <span class="o">=</span> <span class="n">months</span> <span class="o">/</span> <span class="mi">12</span>
             <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%(years)s</span><span class="s">y&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;years&#39;</span><span class="p">:</span> <span class="n">years</span><span class="p">}</span>
 </div>
-<div class="viewcode-block" id="Patient.full_name"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.full_name">[docs]</a>    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.full_name"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.full_name">[docs]</a>    <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the patients first and last names&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span><span class="p">])</span>
 </div>
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -206,7 +219,15 @@
                                  <span class="bp">self</span><span class="o">.</span><span class="n">gender</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">humanised_age</span><span class="p">())</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Patient.is_valid_health_id"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.is_valid_health_id">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_health_id</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">health_id</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.is_valid_health_id"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.is_valid_health_id">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_health_id</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">health_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Naive check if a health ID is valid</span>
+
+<span class="sd">        :param health_id: Health ID to check</span>
+<span class="sd">        :type health_id: str</span>
+
+<span class="sd">        :returns: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">MIN_LENGTH</span> <span class="o">=</span> <span class="mi">4</span>
         <span class="n">MAX_LENGTH</span> <span class="o">=</span> <span class="mi">4</span>
         <span class="n">BASE_CHARACTERS</span> <span class="o">=</span> <span class="s">&#39;0123456789acdefghjklmnprtuvwxy&#39;</span>
@@ -229,7 +250,12 @@
         <span class="k">return</span> <span class="bp">True</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Patient.registrations_by_date"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.registrations_by_date">[docs]</a>    <span class="k">def</span> <span class="nf">registrations_by_date</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.registrations_by_date"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.registrations_by_date">[docs]</a>    <span class="k">def</span> <span class="nf">registrations_by_date</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Number of patients registered per day</span>
+
+<span class="sd">        :returns: Iterable of (`datetime.date`, n_registrations) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">conn</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
         <span class="n">by_date</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
             <span class="s">&#39;SELECT DATE(`created_on`), COUNT(*) FROM `cc_patient` </span><span class="se">\</span>
@@ -247,7 +273,7 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">counts</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Patient.table_columns"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.table_columns">[docs]</a>    <span class="k">def</span> <span class="nf">table_columns</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">table_columns</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">cls</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s">&#39;household&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">verbose_name</span><span class="p">,</span> \
@@ -274,44 +300,69 @@
     <span class="c">#</span>
     <span class="c"># BEGIN Indicator Code</span>
     <span class="c">#</span>
-</div>
-    <span class="sd">&#39;&#39;&#39; This enables us to extend patient QuerySets with</span>
-<span class="sd">        useful filters</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+
     <span class="n">objects</span> <span class="o">=</span> <span class="n">PatientManager</span><span class="p">()</span>
-<div class="viewcode-block" id="Patient.QuerySet"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet">[docs]</a>    <span class="k">class</span> <span class="nc">QuerySet</span><span class="p">(</span><span class="n">QuerySet</span><span class="p">):</span>
-<div class="viewcode-block" id="Patient.QuerySet.alive"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.alive">[docs]</a>        <span class="k">def</span> <span class="nf">alive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet">[docs]</a>    <span class="k">class</span> <span class="nc">QuerySet</span><span class="p">(</span><span class="n">QuerySet</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This QuerySet extends the default django QuerySet with</span>
+<span class="sd">        useful filters.</span>
+
+<span class="sd">        .. hint::</span>
+<span class="sd">            All of these filters take standard `start` and `end` arguments</span>
+<span class="sd">            for consistency&#39;s sake. These parameters are defined as:</span>
+
+<span class="sd">            - `start`: start date of time period (inclusive) -- :class:`datetime.datetime`</span>
+
+<span class="sd">            - `end`: end date of time period (inclusive) -- :class:`datetime.datetime`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Patient.QuerySet.alive"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.alive">[docs]</a>        <span class="k">def</span> <span class="nf">alive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Patients who were alive at `end`.</span>
+
+<span class="sd">            &quot;&quot;&quot;</span>
+
             <span class="k">return</span> <span class="bp">self</span>\
                 <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_INACTIVE</span><span class="p">)</span>\
-                <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">encounter__ccreport__deathreport__death_date__lte</span><span class="o">=</span><span class="n">end</span><span class="p">)</span></div>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Age-related filters</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="Patient.QuerySet.neonatal"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.neonatal">[docs]</a>        <span class="k">def</span> <span class="nf">neonatal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+                <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">encounter__ccreport__deathreport__death_date__lte</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+        <span class="c">#</span>
+        <span class="c"># Age-related filters</span>
+        <span class="c"># </span></div>
+<div class="viewcode-block" id="Patient.QuerySet.neonatal"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.neonatal">[docs]</a>        <span class="k">def</span> <span class="nf">neonatal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 28 days&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
         </div>
-<div class="viewcode-block" id="Patient.QuerySet.under_six_months"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.under_six_months">[docs]</a>        <span class="k">def</span> <span class="nf">under_six_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.under_six_months"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.under_six_months">[docs]</a>        <span class="k">def</span> <span class="nf">under_six_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 180 days&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.under_nine_months"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.under_nine_months">[docs]</a>        <span class="k">def</span> <span class="nf">under_nine_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.under_nine_months"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.under_nine_months">[docs]</a>        <span class="k">def</span> <span class="nf">under_nine_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 9 months (270 days)&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="o">*</span><span class="mi">9</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.muac_eligible"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.muac_eligible">[docs]</a>        <span class="k">def</span> <span class="nf">muac_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.muac_eligible"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.muac_eligible">[docs]</a>        <span class="k">def</span> <span class="nf">muac_eligible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;180 days &lt;= age &lt; 5 years (5*365 days)&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">6</span><span class="o">*</span><span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mi">365</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.under_one"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.under_one">[docs]</a>        <span class="k">def</span> <span class="nf">under_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.under_one"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.under_one">[docs]</a>        <span class="k">def</span> <span class="nf">under_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 365 days&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">365</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.under_five"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.under_five">[docs]</a>        <span class="k">def</span> <span class="nf">under_five</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.under_five"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.under_five">[docs]</a>        <span class="k">def</span> <span class="nf">under_five</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 5 years (5*365 days)&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mi">365</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.under_nine"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.under_nine">[docs]</a>        <span class="k">def</span> <span class="nf">under_nine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.under_nine"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.under_nine">[docs]</a>        <span class="k">def</span> <span class="nf">under_nine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;0 days &lt;= age &lt; 9 years (9*365 days)&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="o">*</span><span class="mi">365</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.over_five"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.over_five">[docs]</a>        <span class="k">def</span> <span class="nf">over_five</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.over_five"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.over_five">[docs]</a>        <span class="k">def</span> <span class="nf">over_five</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;5 years (5*365 days) &lt; age&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mi">5</span><span class="o">*</span><span class="mi">365</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.age"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.age">[docs]</a>        <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">min_days</span><span class="p">,</span> <span class="n">max_days</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.age"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.age">[docs]</a>        <span class="k">def</span> <span class="nf">age</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">min_days</span><span class="p">,</span> <span class="n">max_days</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Living patients whose age (in days)</span>
+<span class="sd">            was `min_days` &lt;= `patient__age` &lt; `max_days` </span>
+<span class="sd">            at the datetime `end`</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            
             <span class="n">filter_on</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">if</span> <span class="n">min_days</span><span class="p">:</span>
                 <span class="n">filter_on</span><span class="p">[</span><span class="s">&#39;dob__lte&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span><span class="o">-</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">min_days</span><span class="p">)</span>
@@ -325,25 +376,24 @@
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">**</span><span class="n">filter_on</span><span class="p">)</span>\
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">dob__lte</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
 </div>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Household filter</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="Patient.QuerySet.household"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.household">[docs]</a>        <span class="k">def</span> <span class="nf">household</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.household"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.household">[docs]</a>        <span class="k">def</span> <span class="nf">household</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Living people who are/were household heads at `end`&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span>\
                 <span class="o">.</span><span class="n">alive</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>\
                 <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">F</span><span class="p">(</span><span class="s">&#39;household__pk&#39;</span><span class="p">))</span>
 
-</div>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Pregnancy filters</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="Patient.QuerySet.pregnant"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pregnant">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+        <span class="c">#</span>
+        <span class="c"># Pregnancy filters</span>
+        <span class="c">#</span></div>
+<div class="viewcode-block" id="Patient.QuerySet.pregnant"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.pregnant">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Patients who were between 0 and 9 months pregnant</span>
+<span class="sd">            at date `end`</span>
+<span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_months</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </div>
         <span class="nd">@cache_simple</span>
-<div class="viewcode-block" id="Patient.QuerySet.pregnant_data"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pregnant_data">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            This function collects all of the pregnancy reports</span>
+        <span class="k">def</span> <span class="nf">pregnant_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Collect all of the pregnancy reports</span>
 <span class="sd">            into a single data structure. We can cache this</span>
 <span class="sd">            data structure and use it for running various queries</span>
 <span class="sd">            about pregnant women.</span>
@@ -424,13 +474,26 @@
 
             <span class="k">print</span> <span class="n">data</span>
             <span class="k">return</span> <span class="n">data</span>
-                  </div>
-<div class="viewcode-block" id="Patient.QuerySet.pregnant_months"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pregnant_months">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">start_month</span><span class="p">,</span> <span class="n">end_month</span><span class="p">,</span> 
+                  
+<div class="viewcode-block" id="Patient.QuerySet.pregnant_months"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.pregnant_months">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_months</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">start_month</span><span class="p">,</span> <span class="n">end_month</span><span class="p">,</span> 
                 <span class="n">include_delivered</span><span class="p">,</span> <span class="n">include_stillbirth</span><span class="p">):</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            pregnant_months uses the cached pregnant_data()</span>
-<span class="sd">            call to return info about pregnancies</span>
-<span class="sd">            in the desired date ranges</span>
+            <span class="sd">&quot;&quot;&quot;Uses the cached pregnant_data()</span>
+<span class="sd">            call to return women who are between `start_month`</span>
+<span class="sd">            and `end_month` months pregnant (inclusive).</span>
+
+<span class="sd">            :param start_month: Include women who are at least `start_month`</span>
+<span class="sd">                                months pregant</span>
+<span class="sd">            :param end_month: Include women who are at most `end_month`</span>
+<span class="sd">                              months pregant</span>
+<span class="sd">            :type start_month: float</span>
+<span class="sd">            :type end_month: float</span>
+<span class="sd">            :param include_delivered: Include women who have delivered their</span>
+<span class="sd">                                      babies by time `end`?</span>
+<span class="sd">            :type include_delivered: bool</span>
+<span class="sd">            :param include_stillbirth: Include women who have had a stillbirth</span>
+<span class="sd">                                       or miscarriage before the time `end`?</span>
+<span class="sd">            :type include_stillbirth: bool</span>
+
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_data</span><span class="p">()</span>
 
@@ -547,37 +610,41 @@
 <span class="sd">            return self.filter(pk__in=pks)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Patient.QuerySet.pregnant_recently"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pregnant_recently">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_recently</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-            <span class="c"># Pregnant or within 42 days of delivery</span>
+<div class="viewcode-block" id="Patient.QuerySet.pregnant_recently"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.pregnant_recently">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_recently</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Pregnant or within 42 days of delivery&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_months</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.over_five_not_pregnant_recently"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.over_five_not_pregnant_recently">[docs]</a>        <span class="k">def</span> <span class="nf">over_five_not_pregnant_recently</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.over_five_not_pregnant_recently"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.over_five_not_pregnant_recently">[docs]</a>        <span class="k">def</span> <span class="nf">over_five_not_pregnant_recently</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;More than five years of age and not in</span>
+<span class="sd">            :meth:`.pregnant_recently`&quot;&quot;&quot;</span>
             <span class="n">pr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_recently</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="bp">self</span>\
                 <span class="o">.</span><span class="n">over_five</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>\
                 <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">pk__in</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">pk</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pr</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.pregnant_during_interval"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pregnant_during_interval">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_during_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.pregnant_during_interval"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.pregnant_during_interval">[docs]</a>        <span class="k">def</span> <span class="nf">pregnant_during_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Women who were pregnant at some point between `start` and `end`&quot;&quot;&quot;</span>
             <span class="n">ilen</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
             <span class="n">imon</span> <span class="o">=</span> <span class="n">ilen</span><span class="o">/</span><span class="mf">30.4375</span>
 
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_months</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">9.0</span> <span class="o">+</span> <span class="n">imon</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.delivered"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.delivered">[docs]</a>        <span class="k">def</span> <span class="nf">delivered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+<div class="viewcode-block" id="Patient.QuerySet.delivered"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.delivered">[docs]</a>        <span class="k">def</span> <span class="nf">delivered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Women who delivered between `start` and `end`&quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pregnant_months</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Patient.QuerySet.pk_list"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.pk_list">[docs]</a>        <span class="k">def</span> <span class="nf">pk_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">pk_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;pk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span><span class="s">&#39;pk&#39;</span><span class="p">)]</span>
-</div>
-<div class="viewcode-block" id="Patient.QuerySet.to_list"><a class="viewcode-back" href="../../../api/apps/childcount/models.html#childcount.models.Patient.Patient.QuerySet.to_list">[docs]</a>        <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">))</span>
 
             <span class="n">out</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pk_list</span><span class="p">()]</span>
             <span class="k">return</span> <span class="n">out</span>
-</div></div></div>
+</div></div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Patient</span><span class="p">)</span>
 </pre></div>
 

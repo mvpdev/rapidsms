@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SMS and the Router &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
+    <link rel="up" title="Technology" href="index.html" />
+    <link rel="next" title="[U] Indicators" href="indicators.html" />
+    <link rel="prev" title="Configuring the Server" href="server.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="indicators.html" title="[U] Indicators"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Configuring the Server"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="sms-and-the-router">
+<h1>SMS and the Router<a class="headerlink" href="#sms-and-the-router" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="understanding-the-router">
+<h2>Understanding the Router<a class="headerlink" href="#understanding-the-router" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="sms-forms-and-commands">
+<span id="tech-sms-forms-and-commands"></span><h2>SMS Forms and Commands<a class="headerlink" href="#sms-forms-and-commands" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="form-versus-commands">
+<h3>Form versus Commands<a class="headerlink" href="#form-versus-commands" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="adding-a-new-form">
+<h3>Adding a New Form<a class="headerlink" href="#adding-a-new-form" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="defining-a-command">
+<h3>Defining a Command<a class="headerlink" href="#defining-a-command" title="Permalink to this headline">¶</a></h3>
+<p>Say you want to define a new command called <cite>ReverseTextCommand</cite>
+that users invoke by SMS like this:</p>
+<div class="highlight-python"><pre>REVERSE First Second Third</pre>
+</div>
+<p>To define this command, you must:</p>
+<ol class="arabic">
+<li><p class="first">Look through the existing commands in <tt class="file docutils literal"><span class="pre">apps/childcount/commands</span></tt>
+to make sure that the command you want does not already exist.
+There are lots of useful commands defined there, so please check first.</p>
+</li>
+<li><p class="first">Create a file <tt class="file docutils literal"><span class="pre">apps/childcount/commands/ReverseTextCommand.py</span></tt></p>
+</li>
+<li><p class="first">Within this new file, import <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>
+and define a new class that inherits from it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.commands</span> <span class="kn">import</span> <span class="n">CCCommand</span>
+<span class="kn">from</span> <span class="nn">childcount.utils</span> <span class="kn">import</span> <span class="n">authenticated</span>
+
+<span class="k">class</span> <span class="nc">ReverseTextCommand</span><span class="p">(</span><span class="n">CCCommand</span><span class="p">):</span>
+
+    <span class="n">KEYWORDS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;en&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;reverse&#39;</span><span class="p">],</span>
+        <span class="s">&#39;fr&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;inverse&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="nd">@authenticated</span>
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span><span class="n">do</span> <span class="n">actual</span> <span class="n">work</span> <span class="n">here</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../api/apps/childcount/commands.html#api-childcount-commands-cccommand"><em>childcount.commands.CCCommand</em></a> for the definition
+of the <tt class="xref py py-class docutils literal"><span class="pre">childcount.command.CCCommand</span></tt> class.</p>
+</li>
+<li><p class="first">In <tt class="file docutils literal"><span class="pre">apps/childcount/commands/__init__.py</span></tt>, add the line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.commands.ReverseTextCommand</span> <span class="kn">import</span> <span class="n">ReverseTextCommand</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">In your <tt class="file docutils literal"><span class="pre">local.ini</span></tt> file in the root ChildCount+ directory,
+add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextCommand</span></tt> to the list of active commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="p">[</span><span class="n">childcount</span><span class="p">]</span>
+<span class="n">commands</span> <span class="o">=</span> <span class="n">WhoCommand</span><span class="p">,</span> <span class="n">LookupCommands</span><span class="p">,</span> <span class="n">ReverseTextCommand</span><span class="p">,</span> <span class="o">...</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="from-forms-to-the-database">
+<span id="tech-sms-forms-to-database"></span><h2>From Forms to the Database<a class="headerlink" href="#from-forms-to-the-database" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">SMS and the Router</a><ul>
+<li><a class="reference internal" href="#understanding-the-router">Understanding the Router</a></li>
+<li><a class="reference internal" href="#sms-forms-and-commands">SMS Forms and Commands</a><ul>
+<li><a class="reference internal" href="#form-versus-commands">Form versus Commands</a></li>
+<li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
+<li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#from-forms-to-the-database">From Forms to the Database</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="server.html"
+                        title="previous chapter">Configuring the Server</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="indicators.html"
+                        title="next chapter">[U] Indicators</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tech/sms.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="indicators.html" title="[U] Indicators"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Configuring the Server"
+             >previous</a> |</li>
+        <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="index.html" >Technology</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

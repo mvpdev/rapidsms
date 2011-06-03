@@ -23,8 +23,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
-    <link rel="next" title="[U] Dashboard" href="dashboard.html" />
-    <link rel="prev" title="Human Aspects" href="../human.html" /> 
+    <link rel="next" title="Getting Started with ChildCount+" href="getting_started.html" />
+    <link rel="prev" title="[For Casey] Human Aspects" href="../human.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,10 +37,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dashboard.html" title="[U] Dashboard"
+          <a href="getting_started.html" title="Getting Started with ChildCount+"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../human.html" title="Human Aspects"
+          <a href="../human.html" title="[For Casey] Human Aspects"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li> 
       </ul>
@@ -55,70 +55,29 @@
 <h1>Technology<a class="headerlink" href="#technology" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="dashboard.html">[U] Dashboard</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dashboard.html#adding-an-element-to-the-dashboard">Adding an element to the dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started with ChildCount+</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#technology-prerequisites">Technology Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#understanding-the-components">Understanding the Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#dependencies">Dependencies</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="forms_and_commands.html">[U] Forms and Commands</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="forms_and_commands.html#form-versus-commands">Form versus Commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forms_and_commands.html#adding-a-new-form">Adding a New Form</a></li>
-<li class="toctree-l2"><a class="reference internal" href="forms_and_commands.html#defining-a-command">Defining a Command</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">Configuring the Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sms.html">SMS and the Router</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sms.html#understanding-the-router">Understanding the Router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sms.html#sms-forms-and-commands">SMS Forms and Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sms.html#from-forms-to-the-database">From Forms to the Database</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="indicators.html">[U] Indicators</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="indicators.html#u-creating-an-indicator">[U] Creating an Indicator</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="reports.html">Reports, Celery and RabbitMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">[U] Dashboard</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html#adding-an-element-to-the-dashboard">Adding an element to the dashboard</a></li>
 </ul>
-</div>
-<div class="section" id="technology-prerequisites">
-<span id="tech-prereqs"></span><h2>Technology Prerequisites<a class="headerlink" href="#technology-prerequisites" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic">
-<li><p class="first">Technology</p>
-<blockquote>
-<div><ol class="arabic">
-<li><p class="first">Prerequisites</p>
 </li>
-<li><p class="first">What the tech pieces are and how they relate</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>RabbitMQ, Celeryd, uwsgi, Django, Rapidsms, etc, etc</li>
-</ol>
-</div></blockquote>
-</li>
-<li><p class="first">Server Configuration</p>
-<blockquote>
-<div><p># What you need to install, etc</p>
-<p># Deploy.py script?</p>
-</div></blockquote>
-</li>
-<li><p class="first">Router</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>How it works? local.ini, app.py, etc</li>
-<li>SMS Forms, SMS Commands</li>
-<li>Sending msgs back to users</li>
-</ol>
-</div></blockquote>
-</li>
-<li><p class="first">Web</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>What it&#8217;s for</li>
-</ol>
-</div></blockquote>
-</li>
-<li><p class="first">Celery</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li>Reports (including on-demand)</li>
-</ol>
-</div></blockquote>
-</li>
-</ol>
-</div></blockquote>
-</li>
-</ol>
+</ul>
 </div>
 </div>
 
@@ -128,20 +87,12 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Technology</a><ul>
-<li><a class="reference internal" href="#technology-prerequisites">Technology Prerequisites</a></li>
-</ul>
-</li>
-</ul>
-
   <h4>Previous topic</h4>
   <p class="topless"><a href="../human.html"
-                        title="previous chapter">Human Aspects</a></p>
+                        title="previous chapter">[For Casey] Human Aspects</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="dashboard.html"
-                        title="next chapter">[U] Dashboard</a></p>
+  <p class="topless"><a href="getting_started.html"
+                        title="next chapter">Getting Started with ChildCount+</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/tech/index.txt"
@@ -174,10 +125,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dashboard.html" title="[U] Dashboard"
+          <a href="getting_started.html" title="Getting Started with ChildCount+"
              >next</a> |</li>
         <li class="right" >
-          <a href="../human.html" title="Human Aspects"
+          <a href="../human.html" title="[For Casey] Human Aspects"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li> 
       </ul>

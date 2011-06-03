@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>[U] Indicators &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>Getting Started with ChildCount+ &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
     <link rel="up" title="Technology" href="index.html" />
-    <link rel="next" title="Reports, Celery and RabbitMQ" href="reports.html" />
-    <link rel="prev" title="SMS and the Router" href="sms.html" /> 
+    <link rel="next" title="Configuring the Server" href="server.html" />
+    <link rel="prev" title="Technology" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="reports.html" title="Reports, Celery and RabbitMQ"
+          <a href="server.html" title="Configuring the Server"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="sms.html" title="SMS and the Router"
+          <a href="index.html" title="Technology"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
@@ -53,10 +53,41 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="u-indicators">
-<h1>[U] Indicators<a class="headerlink" href="#u-indicators" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="u-creating-an-indicator">
-<h2>[U] Creating an Indicator<a class="headerlink" href="#u-creating-an-indicator" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="getting-started-with-childcount">
+<h1>Getting Started with ChildCount+<a class="headerlink" href="#getting-started-with-childcount" title="Permalink to this headline">¶</a></h1>
+<p>Before you &#8220;get started,&#8221; make sure to take a look at
+the <a class="reference internal" href="../intro.html#intro-should-you-use"><em>Should You Use ChildCount+?</em></a> section of the
+introduction.
+If you are duly convinced that you need some CC+ action in
+your life, then read on.</p>
+<div class="section" id="technology-prerequisites">
+<span id="tech-prereqs"></span><h2>Technology Prerequisites<a class="headerlink" href="#technology-prerequisites" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">ChildCount+ should NOT be deployed on
+a publicly accessible network.
+Data between the server and clients is
+not encrypted the software is not hardened
+against attacks.</p>
+</div>
+<p>Wait! Before you read on, check out the
+<a class="reference internal" href="../human.html#human-prereqs"><em>Human Prerequisites</em></a> section.
+Make sure that you&#8217;re not missing anything on the human
+side of things before you jump into the land of
+config files and list comprehensions.</p>
+</div>
+<div class="section" id="understanding-the-components">
+<h2>Understanding the Components<a class="headerlink" href="#understanding-the-components" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>What the tech pieces are and how they relate</li>
+<li>RabbitMQ, Celeryd, uwsgi, Django, Rapidsms, etc, etc</li>
+</ol>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>What versions we support</li>
+</ol>
 </div>
 </div>
 
@@ -68,21 +99,23 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">[U] Indicators</a><ul>
-<li><a class="reference internal" href="#u-creating-an-indicator">[U] Creating an Indicator</a></li>
+<li><a class="reference internal" href="#">Getting Started with ChildCount+</a><ul>
+<li><a class="reference internal" href="#technology-prerequisites">Technology Prerequisites</a></li>
+<li><a class="reference internal" href="#understanding-the-components">Understanding the Components</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="sms.html"
-                        title="previous chapter">SMS and the Router</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Technology</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="reports.html"
-                        title="next chapter">Reports, Celery and RabbitMQ</a></p>
+  <p class="topless"><a href="server.html"
+                        title="next chapter">Configuring the Server</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/tech/indicators.txt"
+    <li><a href="../_sources/tech/getting_started.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -112,10 +145,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="reports.html" title="Reports, Celery and RabbitMQ"
+          <a href="server.html" title="Configuring the Server"
              >next</a> |</li>
         <li class="right" >
-          <a href="sms.html" title="SMS and the Router"
+          <a href="index.html" title="Technology"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
           <li><a href="index.html" >Technology</a> &raquo;</li> 

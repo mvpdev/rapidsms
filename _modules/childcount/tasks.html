@@ -77,12 +77,12 @@
 
 
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">weekly_immunization_reminder</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="weekly_immunization_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_immunization_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_immunization_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Send SMS to CHW to remind them their immunization appointments, using</span>
 <span class="sd">    the format:</span>
 <span class="sd">    [Immunization type] date: patient_id, patient_id | date: patient_id...</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c"># get this week appointements, grouped by CHW</span>
     <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
@@ -120,12 +120,12 @@
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;Immunization_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">daily_fever_reminder</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="daily_fever_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.daily_fever_reminder">[docs]</a><span class="k">def</span> <span class="nf">daily_fever_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Daily reminder of Fever followup cases after 48 hours.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">3</span><span class="p">)</span>
     <span class="c">#sdate = datetime.combine(sdate.date(), time(7, 0))</span>
     <span class="n">edate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
@@ -157,12 +157,12 @@
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;fever_daily_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">weekly_muac_reminder</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="weekly_muac_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_muac_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_muac_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Weekly reminder of due Muac cases, 75 days or over since last chw visit</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span> <span class="n">CHW</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="n">reminder_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -209,12 +209,12 @@
             <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;muac_weekly_reminder&quot;</span>
             <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">weekly_initial_anc_visit_reminder</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="weekly_initial_anc_visit_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_initial_anc_visit_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_initial_anc_visit_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initial ANC Visit weekly reminder</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pregs</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">anc_visits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> \
                             <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>
     <span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -246,12 +246,12 @@
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;weekly_initial_anc_visit_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-
+</div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">weekly_anc_visit_reminder</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ANC Visit weekly reminder - 6 weeks have passed since last ANC visit</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pregs</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">weeks_since_anc__gt</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> \
                             <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>
     <span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -342,12 +342,20 @@
 
 <div class="viewcode-block" id="appointment_defaulter_calendar"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.appointment_defaulter_calendar">[docs]</a><span class="k">def</span> <span class="nf">appointment_defaulter_calendar</span><span class="p">(</span><span class="n">weekday</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;------- 2 weekdays after date of apt</span>
-<span class="sd">    doa         reminder</span>
-<span class="sd">    friday 4      wednesday 2</span>
-<span class="sd">    thursday 3    tuesday 1</span>
-<span class="sd">    wednesday 2   monday 0</span>
-<span class="sd">    tuesday 1     friday 4</span>
-<span class="sd">    monday 0      thursday 3</span>
+
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | **Date of Appt.** | **Reminder**       |</span>
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | Friday 4          | Wednesday 2        |</span>
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | Thursday 3        | Tuesday 1          |</span>
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | Wednesday 2       | Monday 0           | </span>
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | Tuesday 1         | Friday 4           |</span>
+<span class="sd">    +-------------------+--------------------+</span>
+<span class="sd">    | Monday 0          | Thursday 3         |</span>
+<span class="sd">    +-------------------+--------------------+</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">weekday</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">weekday</span> <span class="o">+</span> <span class="mi">2</span>
@@ -362,10 +370,10 @@
 
 </div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">appointment_defaulter_reminders</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;Remind the chw to remind their defaulting clients of an appointment</span>
+<div class="viewcode-block" id="appointment_defaulter_reminders"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.appointment_defaulter_reminders">[docs]</a><span class="k">def</span> <span class="nf">appointment_defaulter_reminders</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Remind the chw to remind their defaulting clients of an appointment</span>
 <span class="sd">    2 week days after the date of appointment</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
     <span class="c"># no appointment reminder over the weekend</span>
     <span class="k">if</span> <span class="n">today</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
@@ -397,7 +405,7 @@
             <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">apt</span><span class="o">.</span><span class="n">sms_alert</span> <span class="o">=</span> <span class="n">sms_alert</span>
             <span class="n">apt</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</pre></div>
+</pre></div></div>
 
           </div>
         </div>

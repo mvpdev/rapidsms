@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>childcount.utils &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for childcount.utils</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: dgelvin</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+
+<span class="kn">import</span> <span class="nn">rapidsms</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+
+<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlencode</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+
+<span class="kn">from</span> <span class="nn">childcount.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">indicator</span> <span class="kn">import</span> <span class="n">Indicator</span>
+
+<div class="viewcode-block" id="DOBProcessor"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor">[docs]</a><span class="k">class</span> <span class="nc">DOBProcessor</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Date-of-Birth parser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">DAYS</span> <span class="o">=</span> <span class="s">&#39;d&#39;</span>
+    <span class="n">WEEKS</span> <span class="o">=</span> <span class="s">&#39;w&#39;</span>
+    <span class="n">MONTHS</span> <span class="o">=</span> <span class="s">&#39;m&#39;</span>
+    <span class="n">YEARS</span> <span class="o">=</span> <span class="s">&#39;y&#39;</span>
+
+    <span class="n">UNITS</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">UNITS</span><span class="p">[</span><span class="s">&#39;en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">DAYS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">,</span> <span class="s">&#39;days&#39;</span><span class="p">],</span>
+        <span class="n">WEEKS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="s">&#39;wk&#39;</span><span class="p">,</span> <span class="s">&#39;wks&#39;</span><span class="p">,</span> <span class="s">&#39;week&#39;</span><span class="p">,</span> <span class="s">&#39;weeks&#39;</span><span class="p">],</span>
+        <span class="n">MONTHS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;mon&#39;</span><span class="p">,</span> <span class="s">&#39;mths&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">,</span> <span class="s">&#39;months&#39;</span><span class="p">],</span>
+        <span class="n">YEARS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;yr&#39;</span><span class="p">,</span> <span class="s">&#39;yrs&#39;</span><span class="p">,</span> <span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="s">&#39;years&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Language specific age units.</span>
+<span class="sd">    IMPORTANT NOTE: List from shortest to longest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UNITS</span><span class="p">[</span><span class="s">&#39;fr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">DAYS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;j&#39;</span><span class="p">,</span> <span class="s">&#39;jour&#39;</span><span class="p">,</span> <span class="s">&#39;jours&#39;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">,</span> <span class="s">&#39;days&#39;</span><span class="p">],</span>
+        <span class="n">WEEKS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;s&#39;</span><span class="p">,</span> <span class="s">&#39;sem&#39;</span><span class="p">,</span> <span class="s">&#39;semaine&#39;</span><span class="p">,</span> <span class="s">&#39;semaines&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="s">&#39;wk&#39;</span><span class="p">,</span> <span class="s">&#39;wks&#39;</span><span class="p">,</span> \
+                <span class="s">&#39;week&#39;</span><span class="p">,</span> <span class="s">&#39;weeks&#39;</span><span class="p">],</span>
+        <span class="n">MONTHS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;moi&#39;</span><span class="p">,</span> <span class="s">&#39;mois&#39;</span><span class="p">,</span> <span class="s">&#39;mon&#39;</span><span class="p">,</span> <span class="s">&#39;mths&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">,</span> <span class="s">&#39;months&#39;</span><span class="p">],</span>
+        <span class="n">YEARS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;an&#39;</span><span class="p">,</span> <span class="s">&#39;ans&#39;</span><span class="p">,</span> <span class="s">&#39;ann&#39;</span><span class="p">,</span> <span class="s">&#39;annee&#39;</span><span class="p">,</span> <span class="s">&#39;année&#39;</span><span class="p">,</span> <span class="s">&#39;années&#39;</span><span class="p">,</span> \
+                <span class="s">&#39;annees&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;yr&#39;</span><span class="p">,</span> <span class="s">&#39;yrs&#39;</span><span class="p">,</span> <span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="s">&#39;years&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="sd">&quot;&quot;&quot;Language specific age units.</span>
+<span class="sd">    IMPORTANT NOTE: List from shortest to longest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ABRV_MONTHS</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="s">&#39;en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;jan&#39;</span><span class="p">,</span> <span class="s">&#39;feb&#39;</span><span class="p">,</span> <span class="s">&#39;mar&#39;</span><span class="p">,</span> <span class="s">&#39;apr&#39;</span><span class="p">,</span> <span class="s">&#39;may&#39;</span><span class="p">,</span> <span class="s">&#39;jun&#39;</span><span class="p">,</span> \
+                         <span class="s">&#39;jul&#39;</span><span class="p">,</span> <span class="s">&#39;aug&#39;</span><span class="p">,</span> <span class="s">&#39;sep&#39;</span><span class="p">,</span> <span class="s">&#39;oct&#39;</span><span class="p">,</span> <span class="s">&#39;nov&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">]</span>
+
+    <span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="s">&#39;fr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;jan&#39;</span><span class="p">,</span> <span class="s">&#39;fev&#39;</span><span class="p">,</span> <span class="s">&#39;mar&#39;</span><span class="p">,</span> <span class="s">&#39;avr&#39;</span><span class="p">,</span> <span class="s">&#39;mai&#39;</span><span class="p">,</span> <span class="s">&#39;juin&#39;</span><span class="p">,</span> \
+                         <span class="s">&#39;juil&#39;</span><span class="p">,</span> <span class="s">&#39;aou&#39;</span><span class="p">,</span> <span class="s">&#39;sep&#39;</span><span class="p">,</span> <span class="s">&#39;oct&#39;</span><span class="p">,</span> <span class="s">&#39;nov&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">]</span>
+
+    <span class="c">#TODO Site specific stuff:</span>
+    <span class="c">#           Date order</span>
+    <span class="c">#           Round ages up or down</span>
+    <span class="n">DATEORDER</span> <span class="o">=</span> <span class="p">[</span><span class="n">DAYS</span><span class="p">,</span> <span class="n">MONTHS</span><span class="p">,</span> <span class="n">YEARS</span><span class="p">]</span>
+    <span class="n">ROUND_DOWN</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">MAX_AGE</span> <span class="o">=</span> <span class="mi">105</span>
+    <span class="sd">&quot;&quot;&quot;Age (in years) beyond which we don&#39;t recognize&quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.from_age_or_dob"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.from_age_or_dob">[docs]</a>    <span class="k">def</span> <span class="nf">from_age_or_dob</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+
+        <span class="n">age_or_dob</span> <span class="o">=</span> <span class="n">age_or_dob</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">age_or_dob</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+
+        <span class="c"># First of all, let&#39;s just keep everything in unicode</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">age_or_dob</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
+            <span class="n">age_or_dob</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">age_or_dob</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">from_age</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidAge</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">is_valid_dob</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">AmbiguousAge</span>
+            <span class="k">return</span> <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">from_dob</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidDOB</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.is_valid_dob_or_age"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.is_valid_dob_or_age">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_dob_or_age</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">is_valid_dob</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="n">cls</span><span class="o">.</span><span class="n">is_valid_age</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_or_dob</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.is_valid_dob"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.is_valid_dob">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_dob</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">dob_string</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">from_dob</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">dob_string</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidDOB</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.is_valid_age"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.is_valid_age">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid_age</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">age_string</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">from_age</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">age_string</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">InvalidAge</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.get_age_units"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.get_age_units">[docs]</a>    <span class="k">def</span> <span class="nf">get_age_units</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lang</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.from_dob"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.from_dob">[docs]</a>    <span class="k">def</span> <span class="nf">from_dob</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="c"># if no reference date specified, default to today</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">date_ref</span><span class="p">:</span>
+            <span class="n">date_ref</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+        <span class="n">FIELD_DELIMTERS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="s">&#39;.&#39;</span><span class="p">,</span> <span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">]</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">variance</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">delim_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">FIELD_DELIMTERS</span><span class="p">])</span>
+
+        <span class="n">hit</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="c"># now check for 15feb1980 or 12mar80</span>
+        <span class="n">months_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">m</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="n">lang</span><span class="p">]])</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">fields</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">)]</span> <span class="o">=</span> <span class="s">&#39;(?P&lt;y&gt;\d{2,4})&#39;</span>
+        <span class="n">fields</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)]</span> <span class="o">=</span> <span class="s">&#39;(?P&lt;m&gt;</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">months_regex</span>
+        <span class="n">fields</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">)]</span> <span class="o">=</span> <span class="s">&#39;(?P&lt;d&gt;\d{1,2})?&#39;</span>
+
+        <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;</span><span class="si">%(a)s</span><span class="s">\s*(</span><span class="si">%(delims)s</span><span class="s">)?\s*</span><span class="si">%(b)s</span><span class="s">\s*(</span><span class="si">%(delims)s</span><span class="s">)?\s*</span><span class="si">%(c)s</span><span class="s">$&#39;</span> <span class="o">%</span> \
+                <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> \
+                 <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="n">fields</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s">&#39;delims&#39;</span><span class="p">:</span> <span class="n">delim_regex</span><span class="p">}</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">grps</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">in</span> <span class="n">FIELD_DELIMTERS</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="n">lang</span><span class="p">]:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">value</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">/&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c"># let&#39;s look for when they just do month  / (2 digit year)</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;m&gt;\d{1,2})\s*(</span><span class="si">%s</span><span class="s">)?\s*(?P&lt;y&gt;\d{2})$&#39;</span> <span class="o">%</span> <span class="n">delim_regex</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+        <span class="c"># now let&#39;s look for when they just do month / (4 digit year)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;m&gt;\d{1,2})\s*(</span><span class="si">%s</span><span class="s">|\s)\s*(19|20)(?P&lt;y&gt;\d{2})$&#39;</span> <span class="o">%</span> \
+                                                                  <span class="n">delim_regex</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;y&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">date</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">date_ref</span><span class="p">:</span>
+                <span class="n">year_prefix</span> <span class="o">=</span> <span class="mi">19</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">year_prefix</span> <span class="o">=</span> <span class="mi">20</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year_prefix</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">15</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">date_ref</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">dob</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cls</span><span class="o">.</span><span class="n">MAX_AGE</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidDOB</span>
+            <span class="k">return</span> <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hit</span><span class="p">:</span>
+            <span class="c"># Check if it is four digits 1901 (1 sep 2001 or 9 jan 2001)</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{1})(?P&lt;b&gt;\d{1})(?P&lt;c&gt;\d{2})$&#39;</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">/</span><span class="si">%02d</span><span class="s">/</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span> \
+                    <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hit</span><span class="p">:</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{2})(?P&lt;b&gt;\d{1})(?P&lt;c&gt;\d{2})$&#39;</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)])</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
+                    <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%02d</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]),</span> \
+                                             <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hit</span><span class="p">:</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{1})(?P&lt;b&gt;\d{2})(?P&lt;c&gt;\d{2})$&#39;</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%02d</span><span class="s">/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]),</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hit</span><span class="p">:</span>
+            <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="s">&#39;2&#39;</span><span class="p">]</span>
+            <span class="n">indexes</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">)]</span> <span class="o">=</span> <span class="s">&#39;4&#39;</span>
+
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{</span><span class="si">%(a)s</span><span class="s">})(?P&lt;b&gt;\d{</span><span class="si">%(b)s</span><span class="s">})(?P&lt;c&gt;\d{</span><span class="si">%(c)s</span><span class="s">})$&#39;</span> <span class="o">%</span> \
+                        <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hit</span><span class="p">:</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{2})(?P&lt;b&gt;\d{2})(?P&lt;c&gt;\d{2})$&#39;</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
+
+        <span class="n">indexes</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;1,2&#39;</span><span class="p">,</span> <span class="s">&#39;1,2&#39;</span><span class="p">,</span> <span class="s">&#39;1,2&#39;</span><span class="p">]</span>
+        <span class="n">indexes</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">)]</span> <span class="o">=</span> <span class="s">&#39;2,4&#39;</span>
+
+        <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;a&gt;\d{</span><span class="si">%(a)s</span><span class="s">})\s*(</span><span class="si">%(d)s</span><span class="s">|\s)\s*(?P&lt;b&gt;\d{</span><span class="si">%(b)s</span><span class="s">})\s*&#39;</span> \
+                 <span class="s">&#39;(</span><span class="si">%(d)s</span><span class="s">|\s)\s*(?P&lt;c&gt;\d{</span><span class="si">%(c)s</span><span class="s">})$&#39;</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="n">delim_regex</span><span class="p">,</span> \
+                  <span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;c&#39;</span><span class="p">:</span> <span class="n">indexes</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">],</span> <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">]]</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">)])</span>
+            <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)])</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">)])</span>
+
+            <span class="k">if</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidDOB</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">InvalidDOB</span>
+                <span class="k">if</span> <span class="n">dob</span> <span class="o">&gt;</span> <span class="n">date_ref</span><span class="p">:</span>
+                    <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&#39;19</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidDOB</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">date_ref</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">dob</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cls</span><span class="o">.</span><span class="n">MAX_AGE</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidDOB</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">return</span> <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span>
+
+        <span class="c"># if we didn&#39;t return it yet, it&#39;s not valid</span>
+        <span class="k">raise</span> <span class="n">InvalidDOB</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DOBProcessor.from_age"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.from_age">[docs]</a>    <span class="k">def</span> <span class="nf">from_age</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">date_ref</span><span class="p">):</span>
+
+        <span class="c"># if no reference date specified, default to today</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">date_ref</span><span class="p">:</span>
+            <span class="n">date_ref</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+        <span class="n">MONTH_IN_DAYS</span> <span class="o">=</span> <span class="mf">30.4368499</span>
+        <span class="n">MONTH_IN_WEEKS</span> <span class="o">=</span> <span class="mf">4.34812141</span>
+        <span class="n">YEAR_IN_DAYS</span> <span class="o">=</span> <span class="mf">365.242199</span>
+        <span class="n">YEAR_IN_WEEKS</span> <span class="o">=</span> <span class="mf">52.177457</span>
+
+        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="c"># first we will raise an exception if we find any character other</span>
+        <span class="c"># than an age unit, or . or / or spaces</span>
+        <span class="n">all_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">get_age_units</span><span class="p">(</span><span class="n">lang</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\d|\s|\.|/|</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">all_regex</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> \
+        <span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cls</span><span class="o">.</span><span class="n">MAX_AGE</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="n">InvalidAge</span>
+
+        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c"># Reverse the lists so that we have the long unit</span>
+        <span class="c"># descriptions first</span>
+        <span class="k">for</span> <span class="n">ls</span> <span class="ow">in</span> <span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">ls</span><span class="p">]</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="n">days_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">])</span>
+        <span class="n">weeks_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">])</span>
+        <span class="n">months_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">])</span>
+        <span class="n">years_regex</span> <span class="o">=</span> <span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">UNITS</span><span class="p">[</span><span class="n">lang</span><span class="p">][</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">])</span>
+
+        <span class="c"># Match 3 3m as 3y 3m and 1 1/2m as 1y 1/2m and 1 1.2m as 1y 1.2m</span>
+        <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;y&gt;\d{1,2})\s+(?P&lt;m&gt;\d(\s*([/.]\s*\d)?)\s*(</span><span class="si">%s</span><span class="s">))&#39;</span> <span class="o">%</span> \
+                                                               <span class="n">months_regex</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%d</span><span class="s">y</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;y&#39;</span><span class="p">]),</span> \
+                                <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span>
+
+        <span class="c"># now that we&#39;ve handled the one space delimeted field we recognize</span>
+        <span class="c"># let&#39;s strip all spaces.</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\s&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+        <span class="c"># if there is a duplicate unit, raise an error.  That doesn&#39;t make</span>
+        <span class="c"># sense; and I don&#39;t know how to handle it</span>
+        <span class="k">for</span> <span class="n">regex</span> <span class="ow">in</span> <span class="p">[</span><span class="n">days_regex</span><span class="p">,</span> <span class="n">weeks_regex</span><span class="p">,</span> <span class="n">months_regex</span><span class="p">,</span> <span class="n">years_regex</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvalidAge</span>
+
+        <span class="c"># Now let&#39;s put each string into a dict</span>
+        <span class="n">buckets</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">regex</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">,</span> <span class="n">days_regex</span><span class="p">),</span> \
+                           <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">,</span> <span class="n">weeks_regex</span><span class="p">),</span> \
+                           <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">,</span> <span class="n">months_regex</span><span class="p">),</span> \
+                           <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">,</span> <span class="n">years_regex</span><span class="p">)]:</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="s">r&#39;(?P&lt;value&gt;\d{1,3}([/.]\d{1,2})?)(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">regex</span>
+            <span class="n">search</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">search</span><span class="p">:</span>
+                <span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;value&#39;</span><span class="p">]</span>
+
+                <span class="c"># Replace fractions with decimals</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;(\d+)/(\d+)&#39;</span><span class="p">,</span> <span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+                    <span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span> <span class="o">/</span> \
+                                         <span class="nb">float</span><span class="p">(</span><span class="n">denominator</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">buckets</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c"># now get rid of fractions by dumping them into the bucket below.</span>
+        <span class="n">weeks_remainder</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">%</span> <span class="mi">1</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weeks_remainder</span> <span class="o">*</span> <span class="mi">7</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">])</span>
+
+        <span class="n">months_remainder</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">%</span> <span class="mi">1</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">+=</span> <span class="n">months_remainder</span> <span class="o">*</span> <span class="n">MONTH_IN_WEEKS</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">])</span>
+
+        <span class="n">years_remainder</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">%</span> <span class="mi">1</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">+=</span> <span class="n">years_remainder</span> <span class="o">*</span> <span class="mi">12</span>
+        <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">age_in_days</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">]</span> <span class="o">+</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">+</span> \
+                          <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">*</span> <span class="n">MONTH_IN_DAYS</span> <span class="o">+</span> \
+                          <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">*</span> <span class="n">YEAR_IN_DAYS</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">date_ref</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">age_in_days</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="n">age_in_weeks</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">WEEKS</span><span class="p">]</span> <span class="o">+</span> \
+                           <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">*</span> <span class="n">MONTH_IN_WEEKS</span> <span class="o">+</span> \
+                           <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">*</span> <span class="n">YEAR_IN_WEEKS</span>
+            <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">ROUND_DOWN</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">+=</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">-=</span> <span class="mf">0.5</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">date_ref</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="n">age_in_weeks</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">15</span>
+            <span class="n">age_in_weeks</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">]</span> <span class="o">*</span> <span class="n">MONTH_IN_WEEKS</span> <span class="o">+</span> \
+                           <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">*</span> <span class="n">YEAR_IN_WEEKS</span>
+            <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">ROUND_DOWN</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">+=</span> <span class="n">MONTH_IN_WEEKS</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">-=</span> <span class="n">MONTH_IN_WEEKS</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">date_ref</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="n">age_in_weeks</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">variance</span> <span class="o">=</span> <span class="mi">182</span>
+            <span class="n">age_in_weeks</span> <span class="o">=</span> <span class="n">buckets</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">YEARS</span><span class="p">]</span> <span class="o">*</span> <span class="n">YEAR_IN_WEEKS</span>
+            <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">ROUND_DOWN</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">+=</span> <span class="n">YEAR_IN_WEEKS</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">age_in_weeks</span> <span class="o">-=</span> <span class="n">YEAR_IN_WEEKS</span> <span class="o">*</span> <span class="mf">0.5</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">date_ref</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="n">age_in_weeks</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidAge</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">date_ref</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">dob</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cls</span><span class="o">.</span><span class="n">MAX_AGE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidAge</span>
+
+        <span class="k">return</span> <span class="n">dob</span><span class="p">,</span> <span class="n">variance</span>
+
+</div></div>
+<div class="viewcode-block" id="clean_names"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.clean_names">[docs]</a><span class="k">def</span> <span class="nf">clean_names</span><span class="p">(</span><span class="n">flat_name</span><span class="p">,</span> <span class="n">surname_first</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Takes a persons name as a single string and returns surname,</span>
+<span class="sd">    first names, and alias::</span>
+
+<span class="sd">        &gt;&gt;&gt; clean_names(&quot;smith john&quot;)</span>
+<span class="sd">        (u&#39;Smith&#39;, u&#39;John&#39;, u&#39;jsmith&#39;)</span>
+
+<span class="sd">    Also can be passed an optional argument surname_first=False::</span>
+
+<span class="sd">        &gt;&gt;&gt; clean_names(&quot;john ADAM smith&quot;, surname_first=False)</span>
+<span class="sd">        (u&#39;Smith&#39;, u&#39;John Adam&#39;, u&#39;jasmith&#39;)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">flat_name</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">):</span>
+        <span class="n">flat_name</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">flat_name</span><span class="p">)</span>
+
+    <span class="c"># Replace all occurances of 0 with o</span>
+    <span class="n">flat_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;0&#39;</span><span class="p">,</span> <span class="s">&#39;o&#39;</span><span class="p">,</span> <span class="n">flat_name</span><span class="p">)</span>
+
+    <span class="c"># Replace all non-alphanumeric character with spaces</span>
+    <span class="n">flat_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;\W_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">flat_name</span><span class="p">)</span>
+
+    <span class="c"># Remove numbers</span>
+    <span class="n">flat_name</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;\d&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">flat_name</span><span class="p">)</span>
+
+    <span class="c"># break up the name into a list</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;\w+&#39;</span><span class="p">,</span> <span class="n">flat_name</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+
+    <span class="n">surname</span> <span class="o">=</span> <span class="n">firstnames</span> <span class="o">=</span> <span class="n">alias</span> <span class="o">=</span> <span class="s">u&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">pop_index</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">surname_first</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">surname</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">pop_index</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+        <span class="n">firstnames</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+        <span class="n">alias</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">surname</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">alias</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">&#39;\w+&#39;</span><span class="p">,</span> <span class="n">alias</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">names</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">surname_first</span><span class="p">:</span>
+            <span class="n">surname</span><span class="p">,</span> <span class="n">firstnames</span> <span class="o">=</span> <span class="n">firstnames</span><span class="p">,</span> <span class="n">surname</span>
+
+    <span class="k">return</span> <span class="n">surname</span><span class="p">,</span> <span class="n">firstnames</span><span class="p">,</span> <span class="n">alias</span>
+
+</div>
+<div class="viewcode-block" id="authenticated"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.authenticated">[docs]</a><span class="k">def</span> <span class="nf">authenticated</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; decorator checking if sender is allowed to process feature.</span>
+
+<span class="sd">    checks if sender property is set on message</span>
+
+<span class="sd">    :returns: function or bool</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">persistant_connection</span><span class="o">.</span><span class="n">reporter</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotRegistered</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(number)s</span><span class="s"> is not a registered number.&quot;</span><span class="p">)</span>
+                            <span class="o">%</span> <span class="p">{</span><span class="s">&#39;number&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">peer</span><span class="p">})</span>
+            <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<div class="viewcode-block" id="respond_exceptions"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.respond_exceptions">[docs]</a><span class="k">def</span> <span class="nf">respond_exceptions</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;A decorator that catches exceptions and sends the text of the exception</span>
+<span class="sd">    to the sender by responding to the message object.  It can be used</span>
+<span class="sd">    on the :class:`rapidsms.app.App` methods that are passed (self, message)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> \
+           <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rapidsms</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">Message</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="n">message</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">traceback</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_tb</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_traceback</span><span class="p">)</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;An error has occured: </span><span class="si">%(e)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;e&#39;</span><span class="p">:</span> <span class="n">e</span><span class="p">},</span> \
+                            <span class="s">&#39;error&#39;</span><span class="p">)</span>
+            <span class="k">raise</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+</div>
+<div class="viewcode-block" id="KeywordMapper"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper">[docs]</a><span class="k">class</span> <span class="nc">KeywordMapper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parser for SMS keywords&quot;&quot;&quot;</span>
+
+    <span class="n">MATCH_ALL_LANG_CHAR</span> <span class="o">=</span> <span class="s">&#39;*&#39;</span>
+    <span class="n">KEYWORDS_VAR</span> <span class="o">=</span> <span class="s">&#39;KEYWORDS&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MATCH_ALL_LANG_CHAR</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="KeywordMapper.add_class"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.add_class">[docs]</a>    <span class="k">def</span> <span class="nf">add_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cls_keywords</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="s">&#39;cls.</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYWORDS_VAR</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;You attempted to load </span><span class="si">%(cls)s</span><span class="s"> without &quot;</span> \
+                              <span class="s">&quot;</span><span class="si">%(k)s</span><span class="s"> defined.&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                              <span class="p">{</span><span class="s">&#39;cls&#39;</span><span class="p">:</span> <span class="n">cls</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYWORDS_VAR</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cls_keywords</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%(k)s</span><span class="s"> must be a dictionary in </span><span class="si">%(cls)s</span><span class="s">.&quot;</span><span class="p">)</span> <span class="o">%</span> \
+                             <span class="p">{</span><span class="s">&#39;cls&#39;</span><span class="p">:</span> <span class="n">cls</span><span class="p">,</span> <span class="s">&#39;k&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">KEYWORDS_VAR</span><span class="p">})</span>
+
+        <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">cls_keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">lang</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cls_keywords</span><span class="p">[</span><span class="n">lang</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">cls_keywords</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">cls_keywords</span><span class="p">[</span><span class="n">lang</span><span class="p">]]</span>
+
+            <span class="k">for</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">cls_keywords</span><span class="p">[</span><span class="n">lang</span><span class="p">]:</span>
+                <span class="n">keyword</span> <span class="o">=</span> <span class="n">keyword</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_keywords</span><span class="p">(</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">lang</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">MATCH_ALL_LANG_CHAR</span> <span class="ow">and</span> \
+                     <span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_keywords</span><span class="p">()):</span>
+
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">u&quot;Keyword clash in language &quot;</span> \
+                                     <span class="s">&quot;&#39;</span><span class="si">%(language)s</span><span class="s">&#39; on keyword &quot;</span> \
+                                     <span class="s">&quot;&#39;</span><span class="si">%(keyword)s</span><span class="s">&#39; in </span><span class="si">%(class)s</span><span class="s">&quot;</span> <span class="o">%</span> \
+                                     <span class="p">{</span><span class="s">&#39;language&#39;</span><span class="p">:</span> <span class="n">lang</span><span class="p">,</span> \
+                                      <span class="s">&#39;keyword&#39;</span><span class="p">:</span> <span class="n">keyword</span><span class="p">,</span> \
+                                      <span class="s">&#39;class&#39;</span><span class="p">:</span> <span class="n">cls</span><span class="p">})</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="n">keyword</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span>
+</div>
+<div class="viewcode-block" id="KeywordMapper.add_classes"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.add_classes">[docs]</a>    <span class="k">def</span> <span class="nf">add_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_class</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="KeywordMapper.get_keywords"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.get_keywords">[docs]</a>    <span class="k">def</span> <span class="nf">get_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">:</span>
+            <span class="n">lang_keywords</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lang_keywords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">lang_keywords</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MATCH_ALL_LANG_CHAR</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="KeywordMapper.get_all_keywords"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.get_all_keywords">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_keywords</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">keywords</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">keywords</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">keywords</span>
+</div>
+<div class="viewcode-block" id="KeywordMapper.get_class"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.get_class">[docs]</a>    <span class="k">def</span> <span class="nf">get_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">keyword</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span> <span class="ow">and</span> \
+           <span class="n">keyword</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="n">lang</span><span class="o">.</span><span class="n">lower</span><span class="p">()][</span><span class="n">keyword</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MATCH_ALL_LANG_CHAR</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keywords</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MATCH_ALL_LANG_CHAR</span><span class="p">][</span><span class="n">keyword</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="KeywordMapper.is_keyword"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.KeywordMapper.is_keyword">[docs]</a>    <span class="k">def</span> <span class="nf">is_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">keyword</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_class</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">keyword</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">None</span>
+
+</div></div>
+<div class="viewcode-block" id="get_dates_of_the_week"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.get_dates_of_the_week">[docs]</a><span class="k">def</span> <span class="nf">get_dates_of_the_week</span><span class="p">(</span><span class="n">givendate</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">givendate</span><span class="p">:</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">givendate</span>
+    <span class="n">start_of_the_week</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">today</span><span class="o">.</span><span class="n">weekday</span><span class="p">())</span>
+    <span class="n">week</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">start_of_the_week</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">week</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="n">day</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="n">day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a&quot;</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">week</span>
+</div>
+<div class="viewcode-block" id="first_date_of_week"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.first_date_of_week">[docs]</a><span class="k">def</span> <span class="nf">first_date_of_week</span><span class="p">(</span><span class="n">givendate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return date of first Monday before givendate&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">givendate</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">givendate</span><span class="o">.</span><span class="n">weekday</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="seven_days_to_date"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.seven_days_to_date">[docs]</a><span class="k">def</span> <span class="nf">seven_days_to_date</span><span class="p">(</span><span class="n">givendate</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">givendate</span><span class="p">:</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">today</span> <span class="o">=</span> <span class="n">givendate</span>
+    <span class="n">start_of_the_week</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">week</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">start_of_the_week</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">week</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="n">day</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="n">day</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a&quot;</span><span class="p">)})</span>
+    <span class="k">return</span> <span class="n">week</span>
+
+</div>
+<div class="viewcode-block" id="day_start"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.day_start">[docs]</a><span class="k">def</span> <span class="nf">day_start</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; begining of day from date.</span>
+
+<span class="sd">    :returns :class:`datetime.datetime`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">t</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="day_end"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.day_end">[docs]</a><span class="k">def</span> <span class="nf">day_end</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; end of day from date.</span>
+
+<span class="sd">    :returns :class:`datetime.datetime`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span> <span class="n">second</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span> <span class="n">microsecond</span><span class="o">=</span><span class="mi">999999</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> <span class="n">t</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="last_day_of_month"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.last_day_of_month">[docs]</a><span class="k">def</span> <span class="nf">last_day_of_month</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">date</span><span class="o">.</span><span class="n">month</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">31</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">date</span><span class="o">.</span><span class="n">month</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="first_day_of_month"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.first_day_of_month">[docs]</a><span class="k">def</span> <span class="nf">first_day_of_month</span><span class="p">(</span><span class="n">date</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">date</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="get_median"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.get_median">[docs]</a><span class="k">def</span> <span class="nf">get_median</span><span class="p">(</span><span class="n">listOfNumericValues</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; get the median of a list of numeric values &#39;&#39;&#39;</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">listOfNumericValues</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ls</span><span class="p">[((</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lowerv</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[(</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">upperv</span> <span class="o">=</span> <span class="n">ls</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">lowerv</span> <span class="o">+</span> <span class="n">upperv</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+</div>
+<span class="kn">from</span> <span class="nn">reportlab.platypus.flowables</span> <span class="kn">import</span> <span class="n">Flowable</span>
+
+
+<div class="viewcode-block" id="RotatedParagraph"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.RotatedParagraph">[docs]</a><span class="k">class</span> <span class="nc">RotatedParagraph</span><span class="p">(</span><span class="n">Flowable</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Rotates a paragraph&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paragraph</span><span class="p">,</span> <span class="n">aW</span><span class="p">,</span> <span class="n">aH</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span> <span class="o">=</span> <span class="n">paragraph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">aW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">aH</span>
+
+<div class="viewcode-block" id="RotatedParagraph.draw"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.RotatedParagraph.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">canv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canv</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="c">#drawOn(canvas, x, y)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span><span class="o">.</span><span class="n">drawOn</span><span class="p">(</span><span class="n">canv</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+</div></div>
+<div class="viewcode-block" id="send_msg"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.send_msg">[docs]</a><span class="k">def</span> <span class="nf">send_msg</span><span class="p">(</span><span class="n">reporter</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Sends a message to a reporter using the ajax app.  This goes to</span>
+<span class="sd">    ajax_POST_send_message in :file:`apps/findtb/app.py`</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">RAPIDSMS_APPS</span><span class="p">[</span><span class="s">&#39;ajax&#39;</span><span class="p">]</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">/childcount/send_message&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="s">&quot;host&quot;</span><span class="p">],</span> <span class="n">conf</span><span class="p">[</span><span class="s">&quot;port&quot;</span><span class="p">])</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;reporter&#39;</span><span class="p">:</span> <span class="n">reporter</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> \
+           <span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="get_ccforms_by_name"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.get_ccforms_by_name">[docs]</a><span class="k">def</span> <span class="nf">get_ccforms_by_name</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">childcount.forms</span> <span class="kn">import</span> <span class="o">*</span>
+    <span class="sd">&#39;&#39;&#39; returns a list of childcount forms grouped Encounter type &#39;&#39;&#39;</span>
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">RAPIDSMS_APPS</span><span class="p">[</span><span class="s">&#39;childcount&#39;</span><span class="p">]</span>
+    <span class="n">formlist</span> <span class="o">=</span> <span class="n">conf</span><span class="p">[</span><span class="s">&#39;forms&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">forms</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="n">formlist</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">ENCOUNTER_TYPE</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">forms</span><span class="p">:</span>
+            <span class="n">forms</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">ENCOUNTER_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">forms</span><span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">ENCOUNTER_TYPE</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">forms</span>
+</div>
+<div class="viewcode-block" id="get_indicators"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.get_indicators">[docs]</a><span class="k">def</span> <span class="nf">get_indicators</span><span class="p">():</span>
+    <span class="n">modules</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;/indicators/*.py&#39;</span><span class="p">)</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="s">&#39;childcount.indicators.&#39;</span>
+
+    <span class="k">print</span> <span class="n">modules</span>
+    <span class="n">modules</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">indicators</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">modules</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;__init__.py&#39;</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">modname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="nb">__import__</span><span class="p">(</span><span class="n">base</span><span class="o">+</span><span class="n">modname</span><span class="p">)</span>
+        <span class="n">imp</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">base</span><span class="o">+</span><span class="n">modname</span><span class="p">]</span>
+
+        <span class="n">mems</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">imp</span><span class="p">,</span> \
+            <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> \
+                    <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Indicator</span><span class="p">)</span> \
+                    <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">__module__</span> <span class="o">!=</span> <span class="s">&#39;indicator.indicator&#39;</span> \
+                    <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">__name__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
+
+        <span class="n">indicators</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">imp</span><span class="o">.</span><span class="n">NAME</span><span class="p">,</span> <span class="s">&#39;inds&#39;</span><span class="p">:</span> <span class="n">mems</span><span class="p">,</span> <span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">modname</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">indicators</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
