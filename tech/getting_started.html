@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
     <link rel="up" title="Technology" href="index.html" />
-    <link rel="next" title="Configuring the Server" href="server.html" />
+    <link rel="next" title="Installation Instructions" href="install.html" />
     <link rel="prev" title="Technology" href="index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Configuring the Server"
+          <a href="install.html" title="Installation Instructions"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Technology"
@@ -70,24 +70,180 @@ Data between the server and clients is
 not encrypted the software is not hardened
 against attacks.</p>
 </div>
-<p>Wait! Before you read on, check out the
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Wait! Before you read on, check out the
 <a class="reference internal" href="../human.html#human-prereqs"><em>Human Prerequisites</em></a> section.
 Make sure that you&#8217;re not missing anything on the human
 side of things before you jump into the land of
 config files and list comprehensions.</p>
 </div>
+<p>Hopefully these documentation pages, plus some
+Googling, will be all the information you need to get
+ChildCount+ up and running.
+In the real world, it is unlikely that the ChildCount+
+team will be able to keep this documentation up
+to date forever, but at least we are trying!</p>
+<div class="section" id="all-installs">
+<h3>All Installs<a class="headerlink" href="#all-installs" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Linux Server</dt>
+<dd>You will need a server to host your ChildCount+
+installation.
+We recommend using Ubuntu versions 10 and up,
+since that is what we use for development and deployments.</dd>
+<dt>Printer</dt>
+<dd>If you need to print paper reports.</dd>
+</dl>
+</div>
+<div class="section" id="sms-based-installs">
+<h3>SMS-Based Installs<a class="headerlink" href="#sms-based-installs" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>GSM Modem</dt>
+<dd>If you want to interact with ChildCount+ via SMS.
+Any modem that works with <a class="reference external" href="http://pypi.python.org/pypi/pygsm/0.1">PyGSM</a>
+will work.
+We use Multitech MTCBA-G-F4 modems.</dd>
+<dt>SMS-Enabled Mobile Phones</dt>
+<dd>One per community health worker.</dd>
+<dt>Mobile Phone Chargers</dt>
+<dd>If you are deploying in an area without reliable
+power, make sure you have solar chargers or some
+other means of charging cell phones.</dd>
+<dt>Airtime Credit Distribution System</dt>
+<dd>You will need some way to distribute airtime
+credit to the community health workers.
+Millennium Villages Project has tried to
+negotiate with mobile operators to get
+toll-free SMS lines, but distributing
+airtime scratch cards by hand is also
+an option.</dd>
+</dl>
+</div>
+</div>
 <div class="section" id="understanding-the-components">
 <h2>Understanding the Components<a class="headerlink" href="#understanding-the-components" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>What the tech pieces are and how they relate</li>
-<li>RabbitMQ, Celeryd, uwsgi, Django, Rapidsms, etc, etc</li>
-</ol>
+<p>The ChildCount+ stack is large &#8211; it includes many
+components patched together in non-obvious ways.
+The following diagrams will hopefully give you a
+sense of what the components of ChildCount+ are
+and how they relate to each other.</p>
+<p>ChildCount+ runs on top of
+<a class="reference external" href="http://www.rapidsms.org">RapidSMS</a>, but since
+there is almost no documentation for RapidSMS,
+we will try to document bits of RapidSMS as we
+go along.</p>
+<table border="1" class="docutils">
+<caption><strong>ChildCount+ Component Overview</strong></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr><td><p class="first"><strong>Web</strong>. How ChildCount+ handles HTTP requests from
+Web browsers:</p>
+<ul class="last simple">
+<li><em>Cherokee Web Server</em> handles incoming HTTP requests and
+passes them to...</li>
+<li><em>django_wsgi.py</em> &#8211; a Python script that sets some environment
+variables (like the local time zone) and invokes Django&#8217;s
+wsgi (Web Server Gateway Interface) handler.</li>
+<li><em>Django</em>&#8216;s Web framework handles the request from there.
+The Web portion of ChildCount+ works like Django (with a few
+caveats).
+You will find Django-style <tt class="file docutils literal"><span class="pre">views.py</span></tt> and <tt class="file docutils literal"><span class="pre">urls.py</span></tt>
+files in the <tt class="file docutils literal"><span class="pre">apps/*</span></tt> directories.</li>
+</ul>
+</td>
+<td><img alt="../_images/web.jpg" class="first last" src="../_images/web.jpg" />
+</td>
+</tr>
+<tr><td><p class="first"><strong>SMS</strong>. How ChildCount+ handles SMS messages.</p>
+<ul class="last simple">
+<li>The <em>GSM modem</em> receives SMS messages from your mobile operator
+and queues them.</li>
+<li><em>PyGSM</em> provides a simple API through which Python applications
+(like RapidSMS) can connect to the GSM modem to send and receive
+SMS messages.</li>
+<li>The <em>RapidSMS Router</em> (<tt class="file docutils literal"><span class="pre">rapidsms</span> <span class="pre">route</span></tt>)
+periodically (every five seconds or so)
+uses PyGSM to check the modem for pending incoming messages and to send
+pending outgoing messages.
+The <tt class="file docutils literal"><span class="pre">rapidsms</span></tt> program resides in the root ChildCount+
+directory and is the core RapidSMS executable.</li>
+<li>The router then looks for all installed RapidSMS applications.
+The list of installed applications is in the file
+<tt class="file docutils literal"><span class="pre">local.ini</span></tt> in the root ChildCount+ directory.
+For an example of <tt class="file docutils literal"><span class="pre">local.ini</span></tt> files, see the
+<a class="reference external" href="https://github.com/mvpdev/rapidsms-impl">ChildCount+ Installation Repository</a>.</li>
+<li>For each installed application, RapidSMS loads the file
+<tt class="file docutils literal"><span class="pre">apps/[app_name]/app.py</span></tt> and calls the <tt class="xref py py-meth docutils literal"><span class="pre">App.handle()</span></tt>
+method with a <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.message.Message</span></tt> object.
+(<tt class="xref py py-class docutils literal"><span class="pre">App</span></tt> inherits from <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.app.App</span></tt>.)</li>
+<li>The <em>:meth:`App.handle`</em> method does app of the SMS processing logic,
+and finally returns a <tt class="docutils literal"><span class="pre">bool</span></tt> value, indicating whether RapidSMS
+should propagate the message to other installed apps (when <tt class="xref py py-meth docutils literal"><span class="pre">App.handle()</span></tt>
+returns <tt class="xref docutils literal"><span class="pre">True</span></tt>) or not (when <tt class="xref py py-meth docutils literal"><span class="pre">App.handle()</span></tt> returns <tt class="xref docutils literal"><span class="pre">False</span></tt>).
+The <tt class="xref py py-meth docutils literal"><span class="pre">App.handle()</span></tt> method can also call the <tt class="xref py py-meth docutils literal"><span class="pre">message.respond()</span></tt>
+method on the <tt class="docutils literal"><span class="pre">message</span></tt> object to send an SMS back to the sender.</li>
+</ul>
+</td>
+<td><img alt="../_images/sms.jpg" class="first last" src="../_images/sms.jpg" />
+</td>
+</tr>
+<tr><td><p class="first"><strong>Reports</strong>. How ChildCount+ schedules and runs
+nightly reports and SMS alerts:</p>
+<ul class="last simple">
+<li>Each RapidSMS application within a ChildCount+ installation
+has a file called <tt class="file docutils literal"><span class="pre">apps/[app_name]/tasks.py</span></tt>.
+<a class="reference external" href="http://celeryproject.org/docs/django-celery/">Django Celery</a>
+loads these files and uses them to schedule periodic
+tasks.</li>
+<li><a class="reference external" href="http://celeryproject.org/">Celerybeat</a>, a process invoked as
+<tt class="file docutils literal"><span class="pre">/etc/init.d/celeryd</span> <span class="pre">-B</span></tt> periodically checks
+the current time, and the task run history located
+in (<tt class="file docutils literal"><span class="pre">celerybeat-schedule</span></tt>) to determine if there
+is a periodic task that should run.
+When Celerybeat wants to run a task, it inserts
+a message into...</li>
+<li><a class="reference external" href="http://www.rabbitmq.com/">RabbitMQ</a>, a message queue that holds pending
+tasks.</li>
+<li><a class="reference external" href="http://celeryproject.org/">Celeryd</a>
+worker processes periodically check
+RabbitMQ for pending tasks and they run any pending
+tasks they find in the queue.
+Celeryd workers run as <tt class="file docutils literal"><span class="pre">/etc/init.d/celeryd</span></tt>
+and can run in the same process as Celerybeat (above).
+When Celeryd workers start up, they load the current
+RapidSMS/ChildCount+ code so they have access to
+the ChildCount+ database and all ChildCount+
+classes.</li>
+<li>The Celeryd workers can write out completed reports
+to the file system or they can send SMS alerts out
+via the RapidSMS messaging functionality.</li>
+</ul>
+</td>
+<td><img alt="../_images/reports.jpg" class="first last" src="../_images/reports.jpg" />
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<ol class="arabic simple">
-<li>What versions we support</li>
-</ol>
+<p>We use:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.ubuntu.com/">Ubuntu</a> 10.04</li>
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.6</li>
+<li><a class="reference external" href="http://www.djangoproject.com">Django</a> 1.1</li>
+<li><a class="reference external" href="http://pypi.python.org/pypi/pygsm/0.1">PyGSM</a> 0.1</li>
+<li><a class="reference external" href="http://www.rapidsms.org">RapidSMS</a> 0 (&#8220;old core&#8221;)</li>
+<li><a class="reference external" href="http://celeryproject.org/docs/django-celery/">Django Celery</a> 2.2.4</li>
+<li><a class="reference external" href="http://www.celeryproject.org">Celery</a> 2.2.5</li>
+<li><a class="reference external" href="http://www.rabbitmq.com">RabbitMQ</a> 1.6</li>
+<li><a class="reference external" href="http://packages.python.org/kombu/">Kombu</a> 1.0.7</li>
+<li><a class="reference external" href="http://www.mysql.com/">MySQL</a> 5.1</li>
+</ul>
 </div>
 </div>
 
@@ -100,7 +256,11 @@ config files and list comprehensions.</p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Getting Started with ChildCount+</a><ul>
-<li><a class="reference internal" href="#technology-prerequisites">Technology Prerequisites</a></li>
+<li><a class="reference internal" href="#technology-prerequisites">Technology Prerequisites</a><ul>
+<li><a class="reference internal" href="#all-installs">All Installs</a></li>
+<li><a class="reference internal" href="#sms-based-installs">SMS-Based Installs</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#understanding-the-components">Understanding the Components</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 </ul>
@@ -111,8 +271,8 @@ config files and list comprehensions.</p>
   <p class="topless"><a href="index.html"
                         title="previous chapter">Technology</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="server.html"
-                        title="next chapter">Configuring the Server</a></p>
+  <p class="topless"><a href="install.html"
+                        title="next chapter">Installation Instructions</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/tech/getting_started.txt"
@@ -145,7 +305,7 @@ config files and list comprehensions.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Configuring the Server"
+          <a href="install.html" title="Installation Instructions"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="Technology"

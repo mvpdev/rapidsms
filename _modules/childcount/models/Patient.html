@@ -430,11 +430,16 @@
                         <span class="k">break</span>
 
                     <span class="c"># If so, record the estimated conception date</span>
-                    <span class="n">pr</span> <span class="o">=</span> <span class="n">reps</span>\
-                        <span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="s">&#39;ccreport__pregnancyreport__encounter__encounter_date&#39;</span><span class="p">)</span>\
-                        <span class="o">.</span><span class="n">ccreport_set</span>\
-                        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">polymorphic_ctype__model</span><span class="o">=</span><span class="s">&#39;pregnancyreport&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-               
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">pr</span> <span class="o">=</span> <span class="n">reps</span>\
+                            <span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="s">&#39;ccreport__pregnancyreport__encounter__encounter_date&#39;</span><span class="p">)</span>\
+                            <span class="o">.</span><span class="n">ccreport_set</span>\
+                            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">polymorphic_ctype__model</span><span class="o">=</span><span class="s">&#39;pregnancyreport&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                        <span class="n">pr</span> <span class="o">=</span> <span class="n">reps</span>\
+                            <span class="o">.</span><span class="n">latest</span><span class="p">(</span><span class="s">&#39;ccreport__pregnancyreport__encounter__encounter_date&#39;</span><span class="p">)</span>\
+                            <span class="o">.</span><span class="n">ccreport_set</span>\
+                            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">polymorphic_ctype__model</span><span class="o">=</span><span class="s">&#39;spregnancy&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                     <span class="n">days_preg</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="mf">30.4375</span> <span class="o">*</span> <span class="n">pr</span><span class="o">.</span><span class="n">pregnancy_month</span><span class="p">)</span>
                     <span class="n">row</span> <span class="o">=</span> <span class="p">{}</span>
 
