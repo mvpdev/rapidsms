@@ -31,6 +31,12 @@ Programmers
     The more programming talent you have at your disposal,
     the more flexible and useful ChildCount+ will
     become.
+    ChildCount+ is written in the `Python <http://www.python.org/>`_
+    programming language and uses the `Django <http://www.djangoproject.com/>`_
+    and `RapidSMS <http://www.rapidsms.org/>`_ frameworks,
+    so people with knowledge of those technologies will be
+    particularly useful.
+
     `FrontlineSMS <http://www.frontlinesms.com/>`_ might
     be a good alternative solution for organizations without
     programmers at their disposal.
@@ -94,4 +100,9 @@ Here are examples of the ChildCount+ forms we use:
 * :download:`Correction </files/forms/ruhiira/Correction_v2-1_Ruhiira_EN.pdf>`
 
 
+.. _human__health_ids:
 
+[U] Health IDs
+-----------------
+
+In progres...

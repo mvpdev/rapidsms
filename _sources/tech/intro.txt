@@ -43,6 +43,17 @@ Linux Server
 Printer
     If you need to print paper reports.
 
+Paper-Form-Based Installs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Computers for Data Entry
+   You will need one client machine per data entry clerk.
+   Windows, Max, Linux, OS/2, -- anything with a good web browser will do.
+
+Local Area Network
+    To connect your data entry computers to the ChildCount+ server.
+
+
 SMS-Based Installs
 ^^^^^^^^^^^^^^^^^^^
 

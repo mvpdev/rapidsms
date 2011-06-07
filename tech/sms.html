@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SMS and the Router &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>RapidSMS Overview &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -53,10 +53,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="sms-and-the-router">
-<h1>SMS and the Router<a class="headerlink" href="#sms-and-the-router" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="the-router">
-<h2>The Router<a class="headerlink" href="#the-router" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="rapidsms-overview">
+<h1>RapidSMS Overview<a class="headerlink" href="#rapidsms-overview" title="Permalink to this headline">¶</a></h1>
+<p>ChildCount is built using the <a class="reference external" href="http://www.rapidsms.org/">RapidSMS</a>
+framework.
+The following few sections will introduce you to a few key
+RapidSMS concepts: the router, backends, and applications.</p>
+<div class="section" id="router">
+<h2>Router<a class="headerlink" href="#router" title="Permalink to this headline">¶</a></h2>
 <p>The [RapidSMS] router is the part of ChildCount+ that handles incoming
 and outgoing messages, and it operates independently from
 whatever Web server you are using to view the ChildCount+ dashboard.
@@ -109,17 +113,170 @@ message <strong class="command">Heads</strong> or <strong class="command">Tails<
             <span class="k">return</span> <span class="bp">False</span>
 </pre></div>
 </div>
+<p>As in Django, you can have many RapidSMS apps running on the same
+ChildCount+ server.
+The order in which the apps get to handle messages is determined
+by the order in which they appear in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt> file.</p>
+<p>Some useful SMS-related apps are:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../api/apps/childcount/index.html"><em>/apps/childcount</em></a> &#8211; Handles all ChildCount+ messages</li>
+<li><tt class="file docutils literal"><span class="pre">/apps/fortune</span></tt> &#8211; Responds to the message <strong class="command">FORTUNE</strong> with
+a Ugandan proverb</li>
+<li><tt class="file docutils literal"><span class="pre">/apps/logger_ng</span></tt> &#8211; Stores all messages in a message log database table</li>
+<li><tt class="file docutils literal"><span class="pre">/apps/ping</span></tt> &#8211; When it receives a message <strong class="command">PING</strong>, it responds <strong class="command">PONG</strong></li>
+</ul>
 </div>
-<div class="section" id="sms-forms-commands-and-reports">
-<span id="tech-sms-forms-and-commands"></span><h2>SMS Forms, Commands, and Reports<a class="headerlink" href="#sms-forms-commands-and-reports" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="the-childcount-application">
+<span id="tech-sms-forms-and-commands"></span><h1>The ChildCount+ Application<a class="headerlink" href="#the-childcount-application" title="Permalink to this headline">¶</a></h1>
+<p>The body of the ChildCount+ message processing
+happens in <tt class="file docutils literal"><span class="pre">/apps/childcount/app.py</span></tt> &#8211;
+ChildCount&#8217;s RapidSMS application.
+The following sections describe how components
+<em>within</em> the ChildCount+ application
+process messages and how you can customize
+these components.</p>
+<div class="section" id="sms-forms-and-commands">
+<h2>SMS Forms and Commands<a class="headerlink" href="#sms-forms-and-commands" title="Permalink to this headline">¶</a></h2>
 <p>To understand ChildCount+ SMS processing, you
 must know the difference between a <em>form</em>,
-a <em>command</em>, and a <em>report</em>.
-Forms and commands are both means of defining
-special SMS keys</p>
-<div class="section" id="adding-a-new-form">
-<h3>Adding a New Form<a class="headerlink" href="#adding-a-new-form" title="Permalink to this headline">¶</a></h3>
+a <em>command</em>, and a <em>report</em>.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">We have recklessly overloaded the term &#8220;form.&#8221;
+The word &#8220;form&#8221; can refer to the paper paper forms
+filled out by CHWs (see: <a class="reference internal" href="../human.html#human-forms"><em>Forms</em></a>) or
+it can refer to SMS forms &#8211; the logic that parses
+and processes messages (described below).</p>
 </div>
+<p>Forms and commands are both means of connecting
+SMS keywords to bits of application processing logic.
+The difference is that SMS <em>forms</em> are part of a
+message that begins with a
+patient health identifier (health ID) and (<em>commands</em>)
+are consist of messages that begin with a keyword.</p>
+<table border="1" class="docutils">
+<caption>Examples of SMS Commands</caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Message Sent to Server</th>
+<th class="head">Action Taken by Server</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">CHECKID</span> <span class="pre">abc123</span></tt></td>
+<td>Reply to sender with a message explaining
+whether or not the health ID <tt class="docutils literal"><span class="pre">abc123</span></tt> is valid.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">LOOKUP</span> <span class="pre">joe</span></tt></td>
+<td>Reply to sender with a message listing all
+of the patients with name <tt class="docutils literal"><span class="pre">joe</span></tt>.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">CANCEL</span></tt></td>
+<td>Cancel the effect of the sender&#8217;s previous
+message.</td>
+</tr>
+</tbody>
+</table>
+<p>As you see, all of the commands listed in the table
+begin with a keyword (like <tt class="docutils literal"><span class="pre">CHECKID</span></tt>).
+Commands are useful for situations where the message
+does not directly relate to a registered patient.
+Commands inherit from the class <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>.</p>
+<p>Other commands are listed in the commands
+API documentation (<a class="reference internal" href="../api/apps/childcount/commands.html"><em>childcount.commands</em></a>)
+and in the ChildCount+ source code in the folder
+<tt class="file docutils literal"><span class="pre">/apps/childcount/commands</span></tt>.</p>
+<p>Messagings containing
+SMS forms begin with a valid ChildCount+ health ID
+(see <a class="reference internal" href="../human.html#human-health-ids"><em>[U] Health IDs</em></a>), followed by a
+series of +CODE sequences.
+ChildCount+
+checks the validity of the health ID before any
+of the form processing logic begins.</p>
+<p>The SMS forms generally correspond to fields
+on the paper ChildCount+ forms.
+For example, the <tt class="docutils literal"><span class="pre">+V</span></tt> form below
+corresponds to the <tt class="docutils literal"><span class="pre">+V</span></tt> section of the
+ChildCount+ household visit form (paper form B).
+You can look at the paper forms here:
+<a class="reference internal" href="../human.html#human-forms"><em>Forms</em></a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">Message Sent to Server</th>
+<th class="head">Action Taken by Server</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td><tt class="docutils literal"><span class="pre">ABC123</span> <span class="pre">+V</span> <span class="pre">Y</span> <span class="pre">2</span> <span class="pre">BN</span> <span class="pre">FP</span></tt></td>
+<td>Record that the CHW who sent the message
+conducted a household visit at the household
+headed by the person whose health ID is
+<tt class="docutils literal"><span class="pre">ABC123</span></tt>.
+The arguments to the <tt class="docutils literal"><span class="pre">+V</span></tt> form indicate that
+there was a household member present (<tt class="docutils literal"><span class="pre">Y</span></tt>),
+that there were two under-fives present (<tt class="docutils literal"><span class="pre">2</span></tt>),
+and that the CHW discussed bednets and family
+planning (<tt class="docutils literal"><span class="pre">BN</span> <span class="pre">FP</span></tt>) at the household visit.</td>
+</tr>
+<tr><td><tt class="docutils literal"><span class="pre">56HG2</span> <span class="pre">+F</span> <span class="pre">Y</span> <span class="pre">+S</span> <span class="pre">FV</span> <span class="pre">VM</span> <span class="pre">+R</span> <span class="pre">B</span></tt></td>
+<td>Record that the patient with health ID <tt class="docutils literal"><span class="pre">56HG2</span></tt>
+tested positive with a rapid diagnostic test
+for malaria (<tt class="docutils literal"><span class="pre">+F</span> <span class="pre">Y</span></tt>), that the patient
+has fever and is vomiting (<tt class="docutils literal"><span class="pre">+S</span> <span class="pre">FV</span> <span class="pre">VM</span></tt>), and
+that the CHW made a 24-hour referral for this
+patient to a health center (<tt class="docutils literal"><span class="pre">+R</span> <span class="pre">B</span></tt>).</td>
+</tr>
+</tbody>
+</table>
+<p>Note that it is possible (and encouraged) to
+send many forms relating to the same patient within
+the same message.
+Combining forms this way cuts down on the number of
+SMS messages that CHWs need to send per household
+visit.</p>
+<p>SMS forms reside in the directory
+<tt class="file docutils literal"><span class="pre">apps/childcount/forms</span></tt> and the API documentation
+is here: <a class="reference internal" href="../api/apps/childcount/forms.html"><em>childcount.forms</em></a>.
+SMS forms inherit from <a class="reference internal" href="../api/apps/childcount/forms.html#module-childcount.forms.CCForm" title="childcount.forms.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt></a>.</p>
+<p>You enable commands and forms by including them in the
+list of active commands/forms in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
+configuration file.</p>
+</div>
+<div class="section" id="sms-reports">
+<h2>SMS Reports<a class="headerlink" href="#sms-reports" title="Permalink to this headline">¶</a></h2>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">We have shamelessly overloaded the term &#8220;report:&#8221;
+The word &#8220;report&#8221; can refer to the printed paper
+reports generated by ChildCount+ (see <a class="reference internal" href="reports.html"><em>Reports, Celery and RabbitMQ</em></a>)
+or it can refer to Report models (described below).</p>
+</div>
+<p>Reports (in the context of messaging) are Django models
+for storing information collected from a ChildCount+
+SMS form.
+In general, the form holds parsing and validation logic for
+the collected data,
+while the report is where the data ends up being stored.
+A &#8220;report&#8221; in this context is a Django model that corresponds
+to a database table holding the form data.</p>
+<p>For example, the <tt class="docutils literal"><span class="pre">+V</span></tt> SMS form collects data about household
+visits.
+There is a class <tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.HouseholdVisitForm</span></tt>
+that defines the parsing and validation logic for the <tt class="docutils literal"><span class="pre">+V</span></tt> form.
+Once the data has been parsed from the <tt class="docutils literal"><span class="pre">+V</span></tt> form and validated,
+it is stored using the Django ORM as a
+<tt class="xref py py-class docutils literal"><span class="pre">childcount.reports.HouseholdVisitReport</span></tt> object.</p>
+<p>All of the ChildCount+ reports are
+located in <tt class="file docutils literal"><span class="pre">apps/childcount/models/reports.py</span></tt>,
+and they inherit from <cite>childcount.models.CCReport</cite>.</p>
 <div class="section" id="defining-a-command">
 <h3>Defining a Command<a class="headerlink" href="#defining-a-command" title="Permalink to this headline">¶</a></h3>
 <p>Say you want to define a new command called <cite>ReverseTextCommand</cite>
@@ -170,9 +327,9 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
 </li>
 </ol>
 </div>
+<div class="section" id="adding-a-new-form">
+<span id="tech-sms-forms-to-database"></span><h3>Adding a New Form<a class="headerlink" href="#adding-a-new-form" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="from-forms-to-the-database">
-<span id="tech-sms-forms-to-database"></span><h2>From Forms to the Database<a class="headerlink" href="#from-forms-to-the-database" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -184,16 +341,19 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">SMS and the Router</a><ul>
-<li><a class="reference internal" href="#the-router">The Router</a></li>
+<li><a class="reference internal" href="#">RapidSMS Overview</a><ul>
+<li><a class="reference internal" href="#router">Router</a></li>
 <li><a class="reference internal" href="#backends">Backends</a></li>
 <li><a class="reference internal" href="#applications">Applications</a></li>
-<li><a class="reference internal" href="#sms-forms-commands-and-reports">SMS Forms, Commands, and Reports</a><ul>
-<li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
-<li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#from-forms-to-the-database">From Forms to the Database</a></li>
+<li><a class="reference internal" href="#the-childcount-application">The ChildCount+ Application</a><ul>
+<li><a class="reference internal" href="#sms-forms-and-commands">SMS Forms and Commands</a></li>
+<li><a class="reference internal" href="#sms-reports">SMS Reports</a><ul>
+<li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
+<li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
