@@ -1,17 +1,47 @@
 SMS and the Router
 ==================
 
-Understanding the Router
+The Router
 -------------------------
+
+The [RapidSMS] router is the part of ChildCount+ that handles incoming
+and outgoing messages, and it operates independently from
+whatever Web server you are using to view the ChildCount+ dashboard.
+(Other parts of ChildCount+ serve Web pages and generate
+analytical reports.)
+If you are deploying ChildCount+ yourself, you will probably
+want to learn how to use the router to respond to special
+SMS keywords or to collect deployment-specific data.
+See the SMS section of :ref:`tech__understanding`
+for an overview of the router.
+
+Backends
+---------
+
+The RapidSMS router interacts with the outside world
+via a set of "backends" (whoever chose this terminology
+must have had a sense of humor...).
+
+An application that uses SMS, Web data entry, and email
+to interact with the world would have three backends:
+one for each of these three transport mechanisms.
+Backends inherit from :class:`rapidsms.backends.backend.Backend`
+and they use a common interface to tell the RapidSMS
+router how to send and receive messages.
+The active backends are specified in the :file:`local.ini`
+file in the root ChildCount+ directory.
+
 
 .. _tech__sms__forms_and_commands:
 
-SMS Forms and Commands
------------------------
+SMS Forms, Commands, and Reports
+---------------------------------
 
-Form versus Commands
-^^^^^^^^^^^^^^^^^^^^^^
-
+To understand ChildCount+ SMS processing, you
+must know the difference between a *form*, 
+a *command*, and a *report*.
+Forms and commands are both means of defining
+special SMS keys
 
 Adding a New Form
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -71,4 +101,5 @@ To define this command, you must:
 
 From Forms to the Database
 ---------------------------
+
 

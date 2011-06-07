@@ -25,7 +25,7 @@
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
     <link rel="up" title="Technology" href="index.html" />
     <link rel="next" title="[U] Indicators" href="indicators.html" />
-    <link rel="prev" title="Configuring the Server" href="server.html" /> 
+    <link rel="prev" title="Installation Instructions" href="install.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,7 +41,7 @@
           <a href="indicators.html" title="[U] Indicators"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Configuring the Server"
+          <a href="install.html" title="Installation Instructions"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
@@ -55,14 +55,40 @@
             
   <div class="section" id="sms-and-the-router">
 <h1>SMS and the Router<a class="headerlink" href="#sms-and-the-router" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="understanding-the-router">
-<h2>Understanding the Router<a class="headerlink" href="#understanding-the-router" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-router">
+<h2>The Router<a class="headerlink" href="#the-router" title="Permalink to this headline">¶</a></h2>
+<p>The [RapidSMS] router is the part of ChildCount+ that handles incoming
+and outgoing messages, and it operates independently from
+whatever Web server you are using to view the ChildCount+ dashboard.
+(Other parts of ChildCount+ serve Web pages and generate
+analytical reports.)
+If you are deploying ChildCount+ yourself, you will probably
+want to learn how to use the router to respond to special
+SMS keywords or to collect deployment-specific data.
+See the SMS section of <a class="reference internal" href="intro.html#tech-understanding"><em>Understanding the Components</em></a>
+for an overview of the router.</p>
 </div>
-<div class="section" id="sms-forms-and-commands">
-<span id="tech-sms-forms-and-commands"></span><h2>SMS Forms and Commands<a class="headerlink" href="#sms-forms-and-commands" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="form-versus-commands">
-<h3>Form versus Commands<a class="headerlink" href="#form-versus-commands" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="backends">
+<h2>Backends<a class="headerlink" href="#backends" title="Permalink to this headline">¶</a></h2>
+<p>The RapidSMS router interacts with the outside world
+via a set of &#8220;backends&#8221; (whoever chose this terminology
+must have had a sense of humor...).</p>
+<p>An application that uses SMS, Web data entry, and email
+to interact with the world would have three backends:
+one for each of these three transport mechanisms.
+Backends inherit from <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.backends.backend.Backend</span></tt>
+and they use a common interface to tell the RapidSMS
+router how to send and receive messages.
+The active backends are specified in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
+file in the root ChildCount+ directory.</p>
 </div>
+<div class="section" id="sms-forms-commands-and-reports">
+<span id="tech-sms-forms-and-commands"></span><h2>SMS Forms, Commands, and Reports<a class="headerlink" href="#sms-forms-commands-and-reports" title="Permalink to this headline">¶</a></h2>
+<p>To understand ChildCount+ SMS processing, you
+must know the difference between a <em>form</em>,
+a <em>command</em>, and a <em>report</em>.
+Forms and commands are both means of defining
+special SMS keys</p>
 <div class="section" id="adding-a-new-form">
 <h3>Adding a New Form<a class="headerlink" href="#adding-a-new-form" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -131,9 +157,9 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">SMS and the Router</a><ul>
-<li><a class="reference internal" href="#understanding-the-router">Understanding the Router</a></li>
-<li><a class="reference internal" href="#sms-forms-and-commands">SMS Forms and Commands</a><ul>
-<li><a class="reference internal" href="#form-versus-commands">Form versus Commands</a></li>
+<li><a class="reference internal" href="#the-router">The Router</a></li>
+<li><a class="reference internal" href="#backends">Backends</a></li>
+<li><a class="reference internal" href="#sms-forms-commands-and-reports">SMS Forms, Commands, and Reports</a><ul>
 <li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
 <li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
 </ul>
@@ -144,8 +170,8 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="server.html"
-                        title="previous chapter">Configuring the Server</a></p>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation Instructions</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="indicators.html"
                         title="next chapter">[U] Indicators</a></p>
@@ -184,7 +210,7 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
           <a href="indicators.html" title="[U] Indicators"
              >next</a> |</li>
         <li class="right" >
-          <a href="server.html" title="Configuring the Server"
+          <a href="install.html" title="Installation Instructions"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
           <li><a href="index.html" >Technology</a> &raquo;</li> 

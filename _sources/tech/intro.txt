@@ -69,6 +69,8 @@ Airtime Credit Distribution System
     airtime scratch cards by hand is also
     an option.
 
+.. _tech__understanding:
+
 Understanding the Components
 -----------------------------
 
