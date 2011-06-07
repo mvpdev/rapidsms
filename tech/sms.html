@@ -82,6 +82,34 @@ router how to send and receive messages.
 The active backends are specified in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
 file in the root ChildCount+ directory.</p>
 </div>
+<div class="section" id="applications">
+<h2>Applications<a class="headerlink" href="#applications" title="Permalink to this headline">¶</a></h2>
+<p>The router treats incoming messages the same way no
+matter where they come from (by SMS, email, etc) &#8211;
+every message gets parsed into a <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.message.Message</span></tt>
+object and handed to the active applications.</p>
+<p>As described in <a class="reference internal" href="intro.html#tech-understanding"><em>Understanding the Components</em></a>, RapidSMS
+steps through the active applications listed
+in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt> file and calls <tt class="xref py py-meth docutils literal"><span class="pre">[app_name].App.handle()</span></tt>
+on each, with the <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.message.Message</span></tt> object
+as an argument.
+Each application processes the message and returns <tt class="xref docutils literal"><span class="pre">False</span></tt>
+if the message should be passed on to the rest of the
+active applications, and <tt class="xref docutils literal"><span class="pre">True</span></tt> otherwise.</p>
+<p>Here is an example <tt class="xref py py-meth docutils literal"><span class="pre">App.handle()</span></tt> definition
+that responds to a message <strong class="command">FLIP</strong> with the
+message <strong class="command">Heads</strong> or <strong class="command">Tails</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">App</span><span class="p">(</span><span class="n">rapidsms</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">App</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;FLIP&quot;</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s">&quot;Heads&quot;</span><span class="p">,</span> <span class="s">&quot;Tails&quot;</span><span class="p">])</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sms-forms-commands-and-reports">
 <span id="tech-sms-forms-and-commands"></span><h2>SMS Forms, Commands, and Reports<a class="headerlink" href="#sms-forms-commands-and-reports" title="Permalink to this headline">¶</a></h2>
 <p>To understand ChildCount+ SMS processing, you
@@ -159,6 +187,7 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
 <li><a class="reference internal" href="#">SMS and the Router</a><ul>
 <li><a class="reference internal" href="#the-router">The Router</a></li>
 <li><a class="reference internal" href="#backends">Backends</a></li>
+<li><a class="reference internal" href="#applications">Applications</a></li>
 <li><a class="reference internal" href="#sms-forms-commands-and-reports">SMS Forms, Commands, and Reports</a><ul>
 <li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
 <li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>

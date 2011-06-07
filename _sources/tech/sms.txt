@@ -31,6 +31,37 @@ router how to send and receive messages.
 The active backends are specified in the :file:`local.ini`
 file in the root ChildCount+ directory.
 
+Applications
+---------------
+
+The router treats incoming messages the same way no
+matter where they come from (by SMS, email, etc) --
+every message gets parsed into a :class:`rapidsms.message.Message`
+object and handed to the active applications.
+
+As described in :ref:`tech__understanding`, RapidSMS
+steps through the active applications listed
+in the :file:`local.ini` file and calls :meth:`[app_name].App.handle`
+on each, with the :class:`rapidsms.message.Message` object
+as an argument.
+Each application processes the message and returns ``False``
+if the message should be passed on to the rest of the
+active applications, and ``True`` otherwise.
+
+Here is an example :meth:`App.handle` definition
+that responds to a message :command:`FLIP` with the
+message :command:`Heads` or :command:`Tails`::
+
+    class App(rapidsms.app.App):
+        def handle(self, message):
+            if message.text.strip().upper() == "FLIP":
+                response = random.choice(["Heads", "Tails"])
+                message.respond(response)
+                return True
+            else:
+                return False
+
+
 
 .. _tech__sms__forms_and_commands:
 

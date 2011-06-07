@@ -7,7 +7,6 @@ Technology
 
     intro
     install
-    server
     sms
     indicators
     reports
