@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
-    <link rel="up" title="Technology" href="index.html" />
+    <link rel="up" title="&lt;no title&gt;" href="index.html" />
     <link rel="next" title="[U] Dashboard" href="dashboard.html" />
     <link rel="prev" title="[U] Indicators" href="indicators.html" /> 
   </head>
@@ -44,7 +44,7 @@
           <a href="indicators.html" title="[U] Indicators"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
+          <li><a href="index.html" accesskey="U">&lt;no title&gt;</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -55,6 +55,61 @@
             
   <div class="section" id="reports-celery-and-rabbitmq">
 <h1>Reports, Celery and RabbitMQ<a class="headerlink" href="#reports-celery-and-rabbitmq" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>See Dickson&#8217;s page on how to install celery</li>
+<li>sudo service rabbitmq-server start</li>
+<li>sudo service celeryd start</li>
+</ol>
+</div>
+<div class="section" id="how-to-add-debug-reports">
+<h2>How to Add/Debug Reports<a class="headerlink" href="#how-to-add-debug-reports" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="ccdoc-childcount-document-generation-library">
+<h1>ccdoc - ChildCount+ Document-Generation Library<a class="headerlink" href="#ccdoc-childcount-document-generation-library" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The goal of ccdoc is to provide a simple way for ChildCount+
+users to generate customized and printable data reports and
+documents.</p>
+</div>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>Put the ccodc folder in the lib folder of your
+rapidsms/django site directory.  That is:</p>
+<blockquote>
+<div>your-site/lib/ccdoc/</div></blockquote>
+<p>Requires:
+- reportlab for PDFs
+- xlwt for Excel files</p>
+</div>
+<div class="section" id="an-example">
+<h2>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
+<p>The file example.py in this folder contains an example of
+how to create and render a Document into HTML.  Run the
+example from your rapidsms shell (when you&#8217;re in your site
+directory) like this:</p>
+<p>./rapidsms shell &lt; lib/ccdoc/example.py</p>
+</div>
+<div class="section" id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
+<p>The user creates a Document object, which is pretty much a
+collection of Section, Paragraph, and Table objects.  The
+user then passes the Document to an object that inherits from
+Generator (for example, HTMLGenerator).  The Generator
+object prints the formatted report to a file &#8211; you can either
+ask for the name of the file where the report has been printed
+or you can get the contents of the file back as a string.</p>
+<p>You can create new Generator objects that inherit from
+Generator.  If you do, make sure to look in generator.py at
+the bottom and to implement _*_document() and the _render_*()
+methods in your subclass.</p>
+</div>
 </div>
 
 
@@ -63,6 +118,23 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Reports, Celery and RabbitMQ</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#how-to-add-debug-reports">How to Add/Debug Reports</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ccdoc-childcount-document-generation-library">ccdoc - ChildCount+ Document-Generation Library</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#an-example">An Example</a></li>
+<li><a class="reference internal" href="#how-it-works">How It Works</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="indicators.html"
                         title="previous chapter">[U] Indicators</a></p>
@@ -107,7 +179,7 @@
           <a href="indicators.html" title="[U] Indicators"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" >Technology</a> &raquo;</li> 
+          <li><a href="index.html" >&lt;no title&gt;</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -1,4 +1,4 @@
-RapidSMS Overview
+SMS with RapidSMS
 ==================
 
 ChildCount is built using the `RapidSMS <http://www.rapidsms.org/>`_
@@ -85,7 +85,7 @@ Some useful SMS-related apps are:
 .. _tech__sms__forms_and_commands:
 
 
-The ChildCount+ Application
+SMS and ChildCount+ 
 =============================
 
 The body of the ChildCount+ message processing

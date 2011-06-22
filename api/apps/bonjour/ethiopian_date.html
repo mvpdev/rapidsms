@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bonjour.ethiopian_date &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="bonjour" href="index.html" />
+    <link rel="next" title="bonjour.utils" href="utils.html" />
+    <link rel="prev" title="bonjour.dates" href="dates.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="bonjour.utils"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dates.html" title="bonjour.dates"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">bonjour</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-bonjour.ethiopian_date">
+<span id="bonjour-ethiopian-date"></span><h1>bonjour.ethiopian_date<a class="headerlink" href="#module-bonjour.ethiopian_date" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This version of the Ethiopian Calendar tool is a fork
+from Renaud&#8217;s version. The only difference is that when
+converting a date to the Julian calendar, this version
+returns a (year, month, day) tuple instead of a 
+<tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt> object.</p>
+<p class="last">We cannot use the native Python <tt class="xref py py-class docutils literal"><span class="pre">datetime</span></tt>
+class because the Julian calendar has 13 months,
+and the Python libraries can only deal with 12 months.</p>
+</div>
+<p>Ethiopian Calendar tool for Python 2.6</p>
+<p>Copyright (c) 2010 Renaud Gaudin &lt;<a class="reference external" href="mailto:rgaudin&#37;&#52;&#48;gmail&#46;com">rgaudin<span>&#64;</span>gmail<span>&#46;</span>com</a>&gt;</p>
+<p>This tool is a python port of Java Code from Ealet 2.0 by Senamirmir Project.</p>
+<p>This code is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.</p>
+<p>This code is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with Foobar; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA</p>
+<dl class="class">
+<dt id="bonjour.ethiopian_date.EthiopianDateConverter">
+<em class="property">class </em><tt class="descclassname">bonjour.ethiopian_date.</tt><tt class="descname">EthiopianDateConverter</tt><a class="reference internal" href="../../../_modules/bonjour/ethiopian_date.html#EthiopianDateConverter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.ethiopian_date.EthiopianDateConverter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class methods for converting between Ethiopian and Gregorian</p>
+<dl class="classmethod">
+<dt id="bonjour.ethiopian_date.EthiopianDateConverter.date_to_ethiopian">
+<em class="property">classmethod </em><tt class="descname">date_to_ethiopian</tt><big>(</big><em>adate</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/ethiopian_date.html#EthiopianDateConverter.date_to_ethiopian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.ethiopian_date.EthiopianDateConverter.date_to_ethiopian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ethiopian date object representation of provided Gregorian date</p>
+<p>Shortcut to to_ethiopian() classmethod using a date parameter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>adate</strong> (<tt class="xref py py-class docutils literal"><span class="pre">datetime.date</span></tt>) &#8211; Gregorian date to conver to Julian calendar</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="bonjour.ethiopian_date.EthiopianDateConverter.to_ethiopian">
+<em class="property">classmethod </em><tt class="descname">to_ethiopian</tt><big>(</big><em>year</em>, <em>month</em>, <em>date</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/ethiopian_date.html#EthiopianDateConverter.to_ethiopian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.ethiopian_date.EthiopianDateConverter.to_ethiopian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ethiopian date object representation of provided Gregorian date</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>year</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Gregorian year</li>
+<li><strong>month</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Gregorian month</li>
+<li><strong>date</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Gregorian day</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="bonjour.ethiopian_date.EthiopianDateConverter.to_gregorian">
+<em class="property">classmethod </em><tt class="descname">to_gregorian</tt><big>(</big><em>year</em>, <em>month</em>, <em>date</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/ethiopian_date.html#EthiopianDateConverter.to_gregorian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.ethiopian_date.EthiopianDateConverter.to_gregorian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gregorian date object representation of provided Ethiopian date</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>year</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Julian year</li>
+<li><strong>month</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Julian month</li>
+<li><strong>date</strong> (<tt class="xref py py-class docutils literal"><span class="pre">int</span></tt>) &#8211; Julian day</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dates.html"
+                        title="previous chapter">bonjour.dates</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utils.html"
+                        title="next chapter">bonjour.utils</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/apps/bonjour/ethiopian_date.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="bonjour.utils"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dates.html" title="bonjour.dates"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" >bonjour</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

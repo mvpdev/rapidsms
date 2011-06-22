@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bonjour.ethiopian_date &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for bonjour.ethiopian_date</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># encoding=utf-8</span>
+<span class="c"># maintainer: rgaudin</span>
+
+<span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">.. note:: This version of the Ethiopian Calendar tool is a fork</span>
+<span class="sd">          from Renaud&#39;s version. The only difference is that when</span>
+<span class="sd">          converting a date to the Julian calendar, this version</span>
+<span class="sd">          returns a (year, month, day) tuple instead of a </span>
+<span class="sd">          :class:`datetime.datetime` object.</span>
+<span class="sd">          </span>
+<span class="sd">          We cannot use the native Python :class:`datetime`</span>
+<span class="sd">          class because the Julian calendar has 13 months,</span>
+<span class="sd">          and the Python libraries can only deal with 12 months.</span>
+
+
+<span class="sd">Ethiopian Calendar tool for Python 2.6</span>
+
+<span class="sd">Copyright (c) 2010 Renaud Gaudin &lt;rgaudin@gmail.com&gt;</span>
+
+<span class="sd">This tool is a python port of Java Code from Ealet 2.0 by Senamirmir Project.</span>
+
+<span class="sd">This code is free software; you can redistribute it and/or modify</span>
+<span class="sd">it under the terms of the GNU General Public License as published by</span>
+<span class="sd">the Free Software Foundation; either version 2 of the License, or</span>
+<span class="sd">(at your option) any later version.</span>
+
+<span class="sd">This code is distributed in the hope that it will be useful,</span>
+<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="sd">GNU General Public License for more details.</span>
+
+<span class="sd">You should have received a copy of the GNU General Public License</span>
+<span class="sd">along with Foobar; if not, write to the Free Software</span>
+<span class="sd">Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="EthiopianDateConverter"><a class="viewcode-back" href="../../api/apps/bonjour/ethiopian_date.html#bonjour.ethiopian_date.EthiopianDateConverter">[docs]</a><span class="k">class</span> <span class="nc">EthiopianDateConverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot; Class methods for converting between Ethiopian and Gregorian &quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_start_day_of_ethiopian</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">year</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; returns first day of that Ethiopian year </span>
+
+<span class="sd">        Params:</span>
+<span class="sd">        * year: an int &quot;&quot;&quot;</span>
+
+        <span class="c"># magic formula gives start of year</span>
+        <span class="n">new_year_day</span> <span class="o">=</span> <span class="p">(</span><span class="n">year</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">year</span> <span class="o">/</span> <span class="mi">400</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span>
+
+        <span class="c"># if the prev ethiopian year is a leap year, new-year occrus on 12th</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">new_year_day</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">new_year_day</span>
+
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="EthiopianDateConverter.date_to_ethiopian"><a class="viewcode-back" href="../../api/apps/bonjour/ethiopian_date.html#bonjour.ethiopian_date.EthiopianDateConverter.date_to_ethiopian">[docs]</a>    <span class="k">def</span> <span class="nf">date_to_ethiopian</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">adate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Ethiopian date object representation of provided Gregorian date</span>
+
+<span class="sd">        Shortcut to to_ethiopian() classmethod using a date parameter</span>
+
+<span class="sd">        :param adate: Gregorian date to conver to Julian calendar</span>
+<span class="sd">        :type adate: :class:`datetime.date`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">to_ethiopian</span><span class="p">(</span><span class="n">adate</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">adate</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">adate</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="EthiopianDateConverter.to_gregorian"><a class="viewcode-back" href="../../api/apps/bonjour/ethiopian_date.html#bonjour.ethiopian_date.EthiopianDateConverter.to_gregorian">[docs]</a>    <span class="k">def</span> <span class="nf">to_gregorian</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Gregorian date object representation of provided Ethiopian date</span>
+<span class="sd">    </span>
+<span class="sd">        :param year: Julian year</span>
+<span class="sd">        :type year: :class:`int`</span>
+<span class="sd">        :param month: Julian month</span>
+<span class="sd">        :type month: :class:`int`</span>
+<span class="sd">        :param date: Julian day</span>
+<span class="sd">        :type date: :class:`int`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># prevent incorect input</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">inputs</span> <span class="ow">or</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">__class__</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Malformed input can&#39;t be converted.&quot;</span><span class="p">)</span>
+
+        <span class="c"># Ethiopian new year in Gregorian calendar</span>
+        <span class="n">new_year_day</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_start_day_of_ethiopian</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+
+        <span class="c"># September (Ethiopian) sees 7y difference</span>
+        <span class="n">gregorian_year</span> <span class="o">=</span> <span class="n">year</span> <span class="o">+</span> <span class="mi">7</span>
+
+        <span class="c"># Number of days in gregorian months</span>
+        <span class="c"># starting with September (index 1)</span>
+        <span class="c"># Index 0 is reserved for leap years switches.</span>
+        <span class="n">gregorian_months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> \
+                            <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+
+        <span class="c"># if next gregorian year is leap year, February has 29 days.</span>
+        <span class="n">next_year</span> <span class="o">=</span> <span class="n">gregorian_year</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">next_year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">next_year</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> \
+           <span class="ow">or</span> <span class="n">next_year</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">gregorian_months</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">29</span>
+
+        <span class="c"># calculate number of days up to that date</span>
+        <span class="n">until</span> <span class="o">=</span> <span class="p">((</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span> <span class="o">+</span> <span class="n">date</span>
+        <span class="k">if</span> <span class="n">until</span> <span class="o">&lt;=</span> <span class="mi">37</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">&lt;=</span> <span class="mi">1575</span><span class="p">:</span>  <span class="c"># mysterious rule</span>
+            <span class="n">until</span> <span class="o">+=</span> <span class="mi">28</span>
+            <span class="n">gregorian_months</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">31</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">until</span> <span class="o">+=</span> <span class="n">new_year_day</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="c"># if ethiopian year is leap year, paguemain has six days</span>
+        <span class="k">if</span> <span class="n">year</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">until</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c"># calculate month and date incremently</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">gregorian_months</span><span class="o">.</span><span class="n">__len__</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">until</span> <span class="o">&lt;=</span> <span class="n">gregorian_months</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">gregorian_date</span> <span class="o">=</span> <span class="n">until</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">until</span> <span class="o">-=</span> <span class="n">gregorian_months</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="c"># if m &gt; 4, we&#39;re already on next Gregorian year</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">gregorian_year</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c"># Gregorian months ordered according to Ethiopian</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+        <span class="n">gregorian_month</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="n">gregorian_year</span><span class="p">,</span> <span class="n">gregorian_month</span><span class="p">,</span> <span class="n">gregorian_date</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="EthiopianDateConverter.to_ethiopian"><a class="viewcode-back" href="../../api/apps/bonjour/ethiopian_date.html#bonjour.ethiopian_date.EthiopianDateConverter.to_ethiopian">[docs]</a>    <span class="k">def</span> <span class="nf">to_ethiopian</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Ethiopian date object representation of provided Gregorian date</span>
+
+<span class="sd">        :param year: Gregorian year</span>
+<span class="sd">        :type year: :class:`int`</span>
+<span class="sd">        :param month: Gregorian month</span>
+<span class="sd">        :type month: :class:`int`</span>
+<span class="sd">        :param date: Gregorian day</span>
+<span class="sd">        :type date: :class:`int`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># prevent incorect input</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">inputs</span> <span class="ow">or</span> <span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">__class__</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Malformed input can&#39;t be converted.&quot;</span><span class="p">)</span>
+
+        <span class="c"># date between 5 and 14 of May 1582 are invalid</span>
+        <span class="k">if</span> <span class="n">month</span> <span class="o">==</span> <span class="mi">10</span> <span class="ow">and</span> <span class="n">date</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">date</span> <span class="o">&lt;=</span> <span class="mi">14</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">1582</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid Date between 5-14 May 1582.&quot;</span><span class="p">)</span>
+
+        <span class="c"># Number of days in gregorian months</span>
+        <span class="c"># starting with January (index 1)</span>
+        <span class="c"># Index 0 is reserved for leap years switches.</span>
+        <span class="n">gregorian_months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> \
+                            <span class="mi">31</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">31</span><span class="p">]</span>
+
+        <span class="c"># Number of days in ethiopian months</span>
+        <span class="c"># starting with January (index 1)</span>
+        <span class="c"># Index 0 is reserved for leap years switches.</span>
+        <span class="n">ethiopian_months</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> \
+                            <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+
+        <span class="c"># if gregorian leap year, February has 29 days.</span>
+        <span class="k">if</span>  <span class="p">(</span><span class="n">year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">year</span> <span class="o">%</span> <span class="mi">400</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">gregorian_months</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">29</span>
+
+        <span class="c"># September sees 8y difference</span>
+        <span class="n">ethiopian_year</span> <span class="o">=</span> <span class="n">year</span> <span class="o">-</span> <span class="mi">8</span>
+
+        <span class="c"># if ethiopian leap year pagumain has 6 days</span>
+        <span class="k">if</span> <span class="n">ethiopian_year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+
+        <span class="c"># Ethiopian new year in Gregorian calendar</span>
+        <span class="n">new_year_day</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_start_day_of_ethiopian</span><span class="p">(</span><span class="n">year</span> <span class="o">-</span> <span class="mi">8</span><span class="p">)</span>
+
+        <span class="c"># calculate number of days up to that date</span>
+        <span class="n">until</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">month</span><span class="p">):</span>
+            <span class="n">until</span> <span class="o">+=</span> <span class="n">gregorian_months</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">until</span> <span class="o">+=</span> <span class="n">date</span>
+
+        <span class="c"># update tahissas (december) to match january 1st</span>
+        <span class="k">if</span> <span class="n">ethiopian_year</span> <span class="o">%</span> <span class="mi">4</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tahissas</span> <span class="o">=</span> <span class="mi">26</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tahissas</span> <span class="o">=</span> <span class="mi">25</span>
+
+        <span class="c"># take into account the 1582 change</span>
+        <span class="k">if</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="mi">1582</span><span class="p">:</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tahissas</span>
+        <span class="k">elif</span> <span class="n">until</span> <span class="o">&lt;=</span> <span class="mi">277</span> <span class="ow">and</span> <span class="n">year</span> <span class="o">==</span> <span class="mi">1582</span><span class="p">:</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tahissas</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tahissas</span> <span class="o">=</span> <span class="n">new_year_day</span> <span class="o">-</span> <span class="mi">3</span>
+            <span class="n">ethiopian_months</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tahissas</span>
+
+        <span class="c"># calculate month and date incremently</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ethiopian_months</span><span class="o">.</span><span class="n">__len__</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">until</span> <span class="o">&lt;=</span> <span class="n">ethiopian_months</span><span class="p">[</span><span class="n">m</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">ethiopian_months</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ethiopian_date</span> <span class="o">=</span> <span class="n">until</span> <span class="o">+</span> <span class="p">(</span><span class="mi">30</span> <span class="o">-</span> <span class="n">tahissas</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ethiopian_date</span> <span class="o">=</span> <span class="n">until</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">until</span> <span class="o">-=</span> <span class="n">ethiopian_months</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+
+        <span class="c"># if m &gt; 4, we&#39;re already on next Ethiopian year</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">ethiopian_year</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c"># Ethiopian months ordered according to Gregorian</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">ethiopian_month</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">ethiopian_year</span><span class="p">,</span> <span class="n">ethiopian_month</span><span class="p">,</span> <span class="n">ethiopian_date</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

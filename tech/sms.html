@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RapidSMS Overview &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>SMS with RapidSMS &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
-    <link rel="up" title="Technology" href="index.html" />
+    <link rel="up" title="&lt;no title&gt;" href="index.html" />
     <link rel="next" title="[U] Indicators" href="indicators.html" />
     <link rel="prev" title="Installation Instructions" href="install.html" /> 
   </head>
@@ -44,7 +44,7 @@
           <a href="install.html" title="Installation Instructions"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
+          <li><a href="index.html" accesskey="U">&lt;no title&gt;</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,8 +53,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="rapidsms-overview">
-<h1>RapidSMS Overview<a class="headerlink" href="#rapidsms-overview" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="sms-with-rapidsms">
+<h1>SMS with RapidSMS<a class="headerlink" href="#sms-with-rapidsms" title="Permalink to this headline">¶</a></h1>
 <p>ChildCount is built using the <a class="reference external" href="http://www.rapidsms.org/">RapidSMS</a>
 framework.
 The following few sections will introduce you to a few key
@@ -127,8 +127,8 @@ a Ugandan proverb</li>
 </ul>
 </div>
 </div>
-<div class="section" id="the-childcount-application">
-<span id="tech-sms-forms-and-commands"></span><h1>The ChildCount+ Application<a class="headerlink" href="#the-childcount-application" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sms-and-childcount">
+<span id="tech-sms-forms-and-commands"></span><h1>SMS and ChildCount+<a class="headerlink" href="#sms-and-childcount" title="Permalink to this headline">¶</a></h1>
 <p>The body of the ChildCount+ message processing
 happens in <tt class="file docutils literal"><span class="pre">/apps/childcount/app.py</span></tt> &#8211;
 ChildCount&#8217;s RapidSMS application.
@@ -185,7 +185,7 @@ message.</td>
 begin with a keyword (like <tt class="docutils literal"><span class="pre">CHECKID</span></tt>).
 Commands are useful for situations where the message
 does not directly relate to a registered patient.
-Commands inherit from the class <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>.</p>
+Commands inherit from the class <tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt>.</p>
 <p>Other commands are listed in the commands
 API documentation (<a class="reference internal" href="../api/apps/childcount/commands.html"><em>childcount.commands</em></a>)
 and in the ChildCount+ source code in the folder
@@ -245,7 +245,7 @@ visit.</p>
 <p>SMS forms reside in the directory
 <tt class="file docutils literal"><span class="pre">apps/childcount/forms</span></tt> and the API documentation
 is here: <a class="reference internal" href="../api/apps/childcount/forms.html"><em>childcount.forms</em></a>.
-SMS forms inherit from <a class="reference internal" href="../api/apps/childcount/forms.html#module-childcount.forms.CCForm" title="childcount.forms.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt></a>.</p>
+SMS forms inherit from <tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt>.</p>
 <p>You enable commands and forms by including them in the
 list of active commands/forms in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
 configuration file.</p>
@@ -291,7 +291,7 @@ There are lots of useful commands defined there, so please check first.</p>
 </li>
 <li><p class="first">Create a file <tt class="file docutils literal"><span class="pre">apps/childcount/commands/ReverseTextCommand.py</span></tt></p>
 </li>
-<li><p class="first">Within this new file, import <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>
+<li><p class="first">Within this new file, import <tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt>
 and define a new class that inherits from it:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.commands</span> <span class="kn">import</span> <span class="n">CCCommand</span>
 <span class="kn">from</span> <span class="nn">childcount.utils</span> <span class="kn">import</span> <span class="n">authenticated</span>
@@ -341,13 +341,13 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">RapidSMS Overview</a><ul>
+<li><a class="reference internal" href="#">SMS with RapidSMS</a><ul>
 <li><a class="reference internal" href="#router">Router</a></li>
 <li><a class="reference internal" href="#backends">Backends</a></li>
 <li><a class="reference internal" href="#applications">Applications</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-childcount-application">The ChildCount+ Application</a><ul>
+<li><a class="reference internal" href="#sms-and-childcount">SMS and ChildCount+</a><ul>
 <li><a class="reference internal" href="#sms-forms-and-commands">SMS Forms and Commands</a></li>
 <li><a class="reference internal" href="#sms-reports">SMS Reports</a><ul>
 <li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
@@ -402,7 +402,7 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
           <a href="install.html" title="Installation Instructions"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" >Technology</a> &raquo;</li> 
+          <li><a href="index.html" >&lt;no title&gt;</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

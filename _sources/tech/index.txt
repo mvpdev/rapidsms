@@ -1,7 +1,4 @@
 
-Technology
-==========
-
 .. toctree::
     :maxdepth: 2
 

@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bonjour.dates &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="bonjour" href="index.html" />
+    <link rel="next" title="bonjour.ethiopian_date" href="ethiopian_date.html" />
+    <link rel="prev" title="bonjour.app" href="app.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ethiopian_date.html" title="bonjour.ethiopian_date"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app.html" title="bonjour.app"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">bonjour</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-bonjour.dates">
+<span id="bonjour-dates"></span><h1>bonjour.dates<a class="headerlink" href="#module-bonjour.dates" title="Permalink to this headline">¶</a></h1>
+<p>Bonjour date helpers</p>
+<dl class="data">
+<dt id="bonjour.dates.TIGRINYA_MONTHS_ABBREVIATED">
+<tt class="descclassname">bonjour.dates.</tt><tt class="descname">TIGRINYA_MONTHS_ABBREVIATED</tt><a class="headerlink" href="#bonjour.dates.TIGRINYA_MONTHS_ABBREVIATED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abbreviated month names in Tigrinyna</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="bonjour.dates.TIGRINYA_MONTHS_WIDE">
+<tt class="descclassname">bonjour.dates.</tt><tt class="descname">TIGRINYA_MONTHS_WIDE</tt><a class="headerlink" href="#bonjour.dates.TIGRINYA_MONTHS_WIDE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full month names in Tigrinyna</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.dates.format_date">
+<tt class="descclassname">bonjour.dates.</tt><tt class="descname">format_date</tt><big>(</big><em>date=None</em>, <em>format='medium'</em>, <em>locale=None</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/dates.html#format_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.dates.format_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format date using the server&#8217;s locale
+as specified in <tt class="file docutils literal"><span class="pre">settings.py</span></tt>.
+Uses the Julian calendar for Ethiopian dates
+(language codes &#8220;ti&#8221; and &#8220;am&#8221;) and the Gregorian
+calendar for other dates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>date</strong> (<tt class="xref py py-class docutils literal"><span class="pre">datetime.date</span></tt>) &#8211; Date to format</li>
+<li><strong>format</strong> (<tt class="xref py py-class docutils literal"><span class="pre">str</span></tt>) &#8211; &#8220;short&#8221;, &#8220;medium&#8221;, &#8220;long&#8221;, &#8220;full&#8221;</li>
+<li><strong>locale</strong> (<tt class="xref py py-class docutils literal"><span class="pre">str</span></tt>) &#8211; The locale to use (defaults to server locale
+as specified in <cite>settings.LANGUAGE_CODE</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.dates.format_datetime">
+<tt class="descclassname">bonjour.dates.</tt><tt class="descname">format_datetime</tt><big>(</big><em>datetime=None</em>, <em>format='medium'</em>, <em>locale=None</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/dates.html#format_datetime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.dates.format_datetime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <tt class="xref py py-func docutils literal"><span class="pre">babel.dates.format_datetime()</span></tt> which
+defaults to the Django locale and time zone</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.dates.format_time">
+<tt class="descclassname">bonjour.dates.</tt><tt class="descname">format_time</tt><big>(</big><em>time=None</em>, <em>format='medium'</em>, <em>tzinfo=None</em>, <em>locale=None</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/dates.html#format_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.dates.format_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias to <tt class="xref py py-func docutils literal"><span class="pre">babel.dates.format_time()</span></tt> which
+defaults to the Django locale and time zone</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="app.html"
+                        title="previous chapter">bonjour.app</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ethiopian_date.html"
+                        title="next chapter">bonjour.ethiopian_date</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/apps/bonjour/dates.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ethiopian_date.html" title="bonjour.ethiopian_date"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app.html" title="bonjour.app"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" >bonjour</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

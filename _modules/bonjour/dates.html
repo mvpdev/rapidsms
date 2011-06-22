@@ -1,0 +1,235 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bonjour.dates &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for bonjour.dates</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: rgaudin</span>
+
+<span class="sd">&#39;&#39;&#39; Bonjour date helpers &#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">import</span> <span class="nn">datetime</span> 
+
+<span class="kn">from</span> <span class="nn">babel</span> <span class="kn">import</span> <span class="n">Locale</span>
+<span class="kn">import</span> <span class="nn">babel.dates</span>
+
+<span class="kn">from</span> <span class="nn">bonjour.ethiopian_date</span> <span class="kn">import</span> <span class="n">EthiopianDateConverter</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="n">TIGRINYA_MONTHS_ABBREVIATED</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="mi">1</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1218\u1235\u12a8</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">2</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1325\u1245\u121d</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">3</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1215\u12f3\u122d</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">4</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1273\u1215\u1233</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">5</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1325\u122a</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">6</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1208\u12ab\u1272</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">7</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1218\u130b\u1262</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">8</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u121a\u12eb\u12dd</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">9</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u130d\u1295\u1266</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">10</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1230\u1290</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">11</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1213\u121d\u1208</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">12</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1290\u1213\u1230</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">13</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1333\u1309</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;Abbreviated month names in Tigrinyna&quot;&quot;&quot;</span>
+
+<span class="n">TIGRINYA_MONTHS_WIDE</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="mi">1</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1218\u1235\u12a8\u1228\u121d</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">2</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1325\u1245\u121d\u1272</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">3</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1215\u12f3\u122d</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">4</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1273\u1215\u1233\u1235</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">5</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1325\u122a</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">6</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1208\u12ab\u1272\u1275</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">7</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1218\u130b\u1262\u1275</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">8</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u121a\u12eb\u12dd\u12eb</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">9</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u130d\u1295\u1266\u1275</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">10</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1230\u1290</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">11</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1213\u121d\u1208</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">12</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1290\u1213\u1230</span><span class="s">&quot;</span><span class="p">,</span>
+   <span class="mi">13</span> <span class="p">:</span> <span class="s">u&quot;</span><span class="se">\u1333\u1309\u121c</span><span class="s">&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="sd">&quot;&quot;&quot;Full month names in Tigrinyna&quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">_format_date_ethiopian</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts the input date to the Julian/Ethiopian</span>
+<span class="sd">    calendar and formats a date in the ti_ET locale for</span>
+<span class="sd">    Tigrinya.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s">&#39;ti_ET&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">date</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+    <span class="c"># Day of week with Monday=0</span>
+    <span class="n">dow</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">isoweekday</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c"># Convert date to Julian calendar</span>
+    <span class="p">(</span><span class="n">jyear</span><span class="p">,</span> <span class="n">jmonth</span><span class="p">,</span> <span class="n">jday</span><span class="p">)</span> <span class="o">=</span> <span class="n">EthiopianDateConverter</span><span class="o">.</span><span class="n">date_to_ethiopian</span><span class="p">(</span><span class="n">date</span><span class="p">)</span>
+   
+    <span class="c"># Uses the babel.dates codes for substitutions</span>
+    <span class="n">sub_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;EEEE&#39;</span><span class="p">:</span> <span class="n">locale</span><span class="o">.</span><span class="n">days</span><span class="p">[</span><span class="s">&#39;format&#39;</span><span class="p">][</span><span class="s">&#39;wide&#39;</span><span class="p">][</span><span class="n">dow</span><span class="p">],</span>
+        <span class="s">&#39;EEE&#39;</span><span class="p">:</span> <span class="n">locale</span><span class="o">.</span><span class="n">days</span><span class="p">[</span><span class="s">&#39;format&#39;</span><span class="p">][</span><span class="s">&#39;abbreviated&#39;</span><span class="p">][</span><span class="n">dow</span><span class="p">],</span>
+        <span class="s">&#39;MMMM&#39;</span><span class="p">:</span> <span class="n">TIGRINYA_MONTHS_WIDE</span><span class="p">[</span><span class="n">jmonth</span><span class="p">],</span>
+        <span class="s">&#39;MMM&#39;</span><span class="p">:</span> <span class="n">TIGRINYA_MONTHS_ABBREVIATED</span><span class="p">[</span><span class="n">jmonth</span><span class="p">],</span>
+        <span class="s">&#39;MM&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jmonth</span><span class="p">,</span>
+        <span class="s">&#39;M&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jmonth</span><span class="p">,</span>
+        <span class="s">&#39;dd&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jday</span><span class="p">,</span>
+        <span class="s">&#39;d&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jday</span><span class="p">,</span>
+        <span class="s">&#39;yyyy&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%04d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jyear</span><span class="p">,</span>
+        <span class="s">&#39;yy&#39;</span><span class="p">:</span> <span class="s">&quot;</span><span class="si">%02d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jyear</span> <span class="o">%</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="s">&#39;G&#39;</span><span class="p">:</span> <span class="n">locale</span><span class="o">.</span><span class="n">eras</span><span class="p">[</span><span class="s">&#39;abbreviated&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">format</span> <span class="ow">in</span> <span class="n">locale</span><span class="o">.</span><span class="n">date_formats</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">locale</span><span class="o">.</span><span class="n">date_formats</span><span class="p">[</span><span class="n">format</span><span class="p">]</span><span class="o">.</span><span class="n">format</span> <span class="o">%</span> <span class="n">sub_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">parse_pattern</span><span class="p">(</span><span class="n">format</span><span class="p">)</span><span class="o">.</span><span class="n">format</span> <span class="o">%</span> <span class="n">sub_dict</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Date format </span><span class="si">%s</span><span class="s"> not defined&quot;</span> <span class="o">%</span> <span class="n">err</span><span class="p">)</span>
+
+<div class="viewcode-block" id="format_date"><a class="viewcode-back" href="../../api/apps/bonjour/dates.html#bonjour.dates.format_date">[docs]</a><span class="k">def</span> <span class="nf">format_date</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format date using the server&#39;s locale</span>
+<span class="sd">    as specified in :file:`settings.py`.</span>
+<span class="sd">    Uses the Julian calendar for Ethiopian dates</span>
+<span class="sd">    (language codes &quot;ti&quot; and &quot;am&quot;) and the Gregorian</span>
+<span class="sd">    calendar for other dates.</span>
+
+<span class="sd">    :param date: Date to format</span>
+<span class="sd">    :type date: :class:`datetime.date`</span>
+<span class="sd">    :param format: &quot;short&quot;, &quot;medium&quot;, &quot;long&quot;, &quot;full&quot;</span>
+<span class="sd">    :type format: :class:`str`</span>
+<span class="sd">    :param locale: The locale to use (defaults to server locale</span>
+<span class="sd">                   as specified in `settings.LANGUAGE_CODE`</span>
+<span class="sd">    :type locale: :class:`str`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span>
+        
+    <span class="n">l</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">locale</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">language</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;am&#39;</span><span class="p">,</span><span class="s">&#39;ti&#39;</span><span class="p">):</span>
+        <span class="c"># For our purposes, we assume that Amaharic means </span>
+        <span class="c"># Tigrinya. This is because CC+ is only used in </span>
+        <span class="c"># Tigrinya-speaking regions for now and Django does</span>
+        <span class="c"># not support the &quot;ti&quot; language code, so we use &quot;am&quot;</span>
+        <span class="c"># to mean &quot;Tigrinya&quot;.</span>
+        <span class="k">return</span> <span class="n">_format_date_ethiopian</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_date</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../api/apps/bonjour/dates.html#bonjour.dates.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Alias to :func:`babel.dates.format_time` which</span>
+<span class="sd">    defaults to the Django locale and time zone</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tzinfo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">tzinfo</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">TIME_ZONE</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">,</span> <span class="n">locale</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="format_datetime"><a class="viewcode-back" href="../../api/apps/bonjour/dates.html#bonjour.dates.format_datetime">[docs]</a><span class="k">def</span> <span class="nf">format_datetime</span><span class="p">(</span><span class="n">datetime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Alias to :func:`babel.dates.format_datetime` which</span>
+<span class="sd">    defaults to the Django locale and time zone</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+
+    <span class="c"># Borrowed from babel</span>
+    <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">get_datetime_format</span><span class="p">(</span><span class="n">format</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">)</span>\
+        <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="p">,</span> <span class="n">format_time</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">))</span>\
+        <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{1}&#39;</span><span class="p">,</span> <span class="n">format_date</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">))</span>
+    </div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

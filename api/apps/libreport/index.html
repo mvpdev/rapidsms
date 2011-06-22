@@ -44,7 +44,7 @@
           <a href="../childcount/utils.html" title="childcount.utils"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">apps</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,6 +56,62 @@
             
   <div class="section" id="libreport">
 <h1>libreport<a class="headerlink" href="#libreport" title="Permalink to this headline">¶</a></h1>
+<p>Libreport is the legacy code we use to generate
+some PDF and CSV reports.
+The PDF code wraps the <a class="reference external" href="http://www.reportlab.com/software/opensource/">ReportLab</a>
+PDF generation library.</p>
+<span class="target" id="module-libreport.csvreport"></span><dl class="class">
+<dt id="libreport.csvreport.CSVReport">
+<em class="property">class </em><tt class="descclassname">libreport.csvreport.</tt><tt class="descname">CSVReport</tt><a class="reference internal" href="../../../_modules/libreport/csvreport.html#CSVReport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.csvreport.CSVReport" title="Permalink to this definition">¶</a></dt>
+<dd><p>CSVReport Is a class that creates raw CSV reports:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">csvrpt</span> <span class="o">=</span> <span class="n">PDFRreport</span><span class="p">()</span>
+<span class="n">csvrpt</span><span class="o">.</span><span class="n">setLandscape</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">csvrpt</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">)</span>
+<span class="n">csvrpt</span><span class="o">.</span><span class="n">setTableData</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="s">&quot;Table Title&quot;</span><span class="p">)</span>
+<span class="n">csvrpt</span><span class="o">.</span><span class="n">setFilename</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">)</span>
+<span class="n">csvrpt</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="libreport.csvreport.CSVReport.setFilename">
+<tt class="descname">setFilename</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/csvreport.html#CSVReport.setFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.csvreport.CSVReport.setFilename" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; filename for the generated pdf document</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.csvreport.CSVReport.setPageBreak">
+<tt class="descname">setPageBreak</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/libreport/csvreport.html#CSVReport.setPageBreak"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.csvreport.CSVReport.setPageBreak" title="Permalink to this definition">¶</a></dt>
+<dd><p>force a page break</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.csvreport.CSVReport.setTableData">
+<tt class="descname">setTableData</tt><big>(</big><em>queryset</em>, <em>fields</em>, <em>title</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/csvreport.html#CSVReport.setTableData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.csvreport.CSVReport.setTableData" title="Permalink to this definition">¶</a></dt>
+<dd><p>set table data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>queryset</strong> &#8211; data</li>
+<li><strong>fields</strong> &#8211; table column headings</li>
+<li><strong>title</strong> &#8211; Table Heading</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -108,7 +164,7 @@
           <a href="../childcount/utils.html" title="childcount.utils"
              >previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" >apps</a> &raquo;</li> 
       </ul>
     </div>

@@ -44,7 +44,7 @@
           <a href="index.html" title="childcount"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" >apps</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">childcount</a> &raquo;</li> 
       </ul>
@@ -57,85 +57,10 @@
             
   <div class="section" id="childcount-commands">
 <h1>childcount.commands<a class="headerlink" href="#childcount-commands" title="Permalink to this headline">¶</a></h1>
-<p>Please see <a class="reference internal" href="../../../tech/sms.html#tech-sms-forms-and-commands"><em>The ChildCount+ Application</em></a> for information
+<p>Please see <a class="reference internal" href="../../../tech/sms.html#tech-sms-forms-and-commands"><em>SMS and ChildCount+</em></a> for information
 on what forms and commands are.</p>
-<div class="section" id="module-childcount.commands.CCCommand">
-<span id="childcount-commands-cccommand"></span><span id="api-childcount-commands-cccommand"></span><h2>childcount.commands.CCCommand<a class="headerlink" href="#module-childcount.commands.CCCommand" title="Permalink to this headline">¶</a></h2>
-<p>Module defining ChildCount+ command object.</p>
-<dl class="class">
-<dt id="childcount.commands.CCCommand.CCCommand">
-<em class="property">class </em><tt class="descclassname">childcount.commands.CCCommand.</tt><tt class="descname">CCCommand</tt><big>(</big><em>message</em>, <em>params</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/commands/CCCommand.html#CCCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.commands.CCCommand.CCCommand" title="Permalink to this definition">¶</a></dt>
-<dd><p>CCCommand is the abstract base
-class used to define new SMS commands.</p>
-<p>Command definitions should inherit from
-CCCommand, should define KEYWORDS 
-and should implement the <cite>self.process</cite>
-method.</p>
-<p>Load command data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>message</strong> (<em>rapidsms.Message</em>) &#8211; The SMS object that called this command</li>
-<li><strong>params</strong> (<em>list</em>) &#8211; A list of &#8220;arguments&#8221; to this command
-(like <tt class="xref py py-attr docutils literal"><span class="pre">sys.argv</span></tt>)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="childcount.commands.CCCommand.CCCommand.KEYWORDS">
-<tt class="descname">KEYWORDS</tt><a class="headerlink" href="#childcount.commands.CCCommand.CCCommand.KEYWORDS" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary of two-character language
-codes to a list of keyword names for this
-command.
-For example the command &#8220;FAMILY&#8221; might
-have a KEYWORDS that looks like:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">KEYWORDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">&#39;en&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;family&#39;</span><span class="p">,</span> <span class="s">&#39;fam&#39;</span><span class="p">],</span>
-    <span class="s">&#39;fr&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;famille&#39;</span><span class="p">,</span> <span class="s">&#39;fam&#39;</span><span class="p">],</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="childcount.commands.CCCommand.CCCommand.message">
-<tt class="descname">message</tt><a class="headerlink" href="#childcount.commands.CCCommand.CCCommand.message" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <cite>rapidsms.Message</cite> object
-that is being processed by this
-command.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="childcount.commands.CCCommand.CCCommand.params">
-<tt class="descname">params</tt><a class="headerlink" href="#childcount.commands.CCCommand.CCCommand.params" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of parameters to this
-command &#8211; like the <cite>sys.argv</cite>
-for a python script.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="childcount.commands.CCCommand.CCCommand.process">
-<tt class="descname">process</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/commands/CCCommand.html#CCCommand.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.commands.CCCommand.CCCommand.process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run the command.</p>
-<p>You should override this method
-in your command definition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if command is successful
-(otherwise raises an exception)</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="childcount-commands-cccommand">
+<span id="api-childcount-commands-cccommand"></span><h2>childcount.commands.CCCommand<a class="headerlink" href="#childcount-commands-cccommand" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="pre-defined-commands">
 <h2>Pre-Defined Commands<a class="headerlink" href="#pre-defined-commands" title="Permalink to this headline">¶</a></h2>
@@ -154,7 +79,7 @@ Consult them before writing a new command.</p>
   <h3><a href="../../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">childcount.commands</a><ul>
-<li><a class="reference internal" href="#module-childcount.commands.CCCommand">childcount.commands.CCCommand</a></li>
+<li><a class="reference internal" href="#childcount-commands-cccommand">childcount.commands.CCCommand</a></li>
 <li><a class="reference internal" href="#pre-defined-commands">Pre-Defined Commands</a></li>
 </ul>
 </li>
@@ -204,7 +129,7 @@ Consult them before writing a new command.</p>
           <a href="index.html" title="childcount"
              >previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" >apps</a> &raquo;</li>
           <li><a href="index.html" >childcount</a> &raquo;</li> 
       </ul>

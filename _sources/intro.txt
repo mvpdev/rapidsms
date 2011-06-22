@@ -136,7 +136,7 @@ deployment:
     
         100 CHWs * 20 SMS/day * $0.02/SMS * 30 days/month = **$1200.00/month**
 
-    Do you have $1200/month for SMS fees? 
+    Do you have $1200/month for SMS fees? [#f2]_ 
     Paper-only deployments are cheaper, but then you miss out
     on all of good things that come with SMS.
 

@@ -1,4 +1,4 @@
-Understanding the ChildCount+ Technology
+Technology Overview
 =========================================
 
 Before you "get started," make sure to take a look at

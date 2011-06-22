@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>bonjour.utils &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../../index.html" />
+    <link rel="up" title="bonjour" href="index.html" />
+    <link rel="next" title="childcount" href="../childcount/index.html" />
+    <link rel="prev" title="bonjour.ethiopian_date" href="ethiopian_date.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../childcount/index.html" title="childcount"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ethiopian_date.html" title="bonjour.ethiopian_date"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">bonjour</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-bonjour.utils">
+<span id="bonjour-utils"></span><h1>bonjour.utils<a class="headerlink" href="#module-bonjour.utils" title="Permalink to this headline">¶</a></h1>
+<p>Bonjour i18n helpers</p>
+<dl class="class">
+<dt id="bonjour.utils.Bonjour">
+<em class="property">class </em><tt class="descclassname">bonjour.utils.</tt><tt class="descname">Bonjour</tt><a class="reference internal" href="../../../_modules/bonjour/utils.html#Bonjour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.Bonjour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Holds the bonjour-defined locale</p>
+<dl class="classmethod">
+<dt id="bonjour.utils.Bonjour.lang">
+<em class="property">classmethod </em><tt class="descname">lang</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/bonjour/utils.html#Bonjour.lang"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.Bonjour.lang" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns bonjour lang string</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="bonjour.utils.Bonjour.locale">
+<em class="property">classmethod </em><tt class="descname">locale</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/bonjour/utils.html#Bonjour.locale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.Bonjour.locale" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns babel&#8217;s locale built from bonjour lang</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.utils.set_language_to">
+<tt class="descclassname">bonjour.utils.</tt><tt class="descname">set_language_to</tt><big>(</big><em>code</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/utils.html#set_language_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.set_language_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets the LANGUAGE_CODE variable with param</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.utils.set_language_to_default">
+<tt class="descclassname">bonjour.utils.</tt><tt class="descname">set_language_to_default</tt><big>(</big><em>router</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/utils.html#set_language_to_default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.set_language_to_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets language to DEFAULT one (from bonjour config)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="bonjour.utils.set_language_to_original">
+<tt class="descclassname">bonjour.utils.</tt><tt class="descname">set_language_to_original</tt><big>(</big><em>router</em><big>)</big><a class="reference internal" href="../../../_modules/bonjour/utils.html#set_language_to_original"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bonjour.utils.set_language_to_original" title="Permalink to this definition">¶</a></dt>
+<dd><p>sets language with original one (from django guess)</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ethiopian_date.html"
+                        title="previous chapter">bonjour.ethiopian_date</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../childcount/index.html"
+                        title="next chapter">childcount</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/apps/bonjour/utils.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../childcount/index.html" title="childcount"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ethiopian_date.html" title="bonjour.ethiopian_date"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../index.html" >apps</a> &raquo;</li>
+          <li><a href="index.html" >bonjour</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

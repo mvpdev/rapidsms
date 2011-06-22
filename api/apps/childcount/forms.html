@@ -44,7 +44,7 @@
           <a href="fields.html" title="childcount.fields"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" >apps</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">childcount</a> &raquo;</li> 
       </ul>
@@ -57,77 +57,10 @@
             
   <div class="section" id="childcount-forms">
 <h1>childcount.forms<a class="headerlink" href="#childcount-forms" title="Permalink to this headline">¶</a></h1>
-<p>Please see <a class="reference internal" href="../../../tech/sms.html#tech-sms-forms-and-commands"><em>The ChildCount+ Application</em></a> for information
+<p>Please see <a class="reference internal" href="../../../tech/sms.html#tech-sms-forms-and-commands"><em>SMS and ChildCount+</em></a> for information
 on what forms and commands are.</p>
-<div class="section" id="module-childcount.forms.CCForm">
-<span id="childcount-forms-ccform"></span><h2>childcount.forms.CCForm<a class="headerlink" href="#module-childcount.forms.CCForm" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="childcount.forms.CCForm.CCForm">
-<em class="property">class </em><tt class="descclassname">childcount.forms.CCForm.</tt><tt class="descname">CCForm</tt><big>(</big><em>message</em>, <em>date</em>, <em>chw</em>, <em>params</em>, <em>health_id</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/forms/CCForm.html#CCForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.forms.CCForm.CCForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>An abstract class to hold the logic
-for an SMS form.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>message</strong> (<tt class="xref py py-class docutils literal"><span class="pre">rapidsms.Message</span></tt>) &#8211; SMS message being processed by this form</li>
-<li><strong>date</strong> (<tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Encounter date of this form</li>
-<li><strong>chw</strong> (<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>) &#8211; CHW who submitted this form</li>
-<li><strong>params</strong> (<em>list</em>) &#8211; Parameters passed to this form (as in <tt class="xref py py-func docutils literal"><span class="pre">sys.argv()</span></tt>)</li>
-<li><strong>health_id</strong> (<em>str</em>) &#8211; Health ID for the encounter&#8217;s patient</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="childcount.forms.CCForm.CCForm.PREFIX">
-<tt class="descname">PREFIX</tt><a class="headerlink" href="#childcount.forms.CCForm.CCForm.PREFIX" title="Permalink to this definition">¶</a></dt>
-<dd><p>The character prefix that should precede the
-form keyword.
-We use &#8220;+&#8221; everywhere to keep things standardized.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="childcount.forms.CCForm.CCForm.post_process">
-<tt class="descname">post_process</tt><big>(</big><em>forms_list</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/forms/CCForm.html#CCForm.post_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.forms.CCForm.CCForm.post_process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Processing to be done <em>after</em> all <a class="reference internal" href="#childcount.forms.CCForm.CCForm.process" title="childcount.forms.CCForm.CCForm.process"><tt class="xref py py-meth docutils literal"><span class="pre">process()</span></tt></a> has
-been called on all submitted forms.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>forms_list</strong> (list of instantiated 
-<a class="reference internal" href="#module-childcount.forms.CCForm" title="childcount.forms.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt></a> objects) &#8211; List of successfully processed forms</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="childcount.forms.CCForm.CCForm.pre_process">
-<tt class="descname">pre_process</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/forms/CCForm.html#CCForm.pre_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.forms.CCForm.CCForm.pre_process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Processing to be done by this form <em>before</em>
-the patient&#8217;s health ID is validated.</p>
-<p>This method used primarily for patient registration &#8211;
-when the health ID is not valid until the registration
-has completed. See
-<tt class="file docutils literal"><span class="pre">apps/childcount/forms/PatientRegistrationForm.py</span></tt> for
-an example.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="childcount.forms.CCForm.CCForm.process">
-<tt class="descname">process</tt><big>(</big><em>patient</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/forms/CCForm.html#CCForm.process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.forms.CCForm.CCForm.process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Processing to be done by this form once the
-encounter patient has been identified.
-Most forms implement their validation
-and DB logic here.</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="childcount-forms-ccform">
+<h2>childcount.forms.CCForm<a class="headerlink" href="#childcount-forms-ccform" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="pre-defined-forms">
 <h2>Pre-Defined Forms<a class="headerlink" href="#pre-defined-forms" title="Permalink to this headline">¶</a></h2>
@@ -148,7 +81,7 @@ that suits your application.</p>
   <h3><a href="../../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">childcount.forms</a><ul>
-<li><a class="reference internal" href="#module-childcount.forms.CCForm">childcount.forms.CCForm</a></li>
+<li><a class="reference internal" href="#childcount-forms-ccform">childcount.forms.CCForm</a></li>
 <li><a class="reference internal" href="#pre-defined-forms">Pre-Defined Forms</a></li>
 </ul>
 </li>
@@ -198,7 +131,7 @@ that suits your application.</p>
           <a href="fields.html" title="childcount.fields"
              >previous</a> |</li>
         <li><a href="../../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >ChildCount+ Module Reference</a> &raquo;</li>
+          <li><a href="../../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li>
           <li><a href="../index.html" >apps</a> &raquo;</li>
           <li><a href="index.html" >childcount</a> &raquo;</li> 
       </ul>
