@@ -1,5 +1,8 @@
-SMS with RapidSMS
-==================
+SMS 
+====
+
+with RapidSMS
+----------------
 
 ChildCount is built using the `RapidSMS <http://www.rapidsms.org/>`_
 framework.
@@ -7,7 +10,7 @@ The following few sections will introduce you to a few key
 RapidSMS concepts: the router, backends, and applications.
 
 Router
--------------------------
+~~~~~~~~~
 
 The [RapidSMS] router is the part of ChildCount+ that handles incoming
 and outgoing messages, and it operates independently from
@@ -21,7 +24,7 @@ See the SMS section of :ref:`tech__understanding`
 for an overview of the router.
 
 Backends
--------------------
+~~~~~~~~~~~
 
 The RapidSMS router interacts with the outside world
 via a set of "backends" (whoever chose this terminology
@@ -37,7 +40,7 @@ The active backends are specified in the :file:`local.ini`
 file in the root ChildCount+ directory.
 
 Applications
------------------------
+~~~~~~~~~~~~~~~~~~
 
 The router treats incoming messages the same way no
 matter where they come from (by SMS, email, etc) --
@@ -85,8 +88,8 @@ Some useful SMS-related apps are:
 .. _tech__sms__forms_and_commands:
 
 
-SMS and ChildCount+ 
-=============================
+with ChildCount+ 
+---------------------------
 
 The body of the ChildCount+ message processing
 happens in :file:`/apps/childcount/app.py` -- 
@@ -97,7 +100,7 @@ process messages and how you can customize
 these components. 
 
 SMS Forms and Commands
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To understand ChildCount+ SMS processing, you
 must know the difference between a *form*, 
@@ -207,7 +210,7 @@ list of active commands/forms in the :file:`local.ini`
 configuration file.
 
 SMS Reports
--------------
+~~~~~~~~~~~
 
 .. caution::    We have shamelessly overloaded the term "report:"
                 The word "report" can refer to the printed paper
@@ -237,7 +240,7 @@ and they inherit from `childcount.models.CCReport`.
 
 
 Defining a Command
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Say you want to define a new command called `ReverseTextCommand`
 that users invoke by SMS like this::
@@ -288,6 +291,6 @@ To define this command, you must:
 
 .. _tech__sms__forms_to_database:
 
-Adding a New Form
-^^^^^^^^^^^^^^^^^^^^^^
+[U] Adding a New Form
+~~~~~~~~~~~~~~~~~~~~~~~~
 

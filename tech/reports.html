@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reports, Celery and RabbitMQ &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>[U] Printed Reports &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -53,8 +53,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="reports-celery-and-rabbitmq">
-<h1>Reports, Celery and RabbitMQ<a class="headerlink" href="#reports-celery-and-rabbitmq" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="u-printed-reports">
+<h1>[U] Printed Reports<a class="headerlink" href="#u-printed-reports" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -69,46 +69,57 @@
 <div class="section" id="how-to-add-debug-reports">
 <h2>How to Add/Debug Reports<a class="headerlink" href="#how-to-add-debug-reports" title="Permalink to this headline">¶</a></h2>
 </div>
-</div>
 <div class="section" id="ccdoc-childcount-document-generation-library">
-<h1>ccdoc - ChildCount+ Document-Generation Library<a class="headerlink" href="#ccdoc-childcount-document-generation-library" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>ccdoc - ChildCount+ Document-Generation Library<a class="headerlink" href="#ccdoc-childcount-document-generation-library" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="about-ccdoc">
+<h3>About ccdoc<a class="headerlink" href="#about-ccdoc" title="Permalink to this headline">¶</a></h3>
 <p>The goal of ccdoc is to provide a simple way for ChildCount+
 users to generate customized and printable data reports and
 documents.</p>
 </div>
 <div class="section" id="install">
-<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<h3>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h3>
 <p>Put the ccodc folder in the lib folder of your
 rapidsms/django site directory.  That is:</p>
 <blockquote>
-<div>your-site/lib/ccdoc/</div></blockquote>
-<p>Requires:
-- reportlab for PDFs
-- xlwt for Excel files</p>
+<div><tt class="file docutils literal"><span class="pre">your-site/lib/ccdoc/</span></tt></div></blockquote>
+<p>Requires:</p>
+<ul class="simple">
+<li>reportlab for PDFs</li>
+<li>xlwt for Excel files</li>
+</ul>
 </div>
 <div class="section" id="an-example">
-<h2>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h2>
-<p>The file example.py in this folder contains an example of
+<h3>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h3>
+<p>The file <tt class="file docutils literal"><span class="pre">lib/ccdoc/example.py</span></tt> contains an example of
 how to create and render a Document into HTML.  Run the
 example from your rapidsms shell (when you&#8217;re in your site
 directory) like this:</p>
-<p>./rapidsms shell &lt; lib/ccdoc/example.py</p>
+<div class="highlight-python"><pre>cd ~/your-site
+./rapidsms shell &lt; lib/ccdoc/example.py</pre>
+</div>
 </div>
 <div class="section" id="how-it-works">
-<h2>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h2>
-<p>The user creates a Document object, which is pretty much a
-collection of Section, Paragraph, and Table objects.  The
-user then passes the Document to an object that inherits from
-Generator (for example, HTMLGenerator).  The Generator
+<h3>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h3>
+<p>The user creates a <tt class="xref py py-class docutils literal"><span class="pre">ccdoc.document.Document</span></tt> object,
+which is pretty much a
+collection of <tt class="xref py py-class docutils literal"><span class="pre">ccdoc.section.Section</span></tt>,
+<tt class="xref py py-class docutils literal"><span class="pre">ccdoc.paragraph.Paragraph</span></tt>, and
+<tt class="xref py py-class docutils literal"><span class="pre">ccdoc.table.Table</span></tt> objects.  The
+user then passes the <tt class="xref py py-class docutils literal"><span class="pre">Document</span></tt> to an object that inherits from
+<tt class="xref py py-class docutils literal"><span class="pre">ccdoc.generator.Generator</span></tt> (for example,
+<tt class="xref py py-class docutils literal"><span class="pre">ccdoc.html.HTMLGenerator</span></tt>).  The <tt class="xref py py-class docutils literal"><span class="pre">Generator</span></tt>
 object prints the formatted report to a file &#8211; you can either
 ask for the name of the file where the report has been printed
 or you can get the contents of the file back as a string.</p>
-<p>You can create new Generator objects that inherit from
-Generator.  If you do, make sure to look in generator.py at
-the bottom and to implement _*_document() and the _render_*()
+<p>You can create new <tt class="xref py py-class docutils literal"><span class="pre">Generator</span></tt> objects that inherit from
+<tt class="xref py py-class docutils literal"><span class="pre">Generator</span></tt>.  If you do, make sure to look in
+<tt class="file docutils literal"><span class="pre">lib/ccdoc/generator.py</span></tt> at
+the bottom and to implement <tt class="xref py py-meth docutils literal"><span class="pre">_*_document()</span></tt> and the
+<tt class="xref py py-meth docutils literal"><span class="pre">_render_*()</span></tt>
 methods in your subclass.</p>
+<p>See the <a class="reference internal" href="../api/lib/ccdoc.html"><em>ccdoc</em></a> page for API information.</p>
+</div>
 </div>
 </div>
 
@@ -120,17 +131,17 @@ methods in your subclass.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Reports, Celery and RabbitMQ</a><ul>
+<li><a class="reference internal" href="#">[U] Printed Reports</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#how-to-add-debug-reports">How to Add/Debug Reports</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#ccdoc-childcount-document-generation-library">ccdoc - ChildCount+ Document-Generation Library</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#about-ccdoc">About ccdoc</a></li>
 <li><a class="reference internal" href="#install">Install</a></li>
 <li><a class="reference internal" href="#an-example">An Example</a></li>
 <li><a class="reference internal" href="#how-it-works">How It Works</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
