@@ -59,6 +59,7 @@
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">ethiopian_date</span> <span class="kn">import</span> <span class="n">EthiopianDateConverter</span>
 
 <span class="kn">import</span> <span class="nn">rapidsms</span>
 <span class="kn">import</span> <span class="nn">urllib2</span>
@@ -66,9 +67,10 @@
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlencode</span>
 
 <span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
-<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">gettext</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
 
 <span class="kn">from</span> <span class="nn">childcount.exceptions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">Configuration</span> <span class="k">as</span> <span class="n">Cfg</span>
 
 <span class="kn">from</span> <span class="nn">indicator</span> <span class="kn">import</span> <span class="n">Indicator</span>
 
@@ -104,12 +106,22 @@
 <span class="sd">    IMPORTANT NOTE: List from shortest to longest</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">UNITS</span><span class="p">[</span><span class="s">&#39;am&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">DAYS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;d&#39;</span><span class="p">,</span> <span class="s">&#39;day&#39;</span><span class="p">,</span> <span class="s">&#39;days&#39;</span><span class="p">],</span>
+        <span class="n">WEEKS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;w&#39;</span><span class="p">,</span> <span class="s">&#39;wk&#39;</span><span class="p">,</span> <span class="s">&#39;wks&#39;</span><span class="p">,</span> <span class="s">&#39;week&#39;</span><span class="p">,</span> <span class="s">&#39;weeks&#39;</span><span class="p">],</span>
+        <span class="n">MONTHS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;m&#39;</span><span class="p">,</span> <span class="s">&#39;mon&#39;</span><span class="p">,</span> <span class="s">&#39;mths&#39;</span><span class="p">,</span> <span class="s">&#39;month&#39;</span><span class="p">,</span> <span class="s">&#39;months&#39;</span><span class="p">],</span>
+        <span class="n">YEARS</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;yr&#39;</span><span class="p">,</span> <span class="s">&#39;yrs&#39;</span><span class="p">,</span> <span class="s">&#39;year&#39;</span><span class="p">,</span> <span class="s">&#39;years&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+
     <span class="n">ABRV_MONTHS</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="s">&#39;en&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;jan&#39;</span><span class="p">,</span> <span class="s">&#39;feb&#39;</span><span class="p">,</span> <span class="s">&#39;mar&#39;</span><span class="p">,</span> <span class="s">&#39;apr&#39;</span><span class="p">,</span> <span class="s">&#39;may&#39;</span><span class="p">,</span> <span class="s">&#39;jun&#39;</span><span class="p">,</span> \
                          <span class="s">&#39;jul&#39;</span><span class="p">,</span> <span class="s">&#39;aug&#39;</span><span class="p">,</span> <span class="s">&#39;sep&#39;</span><span class="p">,</span> <span class="s">&#39;oct&#39;</span><span class="p">,</span> <span class="s">&#39;nov&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">]</span>
 
     <span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="s">&#39;fr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;jan&#39;</span><span class="p">,</span> <span class="s">&#39;fev&#39;</span><span class="p">,</span> <span class="s">&#39;mar&#39;</span><span class="p">,</span> <span class="s">&#39;avr&#39;</span><span class="p">,</span> <span class="s">&#39;mai&#39;</span><span class="p">,</span> <span class="s">&#39;juin&#39;</span><span class="p">,</span> \
                          <span class="s">&#39;juil&#39;</span><span class="p">,</span> <span class="s">&#39;aou&#39;</span><span class="p">,</span> <span class="s">&#39;sep&#39;</span><span class="p">,</span> <span class="s">&#39;oct&#39;</span><span class="p">,</span> <span class="s">&#39;nov&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">]</span>
+
+    <span class="n">ABRV_MONTHS</span><span class="p">[</span><span class="s">&#39;am&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;jan&#39;</span><span class="p">,</span> <span class="s">&#39;feb&#39;</span><span class="p">,</span> <span class="s">&#39;mar&#39;</span><span class="p">,</span> <span class="s">&#39;apr&#39;</span><span class="p">,</span> <span class="s">&#39;may&#39;</span><span class="p">,</span> <span class="s">&#39;jun&#39;</span><span class="p">,</span> \
+                         <span class="s">&#39;jul&#39;</span><span class="p">,</span> <span class="s">&#39;aug&#39;</span><span class="p">,</span> <span class="s">&#39;sep&#39;</span><span class="p">,</span> <span class="s">&#39;oct&#39;</span><span class="p">,</span> <span class="s">&#39;nov&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">,</span> <span class="s">&#39;xxx&#39;</span><span class="p">]</span>
 
     <span class="c">#TODO Site specific stuff:</span>
     <span class="c">#           Date order</span>
@@ -178,7 +190,23 @@
 </div>
     <span class="nd">@classmethod</span>
 <div class="viewcode-block" id="DOBProcessor.from_dob"><a class="viewcode-back" href="../../api/apps/childcount/utils.html#childcount.utils.DOBProcessor.from_dob">[docs]</a>    <span class="k">def</span> <span class="nf">from_dob</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">date_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">is_ethiopian</span> <span class="o">=</span> <span class="p">(</span><span class="n">Cfg</span>\
+                <span class="o">.</span><span class="n">objects</span>\
+                <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s">&#39;inputs_ethiopian_date&#39;</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">value</span>\
+                <span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;true&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Cfg</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="n">is_ethiopian</span> <span class="o">=</span> <span class="bp">False</span>
 
+        <span class="k">def</span> <span class="nf">edate</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_ethiopian</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">EthiopianDateConverter</span><span class="o">.</span><span class="n">to_gregorian</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+
+
+        <span class="n">n_months</span> <span class="o">=</span> <span class="mi">13</span> <span class="k">if</span> <span class="n">is_ethiopian</span> <span class="k">else</span> <span class="mi">12</span>
         <span class="c"># if no reference date specified, default to today</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">date_ref</span><span class="p">:</span>
             <span class="n">date_ref</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
@@ -227,16 +255,17 @@
                                                                   <span class="n">delim_regex</span>
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">match</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="n">n_months</span><span class="p">:</span>
             <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;m&#39;</span><span class="p">])</span>
             <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()[</span><span class="s">&#39;y&#39;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">date</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">date_ref</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">edate</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">date_ref</span><span class="p">:</span>
                 <span class="n">year_prefix</span> <span class="o">=</span> <span class="mi">19</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">year_prefix</span> <span class="o">=</span> <span class="mi">20</span>
             <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year_prefix</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span>
             <span class="n">variance</span> <span class="o">=</span> <span class="mi">15</span>
-            <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+            <span class="n">dob</span> <span class="o">=</span> <span class="n">edate</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="n">date_ref</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="n">dob</span><span class="o">.</span><span class="n">year</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">cls</span><span class="o">.</span><span class="n">MAX_AGE</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InvalidDOB</span>
@@ -257,7 +286,7 @@
             <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
                 <span class="n">grps</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span>
-                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)])</span> <span class="o">&lt;=</span> <span class="mi">12</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)])</span> <span class="o">&lt;=</span> <span class="n">n_months</span><span class="p">:</span>
                     <span class="n">hit</span> <span class="o">=</span> <span class="bp">True</span>
                     <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">/</span><span class="si">%02d</span><span class="s">/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">grps</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]),</span> \
                                              <span class="n">grps</span><span class="p">[</span><span class="s">&#39;c&#39;</span><span class="p">])</span>
@@ -302,11 +331,11 @@
             <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">MONTHS</span><span class="p">)])</span>
             <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">cls</span><span class="o">.</span><span class="n">DATEORDER</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">DAYS</span><span class="p">)])</span>
 
-            <span class="k">if</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">month</span> <span class="o">&gt;</span> <span class="n">n_months</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InvalidDOB</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%02d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+                    <span class="n">dob</span> <span class="o">=</span> <span class="n">edate</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">),</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">InvalidDOB</span>
                 <span class="k">if</span> <span class="n">dob</span> <span class="o">&gt;</span> <span class="n">date_ref</span><span class="p">:</span>
@@ -315,7 +344,7 @@
                     <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="s">&#39;2</span><span class="si">%03d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">year</span><span class="p">)</span>
 
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">dob</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+                <span class="n">dob</span> <span class="o">=</span> <span class="n">edate</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">InvalidDOB</span>
 

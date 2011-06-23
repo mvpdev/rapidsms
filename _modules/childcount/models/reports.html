@@ -1290,6 +1290,19 @@
 </div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BedNetReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
+<div class="viewcode-block" id="ExtendedBedNetReport"><a class="viewcode-back" href="../../../api/apps/childcount/models/reports.html#childcount.models.reports.ExtendedBedNetReport">[docs]</a><span class="k">class</span> <span class="nc">ExtendedBedNetReport</span><span class="p">(</span><span class="n">BedNetReport</span><span class="p">):</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;childcount&#39;</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="s">&#39;cc_ebnrpt&#39;</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Extended Bednet Report&quot;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Extended Bednet Reports&quot;</span><span class="p">)</span>
+
+    <span class="n">people</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of people&quot;</span><span class="p">),</span> \
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of people who are &quot;</span> \
+                                        <span class="s">&quot;sleeping in the household&quot;</span><span class="p">))</span>
+</div>
+<span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ExtendedBedNetReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
 <div class="viewcode-block" id="BednetUtilization"><a class="viewcode-back" href="../../../api/apps/childcount/models/reports.html#childcount.models.reports.BednetUtilization">[docs]</a><span class="k">class</span> <span class="nc">BednetUtilization</span><span class="p">(</span><span class="n">CCReport</span><span class="p">):</span>
 

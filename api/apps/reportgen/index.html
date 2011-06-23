@@ -56,6 +56,108 @@
             
   <div class="section" id="reportgen">
 <h1>reportgen<a class="headerlink" href="#reportgen" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="reportgen.PrintedReport.PrintedReport">
+<em class="property">class </em><tt class="descclassname">reportgen.PrintedReport.</tt><tt class="descname">PrintedReport</tt><a class="reference internal" href="../../../_modules/reportgen/PrintedReport.html#PrintedReport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class defining a PrintedReport.</p>
+<p>Whenever you make a new printed report you will
+have to define a new class that inherits from 
+this report.</p>
+<dl class="attribute">
+<dt id="reportgen.PrintedReport.PrintedReport.classname">
+<tt class="descname">classname</tt><a class="reference internal" href="../../../_modules/reportgen/PrintedReport.html#PrintedReport.classname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.classname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the file where this report is defined (e.g., 
+<tt class="xref py py-class docutils literal"><span class="pre">Operational</span></tt>
+if the file is <tt class="file docutils literal"><span class="pre">Operational.py</span></tt>)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="reportgen.PrintedReport.PrintedReport.filename">
+<tt class="descname">filename</tt><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename alphanumeric, underscore, and hyphen are ok</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="reportgen.PrintedReport.PrintedReport.formats">
+<tt class="descname">formats</tt><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.formats" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of file formats to use, e.g., [&#8216;pdf&#8217;,&#8217;html&#8217;,&#8217;xls&#8217;]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="reportgen.PrintedReport.PrintedReport.generate">
+<tt class="descname">generate</tt><big>(</big><em>time_period</em>, <em>rformat</em>, <em>title</em>, <em>filepath</em>, <em>data</em><big>)</big><a class="reference internal" href="../../../_modules/reportgen/PrintedReport.html#PrintedReport.generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.generate" title="Permalink to this definition">¶</a></dt>
+<dd><p>You should implement the generate method in a report
+subclass.  This method creates the report and saves it
+to the right place (probably 
+<tt class="file docutils literal"><span class="pre">static/reports/filename.format</span></tt>).
+The return value is ignored.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="reportgen.PrintedReport.PrintedReport.set_progress">
+<tt class="descname">set_progress</tt><big>(</big><em>progress</em><big>)</big><a class="reference internal" href="../../../_modules/reportgen/PrintedReport.html#PrintedReport.set_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.set_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call this to update the progress of the report
+in the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>progress</strong> (<em>float</em>) &#8211; A number from 0 to 100 giving the percentage
+completion.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="reportgen.PrintedReport.PrintedReport.test">
+<tt class="descname">test</tt><big>(</big><em>time_period</em>, <em>rformat</em><big>)</big><a class="reference internal" href="../../../_modules/reportgen/PrintedReport.html#PrintedReport.test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use this method to test your reports from
+the shell.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>time_period</strong> &#8211; An object with <tt class="docutils literal"><span class="pre">start</span></tt> and
+<tt class="docutils literal"><span class="pre">end</span></tt> methods that 
+return <tt class="xref py py-class docutils literal"><span class="pre">datetime</span></tt> objects.</li>
+<li><strong>rformat</strong> &#8211; A string giving the report format to
+generate (e.g., &#8220;pdf&#8221;)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="reportgen.PrintedReport.PrintedReport.title">
+<tt class="descname">title</tt><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Human-readable title of report</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="reportgen.PrintedReport.PrintedReport.variants">
+<tt class="descname">variants</tt><a class="headerlink" href="#reportgen.PrintedReport.PrintedReport.variants" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of report variants in the form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">title_suffix</span><span class="p">,</span> <span class="n">fn_suffix</span><span class="p">,</span> <span class="n">variant_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For example, you might have a patient register
+for Bugongi and Ruhiira health centers:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">variants</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s">&#39; Bugongi HC&#39;</span><span class="p">,</span> <span class="s">&#39;_BG&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;clinic_id&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">}),</span>
+    <span class="p">(</span><span class="s">&#39; Ruhiira HC&#39;</span><span class="p">,</span> <span class="s">&#39;_RH&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;clinic_id&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Neither the title nor filename suffixes can be
+the empty string &#8220;&#8221;</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 

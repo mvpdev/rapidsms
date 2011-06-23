@@ -185,7 +185,7 @@ message.</td>
 begin with a keyword (like <tt class="docutils literal"><span class="pre">CHECKID</span></tt>).
 Commands are useful for situations where the message
 does not directly relate to a registered patient.
-Commands inherit from the class <tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt>.</p>
+Commands inherit from the class <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>.</p>
 <p>Other commands are listed in the commands
 API documentation (<a class="reference internal" href="../api/apps/childcount/commands.html"><em>childcount.commands</em></a>)
 and in the ChildCount+ source code in the folder
@@ -245,7 +245,7 @@ visit.</p>
 <p>SMS forms reside in the directory
 <tt class="file docutils literal"><span class="pre">apps/childcount/forms</span></tt> and the API documentation
 is here: <a class="reference internal" href="../api/apps/childcount/forms.html"><em>childcount.forms</em></a>.
-SMS forms inherit from <tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt>.</p>
+SMS forms inherit from <a class="reference internal" href="../api/apps/childcount/forms.html#module-childcount.forms.CCForm" title="childcount.forms.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt></a>.</p>
 <p>You enable commands and forms by including them in the
 list of active commands/forms in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
 configuration file.</p>
@@ -291,7 +291,7 @@ There are lots of useful commands defined there, so please check first.</p>
 </li>
 <li><p class="first">Create a file <tt class="file docutils literal"><span class="pre">apps/childcount/commands/ReverseTextCommand.py</span></tt></p>
 </li>
-<li><p class="first">Within this new file, import <tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt>
+<li><p class="first">Within this new file, import <a class="reference internal" href="../api/apps/childcount/commands.html#module-childcount.commands.CCCommand" title="childcount.commands.CCCommand"><tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CCCommand</span></tt></a>
 and define a new class that inherits from it:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.commands</span> <span class="kn">import</span> <span class="n">CCCommand</span>
 <span class="kn">from</span> <span class="nn">childcount.utils</span> <span class="kn">import</span> <span class="n">authenticated</span>

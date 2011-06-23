@@ -1,0 +1,633 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>libreport.pdfreport &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for libreport.pdfreport</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: ukanga</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Template</span><span class="p">,</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">reportlab.platypus.flowables</span> <span class="kn">import</span> <span class="n">Flowable</span>
+    <span class="kn">from</span> <span class="nn">reportlab.lib.styles</span> <span class="kn">import</span> <span class="n">getSampleStyleSheet</span>
+    <span class="kn">from</span> <span class="nn">reportlab.platypus</span> <span class="kn">import</span> <span class="n">BaseDocTemplate</span><span class="p">,</span> <span class="n">PageTemplate</span><span class="p">,</span> \
+        <span class="n">Paragraph</span><span class="p">,</span> <span class="n">PageBreak</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">FrameBreak</span><span class="p">,</span> <span class="n">NextPageTemplate</span><span class="p">,</span> <span class="n">Spacer</span><span class="p">,</span> \
+        <span class="n">Preformatted</span>
+    <span class="kn">from</span> <span class="nn">reportlab.platypus</span> <span class="kn">import</span> <span class="n">Table</span> <span class="k">as</span> <span class="n">PDFTable</span><span class="p">,</span> <span class="n">Table</span>
+    <span class="kn">from</span> <span class="nn">reportlab.platypus</span> <span class="kn">import</span> <span class="n">TableStyle</span>
+    <span class="kn">from</span> <span class="nn">reportlab.lib.enums</span> <span class="kn">import</span> <span class="n">TA_LEFT</span><span class="p">,</span> <span class="n">TA_CENTER</span>
+    <span class="kn">from</span> <span class="nn">reportlab.lib</span> <span class="kn">import</span> <span class="n">colors</span>
+    <span class="kn">from</span> <span class="nn">reportlab.lib.pagesizes</span> <span class="kn">import</span> <span class="n">A4</span><span class="p">,</span> <span class="n">landscape</span>
+    <span class="kn">from</span> <span class="nn">reportlab.rl_config</span> <span class="kn">import</span> <span class="n">defaultPageSize</span>
+    <span class="kn">from</span> <span class="nn">reportlab.lib.units</span> <span class="kn">import</span> <span class="n">inch</span>
+    <span class="kn">from</span> <span class="nn">ccdoc.utils</span> <span class="kn">import</span> <span class="n">register_fonts</span>
+
+    <span class="n">PAGE_HEIGHT</span> <span class="o">=</span> <span class="n">defaultPageSize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">PAGE_WIDTH</span> <span class="o">=</span> <span class="n">defaultPageSize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">register_fonts</span><span class="p">()</span>
+<span class="n">styles</span> <span class="o">=</span> <span class="n">getSampleStyleSheet</span><span class="p">()</span>
+<span class="n">HeaderStyle</span> <span class="o">=</span> <span class="n">styles</span><span class="p">[</span><span class="s">&quot;Heading1&quot;</span><span class="p">]</span>
+<span class="n">HeaderStyle</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&#39;FreeSerif&#39;</span>
+
+
+<div class="viewcode-block" id="pheader"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.pheader">[docs]</a><span class="k">def</span> <span class="nf">pheader</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">HeaderStyle</span><span class="p">,</span> <span class="n">klass</span><span class="o">=</span><span class="n">Paragraph</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mf">0.3</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Creates a reportlab PDF element and adds it to the global Elements list</span>
+
+<span class="sd">    :param style: can be a HeaderStyle, a ParaStyle or a custom style</span>
+<span class="sd">                  (default HeaderStyle)</span>
+<span class="sd">    :param klass: the reportlab Class to be called, default Paragraph</span>
+<span class="sd">    :param sep: space separator height</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">sep</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)</span>
+    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">para</span> <span class="o">=</span> <span class="n">klass</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">para</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">elements</span>
+</div>
+<span class="n">ParaStyle</span> <span class="o">=</span> <span class="n">styles</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">]</span>
+<span class="n">ParaStyle</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&#39;FreeSerif&#39;</span>
+<span class="sd">&quot;&quot;&quot;Paragraph Style&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="p"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.p">[docs]</a><span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a text Paragraph using  ParaStyle&#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">pheader</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">ParaStyle</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+</div>
+<span class="n">PreStyle</span> <span class="o">=</span> <span class="n">styles</span><span class="p">[</span><span class="s">&quot;Code&quot;</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Preformatted Style&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="pre"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.pre">[docs]</a><span class="k">def</span> <span class="nf">pre</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Create a text Preformatted Paragraph using PreStyle&#39;&#39;&#39;</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Spacer</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)</span>
+    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Preformatted</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">PreStyle</span><span class="p">)</span>
+    <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">elements</span>
+
+</div>
+<div class="viewcode-block" id="PDFReport"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport">[docs]</a><span class="k">class</span> <span class="nc">PDFReport</span><span class="p">():</span>
+
+    <span class="sd">&#39;&#39;&#39;PDFReport</span>
+
+<span class="sd">    PDFReport Is a class that create table format reports</span>
+<span class="sd">    The Title is placed on its own page for the first page</span>
+<span class="sd">    usage::</span>
+
+<span class="sd">        pdfrpt = PDFRrepot()</span>
+<span class="sd">        pdfrpt.setLandscape(False)</span>
+<span class="sd">        pdfrpt.setTitle(&quot;Title&quot;)</span>
+<span class="sd">        pdfrpt.setTableData(queryset, fields, &quot;Table Title&quot;)</span>
+<span class="sd">        pdfrpt.setFilename(&quot;filename&quot;)</span>
+<span class="sd">        pdfrpt.setNumOfColumns(2) # for two column setup</span>
+<span class="sd">        pdfrpt.render()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s">u&quot;Report&quot;</span>
+    <span class="n">pageinfo</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;report&quot;</span>
+    <span class="n">styles</span> <span class="o">=</span> <span class="n">getSampleStyleSheet</span><span class="p">()</span>
+    <span class="n">table_style</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">landscape</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">hasfooter</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">PAGESIZE</span> <span class="o">=</span> <span class="n">A4</span>
+    <span class="n">fontSize</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">rowsperpage</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">print_on_both_sides</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">firstRowHeight</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="n">rotateTextFirstRow</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PDFReport.setPrintOnBothSides"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setPrintOnBothSides">[docs]</a>    <span class="k">def</span> <span class="nf">setPrintOnBothSides</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param state: True or False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print_on_both_sides</span> <span class="o">=</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setLandscape"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setLandscape">[docs]</a>    <span class="k">def</span> <span class="nf">setLandscape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; enable or disable landscape display</span>
+
+<span class="sd">        :param state: True or False</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="o">=</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setRowsPerPage"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setRowsPerPage">[docs]</a>    <span class="k">def</span> <span class="nf">setRowsPerPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Sets the number of rows per page for Table data</span>
+
+<span class="sd">        :type num: int</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rowsperpage</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PDFReport.enableFooter"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.enableFooter">[docs]</a>    <span class="k">def</span> <span class="nf">enableFooter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;     enable formatter for the last row of the table</span>
+<span class="sd">        e.g for summaries have bold border lines</span>
+
+<span class="sd">        :type state: True or False</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hasfooter</span> <span class="o">=</span> <span class="n">state</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setTitle"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setTitle">[docs]</a>    <span class="k">def</span> <span class="nf">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        :param title: The Report Title </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+</div>
+    <span class="k">def</span> <span class="nf">setPageInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pageinfo</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">pageinfo</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pageinfo</span> <span class="o">=</span> <span class="n">pageinfo</span>
+
+<div class="viewcode-block" id="PDFReport.setFilename"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setFilename">[docs]</a>    <span class="k">def</span> <span class="nf">setFilename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        :param filename: filename for the generated pdf document </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setFontSize"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setFontSize">[docs]</a>    <span class="k">def</span> <span class="nf">setFontSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        :param size: font-size </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">size</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="n">size</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setNumOfColumns"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setNumOfColumns">[docs]</a>    <span class="k">def</span> <span class="nf">setNumOfColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">        :param cols: number of columns </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setPageBreak"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setPageBreak">[docs]</a>    <span class="k">def</span> <span class="nf">setPageBreak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; force/add a page break &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PageBreak</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="PDFReport.setElements"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setElements">[docs]</a>    <span class="k">def</span> <span class="nf">setElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elements</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Add elements like paragraphs to the overall data &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">setTableStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table_style</span> <span class="o">=</span> <span class="n">ts</span>
+
+    <span class="k">def</span> <span class="nf">getTableStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_style</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_style</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="p">[</span>
+              <span class="p">(</span><span class="s">&#39;ALIGNMENT&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&#39;LEFT&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;LINEBELOW&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;GRID&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">),</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;LINEBELOW&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mf">0.8</span><span class="p">,</span> \
+                                            <span class="n">colors</span><span class="o">.</span><span class="n">lightgrey</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;VALIGN&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&#39;MIDDLE&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;BOTTOMPADDING&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;TOPPADDING&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ROWBACKGROUNDS&#39;</span><span class="p">,</span> \
+                                                <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> \
+             <span class="p">[</span><span class="n">colors</span><span class="o">.</span><span class="n">whitesmoke</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">white</span><span class="p">]),</span>
+            <span class="p">(</span><span class="s">&#39;FONT&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&quot;FreeSerif&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fontSize</span><span class="p">)]</span>
+
+        <span class="c">#last row formatting when required</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hasfooter</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;LINEABOVE&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">))</span>
+            <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;LINEBELOW&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">black</span><span class="p">))</span>
+            <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;LINEBELOW&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">green</span><span class="p">))</span>
+            <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;LINEBELOW&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mf">0.8</span><span class="p">,</span> \
+                       <span class="n">colors</span><span class="o">.</span><span class="n">lightgrey</span><span class="p">))</span>
+            <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;FONT&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">&quot;FreeSerif&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ts</span>
+
+<div class="viewcode-block" id="PDFReport.setFirstRowHeight"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setFirstRowHeight">[docs]</a>    <span class="k">def</span> <span class="nf">setFirstRowHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Set the height of the first row&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">firstRowHeight</span> <span class="o">=</span> <span class="n">height</span>
+</div>
+    <span class="k">def</span> <span class="nf">getFirstRowHeight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">firstRowHeight</span>
+
+<div class="viewcode-block" id="PDFReport.getRowHeights"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.getRowHeights">[docs]</a>    <span class="k">def</span> <span class="nf">getRowHeights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numOfRows</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;retuns the row heights&#39;&#39;&#39;</span>
+        <span class="n">rh</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getFirstRowHeight</span><span class="p">()</span> <span class="o">*</span> <span class="n">inch</span><span class="p">]</span>
+        <span class="n">numOfRows</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">rh</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">numOfRows</span> <span class="o">*</span> <span class="p">[</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">rh</span>
+</div>
+    <span class="k">def</span> <span class="nf">rotateText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotateTextFirstRow</span> <span class="o">=</span> <span class="n">bl</span>
+
+<div class="viewcode-block" id="PDFReport.setTableData"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.PDFReport.setTableData">[docs]</a>    <span class="k">def</span> <span class="nf">setTableData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queryset</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">colWidths</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> \
+                                                            <span class="n">hasCounter</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;set table data</span>
+
+<span class="sd">        :param queryset: data</span>
+<span class="sd">        :param fields: table column headings</span>
+<span class="sd">        :param title: Table Heading</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">pStyle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">])</span>
+        <span class="n">pStyle</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&quot;FreeSerif&quot;</span>
+        <span class="n">pStyle</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">pStyle</span><span class="o">.</span><span class="n">spaceBefore</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">pStyle</span><span class="o">.</span><span class="n">spaceAfter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">pStyle</span><span class="o">.</span><span class="n">leading</span> <span class="o">=</span> <span class="n">pStyle</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">+</span> <span class="mf">2.8</span>
+        <span class="n">hStyle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">])</span>
+        <span class="n">hStyle</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&#39;FreeSerif&#39;</span>
+        <span class="c">#hStyle.fontName = &quot;Arial Narrow-Bold&quot;</span>
+        <span class="n">hStyle</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="mi">8</span>
+        <span class="n">hStyle</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">TA_CENTER</span>
+        <span class="c">#hStyle.spaceBefore = 0</span>
+        <span class="n">hStyle</span><span class="o">.</span><span class="n">spaceAfter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c">#pStyle.leading = pStyle.fontSize + 2.8</span>
+        <span class="c">#prepare the data</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">queryset</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">header</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotateTextFirstRow</span><span class="p">:</span>
+                    <span class="n">hStyle</span><span class="o">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">hStyle</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">TA_LEFT</span>
+                    <span class="n">hStyle</span><span class="o">.</span><span class="n">borderPadding</span> <span class="o">=</span> <span class="mi">5</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">RotatedParagraph</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="s">&#39;&lt;b&gt;&#39;</span> <span class="o">+</span> <span class="n">f</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> \
+                                                    <span class="s">&#39;&lt;/b&gt;&#39;</span><span class="p">,</span> <span class="n">hStyle</span><span class="p">),</span> \
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">getFirstRowHeight</span><span class="p">()</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> \
+                                            <span class="mf">0.25</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)</span> \
+                                            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">pheader</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">],</span> <span class="n">hStyle</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">hasCounter</span><span class="p">:</span>
+                    <span class="n">value</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;#&#39;</span><span class="p">)</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">header</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">ctx</span> <span class="o">=</span> <span class="n">Context</span><span class="p">({</span><span class="s">&quot;object&quot;</span><span class="p">:</span> <span class="n">row</span><span class="p">})</span>
+
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">pheader</span><span class="p">(</span><span class="n">Template</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="s">&quot;bit&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">ctx</span><span class="p">),</span> <span class="n">pStyle</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>\
+                       <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">hasCounter</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">ts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTableStyle</span><span class="p">()</span>
+
+            <span class="n">table</span> <span class="o">=</span> <span class="n">PDFTable</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">colWidths</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRowHeights</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span> \
+                                <span class="n">style</span><span class="o">=</span><span class="n">ts</span><span class="p">,</span> <span class="n">splitByRow</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">table</span><span class="o">.</span><span class="n">hAlign</span> <span class="o">=</span> <span class="s">&quot;LEFT&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="s">&quot;No Report&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&#39;Normal&#39;</span><span class="p">]))</span>
+        <span class="sd">&#39;&#39;&#39;The number of rows per page for two columns is about 90.</span>
+<span class="sd">            using this information you can figure how many pages the</span>
+<span class="sd">            table is going to overlap hence you place a header/subtitle</span>
+<span class="sd">            in that position for it to be printed appropriately</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">queryset</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">rowsperpage</span>
+
+        <span class="n">needsSecondPage</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">c</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">needsSecondPage</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_on_both_sides</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c">#take care of headings, do not displace them</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">needsSecondPage</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PageBreak</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_on_both_sides</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">needsSecondPage</span> <span class="ow">is</span> <span class="bp">True</span> \
+                <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c">#empty title to allow blank page</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="c">#exit((needsSecondPage, c, self.headers, title, i))</span>
+</div>
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">+</span> \
+            <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%Y%m</span><span class="si">%d</span><span class="s">%H%M%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.pdf&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">mimetype</span><span class="o">=</span><span class="s">&#39;application/pdf&#39;</span><span class="p">)</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;Cache-Control&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;Content-Disposition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;attachment; filename=</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">filename</span>
+
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">TA_LEFT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&#39;Title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&#39;Heading2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> \
+            <span class="s">&quot;FreeSerif&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&quot;FreeSerif&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="c">#self.styles[&quot;Normal&quot;].fontWeight = &quot;BOLD&quot;</span>
+
+        <span class="c">#doc = SimpleDocTemplate(filename)</span>
+
+        <span class="c">#now create the title page</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Paragraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">[</span><span class="s">&#39;Title&#39;</span><span class="p">]))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_on_both_sides</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PageBreak</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="c">#done with the title info, move to the next frame</span>
+        <span class="c">#and queue up the later page template</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FrameBreak</span><span class="p">())</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">NextPageTemplate</span><span class="p">(</span><span class="s">&quot;laterPages&quot;</span><span class="p">))</span>
+        <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PageBreak</span><span class="p">())</span>
+        <span class="c">#exit(self.headers)</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">landscape</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">PAGESIZE</span> <span class="o">=</span> <span class="n">landscape</span><span class="p">(</span><span class="n">A4</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">MultiColDocTemplate</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span> \
+                        <span class="n">pagesize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PAGESIZE</span><span class="p">,</span> <span class="n">allowSplitting</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
+                            <span class="n">showBoundary</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">setHeaders</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+        <span class="n">doc</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+        <span class="c">#response.write(open(filename).read())</span>
+        <span class="c">#os.remove(filename)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="c"># what should appear on the first page</span>
+    <span class="k">def</span> <span class="nf">myFirstPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="n">pageinfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageinfo</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">saveState</span><span class="p">()</span>
+        <span class="sd">&#39;&#39;&#39;canvas.setFont(&#39;Times-Roman&#39;,9)</span>
+<span class="sd">        canvas.drawString(inch, 0.75 * inch, &quot;Page %d %s&quot; %</span>
+<span class="sd">         (doc.page, pageinfo))</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">textobject</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">beginText</span><span class="p">()</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setTextOrigin</span><span class="p">(</span><span class="n">inch</span><span class="p">,</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s">&quot;FreeSerif&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">textLine</span><span class="p">(</span><span class="s">&quot;Page </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">page</span><span class="p">))</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setFillGray</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">textLines</span><span class="p">(</span><span class="n">pageinfo</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">hAlign</span> <span class="o">=</span> <span class="s">&quot;CENTER&quot;</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">drawText</span><span class="p">(</span><span class="n">textobject</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">restoreState</span><span class="p">()</span>
+
+    <span class="c"># what to do on other pages</span>
+    <span class="k">def</span> <span class="nf">myLaterPages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="n">pageinfo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pageinfo</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">saveState</span><span class="p">()</span>
+        <span class="sd">&#39;&#39;&#39;canvas.setFont(&#39;Times-Roman&#39;,9)</span>
+<span class="sd">        canvas.drawString(inch, 0.75 * inch, &quot;Page %d %s&quot;</span>
+<span class="sd">        % (doc.page, pageinfo))</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">textobject</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">beginText</span><span class="p">()</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setTextOrigin</span><span class="p">(</span><span class="n">inch</span><span class="p">,</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="s">&quot;FreeSerif&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">textLine</span><span class="p">(</span><span class="s">&quot;Page </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">page</span><span class="p">))</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">setFillGray</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">textobject</span><span class="o">.</span><span class="n">textLines</span><span class="p">(</span><span class="n">pageinfo</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">hAlign</span> <span class="o">=</span> <span class="s">&quot;CENTER&quot;</span>
+
+</div>
+<div class="viewcode-block" id="MultiColDocTemplate"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.MultiColDocTemplate">[docs]</a><span class="k">class</span> <span class="nc">MultiColDocTemplate</span><span class="p">(</span><span class="n">BaseDocTemplate</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;A multi column document template&#39;&#39;&#39;</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s">u&quot;Report Title Here&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">frameCount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;@FIXME: need to remove frameCount to maintain consistency</span>
+<span class="sd">         with BaseDocTemplate constructor</span>
+<span class="sd">                   and hence find a way to pass frameCount</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">apply</span><span class="p">(</span><span class="n">BaseDocTemplate</span><span class="o">.</span><span class="n">__init__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addPageTemplates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">firstPage</span><span class="p">())</span>
+
+        <span class="n">frameWidth</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">frameCount</span><span class="p">)</span> <span class="o">+</span> <span class="o">.</span><span class="mi">85</span> <span class="o">*</span> <span class="n">inch</span>
+        <span class="n">frameHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="n">inch</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">frameCount</span><span class="p">):</span>
+            <span class="n">leftMargin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span> <span class="o">+</span> <span class="n">frame</span> <span class="o">*</span> <span class="n">frameWidth</span> <span class="o">-</span> <span class="o">.</span><span class="mi">85</span> <span class="o">*</span> <span class="n">inch</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">leftMargin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottomMargin</span> <span class="o">-</span> <span class="o">.</span><span class="mi">95</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> \
+                    <span class="n">frameWidth</span><span class="p">,</span> <span class="n">frameHeight</span> <span class="o">+</span> <span class="mf">1.75</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="n">leftPadding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
+                    <span class="n">topPadding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rightPadding</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bottomPadding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+        <span class="n">template</span> <span class="o">=</span> <span class="n">PageTemplate</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="n">frames</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;laterPages&quot;</span><span class="p">,</span> \
+                                <span class="n">onPage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">addHeader</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addPageTemplates</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">firstPage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">getSampleStyleSheet</span><span class="p">()</span>
+        <span class="c">#title page styles</span>
+        <span class="n">titleStyle</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="s">&quot;Title&quot;</span><span class="p">]</span>
+        <span class="n">titleStyle</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">=</span> <span class="mi">40</span>
+        <span class="n">titleStyle</span><span class="o">.</span><span class="n">leading</span> <span class="o">=</span> <span class="n">titleStyle</span><span class="o">.</span><span class="n">fontSize</span> <span class="o">*</span> <span class="mf">1.1</span>
+        <span class="c">#need to copy the object or style changes will</span>
+        <span class="c"># apply to any incarnation of &quot;Normal&quot;</span>
+        <span class="n">subTitleStyle</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">style</span><span class="p">[</span><span class="s">&quot;Normal&quot;</span><span class="p">])</span>
+        <span class="n">subTitleStyle</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">TA_CENTER</span>
+        <span class="n">subTitleStyle</span><span class="o">.</span><span class="n">fontName</span> <span class="o">=</span> <span class="s">&quot;FreeSerif&quot;</span>
+
+        <span class="n">frameHeight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="n">inch</span>
+        <span class="n">frameWidth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="c">#title page frames</span>
+        <span class="n">firstPageHeight</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">*</span> <span class="n">inch</span>
+        <span class="n">firstPageBottom</span> <span class="o">=</span> <span class="n">frameHeight</span> <span class="o">-</span> <span class="n">firstPageHeight</span>
+        <span class="n">framesFirstPage</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">titleFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="n">firstPageBottom</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> \
+                           <span class="n">firstPageHeight</span><span class="p">)</span>
+        <span class="n">framesFirstPage</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">titleFrame</span><span class="p">)</span>
+        <span class="c">#columns for the first page</span>
+        <span class="n">firstPageColumn</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottomMargin</span><span class="p">,</span> \
+                                <span class="n">frameWidth</span><span class="p">,</span> <span class="n">firstPageBottom</span><span class="p">)</span>
+        <span class="n">framesFirstPage</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">firstPageColumn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PageTemplate</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="n">framesFirstPage</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s">&quot;firstPage&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MultiColDocTemplate.addHeader"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.MultiColDocTemplate.addHeader">[docs]</a>    <span class="k">def</span> <span class="nf">addHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">document</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; display the heading of the page or document &#39;&#39;&#39;</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">saveState</span><span class="p">()</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSubTitle</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">page</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="n">fontname</span> <span class="o">=</span> <span class="s">&#39;FreeSerif&#39;</span>
+        <span class="n">headerBottom</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">bottomMargin</span> <span class="o">+</span> <span class="n">document</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> \
+                <span class="n">document</span><span class="o">.</span><span class="n">topMargin</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">bottomLine</span> <span class="o">=</span> <span class="n">headerBottom</span> <span class="o">-</span> <span class="n">fontsize</span> <span class="o">/</span> <span class="mi">4</span>
+        <span class="n">topLine</span> <span class="o">=</span> <span class="n">headerBottom</span> <span class="o">+</span> <span class="n">fontsize</span>
+        <span class="n">lineLength</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">document</span><span class="o">.</span><span class="n">leftMargin</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">fontname</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">)</span>
+
+        <span class="n">canvas</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">leftMargin</span><span class="p">,</span> <span class="n">headerBottom</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">restoreState</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">getTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+
+    <span class="k">def</span> <span class="nf">getSubTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="sd">&#39;&#39;&#39; since subtitles vary from page to page, I pick the relevant</span>
+<span class="sd">             title according to the page number &#39;&#39;&#39;</span>
+            <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">u&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">setHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+
+</div>
+<div class="viewcode-block" id="RotatedText"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.RotatedText">[docs]</a><span class="k">class</span> <span class="nc">RotatedText</span><span class="p">(</span><span class="n">Flowable</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;Rotates text in a table cell.&#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">Flowable</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">canv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canv</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">drawString</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aW</span><span class="p">,</span> <span class="n">aH</span><span class="p">):</span>
+        <span class="n">canv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canv</span>
+        <span class="k">return</span> <span class="n">canv</span><span class="o">.</span><span class="n">_leading</span><span class="p">,</span> <span class="n">canv</span><span class="o">.</span><span class="n">stringWidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="RotatedParagraph"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.RotatedParagraph">[docs]</a><span class="k">class</span> <span class="nc">RotatedParagraph</span><span class="p">(</span><span class="n">Flowable</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Rotates a paragraph&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paragraph</span><span class="p">,</span> <span class="n">aW</span><span class="p">,</span> <span class="n">aH</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span> <span class="o">=</span> <span class="n">paragraph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">aW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">aH</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">canv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canv</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="c">#drawOn(canvas, x, y)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paragraph</span><span class="o">.</span><span class="n">drawOn</span><span class="p">(</span><span class="n">canv</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="ScaledTable"><a class="viewcode-back" href="../../api/apps/libreport/index.html#libreport.pdfreport.ScaledTable">[docs]</a><span class="k">class</span> <span class="nc">ScaledTable</span><span class="p">(</span><span class="n">Table</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Scales a Table&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">Table</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xscale</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yscale</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xscale</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">yscale</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">canv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canv</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xscale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yscale</span><span class="p">)</span>
+        <span class="n">canv</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">inch</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">yscale</span><span class="p">)))</span>
+        <span class="n">Table</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

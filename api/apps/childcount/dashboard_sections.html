@@ -55,8 +55,39 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="childcount-dashboard-sections">
-<h1>childcount.dashboard_sections<a class="headerlink" href="#childcount-dashboard-sections" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-childcount.dashboard_sections">
+<span id="childcount-dashboard-sections"></span><h1>childcount.dashboard_sections<a class="headerlink" href="#module-childcount.dashboard_sections" title="Permalink to this headline">¶</a></h1>
+<p>Holds view logic for the dashboard.</p>
+<dl class="function">
+<dt id="childcount.dashboard_sections.highlight_stats_bar">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">highlight_stats_bar</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#highlight_stats_bar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.highlight_stats_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Corresponds to template: <tt class="file docutils literal"><span class="pre">dashboard_sections/highlight_stats_bar.html</span></tt></p>
+<p>This <tt class="xref py py-func docutils literal"><span class="pre">dict()</span></tt> is structured to easily pump into an HTML table.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.nutrition_chart">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">nutrition_chart</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#nutrition_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.nutrition_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data for a pie chart
+of nutrition statistics.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.recent_numbers">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">recent_numbers</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#recent_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.recent_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pumps a python <tt class="xref py py-func docutils literal"><span class="pre">dict()</span></tt> with &#8220;columns&#8221; and &#8220;rows&#8221;(&amp;data) which is
+then turned into a pretty HTML table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.dashboard_sections.registration_chart">
+<tt class="descclassname">childcount.dashboard_sections.</tt><tt class="descname">registration_chart</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/dashboard_sections.html#registration_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.dashboard_sections.registration_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method corresponds to the template 
+<tt class="file docutils literal"><span class="pre">dashboard_sections/registration_chart.html</span></tt></p>
+<p>It returns only the data needed to build the chart, which is passed to a javascript
+object in a JSON string using <tt class="xref py py-func docutils literal"><span class="pre">simplejson.dumps()</span></tt>.</p>
+</dd></dl>
+
 </div>
 
 

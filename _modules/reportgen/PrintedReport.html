@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>reportgen.PrintedReport &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for reportgen.PrintedReport</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># vim: ai ts=4 sts=4 et sw=4 coding=utf-8</span>
+<span class="c"># maintainer: henrycg</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">celery.task</span> <span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span> <span class="nn">celery.schedules</span> <span class="kn">import</span> <span class="n">crontab</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">activate</span><span class="p">,</span> <span class="n">get_language</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">HttpResponseNotFound</span>
+
+<span class="kn">from</span> <span class="nn">reportgen.models</span> <span class="kn">import</span> <span class="n">Report</span><span class="p">,</span> <span class="n">GeneratedReport</span><span class="p">,</span> <span class="n">NightlyReport</span>
+
+<div class="viewcode-block" id="PrintedReport"><a class="viewcode-back" href="../../api/apps/reportgen/index.html#reportgen.PrintedReport.PrintedReport">[docs]</a><span class="k">class</span> <span class="nc">PrintedReport</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The class defining a PrintedReport.</span>
+
+<span class="sd">    Whenever you make a new printed report you will</span>
+<span class="sd">    have to define a new class that inherits from </span>
+<span class="sd">    this report.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot; Human-readable title of report&quot;&quot;&quot;</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;Filename alphanumeric, underscore, and hyphen are ok &quot;&quot;&quot;</span>
+
+    <span class="n">formats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="sd">&quot;&quot;&quot;A list of file formats to use, e.g., [&#39;pdf&#39;,&#39;html&#39;,&#39;xls&#39;]&quot;&quot;&quot;</span>
+
+    <span class="n">variants</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">]</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A list of report variants in the form::</span>
+
+<span class="sd">        (title_suffix, fn_suffix, variant_data) </span>
+
+<span class="sd">    For example, you might have a patient register</span>
+<span class="sd">    for Bugongi and Ruhiira health centers::</span>
+
+<span class="sd">        variants = [</span>
+<span class="sd">            (&#39; Bugongi HC&#39;, &#39;_BG&#39;, {&#39;clinic_id&#39;: 13}),</span>
+<span class="sd">            (&#39; Ruhiira HC&#39;, &#39;_RH&#39;, {&#39;clinic_id&#39;: 15}),</span>
+<span class="sd">        ]</span>
+
+<span class="sd">    Neither the title nor filename suffixes can be </span>
+<span class="sd">    the empty string &quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PrintedReport.generate"><a class="viewcode-back" href="../../api/apps/reportgen/index.html#reportgen.PrintedReport.PrintedReport.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">rformat</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        You should implement the generate method in a report</span>
+<span class="sd">        subclass.  This method creates the report and saves it</span>
+<span class="sd">        to the right place (probably </span>
+<span class="sd">        :file:`static/reports/filename.format`).</span>
+<span class="sd">        The return value is ignored.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>\
+            <span class="n">_</span><span class="p">(</span><span class="s">u&#39;Generate function not implemented.&#39;</span><span class="p">))</span>
+
+    <span class="c">####################</span>
+    <span class="c"># Unless you&#39;re an expert, you don&#39;t need to override</span>
+    <span class="c"># any of the rest of the methods in your subclass</span>
+</div>
+    <span class="n">track_started</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="PrintedReport.classname"><a class="viewcode-back" href="../../api/apps/reportgen/index.html#reportgen.PrintedReport.PrintedReport.classname">[docs]</a>    <span class="k">def</span> <span class="nf">classname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Name of the file where this report is defined (e.g., </span>
+<span class="sd">        :class:`Operational`</span>
+<span class="sd">        if the file is :file:`Operational.py`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getfile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">))[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+</div>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;Args: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Kwargs: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Cur: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">get_language</span><span class="p">()</span>
+        <span class="n">activate</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Language: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_sanity</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="s">&#39;nightly&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;No nightly value passed in&#39;</span><span class="p">))</span>
+
+        <span class="c"># get Report object for this report</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;report&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Report</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">classname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Report</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DBConfigurationError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Could not find DB record &quot;</span>\
+                <span class="s">&quot;for a report with classname </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">classname</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="s">&#39;time_period&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;No time period value passed in&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Running ondemand&quot;</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_ondemand</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">GeneratedReport</span><span class="o">.</span><span class="n">GENERATED_DIR</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_ondemand</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Running nightly (</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">formats</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NightlyReport</span><span class="o">.</span><span class="n">NIGHTLY_DIR</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_nightly</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PrintedReport.test"><a class="viewcode-back" href="../../api/apps/reportgen/index.html#reportgen.PrintedReport.PrintedReport.test">[docs]</a>    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">rformat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Use this method to test your reports from</span>
+<span class="sd">        the shell.</span>
+
+<span class="sd">        :param time_period: An object with ``start`` and</span>
+<span class="sd">                             ``end`` methods that </span>
+<span class="sd">                             return :class:`datetime` objects.</span>
+<span class="sd">        :param rformat: A string giving the report format to</span>
+<span class="sd">                        generate (e.g., &quot;pdf&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">activate</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;nightly&#39;</span><span class="p">:</span> <span class="s">&#39;Fake&#39;</span><span class="p">}</span>
+
+        <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;/tmp/test_</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;Saving as </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">fname</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">variants</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">variants</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variants</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">time_period</span><span class="p">,</span> <span class="n">rformat</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_run_nightly</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;[Nightly args] </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;[Nightly kwargs] </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="c"># Run report for all formats</span>
+        <span class="c"># ...and all variants</span>
+
+        <span class="c"># Save in static/nightly/basename_variant_rptpk.format</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">variants</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Running only variant...&quot;</span>
+            <span class="k">for</span> <span class="n">rformat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">&quot;FP: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;time_period&#39;</span><span class="p">],</span>
+                    <span class="n">rformat</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">rformat</span><span class="p">),</span>
+                    <span class="p">{})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">variant</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variants</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">variant</span>
+                <span class="k">for</span> <span class="n">rformat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="n">rformat</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;time_period&#39;</span><span class="p">],</span>
+                        <span class="n">rformat</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span> <span class="o">+</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">variant</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rformat</span><span class="p">),</span>
+                        <span class="n">variant</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">check_sanity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>\
+                <span class="n">_</span><span class="p">(</span><span class="s">u&#39;This report has no formats specified.&#39;</span><span class="p">))</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="bp">None</span> \
+                <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>\
+                <span class="n">_</span><span class="p">(</span><span class="s">u&#39;Report title or filename is unset.&#39;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="PrintedReport.set_progress"><a class="viewcode-back" href="../../api/apps/reportgen/index.html#reportgen.PrintedReport.PrintedReport.set_progress">[docs]</a>    <span class="k">def</span> <span class="nf">set_progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">progress</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Call this to update the progress of the report</span>
+<span class="sd">        in the database.</span>
+
+<span class="sd">        :param progress: A number from 0 to 100 giving the percentage</span>
+<span class="sd">                         completion.</span>
+<span class="sd">        :type progress: float</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Clear query cache to keep Django from</span>
+        <span class="c"># eating all of the memory</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">reset_queries</span><span class="p">()</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span>
+
+        <span class="k">print</span> <span class="s">&quot;&gt; Progress </span><span class="si">%d%%</span><span class="s"> (at </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">progress</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+
+        <span class="c"># Don&#39;t need status updates for nightly report</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]:</span> <span class="k">return</span>
+        <span class="k">print</span> <span class="s">&quot;++&gt; </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">])</span>
+
+        <span class="k">print</span> <span class="s">&quot;Working on saving&quot;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_state</span> <span class="o">=</span> <span class="n">GeneratedReport</span><span class="o">.</span><span class="n">TASK_STATE_STARTED</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_progress</span> <span class="o">=</span> <span class="n">progress</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">_run_ondemand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;[Ondemand args] </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;[Ondemand kwargs] </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c"># Run report for a single format and</span>
+        <span class="c"># a single variant for a single time</span>
+        <span class="c"># period</span>
+ 
+        <span class="c"># Check if a format was passed in</span>
+        <span class="n">rformat</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;rformat&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rformat</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;No report format requested.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rformat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">formats</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Invalid report format requested.&#39;</span><span class="p">)</span>
+
+        <span class="c"># Check if a variant was passed in</span>
+        <span class="n">variant</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;variant&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">variant</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">variant</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="n">this_data</span> <span class="o">=</span> <span class="n">variant</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c"># Once the PK is set, we can get the filename for the report</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">variant</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rformat</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_id</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;task_id&#39;</span><span class="p">]</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="c"># Generate the report</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;time_period&#39;</span><span class="p">],</span>
+                    <span class="n">rformat</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span> <span class="o">+</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">variant</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rformat</span><span class="p">),</span>
+                    <span class="n">this_data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">retval</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;generated_report&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Couldn&#39;t find generated report record&quot;</span>
+            <span class="k">return</span>
+
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">finished_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_state</span> <span class="o">=</span> <span class="n">GeneratedReport</span><span class="o">.</span><span class="n">TASK_STATE_SUCCEEDED</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_progress</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="k">print</span> <span class="s">&quot;SUCCESS!!!&quot;</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">,</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">einfo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&quot;FAILED!!!&quot;</span>
+        <span class="k">print</span> <span class="n">einfo</span>
+
+        <span class="k">print</span> <span class="s">&quot;Failed kwargs: (</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;generated_report&#39;</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s">&quot;No generated report found&quot;</span>
+            <span class="k">return</span> 
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">finished_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_state</span> <span class="o">=</span> <span class="n">GeneratedReport</span><span class="o">.</span><span class="n">TASK_STATE_FAILED</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">task_progress</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="k">if</span> <span class="n">einfo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">error_message</span> <span class="o">=</span> <span class="n">einfo</span><span class="o">.</span><span class="n">traceback</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]:</span> 
+            <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_filename</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]:</span> 
+            <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;nightly&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">kwargs</span><span class="p">[</span><span class="s">&#39;generated_report&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">suffix</span><span class="p">,</span> <span class="n">rformat</span><span class="p">)</span>
+</div>
+<span class="k">class</span> <span class="nc">DBConfigurationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

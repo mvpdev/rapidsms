@@ -55,8 +55,204 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="childcount-utils">
-<h1>childcount.utils<a class="headerlink" href="#childcount-utils" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-childcount.utils">
+<span id="childcount-utils"></span><h1>childcount.utils<a class="headerlink" href="#module-childcount.utils" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="childcount.utils.DOBProcessor">
+<em class="property">class </em><tt class="descclassname">childcount.utils.</tt><tt class="descname">DOBProcessor</tt><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Date-of-Birth parser</p>
+<dl class="attribute">
+<dt id="childcount.utils.DOBProcessor.MAX_AGE">
+<tt class="descname">MAX_AGE</tt><a class="headerlink" href="#childcount.utils.DOBProcessor.MAX_AGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Age (in years) beyond which we don&#8217;t recognize</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.from_age">
+<em class="property">classmethod </em><tt class="descname">from_age</tt><big>(</big><em>lang</em>, <em>string</em>, <em>date_ref</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.from_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.from_age" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.from_age_or_dob">
+<em class="property">classmethod </em><tt class="descname">from_age_or_dob</tt><big>(</big><em>lang</em>, <em>age_or_dob</em>, <em>date_ref=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.from_age_or_dob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.from_age_or_dob" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.from_dob">
+<em class="property">classmethod </em><tt class="descname">from_dob</tt><big>(</big><em>lang</em>, <em>string</em>, <em>date_ref=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.from_dob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.from_dob" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.get_age_units">
+<em class="property">classmethod </em><tt class="descname">get_age_units</tt><big>(</big><em>lang</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.get_age_units"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.get_age_units" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.is_valid_age">
+<em class="property">classmethod </em><tt class="descname">is_valid_age</tt><big>(</big><em>lang</em>, <em>age_string</em>, <em>date_ref=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.is_valid_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.is_valid_age" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.is_valid_dob">
+<em class="property">classmethod </em><tt class="descname">is_valid_dob</tt><big>(</big><em>lang</em>, <em>dob_string</em>, <em>date_ref=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.is_valid_dob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.is_valid_dob" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="childcount.utils.DOBProcessor.is_valid_dob_or_age">
+<em class="property">classmethod </em><tt class="descname">is_valid_dob_or_age</tt><big>(</big><em>lang</em>, <em>age_or_dob</em>, <em>date_ref=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#DOBProcessor.is_valid_dob_or_age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.DOBProcessor.is_valid_dob_or_age" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.utils.KeywordMapper">
+<em class="property">class </em><tt class="descclassname">childcount.utils.</tt><tt class="descname">KeywordMapper</tt><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parser for SMS keywords</p>
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.add_class">
+<tt class="descname">add_class</tt><big>(</big><em>cls</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.add_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.add_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.add_classes">
+<tt class="descname">add_classes</tt><big>(</big><em>classes</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.add_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.add_classes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.get_all_keywords">
+<tt class="descname">get_all_keywords</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.get_all_keywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.get_all_keywords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.get_class">
+<tt class="descname">get_class</tt><big>(</big><em>lang</em>, <em>keyword</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.get_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.get_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.get_keywords">
+<tt class="descname">get_keywords</tt><big>(</big><em>lang</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.get_keywords"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.get_keywords" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="childcount.utils.KeywordMapper.is_keyword">
+<tt class="descname">is_keyword</tt><big>(</big><em>lang</em>, <em>keyword</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#KeywordMapper.is_keyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.KeywordMapper.is_keyword" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.utils.RotatedParagraph">
+<em class="property">class </em><tt class="descclassname">childcount.utils.</tt><tt class="descname">RotatedParagraph</tt><big>(</big><em>paragraph</em>, <em>aW</em>, <em>aH</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#RotatedParagraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.RotatedParagraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates a paragraph</p>
+<dl class="method">
+<dt id="childcount.utils.RotatedParagraph.draw">
+<tt class="descname">draw</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#RotatedParagraph.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.RotatedParagraph.draw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.authenticated">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">authenticated</tt><big>(</big><em>func</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#authenticated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.authenticated" title="Permalink to this definition">¶</a></dt>
+<dd><p>decorator checking if sender is allowed to process feature.</p>
+<p>checks if sender property is set on message</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">function or bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.clean_names">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">clean_names</tt><big>(</big><em>flat_name</em>, <em>surname_first=True</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#clean_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.clean_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a persons name as a single string and returns surname,
+first names, and alias:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">clean_names</span><span class="p">(</span><span class="s">&quot;smith john&quot;</span><span class="p">)</span>
+<span class="go">(u&#39;Smith&#39;, u&#39;John&#39;, u&#39;jsmith&#39;)</span>
+</pre></div>
+</div>
+<p>Also can be passed an optional argument surname_first=False:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">clean_names</span><span class="p">(</span><span class="s">&quot;john ADAM smith&quot;</span><span class="p">,</span> <span class="n">surname_first</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="go">(u&#39;Smith&#39;, u&#39;John Adam&#39;, u&#39;jasmith&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.day_end">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">day_end</tt><big>(</big><em>date</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#day_end"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.day_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>end of day from date.</p>
+<p>:returns <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.day_start">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">day_start</tt><big>(</big><em>date</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#day_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.day_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>begining of day from date.</p>
+<p>:returns <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.first_date_of_week">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">first_date_of_week</tt><big>(</big><em>givendate</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#first_date_of_week"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.first_date_of_week" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return date of first Monday before givendate</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.first_day_of_month">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">first_day_of_month</tt><big>(</big><em>date</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#first_day_of_month"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.first_day_of_month" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.get_ccforms_by_name">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">get_ccforms_by_name</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#get_ccforms_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.get_ccforms_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.get_dates_of_the_week">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">get_dates_of_the_week</tt><big>(</big><em>givendate=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#get_dates_of_the_week"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.get_dates_of_the_week" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.get_indicators">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">get_indicators</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#get_indicators"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.get_indicators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.get_median">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">get_median</tt><big>(</big><em>listOfNumericValues</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#get_median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.get_median" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the median of a list of numeric values</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.last_day_of_month">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">last_day_of_month</tt><big>(</big><em>date</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#last_day_of_month"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.last_day_of_month" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.respond_exceptions">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">respond_exceptions</tt><big>(</big><em>func</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#respond_exceptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.respond_exceptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator that catches exceptions and sends the text of the exception
+to the sender by responding to the message object.  It can be used
+on the <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.app.App</span></tt> methods that are passed (self, message)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.send_msg">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">send_msg</tt><big>(</big><em>reporter</em>, <em>text</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#send_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.send_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a message to a reporter using the ajax app.  This goes to
+ajax_POST_send_message in <tt class="file docutils literal"><span class="pre">apps/findtb/app.py</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.utils.seven_days_to_date">
+<tt class="descclassname">childcount.utils.</tt><tt class="descname">seven_days_to_date</tt><big>(</big><em>givendate=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/utils.html#seven_days_to_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.utils.seven_days_to_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 
 

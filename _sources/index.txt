@@ -17,6 +17,7 @@ Welcome to ChildCount+'s documentation!
    :maxdepth: 1
 
    api/index
+   faq
    history
     
 Indices and tables

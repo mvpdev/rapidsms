@@ -55,8 +55,41 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="childcount-fields">
-<h1>childcount.fields<a class="headerlink" href="#childcount-fields" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-childcount.fields">
+<span id="childcount-fields"></span><h1>childcount.fields<a class="headerlink" href="#module-childcount.fields" title="Permalink to this headline">¶</a></h1>
+<p>Useful form fields and widgets for
+dealing with health IDs.</p>
+<dl class="class">
+<dt id="childcount.fields.HealthIdField">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">HealthIdField</tt><big>(</big><em>required=True</em>, <em>widget=None</em>, <em>label=None</em>, <em>initial=None</em>, <em>help_text=None</em>, <em>error_messages=None</em>, <em>show_hidden_initial=False</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#HealthIdField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.HealthIdField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A form field for health IDs
+that does validation of an inputted
+health ID against the existing IDs
+in the database.</p>
+<dl class="attribute">
+<dt id="childcount.fields.HealthIdField.widget">
+<tt class="descname">widget</tt><a class="headerlink" href="#childcount.fields.HealthIdField.widget" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#childcount.fields.HealthIdWidget" title="childcount.fields.HealthIdWidget"><tt class="xref py py-class docutils literal"><span class="pre">HealthIdWidget</span></tt></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.fields.HealthIdWidget">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">HealthIdWidget</tt><big>(</big><em>attrs=None</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#HealthIdWidget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.HealthIdWidget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines a widget for health IDs
+that looks like normal text input box but
+displays health IDs nicely.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="childcount.fields.PatientForm">
+<em class="property">class </em><tt class="descclassname">childcount.fields.</tt><tt class="descname">PatientForm</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/fields.html#PatientForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.fields.PatientForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Django form for editing <a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>
+objects.
+Uses the custom health ID input fields.</p>
+</dd></dl>
+
 </div>
 
 

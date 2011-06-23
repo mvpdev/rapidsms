@@ -95,6 +95,9 @@
 <span class="p">}</span>
 <span class="sd">&quot;&quot;&quot;Full month names in Tigrinyna&quot;&quot;&quot;</span>
 
+<span class="k">def</span> <span class="nf">_django_locale</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span><span class="s">&#39;_&#39;</span><span class="p">))</span>
+
 <span class="k">def</span> <span class="nf">_format_date_ethiopian</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Converts the input date to the Julian/Ethiopian</span>
 <span class="sd">    calendar and formats a date in the ti_ET locale for</span>
@@ -152,10 +155,12 @@
 <span class="sd">    :type locale: :class:`str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">l</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">locale</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span>
-        
-    <span class="n">l</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">locale</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">_django_locale</span><span class="p">()</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">locale</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">language</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;am&#39;</span><span class="p">,</span><span class="s">&#39;ti&#39;</span><span class="p">):</span>
         <span class="c"># For our purposes, we assume that Amaharic means </span>
         <span class="c"># Tigrinya. This is because CC+ is only used in </span>
@@ -165,14 +170,14 @@
         <span class="k">return</span> <span class="n">_format_date_ethiopian</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span> 
-        <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_date</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_date</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">_django_locale</span><span class="p">())</span>
 </div>
 <div class="viewcode-block" id="format_time"><a class="viewcode-back" href="../../api/apps/bonjour/dates.html#bonjour.dates.format_time">[docs]</a><span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Alias to :func:`babel.dates.format_time` which</span>
 <span class="sd">    defaults to the Django locale and time zone</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">_django_locale</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">tzinfo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">tzinfo</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">TIME_ZONE</span><span class="p">)</span>
 
@@ -183,7 +188,7 @@
 <span class="sd">    defaults to the Django locale and time zone</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">locale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">locale</span> <span class="o">=</span> <span class="n">Locale</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGE_CODE</span><span class="p">)</span>
+        <span class="n">locale</span> <span class="o">=</span> <span class="n">_django_locale</span><span class="p">()</span>
 
     <span class="c"># Borrowed from babel</span>
     <span class="k">return</span> <span class="n">babel</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">get_datetime_format</span><span class="p">(</span><span class="n">format</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">locale</span><span class="p">)</span>\

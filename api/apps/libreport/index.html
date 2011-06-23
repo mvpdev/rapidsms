@@ -112,6 +112,243 @@ PDF generation library.</p>
 
 </dd></dl>
 
+<span class="target" id="module-libreport.pdfreport"></span><dl class="class">
+<dt id="libreport.pdfreport.MultiColDocTemplate">
+<em class="property">class </em><tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">MultiColDocTemplate</tt><big>(</big><em>filename</em>, <em>frameCount=1</em>, <em>**kw</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#MultiColDocTemplate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.MultiColDocTemplate" title="Permalink to this definition">¶</a></dt>
+<dd><p>A multi column document template</p>
+<p>&#64;FIXME: need to remove frameCount to maintain consistency
+with BaseDocTemplate constructor</p>
+<blockquote>
+<div>and hence find a way to pass frameCount</div></blockquote>
+<dl class="method">
+<dt id="libreport.pdfreport.MultiColDocTemplate.addHeader">
+<tt class="descname">addHeader</tt><big>(</big><em>canvas</em>, <em>document</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#MultiColDocTemplate.addHeader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.MultiColDocTemplate.addHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>display the heading of the page or document</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="libreport.pdfreport.PDFReport">
+<em class="property">class </em><tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">PDFReport</tt><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport" title="Permalink to this definition">¶</a></dt>
+<dd><p>PDFReport</p>
+<p>PDFReport Is a class that create table format reports
+The Title is placed on its own page for the first page
+usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">pdfrpt</span> <span class="o">=</span> <span class="n">PDFRrepot</span><span class="p">()</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">setLandscape</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">)</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">setTableData</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">fields</span><span class="p">,</span> <span class="s">&quot;Table Title&quot;</span><span class="p">)</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">setFilename</span><span class="p">(</span><span class="s">&quot;filename&quot;</span><span class="p">)</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">setNumOfColumns</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c"># for two column setup</span>
+<span class="n">pdfrpt</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.enableFooter">
+<tt class="descname">enableFooter</tt><big>(</big><em>state</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.enableFooter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.enableFooter" title="Permalink to this definition">¶</a></dt>
+<dd><p>enable formatter for the last row of the table
+e.g for summaries have bold border lines</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.getRowHeights">
+<tt class="descname">getRowHeights</tt><big>(</big><em>numOfRows</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.getRowHeights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.getRowHeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>retuns the row heights</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setElements">
+<tt class="descname">setElements</tt><big>(</big><em>elements</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add elements like paragraphs to the overall data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setFilename">
+<tt class="descname">setFilename</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setFilename" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> &#8211; filename for the generated pdf document</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setFirstRowHeight">
+<tt class="descname">setFirstRowHeight</tt><big>(</big><em>height</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setFirstRowHeight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setFirstRowHeight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the height of the first row</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setFontSize">
+<tt class="descname">setFontSize</tt><big>(</big><em>size</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setFontSize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setFontSize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; font-size</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setLandscape">
+<tt class="descname">setLandscape</tt><big>(</big><em>state</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setLandscape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setLandscape" title="Permalink to this definition">¶</a></dt>
+<dd><p>enable or disable landscape display</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> &#8211; True or False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setNumOfColumns">
+<tt class="descname">setNumOfColumns</tt><big>(</big><em>cols</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setNumOfColumns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setNumOfColumns" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cols</strong> &#8211; number of columns</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setPageBreak">
+<tt class="descname">setPageBreak</tt><big>(</big><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setPageBreak"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setPageBreak" title="Permalink to this definition">¶</a></dt>
+<dd><p>force/add a page break</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setPrintOnBothSides">
+<tt class="descname">setPrintOnBothSides</tt><big>(</big><em>state</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setPrintOnBothSides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setPrintOnBothSides" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>state</strong> &#8211; True or False</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setRowsPerPage">
+<tt class="descname">setRowsPerPage</tt><big>(</big><em>num</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setRowsPerPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setRowsPerPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of rows per page for Table data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setTableData">
+<tt class="descname">setTableData</tt><big>(</big><em>queryset</em>, <em>fields</em>, <em>title</em>, <em>colWidths=None</em>, <em>hasCounter=False</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setTableData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setTableData" title="Permalink to this definition">¶</a></dt>
+<dd><p>set table data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>queryset</strong> &#8211; data</li>
+<li><strong>fields</strong> &#8211; table column headings</li>
+<li><strong>title</strong> &#8211; Table Heading</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="libreport.pdfreport.PDFReport.setTitle">
+<tt class="descname">setTitle</tt><big>(</big><em>title</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#PDFReport.setTitle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.PDFReport.setTitle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>title</strong> &#8211; The Report Title</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="libreport.pdfreport.PreStyle">
+<tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">PreStyle</tt><a class="headerlink" href="#libreport.pdfreport.PreStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Preformatted Style</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="libreport.pdfreport.RotatedParagraph">
+<em class="property">class </em><tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">RotatedParagraph</tt><big>(</big><em>paragraph</em>, <em>aW</em>, <em>aH</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#RotatedParagraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.RotatedParagraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates a paragraph</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="libreport.pdfreport.RotatedText">
+<em class="property">class </em><tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">RotatedText</tt><big>(</big><em>text</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#RotatedText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.RotatedText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates text in a table cell.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="libreport.pdfreport.ScaledTable">
+<em class="property">class </em><tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">ScaledTable</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#ScaledTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.ScaledTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scales a Table</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libreport.pdfreport.p">
+<tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">p</tt><big>(</big><em>txt</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a text Paragraph using  ParaStyle</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="libreport.pdfreport.pheader">
+<tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">pheader</tt><big>(</big><em>txt</em>, <em>style=&lt;ParagraphStyle 'Heading1'&gt;</em>, <em>klass=&lt;class reportlab.platypus.paragraph.Paragraph at 0xa7ffc2c&gt;</em>, <em>sep=0.29999999999999999</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#pheader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.pheader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a reportlab PDF element and adds it to the global Elements list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>style</strong> &#8211; can be a HeaderStyle, a ParaStyle or a custom style
+(default HeaderStyle)</li>
+<li><strong>klass</strong> &#8211; the reportlab Class to be called, default Paragraph</li>
+<li><strong>sep</strong> &#8211; space separator height</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="libreport.pdfreport.pre">
+<tt class="descclassname">libreport.pdfreport.</tt><tt class="descname">pre</tt><big>(</big><em>txt</em><big>)</big><a class="reference internal" href="../../../_modules/libreport/pdfreport.html#pre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#libreport.pdfreport.pre" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a text Preformatted Paragraph using PreStyle</p>
+</dd></dl>
+
 </div>
 
 

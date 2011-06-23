@@ -66,21 +66,246 @@ The helpers module is <em>only</em> for reusable logic that:</p>
 forms.</li>
 </ol>
 <p>Any function that operate on lists of
-<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt> objects, or
+<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a> objects, or
 that involves DB heavy lifting should probably
 be written as a
 <tt class="xref py py-class docutils literal"><span class="pre">childcount.indicator.Indicator</span></tt>.
 That way you get the benefits of caching and the
 standardized
 <tt class="xref py py-class docutils literal"><span class="pre">childcount.indicator.Indicator</span></tt> interface.</p>
-<div class="section" id="childcount-helpers-chw">
-<h2>childcount.helpers.chw<a class="headerlink" href="#childcount-helpers-chw" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-childcount.helpers.chw">
+<span id="childcount-helpers-chw"></span><h2>childcount.helpers.chw<a class="headerlink" href="#module-childcount.helpers.chw" title="Permalink to this headline">¶</a></h2>
+<p>Helper functions that operate on or
+relate to <tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>
+objects.</p>
+<dl class="function">
+<dt id="childcount.helpers.chw.kids_needing_immunizations">
+<tt class="descclassname">childcount.helpers.chw.</tt><tt class="descname">kids_needing_immunizations</tt><big>(</big><em>period</em>, <em>chw</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/chw.html#kids_needing_immunizations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.chw.kids_needing_immunizations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of children under five years old assigned to this CHW
+who are:</p>
+<ol class="arabic simple">
+<li>More than 12 months old who have no known immunization
+record or who were last known to be not fully immunized, or</li>
+<li>Less than 12 months old who have not had an immunization
+report in the past 90 days.</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>chw</strong> (<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>) &#8211; CHW</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">django.db.models.query.QuerySet</span></tt> of <a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.chw.kids_needing_muac">
+<tt class="descclassname">childcount.helpers.chw.</tt><tt class="descname">kids_needing_muac</tt><big>(</big><em>period</em>, <em>chw</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/chw.html#kids_needing_muac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.chw.kids_needing_muac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of MUAC-eligible patients assigned to this CHW
+who have not had a recorded MUAC in the past 90 days
+(for known healthy children) or the past 30 days
+(for known malnourished children and children with
+unknown nutrition status).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>chw</strong> (<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>) &#8211; CHW</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>,
+<a class="reference internal" href="models/reports.html#childcount.models.reports.NutritionReport" title="childcount.models.reports.NutritionReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.NutritionReport</span></tt></a>) tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.chw.people_without_followup">
+<tt class="descclassname">childcount.helpers.chw.</tt><tt class="descname">people_without_followup</tt><big>(</big><em>period</em>, <em>chw</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/chw.html#people_without_followup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.chw.people_without_followup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of people assigned to this CHW
+who were referred urgently to a clinic
+who got a late follow-up visit (3-7 days after referral) or no follow-up 
+visit (more than 7 days after referral or never)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>chw</strong> (<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>) &#8211; CHW</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of <a class="reference internal" href="models/reports.html#childcount.models.reports.ReferralReport" title="childcount.models.reports.ReferralReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.ReferralReport</span></tt></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.chw.pregnant_needing_anc">
+<tt class="descclassname">childcount.helpers.chw.</tt><tt class="descname">pregnant_needing_anc</tt><big>(</big><em>period</em>, <em>chw</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/chw.html#pregnant_needing_anc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.chw.pregnant_needing_anc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of women assigned to this CHW
+who are in their 2nd or 3rd trimester of pregnancy
+who haven&#8217;t had ANC visits in last 5 five weeks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>chw</strong> (<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.CHW</span></tt>) &#8211; CHW</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>, 
+last_anc_date, approx_due_date) tuples</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="data">
+<dt id="childcount.helpers.chw.report_indicators">
+<tt class="descclassname">childcount.helpers.chw.</tt><tt class="descname">report_indicators</tt><a class="headerlink" href="#childcount.helpers.chw.report_indicators" title="Permalink to this definition">¶</a></dt>
+<dd><p>The common set of <tt class="xref py py-class docutils literal"><span class="pre">indicator.Indicator</span></tt> objects
+used in the CHW reports.</p>
+</dd></dl>
+
 </div>
-<div class="section" id="childcount-helpers-patient">
-<h2>childcount.helpers.patient<a class="headerlink" href="#childcount-helpers-patient" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-childcount.helpers.patient">
+<span id="childcount-helpers-patient"></span><h2>childcount.helpers.patient<a class="headerlink" href="#module-childcount.helpers.patient" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_imm_report">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_imm_report</tt><big>(</big><em>period</em>, <em>kid</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_imm_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_imm_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up this patient&#8217;s latest immunization report.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="models/reports.html#childcount.models.reports.UnderOneReport" title="childcount.models.reports.UnderOneReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.UnderOneReport</span></tt></a> or None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_muac">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_muac</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_muac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_muac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a string containing 
+this Patient&#8217;s last MUAC measurment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">unicode</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_muac_date">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_muac_date</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_muac_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_muac_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a string containing a human-readable date
+and MUAC value for this Patient&#8217;s last MUAC .</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">unicode</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_muac_raw">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_muac_raw</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_muac_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_muac_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up the latest NutritionReport for this
+patient with a non-zero MUAC value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="models/reports.html#childcount.models.reports.NutritionReport" title="childcount.models.reports.NutritionReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.NutritionReport</span></tt></a> or None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="childcount-helpers-site">
-<h2>childcount.helpers.site<a class="headerlink" href="#childcount-helpers-site" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-childcount.helpers.site">
+<span id="childcount-helpers-site"></span><h2>childcount.helpers.site<a class="headerlink" href="#module-childcount.helpers.site" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="childcount.helpers.site.summary_stats">
+<tt class="descclassname">childcount.helpers.site.</tt><tt class="descname">summary_stats</tt><big>(</big><em>period</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/site.html#summary_stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.site.summary_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a few key indicators for display
+on the dashboard.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 </div>
 
@@ -93,9 +318,9 @@ standardized
   <h3><a href="../../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">childcount.helpers</a><ul>
-<li><a class="reference internal" href="#childcount-helpers-chw">childcount.helpers.chw</a></li>
-<li><a class="reference internal" href="#childcount-helpers-patient">childcount.helpers.patient</a></li>
-<li><a class="reference internal" href="#childcount-helpers-site">childcount.helpers.site</a></li>
+<li><a class="reference internal" href="#module-childcount.helpers.chw">childcount.helpers.chw</a></li>
+<li><a class="reference internal" href="#module-childcount.helpers.patient">childcount.helpers.patient</a></li>
+<li><a class="reference internal" href="#module-childcount.helpers.site">childcount.helpers.site</a></li>
 </ul>
 </li>
 </ul>
