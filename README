@@ -1,16 +1,10 @@
+ChildCount+ 
+===========
 
-Description: A few RapidSMS apps.
-Licence: Public Domain
+For documentation, please see:
+    http://mvpdev.github.com/rapidsms/
 
-############
-# INSTALL
-############
-
-* FIXTURES
-    Some apps may require some datas in the DB to work.
-    Import the content of the fixtures subfolder if applicable.
-
-    Example:
-        $ ./manage.py loaddata apps/billboard/fixtures/*.json
+We also have a documentation mirror at:
+    http://childcount.readthedocs.org/
 
 
