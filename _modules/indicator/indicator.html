@@ -55,37 +55,83 @@
 <span class="kn">from</span> <span class="nn">cache</span> <span class="kn">import</span> <span class="n">cache_indicator</span>
 <span class="kn">from</span> <span class="nn">query_set_type</span> <span class="kn">import</span> <span class="n">QuerySetType</span>
 
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">connection</span>
 <span class="kn">from</span> <span class="nn">django.db.models.query</span> <span class="kn">import</span> <span class="n">QuerySet</span>
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
 
-<div class="viewcode-block" id="Indicator"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator">[docs]</a><span class="k">class</span> <span class="nc">Indicator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Indicator"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.Indicator">[docs]</a><span class="k">class</span> <span class="nc">Indicator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">type_in</span>     <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;Type of the data argument to this indicator.</span>
+<span class="sd">    Often this will be an instantiated </span>
+<span class="sd">    :class:`indicator.query_set_type.QuerySetType`</span>
+<span class="sd">    like `QuerySetType(Patient)`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">type_out</span>    <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The type of the return value of this indicator.</span>
+<span class="sd">    Used to figure out whether or not it can be cached. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">slug</span>        <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;A machine-friendly identifier string for this indicator, </span>
+<span class="sd">    using a-z, A-Z, 0-9, and underscore.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">short_name</span>  <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;A short human-readable name for this indicator, like</span>
+<span class="sd">    &quot;% FP&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">long_name</span>   <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;A long human-readable name for this indicator, like</span>
+<span class="sd">    &quot;Percentage of women 15-49 using modern family planning</span>
+<span class="sd">    methods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">cache</span>       <span class="o">=</span> <span class="bp">True</span>
-    <span class="c"># Default to two hours</span>
+    <span class="sd">&quot;&quot;&quot;A boolean indicating whether or not this indicator</span>
+<span class="sd">    should be cached. Should be False for indicators with</span>
+<span class="sd">    non-pickle-able output values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">valid_for</span>   <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span>
+    <span class="sd">&quot;&quot;&quot;How long to keep cached values for before expiring</span>
+<span class="sd">    them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The main indicator function.</span>
+
+<span class="sd">        :param period: A time period object, with a :meth:`.start`</span>
+<span class="sd">                       and an :meth:`.end` method, each of which </span>
+<span class="sd">                       returns a :class:`datetime.datetime` object.</span>
+<span class="sd">        :param data_in: The data parameter for this indicator.</span>
+<span class="sd">                        Often a QuerySet of patients or CHWs or clinics.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;No value method implemented!&quot;</span><span class="p">))</span>
 
     
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    You shouldn&#39;t have implement anything below this line</span>
-<span class="sd">    in your Indicator subclasses...</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c"># You shouldn&#39;t have implement anything below this line</span>
+    <span class="c"># in your Indicator subclasses...</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Indicator.output_is_number"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator.output_is_number">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_number</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="Indicator.input_is_query_set"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.Indicator.input_is_query_set">[docs]</a>    <span class="k">def</span> <span class="nf">input_is_query_set</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the input type is a :class:`QuerySet` &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_in</span><span class="p">,</span> <span class="n">QuerySetType</span><span class="p">)</span>
+</div>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Indicator.output_is_number"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.Indicator.output_is_number">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_number</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the output type is a subclass of </span>
+<span class="sd">        :class:`numbers.Number`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Indicator.output_is_percentage"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.Indicator.output_is_percentage">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_percentage</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="Indicator.output_is_percentage"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.Indicator.output_is_percentage">[docs]</a>    <span class="k">def</span> <span class="nf">output_is_percentage</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;True if the output type is </span>
+<span class="sd">        :class:`indicator.percentage.Percentage`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">Percentage</span><span class="p">)</span>
 </div>
     <span class="nd">@classmethod</span>
@@ -120,13 +166,24 @@
 
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_in</span><span class="p">,</span> <span class="n">data_in</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;input&quot;</span><span class="p">))</span>
+        <span class="k">print</span> <span class="n">connection</span><span class="o">.</span><span class="n">queries</span>
         <span class="n">data_out</span> <span class="o">=</span> <span class="n">cache_indicator</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">_value</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">)</span>
+        <span class="n">connection</span><span class="o">.</span><span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">type_out</span><span class="p">,</span> <span class="n">data_out</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">data_out</span> 
 </div>
-<div class="viewcode-block" id="IndicatorPercentage"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.IndicatorPercentage">[docs]</a><span class="k">class</span> <span class="nc">IndicatorPercentage</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+<div class="viewcode-block" id="IndicatorPercentage"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.IndicatorPercentage">[docs]</a><span class="k">class</span> <span class="nc">IndicatorPercentage</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subclass of :class:`indicator.indicator.Indicator` for</span>
+<span class="sd">    percentage values. You give it the two indicators that</span>
+<span class="sd">    make up the numerator and denominator values and it </span>
+<span class="sd">    gives you back a :class:`indicator.percentage.Percentage`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">cls_num</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The numerator :class:`indicator.indicator.Indicator`&quot;&quot;&quot;</span>
     <span class="n">cls_den</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The denominator :class:`indicator.indicator.Indicator`&quot;&quot;&quot;</span>
 
     <span class="n">type_out</span> <span class="o">=</span> <span class="n">Percentage</span>
 
@@ -134,9 +191,19 @@
     <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Percentage</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">cls_num</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">),</span> <span class="n">cls</span><span class="o">.</span><span class="n">cls_den</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="IndicatorDifference"><a class="viewcode-back" href="../../api/index.html#indicator.indicator.IndicatorDifference">[docs]</a><span class="k">class</span> <span class="nc">IndicatorDifference</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+<div class="viewcode-block" id="IndicatorDifference"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.indicator.IndicatorDifference">[docs]</a><span class="k">class</span> <span class="nc">IndicatorDifference</span><span class="p">(</span><span class="n">Indicator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subclass of :class:`indicator.indicator.Indicator` for</span>
+<span class="sd">    difference values. You give it the two indicators that</span>
+<span class="sd">    make up the numerator and denominator values and it </span>
+<span class="sd">    gives you back their difference.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cls_first</span>   <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The inital :class:`indicator.indicator.Indicator` value&quot;&quot;&quot;</span>
     <span class="n">cls_second</span>  <span class="o">=</span> <span class="bp">None</span>
+    <span class="sd">&quot;&quot;&quot;The number to subtract from the initial</span>
+<span class="sd">    :class:`indicator.indicator.Indicator` value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_value</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">data_in</span><span class="p">):</span>

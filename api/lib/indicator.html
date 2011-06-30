@@ -56,6 +56,219 @@
             
   <div class="section" id="indicator">
 <h1>indicator<a class="headerlink" href="#indicator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-indicator.cache">
+<span id="indicator-cache"></span><h2>indicator.cache<a class="headerlink" href="#module-indicator.cache" title="Permalink to this headline">¶</a></h2>
+<dl class="data">
+<dt id="indicator.cache.CACHEABLE_TYPES">
+<tt class="descclassname">indicator.cache.</tt><tt class="descname">CACHEABLE_TYPES</tt><a class="headerlink" href="#indicator.cache.CACHEABLE_TYPES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicator output types that can be cached.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="indicator.cache.STR_FUNCTIONS">
+<tt class="descclassname">indicator.cache.</tt><tt class="descname">STR_FUNCTIONS</tt><a class="headerlink" href="#indicator.cache.STR_FUNCTIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mapping of a type =&gt; function to
+use to turn an object of this type
+into a cache key</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="indicator.cache.cache_indicator">
+<tt class="descclassname">indicator.cache.</tt><tt class="descname">cache_indicator</tt><big>(</big><em>cls</em>, <em>ind_func</em>, <em>period</em>, <em>data_in</em><big>)</big><a class="reference internal" href="../../_modules/indicator/cache.html#cache_indicator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.cache.cache_indicator" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#indicator.cache.cache_indicator" title="indicator.cache.cache_indicator"><tt class="xref py py-func docutils literal"><span class="pre">cache_indicator()</span></tt></a> is the function used
+to cache return values of <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> (subclass of <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a>) &#8211; Indicator to cache</li>
+<li><strong>ind_func</strong> (<cite>function</cite>) &#8211; Function which generates the indicator value</li>
+<li><strong>period</strong> &#8211; The time period with which to compute the
+indicator value</li>
+<li><strong>data_in</strong> &#8211; The input data to the indicator</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="indicator.cache.cache_simple">
+<tt class="descclassname">indicator.cache.</tt><tt class="descname">cache_simple</tt><big>(</big><em>func</em>, <em>timeout=7200</em><big>)</big><a class="reference internal" href="../../_modules/indicator/cache.html#cache_simple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.cache.cache_simple" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#indicator.cache.cache_simple" title="indicator.cache.cache_simple"><tt class="xref py py-func docutils literal"><span class="pre">cache_simple()</span></tt></a> is a decorator 
+for caching a function of a single
+argument that returns a pickle-able
+object</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-indicator.indicator">
+<span id="indicator-indicator"></span><h2>indicator.indicator<a class="headerlink" href="#module-indicator.indicator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="indicator.indicator.Indicator">
+<em class="property">class </em><tt class="descclassname">indicator.indicator.</tt><tt class="descname">Indicator</tt><a class="reference internal" href="../../_modules/indicator/indicator.html#Indicator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.Indicator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="indicator.indicator.Indicator.cache">
+<tt class="descname">cache</tt><a class="headerlink" href="#indicator.indicator.Indicator.cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>A boolean indicating whether or not this indicator
+should be cached. Should be False for indicators with
+non-pickle-able output values.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="indicator.indicator.Indicator.input_is_query_set">
+<em class="property">classmethod </em><tt class="descname">input_is_query_set</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/indicator/indicator.html#Indicator.input_is_query_set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.Indicator.input_is_query_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the input type is a <tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.long_name">
+<tt class="descname">long_name</tt><a class="headerlink" href="#indicator.indicator.Indicator.long_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A long human-readable name for this indicator, like
+&#8220;Percentage of women 15-49 using modern family planning
+methods.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="indicator.indicator.Indicator.output_is_number">
+<em class="property">classmethod </em><tt class="descname">output_is_number</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/indicator/indicator.html#Indicator.output_is_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.Indicator.output_is_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the output type is a subclass of 
+<tt class="xref py py-class docutils literal"><span class="pre">numbers.Number</span></tt>.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="indicator.indicator.Indicator.output_is_percentage">
+<em class="property">classmethod </em><tt class="descname">output_is_percentage</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/indicator/indicator.html#Indicator.output_is_percentage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.Indicator.output_is_percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the output type is 
+<a class="reference internal" href="#indicator.percentage.Percentage" title="indicator.percentage.Percentage"><tt class="xref py py-class docutils literal"><span class="pre">indicator.percentage.Percentage</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.short_name">
+<tt class="descname">short_name</tt><a class="headerlink" href="#indicator.indicator.Indicator.short_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A short human-readable name for this indicator, like
+&#8220;% FP&#8221;.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.slug">
+<tt class="descname">slug</tt><a class="headerlink" href="#indicator.indicator.Indicator.slug" title="Permalink to this definition">¶</a></dt>
+<dd><p>A machine-friendly identifier string for this indicator,
+using a-z, A-Z, 0-9, and underscore.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.type_in">
+<tt class="descname">type_in</tt><a class="headerlink" href="#indicator.indicator.Indicator.type_in" title="Permalink to this definition">¶</a></dt>
+<dd><p>Type of the data argument to this indicator.
+Often this will be an instantiated
+<a class="reference internal" href="#indicator.query_set_type.QuerySetType" title="indicator.query_set_type.QuerySetType"><tt class="xref py py-class docutils literal"><span class="pre">indicator.query_set_type.QuerySetType</span></tt></a>
+like <cite>QuerySetType(Patient)</cite>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.type_out">
+<tt class="descname">type_out</tt><a class="headerlink" href="#indicator.indicator.Indicator.type_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>The type of the return value of this indicator.
+Used to figure out whether or not it can be cached.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.Indicator.valid_for">
+<tt class="descname">valid_for</tt><a class="headerlink" href="#indicator.indicator.Indicator.valid_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>How long to keep cached values for before expiring
+them.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="indicator.indicator.IndicatorDifference">
+<em class="property">class </em><tt class="descclassname">indicator.indicator.</tt><tt class="descname">IndicatorDifference</tt><a class="reference internal" href="../../_modules/indicator/indicator.html#IndicatorDifference"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.IndicatorDifference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a> for
+difference values. You give it the two indicators that
+make up the numerator and denominator values and it 
+gives you back their difference.</p>
+<dl class="attribute">
+<dt id="indicator.indicator.IndicatorDifference.cls_first">
+<tt class="descname">cls_first</tt><a class="headerlink" href="#indicator.indicator.IndicatorDifference.cls_first" title="Permalink to this definition">¶</a></dt>
+<dd><p>The inital <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a> value</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.IndicatorDifference.cls_second">
+<tt class="descname">cls_second</tt><a class="headerlink" href="#indicator.indicator.IndicatorDifference.cls_second" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number to subtract from the initial
+<a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a> value</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="indicator.indicator.IndicatorPercentage">
+<em class="property">class </em><tt class="descclassname">indicator.indicator.</tt><tt class="descname">IndicatorPercentage</tt><a class="reference internal" href="../../_modules/indicator/indicator.html#IndicatorPercentage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.indicator.IndicatorPercentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclass of <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a> for
+percentage values. You give it the two indicators that
+make up the numerator and denominator values and it 
+gives you back a <a class="reference internal" href="#indicator.percentage.Percentage" title="indicator.percentage.Percentage"><tt class="xref py py-class docutils literal"><span class="pre">indicator.percentage.Percentage</span></tt></a>.</p>
+<dl class="attribute">
+<dt id="indicator.indicator.IndicatorPercentage.cls_den">
+<tt class="descname">cls_den</tt><a class="headerlink" href="#indicator.indicator.IndicatorPercentage.cls_den" title="Permalink to this definition">¶</a></dt>
+<dd><p>The denominator <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.IndicatorPercentage.cls_num">
+<tt class="descname">cls_num</tt><a class="headerlink" href="#indicator.indicator.IndicatorPercentage.cls_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>The numerator <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="indicator.indicator.IndicatorPercentage.type_out">
+<tt class="descname">type_out</tt><a class="headerlink" href="#indicator.indicator.IndicatorPercentage.type_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Percentage</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-indicator.percentage">
+<span id="indicator-percentage"></span><h2>indicator.percentage<a class="headerlink" href="#module-indicator.percentage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="indicator.percentage.Percentage">
+<em class="property">class </em><tt class="descclassname">indicator.percentage.</tt><tt class="descname">Percentage</tt><a class="reference internal" href="../../_modules/indicator/percentage.html#Percentage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.percentage.Percentage" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is exactly like <tt class="xref py py-class docutils literal"><span class="pre">fractions.Fraction</span></tt> except
+that <a class="reference internal" href="#indicator.percentage.Percentage" title="indicator.percentage.Percentage"><tt class="xref py py-class docutils literal"><span class="pre">Percentage</span></tt></a> never simplifies the numerator
+or denominator.</p>
+<dl class="attribute">
+<dt id="indicator.percentage.Percentage.empty">
+<tt class="descname">empty</tt><a class="reference internal" href="../../_modules/indicator/percentage.html#Percentage.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.percentage.Percentage.empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="indicator.percentage.Percentage.short_str">
+<tt class="descname">short_str</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/indicator/percentage.html#Percentage.short_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.percentage.Percentage.short_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-indicator.query_set_type">
+<span id="indicator-query-set-type"></span><h2>indicator.query_set_type<a class="headerlink" href="#module-indicator.query_set_type" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="indicator.query_set_type.QuerySetType">
+<em class="property">class </em><tt class="descclassname">indicator.query_set_type.</tt><tt class="descname">QuerySetType</tt><big>(</big><em>mtype</em><big>)</big><a class="reference internal" href="../../_modules/indicator/query_set_type.html#QuerySetType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#indicator.query_set_type.QuerySetType" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#indicator.query_set_type.QuerySetType" title="indicator.query_set_type.QuerySetType"><tt class="xref py py-class docutils literal"><span class="pre">QuerySetType</span></tt></a> is a bogus
+type just used with <a class="reference internal" href="#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a>
+definitions to specify the particular model type of the
+<tt class="xref py py-class docutils literal"><span class="pre">QuerySet</span></tt> it accepts as an input argument.</p>
+<p>This is not duck-typing and it makes me feel dirty.
+Let&#8217;s figure out a better way to do this.</p>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -64,6 +277,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">indicator</a><ul>
+<li><a class="reference internal" href="#module-indicator.cache">indicator.cache</a></li>
+<li><a class="reference internal" href="#module-indicator.indicator">indicator.indicator</a></li>
+<li><a class="reference internal" href="#module-indicator.percentage">indicator.percentage</a></li>
+<li><a class="reference internal" href="#module-indicator.query_set_type">indicator.query_set_type</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="checksum.html"
                         title="previous chapter">checksum</a></p>

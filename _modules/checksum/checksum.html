@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>checksum.checksum &mdash; ChildCount+ v2.0(g) documentation</title>
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '2.0(g)',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for checksum.checksum</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">checksum</span>
+
+<span class="sd">Used for validating the Luhn-30</span>
+<span class="sd">checksums used with the OpenMRS</span>
+<span class="sd">and ChildCount+ health IDs.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">BASE_CHARACTERS</span> <span class="o">=</span> <span class="s">u&#39;0123456789acdefghjklmnprtuvwxy&#39;</span>
+<span class="sd">&quot;&quot;&quot;Valid characters for health IDs&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">CheckDigitException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="CheckDigitException"><a class="viewcode-back" href="../../api/lib/checksum.html#checksum.checksum.CheckDigitException">[docs]</a>    <span class="sd">&quot;&quot;&quot;Raised on invalid input to</span>
+<span class="sd">    checksum methods</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">clean_chars</span><span class="p">(</span><span class="n">chars</span><span class="p">):</span></div>
+<div class="viewcode-block" id="clean_chars"><a class="viewcode-back" href="../../api/lib/checksum.html#checksum.checksum.clean_chars">[docs]</a>    <span class="sd">&quot;&quot;&quot;Remove whitespace&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">chars</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">get_check_digit</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">base_chars</span><span class="p">):</span></div>
+<div class="viewcode-block" id="get_check_digit"><a class="viewcode-back" href="../../api/lib/checksum.html#checksum.checksum.get_check_digit">[docs]</a>    <span class="sd">&quot;&quot;&quot;Compute the check digit for an identifier</span>
+<span class="sd">    using the specified legal characters.</span>
+
+<span class="sd">    :param identifier: String on which to compute the checksum</span>
+<span class="sd">    :param base_chars: String of legal characters</span>
+<span class="sd">    :type base_chars: :class:`unicode`</span>
+<span class="sd">    :type identifier: :class:`unicode`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CheckDigitException</span><span class="p">(</span><span class="s">&#39;Zero length identifier&#39;</span><span class="p">)</span>
+
+    <span class="n">mod</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">base_chars</span><span class="p">)</span>
+    <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">identifier</span><span class="p">:</span>
+        <span class="n">code_point</span> <span class="o">=</span> <span class="n">base_chars</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">code_point</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CheckDigitException</span><span class="p">(</span><span class="s">&#39;Invalid character in identifier&#39;</span><span class="p">)</span>
+
+        <span class="n">addend</span> <span class="o">=</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">code_point</span>
+        <span class="c"># Alternate the factor for next loop</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">factor</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="mi">2</span>
+
+        <span class="n">addend</span> <span class="o">=</span> <span class="p">(</span><span class="n">addend</span> <span class="o">/</span> <span class="n">mod</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">addend</span> <span class="o">%</span> <span class="n">mod</span><span class="p">)</span>
+        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">addend</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">%</span> <span class="n">mod</span>
+    <span class="n">check_code_point</span> <span class="o">=</span> <span class="n">mod</span> <span class="o">-</span> <span class="n">remainder</span>
+    <span class="n">check_code_point</span> <span class="o">%=</span> <span class="n">mod</span>
+    <span class="k">return</span> <span class="n">base_chars</span><span class="p">[</span><span class="n">check_code_point</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">is_valid_identifier</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">base_chars</span> <span class="o">=</span> <span class="n">BASE_CHARACTERS</span><span class="p">):</span></div>
+<div class="viewcode-block" id="is_valid_identifier"><a class="viewcode-back" href="../../api/lib/checksum.html#checksum.checksum.is_valid_identifier">[docs]</a>    <span class="sd">&quot;&quot;&quot;Use the Luhn-30 checksum to validate</span>
+<span class="sd">    a string</span>
+
+<span class="sd">    :param identifier: String whose validity should be checked</span>
+<span class="sd">    :param base_chars: String of legal characters</span>
+<span class="sd">    :type base_chars: :class:`unicode`</span>
+<span class="sd">    :type identifier: :class:`unicode`</span>
+<span class="sd">    </span>
+<span class="sd">    :returns: :class:`bool`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">identifier</span> <span class="o">=</span> <span class="n">clean_chars</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+        <span class="n">base_chars</span> <span class="o">=</span> <span class="n">clean_chars</span><span class="p">(</span><span class="n">base_chars</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">CheckDigitException</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="n">check_digit</span> <span class="o">=</span> <span class="n">clean_chars</span><span class="p">(</span><span class="n">identifier</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">get_check_digit</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">base_chars</span><span class="p">)</span> <span class="o">==</span> <span class="n">check_digit</span>
+    <span class="k">except</span> <span class="n">CheckDigitException</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</pre></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Earth Institue and Millennium Villages Project.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

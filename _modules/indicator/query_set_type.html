@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>lib &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>indicator.query_set_type &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -23,9 +23,7 @@
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../../index.html" />
-    <link rel="up" title="API/ChildCount+ Module Reference" href="../index.html" />
-    <link rel="next" title="ccdoc" href="ccdoc.html" />
-    <link rel="prev" title="reportgen" href="../apps/reportgen/index.html" /> 
+    <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,14 +35,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="ccdoc.html" title="ccdoc"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../apps/reportgen/index.html" title="reportgen"
-             accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">API/ChildCount+ Module Reference</a> &raquo;</li> 
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,40 +45,36 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="lib">
-<h1>lib<a class="headerlink" href="#lib" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="ccdoc.html">ccdoc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="checksum.html">checksum</a></li>
-<li class="toctree-l1"><a class="reference internal" href="indicator.html">indicator</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="indicator.html#module-indicator.cache">indicator.cache</a></li>
-<li class="toctree-l2"><a class="reference internal" href="indicator.html#module-indicator.indicator">indicator.indicator</a></li>
-<li class="toctree-l2"><a class="reference internal" href="indicator.html#module-indicator.percentage">indicator.percentage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="indicator.html#module-indicator.query_set_type">indicator.query_set_type</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
+  <h1>Source code for indicator.query_set_type</h1><div class="highlight"><pre>
+<span class="k">class</span> <span class="nc">QuerySetType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="QuerySetType"><a class="viewcode-back" href="../../api/lib/indicator.html#indicator.query_set_type.QuerySetType">[docs]</a>    <span class="sd">&quot;&quot;&quot; :class:`QuerySetType` is a bogus</span>
+<span class="sd">    type just used with :class:`indicator.indicator.Indicator`</span>
+<span class="sd">    definitions to specify the particular model type of the</span>
+<span class="sd">    :class:`QuerySet` it accepts as an input argument.</span>
 
+<span class="sd">    This is not duck-typing and it makes me feel dirty.</span>
+<span class="sd">    Let&#39;s figure out a better way to do this.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mtype</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mtype</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mtype</span> <span class="o">=</span> <span class="n">mtype</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;QuerySet(</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtype</span><span class="o">.</span><span class="n">__name__</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mtype</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">mtype</span>
+
+    <span class="k">def</span> <span class="nf">__neq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</pre></div></div>
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../apps/reportgen/index.html"
-                        title="previous chapter">reportgen</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ccdoc.html"
-                        title="next chapter">ccdoc</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/api/lib/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
@@ -113,14 +101,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="ccdoc.html" title="ccdoc"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../apps/reportgen/index.html" title="reportgen"
-             >previous</a> |</li>
         <li><a href="../../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="../index.html" >API/ChildCount+ Module Reference</a> &raquo;</li> 
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -69,6 +69,8 @@ For a more complete list of people involved with ChildCount+
 development and deployment, please see the
 `ChildCount+ Team page <http://www.childcount.org/about/team/>`_.
 
-
-
+This documentation was created by 
+Henry Corrigan-Gibbs in 2011 with the goal
+of letting others benefit from the hard
+work of the many ChildCount+ contributors.
 

@@ -54,8 +54,72 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="checksum">
-<h1>checksum<a class="headerlink" href="#checksum" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-checksum.checksum">
+<span id="checksum"></span><h1>checksum<a class="headerlink" href="#module-checksum.checksum" title="Permalink to this headline">¶</a></h1>
+<p>checksum</p>
+<p>Used for validating the Luhn-30
+checksums used with the OpenMRS
+and ChildCount+ health IDs.</p>
+<dl class="data">
+<dt id="checksum.checksum.BASE_CHARACTERS">
+<tt class="descclassname">checksum.checksum.</tt><tt class="descname">BASE_CHARACTERS</tt><a class="headerlink" href="#checksum.checksum.BASE_CHARACTERS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Valid characters for health IDs</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="checksum.checksum.CheckDigitException">
+<em class="property">exception </em><tt class="descclassname">checksum.checksum.</tt><tt class="descname">CheckDigitException</tt><a class="reference internal" href="../../_modules/checksum/checksum.html#CheckDigitException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#checksum.checksum.CheckDigitException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised on invalid input to
+checksum methods</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="checksum.checksum.clean_chars">
+<tt class="descclassname">checksum.checksum.</tt><tt class="descname">clean_chars</tt><big>(</big><em>chars</em><big>)</big><a class="reference internal" href="../../_modules/checksum/checksum.html#clean_chars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#checksum.checksum.clean_chars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove whitespace</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="checksum.checksum.get_check_digit">
+<tt class="descclassname">checksum.checksum.</tt><tt class="descname">get_check_digit</tt><big>(</big><em>identifier</em>, <em>base_chars</em><big>)</big><a class="reference internal" href="../../_modules/checksum/checksum.html#get_check_digit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#checksum.checksum.get_check_digit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the check digit for an identifier
+using the specified legal characters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>identifier</strong> (<tt class="xref py py-class docutils literal"><span class="pre">unicode</span></tt>) &#8211; String on which to compute the checksum</li>
+<li><strong>base_chars</strong> (<tt class="xref py py-class docutils literal"><span class="pre">unicode</span></tt>) &#8211; String of legal characters</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="checksum.checksum.is_valid_identifier">
+<tt class="descclassname">checksum.checksum.</tt><tt class="descname">is_valid_identifier</tt><big>(</big><em>identifier</em>, <em>base_chars=u'0123456789acdefghjklmnprtuvwxy'</em><big>)</big><a class="reference internal" href="../../_modules/checksum/checksum.html#is_valid_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#checksum.checksum.is_valid_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the Luhn-30 checksum to validate
+a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identifier</strong> (<tt class="xref py py-class docutils literal"><span class="pre">unicode</span></tt>) &#8211; String whose validity should be checked</li>
+<li><strong>base_chars</strong> (<tt class="xref py py-class docutils literal"><span class="pre">unicode</span></tt>) &#8211; String of legal characters</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><tt class="xref py py-class docutils literal"><span class="pre">bool</span></tt></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
