@@ -11,7 +11,7 @@ from django_tracking.models import TrackedItem
 from locations.models import Location
 
 from findtb.models import *
-from findtb.libs.utils import registered, send_msg
+from findtb.libs.utils import registered, send_msg, send_to_dtls send_to_dtu_focal_person
 from findtb.exceptions import ParseError, NotAllowed, BadValue
 
 
@@ -98,7 +98,7 @@ def collect(params, reporter, message):
     """
 
     if reporter.groups.filter(name='district tb supervisor').count():
-        format_error = u"Collection failed:, you must send: "\
+        format_error = u"Collection failed: you must send: "\
                        u"COLLECT LocationCode NumberOfSlides"
 
         # syntax check for the sms
@@ -142,13 +142,18 @@ def collect(params, reporter, message):
         if location.type.name != 'dtu':
             raise BadValue(u"Collection failed: %s is not a DTU" % location.name)
 
+        number = int(groupdict['number'])
+        if 20 < number < 5:
+            raise BadValue(u"Collection failed: you must collect between 5 "\
+                           u"and 20 slides. You entered %s." % number)
+
         # slides batch must exists to be collected
         try:
             sb = SlidesBatch.objects.get_for_quarter(location)
         except SlidesBatch.DoesNotExist:
             raise BadValue(u"Collection failed: %s never notified the "\
                            u"system it started EQA. Ask the DTU Focal Person "\
-                           u"to send the 'READY' keyword." % location.name)
+                           u"to send the 'START' keyword." % location.name)
 
         # slides batch must be in ready state
         ti, c = TrackedItem.get_tracker_or_create(content_object=sb)
@@ -161,8 +166,6 @@ def collect(params, reporter, message):
         state = CollectedFromDtu(slides_batch=sb)
         state.save()
         TrackedItem.add_state_to_item(sb, state)
-
-        number = int(groupdict['number'])
 
         # create slides and attache to batch
         for i in range(number):
@@ -190,10 +193,11 @@ def receive(params, reporter, message):
 
     if reporter.groups.filter(name='first control focal person').count():
 
-        format_error = u"Reception failed:, you must send: "\
-                       u"'RECEIVE LocationCode1' or 'RECEIVE all'. You can "\
-                       u"send several location codes at the same time: "\
-                       u"'RECEIVE LocationCode1 LocationCode2'."
+        format_error = u"Reception failed: you must send: "\
+                       u"'RECEIVE LocationCode' or 'RECEIVE all'. You can "\
+                       u"send several codes at the same time: "\
+                       u"'RECEIVE LocationCode1 LocationCode2'. Location "\
+                       u"must all be DTUs."
 
         # syntax check for the sms
         text = ' '.join(params)
@@ -217,10 +221,14 @@ def receive(params, reporter, message):
             dtus = district.descendants()
             accepted_batches = []
             for dtu in dtus:
-                sb = SlidesBatch.objects.get_for_quarter(dtu)
-                ti, c = TrackedItem.get_tracker_or_create(sb)
-                if ti.state.title == 'collected_from_dtu':
-                    accepted_batches.append(sb)
+                try:
+                    sb = SlidesBatch.objects.get_for_quarter(dtu)
+                except SlidesBatch.DoesNotExist:
+                    pass
+                else:
+                    ti, c = TrackedItem.get_tracker_or_create(sb)
+                    if ti.state.title == 'collected_from_dtu':
+                        accepted_batches.append(sb)
 
             if not accepted_batches:
                 raise BadValue(u"No slides are on their way to first control "\
@@ -232,14 +240,20 @@ def receive(params, reporter, message):
             not_dtus = []
             for code in codes:
                 try:
-                    dtus.append(Location.get(type__name=u'dtu', code=code)
+                    dtus.append(Location.objects.get(type__name=u'dtu',
+                                                     code=code))
                 except Location.DoesNotExist:
                     not_dtus.append(code)
             if not_dtus:
-                raise BadValue(u"Reception failed: %(codes)s are not " \
+                if len(not_dtus) > 1:
+                    msg = u"Reception failed: %(codes)s are not " \
                                u"valid DTU codes. Please correct and " \
-                               u"send again." % \
-                               {'codes': ', '.join(not_dtus)})
+                               u"send again."
+                else:
+                    msg = u"Reception failed: %(codes)s is not a " \
+                           u"valid DTU code. Please correct and " \
+                           u"send again."
+                raise BadValue(msg % {'codes': ', '.join(not_dtus)})
 
             # check that these slides are meant to go to first control
             accepted_batches = []
@@ -257,8 +271,8 @@ def receive(params, reporter, message):
                 raise BadValue(u"Reception failed: slides from %(codes)s are not " \
                                u"in their way to First Control. Check they have" \
                                u"been collected by DTLS and didn't pass first "\
-                               u"control already." % \
-                                               {'codes': ', '.join(rejected_batches)})
+                               u"control already." % {
+                               'codes': ', '.join(rejected_batches)})
 
         codes = ', '.join(sb.location.code for sb in accepted_batches)
         for sb in accepted_batches:

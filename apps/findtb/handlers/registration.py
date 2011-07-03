@@ -231,7 +231,8 @@ def reject_wrong_location_type(location, type):
     """
     if location.type != LocationType.objects.get(name__iexact=type):
         raise BadValue("Registration failed: %(loc)s is not a %(expected_type)s"\
-                        ", it is a %(type)s. You must register with a DTU code." %
+                        ", it is a %(type)s. You must register with a "\
+                        "%(expected_type)s code." %
                         {'loc': location,
                         'type': location.type.name,
                         'expected_type': type})
@@ -401,14 +402,10 @@ def create_first_control_focal_person(reporter, group, location):
                              "First Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
-    role = Role.objects.get(group='second control focal person',
-                            location=location)
-    except Role.DoesNotExist:
-        pass
-    else:
-        if role.reporter != reporter:
-            raise NotAllowed("You are already registered as a " \
-                             "Second Control Focal Person at %(loc)s. You " \
+    if Role.objects.filter(group__name='second control focal person',
+                           reporter=reporter).count():
+        raise NotAllowed("You are already registered as a " \
+                             "Second Control Focal Person  You " \
                              "can't be both." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
@@ -453,16 +450,11 @@ def create_second_control_focal_person(reporter, group, location):
                              "Second Control Focal Person at %(loc)s. You do not " \
                              "need to register again." % {'loc':location})
 
-    role = Role.objects.get(group='first control focal person',
-                            location=location)
-    except Role.DoesNotExist:
-        pass
-    else:
-        if role.reporter != reporter:
-            raise NotAllowed("You are already registered as a " \
-                             "First Control Focal Person at %(loc)s. You " \
-                             "can't be both." % {'loc':location})
-
+    if Role.objects.filter(group__name='first control focal person',
+                           reporter=reporter).count():
+        raise NotAllowed("You are already registered as a " \
+                         "First Control Focal Person at %(loc)s. You " \
+                         "can't be both." % {'loc':location})
 
     existing_roles = Role.objects.filter(reporter=reporter)
     try:
