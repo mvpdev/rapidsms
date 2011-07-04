@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>[U] Development Processes &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>Development Processes &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -51,22 +51,75 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="u-development-processes">
-<h1>[U] Development Processes<a class="headerlink" href="#u-development-processes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="u-bug-tracker">
-<h2>[U] Bug Tracker<a class="headerlink" href="#u-bug-tracker" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="development-processes">
+<h1>Development Processes<a class="headerlink" href="#development-processes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bug-tracker">
+<h2>Bug Tracker<a class="headerlink" href="#bug-tracker" title="Permalink to this headline">¶</a></h2>
+<p>You can find our bug tracker at: <a class="reference external" href="http://code.mvpafrica.org/">http://code.mvpafrica.org/</a>.</p>
 </div>
-<div class="section" id="u-mailing-list">
-<h2>[U] Mailing List<a class="headerlink" href="#u-mailing-list" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mailing-list">
+<h2>Mailing List<a class="headerlink" href="#mailing-list" title="Permalink to this headline">¶</a></h2>
+<p>We do not have a public developer mailing list (yet).
+You can reach the ChildCount+ developers on our internal
+mailing list at dev at mvpafrica dot org.</p>
 </div>
-<div class="section" id="u-branches-and-repo">
-<h2>[U] Branches and Repo<a class="headerlink" href="#u-branches-and-repo" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="repo-and-branches">
+<h2>Repo and Branches<a class="headerlink" href="#repo-and-branches" title="Permalink to this headline">¶</a></h2>
+<p><strong>Repositories</strong></p>
+<p>The ChildCount+ code repository is online here:</p>
+<blockquote>
+<div><a class="reference external" href="http://www.github.com/mvpdev/rapidsms">http://www.github.com/mvpdev/rapidsms</a></div></blockquote>
+<p>The installation and server configuration files for
+ChildCount+ installations are online here:</p>
+<blockquote>
+<div><a class="reference external" href="http://www.github.com/mvpdev/rapidsms-impl">http://www.github.com/mvpdev/rapidsms-impl</a></div></blockquote>
+<p><strong>Branches</strong></p>
+<p>The ChildCount+ code repository has two
+two main branches: <cite>ccdev &lt;http://www.github.com/mvpdev/rapidsms/tree/ccdev&gt;</cite> and
+<cite>ccstable &lt;http://www.github.com/mvpdev/rapidsms/tree/ccstable&gt;</cite>.</p>
+<p>If a software developer wants to create a new ChildCount+ feature, the process
+generally goes like this:</p>
+<ol class="arabic simple">
+<li>Developer creates a new branch from <tt class="docutils literal"><span class="pre">ccdev</span></tt>, let&#8217;s call
+this branch
+<tt class="docutils literal"><span class="pre">twitter</span></tt> and pretend that it adds some <a class="reference external" href="http://www.twitter.com/">Twitter</a>
+functionality to ChildCount+.</li>
+<li>Developer does the work on the <tt class="docutils literal"><span class="pre">twitter</span></tt> branch, merging
+changes from <tt class="docutils literal"><span class="pre">ccdev</span></tt> into <tt class="docutils literal"><span class="pre">twitter</span></tt> to make sure that
+<tt class="docutils literal"><span class="pre">twitter</span></tt> stays current.</li>
+<li>When the developer is satisfied that the Twitter feature works
+as hoped, she merges <tt class="docutils literal"><span class="pre">twitter</span></tt> into the <tt class="docutils literal"><span class="pre">ccdev</span></tt> branch.</li>
+<li>Every few months, the release developer merges all of the changes
+from <tt class="docutils literal"><span class="pre">ccdev</span></tt> into <tt class="docutils literal"><span class="pre">ccstable</span></tt>.
+The release developer tests all of these features and makes sure
+that the translations and localization works properly for
+French- and Tigrinya-speaking sites.</li>
+<li>The release developer writes up a textual description of how to
+update the server to accommodate the new code and posts it
+on <a class="reference external" href="http://we.mvpafrica.org">http://we.mvpafrica.org</a>.</li>
+<li>The release developer pushes the <tt class="docutils literal"><span class="pre">ccstable</span></tt> code out to the
+sites. In MVP lingo, this is a &#8220;stage&#8221;.</li>
+</ol>
 </div>
-<div class="section" id="u-stages-and-version-numbers">
-<h2>[U] Stages and Version Numbers<a class="headerlink" href="#u-stages-and-version-numbers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>This documentation is hosted on <a class="reference external" href="http://www.github.com/">GitHub</a>
+and is created using <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</p>
+<p>We develop the documentation on the <tt class="docutils literal"><span class="pre">ccdev</span></tt> branch, then
+built HTML documentation files into the root of the
+<tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch.
+The <tt class="docutils literal"><span class="pre">gh-pages</span></tt> branch
+is a special branch for the <a class="reference external" href="http://pages.github.com/">GitHub Pages</a>
+feature. Files pushed there end up being served at
+<a class="reference external" href="http://mvpdev.github.com/rapidsms/">http://mvpdev.github.com/rapidsms/</a>.</p>
 </div>
-<div class="section" id="u-who-to-contact">
-<h2>[U] Who to Contact<a class="headerlink" href="#u-who-to-contact" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="who-to-contact">
+<h2>Who to Contact<a class="headerlink" href="#who-to-contact" title="Permalink to this headline">¶</a></h2>
+<p>The best way to get in touch with the ChildCount+ Developers
+is to look for the contact information
+listed on <a class="reference external" href="http://www.childcount.org/">http://www.childcount.org/</a>.
+Those contacts are the most likely to be up to date.
+You can also catch us at <a class="reference external" href="http://www.twitter.com/childcount/">&#64;childcount</a>.</p>
 </div>
 </div>
 
@@ -78,12 +131,12 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">[U] Development Processes</a><ul>
-<li><a class="reference internal" href="#u-bug-tracker">[U] Bug Tracker</a></li>
-<li><a class="reference internal" href="#u-mailing-list">[U] Mailing List</a></li>
-<li><a class="reference internal" href="#u-branches-and-repo">[U] Branches and Repo</a></li>
-<li><a class="reference internal" href="#u-stages-and-version-numbers">[U] Stages and Version Numbers</a></li>
-<li><a class="reference internal" href="#u-who-to-contact">[U] Who to Contact</a></li>
+<li><a class="reference internal" href="#">Development Processes</a><ul>
+<li><a class="reference internal" href="#bug-tracker">Bug Tracker</a></li>
+<li><a class="reference internal" href="#mailing-list">Mailing List</a></li>
+<li><a class="reference internal" href="#repo-and-branches">Repo and Branches</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#who-to-contact">Who to Contact</a></li>
 </ul>
 </li>
 </ul>

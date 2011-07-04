@@ -80,7 +80,8 @@
 <span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">NutritionReport</span>
 <span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">UnderOneReport</span>
 
-<span class="n">report_indicators</span> <span class="o">=</span> <span class="p">(</span>
+<div class="viewcode-block" id="report_indicators"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.report_indicators">[docs]</a><span class="k">def</span> <span class="nf">report_indicators</span><span class="p">():</span> 
+    <span class="k">return</span> <span class="p">(</span>
     <span class="p">{</span>
         <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Household&quot;</span><span class="p">),</span>
         <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
@@ -149,7 +150,7 @@
             <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;ORS Given&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">medicine_given</span><span class="o">.</span><span class="n">Ors</span><span class="p">},</span>
         <span class="p">]</span>
     <span class="p">},</span>
-<span class="p">)</span>
+<span class="p">)</span></div>
 <span class="sd">&quot;&quot;&quot;The common set of :class:`indicator.Indicator` objects</span>
 <span class="sd">used in the CHW reports.</span>
 <span class="sd">&quot;&quot;&quot;</span>

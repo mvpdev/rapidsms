@@ -51,6 +51,30 @@ we have incorporated elements of the MVP CHW protocols into
 the ChildCount+ forms, alerts, and reports.
 
 
+.. _human__health_ids:
+
+Health IDs
+-----------------
+
+One important and time-consuming part of the
+ChildCount+ set-up process is patient registration.
+Each person who is to be tracked by the ChildCount+
+system must be assigned a unique ChildCount+ health identifier.
+Our deployments use the Childcount form `+NEW`
+(:class:`childcount.forms.PatientRegistrationForm`) to
+assign health IDs to patients.
+
+These health idenfiers are like primary keys into a database
+table -- each person's health identifier is unique within
+the system and is the most common way to 
+reference to their patient record.
+
+The Millennium Villages Project deployments use the 
+`OpenMRS IdGen Module <https://wiki.openmrs.org/display/docs/Idgen+Module>`_
+to generate the health IDs and we use the
+Luhn-30 checksums to validate the IDs.
+
+
 .. _human__forms:
 
 Forms
@@ -100,9 +124,5 @@ Here are examples of the ChildCount+ forms we use:
 * :download:`Correction </files/forms/ruhiira/Correction_v2-1_Ruhiira_EN.pdf>`
 
 
-.. _human__health_ids:
 
-[U] Health IDs
------------------
 
-In progres...

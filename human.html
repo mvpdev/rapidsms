@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="index.html" />
-    <link rel="next" title="&lt;no title&gt;" href="tech/index.html" />
+    <link rel="next" title="Technology" href="tech/index.html" />
     <link rel="prev" title="Introduction" href="intro.html" /> 
   </head>
   <body>
@@ -37,7 +37,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tech/index.html" title="&lt;no title&gt;"
+          <a href="tech/index.html" title="Technology"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="intro.html" title="Introduction"
@@ -99,6 +99,24 @@ programmers at their disposal.</p>
 we have incorporated elements of the MVP CHW protocols into
 the ChildCount+ forms, alerts, and reports.</p>
 </div>
+<div class="section" id="health-ids">
+<span id="human-health-ids"></span><h2>Health IDs<a class="headerlink" href="#health-ids" title="Permalink to this headline">¶</a></h2>
+<p>One important and time-consuming part of the
+ChildCount+ set-up process is patient registration.
+Each person who is to be tracked by the ChildCount+
+system must be assigned a unique ChildCount+ health identifier.
+Our deployments use the Childcount form <cite>+NEW</cite>
+(<tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.PatientRegistrationForm</span></tt>) to
+assign health IDs to patients.</p>
+<p>These health idenfiers are like primary keys into a database
+table &#8211; each person&#8217;s health identifier is unique within
+the system and is the most common way to
+reference to their patient record.</p>
+<p>The Millennium Villages Project deployments use the
+<a class="reference external" href="https://wiki.openmrs.org/display/docs/Idgen+Module">OpenMRS IdGen Module</a>
+to generate the health IDs and we use the
+Luhn-30 checksums to validate the IDs.</p>
+</div>
 <div class="section" id="forms">
 <span id="human-forms"></span><h2>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h2>
 <p>Here are examples of the ChildCount+ forms we use:</p>
@@ -133,10 +151,6 @@ the ChildCount+ forms, alerts, and reports.</p>
 <li><a class="reference download internal" href="_downloads/Correction_v2-1_Ruhiira_EN.pdf"><tt class="xref download docutils literal"><span class="pre">Correction</span></tt></a></li>
 </ul>
 </div>
-<div class="section" id="u-health-ids">
-<span id="human-health-ids"></span><h2>[U] Health IDs<a class="headerlink" href="#u-health-ids" title="Permalink to this headline">¶</a></h2>
-<p>In progres...</p>
-</div>
 </div>
 
 
@@ -150,8 +164,8 @@ the ChildCount+ forms, alerts, and reports.</p>
 <li><a class="reference internal" href="#">Human Aspects</a><ul>
 <li><a class="reference internal" href="#human-prerequisites">Human Prerequisites</a></li>
 <li><a class="reference internal" href="#community-health-worker-program">Community Health Worker Program</a></li>
+<li><a class="reference internal" href="#health-ids">Health IDs</a></li>
 <li><a class="reference internal" href="#forms">Forms</a></li>
-<li><a class="reference internal" href="#u-health-ids">[U] Health IDs</a></li>
 </ul>
 </li>
 </ul>
@@ -161,7 +175,7 @@ the ChildCount+ forms, alerts, and reports.</p>
                         title="previous chapter">Introduction</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="tech/index.html"
-                        title="next chapter">&lt;no title&gt;</a></p>
+                        title="next chapter">Technology</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/human.txt"
@@ -194,7 +208,7 @@ the ChildCount+ forms, alerts, and reports.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="tech/index.html" title="&lt;no title&gt;"
+          <a href="tech/index.html" title="Technology"
              >next</a> |</li>
         <li class="right" >
           <a href="intro.html" title="Introduction"

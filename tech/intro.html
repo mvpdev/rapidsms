@@ -23,9 +23,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
-    <link rel="up" title="&lt;no title&gt;" href="index.html" />
+    <link rel="up" title="Technology" href="index.html" />
     <link rel="next" title="Installation Instructions" href="install.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="index.html" /> 
+    <link rel="prev" title="Technology" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="install.html" title="Installation Instructions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="&lt;no title&gt;"
+          <a href="index.html" title="Technology"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">&lt;no title&gt;</a> &raquo;</li> 
+          <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -239,6 +239,43 @@ via the RapidSMS messaging functionality.</li>
 </tbody>
 </table>
 </div>
+<div class="section" id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Permalink to this headline">¶</a></h2>
+<p>There are a few different places where configurations happen
+in ChildCount+ and it&#8217;s useful to know which settings
+go where.</p>
+<dl class="docutils">
+<dt><tt class="file docutils literal"><span class="pre">settings.py</span></tt></dt>
+<dd><p class="first">This is a Python file that holds settings for the Django
+environment in which RapidSMS and ChildCount+ run.
+If you have settings for Django plug-ins or need
+to set environment variables, this is where to
+do it.</p>
+<p class="last">We use it to hold timezone settings, Django cache settings,
+django-celery settings, and some language settings.</p>
+</dd>
+<dt><tt class="file docutils literal"><span class="pre">local.ini</span></tt></dt>
+<dd><p class="first">This is a RapidSMS-specific configuration file.
+It is divided up into sections, with each RapidSMS
+app getting a single section.
+RapidSMS passes the values of these settings
+to the <tt class="xref py py-meth docutils literal"><span class="pre">configure()</span></tt> method of
+the <tt class="xref py py-class docutils literal"><span class="pre">rapidsms.app.App</span></tt> class in the
+RapidSMS application <tt class="file docutils literal"><span class="pre">apps/[app_name]/app.py</span></tt>.</p>
+<p class="last">The database login information is here, and the lists
+of activated ChildCount+ forms and reports are there
+under the <cite>[childcount]</cite> header.</p>
+</dd>
+<dt><tt class="file docutils literal"><span class="pre">rapidsms.ini</span></tt></dt>
+<dd>I am not sure what this does but I am scared to delete it.</dd>
+<dt><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Configuration</span></tt></dt>
+<dd>This is a Django model (a database table) that holds
+some configuration information that doesn&#8217;t fit well
+anywhere else.
+OpenMRS login information (for <a class="reference internal" href="../api/apps/mgvmrs/index.html"><em>mgvmrs</em></a>)
+and lists of enabled dashboard sections are there too.</dd>
+</dl>
+</div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <p>We use:</p>
@@ -273,6 +310,7 @@ via the RapidSMS messaging functionality.</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#understanding-the-components">Understanding the Components</a></li>
+<li><a class="reference internal" href="#configurations">Configurations</a></li>
 <li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 </ul>
 </li>
@@ -280,7 +318,7 @@ via the RapidSMS messaging functionality.</li>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">&lt;no title&gt;</a></p>
+                        title="previous chapter">Technology</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="install.html"
                         title="next chapter">Installation Instructions</a></p>
@@ -319,10 +357,10 @@ via the RapidSMS messaging functionality.</li>
           <a href="install.html" title="Installation Instructions"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="&lt;no title&gt;"
+          <a href="index.html" title="Technology"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" >&lt;no title&gt;</a> &raquo;</li> 
+          <li><a href="index.html" >Technology</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

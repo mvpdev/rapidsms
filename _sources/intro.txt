@@ -15,6 +15,8 @@ the :doc:`human` section.
 Programmers and medical records specialists can focus on
 the :doc:`tech/index` section.
 
+.. _what-is-childcount:
+
 What is ChildCount+?
 --------------------
 

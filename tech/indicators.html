@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>[U] Indicators &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>Indicators &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="ChildCount+ v2.0(g) documentation" href="../index.html" />
-    <link rel="up" title="&lt;no title&gt;" href="index.html" />
+    <link rel="up" title="Technology" href="index.html" />
     <link rel="next" title="[U] Printed Reports" href="reports.html" />
     <link rel="prev" title="SMS" href="sms.html" /> 
   </head>
@@ -44,7 +44,7 @@
           <a href="sms.html" title="SMS"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">&lt;no title&gt;</a> &raquo;</li> 
+          <li><a href="index.html" accesskey="U">Technology</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -53,13 +53,49 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="u-indicators">
-<h1>[U] Indicators<a class="headerlink" href="#u-indicators" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="indicators">
+<h1>Indicators<a class="headerlink" href="#indicators" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="u-overview">
 <h2>[U] Overview<a class="headerlink" href="#u-overview" title="Permalink to this headline">¶</a></h2>
+<p>As described in <a class="reference internal" href="../intro.html#what-is-childcount"><em>What is ChildCount+?</em></a>, ChildCount+
+collects data, runs analysis on those data, then generates
+reports and alerts based on the results of the analysis.
+The indicators functionality takes care of the simple
+data analysis that goes on inside of ChildCount+.</p>
+<p>The data analysis features are centered around the idea
+of &#8220;indicators.&#8221;
+An indicator is a function that takes two arguments:
+a data set and a time period and returns a numerical
+value.
+For example, an indicator
+called &#8220;Number of Households&#8221; would take a
+list of patients and a time period as arguments,
+and would return an integer &#8211; the number of
+households heads in the patient list at the given
+time period &#8211; as output.</p>
+<p>The standard interface for indicators provides a
+few benefits to the programmer:</p>
+<ol class="arabic simple">
+<li>We can transparently cache indicator values.</li>
+<li>Aggregation is simple: the same indicator function
+can generate per-patient, per-CHW, per-village,
+and per-site values, depending on the patient (or other)
+list you provide as input.</li>
+<li>Having a standard interface makes it easy to generate
+reports for any indicator without having to write
+custom reporting code.</li>
+</ol>
+<p>The indicators code lives in two places. The
+definition of the indicators interface is
+in a library directory: <tt class="file docutils literal"><span class="pre">lib/indicator/</span></tt>
+while the ChildCount+ indicator definitions
+live inside the ChildCount+ application
+directory: <tt class="file docutils literal"><span class="pre">apps/childcount/indicators/</span></tt>.</p>
 </div>
 <div class="section" id="u-creating-an-indicator">
 <h2>[U] Creating an Indicator<a class="headerlink" href="#u-creating-an-indicator" title="Permalink to this headline">¶</a></h2>
+<p>(which in code is a class that
+inherits from <a class="reference internal" href="../api/lib/indicator.html#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a>)</p>
 </div>
 <div class="section" id="u-adding-a-time-period">
 <h2>[U] Adding a time period<a class="headerlink" href="#u-adding-a-time-period" title="Permalink to this headline">¶</a></h2>
@@ -74,7 +110,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">[U] Indicators</a><ul>
+<li><a class="reference internal" href="#">Indicators</a><ul>
 <li><a class="reference internal" href="#u-overview">[U] Overview</a></li>
 <li><a class="reference internal" href="#u-creating-an-indicator">[U] Creating an Indicator</a></li>
 <li><a class="reference internal" href="#u-adding-a-time-period">[U] Adding a time period</a></li>
@@ -126,7 +162,7 @@
           <a href="sms.html" title="SMS"
              >previous</a> |</li>
         <li><a href="../index.html">ChildCount+ v2.0(g) documentation</a> &raquo;</li>
-          <li><a href="index.html" >&lt;no title&gt;</a> &raquo;</li> 
+          <li><a href="index.html" >Technology</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

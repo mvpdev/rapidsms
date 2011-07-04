@@ -454,8 +454,8 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">frameCount</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;@FIXME: need to remove frameCount to maintain consistency</span>
-<span class="sd">         with BaseDocTemplate constructor</span>
-<span class="sd">                   and hence find a way to pass frameCount</span>
+<span class="sd">        with BaseDocTemplate constructor</span>
+<span class="sd">        and hence find a way to pass frameCount</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="nb">apply</span><span class="p">(</span><span class="n">BaseDocTemplate</span><span class="o">.</span><span class="n">__init__</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">kw</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addPageTemplates</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">firstPage</span><span class="p">())</span>

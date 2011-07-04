@@ -191,6 +191,46 @@ go along.
      - .. image:: /images/tech/reports.jpg
 
 
+Configurations
+-----------------
+
+There are a few different places where configurations happen
+in ChildCount+ and it's useful to know which settings
+go where. 
+
+:file:`settings.py`
+    This is a Python file that holds settings for the Django
+    environment in which RapidSMS and ChildCount+ run.
+    If you have settings for Django plug-ins or need
+    to set environment variables, this is where to 
+    do it.
+
+    We use it to hold timezone settings, Django cache settings,
+    django-celery settings, and some language settings.
+
+:file:`local.ini`
+    This is a RapidSMS-specific configuration file.
+    It is divided up into sections, with each RapidSMS
+    app getting a single section. 
+    RapidSMS passes the values of these settings
+    to the :meth:`configure` method of
+    the :class:`rapidsms.app.App` class in the
+    RapidSMS application :file:`apps/[app_name]/app.py`.
+
+    The database login information is here, and the lists
+    of activated ChildCount+ forms and reports are there
+    under the `[childcount]` header.
+
+:file:`rapidsms.ini`
+    I am not sure what this does but I am scared to delete it.
+
+:class:`childcount.models.Configuration`
+    This is a Django model (a database table) that holds
+    some configuration information that doesn't fit well
+    anywhere else.
+    OpenMRS login information (for :doc:`/api/apps/mgvmrs/index`)
+    and lists of enabled dashboard sections are there too.
+
 Dependencies
 -------------
 
