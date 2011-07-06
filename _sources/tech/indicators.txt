@@ -1,7 +1,7 @@
 Indicators
 ==============
 
-[U] Overview
+Overview
 --------------
 
 As described in :ref:`what-is-childcount`, ChildCount+
@@ -32,9 +32,7 @@ few benefits to the programmer:
    and per-site values, depending on the patient (or other)
    list you provide as input.
 
-#. Having a standard interface makes it easy to generate
-   reports for any indicator without having to write
-   custom reporting code.
+#. It is easy to reuse reporting code across indicators.
 
 The indicators code lives in two places. The
 definition of the indicators interface is 
