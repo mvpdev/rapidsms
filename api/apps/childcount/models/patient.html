@@ -102,6 +102,26 @@ at the datetime <cite>end</cite></p>
 </dd></dl>
 
 <dl class="method">
+<dt id="childcount.models.Patient.Patient.QuerySet.created_before">
+<tt class="descname">created_before</tt><big>(</big><em>cutoff</em><big>)</big><a class="reference internal" href="../../../../_modules/childcount/models/Patient.html#Patient.QuerySet.created_before"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.models.Patient.Patient.QuerySet.created_before" title="Permalink to this definition">¶</a></dt>
+<dd><p>Patients who have an encounter before 
+the specified date. The <tt class="xref py py-meth docutils literal"><span class="pre">Patient.created_on()</span></tt>
+field does not work, since that just indicates
+when the DB row was created &#8211; not the encounter
+date when the patient was created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cutoff</strong> (<tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Method returns all patients
+with encounters on or before
+this date.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="childcount.models.Patient.Patient.QuerySet.delivered">
 <tt class="descname">delivered</tt><big>(</big><em>start</em>, <em>end</em><big>)</big><a class="reference internal" href="../../../../_modules/childcount/models/Patient.html#Patient.QuerySet.delivered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.models.Patient.Patient.QuerySet.delivered" title="Permalink to this definition">¶</a></dt>
 <dd><p>Women who delivered between <cite>start</cite> and <cite>end</cite></p>
@@ -223,7 +243,7 @@ or miscarriage before the time <cite>end</cite>?</li>
 
 <dl class="method">
 <dt id="childcount.models.Patient.Patient.age_in_days_weeks_months">
-<tt class="descclassname">Patient.</tt><tt class="descname">age_in_days_weeks_months</tt><big>(</big><em>relative_to=datetime.date(2011</em>, <em>7</em>, <em>6)</em><big>)</big><a class="reference internal" href="../../../../_modules/childcount/models/Patient.html#Patient.age_in_days_weeks_months"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.models.Patient.Patient.age_in_days_weeks_months" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">Patient.</tt><tt class="descname">age_in_days_weeks_months</tt><big>(</big><em>relative_to=datetime.date(2011</em>, <em>7</em>, <em>21)</em><big>)</big><a class="reference internal" href="../../../../_modules/childcount/models/Patient.html#Patient.age_in_days_weeks_months"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.models.Patient.Patient.age_in_days_weeks_months" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the age of the patient in days and in months</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

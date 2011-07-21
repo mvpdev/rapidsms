@@ -23,7 +23,7 @@ Welcome to ChildCount+'s documentation!
 **Technology**
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 4
 
    tech/index
 

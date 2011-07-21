@@ -32,8 +32,8 @@ ChildCount+ installations are online here:
 **Branches**
 
 The ChildCount+ code repository has two 
-two main branches: `ccdev <http://www.github.com/mvpdev/rapidsms/tree/ccdev>` and
-`ccstable <http://www.github.com/mvpdev/rapidsms/tree/ccstable>`.
+two main branches: `ccdev <http://www.github.com/mvpdev/rapidsms/tree/ccdev>`_ and
+`ccstable <http://www.github.com/mvpdev/rapidsms/tree/ccstable>`_.
    
 If a software developer wants to create a new ChildCount+ feature, the process
 generally goes like this:

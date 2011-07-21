@@ -330,9 +330,11 @@
     <span class="n">clinic_delivery</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Clinic delivery&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
                                        <span class="n">choices</span><span class="o">=</span><span class="n">CLINIC_DELIVERY_CHOICES</span><span class="p">,</span> \
                                        <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Was the baby born in &quot;</span> \
-                                                    <span class="s">&quot;a health facility?&quot;</span><span class="p">))</span>
+                                                    <span class="s">&quot;a health facility?&quot;</span><span class="p">),</span>\
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Birth weight (kg)&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Birth weight (kg)&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -414,7 +416,7 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Death Report&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Death Reports&quot;</span><span class="p">)</span>
 
-    <span class="n">death_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of death&quot;</span><span class="p">))</span>
+    <span class="n">death_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of death&quot;</span><span class="p">),</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -435,12 +437,13 @@
     <span class="n">TYPE_STILL_BIRTH</span> <span class="o">=</span> <span class="s">&#39;S&#39;</span>
     <span class="n">TYPE_MISCARRIAGE</span> <span class="o">=</span> <span class="s">&#39;M&#39;</span>
     <span class="n">TYPE_CHOICES</span> <span class="o">=</span> <span class="p">(</span>
-                       <span class="p">(</span><span class="n">TYPE_STILL_BIRTH</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Still birth&#39;</span><span class="p">)),</span>
+                       <span class="p">(</span><span class="n">TYPE_STILL_BIRTH</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Stillbirth&#39;</span><span class="p">)),</span>
                        <span class="p">(</span><span class="n">TYPE_MISCARRIAGE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Miscarriage&#39;</span><span class="p">)))</span>
 
-    <span class="n">incident_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of stillbirth or miscarriage&quot;</span><span class="p">))</span>
-    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Type&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">,</span> \
-                            <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">incident_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of stillbirth or miscarriage&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Type&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">TYPE_CHOICES</span><span class="p">,</span>\
+                            <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -522,10 +525,12 @@
                                    <span class="n">choices</span><span class="o">=</span><span class="n">IMPROVEMENT_CHOICES</span><span class="p">,</span> \
                               <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Has the patient&#39;s condition &quot;</span> \
                                            <span class="s">&quot;improved since the last &quot;</span> \
-                                           <span class="s">&quot;CHW visit?&quot;</span><span class="p">))</span>
+                                           <span class="s">&quot;CHW visit?&quot;</span><span class="p">),</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">visited_clinic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Visited clinic&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
                                    <span class="n">choices</span><span class="o">=</span><span class="n">VISITED_CHOICES</span><span class="p">,</span> \
+                                   <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                               <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Did the patient visit a health &quot;</span>\
                                            <span class="s">&quot;facility since the last &quot;</span> \
                                            <span class="s">&quot;CHW visit?&quot;</span><span class="p">))</span>
@@ -577,6 +582,9 @@
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field_by_name</span><span class="p">(</span><span class="s">&#39;danger_signs&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">verbose_name</span><span class="p">,</span> \
              <span class="s">u&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">danger_signs</span><span class="o">.</span><span class="n">all</span><span class="p">()]))</span>
+
+    <span class="k">def</span> <span class="nf">short_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">danger_signs</span><span class="o">.</span><span class="n">all</span><span class="p">()])</span>
 
     <span class="k">def</span> <span class="nf">get_omrs_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">igive</span> <span class="o">=</span> <span class="p">{}</span>
@@ -648,13 +656,15 @@
 
     <span class="n">pregnancy_month</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Months Pregnant&quot;</span><span class="p">),</span> \
                                     <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;How many months into the &quot;</span> \
-                                                 <span class="s">&quot;pregnancy?&quot;</span><span class="p">))</span>
+                                                 <span class="s">&quot;pregnancy?&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">anc_visits</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;ANC Visits&quot;</span><span class="p">),</span> \
                                     <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of antenatal clinic &quot;</span>\
-                                                 <span class="s">&quot;visits during pregnancy&quot;</span><span class="p">))</span>
+                                                 <span class="s">&quot;visits during pregnancy&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">weeks_since_anc</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span>\
                                         <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Weeks since last ANC visit&quot;</span><span class="p">),</span> \
-                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;How many weeks since the patient&#39;s &quot;</span>\
                                          <span class="s">&quot;last ANC visit (0 for less &quot;</span> \
                                          <span class="s">&quot;than 7 days)?&quot;</span><span class="p">))</span>
@@ -737,24 +747,29 @@
 
     <span class="n">iron_supplement</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Taking Iron supplements&quot;</span><span class="p">),</span> \
                             <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">IRON_CHOICES</span><span class="p">,</span> \
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Is the mother taking iron &quot;</span>\
                                             <span class="s">&quot;supplement?&quot;</span><span class="p">))</span>
 
     <span class="n">folic_suppliment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Taking Folic Acid supplements&quot;</span><span class="p">),</span> \
                             <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">FOLIC_CHOICES</span><span class="p">,</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Is the mother taking folic acid &quot;</span>\
                                             <span class="s">&quot;supplement?&quot;</span><span class="p">))</span>
 
     <span class="n">tested_hiv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Tested for HIV&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> \
                                    <span class="n">choices</span><span class="o">=</span><span class="n">TESTED_CHOICES</span><span class="p">,</span> \
+                                   <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                               <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Did the mother get tested for &quot;</span>\
                                             <span class="s">&quot;HIV?&quot;</span><span class="p">))</span>
 
     <span class="n">cd4_count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Completed CD4 Count&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
                                    <span class="n">choices</span><span class="o">=</span><span class="n">CD4_CHOICES</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                   <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                                    <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Was CD4 count taken?&quot;</span><span class="p">))</span>
 
     <span class="n">pmtc_arv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;CodedItem&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                                     <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;PMTC ARV&quot;</span><span class="p">))</span>
 </div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SPregnancy</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
@@ -769,9 +784,11 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Birth Control Pill Reports&quot;</span><span class="p">)</span>
 
     <span class="n">pills</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Pills given&quot;</span><span class="p">),</span> \
-                                             <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                             <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                             <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">women</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Women given BC pills&quot;</span><span class="p">),</span>
-                                             <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                             <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                             <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pills</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
@@ -805,7 +822,8 @@
 
     <span class="n">clinic_visits</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Clinic Visits&quot;</span><span class="p">),</span> \
                                     <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of clinic visits &quot;</span> \
-                                                 <span class="s">&quot;since birth&quot;</span><span class="p">))</span>
+                                                 <span class="s">&quot;since birth&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -845,12 +863,14 @@
     <span class="n">breast_only</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Breast feeding exclusively&quot;</span><span class="p">),</span> \
                                    <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">BREAST_CHOICES</span><span class="p">,</span> \
                                    <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Does the mother &quot;</span> \
-                                               <span class="s">&quot;exclusively breast feed?&quot;</span><span class="p">))</span>
+                                               <span class="s">&quot;exclusively breast feed?&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">immunized</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Immunized&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
                                    <span class="n">choices</span><span class="o">=</span><span class="n">IMMUNIZED_CHOICES</span><span class="p">,</span> \
                                    <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Is the child up-to-date on&quot;</span> \
-                                                <span class="s">&quot;immunizations?&quot;</span><span class="p">))</span>
+                                                <span class="s">&quot;immunizations?&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -921,12 +941,16 @@
         <span class="p">(</span><span class="n">OEDEMA_NO</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;No&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">OEDEMA_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">)))</span>
 
-    <span class="n">muac</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;MUAC (mm)&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">muac</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;MUAC (mm)&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">oedema</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Oedema&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                              <span class="n">choices</span><span class="o">=</span><span class="n">OEDEMA_CHOICES</span><span class="p">)</span>
-    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Weight (kg)&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                              <span class="n">choices</span><span class="o">=</span><span class="n">OEDEMA_CHOICES</span><span class="p">,</span>\
+                              <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Weight (kg)&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Status&quot;</span><span class="p">),</span>\
-                                 <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                 <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NutritionReport.diagnose"><a class="viewcode-back" href="../../../api/apps/childcount/models/reports.html#childcount.models.reports.NutritionReport.diagnose">[docs]</a>    <span class="k">def</span> <span class="nf">diagnose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Diagnosis of the patient&#39;&#39;&#39;</span>
@@ -1006,7 +1030,8 @@
         <span class="p">(</span><span class="n">RDT_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">)))</span>
 
     <span class="n">rdt_result</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;RDT Result&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                                  <span class="n">choices</span><span class="o">=</span><span class="n">RDT_CHOICES</span><span class="p">)</span>
+                                  <span class="n">choices</span><span class="o">=</span><span class="n">RDT_CHOICES</span><span class="p">,</span>\
+                                  <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1043,6 +1068,8 @@
             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field_by_name</span><span class="p">(</span><span class="s">&#39;medicines&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">verbose_name</span><span class="p">,</span> \
              <span class="s">u&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">medicines</span><span class="o">.</span><span class="n">all</span><span class="p">()]))</span>
 
+    <span class="k">def</span> <span class="nf">short_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">ds</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">medicines</span><span class="o">.</span><span class="n">all</span><span class="p">()])</span>
     <span class="k">def</span> <span class="nf">get_omrs_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">igive</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">value</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1078,7 +1105,8 @@
                        <span class="p">(</span><span class="n">URGENCY_CONVENIENT</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Convenient Referral&#39;</span><span class="p">)))</span>
 
     <span class="n">urgency</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Urgency&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                               <span class="n">choices</span><span class="o">=</span><span class="n">URGENCY_CHOICES</span><span class="p">)</span>
+                               <span class="n">choices</span><span class="o">=</span><span class="n">URGENCY_CHOICES</span><span class="p">,</span>\
+                               <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">verbose_urgency</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1115,11 +1143,13 @@
 
     <span class="n">available</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;HH Member Available&quot;</span><span class="p">),</span> \
                                 <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Was a houshold member &quot;</span> \
-                                             <span class="s">&quot;available?&quot;</span><span class="p">))</span>
+                                             <span class="s">&quot;available?&quot;</span><span class="p">),</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">children</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Children Under Five&quot;</span><span class="p">),</span> \
                                         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
-                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of children under 5 seen&quot;</span><span class="p">))</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of children under 5 seen&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">counseling</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&#39;CodedItem&#39;</span><span class="p">,</span> \
                        <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Counseling / advice topics covered&quot;</span><span class="p">),</span> \
@@ -1175,10 +1205,12 @@
 
     <span class="n">women</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Women&quot;</span><span class="p">),</span> \
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of women aged 15 to 49 &quot;</span> \
-                                         <span class="s">&quot;seen during visit&quot;</span><span class="p">))</span>
+                                         <span class="s">&quot;seen during visit&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">women_using</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Women using FP&quot;</span><span class="p">),</span> \
                                                 <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
+                                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of the women using &quot;</span> \
                                          <span class="s">&quot;modern family planning&quot;</span><span class="p">))</span>
 
@@ -1215,20 +1247,24 @@
 
     <span class="n">sick</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Others sick&quot;</span><span class="p">),</span> \
                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of other sick household &quot;</span> \
-                                        <span class="s">&quot;members seen during visit&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot;members seen during visit&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">rdts</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;RDTs&quot;</span><span class="p">),</span> \
                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of RDTs used on other &quot;</span> \
-                                        <span class="s">&quot;sick household members&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot;sick household members&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">positive_rdts</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Positive RDTs&quot;</span><span class="p">),</span> \
                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of positve RDTs cases for &quot;</span> \
-                                        <span class="s">&quot;other sick household members&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot;other sick household members&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">on_treatment</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Others on treatment&quot;</span><span class="p">),</span>\
                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of other sick household &quot;</span> \
                                         <span class="s">&quot;members receiving anti-malarial &quot;</span> \
-                                        <span class="s">&quot;treatment&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot;treatment&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1260,7 +1296,8 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Verbal Autopsy Reports&quot;</span><span class="p">)</span>
 
     <span class="n">done</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Completed?&quot;</span><span class="p">),</span> \
-                                <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Was a Verbal Autopsy conducted?&#39;</span><span class="p">))</span>
+                                <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Was a Verbal Autopsy conducted?&#39;</span><span class="p">),</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 </div>
 <div class="viewcode-block" id="BedNetReport"><a class="viewcode-back" href="../../../api/apps/childcount/models/reports.html#childcount.models.reports.BedNetReport">[docs]</a><span class="k">class</span> <span class="nc">BedNetReport</span><span class="p">(</span><span class="n">CCReport</span><span class="p">):</span>
@@ -1272,16 +1309,20 @@
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Bednet Reports&quot;</span><span class="p">)</span>
 
     <span class="n">sleeping_sites</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Sleeping sites&quot;</span><span class="p">),</span>\
-                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of sleeping sites&quot;</span><span class="p">))</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of sleeping sites&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">function_nets</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Recent Bednets&quot;</span><span class="p">),</span> \
-                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of functioning bednets&quot;</span><span class="p">))</span>
+                            <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of functioning bednets&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">earlier_nets</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Earlier Bednets&quot;</span><span class="p">),</span> \
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of bednets received&quot;</span> \
-                            <span class="s">&quot; earlier &quot;</span><span class="p">))</span>
+                            <span class="s">&quot; earlier &quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">damaged_nets</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Damaged Bednets&quot;</span><span class="p">),</span> \
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of recent bednets that are&quot;</span> \
-                                        <span class="s">&quot; damaged&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot; damaged&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">, </span><span class="si">%s</span><span class="s">: </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1302,7 +1343,8 @@
 
     <span class="n">people</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of people&quot;</span><span class="p">),</span> \
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of people who are &quot;</span> \
-                                        <span class="s">&quot;sleeping in the household&quot;</span><span class="p">))</span>
+                                        <span class="s">&quot;sleeping in the household&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ExtendedBedNetReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
@@ -1336,16 +1378,20 @@
 
     <span class="n">child_underfive</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;children under&quot;</span> \
                             <span class="s">&quot; five &quot;</span><span class="p">),</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of children &quot;</span> \
-                            <span class="s">&quot;under five who slept here last night.&quot;</span><span class="p">))</span>
+                            <span class="s">&quot;under five who slept here last night.&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">child_lastnite</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Children slept &quot;</span> \
                             <span class="s">&quot;under bednet&quot;</span><span class="p">),</span> \
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of children&quot;</span> \
                             <span class="s">&quot; under five who slept under bednet last night.&quot;</span><span class="p">))</span>
     <span class="n">hanging_bednet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of hanging bednet&quot;</span><span class="p">),</span> \
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Number of hanging bednet&quot;</span><span class="p">))</span>
     <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Reason &quot;</span><span class="p">),</span> \
                             <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;reason why some children didn&#39;t&quot;</span> \
                             <span class="s">&quot; sleep under bednet&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
                             <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">REASON_CHOICES</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1391,11 +1437,13 @@
     <span class="n">U</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
     <span class="n">toilet_lat</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Toilet Type&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> \
-                              <span class="n">choices</span><span class="o">=</span><span class="n">TOILET_LAT_CHOICES</span><span class="p">)</span>
+                              <span class="n">choices</span><span class="o">=</span><span class="n">TOILET_LAT_CHOICES</span><span class="p">,</span>\
+                              <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">share_toilet</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;How many shares?&quot;</span><span class="p">),</span> \
                                 <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;How many people&quot;</span> \
                                 <span class="s">&quot; share the toilet (open to public = -1, &quot;</span> \
-                                <span class="s">&quot;unknown = -2 )&quot;</span><span class="p">))</span></div>
+                                <span class="s">&quot;unknown = -2 )&quot;</span><span class="p">),</span>\
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SanitationReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
 
@@ -1451,11 +1499,12 @@
         <span class="p">(</span><span class="n">TREATMENT_METHOD_DONTKNOW</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">)),)</span>
 
     <span class="n">water_source</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Water Source&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> \
-                              <span class="n">choices</span><span class="o">=</span><span class="n">DRNKWATER_CHOICES</span><span class="p">)</span>
+                              <span class="n">choices</span><span class="o">=</span><span class="n">DRNKWATER_CHOICES</span><span class="p">,</span>\
+                              <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">treatment_method</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Treatment method&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> \
                               <span class="n">choices</span><span class="o">=</span><span class="n">TREATMENT_CHOICES</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;What &quot;</span> \
                                 <span class="s">&quot;do you use to make it safer to drink&quot;</span><span class="p">),</span> \
-                                <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+                                <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">DrinkingWaterReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
 
@@ -1467,7 +1516,8 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Bednet Distribution Report&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Betnet Distribution Reports&quot;</span><span class="p">)</span>
 
-    <span class="n">bednet_received</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Bed net received&quot;</span><span class="p">))</span>
+    <span class="n">bednet_received</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Bed net received&quot;</span><span class="p">),</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">BednetIssuedReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 
@@ -1480,7 +1530,8 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Initial Antenatal Visit Report&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Initial Antenatal Visit Reports&quot;</span><span class="p">)</span>
 
-    <span class="n">expected_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Expected Date of Delivery&quot;</span><span class="p">))</span>
+    <span class="n">expected_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Expected Date of Delivery&quot;</span><span class="p">),</span>\
+                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SmsAlertModel</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1508,17 +1559,21 @@
         <span class="p">(</span><span class="n">STATUS_CLOSED</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Closed&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">STATUS_PENDING_CV</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Pending Clinic Visit&quot;</span><span class="p">)))</span>
 
-    <span class="n">appointment_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Next appointment&quot;</span><span class="p">))</span>
+    <span class="n">appointment_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Next appointment&quot;</span><span class="p">),</span> \
+                                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">closed_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date closed&quot;</span><span class="p">),</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
-                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                        <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Status&quot;</span><span class="p">),</span> \
                                                 <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span>
+                                <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                                 <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Is the appointment still open&quot;</span> \
                                             <span class="s">&quot; or closed?&quot;</span><span class="p">),</span> \
                                             <span class="n">default</span><span class="o">=</span><span class="n">STATUS_OPEN</span><span class="p">)</span>
     <span class="n">task_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s">&#39;Task ID&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> \
+                                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
                                             <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SmsAlertModel</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">SmsAlertModel</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1553,13 +1608,17 @@
         <span class="p">(</span><span class="n">MARRIED_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">)))</span>
 
     <span class="n">married</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Married?&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                                        <span class="n">choices</span><span class="o">=</span><span class="n">MARRIED_CHOICES</span><span class="p">)</span>
-    <span class="n">pregnancies</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of Pregancies&quot;</span><span class="p">))</span>
+                                        <span class="n">choices</span><span class="o">=</span><span class="n">MARRIED_CHOICES</span><span class="p">,</span>\
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">pregnancies</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of Pregancies&quot;</span><span class="p">),</span>\
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">number_of_children</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of &quot;</span> \
                                                             <span class="s">&quot;Pregancies&quot;</span><span class="p">),</span> \
-                                                            <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                            <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>\
+                                                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                                                         <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">husband</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;Patient&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
                                   <span class="n">verbose_name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Husband&quot;</span><span class="p">),</span> \
                                   <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;The husband to this pregnant&quot;</span>\
                                             <span class="s">&quot; woman&quot;</span><span class="p">),</span>\
@@ -1613,9 +1672,10 @@
         <span class="p">(</span><span class="n">BLOOD_DRAWN_UNKNOWN</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unknown&quot;</span><span class="p">)))</span>
 
     <span class="n">hiv</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;HIV+?&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> \
-                              <span class="n">choices</span><span class="o">=</span><span class="n">HIV_CHOICES</span><span class="p">)</span>
+                              <span class="n">choices</span><span class="o">=</span><span class="n">HIV_CHOICES</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">blood_drawn</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Blood drawn?&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                                        <span class="n">choices</span><span class="o">=</span><span class="n">BLOOD_DRAWN_CHOICES</span><span class="p">)</span>
+                                        <span class="n">choices</span><span class="o">=</span><span class="n">BLOOD_DRAWN_CHOICES</span><span class="p">,</span>\
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1655,7 +1715,8 @@
         <span class="p">(</span><span class="n">RESULT_POSITIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Yes&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">RESULT_NEGATIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;No&quot;</span><span class="p">)))</span>
     <span class="n">test_result</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Test Result&quot;</span><span class="p">),</span> \
-                                        <span class="n">choices</span><span class="o">=</span><span class="n">RESULT_CHOICES</span><span class="p">)</span>
+                                        <span class="n">choices</span><span class="o">=</span><span class="n">RESULT_CHOICES</span><span class="p">,</span>
+                                        <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1681,7 +1742,7 @@
         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;CD4 Result&quot;</span><span class="p">)</span>
         <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;CD4 Results&quot;</span><span class="p">)</span>
 
-    <span class="n">cd4_count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;CD4 Count&quot;</span><span class="p">))</span>
+    <span class="n">cd4_count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;CD4 Count&quot;</span><span class="p">),</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">u&quot;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> \
@@ -1706,9 +1767,10 @@
         <span class="p">(</span><span class="n">STATUS_ACTIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Alive&quot;</span><span class="p">)),</span>
         <span class="p">(</span><span class="n">STATUS_INACTIVE</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Relocated&quot;</span><span class="p">)))</span>
 
-    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Status&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Status&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Reason&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                                <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
 <span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PatientStatusReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
 </pre></div>

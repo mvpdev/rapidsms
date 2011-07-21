@@ -247,7 +247,7 @@ visit.</p>
 <p>SMS forms reside in the directory
 <tt class="file docutils literal"><span class="pre">apps/childcount/forms</span></tt> and the API documentation
 is here: <a class="reference internal" href="../api/apps/childcount/forms.html"><em>childcount.forms</em></a>.
-SMS forms inherit from <a class="reference internal" href="../api/apps/childcount/forms.html#module-childcount.forms.CCForm" title="childcount.forms.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm</span></tt></a>.</p>
+SMS forms inherit from <a class="reference internal" href="../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm" title="childcount.forms.CCForm.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm.CCForm</span></tt></a>.</p>
 <p>You enable commands and forms by including them in the
 list of active commands/forms in the <tt class="file docutils literal"><span class="pre">local.ini</span></tt>
 configuration file.</p>
@@ -330,8 +330,122 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
 </li>
 </ol>
 </div>
-<div class="section" id="u-adding-a-new-form">
-<span id="tech-sms-forms-to-database"></span><h3>[U] Adding a New Form<a class="headerlink" href="#u-adding-a-new-form" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="adding-a-new-form">
+<span id="tech-sms-forms-to-database"></span><h3>Adding a New Form<a class="headerlink" href="#adding-a-new-form" title="Permalink to this headline">¶</a></h3>
+<p>Say you want to define a new form called <cite>DogsForm</cite>
+that will record the number of dogs a person has
+in their household.
+Users will invoke the SMS form like this:</p>
+<div class="highlight-python"><pre>HEALTH_ID +DOGS 2</pre>
+</div>
+<p>...where <tt class="docutils literal"><span class="pre">HEALTH_ID</span></tt> is replaced by the person&#8217;s ChildCount+
+health identifier and <tt class="docutils literal"><span class="pre">2</span></tt> is replaced by the number of dogs
+that person has in their household.</p>
+<p>To define this new form, you must:</p>
+<ol class="arabic">
+<li><p class="first">Look through the existing forms in <tt class="file docutils literal"><span class="pre">apps/childcount/forms</span></tt>
+to make sure that the form you want does not already exist.
+There are lots of useful forms defined there, so please check first.</p>
+</li>
+<li><p class="first">If you want to store the form data in the database (and you probably
+do), then you will need to create a Django model that represents
+your report data. Since <tt class="docutils literal"><span class="pre">DogForm</span></tt> only takes one parameter &#8211; an
+integer number of dogs, this will be straightforward.
+You need to create a new model that inherits from the
+<tt class="docutils literal"><span class="pre">childcount.reports.CCReport</span></tt> abstract model.</p>
+<p>To do this, edit the file <tt class="file docutils literal"><span class="pre">apps/childcount/models/reports.py</span></tt>.
+At the end of the file, add the code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DogReport</span><span class="p">(</span><span class="n">CCReport</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">app_label</span> <span class="o">=</span> <span class="s">&#39;childcount&#39;</span>
+        <span class="n">db_table</span> <span class="o">=</span> <span class="s">&#39;cc_dogreport&#39;</span>
+        <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Dog Report&quot;</span><span class="p">)</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Dog Reports&quot;</span><span class="p">)</span>
+
+    <span class="n">dog_count</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Number of dogs&quot;</span><span class="p">))</span>
+
+<span class="n">reversion</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">DogReport</span><span class="p">,</span> <span class="n">follow</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;ccreport_ptr&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This defines a new model (i.e., database table) that will store
+your dog data. This is just standard Django model stuff, so you
+can consult the <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/db/models/">Django Documentation</a>
+for details on how it all works.
+The only trickiness is that we use
+<a class="reference external" href="http://code.google.com/p/django-polymorphic-models/">django-polymorphic</a>
+and <a class="reference external" href="http://code.google.com/p/django-reversion/">django-reversion</a>
+to add some extra features to the models.</p>
+<p>Django-polymorphic allows all models that inherit from
+<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.CCReport`</span></tt> to share common
+database columns. All reports have an associated
+<tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Encounter</span></tt> and django-polymorphic allows
+us to declare this relationship only once (in
+<a class="reference internal" href="../api/apps/childcount/models/reports.html#childcount.models.reports.CCReport" title="childcount.models.reports.CCReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.CCReport</span></tt></a>) and all other
+models get those fields too.</p>
+<p>Django-reversion allows some version control on database tables.
+We use this to implement the <tt class="docutils literal"><span class="pre">CANCEL</span></tt> command
+(<tt class="xref py py-class docutils literal"><span class="pre">childcount.commands.CancelCommand.CancelCommand</span></tt>),
+which performs an &#8220;undo&#8221; operation for the previously sent SMS.
+Django-reversion has high overhead and does not always work
+properly so we may remove it in the near future.</p>
+</li>
+<li><p class="first">Use <a class="reference external" href="http://south.aeracode.org/">South</a> to create a new database
+migration for this report model. From the command line run:</p>
+<div class="highlight-python"><pre># Change to your CC+ directory
+cd ~/sms
+./rapidsms schemamigration childcount --auto</pre>
+</div>
+<p>South should detect the new model and create a migration for it.</p>
+</li>
+<li><p class="first">Create the database table. From your command line, run:</p>
+<div class="highlight-python"><pre># Change to your CC+ directory
+cd ~/sms
+./rapidsms migrate childcount</pre>
+</div>
+</li>
+<li><p class="first">Now that the database table for storing your data has been created,
+you have to define the parsing logic in a
+<a class="reference internal" href="../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm" title="childcount.forms.CCForm.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm.CCForm</span></tt></a> object.
+To do this, create a file <tt class="file docutils literal"><span class="pre">apps/childcount/forms/DogsForm.py</span></tt></p>
+</li>
+<li><p class="first">Within this new file, import <a class="reference internal" href="../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm" title="childcount.forms.CCForm.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm.CCForm</span></tt></a>
+and define a new class that inherits from it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.forms</span> <span class="kn">import</span> <span class="n">CCForm</span>
+<span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">Encounter</span>
+<span class="kn">from</span> <span class="nn">childcount.utils</span> <span class="kn">import</span> <span class="n">authenticated</span>
+
+<span class="k">class</span> <span class="nc">DogsForm</span><span class="p">(</span><span class="n">CCForm</span><span class="p">):</span>
+
+    <span class="n">KEYWORDS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;en&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;dogs&#39;</span><span class="p">],</span>
+        <span class="s">&#39;fr&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;chiens&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="n">ENCOUNTER_TYPE</span> <span class="o">=</span> <span class="n">Encounter</span><span class="o">.</span><span class="n">TYPE_HOUSEHOLD</span>
+
+    <span class="nd">@authenticated</span>
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">patient</span><span class="p">):</span>
+        <span class="o">...</span><span class="n">do</span> <span class="n">actual</span> <span class="n">work</span> <span class="n">here</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="../api/apps/childcount/forms.html#api-childcount-forms-ccform"><em>childcount.forms.CCForm</em></a> for the definition
+of the <a class="reference internal" href="../api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm" title="childcount.forms.CCForm.CCForm"><tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.CCForm.CCForm</span></tt></a> class.</p>
+</li>
+<li><p class="first">In <tt class="file docutils literal"><span class="pre">apps/childcount/forms/__init__.py</span></tt>, add the line:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">childcount.forms.DogForm</span> <span class="kn">import</span> <span class="n">DogForm</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">In your <tt class="file docutils literal"><span class="pre">local.ini</span></tt> file in the root ChildCount+ directory,
+add <tt class="xref py py-class docutils literal"><span class="pre">DogForm</span></tt> to the list of active commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">...</span>
+<span class="p">[</span><span class="n">childcount</span><span class="p">]</span>
+<span class="n">forms</span> <span class="o">=</span> <span class="n">PatientRegistrationForm</span><span class="p">,</span> <span class="n">BirthForm</span><span class="p">,</span> <span class="n">DogForm</span><span class="p">,</span> <span class="o">...</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -355,7 +469,7 @@ add <tt class="xref py py-class docutils literal"><span class="pre">ReverseTextC
 <li><a class="reference internal" href="#sms-forms-and-commands">SMS Forms and Commands</a></li>
 <li><a class="reference internal" href="#sms-reports">SMS Reports</a></li>
 <li><a class="reference internal" href="#defining-a-command">Defining a Command</a></li>
-<li><a class="reference internal" href="#u-adding-a-new-form">[U] Adding a New Form</a></li>
+<li><a class="reference internal" href="#adding-a-new-form">Adding a New Form</a></li>
 </ul>
 </li>
 </ul>

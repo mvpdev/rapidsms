@@ -122,15 +122,18 @@
                                 <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Unique Health ID&quot;</span><span class="p">))</span>
     <span class="n">created_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Created on&quot;</span><span class="p">),</span> <span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> \
                                       <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;When the patient record &quot;</span> \
-                                                   <span class="s">&quot;was created&quot;</span><span class="p">))</span>
+                                                   <span class="s">&quot;was created&quot;</span><span class="p">),</span>\
+                                    <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">updated_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
     <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;First name&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Last name&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> \
                                  <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Family name or surname&quot;</span><span class="p">))</span>
     <span class="n">gender</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Gender&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> \
-                              <span class="n">choices</span><span class="o">=</span><span class="n">GENDER_CHOICES</span><span class="p">)</span>
-    <span class="n">dob</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of Birth&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                              <span class="n">choices</span><span class="o">=</span><span class="n">GENDER_CHOICES</span><span class="p">,</span>\
+                              <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">dob</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Date of Birth&quot;</span><span class="p">),</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>\
+                            <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">estimated_dob</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Estimated DOB&quot;</span><span class="p">),</span> \
                                         <span class="n">help_text</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;True or false: the &quot;</span> \
                                                      <span class="s">&quot;date of birth is only &quot;</span> \
@@ -159,11 +162,15 @@
     <span class="n">mobile</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Mobile phone number&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> \
                               <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SmallIntegerField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;Status&quot;</span><span class="p">),</span> <span class="n">choices</span><span class="o">=</span><span class="n">STATUS_CHOICES</span><span class="p">,</span> \
-                                      <span class="n">default</span><span class="o">=</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>
+                                      <span class="n">default</span><span class="o">=</span><span class="n">STATUS_ACTIVE</span><span class="p">,</span>\
+                                      <span class="n">db_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">hiv_status</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;HIV Status&quot;</span><span class="p">),</span>
                                             <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
     <span class="n">hiv_exposed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">NullBooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">u&quot;HIV Exposed?&quot;</span><span class="p">),</span>
                                             <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">latitude</span>  <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;The physical latitude of this person&#39;s household&quot;</span><span class="p">)</span>
+    <span class="n">longitude</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DecimalField</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">help_text</span><span class="o">=</span><span class="s">&quot;The physical longitude of this person&#39;s household&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Patient.is_head_of_household"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.is_head_of_household">[docs]</a>    <span class="k">def</span> <span class="nf">is_head_of_household</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if patient is the head his/her own household&quot;&quot;&quot;</span>
@@ -314,6 +321,27 @@
 
 <span class="sd">            - `end`: end date of time period (inclusive) -- :class:`datetime.datetime`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Patient.QuerySet.created_before"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.created_before">[docs]</a>        <span class="k">def</span> <span class="nf">created_before</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Patients who have an encounter before </span>
+<span class="sd">            the specified date. The :meth:`Patient.created_on`</span>
+<span class="sd">            field does not work, since that just indicates</span>
+<span class="sd">            when the DB row was created -- not the encounter</span>
+<span class="sd">            date when the patient was created.</span>
+
+<span class="sd">            :param cutoff: Method returns all patients</span>
+<span class="sd">                           with encounters on or before</span>
+<span class="sd">                           this date.</span>
+<span class="sd">            :type cutoff: :class:`datetime.datetime`</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+
+            <span class="n">pks</span> <span class="o">=</span> <span class="bp">self</span>\
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">cutoff</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s">&#39;pk&#39;</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">distinct</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="bp">self</span>\
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk__in</span><span class="o">=</span><span class="n">pks</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Patient.QuerySet.alive"><a class="viewcode-back" href="../../../api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.alive">[docs]</a>        <span class="k">def</span> <span class="nf">alive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot;Patients who were alive at `end`.</span>
 

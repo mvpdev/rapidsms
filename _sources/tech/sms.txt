@@ -203,7 +203,7 @@ visit.
 SMS forms reside in the directory
 :file:`apps/childcount/forms` and the API documentation
 is here: :doc:`/api/apps/childcount/forms`.
-SMS forms inherit from :class:`childcount.forms.CCForm`.
+SMS forms inherit from :class:`childcount.forms.CCForm.CCForm`.
 
 You enable commands and forms by including them in the
 list of active commands/forms in the :file:`local.ini`
@@ -291,6 +291,124 @@ To define this command, you must:
 
 .. _tech__sms__forms_to_database:
 
-[U] Adding a New Form
+Adding a New Form
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+Say you want to define a new form called `DogsForm`
+that will record the number of dogs a person has
+in their household.
+Users will invoke the SMS form like this::
+
+    HEALTH_ID +DOGS 2
+
+...where ``HEALTH_ID`` is replaced by the person's ChildCount+
+health identifier and ``2`` is replaced by the number of dogs
+that person has in their household.
+
+To define this new form, you must:
+
+#. Look through the existing forms in :file:`apps/childcount/forms`
+   to make sure that the form you want does not already exist.
+   There are lots of useful forms defined there, so please check first.
+
+#. If you want to store the form data in the database (and you probably
+   do), then you will need to create a Django model that represents
+   your report data. Since ``DogForm`` only takes one parameter -- an
+   integer number of dogs, this will be straightforward. 
+   You need to create a new model that inherits from the
+   ``childcount.reports.CCReport`` abstract model.
+
+   To do this, edit the file :file:`apps/childcount/models/reports.py`.
+   At the end of the file, add the code::
+
+        class DogReport(CCReport):
+            class Meta:
+                app_label = 'childcount'
+                db_table = 'cc_dogreport'
+                verbose_name = _("Dog Report")
+                verbose_name_plural = _("Dog Reports")
+
+            dog_count = models.PositiveIntegerField(_("Number of dogs"))
+
+        reversion.register(DogReport, follow=['ccreport_ptr'])
+
+   This defines a new model (i.e., database table) that will store
+   your dog data. This is just standard Django model stuff, so you
+   can consult the `Django Documentation <https://docs.djangoproject.com/en/dev/topics/db/models/>`_ 
+   for details on how it all works.
+   The only trickiness is that we use 
+   `django-polymorphic <http://code.google.com/p/django-polymorphic-models/>`_
+   and `django-reversion <http://code.google.com/p/django-reversion/>`_
+   to add some extra features to the models.
+
+   Django-polymorphic allows all models that inherit from
+   :class:`childcount.models.reports.CCReport`` to share common
+   database columns. All reports have an associated 
+   :class:`childcount.models.Encounter` and django-polymorphic allows
+   us to declare this relationship only once (in 
+   :class:`childcount.models.reports.CCReport`) and all other 
+   models get those fields too.
+   
+   Django-reversion allows some version control on database tables.
+   We use this to implement the ``CANCEL`` command 
+   (:class:`childcount.commands.CancelCommand.CancelCommand`),
+   which performs an "undo" operation for the previously sent SMS.
+   Django-reversion has high overhead and does not always work
+   properly so we may remove it in the near future.
+
+#. Use `South <http://south.aeracode.org/>`_ to create a new database
+   migration for this report model. From the command line run::
+
+        # Change to your CC+ directory
+        cd ~/sms
+        ./rapidsms schemamigration childcount --auto
+
+   South should detect the new model and create a migration for it.
+
+#. Create the database table. From your command line, run::
+
+        # Change to your CC+ directory
+        cd ~/sms
+        ./rapidsms migrate childcount
+
+#. Now that the database table for storing your data has been created, 
+   you have to define the parsing logic in a 
+   :class:`childcount.forms.CCForm.CCForm` object. 
+   To do this, create a file :file:`apps/childcount/forms/DogsForm.py`
+
+#. Within this new file, import :class:`childcount.forms.CCForm.CCForm`
+   and define a new class that inherits from it::
+
+    from childcount.forms import CCForm
+    from childcount.models import Encounter
+    from childcount.utils import authenticated
+
+    class DogsForm(CCForm):
+
+        KEYWORDS = {
+            'en': ['dogs'],
+            'fr': ['chiens'],
+        }
+
+        ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD
+
+        @authenticated
+        def process(self, patient):
+            ...do actual work here
+
+   See :ref:`api__childcount__forms__CCForm` for the definition
+   of the :class:`childcount.forms.CCForm.CCForm` class.
+
+
+#. In :file:`apps/childcount/forms/__init__.py`, add the line::
+
+    from childcount.forms.DogForm import DogForm
+
+#. In your :file:`local.ini` file in the root ChildCount+ directory,
+   add :class:`DogForm` to the list of active commands::
+
+    ...
+    [childcount]
+    forms = PatientRegistrationForm, BirthForm, DogForm, ...
+    ...
 

@@ -58,10 +58,11 @@
     <dt><a href="api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.age">age() (childcount.models.Patient.Patient.QuerySet method)</a></dt>
     <dt><a href="api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.age_in_days_weeks_months">age_in_days_weeks_months() (childcount.models.Patient.Patient method)</a></dt>
     <dt><a href="api/apps/childcount/models/reports.html#childcount.models.reports.AgeQuerySet">AgeQuerySet (class in childcount.models.reports)</a></dt>
+    <dt><a href="api/apps/childcount/utils.html#childcount.utils.alert_health_team">alert_health_team() (in module childcount.utils)</a></dt>
     <dt><a href="api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.alive">alive() (childcount.models.Patient.Patient.QuerySet method)</a></dt>
-    <dt><a href="api/apps/childcount/exceptions.html#childcount.exceptions.AmbiguousAge">AmbiguousAge</a></dt>
 </dl></td>
   <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/apps/childcount/exceptions.html#childcount.exceptions.AmbiguousAge">AmbiguousAge</a></dt>
     <dt><a href="api/apps/childcount/models/reports.html#childcount.models.reports.AntenatalVisitReport">AntenatalVisitReport (class in childcount.models.reports)</a></dt>
     <dt><a href="api/apps/bonjour/app.html#bonjour.app.App">App (class in bonjour.app)</a></dt>
     <dt><a href="api/apps/childcount/tasks.html#childcount.tasks.appointment_calendar">appointment_calendar() (in module childcount.tasks)</a></dt>
@@ -112,9 +113,9 @@
     <dt><a href="api/apps/childcount/fields.html#module-childcount.fields">childcount.fields (module)</a></dt>
     <dt><a href="api/apps/childcount/forms.html#module-childcount.forms.CCForm">childcount.forms.CCForm (module)</a></dt>
     <dt><a href="api/apps/childcount/helpers.html#module-childcount.helpers.chw">childcount.helpers.chw (module)</a></dt>
+    <dt><a href="api/apps/childcount/helpers.html#module-childcount.helpers.patient">childcount.helpers.patient (module)</a></dt>
 </dl></td>
   <td style="width: 33%" valign="top"><dl>
-    <dt><a href="api/apps/childcount/helpers.html#module-childcount.helpers.patient">childcount.helpers.patient (module)</a></dt>
     <dt><a href="api/apps/childcount/helpers.html#module-childcount.helpers.site">childcount.helpers.site (module)</a></dt>
     <dt><a href="api/apps/childcount/indicators.html#module-childcount.indicators">childcount.indicators (module)</a></dt>
     <dt><a href="api/apps/childcount/models/patient.html#module-childcount.models.Patient">childcount.models.Patient (module)</a></dt>
@@ -130,6 +131,7 @@
     <dt><a href="api/lib/indicator.html#indicator.indicator.IndicatorPercentage.cls_num">cls_num (indicator.indicator.IndicatorPercentage attribute)</a></dt>
     <dt><a href="api/lib/indicator.html#indicator.indicator.IndicatorDifference.cls_second">cls_second (indicator.indicator.IndicatorDifference attribute)</a></dt>
     <dt><a href="api/apps/bonjour/app.html#bonjour.app.App.configure">configure() (bonjour.app.App method)</a></dt>
+    <dt><a href="api/apps/childcount/models/patient.html#childcount.models.Patient.Patient.QuerySet.created_before">created_before() (childcount.models.Patient.Patient.QuerySet method)</a></dt>
     <dt><a href="api/apps/libreport/index.html#libreport.csvreport.CSVReport">CSVReport (class in libreport.csvreport)</a></dt>
 </dl></td>
 </tr></table>
@@ -265,6 +267,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/apps/childcount/helpers.html#childcount.helpers.site.key_indicators">key_indicators() (in module childcount.helpers.site)</a></dt>
     <dt><a href="api/apps/childcount/utils.html#childcount.utils.KeywordMapper">KeywordMapper (class in childcount.utils)</a></dt>
     <dt><a href="api/apps/childcount/commands.html#childcount.commands.CCCommand.CCCommand.KEYWORDS">KEYWORDS (childcount.commands.CCCommand.CCCommand attribute)</a></dt>
 </dl></td>
@@ -346,7 +349,7 @@
     <dt><a href="api/apps/childcount/models/patient.html#childcount.models.Patient.PatientManager">PatientManager (class in childcount.models.Patient)</a></dt>
     <dt><a href="api/apps/childcount/models/reports.html#childcount.models.reports.PatientStatusReport">PatientStatusReport (class in childcount.models.reports)</a></dt>
     <dt><a href="api/apps/libreport/index.html#libreport.pdfreport.PDFReport">PDFReport (class in libreport.pdfreport)</a></dt>
-    <dt><a href="api/apps/childcount/helpers.html#childcount.helpers.chw.people_without_followup">people_without_followup() (in module childcount.helpers.chw)</a></dt>
+    <dt><a href="api/apps/childcount/helpers.html#childcount.helpers.chw.people_without_follow_up">people_without_follow_up() (in module childcount.helpers.chw)</a></dt>
     <dt><a href="api/lib/indicator.html#indicator.percentage.Percentage">Percentage (class in indicator.percentage)</a></dt>
     <dt><a href="api/apps/libreport/index.html#libreport.pdfreport.pheader">pheader() (in module libreport.pdfreport)</a></dt>
     <dt><a href="api/apps/childcount/forms.html#childcount.forms.CCForm.CCForm.post_process">post_process() (childcount.forms.CCForm.CCForm method)</a></dt>
@@ -496,8 +499,8 @@
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
+    <dt><a href="api/apps/childcount/tasks.html#childcount.tasks.weekly_anc_visit_reminder">weekly_anc_visit_reminder() (in module childcount.tasks)</a></dt>
     <dt><a href="api/apps/childcount/tasks.html#childcount.tasks.weekly_immunization_reminder">weekly_immunization_reminder() (in module childcount.tasks)</a></dt>
-    <dt><a href="api/apps/childcount/tasks.html#childcount.tasks.weekly_initial_anc_visit_reminder">weekly_initial_anc_visit_reminder() (in module childcount.tasks)</a></dt>
 </dl></td>
   <td style="width: 33%" valign="top"><dl>
     <dt><a href="api/apps/childcount/tasks.html#childcount.tasks.weekly_muac_reminder">weekly_muac_reminder() (in module childcount.tasks)</a></dt>

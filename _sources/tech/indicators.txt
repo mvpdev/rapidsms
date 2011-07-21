@@ -41,14 +41,53 @@ while the ChildCount+ indicator definitions
 live inside the ChildCount+ application
 directory: :file:`apps/childcount/indicators/`.
 
-[U] Creating an Indicator
+Creating an Indicator
 -------------------------
 
-(which in code is a class that 
-inherits from :class:`indicator.indicator.Indicator`)
+All of the ChildCount+ indicator code resides in the
+:file:`apps/childcount/indicators/` directory.
+For the most part, one indicator module (e.g., 
+:class:`childcount.indicators.household` directly
+corresponds to one ChildCount+ SMS form
+(e.g., ``+V`` or the 
+:class:`childcount.forms.HouseholdVisitForm`).
+To create a new indicator, you must add a new class
+to one of the files in :file:`apps/childcount/indicators/`.
 
+.. warning:: Calculating indicator values can be very nuanced
+             and tricky. Please make sure to extensively test
+             your indicator code before you deploy it.
 
-[U] Adding a time period
+For example, you might want to create an indicator that
+measures the number of households headed by people over
+the age of 50 (at the end of the time period).
+Since this indicator relates most directly to registration
+(the ``+NEW`` form), we would put it in the file
+:file:`apps/childcount/indicators/registration.py`.
+
+.. warning:: If your indicator returns a percentage value,
+             make sure that your indicator class inherits
+             from :class:`indicator.indicator.IndicatorPercentage`.
+             Using the percentage class will save you lots
+             of time and will make caching your life easier!
+
+Adding a time period
 --------------------------
 
+Since all indicators take a time period as an argument,
+ChildCount+ defines a standard set of time periods we
+can use for indicator and report generation.
+Every time period has a start and end :class:`datetime` object,
+plus one or more sub-periods.
+
+A time period might be "One Year" and the sub-periods might
+be each of the months of the year.
+These time periods are defined in 
+:file:`apps/reportgen/timeperiods/definitions/`.
+
+To define a new time period, clone one of the files
+in :file:`apps/reportgen/timeperiods/definitions/`, 
+edit it to do what you want,
+and make sure to add it to the list of imports
+in :file:`apps/reportgen/timeperiods/__init__.py`.
 

@@ -10,7 +10,7 @@ childcount.tasks
 
     .. autofunction:: weekly_muac_reminder()
 
-    .. autofunction:: weekly_initial_anc_visit_reminder()
+    .. autofunction:: weekly_anc_visit_reminder()
 
     .. autofunction:: appointment_defaulter_reminders()
 

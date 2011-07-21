@@ -149,6 +149,14 @@ deployment:
     to allow CHWs to share phones, but you might lose some of the
     benefits of real-time CHW-to-server communication.
 
+* **Do you have a system in place to manage a fleet of phones and chargers for your CHWs?**
+    Cell phones break, get lost, and are stolen. If CHWs are using
+    their phones all day every day to send SMS messages to the 
+    ChildCount+ server, then you should expect a lot of wear and
+    tear. Make sure you have a policy and a means to replace broken
+    and stolen phones so that CHWs can continue to submit forms even
+    after their phone breaks.
+
 * **Do you have a system in place to manage airtime for CHWs?**
     If community health workers are spending US$12/month on SMS messages,
     you will need a reliable way to get money or airtime to them.

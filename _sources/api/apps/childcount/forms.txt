@@ -5,6 +5,8 @@ Please see :ref:`tech__sms__forms_and_commands` for information
 on what forms and commands are.
 
 
+.. _api__childcount__forms__CCForm:
+
 childcount.forms.CCForm
 -----------------------------
 .. automodule:: childcount.forms.CCForm

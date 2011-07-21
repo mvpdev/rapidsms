@@ -55,11 +55,21 @@
 
 <span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">Patient</span>
 
-<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">nutrition</span>
 <span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">fever</span>
-<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">registration</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">follow_up</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">nutrition</span>
 <span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">pregnancy</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">registration</span>
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">under_one</span>
 
+<div class="viewcode-block" id="key_indicators"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.site.key_indicators">[docs]</a><span class="k">def</span> <span class="nf">key_indicators</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">nutrition</span><span class="o">.</span><span class="n">CoveragePerc</span><span class="p">,</span>
+        <span class="n">under_one</span><span class="o">.</span><span class="n">UnderFiveImmunizationUpToDatePerc</span><span class="p">,</span>
+        <span class="n">pregnancy</span><span class="o">.</span><span class="n">AncFourByMonthEightPerc</span><span class="p">,</span>
+        <span class="n">follow_up</span><span class="o">.</span><span class="n">OnTimePerc</span><span class="p">,</span>
+    <span class="p">)</span>
+</div>
 <div class="viewcode-block" id="summary_stats"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.site.summary_stats">[docs]</a><span class="k">def</span> <span class="nf">summary_stats</span><span class="p">(</span><span class="n">period</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Calculates a few key indicators for display</span>
 <span class="sd">    on the dashboard.</span>

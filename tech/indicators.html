@@ -90,13 +90,54 @@ while the ChildCount+ indicator definitions
 live inside the ChildCount+ application
 directory: <tt class="file docutils literal"><span class="pre">apps/childcount/indicators/</span></tt>.</p>
 </div>
-<div class="section" id="u-creating-an-indicator">
-<h2>[U] Creating an Indicator<a class="headerlink" href="#u-creating-an-indicator" title="Permalink to this headline">¶</a></h2>
-<p>(which in code is a class that
-inherits from <a class="reference internal" href="../api/lib/indicator.html#indicator.indicator.Indicator" title="indicator.indicator.Indicator"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.Indicator</span></tt></a>)</p>
+<div class="section" id="creating-an-indicator">
+<h2>Creating an Indicator<a class="headerlink" href="#creating-an-indicator" title="Permalink to this headline">¶</a></h2>
+<p>All of the ChildCount+ indicator code resides in the
+<tt class="file docutils literal"><span class="pre">apps/childcount/indicators/</span></tt> directory.
+For the most part, one indicator module (e.g.,
+<tt class="xref py py-class docutils literal"><span class="pre">childcount.indicators.household</span></tt> directly
+corresponds to one ChildCount+ SMS form
+(e.g., <tt class="docutils literal"><span class="pre">+V</span></tt> or the
+<tt class="xref py py-class docutils literal"><span class="pre">childcount.forms.HouseholdVisitForm</span></tt>).
+To create a new indicator, you must add a new class
+to one of the files in <tt class="file docutils literal"><span class="pre">apps/childcount/indicators/</span></tt>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Calculating indicator values can be very nuanced
+and tricky. Please make sure to extensively test
+your indicator code before you deploy it.</p>
 </div>
-<div class="section" id="u-adding-a-time-period">
-<h2>[U] Adding a time period<a class="headerlink" href="#u-adding-a-time-period" title="Permalink to this headline">¶</a></h2>
+<p>For example, you might want to create an indicator that
+measures the number of households headed by people over
+the age of 50 (at the end of the time period).
+Since this indicator relates most directly to registration
+(the <tt class="docutils literal"><span class="pre">+NEW</span></tt> form), we would put it in the file
+<tt class="file docutils literal"><span class="pre">apps/childcount/indicators/registration.py</span></tt>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If your indicator returns a percentage value,
+make sure that your indicator class inherits
+from <a class="reference internal" href="../api/lib/indicator.html#indicator.indicator.IndicatorPercentage" title="indicator.indicator.IndicatorPercentage"><tt class="xref py py-class docutils literal"><span class="pre">indicator.indicator.IndicatorPercentage</span></tt></a>.
+Using the percentage class will save you lots
+of time and will make caching your life easier!</p>
+</div>
+</div>
+<div class="section" id="adding-a-time-period">
+<h2>Adding a time period<a class="headerlink" href="#adding-a-time-period" title="Permalink to this headline">¶</a></h2>
+<p>Since all indicators take a time period as an argument,
+ChildCount+ defines a standard set of time periods we
+can use for indicator and report generation.
+Every time period has a start and end <tt class="xref py py-class docutils literal"><span class="pre">datetime</span></tt> object,
+plus one or more sub-periods.</p>
+<p>A time period might be &#8220;One Year&#8221; and the sub-periods might
+be each of the months of the year.
+These time periods are defined in
+<tt class="file docutils literal"><span class="pre">apps/reportgen/timeperiods/definitions/</span></tt>.</p>
+<p>To define a new time period, clone one of the files
+in <tt class="file docutils literal"><span class="pre">apps/reportgen/timeperiods/definitions/</span></tt>,
+edit it to do what you want,
+and make sure to add it to the list of imports
+in <tt class="file docutils literal"><span class="pre">apps/reportgen/timeperiods/__init__.py</span></tt>.</p>
 </div>
 </div>
 
@@ -110,8 +151,8 @@ inherits from <a class="reference internal" href="../api/lib/indicator.html#indi
   <ul>
 <li><a class="reference internal" href="#">Indicators</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
-<li><a class="reference internal" href="#u-creating-an-indicator">[U] Creating an Indicator</a></li>
-<li><a class="reference internal" href="#u-adding-a-time-period">[U] Adding a time period</a></li>
+<li><a class="reference internal" href="#creating-an-indicator">Creating an Indicator</a></li>
+<li><a class="reference internal" href="#adding-a-time-period">Adding a time period</a></li>
 </ul>
 </li>
 </ul>

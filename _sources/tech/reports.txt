@@ -11,7 +11,6 @@ Installation
 #. sudo service celeryd start
 
 
-
 How to Add/Debug Reports
 --------------------------
 
@@ -36,9 +35,9 @@ rapidsms/django site directory.  That is:
 
 Requires:
 
-* reportlab for PDFs
+* `reportlab <http://www.reportlab.com/software/downloads/>`_ for PDFs
 
-* xlwt for Excel files
+* `xlwt <http://pypi.python.org/pypi/xlwt>`_ for Excel files
 
 
 An Example

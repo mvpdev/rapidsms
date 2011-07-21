@@ -72,9 +72,18 @@
 <span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">PregnancyReport</span>
 <span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">FollowUpReport</span>
 <span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">AppointmentReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models</span> <span class="kn">import</span> <span class="n">DangerSignsReport</span>
+
+<span class="kn">import</span> <span class="nn">childcount.helpers.chw</span>
+<span class="kn">import</span> <span class="nn">childcount.helpers.site</span>
+<span class="kn">from</span> <span class="nn">childcount.helpers</span> <span class="kn">import</span> <span class="n">ranking</span>
 
 <span class="kn">from</span> <span class="nn">alerts.utils</span> <span class="kn">import</span> <span class="n">SmsAlert</span>
 
+<span class="k">class</span> <span class="nc">NowPeriod</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Past 30 Days&quot;</span>
 
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <div class="viewcode-block" id="weekly_immunization_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_immunization_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_immunization_reminder</span><span class="p">():</span>
@@ -108,7 +117,7 @@
             <span class="c"># format id and dates</span>
             <span class="n">schedules</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">date</span><span class="p">,</span> <span class="n">ids</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">:</span>
-                <span class="n">ids</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">health_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">)</span>
+                <span class="n">ids</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">health_id</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">)</span>
                 <span class="n">schedules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">-%m-%y&#39;</span><span class="p">),</span> <span class="n">ids</span><span class="p">))</span>
 
        <span class="c">#join dates together, then immunizations together ans send the SMS</span>
@@ -117,7 +126,7 @@
         <span class="n">msg_to</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;[</span><span class="si">%s</span><span class="s">] </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">imm</span><span class="p">,</span> <span class="n">dates</span><span class="p">)</span> <span class="k">for</span> <span class="n">imm</span><span class="p">,</span> <span class="n">dates</span> <span class="ow">in</span> <span class="n">msg</span><span class="p">)</span>
         <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg_to</span><span class="p">)</span>
         <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;Immunization_reminder&quot;</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;weekly_immunization_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
 </div>
@@ -154,10 +163,84 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
         <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;fever_daily_reminder&quot;</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;daily_fever_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
 </div>
+<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">daily_late_fever_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Daily reminder of Fever followup cases after 48 hours.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">6</span><span class="p">)</span>
+    <span class="c">#sdate = datetime.combine(sdate.date(), time(7, 0))</span>
+    <span class="n">edate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">3</span><span class="p">)</span>
+    <span class="c">#edate = datetime.combine(edate.date(), time(7, 0))</span>
+    <span class="n">frs</span> <span class="o">=</span> <span class="n">FeverReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__gte</span><span class="o">=</span><span class="n">sdate</span><span class="p">,</span> \
+                                <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">edate</span><span class="p">,</span> \
+                                <span class="n">rdt_result</span><span class="o">=</span><span class="n">FeverReport</span><span class="o">.</span><span class="n">RDT_POSITIVE</span><span class="p">,</span> \
+                            <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>\
+                                <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;encounter__chw&#39;</span><span class="p">)</span>
+    <span class="n">current_reporter</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">frs</span><span class="p">:</span>
+        <span class="n">fup</span> <span class="o">=</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">objects</span>\
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient</span><span class="o">=</span><span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
+                <span class="n">encounter__encounter_date__gt</span><span class="o">=</span><span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fup</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">current_reporter</span> <span class="ow">or</span> <span class="n">current_reporter</span> <span class="o">!=</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">chw</span><span class="p">:</span>
+            <span class="n">current_reporter</span> <span class="o">=</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">chw</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">current_reporter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">_msg</span> <span class="o">=</span> <span class="s">&quot;Please follow up on </span><span class="si">%s</span><span class="s"> for fever.&quot;</span> <span class="o">%</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">current_reporter</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_msg</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">current_reporter</span><span class="p">,</span> <span class="n">_msg</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;daily_late_fever_reminder&quot;</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">daily_danger_sign_reminder</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Daily reminder of Danger Sign followup cases after 48 hours.</span>
+<span class="sd">    Run every 6 hours during the day time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">6</span><span class="p">)</span>
+    <span class="c">#sdate = datetime.combine(sdate.date(), time(7, 0))</span>
+    <span class="n">edate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="o">.</span><span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c">#edate = datetime.combine(edate.date(), time(7, 0))</span>
+    <span class="n">frs</span> <span class="o">=</span> <span class="n">DangerSignsReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__gte</span><span class="o">=</span><span class="n">sdate</span><span class="p">,</span> \
+                                <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">edate</span><span class="p">,</span> \
+                                <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>\
+                                <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;encounter__chw&#39;</span><span class="p">)</span>
+    <span class="n">current_reporter</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">frs</span><span class="p">:</span>
+        <span class="n">fup</span> <span class="o">=</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">objects</span>\
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient</span><span class="o">=</span><span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
+                <span class="n">encounter__encounter_date__gt</span><span class="o">=</span><span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fup</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">current_reporter</span> <span class="ow">or</span> <span class="n">current_reporter</span> <span class="o">!=</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">chw</span><span class="p">:</span>
+            <span class="n">current_reporter</span> <span class="o">=</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">chw</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">current_reporter</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">_msg</span> <span class="o">=</span> <span class="s">&quot;Please follow up with </span><span class="si">%(person)s</span><span class="s"> for </span><span class="si">%(signs)s</span><span class="s">&quot;</span> <span class="o">%</span> \
+            <span class="p">{</span><span class="s">&#39;person&#39;</span><span class="p">:</span> <span class="n">report</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span>
+            <span class="s">&#39;signs&#39;</span><span class="p">:</span> <span class="n">report</span><span class="o">.</span><span class="n">short_summary</span><span class="p">()}</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">current_reporter</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_msg</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">current_reporter</span><span class="p">,</span> <span class="n">_msg</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;daily_danger_sign_reminder&quot;</span>
+        <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <div class="viewcode-block" id="weekly_muac_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_muac_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_muac_reminder</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -165,29 +248,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span> <span class="n">CHW</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-        <span class="n">reminder_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># muac_needing is a list of tuples of (Patient, NutritionReport)</span>
+        <span class="n">muac_needing</span> <span class="o">=</span> <span class="n">childcount</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">chw</span><span class="o">.</span><span class="n">kids_needing_muac</span><span class="p">(</span><span class="n">NowPeriod</span><span class="p">,</span> <span class="n">chw</span><span class="p">)</span>
 
-        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="n">muac_eligible</span> <span class="o">=</span> <span class="n">Patient</span>\
-            <span class="o">.</span><span class="n">objects</span>\
-            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">chw</span><span class="o">=</span><span class="n">chw</span><span class="p">)</span>\
-            <span class="o">.</span><span class="n">muac_eligible</span><span class="p">(</span><span class="n">now</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">patient</span> <span class="ow">in</span> <span class="n">muac_eligible</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">nr</span> <span class="o">=</span> <span class="n">NutritionReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__chw</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> \
-                            <span class="n">encounter__patient</span><span class="o">=</span><span class="n">patient</span><span class="p">,</span> \
-                            <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>\
-                            <span class="o">.</span><span class="n">latest</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">NutritionReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-                <span class="n">reminder_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
-                <span class="n">delta_diff</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">nr</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span>
-                <span class="n">days_since_last_muac</span> <span class="o">=</span> <span class="n">delta_diff</span><span class="o">.</span><span class="n">days</span>
-                <span class="k">if</span> <span class="n">days_since_last_muac</span> <span class="o">&gt;=</span> <span class="mi">75</span><span class="p">:</span>
-                    <span class="n">reminder_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">chw</span><span class="p">]</span> <span class="o">=</span> <span class="n">reminder_list</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">muac_needing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">chw</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">muac_needing</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
         <span class="n">p_list</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">chw</span><span class="p">)</span>
@@ -199,90 +264,63 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">current_list</span><span class="p">:</span>
                 <span class="n">done</span> <span class="o">=</span> <span class="bp">True</span>
                 <span class="k">break</span>
-            <span class="n">healthids</span> <span class="o">=</span> <span class="s">u&#39; &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">health_id</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">current_list</span><span class="p">])</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;The following clients are due for +M: </span><span class="si">%(ids)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span>
+            <span class="n">healthids</span> <span class="o">=</span> <span class="s">u&#39; &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">health_id</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">current_list</span><span class="p">])</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;The following clients are due for MUAC: </span><span class="si">%(ids)s</span><span class="s">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span>
                     <span class="s">&#39;ids&#39;</span><span class="p">:</span> <span class="n">healthids</span><span class="p">}</span>
             <span class="n">x</span> <span class="o">+=</span> <span class="mi">20</span>
             <span class="n">y</span> <span class="o">+=</span> <span class="mi">20</span>
             <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-            <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;muac_weekly_reminder&quot;</span>
+            <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;weekly_muac_reminder&quot;</span>
+            <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</div>
+<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">17</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">performance_messages</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run every Friday at 17:30 sending rankings to CHWs</span>
+<span class="sd">    on their performance on key indicators.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">indicators</span> <span class="o">=</span> <span class="n">childcount</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">key_indicators</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">indicators</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Calculating ranks for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">ind</span>
+        <span class="n">all_ranks</span> <span class="o">=</span> <span class="n">ranking</span><span class="o">.</span><span class="n">compute_rankings</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rank_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_ranks</span><span class="p">):</span>
+            <span class="k">print</span> <span class="s">&quot;Sending message to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">rank_info</span><span class="p">[</span><span class="s">&#39;chw&#39;</span><span class="p">]</span>
+
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">ranking</span><span class="o">.</span><span class="n">rank_message</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">all_ranks</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+            <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">rank_info</span><span class="p">[</span><span class="s">&#39;chw&#39;</span><span class="p">],</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
+            <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;performance_messages&#39;</span>
             <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-</div>
 <span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<div class="viewcode-block" id="weekly_initial_anc_visit_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_initial_anc_visit_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_initial_anc_visit_reminder</span><span class="p">():</span>
+<div class="viewcode-block" id="weekly_anc_visit_reminder"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.weekly_anc_visit_reminder">[docs]</a><span class="k">def</span> <span class="nf">weekly_anc_visit_reminder</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initial ANC Visit weekly reminder</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pregs</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">anc_visits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> \
-                            <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>
     <span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">alert_list</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">for</span> <span class="n">prpt</span> <span class="ow">in</span> <span class="n">pregs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">prpt</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span> <span class="ow">in</span> <span class="n">p_list</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">patient</span> <span class="o">=</span> <span class="n">prpt</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span>
-        <span class="n">p_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">rpt</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">anc_visits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> \
-                                        <span class="n">encounter__patient</span><span class="o">=</span><span class="n">patient</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
-        <span class="k">except</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">patient</span><span class="o">.</span><span class="n">chw</span> <span class="ow">in</span> <span class="n">alert_list</span><span class="p">:</span>
-                <span class="n">alert_list</span><span class="p">[</span><span class="n">patient</span><span class="o">.</span><span class="n">chw</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">alert_list</span><span class="p">[</span><span class="n">patient</span><span class="o">.</span><span class="n">chw</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">CHW</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+        <span class="n">need_anc</span> <span class="o">=</span> <span class="n">childcount</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">chw</span><span class="o">.</span><span class="n">pregnant_needing_anc</span><span class="p">(</span><span class="n">NowPeriod</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">need_anc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">alert_list</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">need_anc</span><span class="p">]</span>
 
-    <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span>  <span class="n">alert_list</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span> <span class="n">alert_list</span><span class="p">:</span>
         <span class="n">chw_list</span> <span class="o">=</span> <span class="n">alert_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">chw</span><span class="p">)</span>
         <span class="n">w</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">([</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">health_id</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span> \
                                 <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chw_list</span><span class="p">])</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Remind the following to go for their first clinic visit&quot;</span> \
-                <span class="s">&quot; </span><span class="si">%(list)s</span><span class="s">.&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">w</span><span class="p">}</span>
-        <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
-        <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
-        <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;weekly_initial_anc_visit_reminder&quot;</span>
-        <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-
-</div>
-<span class="nd">@periodic_task</span><span class="p">(</span><span class="n">run_every</span><span class="o">=</span><span class="n">crontab</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">day_of_week</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">weekly_anc_visit_reminder</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ANC Visit weekly reminder - 6 weeks have passed since last ANC visit</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pregs</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">weeks_since_anc__gt</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> \
-                            <span class="n">encounter__patient__status</span><span class="o">=</span><span class="n">Patient</span><span class="o">.</span><span class="n">STATUS_ACTIVE</span><span class="p">)</span>
-    <span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">alert_list</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="k">for</span> <span class="n">prpt</span> <span class="ow">in</span> <span class="n">pregs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">prpt</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span> <span class="ow">in</span> <span class="n">p_list</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">patient</span> <span class="o">=</span> <span class="n">prpt</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span>
-        <span class="n">p_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">rpt</span> <span class="o">=</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">weeks_since_anc__gt</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> \
-                                        <span class="n">encounter__patient</span><span class="o">=</span><span class="n">patient</span><span class="p">)</span><span class="o">.</span><span class="n">latest</span><span class="p">()</span>
-        <span class="k">except</span> <span class="n">PregnancyReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">patient</span><span class="o">.</span><span class="n">chw</span> <span class="ow">in</span> <span class="n">alert_list</span><span class="p">:</span>
-                <span class="n">alert_list</span><span class="p">[</span><span class="n">patient</span><span class="o">.</span><span class="n">chw</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">alert_list</span><span class="p">[</span><span class="n">patient</span><span class="o">.</span><span class="n">chw</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patient</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">chw</span> <span class="ow">in</span>  <span class="n">alert_list</span><span class="p">:</span>
-        <span class="n">chw_list</span> <span class="o">=</span> <span class="n">alert_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">chw</span><span class="p">)</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span> <span class="o">.</span> <span class="n">join</span><span class="p">([</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">health_id</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">p</span><span class="o">.</span><span class="n">first_name</span><span class="p">)</span> \
-                                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">chw_list</span><span class="p">])</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Remind the following to go for a clinic visit&quot;</span> \
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;Remind the following to go for ANC at health center:&quot;</span> \
                 <span class="s">&quot; </span><span class="si">%(list)s</span><span class="s">.&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">w</span><span class="p">}</span>
         <span class="n">alert</span> <span class="o">=</span> <span class="n">SmsAlert</span><span class="p">(</span><span class="n">reporter</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
         <span class="n">sms_alert</span> <span class="o">=</span> <span class="n">alert</span><span class="o">.</span><span class="n">send</span><span class="p">()</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">u&quot;weekly_anc_visit_reminder&quot;</span>
         <span class="n">sms_alert</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
+</div>
 <div class="viewcode-block" id="appointment_calendar"><a class="viewcode-back" href="../../api/apps/childcount/tasks.html#childcount.tasks.appointment_calendar">[docs]</a><span class="k">def</span> <span class="nf">appointment_calendar</span><span class="p">(</span><span class="n">weekday</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;----------- 3 days b4 apt</span>
 <span class="sd">    monday 0      wednesday 2</span>

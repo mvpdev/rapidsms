@@ -103,7 +103,7 @@
         <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Follow Up&quot;</span><span class="p">),</span>
         <span class="s">&#39;columns&#39;</span><span class="p">:</span> <span class="p">[</span>
             <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;People with DSs&quot;</span><span class="p">),</span> <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">danger_signs</span><span class="o">.</span><span class="n">Total</span><span class="p">},</span>
-            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Urgent (Non-Convenient) Referrals&quot;</span><span class="p">),</span>
+            <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cases Urgently Referred OR Treated by CHW&quot;</span><span class="p">),</span>
                 <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">referral</span><span class="o">.</span><span class="n">Urgent</span><span class="p">},</span>
             <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;On-Time Follow-Up Visits (between 18 and 72 hours)&quot;</span><span class="p">),</span> \
                 <span class="s">&#39;ind&#39;</span><span class="p">:</span> <span class="n">follow_up</span><span class="o">.</span><span class="n">OnTime</span><span class="p">},</span>
@@ -221,7 +221,7 @@
     <span class="n">women</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">:</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">no_anc</span> <span class="o">+</span> <span class="n">women</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="people_without_followup"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.people_without_followup">[docs]</a><span class="k">def</span> <span class="nf">people_without_followup</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
+<div class="viewcode-block" id="people_without_follow_up"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.people_without_follow_up">[docs]</a><span class="k">def</span> <span class="nf">people_without_follow_up</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a list of people assigned to this CHW</span>
 <span class="sd">    who were referred urgently to a clinic</span>
 <span class="sd">    who got a late follow-up visit (3-7 days after referral) or no follow-up </span>
@@ -236,45 +236,31 @@
 <span class="sd">    :returns: list of :class:`childcount.models.reports.ReferralReport`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">elig</span> <span class="o">=</span> <span class="n">follow_up</span><span class="o">.</span><span class="n">_eligible</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="o">.</span><span class="n">patient_set</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>
+    <span class="n">late</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">never</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">elig</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">FollowUpReport</span>\
+                <span class="o">.</span><span class="n">objects</span>\
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient__pk</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span>
+                    <span class="n">encounter__encounter_date__gt</span><span class="o">=</span>\
+                        <span class="n">e</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_ON_TIME</span><span class="p">)</span>\
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__lte</span><span class="o">=</span>\
+                        <span class="n">e</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_NEVER</span><span class="p">)</span>
 
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># No follow-up visit at all</span>
+            <span class="n">never</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-    <span class="n">referrals</span> <span class="o">=</span> <span class="n">ReferralReport</span>\
-        <span class="o">.</span><span class="n">objects</span>\
-        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__chw</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> \
-            <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>\
-            <span class="n">encounter__encounter_date__gte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>\
-        <span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">urgency</span><span class="o">=</span><span class="n">ReferralReport</span><span class="o">.</span><span class="n">URGENCY_CONVENIENT</span><span class="p">)</span>
-
-    <span class="n">num_referrals</span> <span class="o">=</span> <span class="n">referrals</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">num_referrals</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">print</span> <span class="s">&quot;No referrals&quot;</span>
-        <span class="k">return</span> <span class="bp">None</span>
-
-    <span class="n">ontime</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">nofup</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">referral</span> <span class="ow">in</span> <span class="n">referrals</span><span class="p">:</span>
-        <span class="n">rdate</span> <span class="o">=</span> <span class="n">referral</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">fur</span> <span class="o">=</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__chw</span><span class="o">=</span><span class="n">chw</span><span class="p">,</span> \
-                        <span class="n">encounter__patient</span><span class="o">=</span><span class="n">referral</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">patient</span><span class="p">,</span> \
-                        <span class="n">encounter__encounter_date__gte</span><span class="o">=</span>\
-                            <span class="n">rdate</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_ON_TIME</span><span class="p">,</span> \
-                        <span class="n">encounter__encounter_date__lt</span><span class="o">=</span>\
-                            <span class="n">rdate</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_LATE</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">FollowUpReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
-            <span class="k">pass</span>
-            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: None&quot;</span> <span class="o">%</span> <span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">fur</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">(),</span> \
-                <span class="n">fur</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">.</span><span class="n">date</span><span class="p">())</span>
-            <span class="n">ontime</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">referral</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__encounter_date__gt</span><span class="o">=</span>\
+            <span class="n">e</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">+</span><span class="n">follow_up</span><span class="o">.</span><span class="n">DELTA_START_LATE</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c"># Follow-up visit was late</span>
+            <span class="n">late</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">nofup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">referral</span><span class="p">)</span>
-            <span class="k">print</span> <span class="s">&quot;Ref: </span><span class="si">%s</span><span class="s">, FU: None&quot;</span> <span class="o">%</span> <span class="n">rdate</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+            <span class="c"># Follow-up visit was on-time</span>
+            <span class="k">pass</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">ontime</span><span class="p">,</span> <span class="n">nofup</span><span class="p">)</span>
-
+    <span class="k">return</span> <span class="p">(</span><span class="n">late</span><span class="p">,</span> <span class="n">never</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="kids_needing_muac"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.chw.kids_needing_muac">[docs]</a><span class="k">def</span> <span class="nf">kids_needing_muac</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">chw</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a list of MUAC-eligible patients assigned to this CHW</span>
