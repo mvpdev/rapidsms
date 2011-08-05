@@ -1,3 +1,3 @@
 <?php
-    echo "Success!";
+    system("git pull");
 ?>
