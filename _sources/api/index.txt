@@ -5,6 +5,7 @@ API/ChildCount+ Module Reference
     documentation hosted on ReadTheDocs does not
     display our API documentation properly.
     Instead, please see the full API documentation at
+    `<http://docs.childcount.org/>`_ or 
     `<http://mvpdev.github.com/rapidsms/>`_.
 
 .. toctree::
