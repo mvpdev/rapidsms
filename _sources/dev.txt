@@ -79,6 +79,10 @@ is a special branch for the `GitHub Pages <http://pages.github.com/>`_
 feature. Files pushed there end up being served at
 `<http://mvpdev.github.com/rapidsms/>`_.
 
+The documentation mirror at `<http://docs.childcount.org/>`_
+should copy the documentation from `<http://mvpdev.github.com/rapidsms/>`_
+after every commit to the GitHub repository.
+
 Who to Contact
 -------------------
 
