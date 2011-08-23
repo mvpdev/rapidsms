@@ -78,6 +78,8 @@
 <span class="kn">import</span> <span class="nn">childcount.helpers.site</span>
 <span class="kn">from</span> <span class="nn">childcount.helpers</span> <span class="kn">import</span> <span class="n">ranking</span>
 
+<span class="kn">from</span> <span class="nn">childcount.indicators</span> <span class="kn">import</span> <span class="n">message</span>
+
 <span class="kn">from</span> <span class="nn">alerts.utils</span> <span class="kn">import</span> <span class="n">SmsAlert</span>
 
 <span class="k">class</span> <span class="nc">NowPeriod</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -281,7 +283,7 @@
 <span class="sd">    on their performance on key indicators.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">indicators</span> <span class="o">=</span> <span class="n">childcount</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">key_indicators</span><span class="p">()</span>
+    <span class="n">indicators</span> <span class="o">=</span> <span class="p">[</span><span class="n">message</span><span class="o">.</span><span class="n">Sms</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">childcount</span><span class="o">.</span><span class="n">helpers</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">key_indicators</span><span class="p">())</span> 
     <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="n">indicators</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">&quot;Calculating ranks for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">ind</span>
         <span class="n">all_ranks</span> <span class="o">=</span> <span class="n">ranking</span><span class="o">.</span><span class="n">compute_rankings</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>

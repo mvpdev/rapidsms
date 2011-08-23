@@ -29,6 +29,22 @@ ChildCount+ installations are online here:
 
     `<http://www.github.com/mvpdev/rapidsms-impl>`_
 
+**Stages and Versions**
+
+Different versions of the ChildCount+ code often require different
+server configurations.
+We refer to each successive server configuration as a "stage"
+while each release of the source code is a "version."
+We use letters (A, B, C, ...) to refer to stages,
+and numbers (0, 1, 2, ...) to refer to versions.
+The version numbers reset with each stage.
+
+So, if the latest code is ``stageE-v1`` and a developer
+creates a release that does not require changes to the
+server configuration, the next release will be ``stageE-v2``.
+Afterwards, if the next release does require changes to
+the configuration files, the release tag will be ``stageF-v0``.
+
 **Branches**
 
 The ChildCount+ code repository has two 
@@ -56,7 +72,12 @@ generally goes like this:
     that the translations and localization works properly for 
     French- and Tigrinya-speaking sites.
 
-#.  The release developer writes up a textual description of how to
+#.  The release developer adds a git tag of the format ``stageX-vY``
+    (where ``X`` is the stage code and ``Y`` is the version number)
+    to the ``ccstable`` branch.
+
+#.  If a new stage is being created:
+    The release developer writes up a textual description of how to
     update the server to accommodate the new code and posts it
     on `<http://we.mvpafrica.org>`_.
 
