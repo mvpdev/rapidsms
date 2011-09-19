@@ -80,6 +80,23 @@ developers directly.
 Since the team is always in flux, check the <a class="reference external" href="http://www.childcount.org/">ChildCount+ Web site</a>
 to find out how to contact us.</p>
 </div>
+<div class="section" id="running-the-software">
+<h1>Running the Software<a class="headerlink" href="#running-the-software" title="Permalink to this headline">¶</a></h1>
+<p>Once everything is installed, you can use the following commands
+to start your ChildCount+ instance:</p>
+<div class="highlight-python"><pre>sudo service rabbitmq-server start
+sudo service celeryd start
+sudo service celery-beat start
+sudo service rapidsms start
+sudo service rapidsms-webserver start</pre>
+</div>
+<p>You then should then open a browser and navigate to:</p>
+<div class="highlight-python"><pre>http://your_server_ip/childcount</pre>
+</div>
+<p>The normal Django administration pages are at:</p>
+<div class="highlight-python"><pre>http://your_server_ip/admin</pre>
+</div>
+</div>
 
 
           </div>
@@ -87,6 +104,12 @@ to find out how to contact us.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation Instructions</a></li>
+<li><a class="reference internal" href="#running-the-software">Running the Software</a></li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="intro.html"
                         title="previous chapter">Technology Overview</a></p>

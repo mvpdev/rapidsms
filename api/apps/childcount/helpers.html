@@ -193,6 +193,76 @@ last_anc_date, approx_due_date) tuples</p>
 <div class="section" id="module-childcount.helpers.patient">
 <span id="childcount-helpers-patient"></span><h2>childcount.helpers.patient<a class="headerlink" href="#module-childcount.helpers.patient" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="childcount.helpers.patient.latest_hhv_counseling">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_hhv_counseling</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_hhv_counseling"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_hhv_counseling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a string containing a human-readable list
+of counseling codes 
+for this Patient&#8217;s last household visit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">unicode</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_hhv_date">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_hhv_date</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_hhv_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_hhv_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a string containing a human-readable date
+for this Patient&#8217;s last household visit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">unicode</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="childcount.helpers.patient.latest_hhv_raw">
+<tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_hhv_raw</tt><big>(</big><em>period</em>, <em>p</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_hhv_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_hhv_raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look up the latest HouseholdVisitReport for this
+patient&#8217;s household</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>period</strong> (An object with <tt class="xref py py-meth docutils literal"><span class="pre">start()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">end()</span></tt>
+methods that each return a <tt class="xref py py-class docutils literal"><span class="pre">datetime.datetime</span></tt>) &#8211; Time period</li>
+<li><strong>p</strong> (<a class="reference internal" href="models/patient.html#module-childcount.models.Patient" title="childcount.models.Patient"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.Patient</span></tt></a>) &#8211; Patient</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference internal" href="models/reports.html#childcount.models.reports.HouseholdVisitReport" title="childcount.models.reports.HouseholdVisitReport"><tt class="xref py py-class docutils literal"><span class="pre">childcount.models.reports.HouseholdVisitReport</span></tt></a> or None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="childcount.helpers.patient.latest_imm_report">
 <tt class="descclassname">childcount.helpers.patient.</tt><tt class="descname">latest_imm_report</tt><big>(</big><em>period</em>, <em>kid</em><big>)</big><a class="reference internal" href="../../../_modules/childcount/helpers/patient.html#latest_imm_report"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#childcount.helpers.patient.latest_imm_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Look up this patient&#8217;s latest immunization report.</p>

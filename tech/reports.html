@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>[U] Printed Reports &mdash; ChildCount+ v2.0(g) documentation</title>
+    <title>Printed Reports &mdash; ChildCount+ v2.0(g) documentation</title>
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -53,51 +53,88 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="u-printed-reports">
-<h1>[U] Printed Reports<a class="headerlink" href="#u-printed-reports" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="printed-reports">
+<h1>Printed Reports<a class="headerlink" href="#printed-reports" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>Printed report generation is arguably the most important thing that
+ChildCount+ does.
+To simplify the process, we have created a report generation &#8220;framework&#8221;
+of sorts that makes creating reports faster and easier (once you know
+how it all works).</p>
+<p>One key principle of the framework to reduce the duplication of code
+by abstracting a lot of the common elements of report generation out
+of the individual report code.
+The framework treats each report as a function that takes
+as arguments:</p>
 <ol class="arabic simple">
-<li>See Dickson&#8217;s page on how to install celery</li>
-<li>sudo service rabbitmq-server start</li>
-<li>sudo service celeryd start</li>
+<li>A time period (e.g., &#8220;12 Months (divided by Quarter)&#8221;)</li>
+<li>A file format (e.g., &#8220;pdf&#8221;)</li>
+<li>[Optional] A variant (e.g., &#8220;Bugongi Health Center&#8221;)</li>
+</ol>
+<p>In the definition of the report, the report author only has to
+write a function that takes these three parameters and spits
+out a report with the desired properties.
+The report framework handles the user interface for generating
+reports and manages the storage as well.
+Look at the existing reports to see how this all is done.</p>
+</div>
+<div class="section" id="how-to-add-reports">
+<h2>How to Add Reports<a class="headerlink" href="#how-to-add-reports" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Create a report definition file and place it in <tt class="file docutils literal"><span class="pre">apps/reportgen/definitions</span></tt>.
+Your best bet is to copy an existing report file and adjust it according to your needs.</li>
+<li>If your report is called <tt class="file docutils literal"><span class="pre">NewReport.py</span></tt>, then add <tt class="xref py py-class docutils literal"><span class="pre">NewReport</span></tt> to
+the <tt class="xref py py-class docutils literal"><span class="pre">__all__</span></tt> list in <tt class="file docutils literal"><span class="pre">apps/reportgen/definitions/__init__.py</span></tt>.</li>
+<li>Open the Django admin interface (at <a class="reference external" href="http://your_server_ip/admin">http://your_server_ip/admin</a>), and add an entry
+to the Reportgen.Report model. The entry should contain the name of your report
+class (e.g., <tt class="xref py py-class docutils literal"><span class="pre">NewReport</span></tt>) and a human-readable title for the report.</li>
+<li>Restart <tt class="file docutils literal"><span class="pre">celeryd</span></tt>, <tt class="file docutils literal"><span class="pre">rapidsms</span></tt> and <tt class="file docutils literal"><span class="pre">celerybeat</span></tt>.</li>
 </ol>
 </div>
-<div class="section" id="how-to-add-debug-reports">
-<h2>How to Add/Debug Reports<a class="headerlink" href="#how-to-add-debug-reports" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="how-to-debug-reports">
+<h2>How to Debug Reports<a class="headerlink" href="#how-to-debug-reports" title="Permalink to this headline">¶</a></h2>
+<p>Debugging reports can be annoying. The one way to simplify the process is this:</p>
+<div class="highlight-python"><pre># Open shell
+cd sms
+./rapidsms shell
+
+# Load a time period
+from reportgen.timeperiods import Month
+t = Month.periods()[2]
+
+# Load your new report definition file
+from reportgen.definitions.MyNewReport import ReportDefinition
+
+# Test the report using the first variant
+ReportDefinition.test(t, 'pdf')
+
+# The generated report will end up in /tmp/test_my_new_report
+# (or whatever the name of your report is)
+
+# To re-run your report, you need to quit the shell
+exit</pre>
+</div>
+<p>Save this script in a file to speed up the process.</p>
 </div>
 <div class="section" id="ccdoc-childcount-document-generation-library">
 <h2>ccdoc - ChildCount+ Document-Generation Library<a class="headerlink" href="#ccdoc-childcount-document-generation-library" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="about-ccdoc">
-<h3>About ccdoc<a class="headerlink" href="#about-ccdoc" title="Permalink to this headline">¶</a></h3>
-<p>The goal of ccdoc is to provide a simple way for ChildCount+
-users to generate customized and printable data reports and
-documents.</p>
-</div>
-<div class="section" id="install">
-<h3>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h3>
-<p>Put the ccodc folder in the lib folder of your
-rapidsms/django site directory.  That is:</p>
-<blockquote>
-<div><tt class="file docutils literal"><span class="pre">your-site/lib/ccdoc/</span></tt></div></blockquote>
-<p>Requires:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.reportlab.com/software/downloads/">reportlab</a> for PDFs</li>
-<li><a class="reference external" href="http://pypi.python.org/pypi/xlwt">xlwt</a> for Excel files</li>
-</ul>
-</div>
-<div class="section" id="an-example">
-<h3>An Example<a class="headerlink" href="#an-example" title="Permalink to this headline">¶</a></h3>
+<p>The ccdoc library adds another layer of abstraction to reports.
+Using ccdoc, you can generate an instance of a report as a ccdoc
+<tt class="xref py py-class docutils literal"><span class="pre">ccdoc.document.Document</span></tt> object and ccdoc will handle
+generation of the report output in HTML, PDF, and XLS file
+formats.
+Many of the reports in <tt class="file docutils literal"><span class="pre">apps/reportgen/definitions</span></tt>
+use ccdoc to simplify the report generation process and those
+are good places to look for real-world examples of ccdoc in
+action.</p>
 <p>The file <tt class="file docutils literal"><span class="pre">lib/ccdoc/example.py</span></tt> contains an example of
 how to create and render a Document into HTML.  Run the
 example from your rapidsms shell (when you&#8217;re in your site
 directory) like this:</p>
 <div class="highlight-python"><pre>cd ~/your-site
-./rapidsms shell &lt; lib/ccdoc/example.py</pre>
-</div>
+./rapidsms shell &lt; lib/ccdoc/example.py &gt; test.html
+# Ignore the &gt;&gt;&gt; prompts that the python shell adds</pre>
 </div>
 <div class="section" id="how-it-works">
 <h3>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this headline">¶</a></h3>
@@ -131,14 +168,11 @@ methods in your subclass.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">[U] Printed Reports</a><ul>
+<li><a class="reference internal" href="#">Printed Reports</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#how-to-add-debug-reports">How to Add/Debug Reports</a></li>
+<li><a class="reference internal" href="#how-to-add-reports">How to Add Reports</a></li>
+<li><a class="reference internal" href="#how-to-debug-reports">How to Debug Reports</a></li>
 <li><a class="reference internal" href="#ccdoc-childcount-document-generation-library">ccdoc - ChildCount+ Document-Generation Library</a><ul>
-<li><a class="reference internal" href="#about-ccdoc">About ccdoc</a></li>
-<li><a class="reference internal" href="#install">Install</a></li>
-<li><a class="reference internal" href="#an-example">An Example</a></li>
 <li><a class="reference internal" href="#how-it-works">How It Works</a></li>
 </ul>
 </li>

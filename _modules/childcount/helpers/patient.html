@@ -53,9 +53,34 @@
 
 <span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
 
+<span class="kn">import</span> <span class="nn">bonjour</span>
+
 <span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">NutritionReport</span>
 <span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">UnderOneReport</span>
+<span class="kn">from</span> <span class="nn">childcount.models.reports</span> <span class="kn">import</span> <span class="n">HouseholdVisitReport</span>
 
+<div class="viewcode-block" id="latest_hhv_raw"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.patient.latest_hhv_raw">[docs]</a><span class="k">def</span> <span class="nf">latest_hhv_raw</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Look up the latest HouseholdVisitReport for this</span>
+<span class="sd">    patient&#39;s household</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param p: Patient</span>
+<span class="sd">    :type p: :class:`childcount.models.Patient`</span>
+<span class="sd">    :returns: :class:`childcount.models.reports.HouseholdVisitReport` or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">HouseholdVisitReport</span>\
+            <span class="o">.</span><span class="n">objects</span>\
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">encounter__patient</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">household</span><span class="p">,</span> \
+                <span class="n">encounter__encounter_date__lte</span><span class="o">=</span><span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">latest</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">HouseholdVisitReport</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">h</span>
+</div>
 <div class="viewcode-block" id="latest_muac_raw"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.patient.latest_muac_raw">[docs]</a><span class="k">def</span> <span class="nf">latest_muac_raw</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Look up the latest NutritionReport for this</span>
 <span class="sd">    patient with a non-zero MUAC value.</span>
@@ -80,6 +105,47 @@
         <span class="k">return</span> <span class="bp">None</span>
     <span class="k">return</span> <span class="n">n</span>
 </div>
+<div class="viewcode-block" id="latest_hhv_counseling"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.patient.latest_hhv_counseling">[docs]</a><span class="k">def</span> <span class="nf">latest_hhv_counseling</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a string containing a human-readable list</span>
+<span class="sd">    of counseling codes </span>
+<span class="sd">    for this Patient&#39;s last household visit.</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param p: Patient</span>
+<span class="sd">    :type p: :class:`childcount.models.Patient`</span>
+<span class="sd">    :returns: unicode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">latest_hhv_raw</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">u&quot;--&quot;</span>
+   
+    <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">counseling</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="n">local_code</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">h</span><span class="o">.</span><span class="n">counseling</span><span class="o">.</span><span class="n">all</span><span class="p">()])</span>    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;None&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="latest_hhv_date"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.patient.latest_hhv_date">[docs]</a><span class="k">def</span> <span class="nf">latest_hhv_date</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a string containing a human-readable date</span>
+<span class="sd">    for this Patient&#39;s last household visit.</span>
+
+<span class="sd">    :param period: Time period </span>
+<span class="sd">    :type period: An object with :meth:`.start` and :meth:`.end`</span>
+<span class="sd">                  methods that each return a :class:`datetime.datetime`</span>
+<span class="sd">    :param p: Patient</span>
+<span class="sd">    :type p: :class:`childcount.models.Patient`</span>
+<span class="sd">    :returns: unicode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">h</span> <span class="o">=</span> <span class="n">latest_hhv_raw</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">h</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;[No HHV]&quot;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">bonjour</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_date</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">,</span> \
+        <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="latest_muac_date"><a class="viewcode-back" href="../../../api/apps/childcount/helpers.html#childcount.helpers.patient.latest_muac_date">[docs]</a><span class="k">def</span> <span class="nf">latest_muac_date</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format a string containing a human-readable date</span>
 <span class="sd">    and MUAC value for this Patient&#39;s last MUAC .</span>
@@ -98,7 +164,8 @@
     
     <span class="sd">&#39;&#39;&#39; Oed = Oedema &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s">u&quot;</span><span class="si">%(date)s</span><span class="s"> [</span><span class="si">%(muac)s</span><span class="s">,Oed:</span><span class="si">%(oedema)s</span><span class="s">]&quot;</span><span class="p">)</span> <span class="o">%</span> \
-        <span class="p">{</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s"> %b %Y&#39;</span><span class="p">),</span>
+        <span class="p">{</span><span class="s">&#39;date&#39;</span><span class="p">:</span> <span class="n">bonjour</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">format_date</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">encounter</span><span class="o">.</span><span class="n">encounter_date</span><span class="p">,</span>\
+                    <span class="n">format</span><span class="o">=</span><span class="s">&#39;medium&#39;</span><span class="p">),</span>
         <span class="s">&#39;muac&#39;</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">muac</span> <span class="ow">or</span> <span class="s">&#39;--&#39;</span><span class="p">,</span>
         <span class="s">&#39;oedema&#39;</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">oedema</span><span class="p">}</span>
 

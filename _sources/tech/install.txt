@@ -30,6 +30,24 @@ Since the team is always in flux, check the `ChildCount+ Web site <http://www.ch
 to find out how to contact us.
 
 
+Running the Software
+=======================
 
+Once everything is installed, you can use the following commands
+to start your ChildCount+ instance::
+    
+    sudo service rabbitmq-server start
+    sudo service celeryd start
+    sudo service celery-beat start
+    sudo service rapidsms start
+    sudo service rapidsms-webserver start
+
+You then should then open a browser and navigate to::
+
+    http://your_server_ip/childcount
+
+The normal Django administration pages are at::
+
+    http://your_server_ip/admin
 
 
