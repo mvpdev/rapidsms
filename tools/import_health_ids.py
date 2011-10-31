@@ -42,6 +42,9 @@ from locations.models import Location
 
 revision.start()
 
+dups = 0 # number of duplicates
+no_dups = 0 # number of non duplicates
+
 with open('ids_full') as f:
     for line in f:
         line = line.strip()
@@ -50,7 +53,12 @@ with open('ids_full') as f:
                 health_id = line,
                 status = HealthId.STATUS_GENERATED)
             print "Adding health ID %s" % (line)
+            no_dups += 1
         except IntegrityError:
             print "Skipping health ID %s" % (line)
+            dups += 1
+            
+print "Added: %d; Failed: %d" % (no_dups, dups,)
+
 revision.end()
 
