@@ -284,7 +284,7 @@ def weekly_anc_visit_reminder():
         activate(chw.language)
 
         chw_list = alert_list.get(chw)
-        w = ', ' . join(["%s %s" % (p.health_id.upper(), p.first_name) \
+        w = ', ' . join(["%s %s" % (p.health_id.upper(), p.full_name()) \
                                 for p in chw_list])
         msg = _(u"Remind the following to go for ANC at health center:" \
                 " %(list)s.") % {'list': w}
