@@ -1,0 +1,82 @@
+#!/bin/bash
+# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# maintainer: katembu
+
+USB_ROOT="/Volumes/usb-backup/"
+BACKUP_DIR="vms_backup"
+
+NOW=$(date +"%m_%d_%Y")
+
+directory="$USB_ROOT$BACKUP_DIR"
+
+#check if directory exists
+if [ -d $directory ]; 
+then
+	echo "Directory exists"
+else 
+    echo "Creating VMS Backup Directory "
+	mkdir $directory
+fi 
+
+
+backup_omrs_vm()
+{
+    #Clone Name
+    name="omrs_$NOW"
+    destination="$directory/$name.vdi"
+
+    #Locate OMRS VDI
+    LOC=$(locate omrs.vdi)
+
+    #STOP
+    echo "Stoping OMRS-VM for cloning "
+    VBoxManage controlvm omrs savestate
+
+    #Make a clone and save in Backup Disk
+    #CHECK IF SIMILAR CLONE ALREADY EXIST
+    if [ -d $destination ]; 
+    then
+	    echo "Directory exists"
+    else 
+        echo "Creating OMRS  Backup clone "
+	    VBoxManage clonehd $LOC $destination --format VDI
+    fi 
+
+    #restart - To add head or headless
+    echo "Restarting OMRS-VM "
+    VBoxManage startvm omrs --type headless
+}
+
+backup_rsms_vm()
+{
+    #Clone Name
+    name="rsms_$NOW"
+    destination="$directory/$name.vdi"
+
+    #Locate OMRS VDI
+    LOC=$(locate rsms.vdi)
+
+    #STOP
+    echo "Stop RSMS VM for cloning "
+    VBoxManage controlvm rsms savestate
+
+    #Make a clone and save in Backup Disk
+    #CHECK IF SIMILAR CLONE ALREADY EXIST
+    if [ -d $destination ]; 
+    then
+	    echo "Similar Clone already exists"
+    else 
+        echo "Creating RSMS backup clone"
+	    VBoxManage clonehd $LOC $destination --format VDI
+    fi 
+
+    #restart - To add head or headless
+    echo "Restarting RSMS-VM "
+    VBoxManage startvm rsms --type headless
+
+
+}
+
+backup_omrs_vm
+backup_rsms_vm
+
