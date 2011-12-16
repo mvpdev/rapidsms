@@ -1119,9 +1119,7 @@ msgstr ""
 #: forms/BirthForm.py:97
 #, python-format
 msgid "Could not find mother / guardian with health ID %(id)s. You must register the mother first."
-msgstr ""
-"Amakuru adahagije. Igikenewe: | Nomero y'ubuzima ya nyina | yavukiye kwa "
-"muganga | Ibiro(kg)(ushobora kuhihorera) | "
+msgstr "Could not find mother / guardian with health ID %(id)s. You must register the mother first."
 
 #: forms/BirthForm.py:102
 #, python-format
@@ -2740,7 +2738,7 @@ msgstr ""
 #: indicators/birth.py:20
 #: templates/childcount/forms/a.json:12
 msgid "Birth"
-msgstr "Wavutse"
+msgstr "Birth"
 
 #: indicators/birth.py:27
 #, fuzzy
@@ -2811,7 +2809,7 @@ msgstr "% Abavukiye mu ivuriro"
 #: indicators/birth.py:128
 #, python-format
 msgid "% of patients born this period known delivered in a clinic"
-msgstr "Ijanisha ry'abarwayi bavutse muri iki gihe bizwi ko bavukiye mu ivuriro"
+msgstr "% of patients born this period known delivered in a clinic"
 
 #: indicators/birth.py:140
 msgid "# Births with ANC 4"
@@ -2830,9 +2828,7 @@ msgstr "# Abavutse ababyeyi baripimishije inda inshuro 4"
 #: indicators/birth.py:169
 #, python-format
 msgid "% of patients born this period whose mother had four ANC visits"
-msgstr ""
-"Ijanisha ry'abarwayi bavutse muri iki gihe,ababyeyi babo bari bipimishije "
-"inda inshuro zigera kuri enye"
+msgstr  "% of patients born this period whose mother had four ANC visits"
 
 #: indicators/danger_signs.py:17
 #, fuzzy
@@ -5016,7 +5012,7 @@ msgstr "Izina"
 #: templates/childcount/forms/a.json:10
 #: templates/childcount/forms/d.json:8
 msgid "Age"
-msgstr "Imyaka"
+msgstr "Age"
 
 #: models/Encounter.py:27
 #: models/FormGroup.py:41
@@ -6442,7 +6438,7 @@ msgstr "Izina ukoresha"
 #: templates/childcount/forms/a.json:7
 #: templates/childcount/forms/d.json:5
 msgid "First Name"
-msgstr "Izina ry'idini"
+msgstr "First Name"
 
 #: templates/childcount/list_chw.html:20
 msgid "Last Name"
@@ -6459,7 +6455,7 @@ msgstr "Yego"
 #: templates/childcount/list_chw.html:31
 #: templates/childcount/forms/c.json:14
 msgid "N"
-msgstr "Oya"
+msgstr "N"
 
 #: templates/childcount/list_chw.html:41
 #: templates/childcount/patient.html:78
@@ -6518,7 +6514,7 @@ msgstr "Gushakisha"
 #: templates/childcount/forms/ebc.json:4
 #: templates/childcount/forms/ruhiira-b.json:4
 msgid "ID"
-msgstr "Nomero"
+msgstr "ID"
 
 #: templates/childcount/patient.html:41
 msgid "Patient Name"
@@ -6595,186 +6591,184 @@ msgstr "Igiteranyo cy'abarwayi"
 #: templates/childcount/forms/a.json:4
 #: templates/childcount/forms/c.json:4
 msgid "HEALTH ID"
-msgstr "NOMERO Y'UBUZIMA"
+msgstr "HEALTH ID"
 
 #: templates/childcount/forms/a.json:5
 msgid "NEW"
-msgstr "NSHYA"
+msgstr "NEW"
 
 #: templates/childcount/forms/a.json:5
 msgid "General Registration"
-msgstr "Iyandika rusange"
+msgstr "General Registration"
 
 #: templates/childcount/forms/a.json:6
 msgid "Loc"
-msgstr "Ahantu"
+msgstr "Loc"
 
 #: templates/childcount/forms/a.json:6
 msgid "Location #"
-msgstr "Ahantu#"
+msgstr "Location#"
 
 #: templates/childcount/forms/a.json:7
 #: templates/childcount/forms/d.json:5
 msgid "Fir"
-msgstr "Izina ry'idini"
+msgstr "Fir"
 
 #: templates/childcount/forms/a.json:8
 #: templates/childcount/forms/d.json:6
 msgid "Sur"
-msgstr "Izina ry'umuryango"
+msgstr "Sur"
 
 #: templates/childcount/forms/a.json:8
 #: templates/childcount/forms/d.json:6
 msgid "Family Name (surname)"
-msgstr "Izina ry'umuryango"
+msgstr "Family Name (surname)"
 
 #: templates/childcount/forms/a.json:9
 #: templates/childcount/forms/d.json:7
 msgid "Sex"
-msgstr "Igitsina"
+msgstr "Sex"
 
 #: templates/childcount/forms/a.json:9
 #: templates/childcount/forms/d.json:7
 msgid "Sex (M-F)"
-msgstr "Igitsina (gabo-gore)"
+msgstr "Sex (M-F)"
 
 #: templates/childcount/forms/a.json:10
 #: templates/childcount/forms/d.json:8
 msgid "Birth Date [DDMMYY] or Age [+m,y]"
-msgstr "Itariki yamavuko [UmunsiUkweziUmwaka] cyangwa imyaka [+m,a]"
+msgstr "Birth Date [DDMMYY] or Age [+m,y]"
 
 #: templates/childcount/forms/a.json:11
 #: templates/childcount/forms/d.json:10
 msgid "PHH"
-msgstr "Nyiri inshingano yo kwita ku rugo"
+msgstr "PHH"
 
 #: templates/childcount/forms/a.json:11
 #: templates/childcount/forms/d.json:10
 msgid "Primary HH Caregiver ID [H = Same as ID]"
-msgstr "Nomero y'ushinzwe kwita ku rugo [Nyiri urugo = Nomero]"
+msgstr "Primary HH Caregiver ID [H = Same as ID]"
 
 #: templates/childcount/forms/a.json:12
 msgid "BIR"
-msgstr "Ivuka"
+msgstr "BIR"
 
 #: templates/childcount/forms/a.json:13
 msgid "Mom"
-msgstr "Umubyeyi"
+msgstr "Mom"
 
 #: templates/childcount/forms/a.json:13
 msgid "Mother's HEALTH ID [U = Unknown]"
-msgstr "NOMERO Y'UBUZIMA y'umubyeyi [U = Ntizwi]"
+msgstr "Mother's HEALTH ID [U = Unknown]"
 
 #: templates/childcount/forms/a.json:14
 msgid "Del"
-msgstr "Yabyariye kwa muganga (Y-N-U)"
+msgstr "Del"
 
 #: templates/childcount/forms/a.json:14
 msgid "Delivered in Health Facility (Y-N-U)"
-msgstr "Yabyariye kwa muganga (Y-N-U)"
+msgstr  "Delivered in Health Facility (Y-N-U)"
 
 #: templates/childcount/forms/a.json:15
 #: templates/childcount/forms/c.json:22
 msgid "KG"
-msgstr "ibiro"
+msgstr "KG"
 
 #: templates/childcount/forms/a.json:15
 msgid "Weight at Birth (KG)"
-msgstr "ibiro yavukanye (kg)"
+msgstr "Weight at Birth (KG)"
 
 #: templates/childcount/forms/a.json:16
 msgid "MOB"
-msgstr "Telefone igendanwa"
+msgstr "MOB"
 
 #: templates/childcount/forms/a.json:16
 msgid "Mobile Phone"
-msgstr "Telefone igendanwa"
+msgstr "Mobile Phone"
 
 #: templates/childcount/forms/a.json:17
 msgid "Num"
-msgstr "Nomero"
+msgstr "Num"
 
 #: templates/childcount/forms/a.json:17
 msgid "Mobile Phone Number"
-msgstr "Nomero ya telefone igendanwa"
+msgstr "Mobile Phone Number"
 
 #: templates/childcount/forms/b.json:4
 #: templates/childcount/forms/b21.json:4
 #: templates/childcount/forms/ebc.json:4
 #: templates/childcount/forms/ruhiira-b.json:5
 msgid "Head of Household HEALTH ID"
-msgstr "NOMERO Y'UBUZIMA y'ukuriye urugo"
+msgstr "Head of Household HEALTH ID"
 
 #: templates/childcount/forms/b.json:5
 #: templates/childcount/forms/b21.json:5
 #: templates/childcount/forms/ruhiira-b.json:7
 msgid "V"
-msgstr "Gahunda yo gusura"
+msgstr "V"
 
 #: templates/childcount/forms/b.json:5
 #: templates/childcount/forms/b21.json:5
 #: templates/childcount/forms/ruhiira-b.json:8
 msgid "HH Visit - All households"
-msgstr "Gahunda yo gusura ingo - Ingo zose"
+msgstr "HH Visit - All households"
 
 #: templates/childcount/forms/b.json:6
 #: templates/childcount/forms/b21.json:6
 #: templates/childcount/forms/ruhiira-b.json:9
 msgid "Avai"
-msgstr "Abagize urugo bahari (Y-N)"
+msgstr "Avai"
 
 #: templates/childcount/forms/b.json:6
 #: templates/childcount/forms/b21.json:6
 #: templates/childcount/forms/ruhiira-b.json:10
 msgid "HH Member Available (Y-N)"
-msgstr "Abagize urugo bahari (Y-N)"
+msgstr "HH Member Available (Y-N)"
 
 #: templates/childcount/forms/b.json:7
 #: templates/childcount/forms/b21.json:7
 #: templates/childcount/forms/ruhiira-b.json:11
 msgid "Child"
-msgstr "Umwana"
+msgstr "Child"
 
 #: templates/childcount/forms/b.json:7
 #: templates/childcount/forms/b21.json:7
 #: templates/childcount/forms/ruhiira-b.json:12
 msgid "Number of Children Under-5 seen"
-msgstr "umubare w'abana batagejeje ku myaka itanu basuwe"
+msgstr "Number of Children Under-5 seen"
 
 #: templates/childcount/forms/b.json:8
 #: templates/childcount/forms/b21.json:8
 #: templates/childcount/forms/ruhiira-b.json:13
 msgid "Adv"
-msgstr "Inama"
+msgstr "Adv"
 
 #: templates/childcount/forms/b.json:8
 msgid "Counseling and Advice (BP, ED, EC, FP, IM, NUT, PH)"
-msgstr "Ubujyanama n'inama (BP, ED, EC, FP, IM, NUT, PH)"
+msgstr "Counseling and Advice (BP, ED, EC, FP, IM, NUT, PH)"
 
 #: templates/childcount/forms/b.json:9
 #: templates/childcount/forms/ruhiira-b.json:27
 msgid "FP"
-msgstr "Kuboneza urubyaro"
+msgstr "FP"
 
 #: templates/childcount/forms/b.json:9
 #: templates/childcount/forms/b21.json:16
 #: templates/childcount/forms/ruhiira-b.json:28
 msgid "Family Planning Section"
-msgstr "Igika cya gahunda yo kuboneza urubyaro"
+msgstr "Family Planning Section"
 
 #: templates/childcount/forms/b.json:10
 #: templates/childcount/forms/b21.json:17
 #: templates/childcount/forms/ruhiira-b.json:29
 msgid "♀"
-msgstr "♀ (umugore)"
+msgstr "♀"
 
 #: templates/childcount/forms/b.json:10
 #: templates/childcount/forms/b21.json:17
 #: templates/childcount/forms/ruhiira-b.json:30
 msgid "Number of Women Aged 15-49 seen during this visit"
-msgstr ""
-"umubare w'abagore bafite kuva ku myaka 15 kugeza 49 bisuzumishije kuri iyi "
-"tariki"
+msgstr "Number of Women Aged 15-49 seen during this visit"
 
 #: templates/childcount/forms/b.json:11
 #: templates/childcount/forms/b21.json:18
@@ -6786,57 +6780,53 @@ msgstr "♀+P "
 #: templates/childcount/forms/b21.json:18
 #: templates/childcount/forms/ruhiira-b.json:32
 msgid "Number of these Women currently using modern family planning"
-msgstr ""
-"Muri aba bagore ni bangahe bitabira uburyo bugezweho bwo kuringaniza "
-"urubyaro"
+msgstr "Number of these Women currently using modern family planning"
 
 #: templates/childcount/forms/b.json:12
 #: templates/childcount/forms/b21.json:19
 #: templates/childcount/forms/ruhiira-b.json:34
 msgid "meth"
-msgstr "Uburyo bw'ibanze bwo kuboneza urubyaro"
+msgstr "meth"
 
 #: templates/childcount/forms/b.json:12
 #: templates/childcount/forms/b21.json:19
 #: templates/childcount/forms/ruhiira-b.json:35
 msgid "Primary Family Planning Method used [Record primary method for each woman] (C, I, N, P)"
-msgstr ""
-"Uburyo bw'ibanze bwo kubonezaza urubyaro bukoreshwa [Uburyo bw'ibanze "
-"bukoreshejwe na buri mugore] (C, I, N, P)"
+msgstr "Primary Family Planning Method used [Record primary method for each woman] (C, I, N, P)"
 
 #: templates/childcount/forms/b.json:13
 #: templates/childcount/forms/ruhiira-b.json:36
 msgid "BN"
-msgstr "Inzitiramibu"
+msgstr "BN"
 
 #: templates/childcount/forms/b.json:13
 #: templates/childcount/forms/ruhiira-b.json:37
 msgid "Bednet Section"
-msgstr "Igika cy'inzitiramibu"
+msgstr "Bednet Section"
 
 #: templates/childcount/forms/b.json:14
 #: templates/childcount/forms/ruhiira-b.json:38
 msgid "#net"
-msgstr "#inzitiramibu"
+msgstr "#net"
 
 #: templates/childcount/forms/b.json:14
 #: templates/childcount/forms/ruhiira-b.json:39
 msgid "Number of Functioning Bednets in the households"
-msgstr "Umubare w'inzitiramibu zikoreshwa mu ngo"
+msgstr "Number of Functioning Bednets in the households"
 
 #: templates/childcount/forms/b.json:15
 #: templates/childcount/forms/ruhiira-b.json:40
 msgid "#bed"
-msgstr "#uburyamo"
+msgstr "#bed"
 
 #: templates/childcount/forms/b.json:15
 #: templates/childcount/forms/ruhiira-b.json:41
 msgid "Number of Sleeping Sites"
-msgstr "Umubare w'uburyamo"
+msgstr "Number of Sleeping Sites"
 
 #: templates/childcount/forms/b21.json:8
 msgid "Counseling and Advice (BF, BN, FP, IM, NUT, SH)"
-msgstr "Ubujyanama n'inama (BF, BN, FP, IM, NUT, SH)"
+msgstr "Counseling and Advice (BF, BN, FP, IM, NUT, SH)"
 
 #: templates/childcount/forms/b21.json:9
 #: templates/childcount/forms/ruhiira-b.json:16
@@ -6846,42 +6836,40 @@ msgstr "E"
 #: templates/childcount/forms/b21.json:9
 #: templates/childcount/forms/ruhiira-b.json:17
 msgid "Other Sick Members Section"
-msgstr "Igika cy'abandi barwayi baba mu rugo"
+msgstr "Other Sick Members Section"
 
 #: templates/childcount/forms/b21.json:10
 msgid "#mem"
-msgstr "# abarwayi bandi baba mu rugo"
+msgstr  "#mem"
 
 #: templates/childcount/forms/b21.json:10
 msgid "Number of other sick members seen during this visit"
-msgstr ""
-"Umubare w'abandi barwayi baba muri uru rugo basuzumwe mu gihe cyo gusura"
+msgstr "Number of other sick members seen during this visit"
 
 #: templates/childcount/forms/b21.json:11
 #: templates/childcount/forms/ruhiira-b.json:20
 msgid "#rdt"
-msgstr "#tdr"
+msgstr "#rdt"
 
 #: templates/childcount/forms/b21.json:11
 msgid "Number of RDT used on other sick members"
-msgstr "Umubare wa RDT wakoreshejwe ku bandi barwayi baba mu rugo"
+msgstr "Number of RDT used on other sick members"
 
 #: templates/childcount/forms/b21.json:12
 msgid "#rdt+"
-msgstr "# abarwayi bandi baba mu rugo bagaragaweho RDT positifu"
+msgstr "#rdt+"
 
 #: templates/childcount/forms/b21.json:12
 msgid "Number of RDT positive cases for other sick members"
-msgstr ""
-"Umubare w'ibisubizo bya RDT byabaye positifu mu bandi barwayi baba mu rugo"
+msgstr "Number of RDT positive cases for other sick members"
 
 #: templates/childcount/forms/b21.json:13
 msgid "#mal"
-msgstr "# abandi baba mu rugo bahabwa imiti ya"
+msgstr "#mal"
 
 #: templates/childcount/forms/b21.json:13
 msgid "Number of other sick members receiving anti-malarial treatment"
-msgstr "Umubare w'abandi baba muri uru rugo bahabwa imiti ya malariya"
+msgstr "Number of other sick members receiving anti-malarial treatment"
 
 #: templates/childcount/forms/b21.json:14
 msgid "L"
@@ -6889,15 +6877,15 @@ msgstr "L"
 
 #: templates/childcount/forms/b21.json:14
 msgid "Birth Control Pill Given Section"
-msgstr "Igika cy'ibinini bifasha kuringaniza urubyaro"
+msgstr "Birth Control Pill Given Section"
 
 #: templates/childcount/forms/b21.json:15
 msgid "#bcp"
-msgstr "# abahawe ibinini bifasha kuringaniza urubyaro"
+msgstr "#bcp"
 
 #: templates/childcount/forms/b21.json:15
 msgid "Number of Women given birth control Pills by CHW during visit"
-msgstr "Gahunda y'ikurikirana"
+msgstr "Number of Women given birth control Pills by CHW during visit"
 
 #: templates/childcount/forms/b21.json:16
 msgid "K"
@@ -6905,86 +6893,81 @@ msgstr "K"
 
 #: templates/childcount/forms/c.json:5
 msgid "U"
-msgstr "U"s
+msgstr "U"
 
 #: templates/childcount/forms/c.json:5
 msgid "Follow-up Visit Section"
-msgstr "Igika cya gahunda y'ikurikirana"
+msgstr "Follow-up Visit Section"
 
 #: templates/childcount/forms/c.json:6
 msgid "Imp"
-msgstr "Abarwayi borohewe"
+msgstr "Imp"
 
 #: templates/childcount/forms/c.json:6
 msgid "Patient's condition improved since last visit (Y-N-U-L)"
-msgstr "Umurwayi yarorohewe kuva igihe aheruka gusuzumwa (Y-N-U-L)"
+msgstr "Patient's condition improved since last visit (Y-N-U-L)"
 
 #: templates/childcount/forms/c.json:7
 msgid "Hos"
-msgstr "Abageze ku ivuriro cyangwa ku bitaro"
+msgstr "Hos"
 
 #: templates/childcount/forms/c.json:7
 msgid "Person visit a clinic or hospital since last CHW visit (Y-U-P)"
-msgstr ""
-"Uyu muntu yageze ku ivuriro cyangwa ibitaro kuva igihe aheruka gusurwa "
-"n'umujyanama w'ubuzima (Y-U-P)"
+msgstr "Person visit a clinic or hospital since last CHW visit (Y-U-P)"
 
 #: templates/childcount/forms/c.json:8
 msgid "S"
-msgstr "Ibimenyetso"
+msgstr "S"
 
 #: templates/childcount/forms/c.json:8
 #: templates/childcount/forms/c.json:9
 msgid "Current Danger Signs"
-msgstr "Ibimenyetso byo kumererwa nabi bigaragara"
+msgstr "Current Danger Signs"
 
 #: templates/childcount/forms/c.json:9
 msgid "D.S"
-msgstr "Ibimenyetso byo kumererwa nabi"
+msgstr "D.S"
 
 #: templates/childcount/forms/c.json:10
 msgid "P"
-msgstr "Igihe cyo gutwita"
+msgstr  "P"
 
 #: templates/childcount/forms/c.json:10
 msgid "Pregnancy Check-up"
-msgstr "Gusuzuma ababyeyi batwite"
+msgstr "Pregnancy Check-up"
 
 #: templates/childcount/forms/c.json:11
 msgid "MP"
-msgstr "Ukwezi kw'inda"
+msgstr "MP"
 
 #: templates/childcount/forms/c.json:11
 msgid "Month of pregnancy (1-9)"
-msgstr "Ukwezi kwa kangahe kuva asamye (1-9)"
+msgstr "Month of pregnancy (1-9)"
 
 #: templates/childcount/forms/c.json:12
 #: templates/childcount/forms/c.json:15
 msgid "Vis"
-msgstr "Gahunda yo kwisuzumisha inda"
+msgstr "Vis"
 
 #: templates/childcount/forms/c.json:12
 msgid "Number of ANC visits during pregnancy"
-msgstr "Inshuro umubyeyi utwite yisuzumishije inda kuva asamye kugeza abyaye"
+msgstr "Number of ANC visits during pregnancy"
 
 #: templates/childcount/forms/c.json:13
 msgid "Lvis"
-msgstr "Gahunda ya nyuma yo kwisuzumisha inda"
+msgstr "Lvis"
 
 #: templates/childcount/forms/c.json:13
 msgid "Weeks since last ANC visit [0 = less than 7 days]"
-msgstr ""
-"Ibyumweru bishize kuva igihe umubyeyi utwite aherukira kwisuzumisha inda "
-"[0=munsi y'iminsi 7]"
+msgstr "Weeks since last ANC visit [0 = less than 7 days]"
 
 #: templates/childcount/forms/c.json:14
 msgid "Neonatal Check-up (0-28 days)"
-msgstr "Gusuzumisha umwana ukivuka"
-
+msgstr "Neonatal Check-up (0-28 days)"
 #: templates/childcount/forms/c.json:15
+
 msgid "Number of postnatal visit to clinic or hospital since birth?"
-msgstr ""
-"Inshuro umwana yasuzumishijwe ku ivuriro cyangwa ku bitaro kuva yavuka ?"
+msgstr "Number of postnatal visit to clinic or hospital since birth?"
 
 #: templates/childcount/forms/c.json:16
 msgid "T"
@@ -6992,31 +6975,31 @@ msgstr "T"
 
 #: templates/childcount/forms/c.json:16
 msgid "Under-1 Check-up (0-11 months)"
-msgstr "Isuzuma ry'impinja zitagejeje umwaka (amezi 0-11)"
+msgstr "Under-1 Check-up (0-11 months)"
 
 #: templates/childcount/forms/c.json:17
 msgid "BF"
-msgstr "Konka gusa"
+msgstr "BF"
 
 #: templates/childcount/forms/c.json:17
 msgid "Breast-feeding only (Y-N-U)"
-msgstr "Konka gusa  nta nyunganiramashereka(Y-N-U)"
+msgstr "Breast-feeding only (Y-N-U)"
 
 #: templates/childcount/forms/c.json:18
 msgid "Imm"
-msgstr "Inkingo"
+msgstr "Imm"
 
 #: templates/childcount/forms/c.json:18
 msgid "Child up-to-date on immunizations?"
-msgstr "Umwana yahawe inkingo zose ?"
+msgstr "Child up-to-date on immunizations?"
 
 #: templates/childcount/forms/c.json:19
 msgid "M"
-msgstr "MUAC"
+msgstr "M"
 
 #: templates/childcount/forms/c.json:19
 msgid "Nutrition Section"
-msgstr "Igika cy'imirire"
+msgstr "Nutrition Section"
 
 #: templates/childcount/forms/c.json:20
 msgid "MUAC"
@@ -7024,27 +7007,27 @@ msgstr "MUAC"
 
 #: templates/childcount/forms/c.json:20
 msgid "MUAC Measurement [0 = No measurement]"
-msgstr "Ibipimo bya MUAC [0= Nta gupima kwabayeho)"
+msgstr "MUAC Measurement [0 = No measurement]"
 
 #: templates/childcount/forms/c.json:21
 msgid "Oed"
-msgstr "Kubyimbirwa"
+msgstr "Oed"
 
 #: templates/childcount/forms/c.json:21
 msgid "Oedema (Y-N-U)"
-msgstr "Kubyimbirwa (Y-N-U)"
+msgstr "Oedema (Y-N-U)"
 
 #: templates/childcount/forms/c.json:22
 msgid "Weight in KG [Optionnal]"
-msgstr "Umubare w'ibiro (ushobora kubyihorera)"
+msgstr "Weight in KG [Optionnal]"
 
 #: templates/childcount/forms/c.json:23
 msgid "F"
-msgstr "Umuriro"
+msgstr "F"
 
 #: templates/childcount/forms/c.json:23
 msgid "Fever Section"
-msgstr "Igika cy'umuriro"
+msgstr "Fever Section"
 
 #: templates/childcount/forms/c.json:24
 msgid "RDT"
@@ -7052,129 +7035,127 @@ msgstr "RDT"
 
 #: templates/childcount/forms/c.json:24
 msgid "RDT Result Positive (Y-N-U-X)"
-msgstr "Ibisubizo bya RDT biri pozitifu"
+msgstr "RDT Result Positive (Y-N-U-X)"
 
 #: templates/childcount/forms/c.json:25
 msgid "G"
-msgstr "Imiti yatanzwe"
+msgstr "G"
 
 #: templates/childcount/forms/c.json:25
 msgid "Medecine Given Section"
-msgstr "Igika cy'imiti itangwa"
+msgstr "Medecine Given Section"
 
 #: templates/childcount/forms/c.json:26
 msgid "Med"
-msgstr "Imiti"
+msgstr "Med"
 
 #: templates/childcount/forms/c.json:26
 msgid "Medecine Given (ACT, R, Z)"
-msgstr "Imiti yatanzwe (ACT, R, Z)"
+msgstr "Medecine Given (ACT, R, Z)"
 
 #: templates/childcount/forms/c.json:27
 msgid "R"
-msgstr "Transiferi"
+msgstr "R"
 
 #: templates/childcount/forms/c.json:27
 msgid "Referral to Clinic Section"
-msgstr "Igika cya transferi ku ivuriro"
+msgstr "Referral to Clinic Section"
 
 #: templates/childcount/forms/c.json:28
 msgid "Ref"
-msgstr "Transferi"
+msgstr "Ref"
 
 #: templates/childcount/forms/c.json:28
 msgid "Referral to Clinic (A-E-B-C)"
-msgstr "Transferi zoherejwe ku ivuriro (A-E-B-C)"
+msgstr "Referral to Clinic (A-E-B-C)"
 
 #: templates/childcount/forms/d.json:4
 msgid "DDB"
-msgstr "Itariki y'urupfu n'amavuko"
+msgstr "DDB"
 
 #: templates/childcount/forms/d.json:9
 msgid "Date Death"
-msgstr "Itariki yapfiriye"
+msgstr "Date Death"
 
 #: templates/childcount/forms/d.json:9
 msgid "Death Date [DDMMYY]"
-msgstr "Itariki yapfiriye [UmunsiUkweziUmwaka]"
+msgstr "Death Date [DDMMYY]"
 
 #: templates/childcount/forms/ebc.json:5
 msgid "EBC"
-msgstr "Kubara inzitiramibu zagutse"
+msgstr "EBC"
 
 #: templates/childcount/forms/ebc.json:5
 msgid "Extended Bednet Form"
-msgstr "Ifishi y'inzitiramibu ngari"
+msgstr "Extended Bednet Form"
 
 #: templates/childcount/forms/ebc.json:6
 msgid "Ppl"
-msgstr "abantu"
+msgstr "Ppl"
 
 #: templates/childcount/forms/ebc.json:6
 msgid "Number of people in the household"
-msgstr "Umubare w'abantu baba mu rugo"
+msgstr "Number of people in the household"
 
 #: templates/childcount/forms/ebc.json:7
 msgid "Sites"
-msgstr "Uburyamo"
+msgstr "Sites"
 
 #: templates/childcount/forms/ebc.json:8
 msgid "Given"
-msgstr "Izatanzwe"
+msgstr "Given"
 
 #: templates/childcount/forms/ebc.json:8
 msgid "Number of bednets given earlier to this household"
-msgstr "Umubare w'inzitiramibu zari zahawe uru rugo mbere"
+msgstr "Number of bednets given earlier to this household"
 
 #: templates/childcount/forms/ebc.json:9
 msgid "Avail"
-msgstr "Izihari"
+msgstr "Avail"
 
 #: templates/childcount/forms/ebc.json:9
 msgid "Number of available bednets"
-msgstr "Umubare w'inzitiramibu zihari"
+msgstr "Number of available bednets"
 
 #: templates/childcount/forms/ebc.json:10
 msgid "Dmgd"
-msgstr "zangiritse"
+msgstr "Dmgd"
 
 #: templates/childcount/forms/ebc.json:10
 msgid "Number of bednets damaged"
-msgstr "umubare w'inzitiramibu zangiritse"
+msgstr "Number of bednets damaged"
 
 #: templates/childcount/forms/ruhiira-b.json:14
 msgid "Counseling and Advice (BP, ED, EC, FP, IM, NUT, PH, SH)"
-msgstr "Ubujyanama n'inama (BP, ED, EC, FP, IM, NUT, PH, SH)"
+msgstr "Counseling and Advice (BP, ED, EC, FP, IM, NUT, PH, SH)"
 
 #: templates/childcount/forms/ruhiira-b.json:18
 msgid "#sick"
-msgstr "#umurwayi"
+msgstr "#sick"
 
 #: templates/childcount/forms/ruhiira-b.json:19
 msgid "Number of Other Sick Members Seen During Visit"
-msgstr "Umubare w'abandi barwayi babana mu rugo basuzumwe igihe cy'isura"
+msgstr "Number of Other Sick Members Seen During Visit"
 
 #: templates/childcount/forms/ruhiira-b.json:21
 msgid "Number of RDTs Used on Other Sick Members"
-msgstr "Umubare wa RTDs zakoreshejwe ku bandi barwayi babana mu rugo"
+msgstr "Number of RDTs Used on Other Sick Members"
 
 #: templates/childcount/forms/ruhiira-b.json:22
 msgid "#pos"
-msgstr "# ibisubizo bya RDT pozitifu"
+msgstr "#pos"
 
 #: templates/childcount/forms/ruhiira-b.json:23
 msgid "Number of of RDT Positive Cases for Other Sick Members"
-msgstr ""
-"Umubare w'ibisubizo bya RDT byabaye positifu mu bandi barwayi baba mu rugo"
+msgstr "Number of of RDT Positive Cases for Other Sick Members"
 
 #: templates/childcount/forms/ruhiira-b.json:24
 msgid "#antm"
-msgstr "#imiti irwanya malariya"
+msgstr "#antm"
 
 #: templates/childcount/forms/ruhiira-b.json:25
 msgid "Number of Other Sick Members Receiving Anti-Malarial Treatment"
-msgstr ""
-"Umubare w'abandi barwayi baba muri uru rugo bahabwa imiti irwanya malariya"
+msgstr "Number of Other Sick Members Receiving Anti-Malarial Treatment"
 
 #~ msgid "Remind the following to go for their first clinic visit %(list)s."
 #~ msgstr ""
