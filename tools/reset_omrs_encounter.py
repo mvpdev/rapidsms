@@ -26,10 +26,7 @@ sys.path.append(path)
 
 os.environ['RAPIDSMS_INI'] = os.path.join(path, "local.ini")
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rapidsms.webui.settings'
-# import manager now that the path is correct
-from rapidsms import manager
-from django.db import IntegrityError
-from childcount.models import HealthId
+
 ###
 ### END - SETUP RAPIDSMS ENVIRONMENT
 ###
@@ -44,8 +41,8 @@ revision.start()
 i = 0
 for encounter in Encounter.objects.all():
     i +=1
-    ''' Set new status to OMRS not Synched '''
-    encounter.sync_omrs = False
+	encounter.sync_omrs__isnull = True
+    encounter.sync_omrs = None
     encounter.save()
 
 if i == 0:
