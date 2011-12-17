@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# maintainer: katembu
+
+
+from django.db import models
+from django.utils.translation import ugettext as _
+
+from childcount.models import LabTest
+
+import reversion
+
+
+class LabTestResults(models.Model):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_labtestresults'
+        verbose_name = _(u"Lab Test Result")
+        verbose_name_plural = _(u"Lab Tes Results")
+
+   
+    test = models.ForeignKey('LabTest', verbose_name=_(u"Lab Test"))
+    result_type = models.CharField(_(u"Code"), max_length=10, blank=True)
+    units = models.CharField(_(u'Units '),max_length=4, blank = True)
+    ref_range = models.CharField(_(u"Results Range "), max_length=4, blank=True)
+    omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), \
+                                 blank = True)
+
+    def __unicode__(self):
+        return u"%s: %s" % (self.test, self.result_type)
+reversion.register(LabTestResults)

@@ -29,3 +29,6 @@ from PolioCampaignReport import PolioCampaignReport
 
 from bednet import BednetStock
 from bednet import DistributionPoints
+
+from LabTest import LabTest
+from LabTestResults import LabTestResults

@@ -12,7 +12,8 @@ admin.site.register(Configuration)
 admin.site.register(CHW)
 admin.site.register(FormGroup)
 admin.site.register(Clinic)
-
+admin.site.register(LabTest)
+admin.site.register(LabTestResults)
 
 class PatientAdmin(VersionAdmin):
     list_display = ('__unicode__', 'location', 'chw', 'status')
@@ -109,3 +110,5 @@ class PolioCampaignReportAdmin(VersionAdmin):
 admin.site.register(PolioCampaignReport, PolioCampaignReportAdmin)
 
 admin.site.register(DistributionPoints)
+
+admin.site.register(LabReport)
