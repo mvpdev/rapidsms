@@ -1773,7 +1773,6 @@ class LabReport(CCReport):
                                         choices = PROGRESS_CHOICES, \
                                         default = PRO_NOSAMPLE)
     results = models.CharField(_('Results'), max_length = 30, blank = True) 
-    omrs_conceptid = models.CharField(_('OMRS ID'), max_length = 30) 
 
 reversion.register(LabReport, follow=['ccreport_ptr'])
 
