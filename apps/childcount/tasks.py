@@ -280,6 +280,18 @@ def weekly_anc_visit_reminder():
 
     for chw in  alert_list:
 
+        all_chw = {}
+        all_chw[chw] = chw
+
+        """
+        Get other CHW in this CHW Location and add them  Dictonary so as to 
+        receive alert especially Mayange
+        """
+        other_chw = CHW.objects.filter(location = chw.location)
+        for t in other_chw:
+            if t not in all_chw:
+                all_chw[t] = t
+
         # change to CHW language
         activate(chw.language)
 
@@ -288,10 +300,13 @@ def weekly_anc_visit_reminder():
                                 for p in chw_list])
         msg = _(u"Remind the following to go for ANC at health center:" \
                 " %(list)s.") % {'list': w}
-        alert = SmsAlert(reporter=chw, msg=msg)
-        sms_alert = alert.send()
-        sms_alert.name = u"weekly_anc_visit_reminder"
-        sms_alert.save()
+        
+        #Send this Message to all chw in a particular location
+        for chw in all_chw: 
+            alert = SmsAlert(reporter=chw, msg=msg)
+            sms_alert = alert.send()
+            sms_alert.name = u"weekly_anc_visit_reminder"
+            sms_alert.save()
 
 
 def appointment_calendar(weekday):
