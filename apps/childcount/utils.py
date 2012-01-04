@@ -467,8 +467,8 @@ def clean_names(flat_name, surname_first=True):
     # Replace all non-alphanumeric character with spaces
     flat_name = re.sub('\W_', ' ', flat_name)
 
-    # Remove numbers
-    flat_name = re.sub('\d', '', flat_name)
+    # Remove numbers replace with unknown
+    flat_name = re.sub('\d', 'Unknown', flat_name)
 
     # break up the name into a list
     names = re.findall('\w+', flat_name, re.U)
