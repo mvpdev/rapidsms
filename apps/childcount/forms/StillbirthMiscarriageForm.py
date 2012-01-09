@@ -29,6 +29,7 @@ class StillbirthMiscarriageForm(CCForm):
 
     KEYWORDS = {
         'en': ['sbm'],
+        'rw': ['sbm'],
         'fr': ['sbm'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -40,6 +41,12 @@ class StillbirthMiscarriageForm(CCForm):
                               StillbirthMiscarriageReport.TYPE_STILL_BIRTH, \
                               'SB')
         type_field.add_choice('en', \
+                              StillbirthMiscarriageReport.TYPE_MISCARRIAGE, \
+                              'MC')
+        type_field.add_choice('rw', \
+                              StillbirthMiscarriageReport.TYPE_STILL_BIRTH, \
+                              'SB')
+        type_field.add_choice('rw', \
                               StillbirthMiscarriageReport.TYPE_MISCARRIAGE, \
                               'MC')
         type_field.add_choice('fr', \

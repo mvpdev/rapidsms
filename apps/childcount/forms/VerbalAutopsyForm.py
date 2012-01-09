@@ -20,6 +20,7 @@ class VerbalAutopsyForm(CCForm):
 
     KEYWORDS = {
         'en': ['va'],
+        'rw': ['va'],
         'fr': ['va'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

@@ -25,6 +25,7 @@ class NutritionForm(CCForm):
 
     KEYWORDS = {
         'en': ['m', 'muac'],
+        'rw': ['m', 'muac'],
         'fr': ['m', 'muac'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -39,6 +40,9 @@ class NutritionForm(CCForm):
         oedema_field.add_choice('en', NutritionReport.OEDEMA_YES, 'Y')
         oedema_field.add_choice('en', NutritionReport.OEDEMA_NO, 'N')
         oedema_field.add_choice('en', NutritionReport.OEDEMA_UNKNOWN, 'U')
+        oedema_field.add_choice('rw', NutritionReport.OEDEMA_YES, 'Y')
+        oedema_field.add_choice('rw', NutritionReport.OEDEMA_NO, 'N')
+        oedema_field.add_choice('rw', NutritionReport.OEDEMA_UNKNOWN, 'U')
         oedema_field.add_choice('fr', NutritionReport.OEDEMA_YES, 'O')
         oedema_field.add_choice('fr', NutritionReport.OEDEMA_NO, 'N')
         oedema_field.add_choice('fr', NutritionReport.OEDEMA_UNKNOWN, 'I')

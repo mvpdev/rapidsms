@@ -21,6 +21,7 @@ class HouseholdForm(CCForm):
 
     KEYWORDS = {
         'en': ['hed', 'head'],
+        'rw': ['hed', 'head'],
         'fr': ['hed', 'head'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

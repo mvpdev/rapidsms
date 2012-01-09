@@ -16,6 +16,7 @@ class HouseholdHeadCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['changehh'],
+        'rw': ['changehh'],
         'fr': ['changehh'],
     }
 

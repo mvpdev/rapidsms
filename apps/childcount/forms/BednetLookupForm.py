@@ -21,6 +21,7 @@ class BednetLookupForm(CCForm):
 
     KEYWORDS = {
         'en': ['bs'],
+        'rw': ['bs'],
         'fr': ['bs'],
         }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

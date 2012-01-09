@@ -24,6 +24,7 @@ class TestAlertsCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['alert'],
+        'rw': ['alert'],
         'fr': ['alert'],
     }
 

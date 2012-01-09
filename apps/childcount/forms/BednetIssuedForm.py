@@ -20,6 +20,7 @@ class BednetIssuedForm(CCForm):
 
     KEYWORDS = {
         'en': ['bd'],
+        'rw': ['bd'],
         'fr': ['bd'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

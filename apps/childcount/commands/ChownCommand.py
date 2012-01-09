@@ -27,6 +27,7 @@ class ChownCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['chown'],
+        'rw': ['chown'],
         'fr': ['chown'],
     }
 

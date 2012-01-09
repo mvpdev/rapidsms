@@ -18,6 +18,7 @@ class EditPatientForm(CCForm):
 
     KEYWORDS = {
         'en': ['edit'],
+        'rw': ['edit'],
         'fr': ['edit', 'mod'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

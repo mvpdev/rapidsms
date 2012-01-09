@@ -20,6 +20,7 @@ class UpdateDOBForm(CCForm):
 
     KEYWORDS = {
         'en': ['udob'],
+        'rw': ['udob'],
         'fr': ['udob'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

@@ -14,6 +14,7 @@ class LangCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['lang'],
+        'rw': ['lang'],
         'fr': ['lang'],
     }
 

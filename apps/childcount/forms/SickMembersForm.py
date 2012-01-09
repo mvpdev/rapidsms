@@ -22,6 +22,7 @@ class SickMembersForm(CCForm):
 
     KEYWORDS = {
         'en': ['e'],
+        'rw': ['e'],
         'fr': ['e'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

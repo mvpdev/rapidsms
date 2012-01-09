@@ -22,6 +22,7 @@ class UnderOneForm(CCForm):
 
     KEYWORDS = {
         'en': ['t'],
+        'rw': ['t'],
         'fr': ['t'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -32,6 +33,9 @@ class UnderOneForm(CCForm):
         breast_field.add_choice('en', UnderOneReport.BREAST_YES, 'Y')
         breast_field.add_choice('en', UnderOneReport.BREAST_NO, 'N')
         breast_field.add_choice('en', UnderOneReport.BREAST_UNKNOWN, 'U')
+        breast_field.add_choice('rw', UnderOneReport.BREAST_YES, 'Y')
+        breast_field.add_choice('rw', UnderOneReport.BREAST_NO, 'N')
+        breast_field.add_choice('rw', UnderOneReport.BREAST_UNKNOWN, 'U')
         breast_field.add_choice('fr', UnderOneReport.BREAST_YES, 'O')
         breast_field.add_choice('fr', UnderOneReport.BREAST_NO, 'N')
         breast_field.add_choice('fr', UnderOneReport.BREAST_UNKNOWN, 'I')
@@ -40,6 +44,9 @@ class UnderOneForm(CCForm):
         imm_field.add_choice('en', UnderOneReport.IMMUNIZED_YES, 'Y')
         imm_field.add_choice('en', UnderOneReport.IMMUNIZED_NO, 'N')
         imm_field.add_choice('en', UnderOneReport.IMMUNIZED_UNKNOWN, 'U')
+        imm_field.add_choice('rw', UnderOneReport.IMMUNIZED_YES, 'Y')
+        imm_field.add_choice('rw', UnderOneReport.IMMUNIZED_NO, 'N')
+        imm_field.add_choice('rw', UnderOneReport.IMMUNIZED_UNKNOWN, 'U')
         imm_field.add_choice('fr', UnderOneReport.IMMUNIZED_YES, 'O')
         imm_field.add_choice('fr', UnderOneReport.IMMUNIZED_NO, 'N')
         imm_field.add_choice('fr', UnderOneReport.IMMUNIZED_UNKNOWN, 'I')

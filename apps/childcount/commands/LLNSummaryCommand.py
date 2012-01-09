@@ -25,6 +25,7 @@ class LLNSummaryCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['netsummary'],
+        'rw': ['netsummary'],
         'fr': ['netsummary'],
     }
 

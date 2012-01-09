@@ -24,6 +24,7 @@ class SauriPregnancyForm(CCForm):
 
     KEYWORDS = {
         'en': ['p'],
+        'rw': ['p'],
         'fr': ['p'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -39,6 +40,14 @@ class SauriPregnancyForm(CCForm):
         tested_hiv_field.add_choice('en', \
                                 SauriPregnancyReport.TESTED_NOUNKNOWN, 'NU')
         tested_hiv_field.add_choice('en', \
+                            SauriPregnancyReport.TESTED_YESNOTREACTIVE, 'YN')
+        tested_hiv_field.add_choice('rw', \
+                                SauriPregnancyReport.TESTED_YESREACTIVE, 'YR')
+        tested_hiv_field.add_choice('rw',
+                                SauriPregnancyReport.TESTED_NOREACTIVE, 'NR')
+        tested_hiv_field.add_choice('rw', \
+                                SauriPregnancyReport.TESTED_NOUNKNOWN, 'NU')
+        tested_hiv_field.add_choice('rw', \
                             SauriPregnancyReport.TESTED_YESNOTREACTIVE, 'YN')
         tested_hiv_field.add_choice('fr', \
                                 SauriPregnancyReport.TESTED_YESREACTIVE, 'YR')
@@ -58,6 +67,14 @@ class SauriPregnancyForm(CCForm):
                                         SauriPregnancyReport.IRON_UNKNOWN, 'U')
         iron_supplement_field.add_choice('en', \
                                     SauriPregnancyReport.IRON_DOESNOTHAVE, 'X')
+        iron_supplement_field.add_choice('rw', \
+                                        SauriPregnancyReport.IRON_YES, 'Y')
+        iron_supplement_field.add_choice('rw', \
+                                        SauriPregnancyReport.IRON_NO, 'N')
+        iron_supplement_field.add_choice('rw', \
+                                        SauriPregnancyReport.IRON_UNKNOWN, 'U')
+        iron_supplement_field.add_choice('rw', \
+                                    SauriPregnancyReport.IRON_DOESNOTHAVE, 'X')
         iron_supplement_field.add_choice('fr', \
                                         SauriPregnancyReport.IRON_YES, 'O')
         iron_supplement_field.add_choice('fr', \
@@ -76,6 +93,14 @@ class SauriPregnancyForm(CCForm):
                                     SauriPregnancyReport.FOLIC_UNKNOWN, 'U')
         folic_supplement_field.add_choice('en', \
                                 SauriPregnancyReport.FOLIC_DOESNOTHAVE, 'X')
+        folic_supplement_field.add_choice('rw', \
+                                        SauriPregnancyReport.FOLIC_YES, 'Y')
+        folic_supplement_field.add_choice('rw', \
+                                        SauriPregnancyReport.FOLIC_NO, 'N')
+        folic_supplement_field.add_choice('rw', \
+                                    SauriPregnancyReport.FOLIC_UNKNOWN, 'U')
+        folic_supplement_field.add_choice('rw', \
+                                SauriPregnancyReport.FOLIC_DOESNOTHAVE, 'X')
         folic_supplement_field.add_choice('fr', \
                                         SauriPregnancyReport.FOLIC_YES, 'O')
         folic_supplement_field.add_choice('fr', \
@@ -91,6 +116,12 @@ class SauriPregnancyForm(CCForm):
         cd4_count_field.add_choice('en', \
                                         SauriPregnancyReport.CD4_NO, 'N')
         cd4_count_field.add_choice('en', \
+                                        SauriPregnancyReport.CD4_UNKNOWN, 'U')
+        cd4_count_field.add_choice('rw', \
+                                        SauriPregnancyReport.CD4_YES, 'Y')
+        cd4_count_field.add_choice('rw', \
+                                        SauriPregnancyReport.CD4_NO, 'N')
+        cd4_count_field.add_choice('rw', \
                                         SauriPregnancyReport.CD4_UNKNOWN, 'U')
         cd4_count_field.add_choice('fr', \
                                         SauriPregnancyReport.CD4_YES, 'O')

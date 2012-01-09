@@ -33,6 +33,10 @@ class HIVTestForm(CCForm):
         hiv_field.add_choice('en', HIVTestReport.HIV_NO, 'N')
         hiv_field.add_choice('en', HIVTestReport.HIV_UNKNOWN, 'U')
         hiv_field.add_choice('en', HIVTestReport.HIV_NOCONSENT, 'NC')
+        hiv_field.add_choice('rw', HIVTestReport.HIV_YES, 'Y')
+        hiv_field.add_choice('rw', HIVTestReport.HIV_NO, 'N')
+        hiv_field.add_choice('rw', HIVTestReport.HIV_UNKNOWN, 'U')
+        hiv_field.add_choice('rw', HIVTestReport.HIV_NOCONSENT, 'NC')
         hiv_field.add_choice('fr', HIVTestReport.HIV_YES, 'O')
         hiv_field.add_choice('fr', HIVTestReport.HIV_NO, 'N')
         hiv_field.add_choice('fr', HIVTestReport.HIV_UNKNOWN, 'I')
@@ -46,6 +50,12 @@ class HIVTestForm(CCForm):
         blood_drawn_field.add_choice('en', \
                                     HIVTestReport.BLOOD_DRAWN_NO, 'N')
         blood_drawn_field.add_choice('en', \
+                                    HIVTestReport.BLOOD_DRAWN_UNKNOWN, 'U')
+        blood_drawn_field.add_choice('rw', \
+                                    HIVTestReport.BLOOD_DRAWN_YES, 'Y')
+        blood_drawn_field.add_choice('rw', \
+                                    HIVTestReport.BLOOD_DRAWN_NO, 'N')
+        blood_drawn_field.add_choice('rw', \
                                     HIVTestReport.BLOOD_DRAWN_UNKNOWN, 'U')
         blood_drawn_field.add_choice('fr', \
                                     HIVTestReport.BLOOD_DRAWN_YES, 'O')

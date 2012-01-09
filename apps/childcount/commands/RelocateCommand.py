@@ -24,6 +24,7 @@ class RelocateCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['reloc'],
+        'rw': ['reloc'],
         'fr': ['reloc'],
     }
 

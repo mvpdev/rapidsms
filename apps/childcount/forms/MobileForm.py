@@ -20,6 +20,7 @@ class MobileForm(CCForm):
 
     KEYWORDS = {
         'en': ['mob', 'mobile'],
+        'rw': ['mob', 'mobile'],
         'fr': ['mob', 'mobile'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

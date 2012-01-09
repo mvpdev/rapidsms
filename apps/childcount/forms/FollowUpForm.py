@@ -21,6 +21,7 @@ class FollowUpForm(CCForm):
 
     KEYWORDS = {
         'en': ['u'],
+        'rw': ['u'],
         'fr': ['u'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -32,6 +33,10 @@ class FollowUpForm(CCForm):
         imp_field.add_choice('en', FollowUpReport.IMPROVEMENT_NO, 'N')
         imp_field.add_choice('en', FollowUpReport.IMPROVEMENT_UNKNOWN, 'U')
         imp_field.add_choice('en', FollowUpReport.IMPROVEMENT_UNAVAILABLE, 'L')
+        imp_field.add_choice('rw', FollowUpReport.IMPROVEMENT_YES, 'Y')
+        imp_field.add_choice('rw', FollowUpReport.IMPROVEMENT_NO, 'N')
+        imp_field.add_choice('rw', FollowUpReport.IMPROVEMENT_UNKNOWN, 'U')
+        imp_field.add_choice('rw', FollowUpReport.IMPROVEMENT_UNAVAILABLE, 'L')
         imp_field.add_choice('fr', FollowUpReport.IMPROVEMENT_YES, 'O')
         imp_field.add_choice('fr', FollowUpReport.IMPROVEMENT_NO, 'N')
         imp_field.add_choice('fr', FollowUpReport.IMPROVEMENT_UNKNOWN, 'I')
@@ -42,6 +47,10 @@ class FollowUpForm(CCForm):
         v_field.add_choice('en', FollowUpReport.VISITED_NO, 'N')
         v_field.add_choice('en', FollowUpReport.VISITED_UNKNOWN, 'U')
         v_field.add_choice('en', FollowUpReport.VISITED_INPATIENT, 'P')
+        v_field.add_choice('rw', FollowUpReport.VISITED_YES, 'Y')
+        v_field.add_choice('rw', FollowUpReport.VISITED_NO, 'N')
+        v_field.add_choice('rw', FollowUpReport.VISITED_UNKNOWN, 'U')
+        v_field.add_choice('rw', FollowUpReport.VISITED_INPATIENT, 'P')
         v_field.add_choice('fr', FollowUpReport.VISITED_YES, 'O')
         v_field.add_choice('fr', FollowUpReport.VISITED_NO, 'N')
         v_field.add_choice('fr', FollowUpReport.VISITED_UNKNOWN, 'I')

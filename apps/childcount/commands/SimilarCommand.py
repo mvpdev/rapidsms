@@ -54,6 +54,7 @@ class SimilarCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['similar'],
+        'rw': ['similar'],
         'fr': ['similar'],
     }
 

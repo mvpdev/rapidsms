@@ -21,6 +21,7 @@ class SanitationForm(CCForm):
 
     KEYWORDS = {
         'en': ['san'],
+        'rw': ['san'],
         'fr': ['san'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD
@@ -40,6 +41,18 @@ class SanitationForm(CCForm):
         sanit_field.add_choice('en', SanitationReport.NO_FACILITY_OR_BUSH, \
                                      'NS')
         sanit_field.add_choice('en', SanitationReport.OTHER, 'Z')
+        sanit_field.add_choice('rw', SanitationReport.FLUSH, 'FL')
+        sanit_field.add_choice('rw', \
+                                SanitationReport.VENTILATED_IMPROVED_PIT, 'VP')
+        sanit_field.add_choice('rw', SanitationReport.PITLAT_WITH_SLAB, 'PY')
+        sanit_field.add_choice('rw', SanitationReport.PITLAT_WITHOUT_SLAB, \
+                                    'PN')
+        sanit_field.add_choice('rw', SanitationReport.COMPOSTING_TOILET, 'CT')
+        sanit_field.add_choice('rw', SanitationReport.BUCKET, 'BT')
+        sanit_field.add_choice('rw', SanitationReport.HANGING_TOILET_LAT, 'HT')
+        sanit_field.add_choice('rw', SanitationReport.NO_FACILITY_OR_BUSH, \
+                                     'NS')
+        sanit_field.add_choice('rw', SanitationReport.OTHER, 'Z')
         sanit_field.add_choice('fr', SanitationReport.FLUSH, 'FL')
         sanit_field.add_choice('fr', \
                                 SanitationReport.VENTILATED_IMPROVED_PIT, 'VP')
@@ -56,6 +69,8 @@ class SanitationForm(CCForm):
         sanit_share = MultipleChoiceField()
         sanit_share.add_choice('en', SanitationReport.PB, 'PB')
         sanit_share.add_choice('en', SanitationReport.U, 'U')
+        sanit_share.add_choice('rw', SanitationReport.PB, 'PB')
+        sanit_share.add_choice('rw', SanitationReport.U, 'U')
         sanit_share.add_choice('fr', SanitationReport.PB, 'PB')
         sanit_share.add_choice('fr', SanitationReport.U, 'U')
 

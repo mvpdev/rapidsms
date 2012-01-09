@@ -25,6 +25,7 @@ class BirthForm(CCForm):
 
     KEYWORDS = {
         'en': ['bir', 'birth'],
+        'rw': ['bir', 'birth'],
         'fr': ['bir', 'birth'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -39,6 +40,9 @@ class BirthForm(CCForm):
         cd_field.add_choice('en', BirthReport.CLINIC_DELIVERY_YES, 'Y')
         cd_field.add_choice('en', BirthReport.CLINIC_DELIVERY_NO, 'N')
         cd_field.add_choice('en', BirthReport.CLINIC_DELIVERY_UNKNOWN, 'U')
+        cd_field.add_choice('rw', BirthReport.CLINIC_DELIVERY_YES, 'O')
+        cd_field.add_choice('rw', BirthReport.CLINIC_DELIVERY_NO, 'N')
+        cd_field.add_choice('rw', BirthReport.CLINIC_DELIVERY_UNKNOWN, 'I')
         cd_field.add_choice('fr', BirthReport.CLINIC_DELIVERY_YES, 'O')
         cd_field.add_choice('fr', BirthReport.CLINIC_DELIVERY_NO, 'N')
         cd_field.add_choice('fr', BirthReport.CLINIC_DELIVERY_UNKNOWN, 'I')

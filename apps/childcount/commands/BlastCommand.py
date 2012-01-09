@@ -25,6 +25,7 @@ class BlastCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['blast'],
+        'rw': ['blast'],
         'fr': ['blast'],
     }
 

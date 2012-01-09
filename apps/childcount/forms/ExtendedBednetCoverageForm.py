@@ -22,6 +22,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
     KEYWORDS = {
         'en': ['ebc'],
+        'rw': ['ebc'],
         'fr': ['bce'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

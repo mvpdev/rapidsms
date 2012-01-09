@@ -18,6 +18,7 @@ class LocationCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['loc'],
+        'rw': ['loc'],
         'fr': ['loc'],
     }
 

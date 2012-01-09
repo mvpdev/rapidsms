@@ -19,6 +19,7 @@ class CancelCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['cancel'],
+        'rw': ['cancel'],
         'fr': ['cancel', 'annuler'],
     }
 

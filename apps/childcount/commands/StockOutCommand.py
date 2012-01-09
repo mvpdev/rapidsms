@@ -22,6 +22,7 @@ class StockOutCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['stockout'],
+        'rw': ['stockout'],
         'fr': ['stockout'],
     }
 

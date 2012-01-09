@@ -22,6 +22,7 @@ class BednetDistributionForm(CCForm):
 
     KEYWORDS = {
         'en': ['bnd'],
+        'rw': ['bnd'],
         'fr': ['bnd'],
         }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

@@ -31,6 +31,7 @@ class AppointmentForm(CCForm):
 
     KEYWORDS = {
         'en': ['ap'],
+        'rw': ['ap'],
         'fr': ['ap'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
