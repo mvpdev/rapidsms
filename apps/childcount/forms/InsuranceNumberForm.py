@@ -42,9 +42,9 @@ class InsuranceNumberForm(CCForm):
         if len(insurance_no) <4 :
             raise BadValue(_(u"Insurance number too short."))
 
-        ins_no.insurance_no = mobile
+        ins_no.insurance_no = insurance_no
         ins_no.save()
-        self.response = _(u"Isurance number: %(ins_no)s") % \
+        self.response = _(u"Insurance number: %(ins_no)s") % \
                           {'ins_no': insurance_no}
 
  

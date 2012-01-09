@@ -18,14 +18,14 @@ class LabTest(models.Model):
         verbose_name_plural = _(u"Lab Tests")
 
    
-    name = models.CharField(_(u"Name"), max_length=30)
+    name = models.CharField(_(u"Test Name"), max_length=30)
     code = models.CharField(_(u"Code"), max_length=10, unique=True)
     defined_results = models.BooleanField(_(u"Defined results"), \
                                         help_text=_(u"True or false: the " \
                                                      "If the results are  " \
                                                      "predifined."))
     omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), \
-                                 blank = True, unique=True)
+                                 blank = True)
 
     def __unicode__(self):
         return u"%s/%s" % (self.code, self.name)

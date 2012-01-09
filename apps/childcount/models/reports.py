@@ -1774,6 +1774,9 @@ class LabReport(CCReport):
                                         default = PRO_NOSAMPLE)
     results = models.CharField(_('Results'), max_length = 30, blank = True) 
 
+    def __unicode__(self):
+        return u"%s >> %s" % (self.lab_test.name, self.encounter.patient)
+
 reversion.register(LabReport, follow=['ccreport_ptr'])
 
 

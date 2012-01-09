@@ -17,13 +17,13 @@ class LabTestResults(models.Model):
         app_label = 'childcount'
         db_table = 'cc_labtestresults'
         verbose_name = _(u"Lab Test Result")
-        verbose_name_plural = _(u"Lab Tes Results")
+        verbose_name_plural = _(u"Lab Test Results")
 
    
     test = models.ForeignKey('LabTest', verbose_name=_(u"Lab Test"))
-    result_type = models.CharField(_(u"Code"), max_length=10, blank=True)
-    units = models.CharField(_(u'Units '),max_length=4, blank = True)
-    ref_range = models.CharField(_(u"Results Range "), max_length=4, blank=True)
+    result_type = models.CharField(_(u"Results Type"), max_length=30, blank=True)
+    units = models.CharField(_(u'Units '), max_length=15, blank = True)
+    ref_range = models.CharField(_(u"Results Range "), max_length=15, blank=True)
     omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), \
                                  blank = True)
 
