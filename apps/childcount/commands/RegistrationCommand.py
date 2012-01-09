@@ -21,7 +21,7 @@ class RegistrationCommand(CCCommand):
     ENGLISH_CHW_JOIN = 'chw'
 
     KINYARWANDA = 'rw'
-    KINYARWANDA_CHW_JOIN = 'chw'
+    KINYARWANDA_CHW_JOIN = 'join'
 
     FRENCH = 'fr'
     FRENCH_CHW_JOIN = 'asc'
