@@ -21,11 +21,13 @@ class LabTestResults(models.Model):
 
    
     test = models.ForeignKey('LabTest', verbose_name=_(u"Lab Test"))
-    result_type = models.CharField(_(u"Results Type"), max_length=30, blank=True)
-    units = models.CharField(_(u'Units '), max_length=15, blank = True)
-    ref_range = models.CharField(_(u"Results Range "), max_length=15, blank=True)
-    omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), \
-                                 blank = True)
+    result_type = models.CharField(_(u"Results Type"), max_length=30, \
+                                 blank=True , null= True)
+    units = models.CharField(_(u'Units '), max_length=20, blank = True, null= True)
+    ref_range = models.CharField(_(u"Results Range "), max_length=15, \
+                                     blank=True , null= True)
+    omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), max_length=15, \
+                                 blank = True, null= True)
 
     def __unicode__(self):
         return u"%s: %s" % (self.test, self.result_type)

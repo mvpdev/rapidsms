@@ -24,7 +24,7 @@ class LabTest(models.Model):
                                         help_text=_(u"True or false: the " \
                                                      "If the results are  " \
                                                      "predifined."))
-    omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), \
+    omrs_conceptid = models.IntegerField(_(u"OMRS Concept Id"), null= True, \
                                  blank = True)
 
     def __unicode__(self):
