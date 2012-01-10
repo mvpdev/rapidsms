@@ -1,0 +1,182 @@
+[
+    {
+        "pk": 1, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "BG", 
+            "name": "Blood Group", 
+            "defined_results": 1, 
+            "omrs_conceptid": 300
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "SK", 
+            "name": "Sickling Test", 
+            "defined_results": 1, 
+            "omrs_conceptid": 160225
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "CD", 
+            "name": "CD4+ Test", 
+            "defined_results": 0, 
+            "omrs_conceptid": 5497
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "MP", 
+            "name": "Malaria Parasites (MPs)", 
+            "defined_results": 1, 
+            "omrs_conceptid": 1366
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "G6", 
+            "name": "G6PD", 
+            "defined_results": 1, 
+            "omrs_conceptid": 160226
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "WT", 
+            "name": "Widal Test", 
+            "defined_results": 1, 
+            "omrs_conceptid": 306
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "FB", 
+            "name": "Fasting Blood Glucose", 
+            "defined_results": 0, 
+            "omrs_conceptid": 160053
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "RB", 
+            "name": "Random Blood Glucose", 
+            "defined_results": 0, 
+            "omrs_conceptid": 887
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "ES", 
+            "name": "ESR (erythrocyte sedimentation", 
+            "defined_results": 0, 
+            "omrs_conceptid": 855
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "PL", 
+            "name": "Platelets", 
+            "defined_results": 0, 
+            "omrs_conceptid": 729
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "WB", 
+            "name": "White Blood Cells (WBC)", 
+            "defined_results": 0, 
+            "omrs_conceptid": 678
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "TB", 
+            "name": "Sputum for TB (AFB)", 
+            "defined_results": 1, 
+            "omrs_conceptid": 307
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "ST", 
+            "name": "Stool R/E", 
+            "defined_results": 0, 
+            "omrs_conceptid": 0
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "UR", 
+            "name": "Urine R/E", 
+            "defined_results": 0, 
+            "omrs_conceptid": 1000
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "RF", 
+            "name": "Rhesus Factor", 
+            "defined_results": 1, 
+            "omrs_conceptid": 160232
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "SY", 
+            "name": "Syphilis (VDRL)", 
+            "defined_results": 1, 
+            "omrs_conceptid": 299
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "HB", 
+            "name": "Haemoglobin (Hb)", 
+            "defined_results": 0, 
+            "omrs_conceptid": 21
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "childcount.labtest", 
+        "fields": {
+            "code": "HP", 
+            "name": "Hepatitis B- HBsAg", 
+            "defined_results": 1, 
+            "omrs_conceptid": 159430
+        }
+    }
+]
