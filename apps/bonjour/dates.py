@@ -133,7 +133,12 @@ def format_time(time=None, format='medium', tzinfo=None, locale=None):
     if tzinfo is None:
         tzinfo = pytz.timezone(settings.TIME_ZONE)
 
-    return babel.dates.format_time(time, format, tzinfo, locale)
+    try:
+        return babel.dates.format_time(time, format, tzinfo, locale)
+    except KeyError:
+        # in case format full fails use long, fixes #820 for Rwanda
+        format = u'long'
+        return babel.dates.format_time(time, format, tzinfo, locale)
 
 def format_datetime(datetime=None, format='medium', locale=None):
     """Alias to :func:`babel.dates.format_datetime` which
