@@ -46,6 +46,17 @@ class DOBProcessor:
         MONTHS: ['m', 'mon', 'mths', 'month', 'months'],
         YEARS: ['y', 'yr', 'yrs', 'year', 'years'],
     }
+
+    """Language specific age units.
+    IMPORTANT NOTE: List from shortest to longest
+    """
+    UNITS['rw'] = {
+        DAYS: ['umunsi','iminsi','d', 'day', 'days'],
+        WEEKS: ['icyumweru','ibyumweru','w', 'wk', 'wks', 'week', 'weeks'],
+        MONTHS: ['ukwezi','amezi','m', 'mon', 'mths', 'month', 'months'],
+        YEARS: ['umwaka','imyaka','y', 'yr', 'yrs', 'year', 'years'],
+    }
+
     """Language specific age units.
     IMPORTANT NOTE: List from shortest to longest
     """
@@ -72,6 +83,11 @@ class DOBProcessor:
     ABRV_MONTHS = {}
     ABRV_MONTHS['en'] = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', \
                          'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+
+
+    ABRV_MONTHS['rw'] = ['mutarama', 'gashyantare', 'werurwe', 'mata', \
+                        'gicurasi', 'kamena',  'nyakanga', 'kanama', 'nzeli', \
+                         'ukwakira', 'ugushingo', 'ukuboza']
 
     ABRV_MONTHS['fr'] = ['jan', 'fev', 'mar', 'avr', 'mai', 'juin', \
                          'juil', 'aou', 'sep', 'oct', 'nov', 'dec']
