@@ -100,6 +100,7 @@ class ReportDefinition(PrintedReport):
         self._add_underfive_muac_maln(NutritionReport, _(u"Number of those U5 "  \
                                 "screened who have reading of 120 and + mm"))
 
+        self.set_progress(40)
         #Number of those U5 screened who have reading of 
         #less than 120 but more than 115mm
         self._add_underfive_muac_mid(NutritionReport, _(u"Number of those U5 "\
