@@ -44,9 +44,24 @@ class ReportDefinition(PrintedReport):
     variants = []
 
     def generate(self, period, rformat, title, filepath, data):
-        self.set_progress(0)
+        self.set_progress(0.0)
         
         story = []
+
+        tb = self._reportable(period)
+
+        story.append(tb)
+        story.append(PageBreak())
+
+        register_fonts()
+        f = open(filepath, 'w')
+        doc = SimpleDocTemplate(f, pagesize=landscape(A4), \
+                                topMargin=(0 * inch), \
+                                bottomMargin=(0 * inch))
+        doc.build(story)
+        f.close()
+
+    def _reportable(self, period):
 
         tStyle = [('INNERGRID', (0, 0), (-1, -1), 0.1, colors.lightgrey),\
                 ('BOX', (0, 1), (-1, -1), 0.1, colors.lightgrey)]
@@ -157,7 +172,7 @@ class ReportDefinition(PrintedReport):
 
                 rows.append(row)
 
-        self.set_progress(50)
+        self.set_progress(50.0)
        
         #Add Blank rows 
         if count%20 != 0:
@@ -198,14 +213,5 @@ class ReportDefinition(PrintedReport):
         tb = Table(data, colWidths=colWidths, rowHeights=rowHeights, repeatRows=6)
         tb.setStyle(TableStyle(tStyle))
 
-        story.append(tb)
-        story.append(PageBreak())
+        return tb
 
-        register_fonts()
-        f = open(filepath, 'w')
-        doc = SimpleDocTemplate(f, pagesize=landscape(A4), \
-                                topMargin=(0 * inch), \
-                                bottomMargin=(0 * inch))
-        doc.build(story)
-
-        f.close()
