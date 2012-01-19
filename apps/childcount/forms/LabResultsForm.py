@@ -89,6 +89,7 @@ class LabResultsForm(CCForm):
         else:
             results_string = ', '.join([res for res in  self.params[2:]])
             labtest.results =  results_string  
+
             labtest.save()
             self.response = _(u"Results Saved %(re)s:  ") \
                                     % {'re': results_string}
