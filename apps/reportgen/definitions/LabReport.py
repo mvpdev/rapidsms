@@ -48,7 +48,7 @@ class ReportDefinition(PrintedReport):
         
         story = []
 
-        tb = self._reportable(period)
+        tb = self._reportable(period, title)
 
         story.append(tb)
         story.append(PageBreak())
@@ -61,7 +61,7 @@ class ReportDefinition(PrintedReport):
         doc.build(story)
         f.close()
 
-    def _reportable(self, period):
+    def _reportable(self, period, title):
 
         tStyle = [('INNERGRID', (0, 0), (-1, -1), 0.1, colors.lightgrey),\
                 ('BOX', (0, 1), (-1, -1), 0.1, colors.lightgrey)]
