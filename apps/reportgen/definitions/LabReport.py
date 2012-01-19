@@ -122,7 +122,6 @@ class ReportDefinition(PrintedReport):
         rows = []
         if count > 0:
             #self.set_progress((100.0*current)/total)
-
             for re in LabReport.objects.all():
 
                 req_date = re.encounter.encounter_date.strftime("%d/%m/%y")
@@ -204,4 +203,5 @@ class ReportDefinition(PrintedReport):
                                 topMargin=(0 * inch), \
                                 bottomMargin=(0 * inch))
         doc.build(story)
+        self.set_progress(100)
         f.close()
