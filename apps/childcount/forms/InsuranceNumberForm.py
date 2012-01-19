@@ -37,6 +37,10 @@ class InsuranceNumberForm(CCForm):
             ins_no = InsuranceNumberReport(encounter=self.encounter)
         ins_no.form_group = self.form_group
 
+
+        if not self.chw.clinic:
+            raise ParseError(_(u"Youre not assigned clinic, consult admin"))
+
         insurance_no = ''.join(self.params[1:])
 
         if len(insurance_no) <4 :

@@ -43,7 +43,10 @@ class SpecimenForm(CCForm):
         except SpecimenReport.DoesNotExist:
             sp = SpecimenReport(encounter=self.encounter)
         sp.form_group = self.form_group
-  
+
+        if not self.chw.clinic:
+            raise ParseError(_(u"Youre not assigned clinic, consult admin"))
+
         #NUmber of Blood Tubes
         if not self.params[1].isdigit():
             raise ParseError(_(u"Number of Blood Tubes must be a " \
