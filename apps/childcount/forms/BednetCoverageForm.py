@@ -22,6 +22,7 @@ class BednetCoverageForm(CCForm):
 
     KEYWORDS = {
         'en': ['bc'],
+        'rw': ['bc'],
         'fr': ['bc'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

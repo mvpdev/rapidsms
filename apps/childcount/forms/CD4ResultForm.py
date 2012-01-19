@@ -25,6 +25,7 @@ class CD4ResultForm(CCForm):
 
     KEYWORDS = {
         'en': ['cd'],
+        'rw': ['cd'],
         'fr': ['cd'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

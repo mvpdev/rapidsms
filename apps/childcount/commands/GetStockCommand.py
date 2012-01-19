@@ -22,6 +22,7 @@ class GetStockCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['getstock'],
+        'rw': ['getstock'],
         'fr': ['getstock'],
     }
 

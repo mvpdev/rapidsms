@@ -21,6 +21,7 @@ class CheckHealthIdCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['checkid', 'check'],
+        'rw': ['checkid', 'check'],
         'fr': ['checkid'],
     }
 

@@ -22,6 +22,7 @@ class StockInCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['stockin'],
+        'rw': ['stockin'],
         'fr': ['stockin'],
     }
 

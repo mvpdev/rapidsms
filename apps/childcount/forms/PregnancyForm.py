@@ -22,6 +22,7 @@ class PregnancyForm(CCForm):
 
     KEYWORDS = {
         'en': ['p'],
+        'rw': ['p'],
         'fr': ['p'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

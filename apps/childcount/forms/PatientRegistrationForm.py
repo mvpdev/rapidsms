@@ -36,6 +36,7 @@ class PatientRegistrationForm(CCForm):
 
     KEYWORDS = {
         'en': ['new', 'new!'],
+        'rw': ['new', 'new!'],
         'fr': ['new', 'new!'],
     }
     OVERIDE_KEYWORDS = ['new!']
@@ -47,10 +48,12 @@ class PatientRegistrationForm(CCForm):
     gender_field = MultipleChoiceField()
     gender_field.add_choice('en', Patient.GENDER_MALE, 'M')
     gender_field.add_choice('en', Patient.GENDER_FEMALE, 'F')
+    gender_field.add_choice('rw', Patient.GENDER_MALE, 'M')
+    gender_field.add_choice('rw', Patient.GENDER_FEMALE, 'F')
     gender_field.add_choice('fr', Patient.GENDER_MALE, 'M')
     gender_field.add_choice('fr', Patient.GENDER_FEMALE, 'F')
 
-    PREVIOUS_ID = {'en': 'H', 'fr': 'H'}
+    PREVIOUS_ID = {'en': 'H', 'rw': 'H', 'fr': 'H'}
 
     SURNAME_FIRST = False
 

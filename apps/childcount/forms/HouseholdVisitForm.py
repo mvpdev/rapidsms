@@ -22,6 +22,7 @@ class HouseholdVisitForm(CCForm):
 
     KEYWORDS = {
         'en': ['v'],
+        'rw': ['v'],
         'fr': ['v'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD
@@ -31,6 +32,8 @@ class HouseholdVisitForm(CCForm):
         available_field = MultipleChoiceField()
         available_field.add_choice('en', True, 'Y')
         available_field.add_choice('en', False, 'N')
+        available_field.add_choice('rw', True, 'Y')
+        available_field.add_choice('rw', False, 'N')
         available_field.add_choice('fr', True, 'O')
         available_field.add_choice('fr', False, 'N')
 

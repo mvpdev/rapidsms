@@ -20,6 +20,7 @@ class NeonatalForm(CCForm):
 
     KEYWORDS = {
         'en': ['n'],
+        'rw': ['n'],
         'fr': ['n'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

@@ -22,6 +22,7 @@ class FamilyPlanningForm(CCForm):
 
     KEYWORDS = {
         'en': ['k', 'fp'],
+        'rw': ['k', 'fp'],
         'fr': ['k', 'fp'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

@@ -27,6 +27,7 @@ class DBSResultForm(CCForm):
 
     KEYWORDS = {
         'en': ['db'],
+        'rw': ['db'],
         'fr': ['db'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -36,6 +37,10 @@ class DBSResultForm(CCForm):
         result_field.add_choice('en', \
                             DBSResultReport.RESULT_POSITIVE, 'Y')
         result_field.add_choice('en', \
+                            DBSResultReport.RESULT_NEGATIVE, 'N')
+        result_field.add_choice('rw', \
+                            DBSResultReport.RESULT_POSITIVE, 'Y')
+        result_field.add_choice('rw', \
                             DBSResultReport.RESULT_NEGATIVE, 'N')
         result_field.add_choice('fr', \
                             DBSResultReport.RESULT_POSITIVE, 'O')

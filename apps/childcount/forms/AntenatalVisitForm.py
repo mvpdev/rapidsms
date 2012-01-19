@@ -25,6 +25,7 @@ class AntenatalVisitForm(CCForm):
 
     KEYWORDS = {
         'en': ['pf'],
+        'rw': ['pf'],
         'fr': ['pf'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

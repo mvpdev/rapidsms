@@ -24,6 +24,7 @@ class DeathCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['ddb'],
+        'rw': ['ddb'],
         'fr': ['ddb'],
     }
 

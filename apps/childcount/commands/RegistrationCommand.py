@@ -20,11 +20,14 @@ class RegistrationCommand(CCCommand):
     ENGLISH = 'en'
     ENGLISH_CHW_JOIN = 'chw'
 
+    KINYARWANDA = 'rw'
+    KINYARWANDA_CHW_JOIN = 'join'
+
     FRENCH = 'fr'
     FRENCH_CHW_JOIN = 'asc'
 
     KEYWORDS = {
-        '*': [ENGLISH_CHW_JOIN, FRENCH_CHW_JOIN],
+        '*': [ENGLISH_CHW_JOIN, KINYARWANDA_CHW_JOIN, FRENCH_CHW_JOIN],
     }
 
     def process(self):
@@ -33,6 +36,9 @@ class RegistrationCommand(CCCommand):
 
         if self.params[0] == self.FRENCH_CHW_JOIN:
             reporter_language = self.FRENCH
+
+        if self.params[0] == self.KINYARWANDA_CHW_JOIN:
+            reporter_language = self.KINYARWANDA
 
         if len(self.params) < 3:
             raise ParseError(_(u"Not enough info. Expected: " \

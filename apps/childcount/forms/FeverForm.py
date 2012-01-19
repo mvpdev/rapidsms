@@ -33,6 +33,7 @@ class FeverForm(CCForm):
 
     KEYWORDS = {
         'en': ['f'],
+        'rw': ['f'],
         'fr': ['f'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -44,6 +45,9 @@ class FeverForm(CCForm):
         rdt_field.add_choice('en', FeverReport.RDT_POSITIVE, 'Y')
         rdt_field.add_choice('en', FeverReport.RDT_NEGATIVE, 'N')
         rdt_field.add_choice('en', FeverReport.RDT_UNKNOWN, 'U')
+        rdt_field.add_choice('rw', FeverReport.RDT_POSITIVE, 'Y')
+        rdt_field.add_choice('rw', FeverReport.RDT_NEGATIVE, 'N')
+        rdt_field.add_choice('rw', FeverReport.RDT_UNKNOWN, 'U')
         rdt_field.add_choice('fr', FeverReport.RDT_POSITIVE, 'O')
         rdt_field.add_choice('fr', FeverReport.RDT_NEGATIVE, 'N')
         rdt_field.add_choice('fr', FeverReport.RDT_UNKNOWN, 'I')

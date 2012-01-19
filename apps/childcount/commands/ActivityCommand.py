@@ -25,21 +25,39 @@ class ActivityCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['activity'],
+        'rw': ['activity'],
         'fr': ['activity'],
     }
 
     WEEK = {
         'en': 'week',
+        'rw': 'week',
         'fr': 'semaine',
     }
 
     MONTH = {
         'en': 'month',
+        'rw': 'month',
         'fr': 'mois',
     }
     
     MONTHS = {
         'en': {
+            'jan': 0,
+            'feb': 1,
+            'mar': 2,
+            'apr': 3,
+            'may': 4,
+            'jun': 5,
+            'jul': 6,
+            'aug': 7,
+            'sep': 8,
+            'oct': 9,
+            'nov': 10,
+            'dec': 11,
+        },
+
+        'rw': {
             'jan': 0,
             'feb': 1,
             'mar': 2,

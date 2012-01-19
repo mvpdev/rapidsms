@@ -25,6 +25,7 @@ class PregnancyRegistrationForm(CCForm):
 
     KEYWORDS = {
         'en': ['pd'],
+        'rw': ['pd'],
         'fr': ['pd'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -36,6 +37,12 @@ class PregnancyRegistrationForm(CCForm):
         married_field.add_choice('en', \
                             PregnancyRegistrationReport.MARRIED_NO, 'N')
         married_field.add_choice('en', \
+                            PregnancyRegistrationReport.MARRIED_UNKNOWN, 'U')
+        married_field.add_choice('rw', \
+                            PregnancyRegistrationReport.MARRIED_YES, 'Y')
+        married_field.add_choice('rw', \
+                            PregnancyRegistrationReport.MARRIED_NO, 'N')
+        married_field.add_choice('rw', \
                             PregnancyRegistrationReport.MARRIED_UNKNOWN, 'U')
         married_field.add_choice('fr', \
                             PregnancyRegistrationReport.MARRIED_YES, 'O')

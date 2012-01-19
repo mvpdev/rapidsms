@@ -19,6 +19,7 @@ class IssueHealthIdCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['getid'],
+        'rw': ['getid'],
         'fr': ['getid'],
     }
 

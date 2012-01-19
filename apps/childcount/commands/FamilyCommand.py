@@ -13,6 +13,7 @@ class FamilyCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['family', 'fam'],
+        'rw': ['family', 'fam'],
         'fr': ['famille', 'fam'],
     }
 

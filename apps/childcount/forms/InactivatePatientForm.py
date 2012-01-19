@@ -26,6 +26,7 @@ class InactivatePatientForm(CCForm):
 
     KEYWORDS = {
         'en': ['active'],
+        'rw': ['active'],
         'fr': ['active'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -38,6 +39,8 @@ class InactivatePatientForm(CCForm):
         status_field = MultipleChoiceField()
         status_field.add_choice('en', PatientStatusReport.STATUS_ACTIVE, 'Y')
         status_field.add_choice('en', PatientStatusReport.STATUS_INACTIVE, 'N')
+        status_field.add_choice('rw', PatientStatusReport.STATUS_ACTIVE, 'Y')
+        status_field.add_choice('rw', PatientStatusReport.STATUS_INACTIVE, 'N')
         status_field.add_choice('fr', PatientStatusReport.STATUS_ACTIVE, 'O')
         status_field.add_choice('fr', PatientStatusReport.STATUS_INACTIVE, 'N')
         try:

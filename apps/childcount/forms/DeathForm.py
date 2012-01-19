@@ -31,6 +31,7 @@ class DeathForm(CCForm):
 
     KEYWORDS = {
         'en': ['dda'],
+        'rw': ['dda'],
         'fr': ['dda'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

@@ -102,7 +102,7 @@ msgstr "Iyi fishi igenewe abakuriye ingo gusa"
 
 #: app.py:394
 msgid " Successfully processed:"
-msgstr "Byaciyemo"
+msgstr " Byaciyemo"
 
 #: app.py:409
 msgid " You must resend the form."
@@ -4333,7 +4333,7 @@ msgstr "Ibiranga uburwayi"
 
 #: models/CodedItem.py:17
 msgid "as"
-msgstr "kimwe"
+msgstr "as"
 
 #: models/CodedItem.py:17
 msgid "Accident / trauma"
@@ -4341,7 +4341,7 @@ msgstr "Impanuka / imvune"
 
 #: models/CodedItem.py:18
 msgid "bd"
-msgstr "Guhumeka biruhanyije"
+msgstr "bd"
 
 #: models/CodedItem.py:18
 msgid "Difficulty breathing"
@@ -4349,7 +4349,7 @@ msgstr "Guhumeka biruhanyije"
 
 #: models/CodedItem.py:19
 msgid "bl"
-msgstr "Kuva bidasanzwe"
+msgstr "bl"
 
 #: models/CodedItem.py:19
 msgid "Abnormal bleeding"
@@ -4357,7 +4357,7 @@ msgstr "Kuva bidasanzwe"
 
 #: models/CodedItem.py:20
 msgid "bm"
-msgstr "Umwana yarekeyaho kwinyeganyeza"
+msgstr "bm"
 
 #: models/CodedItem.py:20
 msgid "Baby stopped moving"
@@ -4365,7 +4365,7 @@ msgstr "Umwana yarekeyaho kwinyeganyeza"
 
 #: models/CodedItem.py:21
 msgid "bs"
-msgstr "Amaraso mu musarane"
+msgstr "bs"
 
 #: models/CodedItem.py:21
 msgid "Blood in stool"
@@ -4373,7 +4373,7 @@ msgstr "Amaraso mu musarane"
 
 #: models/CodedItem.py:22
 msgid "bv"
-msgstr "Ibikezikezi mu maso"
+msgstr "bv"
 
 #: models/CodedItem.py:22
 msgid "Blurred vision"
@@ -4381,7 +4381,7 @@ msgstr "Ibikezikezi mu maso"
 
 #: models/CodedItem.py:23
 msgid "cc"
-msgstr "Inkorora"
+msgstr "cc"
 
 #: models/CodedItem.py:23
 msgid "Cough"
@@ -4389,7 +4389,7 @@ msgstr "Inkorora"
 
 #: models/CodedItem.py:24
 msgid "cl"
-msgstr "Umubiri wakonje"
+msgstr "cl"
 
 #: models/CodedItem.py:24
 msgid "Cold to touch"
@@ -4397,7 +4397,7 @@ msgstr "Umubiri wakonje"
 
 #: models/CodedItem.py:25
 msgid "cm"
-msgstr "Guhwera"
+msgstr "cm"
 
 #: models/CodedItem.py:25
 msgid "Coma"
@@ -4405,7 +4405,7 @@ msgstr "Guhwera"
 
 #: models/CodedItem.py:26
 msgid "cn"
-msgstr "Gushikagurika"
+msgstr "cn"
 
 #: models/CodedItem.py:26
 msgid "No bowel movements"
@@ -4413,7 +4413,7 @@ msgstr "Gutengurwa bivanze no guteshaguzwa cg ibitabapfu"
 
 #: models/CodedItem.py:27
 msgid "cv"
-msgstr "Gutengurwa bivanze no guteshaguzwa cg ibitabapfu"
+msgstr "cv"
 
 #: models/CodedItem.py:27
 msgid "Convulsions"
@@ -4421,7 +4421,7 @@ msgstr "Gutengurwa bivanze no guteshaguzwa cg ibitabapfu"
 
 #: models/CodedItem.py:28
 msgid "cw"
-msgstr "Inkorora irengeje ibyumweru 3"
+msgstr "cw"
 
 #: models/CodedItem.py:28
 msgid "Cough > 3 weeks"
@@ -4429,7 +4429,7 @@ msgstr "Inkorora irengeje ibyumweru 3"
 
 #: models/CodedItem.py:29
 msgid "dh"
-msgstr "Kumagara"
+msgstr "dh"
 
 #: models/CodedItem.py:29
 msgid "Dehydration"
@@ -4437,12 +4437,12 @@ msgstr "Kumagara"
 
 #: models/CodedItem.py:30
 msgid "dr"
-msgstr "Kumagara"
+msgstr "dr"
 
 #: models/CodedItem.py:31
 #: models/CodedItem.py:82
 msgid "fp"
-msgstr "Umuriro"
+msgstr "fp"
 
 #: models/CodedItem.py:31
 msgid "Fever in first trimester"
@@ -4450,11 +4450,11 @@ msgstr "Umuriro mu gihembwe cya mbere"
 
 #: models/CodedItem.py:32
 msgid "fv"
-msgstr "Umuriro"
+msgstr "fv"
 
 #: models/CodedItem.py:33
 msgid "ir"
-msgstr "Habyimbirwa"
+msgstr "ir"
 
 #: models/CodedItem.py:33
 msgid "Irritable / inconsolable"
@@ -4462,7 +4462,7 @@ msgstr "Habyimbirwa"
 
 #: models/CodedItem.py:34
 msgid "nb"
-msgstr "Ikibazo cyo kutabona neza nijoro"
+msgstr "nb"
 
 #: models/CodedItem.py:34
 msgid "Night blindness"
@@ -4470,7 +4470,7 @@ msgstr "Ikibazo cyo kutabona neza nijoro"
 
 #: models/CodedItem.py:35
 msgid "nf"
-msgstr "Utagaburirwa / wonka neza"
+msgstr "nf"
 
 #: models/CodedItem.py:35
 msgid "Not feeding / sucking well"
@@ -4478,7 +4478,7 @@ msgstr "Utagaburirwa / wonka neza"
 
 #: models/CodedItem.py:36
 msgid "nr"
-msgstr "Udasubiza neza"
+msgstr "nr"
 
 #: models/CodedItem.py:36
 msgid "Not responding well"
@@ -4486,7 +4486,7 @@ msgstr "Udasubiza neza"
 
 #: models/CodedItem.py:37
 msgid "nu"
-msgstr "nta nkari"
+msgstr "nu"
 
 #: models/CodedItem.py:37
 msgid "Little or no urine"
@@ -4494,7 +4494,7 @@ msgstr "Udukari duke cyangwa nta na duke"
 
 #: models/CodedItem.py:38
 msgid "od"
-msgstr "Kubyimbirwa"
+msgstr "od"
 
 #: models/CodedItem.py:38
 #: models/reports.py:898
@@ -4503,7 +4503,7 @@ msgstr "Ububabare bwo mu nda"
 
 #: models/CodedItem.py:39
 msgid "pa"
-msgstr "Ububabare bwo mu nda"
+msgstr "pa"
 
 #: models/CodedItem.py:39
 msgid "Abdominal / pelvic pain"
@@ -4512,7 +4512,7 @@ msgstr "Ububabare bwo mu nda"
 #: models/CodedItem.py:40
 #: models/CodedItem.py:85
 msgid "ph"
-msgstr "Ububabare bukabije mu mutwe"
+msgstr "ph"
 
 #: models/CodedItem.py:40
 msgid "Severe headache"
@@ -4520,7 +4520,7 @@ msgstr "Ububabare bukabije mu mutwe"
 
 #: models/CodedItem.py:41
 msgid "pu"
-msgstr "Ububabare mu gihe cyo kunyara"
+msgstr "pu"
 
 #: models/CodedItem.py:41
 msgid "Painful urination"
@@ -4528,7 +4528,7 @@ msgstr "Ububabare mu gihe cyo kunyara"
 
 #: models/CodedItem.py:42
 msgid "sf"
-msgstr "Indwara y'uruhu"
+msgstr "sf"
 
 #: models/CodedItem.py:42
 msgid "Skin infection"
@@ -4536,7 +4536,7 @@ msgstr "Indwara y'uruhu"
 
 #: models/CodedItem.py:43
 msgid "sp"
-msgstr "Ibitembabuzi binuka,  uburyaryate, amashyira"
+msgstr "sp"
 
 #: models/CodedItem.py:43
 msgid "Sores, itching, pus on body"
@@ -4544,7 +4544,7 @@ msgstr "Ibitembabuzi binuka,  uburyaryate, amashyira "
 
 #: models/CodedItem.py:44
 msgid "sw"
-msgstr "Kubira ibyuya mu maso cyangwa ku biganza"
+msgstr "sw"
 
 #: models/CodedItem.py:44
 msgid "Swelling of face or hands"
@@ -4552,7 +4552,7 @@ msgstr "Kubira ibyuya mu maso cyangwa ku biganza"
 
 #: models/CodedItem.py:45
 msgid "uf"
-msgstr "Indwara z'ababyeyi"
+msgstr "uf"
 
 #: models/CodedItem.py:45
 msgid "Umbilicus infection"
@@ -4560,7 +4560,7 @@ msgstr "Indwara z'ababyeyi"
 
 #: models/CodedItem.py:46
 msgid "vb"
-msgstr "Amaraso ava mu gitsina ku buryo budasanzwe"
+msgstr "vb"
 
 #: models/CodedItem.py:46
 msgid "Abnormal vaginal bleeding"
@@ -4568,7 +4568,7 @@ msgstr "Amaraso ava mu gitsina ku buryo budasanzwe"
 
 #: models/CodedItem.py:47
 msgid "vd"
-msgstr "Ibintu bidasanzwe bisohoka mu gitsina"
+msgstr "vd"
 
 #: models/CodedItem.py:47
 msgid "Abnormal vaginal discharge"
@@ -4576,7 +4576,7 @@ msgstr "Ibintu bidasanzwe bisohoka mu gitsina"
 
 #: models/CodedItem.py:48
 msgid "vm"
-msgstr "Kuruka"
+msgstr "vm"
 
 #: models/CodedItem.py:48
 msgid "Vomiting"
@@ -4584,7 +4584,7 @@ msgstr "Ububabare mu gitsina cyangwa ibitembabuzi bisohokamo"
 
 #: models/CodedItem.py:49
 msgid "vp"
-msgstr "Ububabare mu gitsina cyangwa ibitembabuzi bisohokamo"
+msgstr "vp"
 
 #: models/CodedItem.py:49
 msgid "Vaginal pain or sores"
@@ -4592,7 +4592,7 @@ msgstr "Ububabare mu gitsina cyangwa ibitembabuzi bisohokamo"
 
 #: models/CodedItem.py:50
 msgid "wl"
-msgstr "Gutakaza ibiro"
+msgstr "wl"
 
 #: models/CodedItem.py:50
 msgid "Weight loss"
@@ -4601,7 +4601,7 @@ msgstr "Gutakaza ibiro"
 #: models/CodedItem.py:51
 #: models/CodedItem.py:66
 msgid "z"
-msgstr "Ibindi"
+msgstr "z"
 
 #: models/CodedItem.py:51
 #: models/reports.py:1329
@@ -4613,7 +4613,7 @@ msgstr "Ibindi"
 
 #: models/CodedItem.py:55
 msgid "cd"
-msgstr "Udukingirizo"
+msgstr "cd"
 
 #: models/CodedItem.py:55
 #, fuzzy
@@ -4622,15 +4622,15 @@ msgstr "Udukingirizo"
 
 #: models/CodedItem.py:56
 msgid "ij"
-msgstr "urushinge"
+msgstr "ij"
 
 #: models/CodedItem.py:57
 msgid "ip"
-msgstr "Agapira ko mu kuboko"
+msgstr "ip"
 
 #: models/CodedItem.py:58
 msgid "iud"
-msgstr "Agapira ko mu mura"
+msgstr "iud"
 
 #: models/CodedItem.py:58
 msgid "Intra-uterine Device"
@@ -4638,7 +4638,7 @@ msgstr "Agapira ko mu mura"
 
 #: models/CodedItem.py:59
 msgid "pl"
-msgstr "Ibinini bifasha kuboneza imbyaro"
+msgstr "pl"
 
 #: models/CodedItem.py:59
 msgid "Oral contraception"
@@ -4646,15 +4646,15 @@ msgstr "Ibinini bifasha kuboneza imbyaro"
 
 #: models/CodedItem.py:60
 msgid "st"
-msgstr "Agapira ko mu mura"
+msgstr "st"
 
 #: models/CodedItem.py:60
 msgid "Sterilisation"
-msgstr ""
+msgstr "Sterilisation"
 
 #: models/CodedItem.py:64
 msgid "am"
-msgstr "Imiti irwanya malariya"
+msgstr "am"
 
 #: models/CodedItem.py:64
 msgid "Anti-malarial"
@@ -4662,23 +4662,23 @@ msgstr "Imiti irwanya malariya"
 
 #: models/CodedItem.py:65
 msgid "r"
-msgstr "Ibinini bya zinc"
+msgstr "r"
 
 #: models/CodedItem.py:66
 msgid "Zinc"
-msgstr "Paracetamol"
+msgstr "Zinc"
 
 #: models/CodedItem.py:67
 msgid "pcm"
-msgstr "Paracetamol"
+msgstr "pcm"
 
 #: models/CodedItem.py:67
 msgid "Paracetamol"
-msgstr "Vitamini A"
+msgstr "Paracetamol"
 
 #: models/CodedItem.py:68
 msgid "va"
-msgstr "Vitamini A"
+msgstr "va"
 
 #: models/CodedItem.py:68
 msgid "Vitamin A"
@@ -4686,7 +4686,7 @@ msgstr "Vitamine A"
 
 #: models/CodedItem.py:69
 msgid "vc"
-msgstr "Vitamin C"
+msgstr "vc"
 
 #: models/CodedItem.py:69
 msgid "Vitamin C"
@@ -4694,7 +4694,7 @@ msgstr "Vitamine C"
 
 #: models/CodedItem.py:70
 msgid "f"
-msgstr "Fesolate"
+msgstr "f"
 
 #: models/CodedItem.py:70
 msgid "Fesolate"
@@ -4702,7 +4702,7 @@ msgstr "Fesolate"
 
 #: models/CodedItem.py:71
 msgid "bco"
-msgstr "Vitamini B Complex"
+msgstr "bco"
 
 #: models/CodedItem.py:71
 msgid "B Complex"
@@ -4710,24 +4710,23 @@ msgstr "B Complex"
 
 #: models/CodedItem.py:72
 msgid "arv"
-msgstr "Imiti igabanya ubukana bwa sida"
+msgstr "arv"
 
 #: models/CodedItem.py:72
 msgid "ARV"
-msgstr "Imiti igabanya ubukana bwa sida"
+msgstr "ARV"
 
 #: models/CodedItem.py:73
-#, fuzzy
 msgid "azt"
-msgstr "azt (umuti ugabanya ubukana bwa SIDA)"
+msgstr "azt"
 
 #: models/CodedItem.py:73
 msgid "AZT"
-msgstr "azt (umuti ugabanya ubukana bwa SIDA)"
+msgstr "AZT"
 
 #: models/CodedItem.py:74
 msgid "lb"
-msgstr "Albendazole"
+msgstr "lb"
 
 #: models/CodedItem.py:74
 #, fuzzy
@@ -4736,7 +4735,7 @@ msgstr "Albendazole"
 
 #: models/CodedItem.py:78
 msgid "bp"
-msgstr "Kubyara kuri gahunda"
+msgstr "bp"
 
 #: models/CodedItem.py:78
 msgid "Birth plan"
@@ -4744,7 +4743,7 @@ msgstr "Kubyara kuri gahunda"
 
 #: models/CodedItem.py:79
 msgid "bf"
-msgstr "Konka"
+msgstr "bf"
 
 #: models/CodedItem.py:79
 msgid "Breast-feeding"
@@ -4752,7 +4751,7 @@ msgstr "Konka"
 
 #: models/CodedItem.py:80
 msgid "bn"
-msgstr "Inzitiramibu"
+msgstr "bn"
 
 #: models/CodedItem.py:80
 msgid "Bednet"
@@ -4760,7 +4759,7 @@ msgstr "Inzitiramibu"
 
 #: models/CodedItem.py:81
 msgid "ec"
-msgstr "Isuku y'aho batuye"
+msgstr "ec"
 
 #: models/CodedItem.py:81
 msgid "Environmental cleanliness"
@@ -4773,11 +4772,11 @@ msgstr "Imirire"
 
 #: models/CodedItem.py:83
 msgid "nut"
-msgstr "Imirire"
+msgstr "nut"
 
 #: models/CodedItem.py:84
 msgid "ed"
-msgstr "Uburezi rusange"
+msgstr "ed"
 
 #: models/CodedItem.py:84
 msgid "General education"
@@ -4789,7 +4788,7 @@ msgstr "Ubuzima rusange"
 
 #: models/CodedItem.py:86
 msgid "im"
-msgstr "Inkingo"
+msgstr "im"
 
 #: models/CodedItem.py:86
 msgid "Immunisations"
@@ -4797,7 +4796,7 @@ msgstr "Inkingo"
 
 #: models/CodedItem.py:87
 msgid "sh"
-msgstr "Isuku n'isukura"
+msgstr "sh"
 
 #: models/CodedItem.py:87
 msgid "Sanitation & Hygiene"

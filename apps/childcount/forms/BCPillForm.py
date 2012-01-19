@@ -21,6 +21,7 @@ class BCPillForm(CCForm):
 
     KEYWORDS = {
         'en': ['l'],
+        'rw': ['l'],
         'fr': ['l'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD

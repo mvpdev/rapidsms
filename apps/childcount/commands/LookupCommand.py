@@ -26,6 +26,7 @@ class LookupCommand(CCCommand):
 
     KEYWORDS = {
         'en': ['lookup'],
+        'rw': ['lookup'],
         'fr': ['lookup'],
     }
 

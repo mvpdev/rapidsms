@@ -18,6 +18,7 @@ class UpdateNameForm(CCForm):
     """
     KEYWORDS = {
         'en': ['uname'],
+        'rw': ['uname'],
         'fr': ['uname'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT

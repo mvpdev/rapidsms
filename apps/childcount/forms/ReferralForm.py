@@ -17,6 +17,7 @@ class ReferralForm(CCForm):
 
     KEYWORDS = {
         'en': ['r'],
+        'rw': ['r'],
         'fr': ['r'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
@@ -28,6 +29,10 @@ class ReferralForm(CCForm):
         urgency_field.add_choice('en', ReferralReport.URGENCY_EMERGENCY, 'E')
         urgency_field.add_choice('en', ReferralReport.URGENCY_BASIC, 'B')
         urgency_field.add_choice('en', ReferralReport.URGENCY_CONVENIENT, 'C')
+        urgency_field.add_choice('rw', ReferralReport.URGENCY_AMBULANCE, 'A')
+        urgency_field.add_choice('rw', ReferralReport.URGENCY_EMERGENCY, 'E')
+        urgency_field.add_choice('rw', ReferralReport.URGENCY_BASIC, 'B')
+        urgency_field.add_choice('rw', ReferralReport.URGENCY_CONVENIENT, 'C')
         urgency_field.add_choice('fr', ReferralReport.URGENCY_AMBULANCE, 'A')
         urgency_field.add_choice('fr', ReferralReport.URGENCY_EMERGENCY, 'E')
         urgency_field.add_choice('fr', ReferralReport.URGENCY_BASIC, 'B')

@@ -20,6 +20,7 @@ class MedicineGivenForm(CCForm):
 
     KEYWORDS = {
         'en': ['g'],
+        'rw': ['g'],
         'fr': ['g'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
