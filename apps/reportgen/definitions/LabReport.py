@@ -112,7 +112,8 @@ class ReportDefinition(PrintedReport):
         thirdrow.append([Paragraph('', styleH3)])
         colWidths.append((2.4 * inch))
 
-        
+        self.set_progress(30)
+
         data.append(thirdrow)
         rowHeights.append(1.7*inch)
 
@@ -156,6 +157,7 @@ class ReportDefinition(PrintedReport):
 
                 rows.append(row)
 
+        self.set_progress(50)
        
         #Add Blank rows 
         if count%20 != 0:
@@ -181,6 +183,8 @@ class ReportDefinition(PrintedReport):
 
         rowHeights.extend(len(rows) * [0.25 * inch])
 
+        self.set_progress(100)
+
         # Add data to table
         data.extend(rows)
 
@@ -203,5 +207,5 @@ class ReportDefinition(PrintedReport):
                                 topMargin=(0 * inch), \
                                 bottomMargin=(0 * inch))
         doc.build(story)
-        self.set_progress(100)
+
         f.close()
