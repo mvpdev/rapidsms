@@ -40,10 +40,18 @@ styleH3.fontName = 'FreeSerif'
 class ReportDefinition(PrintedReport):
     title = _(u"LABS IN PROGRESS ")
     filename = 'lab_report_'
-    formats = ['pdf','html', 'xls']
+    formats = ['pdf']
     variants = []
 
     def generate(self, period, rformat, title, filepath, data):
+        '''
+        Generate LAB REPORT
+        '''
+        
+        if rformat != 'pdf':
+            raise NotImplementedError('Can only generate PDF for '\
+                                            'operational report')
+
         self.set_progress(0.0)
         
         story = []
@@ -164,7 +172,7 @@ class ReportDefinition(PrintedReport):
 
                 #Progress Status
                 row.append([Paragraph(_('<b>+QP</b>'), styleH3)])
-                row.append([Paragraph(re.progress_status, styleH3)])
+                row.append([Paragraph('', styleH3)])
 
                 #Results
                 row.append([Paragraph(_('<b>+QR</b>'), styleH3)])
