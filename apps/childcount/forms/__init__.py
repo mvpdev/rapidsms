@@ -61,6 +61,7 @@ try:
     from childcount.forms.SpecimenForm import SpecimenForm
     from childcount.forms.InsuranceNumberForm import InsuranceNumberForm
     from childcount.forms.LabProgressForm import LabProgressForm
+    from childcount.forms.LabResultsForm import LabResultsForm
     #EndTLI
 except ImportError:
     pass
