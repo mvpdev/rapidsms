@@ -16,6 +16,10 @@ try:
 except ImportError:
     pass
 
+
+from ccdoc import Document, Text, Section
+from ccdoc import Table as Dtable
+
 from childcount.utils import RotatedParagraph
 
 from libreport.pdfreport import p
@@ -40,7 +44,7 @@ styleH3.fontName = 'FreeSerif'
 class ReportDefinition(PrintedReport):
     title = _(u"LABS IN PROGRESS ")
     filename = 'lab_report_'
-    formats = ['pdf']
+    formats = ['pdf', 'xls']
     variants = []
 
     def generate(self, period, rformat, title, filepath, data):
@@ -48,28 +52,51 @@ class ReportDefinition(PrintedReport):
         Generate LAB REPORT
         '''
         
-        if rformat != 'pdf':
+        if rformat == 'pdf':
             raise NotImplementedError('Can only generate PDF for '\
                                             'operational report')
 
-        self.set_progress(0.0)
+            self.set_progress(0.0)
+            
+            story = []
+
+            tb = self._reportable_pdf(period, title)
+
+            story.append(tb)
+            story.append(PageBreak())
+
+            register_fonts()
+            f = open(filepath, 'w')
+            doc = SimpleDocTemplate(f, pagesize=landscape(A4), \
+                                    topMargin=(0 * inch), \
+                                    bottomMargin=(0 * inch))
+            doc.build(story)
+            f.close()
+
+        if rformat == 'xls':
         
-        story = []
+            doc = Document(title, landscape=True)
 
-        tb = self._reportable(period, title)
+            self.set_progress(0)
+            
+            #Get data
+            labreport_data = LabReport.objects\
+                        .filter(encounter__encounter_date__gte=period.start,\
+                       encounter__encounter_date__lte=period.end)
+            #
+            table1 = self._create_xls_table()
+            table1 = self._create_xls_table_data(period, table1, \
+                                                     labreport_data)
 
-        story.append(tb)
-        story.append(PageBreak())
+            doc.add_element(table1)
+            
+            rval = render_doc_to_file(filepath, rformat, doc)
+            self.set_progress(100)
 
-        register_fonts()
-        f = open(filepath, 'w')
-        doc = SimpleDocTemplate(f, pagesize=landscape(A4), \
-                                topMargin=(0 * inch), \
-                                bottomMargin=(0 * inch))
-        doc.build(story)
-        f.close()
+            return rval           
+        
 
-    def _reportable(self, period, title):
+    def _reportable_pdf(self, period, title):
 
         tStyle = [('INNERGRID', (0, 0), (-1, -1), 0.1, colors.lightgrey),\
                 ('BOX', (0, 1), (-1, -1), 0.1, colors.lightgrey)]
@@ -87,7 +114,8 @@ class ReportDefinition(PrintedReport):
                                 '(Generated on '\
                                 '%(gen_datetime)s)</b>')% \
                                 {'name': title,\
-                                'gen_datetime': bonjour.dates.format_datetime(format='medium')},
+                                'gen_datetime': \
+                                bonjour.dates.format_datetime(format='medium')},
                 styleH3)]
         tStyle.append(('SPAN', (0, 0), (-1, 0)))
 
@@ -223,3 +251,60 @@ class ReportDefinition(PrintedReport):
 
         return tb
 
+
+
+    def _create_xls_table(self):
+        table = Dtable(12)
+        table.add_header_row([
+            Text(_(u'Date of Req')),
+            Text(_(u'MVP Health ID')),
+            Text(_(u'Name')),
+            Text(_(u'Age')),
+            Text(_(u'Sex (M/F)')),
+            Text(_(u'Requesting Facility')),                                    
+            Text(_(u'Test Required')),
+            Text(_(u'Sample #')),
+            Text(_(u'Requisition Progress')),
+            Text(_(u'Reg. progress Code')),
+            Text(_(u'Results ')),
+            Text(_(u''))])
+
+        return table
+
+    def _create_xls_table_data(self, period, table, data):
+        
+        for enc in data:       
+            req_date = re.encounter.encounter_date.strftime("%d/%m/%y")
+            table.add_row([
+                    Text(req_date),
+                    Text(enc.encounter.patient.health_id),
+                    Text(enc.encounter.patient.full_name()),
+                    Text(enc.encounter.patient.humanised_age()),
+                    Text(enc.encounter.patient.gender),
+                    Text(enc.encounter.chw.clinic.code),
+                    Text(enc.lab_test.code),
+                    Text(enc.sample_no),
+                    Text('+QP'),
+                    Text(''),
+                    Text('+QR'),
+                    Text(''),
+                    ])
+                    
+        #Add Blank rows 
+        if data.count() < 20:
+            for re in range(20):
+                table.add_row([
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text(''),
+                        Text('+QP'),
+                        Text(''),
+                        Text('+QR'),
+                        Text(''),
+                        ])
+        return table
