@@ -232,16 +232,14 @@ msgstr "Abarwayi bakurikira bagomba gukorerwa ikizamini cya MUAC: %(ids)s"
 #: tasks.py:270
 #, fuzzy, python-format
 msgid "Remind the following to go for ANC at health center: %(list)s."
-msgstr ""
-"Ibutsa aba bagore batwite kujya kwipimisha inda ku kigo nderabuzima: %"
-"(list)s"
+msgstr "Ibutsa aba bagore batwite kujya kwipimisha inda ku kigo nderabuzima: "
+"%(list)s"
 
 #: tasks.py:318
 #, python-format
 msgid "Please send %(patient)s to the health center for their appointment on %(apt_date)s"
-msgstr ""
-"Ohereza %(patient)s ku kigo nderabuzima kubonana na muganga kuwa %"
-"(apt_date)s"
+msgstr "Ohereza %(patient)s ku kigo nderabuzima kubonana na muganga kuwa "
+"%(apt_date)s"
 
 #: tasks.py:385
 #, python-format

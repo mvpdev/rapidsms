@@ -16,6 +16,8 @@ from childcount.models import LabTestResults
 from childcount.exceptions import BadValue
 from childcount.exceptions import ParseError
 
+from alerts.utils import SmsAlert
+
 
 class LabResultsForm(CCForm):
     """ LAB Results Form
@@ -85,12 +87,30 @@ class LabResultsForm(CCForm):
                 
                 labtest.results = results_string
                 labtest.save()
+                
+                #Alert originator of the Message
+                if labtest.encounter.chw:
+                    r = labtest.encounter.chw.reporter
+                    alert = SmsAlert(reporter=r, msg=_("ChildCount Lab" \
+                                                        "Alert! ")+ results_string)
+                    sms_alert = alert.send()
+
+                    sms_alert.name = name
+                    sms_alert.save()
+            
 
         else:
             results_string = ', '.join([res for res in  self.params[2:]])
             labtest.results =  results_string  
 
             labtest.save()
-            self.response = _(u"Results Saved %(re)s:  ") \
-                                    % {'re': results_string}
+            self.response = _(u"Lab Results for %(hh)s, req %(sn)s \
+                                    %(test)s: %(res)s  ") \
+                                  % {'hh': \
+                                        labtest.encounter.patient.health_id, \
+                                     'sn': labtest.sample_no, \
+                                     'test': labtest.lab_test.name, \
+                                     'res': results_string,
+                                    }
+
 
