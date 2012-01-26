@@ -154,7 +154,7 @@ def daily_late_fever_reminder():
         if not current_reporter or current_reporter != report.encounter.chw:
             current_reporter = report.encounter.chw
             data[current_reporter] = []
-        _msg = "Please follow up on %s for fever." % report.encounter.patient
+        _msg = _(u"Please follow up on %s for fever.") % report.encounter.patient
         data[current_reporter].append(_msg)
         print current_reporter, _msg
 
@@ -191,7 +191,7 @@ def daily_danger_sign_reminder():
         if not current_reporter or current_reporter != report.encounter.chw:
             current_reporter = report.encounter.chw
             data[current_reporter] = []
-        _msg = "Please follow up with %(person)s for %(signs)s" % \
+        _msg = _(u"Please follow up with %(person)s for %(signs)s") % \
             {'person': report.encounter.patient,
             'signs': report.short_summary()}
         data[current_reporter].append(_msg)
@@ -283,15 +283,17 @@ def weekly_anc_visit_reminder():
         all_chw = {}
         all_chw[chw] = chw
 
-        """
+        """ 
+        Get CHW who fall under this CHW, Location
         Get other CHW in this CHW Location and add them  Dictonary so as to 
         receive alert especially Mayange
-        """
+
         other_chw = CHW.objects.filter(location = chw.location)
         for t in other_chw:
             if t not in all_chw:
                 all_chw[t] = t
-
+        """
+        
         # change to CHW language
         activate(chw.language)
 
