@@ -16,6 +16,8 @@ from datetime import timedelta, datetime
 from celery.decorators import periodic_task
 from celery.schedules import crontab
 
+from django.db.models import Q
+
 from childcount.models import ImmunizationNotification
 from childcount.models import Patient
 from childcount.models import CHW
