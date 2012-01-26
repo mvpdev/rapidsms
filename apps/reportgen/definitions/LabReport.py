@@ -274,7 +274,7 @@ class ReportDefinition(PrintedReport):
     def _create_xls_table_data(self, period, table, data):
         
         for enc in data:       
-            req_date = re.encounter.encounter_date.strftime("%d/%m/%y")
+            req_date = enc.encounter.encounter_date.strftime("%d/%m/%y")
             table.add_row([
                     Text(req_date),
                     Text(enc.encounter.patient.health_id),
