@@ -47,6 +47,7 @@ class LabResultsForm(CCForm):
             raise ParseError(_(u"Unknown LabTest (%s) Check Sample no and" \
                                 "try again") % sample_no)
 
+        #Check status of the LaB
         #Get test that was done
         test = labtest.lab_test
         #check If test has predefined results
@@ -84,6 +85,7 @@ class LabResultsForm(CCForm):
                                      'res': results_string,
                                     }
 
+                labtest.progress_status = LabReport.STATUS_RESULTS
                 labtest.results = results_string
                 labtest.save()
 
@@ -106,6 +108,8 @@ class LabResultsForm(CCForm):
 
         else:
             results_string = ', '.join([res for res in self.params[2:]])
+
+            labtest.progress_status = LabReport.STATUS_RESULTS
             labtest.results = results_string
 
             labtest.save()
