@@ -181,12 +181,12 @@ msgid "Moderate"
 msgstr "Bidakabije."
 
 #: dashboard_sections.py:75
-#, fuzzy
+#, 
 msgid "This Month (to date)"
 msgstr "Muri uku kwezi (kugeza none)."
 
 #: dashboard_sections.py:75
-#, fuzzy
+#, 
 msgid "Last Month"
 msgstr "Ukwezi gushize."
 
@@ -225,23 +225,21 @@ msgid "There is no patient with                 health ID %(hid)s"
 msgstr "Nta murwayi ufite nomero y'ubuzima %(hid)s"
 
 #: tasks.py:222
-#, fuzzy, python-format
+#, , python-format
 msgid "The following clients are due for MUAC: %(ids)s"
 msgstr "Abarwayi bakurikira bagomba gukorerwa ikizamini cya MUAC: %(ids)s"
 
 #: tasks.py:270
-#, fuzzy, python-format
+#, , python-format
 msgid "Remind the following to go for ANC at health center: %(list)s."
-msgstr ""
-"Ibutsa aba bagore batwite kujya kwipimisha inda ku kigo nderabuzima: %"
-"(list)s"
+msgstr "Ibutsa aba bagore batwite kujya kwipimisha inda ku kigo nderabuzima: "
+"%(list)s"
 
 #: tasks.py:318
 #, python-format
 msgid "Please send %(patient)s to the health center for their appointment on %(apt_date)s"
-msgstr ""
-"Ohereza %(patient)s ku kigo nderabuzima kubonana na muganga kuwa %"
-"(apt_date)s"
+msgstr "Ohereza %(patient)s ku kigo nderabuzima kubonana na muganga kuwa "
+"%(apt_date)s"
 
 #: tasks.py:385
 #, python-format
@@ -271,7 +269,7 @@ msgid "%(k)s must be a dictionary in %(cls)s."
 msgstr "%(k)s igomba kuba ari inkoranyamagambo mu %(cls)s"
 
 #: utils.py:762
-#, fuzzy
+#, 
 msgid "ChildCount Alert! "
 msgstr "Integuza ya ChildCount!"
 
@@ -295,7 +293,7 @@ msgstr ""
 "cyigizwe n'inyuguti 3"
 
 #: commands/ActivityCommand.py:150
-#, fuzzy, python-format
+#, , python-format
 msgid "(%(sdate)s->%(edate)s): %(numhvisit)d household visit, %(muac)d MUAC (%(severemuac)d SAM/MAM) %(rdt)d RDT. You have %(household)d households, %(ufive)d under 5y, %(underone)d under 1y, %(unine)d under 9m, %(tclient)d total registered clients"
 msgstr ""
 "(%(sdate)s->%(edate)s): %(numhvisit)d gahunda yo husura ingo, %(muac)d MUAC "
@@ -716,7 +714,7 @@ msgid "Marked %(count)d patients as INACTIVE: "
 msgstr "Bashyizwe mu kiciro %(count)d abarwayi cy'ABADAKORA:"
 
 #: commands/SimilarCommand.py:65
-#, fuzzy
+#, 
 msgid "Similar command requires a single health ID"
 msgstr "La commande lookup requière au moins un no. de santé."
 
@@ -2144,7 +2142,7 @@ msgid "| Up-to-date Immunisations? | must be %(choices)s."
 msgstr "| Inkingo zose za ngombwa? | hinjizwamo %(choices)s."
 
 #: forms/SauriUnderOneForm.py:101
-#, fuzzy, python-format
+#, , python-format
 msgid "Unknown Vaccine code(s): %(codes)s. UnderOne form not saved."
 msgstr "Code y'urukingo yayoberanye(s): %(codes)s. Mu ifishi imwe ntibishoboka."
 
@@ -2239,12 +2237,12 @@ msgstr ""
 "mwana afite %(age)d amezi."
 
 #: forms/UnderOneForm.py:106
-#, fuzzy
+#, 
 msgid "Unknown if exclusively breast feeding."
 msgstr "Ntituzi niba ari ukonka gusa."
 
 #: forms/UnderOneForm.py:113
-#, fuzzy
+#, 
 msgid "Unknown if up-to-date on immunisations."
 msgstr "Ntawe uzi niba yarabonye inkingo zose za ngombwa."
 
@@ -2303,7 +2301,7 @@ msgid "Household"
 msgstr "Urugo"
 
 #: helpers/chw.py:40
-#, fuzzy
+#, 
 msgid "Households"
 msgstr "Ingo"
 
@@ -2318,7 +2316,7 @@ msgstr "Ijanisha ry'ingo zagezweho"
 
 #: helpers/chw.py:46
 #: indicators/family_planning.py:14
-#, fuzzy
+#, 
 msgid "Family Planning"
 msgstr "Kuboneza urubyaro"
 
@@ -2327,7 +2325,7 @@ msgid "Women 15-49 Seen"
 msgstr "Abagore bari hagati y'imyaka 15 na 49 basuwe"
 
 #: helpers/chw.py:49
-#, fuzzy
+#, 
 msgid "Women Using FP"
 msgstr "Abagore bitabira gahunda yo kuboneza urubyaro"
 
@@ -2339,7 +2337,7 @@ msgstr ""
 
 #: helpers/chw.py:55
 #: indicators/follow_up.py:20
-#, fuzzy
+#, 
 msgid "Follow Up"
 msgstr "Gukurikirana"
 
@@ -2373,12 +2371,12 @@ msgid "Pregnancy"
 msgstr "Igihe umugore amara atwite"
 
 #: helpers/chw.py:71
-#, fuzzy
+#, 
 msgid "Pregnant Women"
 msgstr "Abagore batwite"
 
 #: helpers/chw.py:72
-#, fuzzy
+#, 
 msgid "Births"
 msgstr "Inda zavutse"
 
@@ -2391,32 +2389,32 @@ msgid "Babies Known Delivered in Clinic"
 msgstr "Impinja zizwi zavukiye mu ivuriro"
 
 #: helpers/chw.py:76
-#, fuzzy
+#, 
 msgid "Neonatal Reports (within 7 days)"
 msgstr "Raporo z'abana bavutse (mu gihe cy'iminsi 7)"
 
 #: helpers/chw.py:81
-#, fuzzy
+#, 
 msgid "Under Five"
 msgstr "Munsi y'imyaka itanu"
 
 #: helpers/chw.py:83
-#, fuzzy
+#, 
 msgid "Children U5"
 msgstr "Abana batagejeje ku myaka itanu"
 
 #: helpers/chw.py:84
-#, fuzzy
+#, 
 msgid "Children U5 Known Immunized"
 msgstr "Abana batagejeje ku myaka itanu bazwi bakingiwe"
 
 #: helpers/chw.py:86
-#, fuzzy
+#, 
 msgid "MUACs Taken"
 msgstr "Abapimwe MUAC"
 
 #: helpers/chw.py:87
-#, fuzzy
+#, 
 msgid "Active SAM/MAM Cases"
 msgstr ""
 "Imirire mibi mu ibara ritukura/imirire mibi mu ibara ry'umuhondo "
@@ -2427,7 +2425,7 @@ msgid "Malaria"
 msgstr "Malariya"
 
 #: helpers/chw.py:93
-#, fuzzy
+#, 
 msgid "Tested RDTs"
 msgstr "Abakorewe ibizami bya RDT"
 
@@ -2437,7 +2435,7 @@ msgid "Positive RDTs"
 msgstr "Ibisubizo bya RDT byabaye pozitifu"
 
 #: helpers/chw.py:95
-#, fuzzy
+#, 
 msgid "Anti-malarials Given"
 msgstr "Imiti irwanya malariya yatanzwe"
 
@@ -2448,17 +2446,17 @@ msgid "Diarrhea"
 msgstr "Guhitwa"
 
 #: helpers/chw.py:101
-#, fuzzy
+#, 
 msgid "U5 Diarrhea Cases"
 msgstr "Abana batagejeje imyaka itanu bafite ikibazo cyo guhitwa"
 
 #: helpers/chw.py:102
-#, fuzzy
+#, 
 msgid "ORS Given"
 msgstr "ORS zatanzwe"
 
 #: helpers/patient.py:80
-#, fuzzy
+#, 
 msgid "None"
 msgstr "Ntawe"
 
@@ -2476,17 +2474,17 @@ msgid "%(date)s [%(muac)s,Oed:%(oedema)s]"
 msgstr "%(date)s [%(muac)s,kubyimbirwa:%(oedema)s]"
 
 #: helpers/ranking.py:22
-#, fuzzy
+#, 
 msgid "Congratulations!"
 msgstr "Uri umuntu w'umugabo!"
 
 #: helpers/ranking.py:22
-#, fuzzy
+#, 
 msgid "Excellent!"
 msgstr "Wakoze iyo bwabaga!"
 
 #: helpers/ranking.py:22
-#, fuzzy
+#, 
 msgid "Yebale!"
 msgstr "Urakoze cyanee!"
 
@@ -2537,37 +2535,37 @@ msgid "Appointments"
 msgstr "Za gahunda"
 
 #: indicators/appointment.py:22
-#, fuzzy
+#, 
 msgid "Total number of appointment this period"
 msgstr "Umubare rusange wa za gahunda zatanzwe muri iki gihe"
 
 #: indicators/appointment.py:37
-#, fuzzy
+#, 
 msgid "Appt. Reminded"
 msgstr "Gahunda zibukijwe"
 
 #: indicators/appointment.py:38
-#, fuzzy
+#, 
 msgid "Total number of appointments reminded this period"
 msgstr "Umubare rusange wa za gahunda zibukijwe muri iki gihe"
 
 #: indicators/appointment.py:54
-#, fuzzy
+#, 
 msgid "% Appt. Reminded"
 msgstr "Ijanisha rya za gahunda zibukijwe"
 
 #: indicators/appointment.py:55
-#, fuzzy
+#, 
 msgid "Percentage of appointments reminded this period"
 msgstr "Ijanisha rya za gahunda zibukijwe muri iki gihe"
 
 #: indicators/bed_net_coverage.py:19
-#, fuzzy
+#, 
 msgid "Bed Net Coverage"
 msgstr "Ahagejejwe inzitiramibu"
 
 #: indicators/bed_net_coverage.py:26
-#, fuzzy
+#, 
 msgid "Bed Net Reports"
 msgstr "Raporo ku nzitiramibu"
 
@@ -2580,17 +2578,17 @@ msgid "# Sites Seen"
 msgstr "# Uburyamo bwasuwe"
 
 #: indicators/bed_net_coverage.py:46
-#, fuzzy
+#, 
 msgid "Total number of sleeping sites monitored this period"
 msgstr "Umubare w'uburyamo bwakurikiranwe muri iki gihe"
 
 #: indicators/bed_net_coverage.py:61
-#, fuzzy
+#, 
 msgid "# Sites"
 msgstr "# Uburyamo"
 
 #: indicators/bed_net_coverage.py:62
-#, fuzzy
+#, 
 msgid "Total number of sleeping sites for unique household monitored this period"
 msgstr "Umubare w'uburyamo mu ngo zihariye zakurikiranywe muri iki gihe"
 
@@ -2599,7 +2597,7 @@ msgid "# Sites Unc"
 msgstr "# Sites Unc "
 
 #: indicators/bed_net_coverage.py:80
-#, fuzzy
+#, 
 msgid "Total number of sleeping sites for unique household monitored this period with fewer bed nets than sleeping sites"
 msgstr ""
 "Umubare w'uburyamo mu ngo zihariye zakurikiranywe muri iki gihe, zirimo "
@@ -2610,14 +2608,14 @@ msgid "% Sites w/o net"
 msgstr "% Sites w/o net"
 
 #: indicators/bed_net_coverage.py:106
-#, fuzzy
+#, 
 msgid "Percentage of unique sleeping sites monitored and known to have no bed net"
 msgstr ""
 "Ijanisha ry'uburyamo bwihariye bwakurikiranwe bwagaragaweho kutagira "
 "inzitiramibu"
 
 #: indicators/bed_net_coverage.py:116
-#, fuzzy
+#, 
 msgid "# HHs Covered"
 msgstr "# Ingo zagezweho"
 
@@ -2647,7 +2645,7 @@ msgstr ""
 "zagezweho cyangwa ko zitagezweho."
 
 #: indicators/bed_net_coverage.py:170
-#, fuzzy
+#, 
 msgid "# HHs Bed Net Uncovered"
 msgstr "#Ingo zitagezweho n'inzitiramibu"
 
@@ -2658,7 +2656,7 @@ msgstr ""
 "zitagezweho"
 
 #: indicators/bed_net_coverage.py:180
-#, fuzzy
+#, 
 msgid "% HHs Bed Net Known Covered"
 msgstr "% Ingo zagezweho n'inzitiramibu imibare izwi"
 
@@ -2669,24 +2667,24 @@ msgstr ""
 "n'inzitiramibu"
 
 #: indicators/bed_net_coverage.py:191
-#, fuzzy
+#, 
 msgid "% Known"
 msgstr "% Izagezweho zizwi"
 
 #: indicators/bed_net_coverage.py:192
-#, fuzzy
+#, 
 msgid "Percentage of unique households monitored for bed net coverage"
 msgstr ""
 "Ijanisha ry'ingo zihariye zakurikiranwe harebwa niba zaragezweho "
 "n'inzitiramibu"
 
 #: indicators/bed_net_utilization.py:19
-#, fuzzy
+#, 
 msgid "Bed Net Utilization"
 msgstr "Ikoreshwa ry'inzitiramibu"
 
 #: indicators/bed_net_utilization.py:26
-#, fuzzy
+#, 
 msgid "Bed Net Util. Reports"
 msgstr "Raporo  ku ikoreshwa ry'inzitiramibu"
 
@@ -2729,7 +2727,7 @@ msgid "% Kids Using Net"
 msgstr "% Abana barara mu nzitiramibu"
 
 #: indicators/bed_net_utilization.py:89
-#, fuzzy
+#, 
 msgid "Percentage of under fives monitored who used bed nets"
 msgstr ""
 "Ijanisha ry'abana batagejeje ku myaka itanu bakurikiranwe bararaga mu "
@@ -2741,17 +2739,17 @@ msgid "Birth"
 msgstr "Birth"
 
 #: indicators/birth.py:27
-#, fuzzy
+#, 
 msgid "# Births"
 msgstr "# Bavutse"
 
 #: indicators/birth.py:28
-#, fuzzy
+#, 
 msgid "Total number of patients born this period"
 msgstr "Umubare rusange w'abarwayi bavutse muri iki gihe"
 
 #: indicators/birth.py:41
-#, fuzzy
+#, 
 msgid "# Low-Weight Births"
 msgstr "# Bavukanye ibiro bike"
 
@@ -2762,7 +2760,7 @@ msgstr ""
 "iki gihe"
 
 #: indicators/birth.py:61
-#, fuzzy
+#, 
 msgid "# Births with Weight"
 msgstr "# Bavukanye ibiro bikwiye"
 
@@ -2780,18 +2778,18 @@ msgstr ""
 "Ijanisha ry'abarwayi bavutse muri iki gihe bagaragajwe nk'abafite ibiro bike"
 
 #: indicators/birth.py:91
-#, fuzzy
+#, 
 msgid "# Births Delivered in Clinic"
 msgstr "# Abana bavukiye mu ivuriro"
 
 #: indicators/birth.py:92
-#, fuzzy
+#, 
 msgid "Total number of patients born this period recorded as deliverd in a health facility"
 msgstr ""
 "Umubare w'abarwayi bavutse muri iki gihe banditsweho ko bavukiye kwa muganga"
 
 #: indicators/birth.py:109
-#, fuzzy
+#, 
 msgid "# Births with Location"
 msgstr "# Abavutse n'aho bavukiye"
 
@@ -2802,7 +2800,7 @@ msgstr ""
 "handitswe"
 
 #: indicators/birth.py:127
-#, fuzzy
+#, 
 msgid "% Births Delivered in Clinic"
 msgstr "% Abavukiye mu ivuriro"
 
@@ -2831,7 +2829,7 @@ msgid "% of patients born this period whose mother had four ANC visits"
 msgstr  "% of patients born this period whose mother had four ANC visits"
 
 #: indicators/danger_signs.py:17
-#, fuzzy
+#, 
 msgid "Danger Sign"
 msgstr "Ikimenyetso mpuruza"
 
@@ -2846,12 +2844,12 @@ msgid "Total"
 msgstr "Igiteranyo"
 
 #: indicators/danger_signs.py:25
-#, fuzzy
+#, 
 msgid "Total number of danger signs reports"
 msgstr "Umubare rusange wa raporo z'ibimenyetso mpuruza"
 
 #: indicators/danger_signs.py:40
-#, fuzzy
+#, 
 msgid "U5 Diarrhea"
 msgstr "Abana batagejeje ku myaka itanu bafite indwara y'impiswi"
 
@@ -2894,7 +2892,7 @@ msgstr ""
 "y'amavuko barwaye impiswi yoroheje bahawe amazi yongera imyunyu mu mubiri"
 
 #: indicators/danger_signs.py:101
-#, fuzzy
+#, 
 msgid "Percentage of under fives with uncomplicated diarrhea getting ORS"
 msgstr ""
 "Ijanisha ry'abana batagejeje ku myaka itanu basanganwe impiswi yoroheje "
@@ -2920,7 +2918,7 @@ msgstr ""
 "barwaye impiswi yoroheje bahawe ibinini bya zinc"
 
 #: indicators/danger_signs.py:126
-#, fuzzy
+#, 
 msgid "Percentage of under fives with uncomplicated diarrhea getting Zinc"
 msgstr ""
 "Ijanisha ry'abana batagejeje ku myaka itanu basanganwe idwara y'impiswi "
@@ -2956,14 +2954,14 @@ msgid "Invalid RDT value"
 msgstr "Indangagaciro yakoreshejwe kuri RDT ntishoboka"
 
 #: indicators/danger_signs.py:197
-#, fuzzy
+#, 
 msgid "%U5 Fv Uncompl RDT"
 msgstr ""
 "% rya raporo z'ibimenyetso byo kumererwa nabi ku bana batagejeje ku myaka 5 "
 "y'amavuko basanganwe umuriro udakabije bakorewe RDT"
 
 #: indicators/danger_signs.py:198
-#, fuzzy
+#, 
 msgid "Percentage of under fives with uncomplicated fever getting an RDT"
 msgstr ""
 "Ijanisha ry'abana batagejeje ku myaka myaka itanu y'amavuko basanganwe "
@@ -2984,14 +2982,14 @@ msgstr ""
 "ibisubizo bya RDT biri positif"
 
 #: indicators/danger_signs.py:223
-#, fuzzy
+#, 
 msgid "%U5 Fv Uncompl RDT+"
 msgstr ""
 "% rya raporo z'ibimenyetso byo kumererwa nabi ku bana batagejeje ku myaka 5 "
 "y'amavuko basanganwe umuriro udakabije bafite ibisubizo bya RDT biri positif"
 
 #: indicators/danger_signs.py:224
-#, fuzzy
+#, 
 msgid "Percentage of under fives with uncomplicated fever whose RDT result was positive"
 msgstr ""
 "Ijanisha rya raporo z'ibimenyetso byo kumererwa nabi ku bana batagejeje ku "
@@ -3013,7 +3011,7 @@ msgstr ""
 "ibisubizo bya RDT biri negatif"
 
 #: indicators/danger_signs.py:273
-#, fuzzy
+#, 
 msgid "U5 Fv Compl"
 msgstr ""
 "Umubare rusange wa raporo z'ibimenyetso byo kumererwa nabi ku bana "
@@ -3040,14 +3038,14 @@ msgstr ""
 "akoherezwa ku ivuriro"
 
 #: indicators/danger_signs.py:302
-#, fuzzy
+#, 
 msgid "%U5 Fv Compl Ref"
 msgstr ""
 "% rya raporo z'ibimenyetso byo kumererwa nabi ku bana batagejeje ku myaka 5 "
 "y'amavuko basanganwe umuriro w'igikatu, umurwayi akoherezwa ku ivuriro"
 
 #: indicators/danger_signs.py:303
-#, fuzzy
+#, 
 msgid "Percentage of under fives with complicated fever who were referred to a health facility"
 msgstr ""
 "Ijanisha ry'abana batagejeje ku myaka 5 y'amavuko basanganwe umuriro "
@@ -3061,25 +3059,28 @@ msgstr ""
 "akoherezwa kwa muganga kandi akaba yarakurikiranwe"
 
 #: indicators/danger_signs.py:315
-#, fuzzy
-msgid "Total number of danger signs reports for U5s with complicated fever where the patient was referred and then had a follow-up visit between 18 and 72 hours after the referral"
+#, 
+msgid ""
+"Total number of danger signs reports for U5s with complicated fever where "
+"the patient was referred and then had a follow-up visit between 18 and 72 "
+"hours after the referral"
 msgstr "Umubare rusange wa raporo z'ibimenyetso byo kumererwa nabi ku bana "
 "batagejeje ku myaka 5 y'amavuko basanganwe umuriro w'igikatu, umurwayi "
 "akoherezwa kwa muganga kandi akaba yarakurikiranwe mu gihe kiri hagati "
-"y'amasaha 18 na 72 \n"
+"y'amasaha 18 na 72 "
 
 #: indicators/death.py:16
-#, fuzzy
+#, 
 msgid "Death"
 msgstr "Urupfu"
 
 #: indicators/death.py:49
-#, fuzzy
+#, 
 msgid "# Deaths"
 msgstr "# Impfu"
 
 #: indicators/death.py:50
-#, fuzzy
+#, 
 msgid "Total number of patients who died during this period"
 msgstr "Umubare w'abarwayi bapfuye muri iki gihe"
 
@@ -3127,7 +3128,7 @@ msgstr ""
 "Umubare rusange w'abarwayi barengeje imyaka itanu, bapfuye muri iki gihe"
 
 #: indicators/death.py:132
-#, fuzzy
+#, 
 msgid "Preg Deaths"
 msgstr "Impfu zifite aho zihuriye no gutwita"
 
@@ -3149,52 +3150,52 @@ msgstr ""
 "kandi urupfu rwabo rukaba ntaho ruhuriye no gutwita"
 
 #: indicators/family_planning.py:31
-#, fuzzy
+#, 
 msgid "# Women"
 msgstr "# Abagore"
 
 #: indicators/family_planning.py:32
-#, fuzzy
+#, 
 msgid "Total number of women seen during this period"
 msgstr "Umubare rusange w'abagore basuwe muri iki gihe"
 
 #: indicators/family_planning.py:44
-#, fuzzy
+#, 
 msgid "# FP"
 msgstr "# Gahunda yo kuboneza urubyaro"
 
 #: indicators/family_planning.py:45
-#, fuzzy
+#, 
 msgid "Total number of women seen during this period who are using modern family planning"
 msgstr ""
 "Umubare rusange w'abagore basuwe muri iki gihe bakoresha uburyo bugezweho "
 "bwo kuringaniza urubyaro"
 
 #: indicators/family_planning.py:57
-#, fuzzy
+#, 
 msgid "% FP"
 msgstr "% ry'abitabira gahunda igezweho yo kuboneza urubyaro"
 
 #: indicators/family_planning.py:58
-#, fuzzy
+#, 
 msgid "Percentage of women seen during this period who are using modern family planning"
 msgstr ""
 "Ijanisha ry'abagore basuwe muri iki gihe bakoresha uburyo bugezweho bwo "
 "kuringaniza urubyaro"
 
 #: indicators/family_planning.py:89
-#, fuzzy, python-format
+#, , python-format
 msgid "Number of women seen during this period who are using %s for family planning"
 msgstr ""
 "Umubare w'abagore basuwe muri iki gihe bakoresha %s bwo kuringaniza urubyaro"
 
 #: indicators/family_planning.py:94
-#, fuzzy
+#, 
 msgid "Condom"
 msgstr "agakingirizo"
 
 #: indicators/family_planning.py:94
-#, fuzzy
+#, 
 msgid "condoms"
 msgstr "udukingirizo"
 
@@ -3204,17 +3205,17 @@ msgid "Injectable"
 msgstr "Urushinge"
 
 #: indicators/family_planning.py:96
-#, fuzzy
+#, 
 msgid "injectables"
 msgstr "inshinge"
 
 #: indicators/family_planning.py:98
-#, fuzzy
+#, 
 msgid "IUD"
 msgstr "Agapira ko mu mura"
 
 #: indicators/family_planning.py:98
-#, fuzzy
+#, 
 msgid "IUDs"
 msgstr "Udupira two mu mura"
 
@@ -3224,7 +3225,7 @@ msgid "Implant"
 msgstr "Agapiro ko mu kuboko"
 
 #: indicators/family_planning.py:100
-#, fuzzy
+#, 
 msgid "implants"
 msgstr "Udupira two mu kuboko"
 
@@ -3233,17 +3234,17 @@ msgid "Pill"
 msgstr "Ikinini"
 
 #: indicators/family_planning.py:102
-#, fuzzy
+#, 
 msgid "oral contraceptive pills"
 msgstr "Ibinini bifasha kuringaniza imbyaro"
 
 #: indicators/family_planning.py:104
-#, fuzzy
+#, 
 msgid "Ster."
 msgstr "Agapira ko mu mura"
 
 #: indicators/family_planning.py:104
-#, fuzzy
+#, 
 msgid "sterilization"
 msgstr "Gukoresha agapira ko mu mura"
 
@@ -3253,12 +3254,12 @@ msgid "Total number of women %s family planning during this period"
 msgstr "Umubare w'abagore %s kuringaniza urubyaro muri iki gihe"
 
 #: indicators/family_planning.py:161
-#, fuzzy
+#, 
 msgid "Starting"
 msgstr "Guhera"
 
 #: indicators/family_planning.py:161
-#, fuzzy
+#, 
 msgid "starting"
 msgstr "guhera"
 
@@ -3267,17 +3268,17 @@ msgid "Staying On"
 msgstr "Gukomeza"
 
 #: indicators/family_planning.py:162
-#, fuzzy
+#, 
 msgid "staying on"
 msgstr "gukomeza"
 
 #: indicators/family_planning.py:163
-#, fuzzy
+#, 
 msgid "Ending"
 msgstr "Kugeza"
 
 #: indicators/family_planning.py:163
-#, fuzzy
+#, 
 msgid "ending"
 msgstr "kugeza"
 
@@ -3288,7 +3289,7 @@ msgid "Fever"
 msgstr "Umuriro"
 
 #: indicators/fever.py:29
-#, fuzzy
+#, 
 msgid "Total number of fever reports"
 msgstr "Umubare rusange wa raporo z'umuriro"
 
@@ -3297,7 +3298,7 @@ msgid "Fever reports with a positive RDT result"
 msgstr "Raporo z'umuriro zifite igisubizo cya RDT kiri pozitifu"
 
 #: indicators/fever.py:53
-#, fuzzy
+#, 
 msgid "% RDT+"
 msgstr "% rya raporo z'umuriro zagaragaje igisubizo cya RDT kiri pozitifu"
 
@@ -3348,7 +3349,7 @@ msgstr ""
 "ikizami cya RDT kiba negatifu, umurwayi ahabwa imiti irwanya malariya"
 
 #: indicators/fever.py:137
-#, fuzzy
+#, 
 msgid ">5y RDT"
 msgstr "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko"
 
@@ -3357,13 +3358,13 @@ msgid "RDT results for patients over 5y"
 msgstr "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko"
 
 #: indicators/fever.py:149
-#, fuzzy
+#, 
 msgid ">5y RDT+"
 msgstr ""
 "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko byabaye pozitifu"
 
 #: indicators/fever.py:150
-#, fuzzy
+#, 
 msgid "Postiive RDT results for patients over 5y"
 msgstr ""
 "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko byabaye pozitifu"
@@ -3374,7 +3375,7 @@ msgstr ""
 "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko byabaye negatifu"
 
 #: indicators/fever.py:164
-#, fuzzy
+#, 
 msgid "Negative RDT results for patients over 5y"
 msgstr ""
 "Ibisubizo bya RDT ku barwayi barengeje imyaka 5 y'amavuko byabaye negatifu"
@@ -3446,7 +3447,7 @@ msgstr ""
 "gihe"
 
 #: indicators/follow_up.py:158
-#, fuzzy
+#, 
 msgid "Late"
 msgstr "zikererewe"
 
@@ -3467,7 +3468,7 @@ msgstr ""
 "72) muri iki gihe"
 
 #: indicators/follow_up.py:187
-#, fuzzy
+#, 
 msgid "% On-Time Follow Up"
 msgstr "% ikurikirana ku gihe"
 
@@ -3478,7 +3479,7 @@ msgstr ""
 "y'amasaha 18 na 72 ) nyuma yo gusurwa"
 
 #: indicators/follow_up.py:209
-#, fuzzy
+#, 
 msgid "Never"
 msgstr "Nta na rimwe"
 
@@ -3494,27 +3495,27 @@ msgid "Days"
 msgstr "Iminsi"
 
 #: indicators/follow_up.py:221
-#, fuzzy
+#, 
 msgid "Median number of days for follow-up"
 msgstr "umubare mpuzandengo w'iminsi y'ikurikirana"
 
 #: indicators/household.py:28
-#, fuzzy
+#, 
 msgid "HH Visits"
 msgstr "Gahunda yo gusura ingo"
 
 #: indicators/household.py:29
-#, fuzzy
+#, 
 msgid "Total number of household visits"
 msgstr "Umubare rusange w'ingo zirebwa na gahunda y'isura"
 
 #: indicators/household.py:45
-#, fuzzy
+#, 
 msgid "Uniq. HH Visits"
 msgstr "Gahunda yo gusura ingo zihariye"
 
 #: indicators/household.py:46
-#, fuzzy
+#, 
 msgid "Total number of visits to unique households"
 msgstr "Umubare rusange w'iminsi yapangiwe gahunda yo gusura ingo zihariye"
 
@@ -3536,7 +3537,7 @@ msgstr ""
 "Ijanisha ry'ingo zasuwe mu minsi 90 ya nyuma uhereye ku mpera y'iki gihe"
 
 #: indicators/household.py:97
-#, fuzzy
+#, 
 msgid "On-Time HH Visits"
 msgstr "Gahunda zo gusura ingo zubahirije igihe"
 
@@ -3547,7 +3548,7 @@ msgstr ""
 "isurwa ryabo rya nyuma"
 
 #: indicators/household.py:178
-#, fuzzy
+#, 
 msgid "Late HH Visits"
 msgstr "Dahunda zo gusura ingo zitubahirije igihe"
 
@@ -3556,7 +3557,7 @@ msgid "Total number of late visits to unique households"
 msgstr "Umubare rusange wa gahunda zo gusura ingo zihariye zitubahirije igihe"
 
 #: indicators/household.py:189
-#, fuzzy
+#, 
 msgid "% On-Time HH Visits"
 msgstr "% rya gahunda zo gusura ingo zubahirije igihe"
 
@@ -3565,7 +3566,7 @@ msgid "Percentage of households getting an on-time visit"
 msgstr "Ijanisha ry'ingo zashyizwe kuri gahunda y'isura"
 
 #: indicators/medicine_given.py:10
-#, fuzzy
+#, 
 msgid "Medicine Given"
 msgstr "imiti yatanzwe"
 
@@ -3575,12 +3576,12 @@ msgid "ORS"
 msgstr "ORS"
 
 #: indicators/medicine_given.py:26
-#, fuzzy
+#, 
 msgid "Number of ORS doses distributed"
 msgstr "Umubare w'udupaki twa ORS twatanzwe"
 
 #: indicators/medicine_given.py:37
-#, fuzzy
+#, 
 msgid "Antimalarial"
 msgstr "Irwanya malariya"
 
@@ -3594,32 +3595,32 @@ msgid "Message"
 msgstr "Ubutumwa"
 
 #: indicators/message.py:21
-#, fuzzy
+#, 
 msgid "# Msg"
 msgstr "#Ubutumwa"
 
 #: indicators/message.py:22
-#, fuzzy
+#, 
 msgid "Total number of messages sent to server"
 msgstr "Umubare rusange w'ubutumwa bwoherejwe muri mudasobwa ihuza imiyoboro "
 
 #: indicators/message.py:38
-#, fuzzy
+#, 
 msgid "# SMS"
 msgstr "# Ubutumwa bugufi"
 
 #: indicators/message.py:39
-#, fuzzy
+#, 
 msgid "Total number of SMS messages sent to server"
 msgstr "Umubare w'ubutumwa bugufi bwoherejwe muri mudasobwa ihuza imiyoboro"
 
 #: indicators/message.py:56
-#, fuzzy
+#, 
 msgid "# Err"
 msgstr "# Ubutumwa bugaragaza amakosa"
 
 #: indicators/message.py:57
-#, fuzzy
+#, 
 msgid "Total number of error messages sent from server"
 msgstr ""
 "Umubare rusange w'ubutumwa bugaragaza amakosa bwoherejwe na mudasobwa ihuza "
@@ -3630,9 +3631,9 @@ msgid "error"
 msgstr "Kwibeshya"
 
 #: indicators/message.py:73
-#, fuzzy, python-format
+#, , python-format
 msgid "% Err"
-msgstr "% ry'ubutumwa bw'amakosa"
+msgstr " % ry'ubutumwa bw'amakosa"
 
 #: indicators/message.py:74
 msgid "Percentage of messages from server that indicate an error"
@@ -3641,7 +3642,7 @@ msgstr ""
 "amakosa"
 
 #: indicators/message.py:92
-#, fuzzy
+#, 
 msgid "Per day"
 msgstr "Ku munsi"
 
@@ -3662,12 +3663,12 @@ msgstr ""
 "buturutse aho abakoresha ibi byuma binjiriza amakuru"
 
 #: indicators/neonatal.py:14
-#, fuzzy
+#, 
 msgid "Neonatal"
 msgstr "Abavutse"
 
 #: indicators/neonatal.py:22
-#, fuzzy
+#, 
 msgid "Number of neonatal reports"
 msgstr "Umubare wa raporo ku bana bavutse"
 
@@ -3701,7 +3702,7 @@ msgid "Nutrition"
 msgstr "Imirire"
 
 #: indicators/nutrition.py:35
-#, fuzzy
+#, 
 msgid "Total number of non-empty nutrition reports"
 msgstr "Umubare rusange wa raporo z'imirire zifatika"
 
@@ -3722,7 +3723,7 @@ msgstr ""
 "irangirana n'impera z'iki gihe"
 
 #: indicators/nutrition.py:84
-#, fuzzy
+#, 
 msgid "% MUAC Coverage"
 msgstr "% ry'abapimwe MUAC"
 
@@ -3747,7 +3748,7 @@ msgstr ""
 "irangirana n'impera z'iki gihe."
 
 #: indicators/nutrition.py:144
-#, fuzzy
+#, 
 msgid "SAM/MAM"
 msgstr "Imirire mibi mu ibara ritukura/Imirire mibi mu ibara ry'umuhondo"
 
@@ -3932,7 +3933,7 @@ msgstr ""
 "transiferi kuri code A,E,B"
 
 #: indicators/referral.py:15
-#, fuzzy
+#, 
 msgid "Referral"
 msgstr "Transiferi"
 
@@ -4029,7 +4030,7 @@ msgid "Total number registered households"
 msgstr "Umubare w'ingo zanditswe"
 
 #: indicators/registration.py:145
-#, fuzzy
+#, 
 msgid "Mobile"
 msgstr "Telefone igendanwa"
 
@@ -4054,7 +4055,7 @@ msgid "# U1 Rpts"
 msgstr "# raporo ku bana batagejeje umwaka"
 
 #: indicators/under_one.py:24
-#, fuzzy
+#, 
 msgid "Total number of under-one reports"
 msgstr "Umubare rusange wa raporo z'abana batagejeje ku mwaka"
 
@@ -4091,7 +4092,7 @@ msgstr ""
 "kandi batabarirwa mu cyiciro cy'abonka gusa"
 
 #: indicators/under_one.py:92
-#, fuzzy
+#, 
 msgid "<6m BF Only"
 msgstr ""
 "Umubare rusange w'abarwayi borohewe bari batarageza ku mezi 6 igihe "
@@ -4149,7 +4150,7 @@ msgstr ""
 "raporo yabo y'ikingira iheruka yanditseho ko \"babonye inkingo zose\""
 
 #: indicators/under_one.py:191
-#, fuzzy
+#, 
 msgid "<1y Imm"
 msgstr ""
 "Umubare rusange w'abarwayi bari batarageza ku mwaka 1 w'amavuko mu mpera "
@@ -4616,7 +4617,7 @@ msgid "cd"
 msgstr "cd"
 
 #: models/CodedItem.py:55
-#, fuzzy
+#, 
 msgid "Condoms"
 msgstr "Udukingirizo"
 
@@ -4729,7 +4730,7 @@ msgid "lb"
 msgstr "lb"
 
 #: models/CodedItem.py:74
-#, fuzzy
+#, 
 msgid "Albendazole"
 msgstr "Albendazole"
 
@@ -7155,1040 +7156,3 @@ msgstr "#antm"
 #: templates/childcount/forms/ruhiira-b.json:25
 msgid "Number of Other Sick Members Receiving Anti-Malarial Treatment"
 msgstr "Number of Other Sick Members Receiving Anti-Malarial Treatment"
-
-#~ msgid "Remind the following to go for their first clinic visit %(list)s."
-#~ msgstr ""
-#~ "Rappeler ceux qui suit d'aller faire leur première consultation %(list)s."
-
-#, fuzzy
-#~ msgid "week"
-#~ msgstr "Semaines"
-
-#, fuzzy
-#~ msgid "month"
-#~ msgstr "Mois"
-
-#~ msgid "%(total)s approx. matches"
-#~ msgstr "%(total)s résultats approximatifs correspondants"
-
-#, fuzzy
-#~ msgid "Urgent (Non-Convenient) Referrals"
-#~ msgstr "Référence pratique"
-
-#, fuzzy
-#~ msgid "# Sleeping Sites"
-#~ msgstr "# places pour moustiquaires"
-
-#~ msgid "Overall"
-#~ msgstr "Total"
-
-#~ msgid ""
-#~ "# HHs covered: %(encounter__count)s, #SS: %(sleeping_sites__sum)s, "
-#~ "#functioningN: %(function_nets__sum)s, #damagedN: %(damaged_nets__sum)s, "
-#~ "#earlierN: %(earlier_nets__sum)s, #+BU: %(bednet_util__count)s, #+DW: %"
-#~ "(drinking_water__count)s, #+SAN: %(sanitation__count)s. #HHs NOT covered: "
-#~ "%(number_not_surveyed)s"
-#~ msgstr ""
-#~ "# menages couverts: %(encounter__count)s, #lits: %(sleeping_sites__sum)s, "
-#~ "#moustOK: %(function_nets__sum)s, #moustNOK: %(damaged_nets__sum)s, "
-#~ "#ancienMoust: %(earlier_nets__sum)s, #+BU: %(bednet_util__count)s, #+DW: %"
-#~ "(drinking_water__count)s, #+SAN: %(sanitation__count)s. #menages  NON "
-#~ "couverts: %(number_not_surveyed)s"
-
-#~ msgid "After %(period_nb)s %(period_type)s: %(immun)s"
-#~ msgstr "Après %(period_nb)s %(period_type)s: %(immun)s"
-
-#~ msgid "Patient List Report"
-#~ msgstr "Compte-rendu de la liste des patients"
-
-#~ msgid "Last MUAC"
-#~ msgstr "Dernier PB"
-
-#~ msgid "HID"
-#~ msgstr "HID"
-
-#~ msgid "LOC"
-#~ msgstr "LIEU"
-
-#~ msgid "Gen."
-#~ msgstr "Genre "
-
-#~ msgid "Household "
-#~ msgstr "Ménage"
-
-#~ msgid "Household Name"
-#~ msgstr "Nom du ménage"
-
-#~ msgid "No. Sleeping site"
-#~ msgstr "Nombre de sites de couchage"
-
-#~ msgid "Functioning Bednet"
-#~ msgstr "Moustiquaires fonctionnelles"
-
-#~ msgid "Damaged Bednet"
-#~ msgstr "Moustiquaires endommagées"
-
-#~ msgid "Required Bednets"
-#~ msgstr "Moustiquaires nécessaires"
-
-#~ msgid "#under five last night"
-#~ msgstr "#moins 5a cette nuit"
-
-#~ msgid "#slept on Bednet"
-#~ msgstr "dormi sous une moustiquaire"
-
-#~ msgid "Hanging Bednet"
-#~ msgstr "Moustiquaires fonctionnelles"
-
-#~ msgid "Primary Sanitation"
-#~ msgstr "Conditions sanitaires primaires"
-
-#~ msgid "Shared?"
-#~ msgstr "Partagé?"
-
-#~ msgid "Primary source of water"
-#~ msgstr "Source d'eau primaire"
-
-#~ msgid "Treatment Method "
-#~ msgstr "Méthode de traitement"
-
-#~ msgid "HH Name"
-#~ msgstr "Nom du ménage"
-
-#~ msgid "# Func. Nets"
-#~ msgstr "# Moust OK"
-
-#~ msgid "# Elr. Nets"
-#~ msgstr "# Moust Avant."
-
-#~ msgid "# Dmgd. Nets"
-#~ msgstr "# Moust NOK."
-
-#~ msgid "# Rqrd. Nets"
-#~ msgstr "# Moust deman."
-
-#~ msgid "# U5 LN"
-#~ msgstr "# -5a Moust"
-
-#~ msgid "# Slept on Net"
-#~ msgstr "# Dormi sous le moustiquaire"
-
-#~ msgid "# Hanging Nets"
-#~ msgstr "# Moust  suspend."
-
-#~ msgid "Primary SAN"
-#~ msgstr "Conditions sanitaires primaires"
-
-#~ msgid "P. Water Source"
-#~ msgstr "Source d'eau primaire"
-
-#~ msgid "Treatment"
-#~ msgstr "Méthode de traitement "
-
-#~ msgid "# Nets Issued"
-#~ msgstr "# Moustiquaires distribuées"
-
-#~ msgid "Community Health Worker Report"
-#~ msgstr "Compte-rendu de l'Agent de santé communautaire"
-
-#~ msgid ""
-#~ "[%(hel)d, %(mmod)d, %(sev)d, %(sevcomp)d, %(unkwn)d], {legend: [\"%(hp)d%"
-#~ "% Healthy\", \"%(mp)d%% Moderate\",\"%(svp)d%% Severe\", \"%(scm)d%% "
-#~ "Severe Completely\", \"%(unkp)d%% Unknown\"]"
-#~ msgstr ""
-#~ "[%(hel)d, %(mmod)d, %(sev)d, %(sevcomp)d, %(unkwn)d], {legend: [\"%(hp)d%"
-#~ "% Healthy\", \"%(mp)d%% Moderate\",\"%(svp)d%% Severe\", \"%(scm)d%% "
-#~ "Severe  Completely\", \"%(unkp)d%% Unknown\"]"
-
-#~ msgid "#HH"
-#~ msgstr "#Ménage"
-
-#~ msgid "# of Household Visits (in last 90 days)"
-#~ msgstr "# de visites au ménage (derniers 3m)"
-
-#~ msgid "#HH-V"
-#~ msgstr "#Visit-Men"
-
-#~ msgid "% of HHs receiving on-time routine visit (within 90 days) [S23]"
-#~ msgstr ""
-#~ "% de ménages recevant des visites de routines à temps (dans les 3m) [S23]"
-
-#~ msgid "%OTV"
-#~ msgstr "%OTV"
-
-#~ msgid "# of Birth Reports"
-#~ msgstr "# Rapports de naissances"
-
-#~ msgid "#Bir"
-#~ msgstr "#Naiss"
-
-#~ msgid "%BHF"
-#~ msgstr "%BHF"
-
-#~ msgid "% Newborns checked within 7 days of birth [S6]"
-#~ msgstr ""
-#~ "% de nouveau-nés vérifiés dans les 7 jours suivant la naissance [S6]"
-
-#~ msgid "%NNV"
-#~ msgstr "%NNV"
-
-#~ msgid "# of Under-5s"
-#~ msgstr "# de moins de 5 ans"
-
-#~ msgid "# Under-5 Referred for Danger Signs"
-#~ msgstr "# de moins de 5 ans référencés pour signes de danger"
-
-#~ msgid "#U5-DS"
-#~ msgstr "#-5a-SD"
-
-#~ msgid "# Under-5 Treated for Malarias"
-#~ msgstr "# de moins de 5 and sous traitement pour le paludisme"
-
-#~ msgid "#U5-Mal"
-#~ msgstr "#-5a-Pal"
-
-#~ msgid "# Under-5 Treated for Diarrhea"
-#~ msgstr "# de moins de 5 ans sous traitement pour la diarrhée"
-
-#~ msgid "#U5-Dia"
-#~ msgstr "#-5a-Dia"
-
-#~ msgid "% Under-5 receiving on-time MUAC (within 90 days) [S11]"
-#~ msgstr ""
-#~ "% de moins de 5 ans recevant un PB dans les temps (dans les 90 jours) "
-#~ "[S11]"
-
-#~ msgid "#U5-MUAC"
-#~ msgstr "#-5a-PB"
-
-#~ msgid "#U5-GAM"
-#~ msgstr "#-5a-MAG"
-
-#~ msgid "#PW"
-#~ msgstr "#FE"
-
-#~ msgid "# Pregnant Women Referred Urgently"
-#~ msgstr "# d'enceintes renvoyés en urgence"
-
-#~ msgid "#PW-DS"
-#~ msgstr "#FE-SD"
-
-#~ msgid "% Pregnant receiving on-time visit (within 6 weeks) [S24]"
-#~ msgstr ""
-#~ "% des femmes enceintes recevant des visites dans les temps (dans les 6 "
-#~ "semaines) [S24]"
-
-#~ msgid "%PW-OTV"
-#~ msgstr "%FE-OTV"
-
-#~ msgid "# Number of appointments"
-#~ msgstr "# de rendez-vous"
-
-#~ msgid "%NOA"
-#~ msgstr "%NbVis"
-
-#~ msgid "%POA-RT"
-#~ msgstr "%POA-RT"
-
-#~ msgid ""
-#~ "% Urgently referred receiving on-time follow-up (within 2 days) [S13]"
-#~ msgstr ""
-#~ "% Référencé / Traité recevant un suivi dans les temps (en 2 jours) [S13]"
-
-#~ msgid "%Ref"
-#~ msgstr "%Ref"
-
-#~ msgid "#Fol"
-#~ msgstr "#Suiv"
-
-#~ msgid "SMS Error Rate %"
-#~ msgstr "% d'erreurs SMS"
-
-#~ msgid "Days since last SMS transmission"
-#~ msgstr "Jours depuis la dernière transmission SMS"
-
-#~ msgid "#Days"
-#~ msgstr "Jours "
-
-#~ msgid "Calculated overall CHW performance indicator"
-#~ msgstr "Indicateur de performance géneral ASC"
-
-#~ msgid "SCORE"
-#~ msgstr "SCORE"
-
-#~ msgid "Graphical Clinic Report"
-#~ msgstr "Rapport graphique de clinique "
-
-#~ msgid ""
-#~ "Percentage of Children 6m-59m Old Getting at Least 1 MUAC in the Last 3 "
-#~ "Months (or 1 month for SAM/MAM cases)"
-#~ msgstr ""
-#~ "Pourcentage d'enfants de 6m-59m avec au moins 1 PBC dans les derniers 3 "
-#~ "mois (ou 1 mois pour les cas MAS/MAM)"
-
-#~ msgid ""
-#~ "Percentage of Pregnant Women Having at Least 4 ANC Visits by 3rd Trimester"
-#~ msgstr "Pourcentage de femmes enceintes avec au moins 4 VPN au 3e trimestre"
-
-#~ msgid ""
-#~ "Percentage On-Time Follow-Up (within 2 days of a Basic, Emergency, or "
-#~ "Ambulance referral)"
-#~ msgstr ""
-#~ "Pourcentage de visite de suivi à l'heure (dans les 2jours suivant une "
-#~ "demande Basique, Urgente ou Ambulance)"
-
-#~ msgid "Clinic Report"
-#~ msgstr "Compte-rendu du centre de santé"
-
-#~ msgid "# of Household"
-#~ msgstr "# de ménages"
-
-#~ msgid "#House visits"
-#~ msgstr "# de visites à domicile"
-
-#~ msgid "#Patients"
-#~ msgstr "#Patients"
-
-#~ msgid "#MUAC"
-#~ msgstr "#PB"
-
-#~ msgid "The Bednet Household Healthy Survey Report"
-#~ msgstr "Rapport d'enquête des ménages sur l'état des moustiquaires"
-
-#~ msgid "# of HH Visits (Last two weeks)"
-#~ msgstr "# visites de ménage (deux dernières semaines)"
-
-#~ msgid "# of Households Surveyed"
-#~ msgstr "# de ménages questionnés"
-
-#~ msgid "# of Functioning Bednets"
-#~ msgstr "# Moustiquaires fonctionnelles "
-
-#~ msgid "# of damaged"
-#~ msgstr "# d'abîmées"
-
-#~ msgid "# of Earlier Bednets"
-#~ msgstr "# de moustiquaires précédentes"
-
-#~ msgid "# of Bednet Utilization Reports"
-#~ msgstr "# de rapports d'utilisation des moustiquaires"
-
-#~ msgid "Defaulters Report"
-#~ msgstr "Rapport des défauts"
-
-#~ msgid "# of Bednets Issued"
-#~ msgstr "# de moustiquaires distribués"
-
-#~ msgid "No report for %s."
-#~ msgstr "Pas de compte-rendu pour %s."
-
-#~ msgid "CHW: %(loc)s: %(chw)s"
-#~ msgstr "ASC: %(loc)s: %(chw)s"
-
-#~ msgid "CHW Performance Report"
-#~ msgstr "Rapport de performance ASC"
-
-#~ msgid "HH Visits Per Day (last month)"
-#~ msgstr "Visites de ménages par jour (dernier mois)"
-
-#~ msgid "Active Pregnancies (less than 10 months)"
-#~ msgstr "Grossesses actives (moins de 10 mois)"
-
-#~ msgid "No active pregnancies reported for %(chwname)s"
-#~ msgstr "Pas de grossesse active rapporté par %(chwname)s"
-
-#~ msgid "Latest Report"
-#~ msgstr "Dernier rapport"
-
-#~ msgid ""
-#~ "Current\n"
-#~ "Month of Preg."
-#~ msgstr ""
-#~ "Mois de\n"
-#~ "grossesse."
-
-#~ msgid "Weeks since ANC"
-#~ msgstr "Semaines passées depuis la dernière visite de soins prénataux"
-
-#~ msgid "No HH visits reported by %(chwname)s last month"
-#~ msgstr "Aucune visite de ménage rapportée par %(chwname)s le mois dernier"
-
-#~ msgid "Reminded"
-#~ msgstr "Rappelé"
-
-#~ msgid "Appointments Report"
-#~ msgstr "Rapport de rendez-vous"
-
-#~ msgid "Appointments Report: Last 30 Days - %(from)s to %(to)s"
-#~ msgstr "Rapport de rendez-vous: 30 derniers jours - Du %(from)s au %(to)s"
-
-#~ msgid "Reminded?"
-#~ msgstr "Rappelé?"
-
-#~ msgid "Error Report"
-#~ msgstr "Rapport d'erreur"
-
-#~ msgid "Appointments Aggregates Report "
-#~ msgstr "Rapport des rendez-vous aggregés"
-
-#~ msgid "Apointments Aggregates Report: Last 30 Days - %(from)s to %(to)s"
-#~ msgstr ""
-#~ "Rapport des rendez-vous aggrégés: 30 derniers jours - Du %(from)s au %(to)"
-#~ "s"
-
-#~ msgid "Apointments by Clinic"
-#~ msgstr "Rendez-vous par cliniques"
-
-#~ msgid "Apointments by Clinic Report: Last 30 Days - %(from)s to %(to)s"
-#~ msgstr ""
-#~ "Rapport des rendez-vous par cliniques: 30 derniers jours - Du %(from)s au "
-#~ "%(to)s"
-
-#~ msgid "Percentage defaulting (defaulters/total appointments)"
-#~ msgstr "Pourcentage des rendez-vous en défaut (défauts/total rendez-vous)"
-
-#~ msgid "Percentage reminded (reminders over total # of appointments."
-#~ msgstr "Percentage reminded (reminders over total # of appointments."
-
-#~ msgid "Upcoming Deliveries"
-#~ msgstr "Les livraisons à venir"
-
-#~ msgid "Mothers Being followed"
-#~ msgstr "Mères suivies"
-
-#~ msgid "Upcoming Apointments"
-#~ msgstr "Rendez-vous a venir"
-
-#~ msgid "Date of Appointment"
-#~ msgstr "Date du rendez-vous"
-
-#~ msgid "Generate function not implemented."
-#~ msgstr "Fonction Generate non implémentée."
-
-#~ msgid "This report has no formats specified."
-#~ msgstr "Ce rapport n'a spécifié aucun format."
-
-#~ msgid "Report title or filename is unset."
-#~ msgstr "Titre ou nom de fichier du rapport non défini."
-
-#~ msgid "Report filename is unset."
-#~ msgstr "Le nom de fichier du rapport n'est pas défini."
-
-#~ msgid "On-Demand Reports"
-#~ msgstr "Rapports instantanés"
-
-#~ msgid "Nightly Reports"
-#~ msgstr "Rapports journaliers"
-
-#~ msgid "I can't deal withnegative period numbers"
-#~ msgstr "Impossible d'utiliser des numéros de période négatifs."
-
-#~ msgid "report"
-#~ msgstr "Compte-rendu"
-
-#~ msgid "Unknown clinic: %(location)s specified."
-#~ msgstr "Clinique %(location)s inconnue."
-
-#~ msgid "Bednet Report - %(loc)s: %(chw)s"
-#~ msgstr "Rapport moustiquaire - %(loc)s: %(chw)s"
-
-#~ msgid "Lang"
-#~ msgstr "Langue"
-
-#~ msgid "CHW Manager Report: "
-#~ msgstr "Rapport Coordinateur ASC: "
-
-#~ msgid "Monthly"
-#~ msgstr "mensuel"
-
-#~ msgid "Quarterly"
-#~ msgstr "trimestriel"
-
-#~ msgid "Annual"
-#~ msgstr "annuel"
-
-#~ msgid "Report"
-#~ msgstr "Rapport"
-
-#~ msgid "Millennium Village: "
-#~ msgstr "Millennium Village: "
-
-#~ msgid " through "
-#~ msgstr "au "
-
-#~ msgid "CHW Name"
-#~ msgstr "Nom du ASC"
-
-#~ msgid "Visit HH by %d %b"
-#~ msgstr "Visiter ménage avant le %d %b"
-
-#~ msgid "Overdue"
-#~ msgstr "Retard"
-
-#~ msgid "check bednet"
-#~ msgstr "vérifier moustiquaire"
-
-#~ msgid "ClientReport"
-#~ msgstr "Rapport des patients"
-
-#~ msgid ""
-#~ "CHW reports one-per page                                                "
-#~ "starting next page."
-#~ msgstr ""
-#~ "Rapports ASC un par page                                                 "
-#~ "commence par suivante."
-
-#~ msgid "%(clinic)s - %(full_name)s"
-#~ msgstr "%(clinic)s - %(full_name)s"
-
-#~ msgid "Data from %b. 1 to %b. %d %Y"
-#~ msgstr "Date du %b. 1 au %b. %d %Y"
-
-#~ msgid "#"
-#~ msgstr "#"
-
-#~ msgid "Mother"
-#~ msgstr "Mère"
-
-#~ msgid "MUAC (+/-)"
-#~ msgstr "PB (+/-)"
-
-#~ msgid "Visit"
-#~ msgstr "Visite"
-
-#~ msgid "PID"
-#~ msgstr "No"
-
-#~ msgid "CHILDREN"
-#~ msgstr "ENFANTS"
-
-#~ msgid "Nutrition consult"
-#~ msgstr "Consultation nutrition"
-
-#~ msgid ""
-#~ "%(status)s %(sign)s %(muac)s                                        %"
-#~ "(rate_muac)s %(sign)s "
-#~ msgstr ""
-#~ "%(status)s %(sign)s %(muac)s                                        %"
-#~ "(rate_muac)s %(sign)s "
-
-#~ msgid ""
-#~ "%(status)s %(sign)s %(muac)s                                         (%"
-#~ "(rate_muac)s) %(sign)s "
-#~ msgstr ""
-#~ "%(status)s %(sign)s %(muac)s                                         (%"
-#~ "(rate_muac)s) %(sign)s "
-
-#~ msgid "%(icon)s %(icon_rate)s %(icon_)s"
-#~ msgstr "%(icon)s %(icon_rate)s %(icon_)s"
-
-#~ msgid "Next ANC"
-#~ msgstr "Prochaine VPN"
-
-#~ msgid "PREGNANT WOMEN"
-#~ msgstr "FEMMES ENCEINTES"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#~ msgid "Review birth plan"
-#~ msgstr "Vérifier le suivi de grossesse"
-
-#~ msgid "%(icon)s %(icon_)s"
-#~ msgstr "%(icon)s %(icon_)s"
-
-#~ msgid "WOMEN"
-#~ msgstr "FEMMES"
-
-#~ msgid "CC+ Health Coordinator Report"
-#~ msgstr "Rapport du coordinateur de santé"
-
-#~ msgid "For year %(year)s"
-#~ msgstr "Pour l'année %(year)s"
-
-#~ msgid "HH Health ID"
-#~ msgstr "No. de santé du ménage"
-
-#~ msgid "House holds list"
-#~ msgstr "Liste des ménages"
-
-#~ msgid "Monthly CHW Report: "
-#~ msgstr "Rapport mensuel ASC"
-
-#~ msgid "For days %(start)s - %(end)s"
-#~ msgstr "Du %(start)s au %(end)s"
-
-#~ msgid "Tot/Avg"
-#~ msgstr "Tot/Moy"
-
-#~ msgid ""
-#~ "Patients Referred in the Previous 45 days Lacking an On-Time Follow-Up "
-#~ "Visit"
-#~ msgstr ""
-#~ "Patients référés dans les 45 jours précédent et n'ayant pas eu de visite "
-#~ "de suivi"
-
-#~ msgid "Loc Code"
-#~ msgstr "Code lieu"
-
-#~ msgid "Name / Age"
-#~ msgstr "Nom / Age"
-
-#~ msgid "Household Head"
-#~ msgstr "Chef de Ménage"
-
-#~ msgid "Referral Type / Date"
-#~ msgstr "Type / Date de renvoi"
-
-#~ msgid "Follow-Up Date"
-#~ msgstr "Date de suivi"
-
-#~ msgid " on "
-#~ msgstr " le "
-
-#~ msgid "[No DSs Reported]"
-#~ msgstr "[Pas de S.D signalé]"
-
-#~ msgid "[No Follow-Up]"
-#~ msgstr "[Pas de suivi]"
-
-#~ msgid "Women in 2nd and 3rd Trimester who haven't had ANC in 5 Weeks"
-#~ msgstr ""
-#~ "Femmes en 2e et 3e trimestre n'ayant pas eu de VPN depuis 5 semaines"
-
-#~ msgid "Last ANC"
-#~ msgstr "Derniere VPN"
-
-#~ msgid "Approx Due Date"
-#~ msgstr "Date d'accouchement approx."
-
-#~ msgid "Children without MUAC in past 1 month (SAM) or 3 months (healthy)"
-#~ msgstr "Enfants sans PBC depuis 1 mois (SAM) ou 3 mois (sain)"
-
-#~ msgid "MUAC Status"
-#~ msgstr "Statut PB"
-
-#~ msgid "Week of "
-#~ msgstr "Semaine du "
-
-#~ msgid "Clinic/Health Facility"
-#~ msgstr "établissement médical"
-
-#~ msgid "# of Fever Report(RDT)"
-#~ msgstr "Compte-rendu de fièvre positif(ve)"
-
-#~ msgid "# Positive Fever Report"
-#~ msgstr "Compte-rendu de fièvre"
-
-#~ msgid "# Nutrition Report"
-#~ msgstr "Compte-rendu de nutrition"
-
-#~ msgid "# Malnourished"
-#~ msgstr "#Mal nourri"
-
-#~ msgid "(No data)"
-#~ msgstr "(vide)"
-
-#~ msgid "Monthly Performance Charts"
-#~ msgstr "Graphiques mensuels de performance"
-
-#~ msgid "Can only generate PDF for performance charts"
-#~ msgstr "Graphs de performance disponibles uniquement en PDF"
-
-#~ msgid "For months %(first)s and %(second)s"
-#~ msgstr "De %(first)s à %(second)s"
-
-#~ msgid "CHW Management Report"
-#~ msgstr "Rapport Coordinateur ASC"
-
-#~ msgid " (By Clinic)"
-#~ msgstr " (par cliniques)"
-
-#~ msgid "There is no data mathcing this report."
-#~ msgstr "Il n'y a pas de donnée pour ce rapport."
-
-#~ msgid "There has been an error generating this report: %s"
-#~ msgstr "Une erreur s'est produite durant la génération du rapport: %s"
-
-#~ msgid "Newborn"
-#~ msgstr "Nouveau né"
-
-#~ msgid "Under-5's"
-#~ msgstr "- de 5ans"
-
-#~ msgid "Pregnant"
-#~ msgstr "Enceinte"
-
-#~ msgid "Follow-up"
-#~ msgstr "Suivi"
-
-#~ msgid "A1"
-#~ msgstr "A1"
-
-#~ msgid "A2"
-#~ msgstr "A2"
-
-#~ msgid "A3"
-#~ msgstr "A3"
-
-#~ msgid "B1"
-#~ msgstr "B1"
-
-#~ msgid "B2"
-#~ msgstr "B2"
-
-#~ msgid "B3"
-#~ msgstr "B3"
-
-#~ msgid "C1"
-#~ msgstr "C1"
-
-#~ msgid "C2"
-#~ msgstr "C2"
-
-#~ msgid "C3"
-#~ msgstr "C3"
-
-#~ msgid "C4"
-#~ msgstr "C4"
-
-#~ msgid "C5"
-#~ msgstr "C5"
-
-#~ msgid "C6"
-#~ msgstr "C6"
-
-#~ msgid "D1"
-#~ msgstr "D1"
-
-#~ msgid "D2"
-#~ msgstr "D2"
-
-#~ msgid "D3"
-#~ msgstr "D3"
-
-#~ msgid "E1"
-#~ msgstr "E1"
-
-#~ msgid "E2"
-#~ msgstr "E2"
-
-#~ msgid "F1"
-#~ msgstr "F1"
-
-#~ msgid "F2"
-#~ msgstr "F2"
-
-#~ msgid "G1"
-#~ msgstr "G1"
-
-#~ msgid "G2"
-#~ msgstr "G2"
-
-#~ msgid "H1"
-#~ msgstr "H1"
-
-#~ msgid "<u>List of CHWs</u>"
-#~ msgstr "<u>Liste des ASCs</u>"
-
-#~ msgid "Average"
-#~ msgstr "Moyenne"
-
-#~ msgid "Standard Deviation"
-#~ msgstr "Déviation standard"
-
-#~ msgid "HoHH"
-#~ msgstr "CdMenage"
-
-#~ msgid "Village"
-#~ msgstr "Village"
-
-#~ msgid "Form A (Registration) per Day"
-#~ msgstr "Form A (enregistrements) par jour"
-
-#~ msgid "You successfuly registered "
-#~ msgstr "Vous avez réussi à enregistrer "
-
-#~ msgid "Form B (HH Visit) per Day"
-#~ msgstr "Form B (Visites ménages) par jour"
-
-#~ msgid "Successfully processed: ["
-#~ msgstr " Traité avec succès: ["
-
-#~ msgid "Form C (Consultation) per Day"
-#~ msgstr "Form C (consultations) par jour"
-
-#~ msgid "Indicator:"
-#~ msgstr "Indicateur:"
-
-#~ msgid "Total Clients Reg."
-#~ msgstr "Total Client enreg."
-
-#~ msgid "+NEW (Patient)"
-#~ msgstr "+NEW (Patient)"
-
-#~ msgid "+BIR (Birth)"
-#~ msgstr "+BIR (Naissance)"
-
-#~ msgid "+DDA (Death)"
-#~ msgstr "+DDA (Déces)"
-
-#~ msgid "+DDB (Dead Person)"
-#~ msgstr "+DDB (Personne décédée)"
-
-#~ msgid "+SBM (Still Birth misc)"
-#~ msgstr "+SBM (Mort à la naissance)"
-
-#~ msgid "+V (Household Visit)"
-#~ msgstr "+V (Visites au ménages)"
-
-#~ msgid "+E (Sick Members)"
-#~ msgstr "+E (Membres malades)"
-
-#~ msgid "+L (BC Pill)"
-#~ msgstr "+L (Pillule)"
-
-#~ msgid "+K (Family Planning)"
-#~ msgstr "+K (Planning familial)"
-
-#~ msgid "+S (Danger Signs)"
-#~ msgstr "+S (Signes de danger)"
-
-#~ msgid "+P (Pregnancy)"
-#~ msgstr "+P (Grossesse)"
-
-#~ msgid "+T (Under One)"
-#~ msgstr "+T (Moins d'1an)"
-
-#~ msgid "+M (Nutrition)"
-#~ msgstr "+M (Nutrition)"
-
-#~ msgid "+F (Fever)"
-#~ msgstr "+F (Fièvre)"
-
-#~ msgid "+R (Referral)"
-#~ msgstr "+R (Renvoi)"
-
-#~ msgid "+PD (Pregnancy Reg)"
-#~ msgstr "+PD (Grosseses enreg)"
-
-#~ msgid "+PF (Antenatal Visit)"
-#~ msgstr "+PF (Visites prénatales)"
-
-#~ msgid "+HT (HIV Test)"
-#~ msgstr "+HT (Test VIH)"
-
-#~ msgid "+AP (Appointment)"
-#~ msgstr "+AP (Rendez-vous)"
-
-#~ msgid "+CD (CD4 Result)"
-#~ msgstr "+CD (Résultat CD4)"
-
-#~ msgid "+DB (DBS Result)"
-#~ msgstr "+DB (Résultat TSS)"
-
-#~ msgid "Adult Men Reg."
-#~ msgstr "Hommes enreg."
-
-#~ msgid "Adult Women Reg."
-#~ msgstr "Femmes enreg."
-
-#~ msgid "Under 5 Registered."
-#~ msgstr "Moins de 5a enregistrés"
-
-#~ msgid "SMS error rate."
-#~ msgstr "Taux d'erreurs SMS"
-
-#~ msgid "% of days with SMS / month."
-#~ msgstr "% de jour avec SMS / mois."
-
-#~ msgid "No. Of Households"
-#~ msgstr "Nb. de ménages"
-
-#~ msgid "No. Of Patients"
-#~ msgstr "Nb. de patients"
-
-#~ msgid "No. Of Underfives"
-#~ msgstr "Nb. de moins de 5 ans"
-
-#~ msgid "No. Of Pregnant Women"
-#~ msgstr "Nb. de femmes enceintes"
-
-#~ msgid "Useful Links"
-#~ msgstr "Liens utiles"
-
-#~ msgid "Form A Registrations"
-#~ msgstr "Enregistrement Form A"
-
-#~ msgid "This Week"
-#~ msgstr "Cette semaine"
-
-#~ msgid "General"
-#~ msgstr "Général"
-
-#~ msgid "Nutrition Graph"
-#~ msgstr "Graph Nutrition"
-
-#~ msgid "CC+ Data Entry"
-#~ msgstr "Saisie des données ChildCount+"
-
-#~ msgid "Patient Search"
-#~ msgstr "Rechercher un patient"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "PDF"
-#~ msgstr "PDF"
-
-#~ msgid "All Patients"
-#~ msgstr "Tout patient"
-
-#, fuzzy
-#~ msgid "You must specify a report format."
-#~ msgstr " Vous devez renvoyer le terme."
-
-#, fuzzy
-#~ msgid "Patient Lookup"
-#~ msgstr "Patient"
-
-#~ msgid "Household Healthy Survey Report"
-#~ msgstr "Compte-rendu de l'enquête sur la santé des ménages"
-
-#~ msgid "HH Survey: %(location)s"
-#~ msgstr "Enquête sur les ménages: %(location)s"
-
-#~ msgid "Survey Report"
-#~ msgstr "Compte-rendu de de l'enquête"
-
-#~ msgid "Register List: %(location)s"
-#~ msgstr "Liste d'inscrit: %(location)s"
-
-#~ msgid "All Patients(including inactive and dead)"
-#~ msgstr "Tous les patients(y compris les inactifs et les morts)"
-
-#~ msgid "No Report Generated yet"
-#~ msgstr "Aucun Rapport Généré"
-
-#~ msgid "patient"
-#~ msgstr "patient"
-
-#~ msgid "expected_on"
-#~ msgstr "Prévu le"
-
-#~ msgid "id"
-#~ msgstr "No. d'identification"
-
-#~ msgid "Bednet Distribution Reports"
-#~ msgstr "Comptes-rendus de distribution des moustiquaires"
-
-#~ msgid "HHID"
-#~ msgstr "No. de santé du ménage"
-
-#~ msgid "Notification Sent"
-#~ msgstr "Notification envoyée"
-
-#~ msgid "Has the CHW been notified?"
-#~ msgstr "Est-ce que le relais a été prévenu?"
-
-#~ msgid "Results Returned"
-#~ msgstr "Résultats renvoyés"
-
-#~ msgid "The specified clinic is not known"
-#~ msgstr "Le centre de santé spécifié est inconnu"
-
-#~ msgid "health_id"
-#~ msgstr "No. de santé"
-
-#~ msgid "Lang command requires language code "
-#~ msgstr "La commande de langue nécessite un code de langue"
-
-#~ msgid "Do you share"
-#~ msgstr "Partagé"
-
-#~ msgid "Number of household tied to clinic"
-#~ msgstr "Nombre de ménages rattachés au centre de santé"
-
-#~ msgid "% Full Bednet coverage"
-#~ msgstr "% de complétion de couverture par moustiquaires"
-
-#~ msgid ""
-#~ "Please refer immediately %(patient)s to health center on for their missed "
-#~ "appointment on %(apt_date)s"
-#~ msgstr ""
-#~ "Veuillez renvoyer immédiatement %(patient)s vers un centre de santé au "
-#~ "sujet de son rendez-vous manqué du %(apt_date)s"
-
-#, fuzzy
-#~ msgid "#House hold"
-#~ msgstr "Ménage"
-
-#, fuzzy
-#~ msgid "Dont have"
-#~ msgstr "N'a pas"
-
-#, fuzzy
-#~ msgid "Number of hangingBednet"
-#~ msgstr "Nombre de patients"
-
-#, fuzzy
-#~ msgid "Dont know"
-#~ msgstr "Inconnu"
-
-#~ msgid "Number of pills given must be entered as a number."
-#~ msgstr "Le nombre de pillules données doit être entré en chiffres."
-
-#~ msgid "%(pills)d pills given."
-#~ msgstr "%(pills)d pillules données."
-
-#, fuzzy
-#~ msgid "Length of pregnancy in weeksmust be entered as a number."
-#~ msgstr "Le nombre de pillules données doit être entré en chiffres."
-
-#~ msgid "Weeks Pregnant"
-#~ msgstr "Semaines de grossesse"
-
-#~ msgid "How many weeks into the pregnancy?"
-#~ msgstr "Combien de semaines de grossesse?"
-
-#, fuzzy
-#~ msgid "%(patient)s has already %(nets)d bednetsfor %(site)d sites."
-#~ msgstr ""
-#~ "%(patient)s ont besoin de %(nets)d moustiquaires pour %(site)d sites. "
-#~ "Derniers reçus depuis"
-
-#~ msgid "|Do you treat water?| must be %(choices)s."
-#~ msgstr "| Traitez-vous l'eau? | doit être %(choices)s."
-
-#~ msgid "Number of children under five "
-#~ msgstr "Nombre d'enfants de moins de 5 ans"
-
-#, fuzzy
-#~ msgid "Number of childrenunder five"
-#~ msgstr "Nombre d'enfants de moins de 5 ans vus"
-
-#~ msgid "Do you treat water"
-#~ msgstr "Traitez-vous l'eau"
-
-#, fuzzy
-#~ msgid ""
-#~ "Please enter the correct information you cant be patient then guardian/"
-#~ "mother"
-#~ msgstr ""
-#~ "Veuillez entrer les informations correctes, vous ne pouvez pas être "
-#~ "patient puis tuteur/mère"
-
-#~ msgid "Activity per location in last 28 days"
-#~ msgstr "Activité par lieu dans les 28 derniers jours"
-
-#~ msgid "Operational Report %s"
-#~ msgstr "Compte-rendu opérationnel %s"
-
-#~ msgid "Not enough info. You must send: %(expected)s"
-#~ msgstr "Pas assez d'infos. Vous devez envoyer: %(expected)s"
-
-#~ msgid "Last muac"
-#~ msgstr "Dernier pb"
-
-#~ msgid "Taking Folic Acid"
-#~ msgstr "Prenant des suppléments en acide folique"
