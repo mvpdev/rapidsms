@@ -8,11 +8,12 @@ from rapidsms.webui import settings
 from django.db.models import Q
 
 from childcount.models import Encounter, Patient
-from childcount.models.reports import CCReport, PregnancyReport, PregnancyRegistrationReport, AppointmentReport
+from childcount.models.reports import CCReport, PregnancyReport, LabReport, \
+                         PregnancyRegistrationReport, AppointmentReport
 
 from mgvmrs.forms import OpenMRSTransmissionError, OpenMRSConsultationForm, \
                          OpenMRSHouseholdForm, OpenMRSANCForm, \
-                         OpenMRSXFormsModuleError
+                         OpenMRSXFormsModuleError, OpenMRSLabRequestForm
 from mgvmrs.utils import transmit_form
 from mgvmrs.models import User
 
@@ -24,6 +25,14 @@ def has_ancreport(reports):
         elif isinstance(report, AppointmentReport):
             return True
     return False
+
+
+def has_labrequestreport(reports):
+    for report in reports:
+        if isinstance(report, LabReport):
+            return True
+        else:
+            return False
 
 
 def send_to_omrs(router, *args, **kwargs):
@@ -42,6 +51,7 @@ def send_to_omrs(router, *args, **kwargs):
         individual_id = int(conf['individual_id'])
         household_id = int(conf['household_id'])
         location_id = int(conf['location_id'])
+        labrequest_id = int(conf['labrequest_id'])
         identifier_type = int(conf['identifier_type'])
         # provider is a fallback if CHW has no OMRS ID in DB.
         provider_id = int(conf['provider_id'])
@@ -58,7 +68,7 @@ def send_to_omrs(router, *args, **kwargs):
         ancform_id = int(conf['ancform_id'])
     except KeyError:
         # for the time being, not in use
-        pass 
+        pass
 
     # request 200 non-synced Encounters
     # Order by random so that one screwed up encounter
@@ -99,6 +109,9 @@ def send_to_omrs(router, *args, **kwargs):
                 continue
                 # omrsformclass = OpenMRSANCForm
                 # form_id = ancform_id
+            elif has_labrequestreport(reports):
+                omrsformclass = OpenMRSLabRequestForm
+                form_id = labrequest_id           
             else:
                 omrsformclass = OpenMRSConsultationForm
                 form_id = individual_id
