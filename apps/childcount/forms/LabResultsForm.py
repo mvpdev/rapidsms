@@ -19,8 +19,8 @@ from alerts.utils import SmsAlert
 
 
 class LabResultsForm(CCForm):
-    """ LAB Results Form
-
+    """
+    LAB Results Form
     """
 
     KEYWORDS = {
@@ -48,6 +48,10 @@ class LabResultsForm(CCForm):
                                 "try again") % sample_no)
 
         #Check status of the LaB
+        if labtest.progress_status not LabReport.STATUS_INPROGRESS:
+            raise ParseError(_(u"Unknown LabTest (%s) Check Sample no and" \
+                                "try again") % sample_no)
+
         #Get test that was done
         test = labtest.lab_test
         #check If test has predefined results
