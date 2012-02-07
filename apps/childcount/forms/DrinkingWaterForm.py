@@ -44,6 +44,7 @@ class DrinkingWaterForm(CCForm):
         wats_field.add_choice('en', DrinkingWaterReport.RAIN_COLLECTION, 'RW')
         wats_field.add_choice('en', DrinkingWaterReport.SURFACE_WATER, 'SU')
         wats_field.add_choice('en', DrinkingWaterReport.OTHER, 'Z')
+        
         wats_field.add_choice('rw', DrinkingWaterReport.PIPED_WATER, 'PP')
         wats_field.add_choice('rw', DrinkingWaterReport.PUBLIC_TAP_STANDPIPE, \
                                     'PT')
@@ -59,6 +60,7 @@ class DrinkingWaterForm(CCForm):
         wats_field.add_choice('rw', DrinkingWaterReport.RAIN_COLLECTION, 'RW')
         wats_field.add_choice('rw', DrinkingWaterReport.SURFACE_WATER, 'SU')
         wats_field.add_choice('rw', DrinkingWaterReport.OTHER, 'Z')
+        
         wats_field.add_choice('fr', DrinkingWaterReport.PIPED_WATER, 'PP')
         wats_field.add_choice('fr', DrinkingWaterReport.PUBLIC_TAP_STANDPIPE, \
                                     'PT')
@@ -80,9 +82,7 @@ class DrinkingWaterForm(CCForm):
         tmethod_field.add_choice('en', DrinkingWaterReport. \
                                         TREATMENT_METHOD_BOIL, 'BW')
         tmethod_field.add_choice('en', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_BOUGHT_CHLORINE, 'BC')
-        tmethod_field.add_choice('en', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_DONATED_CHLORINE, 'DC')
+                                    TREATMENT_METHOD_BLEACH_CHLORINE, 'AC')
         tmethod_field.add_choice('en', DrinkingWaterReport. \
                                     TREATMENT_METHOD_CLOTH, 'SC')
         tmethod_field.add_choice('en', DrinkingWaterReport. \
@@ -95,12 +95,11 @@ class DrinkingWaterForm(CCForm):
                                     TREATMENT_METHOD_OTHER, 'Z')
         tmethod_field.add_choice('en', DrinkingWaterReport. \
                                     TREATMENT_METHOD_DONTKNOW, 'U')
+
         tmethod_field.add_choice('rw', DrinkingWaterReport. \
                                         TREATMENT_METHOD_BOIL, 'BW')
         tmethod_field.add_choice('rw', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_BOUGHT_CHLORINE, 'BC')
-        tmethod_field.add_choice('rw', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_DONATED_CHLORINE, 'DC')
+                                    TREATMENT_METHOD_BLEACH_CHLORINE, 'AC')
         tmethod_field.add_choice('rw', DrinkingWaterReport. \
                                     TREATMENT_METHOD_CLOTH, 'SC')
         tmethod_field.add_choice('rw', DrinkingWaterReport. \
@@ -113,12 +112,11 @@ class DrinkingWaterForm(CCForm):
                                     TREATMENT_METHOD_OTHER, 'Z')
         tmethod_field.add_choice('rw', DrinkingWaterReport. \
                                     TREATMENT_METHOD_DONTKNOW, 'U')
+
         tmethod_field.add_choice('fr', DrinkingWaterReport. \
                                         TREATMENT_METHOD_BOIL, 'BW')
         tmethod_field.add_choice('fr', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_BOUGHT_CHLORINE, 'BC')
-        tmethod_field.add_choice('fr', DrinkingWaterReport. \
-                                    TREATMENT_METHOD_DONATED_CHLORINE, 'DC')
+                                    TREATMENT_METHOD_BLEACH_CHLORINE, 'AC')
         tmethod_field.add_choice('fr', DrinkingWaterReport. \
                                     TREATMENT_METHOD_CLOTH, 'SC')
         tmethod_field.add_choice('fr', DrinkingWaterReport. \
@@ -133,11 +131,11 @@ class DrinkingWaterForm(CCForm):
                                     TREATMENT_METHOD_DONTKNOW, 'U')
 
         try:
-            drnkr = DrinkingWaterReport.objects.get(encounter__patient=self.\
-                                        encounter.patient)
+            drnkr = DrinkingWaterReport.objects.get(encounter=self.encounter)
             drnkr.reset()
         except DrinkingWaterReport.DoesNotExist:
             drnkr = DrinkingWaterReport(encounter=self.encounter)
+            overwrite = False
 
         drnkr.form_group = self.form_group
 
