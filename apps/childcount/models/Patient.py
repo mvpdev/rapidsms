@@ -181,6 +181,9 @@ class Patient(models.Model):
         """Return the patients first and last names"""
         return ' '.join([self.first_name, self.last_name])
 
+    def simple_name (self):
+        return u'%s/%s' % (self.health_id.upper(), self.full_name())
+                                 
     def __unicode__(self):
         return u'%s %s %s/%s' % (self.health_id.upper(), self.full_name(), \
                                  self.gender, self.humanised_age())
