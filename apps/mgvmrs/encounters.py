@@ -111,10 +111,10 @@ def send_to_omrs(router, *args, **kwargs):
             provider = provider_id
 
         # create form
-	router.log('DEBUG', 'mgvmrs: Starting encounter processing...')
-	router.log('DEBUG', encounter.pk)
-	router.log('DEBUG', encounter.patient)
-	router.log('DEBUG', encounter.patient.health_id)
+	    router.log('DEBUG', 'mgvmrs: Starting encounter processing...')
+	    router.log('DEBUG', encounter.pk)
+	    router.log('DEBUG', encounter.patient)
+	    router.log('DEBUG', encounter.patient.health_id)
         omrsform = omrsformclass(create, encounter.patient.health_id, \
                                     location_id,
                                     provider,
@@ -130,6 +130,7 @@ def send_to_omrs(router, *args, **kwargs):
         omrsform.openmrs__form_id = form_id
         omrsform.patient___identifier_type = identifier_type
         omrsform.patient__in_cluster_id = in_cluster_attribute_id
+        omrsform.patient___patient_id = encounter.patient.pk
 
         # each report contains reference to OMRS fields
         for report in reports:
