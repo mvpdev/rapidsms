@@ -1330,8 +1330,8 @@ class BednetUtilizationPregnancy(CCReport):
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_bdnutilpreg_rpt'
-        verbose_name = _(u"Bednet utilization (Pregnancy) Report")
-        verbose_name_plural = _(u"Bednet utilization (Pregnancy) reports")
+        verbose_name = _(u"Bednet Utilization (Pregnancy) Report")
+        verbose_name_plural = _(u"Bednet Utilization (Pregnancy) reports")
 
     slept_lastnite = models.PositiveSmallIntegerField(_(u"Pregnant women"), \
                             help_text=_(u"Pregnant women who slept here " \
@@ -1382,17 +1382,23 @@ class SanitationReport(CCReport):
         (NO_FACILITY_OR_BUSH, _(u'No facility')),
         (OTHER, _(u'Other')))
 
-    PB = -2
-    U = -1
+    SHARE_YES = 'Y'
+    SHARE_NO = 'N'
+    SHARE_UNKNOWN = 'U'
+    SHARE_CHOICES = (
+        (SHARE_YES, _(u"Yes")),
+        (SHARE_NO, _(u"No")),
+        (SHARE_UNKNOWN, _(u"Unknown")))
+        
 
     toilet_lat = models.CharField(_(u"Toilet Type"), max_length=2, \
                               choices=TOILET_LAT_CHOICES,\
                               db_index=True)
-    share_toilet = models.SmallIntegerField(_(u"How many shares?"), \
-                                help_text=_(u"How many people" \
-                                " share the toilet (open to public = -1, " \
-                                "unknown = -2 )"),\
-                                db_index=True)
+    share_toilet = models.CharField(_(u"Share?"), max_length=1, \
+                                        choices=SHARE_CHOICES,\
+                                        db_index=True, default=SHARE_UNKNOWN, \
+                                    help_text=_(u"Do you share the toilet "))
+                                
 reversion.register(SanitationReport, follow=['ccreport_ptr'])
 
 
@@ -1445,13 +1451,26 @@ class DrinkingWaterReport(CCReport):
         (TREATMENT_METHOD_OTHER, _(u"Other")),
         (TREATMENT_METHOD_DONTKNOW, _(u"Unknown")),)
 
+    TREAT_YES = 'Y'
+    TREAT_NO = 'N'
+    TREAT_UNKNOWN = 'U'
+    TREAT_CHOICES = (
+        (TREAT_YES, _(u"Yes")),
+        (TREAT_NO, _(u"No")),
+        (TREAT_UNKNOWN, _(u"Unknown")))
+        
     water_source = models.CharField(_(u"Water Source"), max_length=2, \
                               choices=DRNKWATER_CHOICES,\
                               db_index=True)
+    treat_water = models.CharField(_(u"Treat Water?"), max_length=1, \
+                                        choices=TREAT_CHOICES,\
+                                        db_index=True, default=TREAT_UNKNOWN)
     treatment_method = models.CharField(_(u"Treatment method"), max_length=2, \
                               choices=TREATMENT_CHOICES, help_text=_(u"What " \
                                 "do you use to make it safer to drink"), \
-                                blank=True, db_index=True)
+                                blank=True, db_index=True, \
+                                default=TREATMENT_METHOD_DONTKNOW)
+
 reversion.register(DrinkingWaterReport, follow=['ccreport_ptr'])
 
 

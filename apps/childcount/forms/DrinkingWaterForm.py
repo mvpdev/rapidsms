@@ -130,6 +130,18 @@ class DrinkingWaterForm(CCForm):
         tmethod_field.add_choice('fr', DrinkingWaterReport. \
                                     TREATMENT_METHOD_DONTKNOW, 'U')
 
+        #Treat
+        treat_water = MultipleChoiceField()
+        treat_water.add_choice('en', DrinkingWaterReport.TREAT_YES, 'Y')
+        treat_water.add_choice('en', DrinkingWaterReport.TREAT_NO, 'N')
+        treat_water.add_choice('en', DrinkingWaterReport.TREAT_UNKNOWN, 'U')
+        treat_water.add_choice('rw', DrinkingWaterReport.TREAT_YES, 'Y')
+        treat_water.add_choice('rw', DrinkingWaterReport.TREAT_NO, 'N')
+        treat_water.add_choice('rw', DrinkingWaterReport.TREAT_UNKNOWN, 'U')
+        treat_water.add_choice('fr', DrinkingWaterReport.TREAT_YES, 'Y')
+        treat_water.add_choice('fr', DrinkingWaterReport.TREAT_NO, 'N')
+        treat_water.add_choice('fr', DrinkingWaterReport.TREAT_UNKNOWN, 'U')
+        
         try:
             drnkr = DrinkingWaterReport.objects.get(encounter=self.encounter)
             drnkr.reset()
@@ -141,11 +153,12 @@ class DrinkingWaterForm(CCForm):
 
         wats_field.set_language(self.chw.language)
         tmethod_field.set_language(self.chw.language)
+        treat_water.set_language(self.chw.language)
 
-        if len(self.params) < 2:
+        if len(self.params) < 3:
             raise ParseError(_(u"Not enough info. Expected: | What is " \
-                                "source of water | what do you use to  " \
-                                "treat water ? |"))
+                                "source of water | Do you treat | what do " \
+                                " you use to treat water ? |"))
 
         wats = self.params[1]
         if not wats_field.is_valid_choice(wats):
@@ -157,15 +170,28 @@ class DrinkingWaterForm(CCForm):
         self.response = _(u"Primary water source: %(water)s ") % \
                            {'water': drnkr.water_source}
 
-        if len(self.params) > 2:
-            if not tmethod_field.is_valid_choice(self.params[2]):
-                raise ParseError(_(u"| Which method do you use? | must be " \
+        treatwater = self.params[2]
+        if not treat_water.is_valid_choice(treatwater):
+            raise ParseError(_(u"| Do you treat Water should be " \
                                 "%(choices)s.") % \
-                                {'choices': tmethod_field.choices_string()})
+                                {'choices': treat_water.choices_string()})
+        
+        drnkr.treat_water =  treat_water.get_db_value(treatwater)
+        self.response += _(", Treat: %s") % drnkr.treat_water
+                                
+        if  drnkr.treat_water == DrinkingWaterReport.TREAT_YES:                 
+            if len(self.params) < 4:
+                raise ParseError(_(u"Not enough info.  What do you use " \
+                                    "to treat water"))
+                                               
+            if not tmethod_field.is_valid_choice(self.params[3]):
+                raise ParseError(_(u"| Which method do you use? must be " \
+                                    "%(choices)s.") % \
+                                    {'choices': tmethod_field.choices_string()})
 
-            method_used = tmethod_field.get_db_value(self.params[2])
+            method_used = tmethod_field.get_db_value(self.params[3])
             drnkr.treatment_method = method_used
             self.response += _(", Treatment method: %(treatment)s ") % \
-                            {'treatment': drnkr.treatment_method}
+                                {'treatment': drnkr.treatment_method}
 
         drnkr.save()
