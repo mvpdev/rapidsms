@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # vim: ai ts=4 sts=4 et sw=4 coding=utf-8
-# maintainer: rgaudin
+# maintainer: katembu
 
 from mgvmrs.forms.OpenMRSFormInterface import *
 
 
-class OpenMRSConsultationForm(OpenMRSFormInterface):
+class OpenMRSLabRequestForm(OpenMRSFormInterface):
 
     ''' Lab Request Form
 
-    Matches OpenMRS Form #59 '''
+    '''
 
     template_name = 'OpenMRSLabRequestForm.xml'
 

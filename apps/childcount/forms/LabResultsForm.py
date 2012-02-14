@@ -48,7 +48,7 @@ class LabResultsForm(CCForm):
                                 "try again") % sample_no)
 
         #Check status of the LaB
-        if labtest.progress_status not LabReport.STATUS_INPROGRESS:
+        if labtest.progress_status not in LabReport.STATUS_INPROGRESS:
             raise ParseError(_(u"Unknown LabTest (%s) Check Sample no and" \
                                 "try again") % sample_no)
 
