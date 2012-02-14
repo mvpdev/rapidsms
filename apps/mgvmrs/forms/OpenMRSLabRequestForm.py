@@ -7,8 +7,8 @@ from mgvmrs.forms.OpenMRSFormInterface import *
 
 class OpenMRSLabRequestForm(OpenMRSFormInterface):
 
-    ''' Lab Request Form
-
+    '''
+    Lab Request Form
     '''
 
     template_name = 'OpenMRSLabRequestForm.xml'
