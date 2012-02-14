@@ -1780,37 +1780,37 @@ class LabReport(CCReport):
     def get_omrs_dict(self):
         igive = {}
         
-        if lab_test.code.upper() == 'TB':
+        if self.lab_test.code.upper() == 'TB':
                 igive.update({'test_sputum_for_acid_fast_bacilli': True})
-        if lab_test.code.upper() == 'WB':
+        if self.lab_test.code.upper() == 'WB':
                 igive.update({'test_whitecell': True})
-        if lab_test.code.upper() == 'PL':
+        if self.lab_test.code.upper() == 'PL':
                 igive.update({'test_platelets': True})
-        if lab_test.code.upper() == 'ES':
+        if self.lab_test.code.upper() == 'ES':
                 igive.update({'test_erythrocyte': True})
-        if lab_test.code.upper() == 'RB':
+        if self.lab_test.code.upper() == 'RB':
                 igive.update({'test_serum_glucose_rb': True})
-        if lab_test.code.upper() == 'FB':
+        if self.lab_test.code.upper() == 'FB':
                 igive.update({'test_serum_fasting_fb': True})
-        if lab_test.code.upper() == 'WT':
+        if self.lab_test.code.upper() == 'WT':
                 igive.update({'test_widaltest': True})
-        if lab_test.code.upper() == 'G6':
+        if self.lab_test.code.upper() == 'G6':
                 igive.update({'test_G6PD': True})
-        if lab_test.code.upper() == 'MP':
+        if self.lab_test.code.upper() == 'MP':
                 igive.update({'test_malaria_smear_qualitative': True})
-        if lab_test.code.upper() == 'HB':
+        if self.lab_test.code.upper() == 'HB':
                 igive.update({'test_hemoglobin': True})
-        if lab_test.code.upper() == 'CD':
+        if self.lab_test.code.upper() == 'CD':
                 igive.update({'test_cd4': True})
-        if lab_test.code.upper() == 'HP':
+        if self.lab_test.code.upper() == 'HP':
                 igive.update({'test_hepatitisb': True})
-        if lab_test.code.upper() == 'SY':
+        if self.lab_test.code.upper() == 'SY':
                 igive.update({'test_vdrl': True})
-        if lab_test.code.upper() == 'RF':
+        if self.lab_test.code.upper() == 'RF':
                 igive.update({'test_rhesus': True})
-        if lab_test.code.upper() == 'SK':
+        if self.lab_test.code.upper() == 'SK':
                 igive.update({'test_sickle_cell': True})
-        if lab_test.code.upper() == 'BG':
+        if self.lab_test.code.upper() == 'BG':
                 igive.update({'test_bloodgroup': True})
                    
         return igive
