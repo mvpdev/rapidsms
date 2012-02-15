@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: dgelvin, ukanga
 
 """ChildCount Reports"""
@@ -1267,24 +1267,21 @@ class BedNetReport(CCReport):
                             help_text=_(u"Number of sleeping sites"),\
                             db_index=True)
 
-    function_nets = models.PositiveSmallIntegerField(_(u"Recent Bednets"), \
-                            help_text=_(u"Number of functioning bednets"),\
+    function_nets = models.PositiveSmallIntegerField(_(u"Functioning " \
+                            "Bednets"), help_text=_(u"Number of functioning "\
+                            " bednets"),\
                             db_index=True)
-    earlier_nets = models.PositiveSmallIntegerField(_(u"Earlier Bednets"), \
-                            help_text=_(u"Number of bednets received" \
-                            " earlier "),\
-                            db_index=True)
-    damaged_nets = models.PositiveSmallIntegerField(_(u"Damaged Bednets"), \
-                            help_text=_(u"Number of recent bednets that are" \
-                                        " damaged"),\
-                            db_index=True)
+    function_nets_observed = models.PositiveSmallIntegerField( \
+                                _(u"Functioning bednet observed"), \
+                                help_text=_(u"Number of functioning bednet" \
+                                " observed "),db_index=True)
 
     def summary(self):
         return u"%s: %d, %s: %d" % \
             (self._meta.get_field_by_name('sleeping_sites')[0].verbose_name, \
              self.sleeping_sites, \
              self._meta.get_field_by_name('function_nets')[0].verbose_name, \
-             self.nets)
+             self.function_nets)
 
 reversion.register(BedNetReport, follow=['ccreport_ptr'])
 
@@ -1311,26 +1308,6 @@ class BednetUtilization(CCReport):
         verbose_name = _(u"Bednet utilization Report")
         verbose_name_plural = _(u"Bednet utilization reports")
 
-    DONT_HAVE = 'NH'
-    BEDNET_DAMAGED = 'BD'
-    DIFFICULT_HUNG = 'DH'
-    SMALL_ROOM = 'SR'
-    DIFFICULT_BREATHE = 'DB'
-    NOT_EFFECTIVE = 'NE'
-    OTHER = 'Z'
-    UNKNOWN = 'U'
-    U = -1
-
-    REASON_CHOICES = (
-        (DIFFICULT_BREATHE, _(u'Difficulty to breathe')),
-        (NOT_EFFECTIVE, _(u'Doubt about effectiveness')),
-        (SMALL_ROOM, _(u'Room too small')),
-        (DIFFICULT_HUNG, _(u'Difficulty to hang')),
-        (BEDNET_DAMAGED, _(u'Bednet damaged')),
-        (DONT_HAVE, _(u'No bednet')),
-        (UNKNOWN, _(u'Unknown')),
-        (OTHER, _(u'Other')))
-
     child_underfive = models.PositiveSmallIntegerField(_(u"children under" \
                             " five "), help_text=_(u"Number of children " \
                             "under five who slept here last night."),\
@@ -1338,16 +1315,8 @@ class BednetUtilization(CCReport):
     child_lastnite = models.PositiveSmallIntegerField(_(u"Children slept " \
                             "under bednet"), \
                             db_index=True,\
-                            help_text=_(u"Number of children" \
-                            " under five who slept under bednet last night."))
-    hanging_bednet = models.SmallIntegerField(_(u"Number of hanging bednet"), \
-                            db_index=True,\
-                            help_text=_(u"Number of hanging bednet"))
-    reason = models.CharField(_(u"Reason "), \
-                            help_text=_(u"reason why some children didn't" \
-                            " sleep under bednet"), null=True, blank=True, \
-                            db_index=True, \
-                            max_length=2, choices=REASON_CHOICES)
+                            help_text=_(u"Number of children under five who" \
+                            " slept under bednet last night."))
 
     def summary(self):
         return u"%s: %d, %s: %d" % \
@@ -1357,6 +1326,34 @@ class BednetUtilization(CCReport):
              self.child_lastnite)
 
 reversion.register(BednetUtilization, follow=['ccreport_ptr'])
+
+
+class BednetUtilizationPregnancy(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_bdnutilpreg_rpt'
+        verbose_name = _(u"Bednet utilization (Pregnancy) Report")
+        verbose_name_plural = _(u"Bednet utilization (Pregnancy) reports")
+
+    slept_lastnite = models.PositiveSmallIntegerField(_(u"Pregnant women"), \
+                            help_text=_(u"Pregnant women who slept here " \
+                                           "last night."),\
+                            db_index=True)
+    slept_underbednet = models.PositiveSmallIntegerField(_(u"#Pregnant " \
+                            "women under bednet"), \
+                            db_index=True,\
+                            help_text=_(u"Number of Pregnant women who" \
+                            " slept under bednet last night."))
+
+    def summary(self):
+        return u"%s: %d, %s: %d" % \
+            (self._meta.get_field_by_name('slept_lastnite')[0].verbose_name, \
+             self.slept_lastnite, \
+             self._meta.get_field_by_name('slept_underbednet')[0].verbose_name, \
+             self.slept_underbednet)
+
+reversion.register(BednetUtilizationPregnancy, follow=['ccreport_ptr'])
 
 
 class SanitationReport(CCReport):
@@ -1434,8 +1431,7 @@ class DrinkingWaterReport(CCReport):
         (OTHER, _(u'Other')))
 
     TREATMENT_METHOD_BOIL = 'BW'
-    TREATMENT_METHOD_DONATED_CHLORINE = 'DC'
-    TREATMENT_METHOD_BOUGHT_CHLORINE = 'BC'
+    TREATMENT_METHOD_BLEACH_CHLORINE = 'AC'
     TREATMENT_METHOD_CLOTH = 'SC'
     TREATMENT_METHOD_WATERFILTER = 'WF'
     TREATMENT_METHOD_SOLARDISINFECTION = 'SR'
@@ -1444,8 +1440,7 @@ class DrinkingWaterReport(CCReport):
     TREATMENT_METHOD_DONTKNOW = 'U'
     TREATMENT_CHOICES = (
         (TREATMENT_METHOD_BOIL, _(u"Boil water")),
-        (TREATMENT_METHOD_DONATED_CHLORINE, _(u"Donated bleach/chlorine")),
-        (TREATMENT_METHOD_BOUGHT_CHLORINE, _(u"Bought bleach/chlorine")),
+        (TREATMENT_METHOD_BLEACH_CHLORINE, _(u"Bleach/chlorine")),
         (TREATMENT_METHOD_CLOTH, _(u"Strain it through cloth")),
         (TREATMENT_METHOD_WATERFILTER, _(u"Use water filter: sand/ceramic")),
         (TREATMENT_METHOD_SOLARDISINFECTION, _(u"Solar disinfection")),

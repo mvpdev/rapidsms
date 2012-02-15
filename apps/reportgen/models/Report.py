@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 
 from django.db.models.signals import pre_save
 from django.db import models, IntegrityError

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: katembu
 
 """Tasks
@@ -15,6 +15,8 @@ from datetime import timedelta, datetime
 
 from celery.decorators import periodic_task
 from celery.schedules import crontab
+
+from django.db.models import Q
 
 from childcount.models import ImmunizationNotification
 from childcount.models import Patient
@@ -283,26 +285,31 @@ def weekly_anc_visit_reminder():
         all_chw = {}
         all_chw[chw] = chw
 
-        """ 
-        Get CHW who fall under this CHW, Location
-        Get other CHW in this CHW Location and add them  Dictonary so as to 
-        receive alert especially Mayange
-
-        other_chw = CHW.objects.filter(location = chw.location)
-        for t in other_chw:
-            if t not in all_chw:
-                all_chw[t] = t
-        """
-        
         # change to CHW language
         activate(chw.language)
 
+        temp_list = alert_list.get(chw)
+        for x in temp_list:
+            loc = x.location
+            more_chw = CHW.objects.filter(~Q(id=chw.id), location=loc)
+            for xchw in more_chw:
+                if xchw not in alert_list:
+                    all_chw[xchw] = xchw
+                    alert_list[xchw] = [x]
+                else:
+                    #get list for this CHW
+                    t_list = alert_list.get(xchw)
+                    if x not in t_list:
+                        t_list.append(x)
+                        alert_list[xchw] = t_list
+
         chw_list = alert_list.get(chw)
+
         w = ', ' . join(["%s %s" % (p.health_id.upper(), p.full_name()) \
                                 for p in chw_list])
         msg = _(u"Remind the following to go for ANC at health center:" \
                 " %(list)s.") % {'list': w}
-        
+
         #Send this Message to all chw in a particular location
         for chw in all_chw: 
             alert = SmsAlert(reporter=chw, msg=msg)

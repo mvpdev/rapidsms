@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: rgaudin
 
 from datetime import date, datetime
@@ -253,6 +253,7 @@ class OpenMRSFormInterface(object):
         form = {}
         for field in (
             'patient___medical_record_number',
+            'patient___patient_id',
             'patient___identifier_type',
             'patient___birthdate',
             'patient___birthdate_estimated',

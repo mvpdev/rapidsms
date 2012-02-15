@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# vim: ai ts=4 sts=4 et sw=4 coding=utf-8
+# vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: dgelvin
 try:
     from childcount.forms.CCForm import CCForm
@@ -42,6 +42,7 @@ try:
 
     from childcount.forms.BednetCoverageForm import BednetCoverageForm
     from childcount.forms.BednetUtilizationForm import BednetUtilizationForm
+    from childcount.forms.BednetUtilizationPregnancyForm import BednetUtilizationPregnancyForm
     from childcount.forms.SanitationForm import SanitationForm
     from childcount.forms.DrinkingWaterForm import DrinkingWaterForm
     from childcount.forms.BednetDistributionForm import BednetDistributionForm
