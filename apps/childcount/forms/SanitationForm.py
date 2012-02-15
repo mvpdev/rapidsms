@@ -67,12 +67,16 @@ class SanitationForm(CCForm):
         sanit_field.add_choice('fr', SanitationReport.OTHER, 'Z')
 
         sanit_share = MultipleChoiceField()
-        sanit_share.add_choice('en', SanitationReport.PB, 'PB')
-        sanit_share.add_choice('en', SanitationReport.U, 'U')
-        sanit_share.add_choice('rw', SanitationReport.PB, 'PB')
-        sanit_share.add_choice('rw', SanitationReport.U, 'U')
-        sanit_share.add_choice('fr', SanitationReport.PB, 'PB')
-        sanit_share.add_choice('fr', SanitationReport.U, 'U')
+        sanit_share.add_choice('en', SanitationReport.SHARE_YES, 'Y')
+        sanit_share.add_choice('en', SanitationReport.SHARE_NO, 'N')
+        sanit_share.add_choice('en', SanitationReport.SHARE_UNKNOWN, 'U')
+        sanit_share.add_choice('rw', SanitationReport.SHARE_YES, 'Y')
+        sanit_share.add_choice('rw', SanitationReport.SHARE_NO, 'N')
+        sanit_share.add_choice('rw', SanitationReport.SHARE_UNKNOWN, 'U')
+        sanit_share.add_choice('fr', SanitationReport.SHARE_YES, 'Y')
+        sanit_share.add_choice('fr', SanitationReport.SHARE_NO, 'N')
+        sanit_share.add_choice('fr', SanitationReport.SHARE_UNKNOWN, 'U')
+
 
         try:
             snr = SanitationReport.objects.get(encounter__patient=self.\
@@ -98,14 +102,11 @@ class SanitationForm(CCForm):
         snr.toilet_lat = sanit_field.get_db_value(toilet_latrine)
 
         share_toilet = self.params[2]
-        if share_toilet.isdigit():
-            snr.share_toilet = int(share_toilet)
-        elif sanit_share.is_valid_choice(share_toilet):
-            snr.share_toilet = sanit_share.get_db_value(share_toilet)
-        else:
-            raise ParseError(_(u"| Do you share toilet? | must be a number " \
-                                "or %(choices)s.") % \
-                                {'choices': sanit_share.choices_string()})
+        if not sanit_share.is_valid_choice(share_toilet):
+            raise ParseError(_(u"| Do you share toilet? | must be %s.") \
+                                    % sanit_share.choices_string())
+
+        snr.share_toilet = sanit_share.get_db_value(share_toilet)
 
         snr.save()
 

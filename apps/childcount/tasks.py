@@ -234,7 +234,7 @@ def weekly_muac_reminder():
             if not current_list:
                 done = True
                 break
-            healthids = u' ' . join([i.health_id.upper() for i in current_list])
+            healthids = u', ' . join([i.simple_name() for i in current_list])
             msg = _(u"The following clients are due for MUAC: %(ids)s") % {
                     'ids': healthids}
             x += 20
