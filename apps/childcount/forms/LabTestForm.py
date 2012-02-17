@@ -64,19 +64,26 @@ class LabTestForm(CCForm):
             #search no of samples that exist
             print "Search for lab for this month %s " % search_pattern
 
-            counter = LabReport.objects.filter( \
-                                 sample_no__istartswith=search_pattern).count()
+            result = LabReport.objects.filter(sample_no__istartswith=search_pattern)
+            counter = result.count()
             if counter > 0:
                 counter = counter+1
-                counter = "%03d" % counter
-                lab_sample_no = search_pattern+"-"+counter
+                last_item = result.latest().sample_no
+                p = last_item.replace(search_pattern+"-","")
+                if int(counter) <= int(p):
+                    counter = p+1
+                    counter = "%03d" % counter
+                    lab_sample_no = search_pattern+"-"+counter
+                else:
+                    counter = "%03d" % counter
+                    lab_sample_no = search_pattern+"-"+counter                    
             else:
                 counter = "%03d" % 1
                 lab_sample_no = search_pattern+"-"+counter
 
         else:
             raise ParseError(_(u"Youre not assigned clinic, consult admin"))
-
+        
         labtest.sample_no = lab_sample_no
 
         labtest.save()
