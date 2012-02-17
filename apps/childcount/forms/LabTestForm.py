@@ -59,7 +59,7 @@ class LabTestForm(CCForm):
             clinic_code = self.chw.clinic.code
             year_month = now.strftime("%y%m")
             
-            search_pattern = clinic_code+"-"+year_month
+            search_pattern = "WAT-1202" clinic_code+"-"+year_month
             
             #search no of samples that exist
             print "Search for lab for this month %s " % search_pattern
