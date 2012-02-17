@@ -71,7 +71,7 @@ class LabTestForm(CCForm):
                 last_item = result.latest().sample_no
                 p = last_item.replace(search_pattern+"-","")
                 if int(counter) <= int(p):
-                    counter = p+1
+                    counter = int(p)+1
                     counter = "%03d" % counter
                     lab_sample_no = search_pattern+"-"+counter
                 else:
