@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-      <form id="{{ openmrs__form_id }}" name="Lab Request form" version="1.0" xmlns:openmrs="http://localhost:8080/openmrs/moduleServlet/formentry/forms/schema/86-1" xmlns:xd="http://schemas.microsoft.com/office/infopath/2003">
+      <form id="{{ openmrs__form_id }}" 
+      name="Lab Request form" version="1.0" 
+      xmlns:openmrs="http://localhost:8080/openmrs/moduleServlet/formentry/forms/schema/86-1" 
+      xmlns:xd="http://schemas.microsoft.com/office/infopath/2003">
         <header>
           <enterer></enterer>
           <date_entered></date_entered>
@@ -7,18 +10,21 @@
           <uid></uid>
         </header>
         <patient>
+          <person.location openmrs_table="patient_address" openmrs_attribute="address1"></person.location>
+          <person.village openmrs_table="patient_address" openmrs_attribute="city_village">{{ patient___village }}</person.village>
           <patient.birthdate openmrs_table="patient" openmrs_attribute="birthdate">{{ patient___birthdate }}</patient.birthdate>
           <patient.family_name openmrs_table="patient_name" openmrs_attribute="family_name">{{ patient___family_name }}</patient.family_name>
           <patient.given_name openmrs_table="patient_name" openmrs_attribute="given_name">{{ patient___given_name }}</patient.given_name>
-          <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>
           <patient.middle_name openmrs_table="patient_name" openmrs_attribute="middle_name">{{ patient___middle_name }}</patient.middle_name>
-          <patient.sex openmrs_table="patient" openmrs_attribute="gender">{{ patient___sex }}</patient.sex>
           <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+          <patient_identifier.identifier_type openmrs_table="patient_identifier" openmrs_attribute="identifier_type">{{ patient___identifier_type }}</patient_identifier.identifier_type>
+          <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>          
+          <person_attribute{{ patient__in_cluster_id }}>{{ patient__in_cluster }}</person_attribute{{ patient__in_cluster_id }}>
         </patient>
         <encounter>
-          <encounter.encounter_datetime openmrs_table="encounter" openmrs_attribute="encounter_datetime">{{ encounter___encounter_datetime }}</encounter.encounter_datetime>
-          <encounter.location_id openmrs_table="encounter" openmrs_attribute="location_id">{{ encounter___location_id }}</encounter.location_id>
-          <encounter.provider_id openmrs_table="encounter" openmrs_attribute="provider_id">{{ encounter___provider_id }}</encounter.provider_id>
+          <encounter.encounter_datetime openmrs_table="encounter" openmrs_attribute="encounter_datetime">'today()'</encounter.encounter_datetime>
+          <encounter.location_id openmrs_table="encounter" openmrs_attribute="location_id"></encounter.location_id>
+          <encounter.provider_id openmrs_table="encounter" openmrs_attribute="provider_id"></encounter.provider_id>
         </encounter>
         <orders>
           <laboratory_orders openmrs_concept="1283^LABORATORY ORDERS^99DCT" openmrs_datatype="ZZ">
