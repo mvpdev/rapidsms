@@ -22,10 +22,11 @@
           <person_attribute{{ patient__in_cluster_id }}>{{ patient__in_cluster }}</person_attribute{{ patient__in_cluster_id }}>
         </patient>
         <encounter>
-          <encounter.encounter_datetime openmrs_table="encounter" openmrs_attribute="encounter_datetime">'today()'</encounter.encounter_datetime>
-          <encounter.location_id openmrs_table="encounter" openmrs_attribute="location_id"></encounter.location_id>
-          <encounter.provider_id openmrs_table="encounter" openmrs_attribute="provider_id"></encounter.provider_id>
+          <encounter.encounter_datetime openmrs_table="encounter" openmrs_attribute="encounter_datetime">{{ encounter___encounter_datetime }}</encounter.encounter_datetime>
+          <encounter.location_id openmrs_table="encounter" openmrs_attribute="location_id">{{ encounter___location_id }}</encounter.location_id>
+          <encounter.provider_id openmrs_table="encounter" openmrs_attribute="provider_id">{{ encounter___provider_id }}</encounter.provider_id>
         </encounter>
+  
         <orders>
           <laboratory_orders openmrs_concept="1283^LABORATORY ORDERS^99DCT" openmrs_datatype="ZZ">
             <tests_ordered openmrs_concept="1271^TESTS ORDERED^99DCT" openmrs_datatype="CWE" multiple="1">
