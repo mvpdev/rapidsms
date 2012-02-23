@@ -31,6 +31,7 @@ class LabResultsForm(CCForm):
     ENCOUNTER_TYPE = Encounter.TYPE_PATIENT
 
     def process(self, patient):
+
         if len(self.params) < 3:
             raise ParseError(_(u"Not enough info.Expected: LAB Results "\
                                 "Requested"))
@@ -44,13 +45,13 @@ class LabResultsForm(CCForm):
         try:
             labtest = LabReport.objects.get(sample_no=sample_no)
         except LabReport.DoesNotExist:
-            raise ParseError(_(u"Unknown LabTest (%s) Check Sample no and" \
+            raise ParseError(_(u"Unknown LabTest (%s) Check Sampleno and " \
                                 "try again") % sample_no)
 
         #Check status of the LaB
-        if labtest.progress_status not in LabReport.STATUS_INPROGRESS:
-            raise ParseError(_(u"Unknown LabTest (%s) Check Sample no and" \
-                                "try again") % sample_no)
+        if labtest.progress_status != LabReport.STATUS_INPROGRESS:
+            raise ParseError(_(u"You can only send report of LabTest that " \
+                                 "have been received and marked INPROGRESS"))
 
         #Get test that was done
         test = labtest.lab_test
@@ -129,9 +130,8 @@ class LabResultsForm(CCForm):
             #Alert originator of the Message
             if labtest.encounter.chw:
                 r = labtest.encounter.chw.reporter
-                msg = _(u"Lab Results for %(hh)s, req %(sn)s \
-                                    %(test)s: %(res)s  ") \
-                                  % {'hh': \
+                msg = _(u"Lab Results for %(hh)s, req %(sn)s  %(test)s: " \
+                          "%(res)s  ")% {'hh': \
                                         labtest.encounter.patient.health_id, \
                                      'sn': labtest.sample_no, \
                                      'test': labtest.lab_test.name, \
