@@ -49,7 +49,7 @@ class LabResultsForm(CCForm):
                                 "try again") % sample_no)
 
         #Check status of the LaB
-        if labtest.progress_status != LabReport.STATUS_INPROGRESS:
+        if labtest.status != LabReport.STATUS_INPROGRESS:
             raise ParseError(_(u"You can only send report of LabTest that " \
                                  "have been received and marked INPROGRESS"))
 
@@ -90,7 +90,7 @@ class LabResultsForm(CCForm):
                                      'res': results_string,
                                     }
 
-                labtest.progress_status = LabReport.STATUS_RESULTS
+                labtest.status = LabReport.STATUS_RESULTS
                 labtest.results = results_string
                 labtest.save()
 
@@ -114,7 +114,7 @@ class LabResultsForm(CCForm):
         else:
             results_string = ', '.join([res for res in self.params[2:]])
 
-            labtest.progress_status = LabReport.STATUS_RESULTS
+            labtest.status = LabReport.STATUS_RESULTS
             labtest.results = results_string
 
             labtest.save()
