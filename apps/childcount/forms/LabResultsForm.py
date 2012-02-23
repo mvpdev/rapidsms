@@ -131,7 +131,7 @@ class LabResultsForm(CCForm):
             if labtest.encounter.chw:
                 r = labtest.encounter.chw.reporter
                 msg = _(u"Lab Results for %(hh)s, req %(sn)s  %(test)s: " \
-                          "%(res)s  ")% {'hh': \
+                          "%(res)s") % {'hh': \
                                         labtest.encounter.patient.health_id, \
                                      'sn': labtest.sample_no, \
                                      'test': labtest.lab_test.name, \
