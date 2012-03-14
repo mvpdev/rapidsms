@@ -6,7 +6,7 @@ import calendar
 
 from datetime import datetime, date
 
-import numpy 
+import numpy
 
 from django.utils.translation import ugettext as _
 
@@ -31,16 +31,20 @@ from childcount.models.reports import (BirthReport, FollowUpReport,
                                    StillbirthMiscarriageReport)
 from reportgen.PrintedReport import PrintedReport
 
+
 def agg_lst(agg_fun, lst, exclude_zeros=False):
     lst = map(lambda x: x if (type(x) in [int, float]) else 0, lst)
     if len(lst) == 0: return '-'
     return int(agg_fun(lst))
 
+
 def list_average(lst, exclude_zeros=False):
     return agg_lst(numpy.average, lst, exclude_zeros)
 
+
 def list_median(lst, exclude_zeros=False):
     return agg_lst(numpy.median, lst, exclude_zeros)
+
 
 def date_under_five():
     """ Returns the date reduced by five years """
@@ -48,18 +52,21 @@ def date_under_five():
     date_under_five = date(today.year - 5, today.month, today.day)
     return date_under_five
 
+
 def clean_list(values):
     """ Cleans a list """
     if '-' in values:
         values = [0 if v == '-' else v for v in values]
     return values
 
+
 def convert_string(va1, va2):
     if va1 == 0 and va2 == 0:
-        r =  0
+        r = 0
     else:
         r = '%s/%s' % (va1, va2)
     return r
+
 
 def textify_list(cells):
     """ returns list of Text() from list """
@@ -73,6 +80,7 @@ def textify_list(cells):
             elem = Text(cell)
         nl.append(elem)
     return nl
+
 
 class ReportDefinition(PrintedReport):
     title = 'Utilization Report'
@@ -97,12 +105,12 @@ class ReportDefinition(PrintedReport):
 
         self.set_progress(0)
         doc = Document(title,
-            subtitle = time_period.title, \
+            subtitle=time_period.title, \
             landscape=True)
         self.period = time_period
         print self.period.title
         print self.period.sub_periods()
-    
+
         header_row = [Text(_(u'Indicator:'))]
 
         for sub_period in time_period.sub_periods():
@@ -166,7 +174,7 @@ class ReportDefinition(PrintedReport):
         self._add_reg_report_row(DeathReport, _(u"+DDA (Death)"))
 
         # +DDB
-        self._add_number_patient_reg_month_row(DeadPerson, _(u"+DDB (Dead Person)" ))
+        self._add_number_patient_reg_month_row(DeadPerson, _(u"+DDB (Dead Person)"))
 
         # +SBM
         self._add_reg_report_row(StillbirthMiscarriageReport, _(u"+SBM (Still Birth misc)"))
@@ -495,7 +503,11 @@ class ReportDefinition(PrintedReport):
 
             list_nb_day_month = dict().fromkeys(liste_day_month).keys()
             nb_day_per_month = len(list_nb_day_month)
-            rate_day = (nb_day_per_month * 100) / (sp.end-sp.start).days
+            try:
+                rate_day = (nb_day_per_month * 100) / (sp.end - sp.start).days
+            except ZeroDivisionError:
+                rate_day = (nb_day_per_month * 100) / 1
+
             total_day += nb_day_per_month
             print total_day
             liste_day_rate.append(rate_day)
@@ -515,4 +527,3 @@ class ReportDefinition(PrintedReport):
 
         list_rate = textify_list(list_sms)
         self.table.add_row(list_rate)
-
