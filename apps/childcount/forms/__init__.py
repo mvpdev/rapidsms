@@ -56,5 +56,9 @@ try:
     from childcount.forms.HIVTestForm import HIVTestForm
     from childcount.forms.DBSResultForm import DBSResultForm
     from childcount.forms.CD4ResultForm import CD4ResultForm
+    
+    from childcount.forms.PrimarySchoolAttendanceForm import PrimarySchoolAttendanceForm
+    from childcount.forms.SecondarySchoolAttendanceForm import SecondarySchoolAttendanceForm
+
 except ImportError:
     pass
