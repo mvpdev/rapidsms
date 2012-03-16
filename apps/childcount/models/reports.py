@@ -1739,3 +1739,37 @@ class PatientStatusReport(CCReport):
                                 null=True, db_index=True)
 
 reversion.register(PatientStatusReport, follow=['ccreport_ptr'])
+
+
+class SchoolAttendanceReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_schoolattendance'
+        verbose_name = _(u"School Attendance Report")
+        verbose_name_plural = _(u"School Attendance Report")
+
+    PRIMARY_SCHOOL = 1
+    SECONDARY_SCHOOL = 2
+
+    SCHOOL_CHOICES = (
+        (PRIMARY_SCHOOL, _(u"Primary School")),
+        (SECONDARY_SCHOOL, _(u"Secondary School")))
+
+        
+    household_pupil = models.PositiveSmallIntegerField(_(u"#School aged " \
+                                "Pupils "), db_index=True, default=0)
+    attending_school = models.PositiveSmallIntegerField( \
+                                _(u"#School aged Pupils Attending school "), \
+                                db_index=True, default=0)
+    not_attend_school = models.PositiveSmallIntegerField(_(u"#School aged " \
+                                "Pupils not Attending school "), \
+                                db_index=True, default=0)
+    school_type = models.CharField(_(u"School Level"), max_length=1, \
+                            choices=SCHOOL_CHOICES, blank=False, null=True, \
+                            db_index=True)
+    reason = models.ManyToManyField('CodedItem', \
+                                          verbose_name=_(u"Reason for not " \
+                                          "attencing school"))
+
+reversion.register(SchoolAttendanceReport, follow=['ccreport_ptr'])

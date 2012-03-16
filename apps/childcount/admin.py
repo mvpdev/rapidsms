@@ -100,6 +100,7 @@ admin.site.register(Version)
 admin.site.register(Revision)
 admin.site.register(Vaccine)
 admin.site.register(DeadPerson)
+admin.site.register(SchoolAttendanceReport)
 
 
 class PolioCampaignReportAdmin(VersionAdmin):
