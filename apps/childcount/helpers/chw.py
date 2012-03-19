@@ -32,14 +32,17 @@ from childcount.models.reports import ReferralReport
 from childcount.models.reports import NutritionReport
 from childcount.models.reports import UnderOneReport
 
-def report_indicators(): 
+
+def report_indicators():
     return (
     {
         'title': _("Household"),
         'columns': [
             {'name': _("Households"), 'ind': registration.Household},
             {'name': _("Total HH Visits"), 'ind': household.Total},
-            {'name': _("% HH Coverage"), 'ind': household.CoveragePerc}
+            {'name': _("% HH Coverage(30 days)"), 'ind': \
+                                                    household.CoveragePerc30},
+            {'name': _("% HH Coverage(90 days)"), 'ind': household.CoveragePerc}
         ]
     },
     {
@@ -107,18 +110,18 @@ def report_indicators():
 used in the CHW reports.
 """
 
+
 def pregnant_needing_anc(period, chw):
     """Get a list of women assigned to this CHW
     who are in their 2nd or 3rd trimester of pregnancy
     who haven't had ANC visits in last 5 five weeks
-
-    :param period: Time period 
+    :param period: Time period
     :type period: An object with :meth:`.start` and :meth:`.end`
                   methods that each return a :class:`datetime.datetime`
     :param chw: CHW
     :type chw: :class:`childcount.models.CHW`
 
-    :returns: list of (:class:`childcount.models.Patient`, 
+    :returns: list of (:class:`childcount.models.Patient`,
               last_anc_date, approx_due_date) tuples 
 
     """
