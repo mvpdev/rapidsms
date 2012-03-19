@@ -20,6 +20,7 @@ from childcount.indicators import registration
 
 NAME = _("Household")
 
+
 class Total(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
@@ -55,6 +56,7 @@ class Unique(Indicator):
             .values('encounter__patient')\
             .distinct()\
             .count()
+
 
 class UniqueNinetyDays(Indicator):
     type_in     = QuerySetType(Patient)
@@ -96,25 +98,27 @@ class UniqueThirtyDays(Indicator):
             .distinct()\
             .count()
 
+
 class CoveragePerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
     type_out    = Percentage
 
     slug        = "coverage_perc"
-    short_name  = _("% HH Coverage")
+    short_name  = _("% HH Coverage (90 days)")
     long_name   = _("Percentage of households getting "\
                     "a visit in the last 90 days as of "\
                     "the end of this time period")
 
     cls_num     = UniqueNinetyDays
     cls_den     = registration.Household
- 
+
+
 class CoveragePerc30(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
     type_out    = Percentage
 
     slug        = "coverage_perc30"
-    short_name  = _("% HH Coverage")
+    short_name  = _("% HH Coverage (30 days)")
     long_name   = _("Percentage of households getting "\
                     "a visit in the last 30 days as of "\
                     "the end of this time period")

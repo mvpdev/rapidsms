@@ -40,8 +40,8 @@ def report_indicators():
         'columns': [
             {'name': _("Households"), 'ind': registration.Household},
             {'name': _("Total HH Visits"), 'ind': household.Total},
-            {'name': _("% HH Coverage(30 days)"), 'ind': \
-                                                    household.CoveragePerc30},
+            {'name': _("% HH Coverage(30 days)"), \
+                                              'ind': household.CoveragePerc30},
             {'name': _("% HH Coverage(90 days)"), 'ind': household.CoveragePerc}
         ]
     },
