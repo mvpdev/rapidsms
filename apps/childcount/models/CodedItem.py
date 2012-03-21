@@ -12,6 +12,7 @@ class CodedItem(models.Model):
     TYPE_FAMILY_PLANNING = 'FP'
     TYPE_MEDICINE = 'M'
     TYPE_COUNSELING = 'C'
+    TYPE_SCHOOLREASON = 'SR'
 
     danger_sign = {
         'as': (_('as'), _(u"Accident / trauma")),
@@ -74,6 +75,15 @@ class CodedItem(models.Model):
         'lb': (_('lb'), _(u"Albendazole")),
     }
 
+    school = {
+        'ml': (_('ml'), _(u"Male, Never been to school and but likely")),
+        'md': (_('md'), _(u"Male Drop Out")),
+        'mn': (_('mn'), _(u"Male, Never been to school and not likely")),
+        'fd': (_('fd'), _(u"Female Drop Out")),
+        'fl': (_('fl'), _(u"Female, Never been to school and but likely")),
+        'fn': (_('fn'), _(u"Female, Never been to school and not likely")),
+    }
+
     counseling = {
         'bp': (_('bp'), _(u"Birth plan")),
         'bf': (_('bf'), _(u"Breast-feeding")),
@@ -92,6 +102,7 @@ class CodedItem(models.Model):
         TYPE_FAMILY_PLANNING: family_planning,
         TYPE_MEDICINE: medecine,
         TYPE_COUNSELING: counseling,
+        TYPE_SCHOOLREASON: school,
     }
 
     class Meta:
@@ -106,6 +117,7 @@ class CodedItem(models.Model):
         (TYPE_DANGER_SIGN, _(u"Danger sign")),
         (TYPE_FAMILY_PLANNING, _(u"Family planning")),
         (TYPE_MEDICINE, _(u"Medicine")),
+        (TYPE_SCHOOLREASON, _(u"Reason for not attending school")),
         (TYPE_COUNSELING, _(u"Counseling topic")))
 
     code = models.CharField(_(u"Code"), max_length=10, db_index=True)

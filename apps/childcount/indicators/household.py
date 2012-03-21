@@ -20,6 +20,7 @@ from childcount.indicators import registration
 
 NAME = _("Household")
 
+
 class Total(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
@@ -56,6 +57,7 @@ class Unique(Indicator):
             .distinct()\
             .count()
 
+
 class UniqueNinetyDays(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
@@ -76,19 +78,55 @@ class UniqueNinetyDays(Indicator):
             .distinct()\
             .count()
 
+class UniqueThirtyDays(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "unique_thirty_days"
+    short_name  = _("Uniq. HHV 30d")
+    long_name   = _("Total number of visits to unique households "\
+                    "in the 30 days ending at the end of this time period")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return HouseholdVisitReport\
+            .objects\
+            .filter(encounter__patient__in=data_in,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(30))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()
+
+
 class CoveragePerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
     type_out    = Percentage
 
     slug        = "coverage_perc"
-    short_name  = _("% HH Coverage")
+    short_name  = _("% HH Coverage (90 days)")
     long_name   = _("Percentage of households getting "\
                     "a visit in the last 90 days as of "\
                     "the end of this time period")
 
     cls_num     = UniqueNinetyDays
     cls_den     = registration.Household
- 
+
+
+class CoveragePerc30(IndicatorPercentage):
+    type_in     = QuerySetType(Patient)
+    type_out    = Percentage
+
+    slug        = "coverage_perc30"
+    short_name  = _("% HH Coverage (30 days)")
+    long_name   = _("Percentage of households getting "\
+                    "a visit in the last 30 days as of "\
+                    "the end of this time period")
+
+    cls_num     = UniqueThirtyDays
+    cls_den     = registration.Household
+
+
 class OnTime(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int

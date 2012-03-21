@@ -224,6 +224,11 @@ msgstr "BYANZE GUCAMO: ntibijyanye."
 msgid "There is no patient with                 health ID %(hid)s"
 msgstr "Nta murwayi ufite nomero y'ubuzima %(hid)s"
 
+#: tasks.py:194
+#, python-format
+msgid "Please follow up with %(person)s for %(signs)s"
+msgstr "Kurikirana %(person)s kubera uko %(signs)s"
+
 #: tasks.py:222
 #, , python-format
 msgid "The following clients are due for MUAC: %(ids)s"
