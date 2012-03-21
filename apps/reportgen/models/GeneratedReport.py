@@ -10,8 +10,6 @@ from django.db import models
 from django.db.models.signals import pre_delete
 from django.utils.translation import ugettext as _
 
-from reportgen import utils
-
 GENERATED_DIR = 'ondemand'
 PATH_TO_REPORTS = os.path.join(os.path.dirname(__file__),\
     '..', 'static', GENERATED_DIR)
@@ -125,7 +123,7 @@ class GeneratedReport(models.Model):
     @property
     def file_size(self):
         try:
-            return utils.file_size(os.path.join(PATH_TO_REPORTS, self.filename))
+            return os.path.getsize(os.path.join(PATH_TO_REPORTS, self.filename))
         except OSError:
             return None
 
