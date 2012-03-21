@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-01 19:32+0300\n"
+"POT-Creation-Date: 2012-03-21 22:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,9 @@ msgstr "Fonction d’enregistrement non appliqué."
 #: PrintedReport.py:97
 #, python-format
 msgid "Could not find DB record for a report with classname %s"
-msgstr "Impossible de trouver l’enregistrement DB pour un rapport avec le nom de la classe %s"
+msgstr ""
+"Impossible de trouver l’enregistrement DB pour un rapport avec le nom de la "
+"classe %s"
 
 #: PrintedReport.py:101
 msgid "No time period value passed in"
@@ -68,6 +70,38 @@ msgstr "Mise à jour en cours"
 #, python-format
 msgid "Last Update @ %(now)s"
 msgstr "Dernière mise à jour @ %(now)s"
+
+#: definitions/ChwHouseholdVisitCoverage.py:53 definitions/ChwReport.py:63
+#, python-format
+msgid "For: %s"
+msgstr "Pour: %s"
+
+#: definitions/ChwHouseholdVisitCoverage.py:66
+#, python-format
+msgid "Total number of HH assigned: %(num)s \t"
+msgstr "Nombre total de ménage affecté:  %(num)s \t"
+
+#: definitions/ChwHouseholdVisitCoverage.py:68
+#, python-format
+msgid "Total Number of Under-5s: %(num)s \t"
+msgstr "Nombre total de moins de 5 ans: %(num)s \t"
+
+#: definitions/ChwHouseholdVisitCoverage.py:69
+#, python-format
+msgid "Total Number of Pregnant Women: %(num)s"
+msgstr "Nombre total de femmes enceintes :%(num)s"
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "HH ID"
+msgstr "HH ID"
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "NAME OF HOUSEHOLD HEAD"
+msgstr "NOM DU CHEF DE MÉNAGE"
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "LOCATION"
+msgstr "LIEU"
 
 #: definitions/ChwList.py:66
 msgid "ID"
@@ -198,7 +232,7 @@ msgstr "Conseil"
 msgid "CHW Manager Report"
 msgstr "Rapport du Coordonateur des TCS"
 
-#: definitions/ChwManagerReport.py:102 models/GeneratedReport.py:63
+#: definitions/ChwManagerReport.py:102 models/GeneratedReport.py:61
 #: models/Report.py:24
 msgid "Report"
 msgstr "Rapport"
@@ -215,16 +249,12 @@ msgstr "Poste de santé"
 msgid "Millennium Village"
 msgstr "Village du millennaire"
 
-#: definitions/ChwReport.py:63
-#, python-format
-msgid "For: %s"
-msgstr "Pour: %s"
-
 #: definitions/ChwReport.py:76
 msgid "Indicators"
 msgstr "Indicateurs"
 
-#: definitions/ChwReport.py:78 definitions/MvisIndicators.py:123
+#: definitions/ChwReport.py:78 definitions/MedicineGivenReport.py:66
+#: definitions/MvisIndicators.py:123
 msgid "Indicator"
 msgstr "Indicateurs"
 
@@ -236,7 +266,9 @@ msgstr "TOTAL/MOYENNE"
 msgid ""
 "Patients Referred in the Previous 45 days (or Given Medicine) and Lacking an "
 "On-Time Follow-Up Visit"
-msgstr "Patients referes dans les 45 jours precedents (ou qui ont recu des medicaments) et faute d'une Sur-Heure Visite de suivi"
+msgstr ""
+"Patients referes dans les 45 jours precedents (ou qui ont recu des "
+"medicaments) et faute d'une Sur-Heure Visite de suivi"
 
 #: definitions/ChwReport.py:118 definitions/ChwReport.py:164
 #: definitions/ChwReport.py:197 definitions/ChwReport.py:228
@@ -305,7 +337,8 @@ msgstr "Signalé \"%(status)s\" on %(date)s"
 
 #: definitions/ChwReport.py:194
 msgid "Women in 2nd and 3rd Trimester who haven't had ANC in 5 Weeks"
-msgstr "Femmes aux 2° et 3° Trimestre sans consultation prénatale depuis 5 semaines"
+msgstr ""
+"Femmes aux 2° et 3° Trimestre sans consultation prénatale depuis 5 semaines"
 
 #: definitions/ChwReport.py:200
 msgid "Last ANC"
@@ -317,7 +350,8 @@ msgstr "Date approximative de naissance"
 
 #: definitions/ChwReport.py:224
 msgid "Children without MUAC in past 1 month (SAM) or 3 months (healthy)"
-msgstr "Enfants sans PB pendant le mois dernier (MAS) ou 3 mois (en bonne santé)"
+msgstr ""
+"Enfants sans PB pendant le mois dernier (MAS) ou 3 mois (en bonne santé)"
 
 #: definitions/ChwReport.py:231 definitions/Malnutrition.py:99
 msgid "Last MUAC"
@@ -387,7 +421,9 @@ msgstr "Pour la période: %s."
 msgid ""
 "Cannot produce indicator chart for indicators that do not accept a QuerySet "
 "as an argument."
-msgstr "Ne peut pas generer le tableau des indicateurs qui n’accepte pas un Queryset comme un paramètre.."
+msgstr ""
+"Ne peut pas generer le tableau des indicateurs qui n’accepte pas un Queryset "
+"comme un paramètre.."
 
 #: definitions/IndicatorChart.py:117
 msgid " over time"
@@ -424,6 +460,63 @@ msgstr "Enfants de moins de 5 ans sans P.B en 90 jours mettre fin à %s"
 msgid "Latest MUAC"
 msgstr "Dernier PB"
 
+#: definitions/MedicineGivenReport.py:49
+#, fuzzy
+msgid "Medicine Given Report "
+msgstr "+G (Médicament Fourni)"
+
+#: definitions/MedicineGivenReport.py:72
+#, fuzzy, python-format
+msgid "Medicine Given Report: %s"
+msgstr "+G (Médicament Fourni)"
+
+#: definitions/MedicineGivenReport.py:84
+msgid "Number of RDT+"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:87
+msgid "Number of Cortem given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:90
+msgid "Number of ORS given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:93
+msgid "Number of Zinc given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:97
+msgid "Number of Under-5 children screened with MUACs"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:100
+msgid "Number of those U5 screened who have reading of 120 and + mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:106
+msgid ""
+"Number of those U5 screened who have reading ofless than 120 but more than "
+"115mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:111
+msgid "Number of those U5 screened who have reading of less than 115mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:115
+msgid "Number of Under-1 children screened with MUACs"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:119
+#: definitions/MedicineGivenReport.py:124
+msgid "Number of those U1 screened who have reading of 120 and + mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:129
+msgid "Number of those U1 screened who have reading of less than 115mmrow)"
+msgstr ""
+
 #: definitions/MvisIndicators.py:33
 msgid "MVIS Indicators"
 msgstr "Indicateurs du MVIS"
@@ -442,7 +535,8 @@ msgstr "Nutrition de l’enfant"
 
 #: definitions/MvisIndicators.py:65
 msgid "Child health - immunization/diarrhea/malaria (infants and under-5's)"
-msgstr "Santé de l’enfant-immunisation/diarrhée/paludisme(bébés et moins de 5 ans )"
+msgstr ""
+"Santé de l’enfant-immunisation/diarrhée/paludisme(bébés et moins de 5 ans )"
 
 #: definitions/MvisIndicators.py:81
 msgid "Malaria (Over 5's)"
@@ -599,7 +693,8 @@ msgstr " <b>+K</b>"
 msgid ""
 "Date HH Visited\n"
 "<em>(DDMMYY)</em>"
-msgstr "Date de la visite des ménages\n"
+msgstr ""
+"Date de la visite des ménages\n"
 "<em>(JJMMAA )</em>"
 
 #: definitions/SpotCheck.py:288
@@ -640,7 +735,7 @@ msgstr "Non disponible"
 msgid "Bad"
 msgstr "Mal"
 
-#: definitions/SpotCheck.py:336 definitions/Utilization.py:112
+#: definitions/SpotCheck.py:336 definitions/Utilization.py:120
 msgid "Total"
 msgstr "Total"
 
@@ -650,7 +745,7 @@ msgstr "Commentaires généraux:"
 
 #: definitions/SpotCheck.py:358
 msgid "Overall Performance:"
-msgstr "Performance Complète :" 
+msgstr "Performance Complète :"
 
 #: definitions/SpotCheck.py:372
 #, python-format
@@ -660,8 +755,7 @@ msgstr "(Enregistré le  %(gen_datetime)s)"
 #: definitions/SpotCheck.py:375
 msgid ""
 "Prepared By: ___________________________ Submitted On: _____/_____/_________"
-msgstr ""
-"Préparé par: ____________________ Rendu le : _____/_____/_________"
+msgstr "Préparé par: ____________________ Rendu le : _____/_____/_________"
 
 #: definitions/SpotCheck.py:429
 msgid "<b>CHW made no household visits during this time period.</b>"
@@ -703,135 +797,135 @@ msgstr "Pour:"
 msgid "OpenMRS Sync Data"
 msgstr "Sinyncronisation du système ouvert d’enregistrement de données"
 
-#: definitions/Utilization.py:106
+#: definitions/Utilization.py:114
 msgid "Indicator:"
 msgstr "Indicateurs"
 
-#: definitions/Utilization.py:113
+#: definitions/Utilization.py:121
 msgid "Average"
 msgstr "Moyenne"
 
-#: definitions/Utilization.py:114
+#: definitions/Utilization.py:122
 msgid "Median"
 msgstr "Médiane"
 
-#: definitions/Utilization.py:136
+#: definitions/Utilization.py:144
 msgid "Total Clients Reg."
 msgstr "Total des clients enregistrées"
 
-#: definitions/Utilization.py:160
+#: definitions/Utilization.py:168
 msgid "+NEW (Patient)"
 msgstr "NEW (Nouveau Patient)"
 
-#: definitions/Utilization.py:163
+#: definitions/Utilization.py:171
 msgid "+BIR (Birth)"
 msgstr "+BIR (Naissance)"
 
-#: definitions/Utilization.py:166
+#: definitions/Utilization.py:174
 msgid "+DDA (Death)"
 msgstr "+DDA (Décès)"
 
-#: definitions/Utilization.py:169
+#: definitions/Utilization.py:177
 msgid "+DDB (Dead Person)"
 msgstr "+DDB (Décédé)"
 
-#: definitions/Utilization.py:172
+#: definitions/Utilization.py:180
 msgid "+SBM (Still Birth misc)"
 msgstr "+SBM (Mort Nés)"
 
-#: definitions/Utilization.py:175
+#: definitions/Utilization.py:183
 msgid "+V (Household Visit)"
 msgstr "+V (Consultation à Domicile)"
 
-#: definitions/Utilization.py:178
+#: definitions/Utilization.py:186
 msgid "+E (Sick Members)"
 msgstr "+E (Membres Malades)"
 
-#: definitions/Utilization.py:182
+#: definitions/Utilization.py:190
 msgid "+L (BC Pill)"
 msgstr "+ L (Pilule Contraceptive)"
 
-#: definitions/Utilization.py:185
+#: definitions/Utilization.py:193
 msgid "+K (Family Planning)"
 msgstr "+K (Planning Familial)"
 
-#: definitions/Utilization.py:188
+#: definitions/Utilization.py:196
 msgid "+U (Follow Up)"
 msgstr "+U (Suivi)"
 
-#: definitions/Utilization.py:191
+#: definitions/Utilization.py:199
 msgid "+S (Danger Signs)"
 msgstr "+S (Signes de Dange)"
 
-#: definitions/Utilization.py:194
+#: definitions/Utilization.py:202
 msgid "+P (Pregnancy)"
 msgstr "+P (Grossesse)"
 
-#: definitions/Utilization.py:197
+#: definitions/Utilization.py:205
 msgid "+N (Neonatal)"
 msgstr "+N (Néonatal)"
 
-#: definitions/Utilization.py:200
+#: definitions/Utilization.py:208
 msgid "+T (Under One)"
 msgstr "+T (Moins Un An)"
 
-#: definitions/Utilization.py:204
+#: definitions/Utilization.py:212
 msgid "+M (Nutrition)"
 msgstr "+M (Nutrition)"
 
-#: definitions/Utilization.py:207
+#: definitions/Utilization.py:215
 msgid "+F (Fever)"
 msgstr "+F (Fièvre)"
 
-#: definitions/Utilization.py:210
+#: definitions/Utilization.py:218
 msgid "+G (Medicine Given)"
 msgstr "+G (Médicament Fourni)"
 
-#: definitions/Utilization.py:213
+#: definitions/Utilization.py:221
 msgid "+R (Referral)"
 msgstr "+R ( Référence)"
 
-#: definitions/Utilization.py:216
+#: definitions/Utilization.py:224
 msgid "+PD (Pregnancy Reg)"
 msgstr "+PD (Enregistrement de Grossesse)"
 
-#: definitions/Utilization.py:219
+#: definitions/Utilization.py:227
 msgid "+PF (Antenatal Visit)"
 msgstr "+ PF (Consultation Prénatale)"
 
-#: definitions/Utilization.py:222
+#: definitions/Utilization.py:230
 msgid "+HT (HIV Test)"
 msgstr "+HT (Test VIH)"
 
-#: definitions/Utilization.py:226
+#: definitions/Utilization.py:234
 msgid "+AP (Appointment)"
 msgstr "+AP (Rendez–Vous)"
 
-#: definitions/Utilization.py:229
+#: definitions/Utilization.py:237
 msgid "+CD (CD4 Result)"
 msgstr "+CD (Résultat CDH)"
 
-#: definitions/Utilization.py:232
+#: definitions/Utilization.py:240
 msgid "+DB (DBS Result)"
 msgstr "+DB (résultat base de données)"
 
-#: definitions/Utilization.py:387
+#: definitions/Utilization.py:395
 msgid "Adult Men Reg."
 msgstr "Hommes Adultes Enregistrés"
 
-#: definitions/Utilization.py:389
+#: definitions/Utilization.py:397
 msgid "Adult Women Reg."
 msgstr "Femmes Adultes Enregistrées"
 
-#: definitions/Utilization.py:419
+#: definitions/Utilization.py:427
 msgid "Under 5 Registered."
 msgstr "Moins De 5 Ans Enregistrés "
 
-#: definitions/Utilization.py:449
+#: definitions/Utilization.py:457
 msgid "SMS error rate."
 msgstr "Taux D’Erreur de SMS"
 
-#: definitions/Utilization.py:486
+#: definitions/Utilization.py:494
 #, python-format
 msgid "% of days with SMS / month."
 msgstr "% de Jours Avec Envoi SMS / Mois"
@@ -845,109 +939,111 @@ msgstr "Rapport d'événements vitaux"
 msgid "VITAL EVENTS: %s"
 msgstr "EVENEMENTS VITAUX: %s"
 
-#: models/GeneratedReport.py:37 models/GeneratedReport.py:45
+#: models/GeneratedReport.py:35 models/GeneratedReport.py:43
 msgid "Pending"
 msgstr "En Cours"
 
-#: models/GeneratedReport.py:38 models/GeneratedReport.py:46
+#: models/GeneratedReport.py:36 models/GeneratedReport.py:44
 msgid "Started"
 msgstr "Commencés"
 
-#: models/GeneratedReport.py:39 models/GeneratedReport.py:47
+#: models/GeneratedReport.py:37 models/GeneratedReport.py:45
 msgid "Retrying"
 msgstr "Réessais"
 
-#: models/GeneratedReport.py:40 models/GeneratedReport.py:48
+#: models/GeneratedReport.py:38 models/GeneratedReport.py:46
 msgid "Failed"
 msgstr "Echecs"
 
-#: models/GeneratedReport.py:41 models/GeneratedReport.py:49
+#: models/GeneratedReport.py:39 models/GeneratedReport.py:47
 msgid "Succeeded"
 msgstr "Réussis"
 
-#: models/GeneratedReport.py:56
+#: models/GeneratedReport.py:54
 msgid "Generated Report"
 msgstr "Rapport enregistré"
 
-#: models/GeneratedReport.py:57
+#: models/GeneratedReport.py:55
 msgid "Generated Reports"
 msgstr "Rapports enregistré"
 
-#: models/GeneratedReport.py:65
+#: models/GeneratedReport.py:63
 msgid "Reference to the report to be generated"
 msgstr "Référence au rapport à enregistrer"
 
-#: models/GeneratedReport.py:67
+#: models/GeneratedReport.py:65
 msgid "Filename"
 msgstr "Nom du fichier"
 
-#: models/GeneratedReport.py:69
+#: models/GeneratedReport.py:67
 msgid "Location of generated report file"
 msgstr "Definition du format du fichier enregistré"
 
-#: models/GeneratedReport.py:70 models/Report.py:28
+#: models/GeneratedReport.py:68 models/Report.py:28
 msgid "Title"
 msgstr "Intitulé"
 
-#: models/GeneratedReport.py:72
+#: models/GeneratedReport.py:70
 msgid "Full title of report"
 msgstr "Intitulé complet du rappor"
 
-#: models/GeneratedReport.py:73
+#: models/GeneratedReport.py:71
 msgid "File format"
 msgstr "Format du Ficher"
 
-#: models/GeneratedReport.py:75
+#: models/GeneratedReport.py:73
 msgid "File format of report (e.g., PDF)"
 msgstr "Format du ficher du rapport (Ex: PDF)"
 
-#: models/GeneratedReport.py:76
+#: models/GeneratedReport.py:74
 msgid "Period title"
 msgstr "Intitulé de la période"
 
-#: models/GeneratedReport.py:78
+#: models/GeneratedReport.py:76
 msgid "Description of the time period for the report (e.g., \"January 2011\")"
 msgstr "Description de la date du rapport (Ex., \"Janvier 2011\")"
 
-#: models/GeneratedReport.py:80
+#: models/GeneratedReport.py:78
 msgid "Variant title"
 msgstr "Intitulé du lieu"
 
-#: models/GeneratedReport.py:82
+#: models/GeneratedReport.py:80
 msgid "Description of the variant for the report (e.g., \"Ntungu Clinic\")"
 msgstr "Description du lieu pour le rapport (Ex.,\"Dispensaire Ntungu\")"
 
-#: models/GeneratedReport.py:84
+#: models/GeneratedReport.py:82
 msgid "Progress"
 msgstr "Avancement"
 
-#: models/GeneratedReport.py:86
+#: models/GeneratedReport.py:84
 msgid "Task state"
 msgstr "Etat de la tâche"
 
-#: models/GeneratedReport.py:88
+#: models/GeneratedReport.py:86
 msgid "Task ID"
 msgstr "Identification de la tâche"
 
-#: models/GeneratedReport.py:90
+#: models/GeneratedReport.py:88
 msgid ""
 "The task identifier used internally by RabbitMQ and celeryd to identify the "
 "task used to generate this report."
-msgstr "Identificateur de la tâche utilisée en interne avec RabbitMQ et celeryd pour identifier la tâche utilisée pour enregistrer ce rapport"
+msgstr ""
+"Identificateur de la tâche utilisée en interne avec RabbitMQ et celeryd pour "
+"identifier la tâche utilisée pour enregistrer ce rapport"
 
-#: models/GeneratedReport.py:93
+#: models/GeneratedReport.py:91
 msgid "Started at"
 msgstr "Commencé à"
 
-#: models/GeneratedReport.py:94
+#: models/GeneratedReport.py:92
 msgid "Finished at"
 msgstr "Terminé à"
 
-#: models/GeneratedReport.py:95
+#: models/GeneratedReport.py:93
 msgid "Error message"
 msgstr "Message d’erreur"
 
-#: models/GeneratedReport.py:99
+#: models/GeneratedReport.py:97
 #, python-format
 msgid "<Generated: %(title)s, (%(fname)s), ID: %(pk)d>"
 msgstr "<Enregistre: %(title)s, (%(fname)s), ID: %(pk)d>"
@@ -998,7 +1094,8 @@ msgstr "Quatre Semaines"
 
 #: timeperiods/definitions/FourWeeks.py:16
 msgid "Set of four seven-day weeks starting on a Monday X weeks ago"
-msgstr "Jeu de quatre semaines de sept jours commençant un lundi X il y a semaines"
+msgstr ""
+"Jeu de quatre semaines de sept jours commençant un lundi X il y a semaines"
 
 #: timeperiods/definitions/FourWeeks.py:34
 #, python-format
@@ -1077,7 +1174,9 @@ msgstr "Treize Semaines"
 
 #: timeperiods/definitions/ThirteenWeeks.py:16
 msgid "Set of Last Thirteen seven-day weeks starting on a Monday X weeks ago"
-msgstr "Jeu de Treize Dernières semaines de sept jours commençant un lundi X il y a semaines"
+msgstr ""
+"Jeu de Treize Dernières semaines de sept jours commençant un lundi X il y a "
+"semaines"
 
 #: timeperiods/definitions/ThirteenWeeks.py:34
 #, python-format
