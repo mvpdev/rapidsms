@@ -1,0 +1,48 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block javascripts %}
+<link rel="stylesheet" type="text/css" href="/static/childcount/stylesheets/cc_ui_tables.css" media="all" />
+{% endblock %}
+
+{% block title %}{% trans "Locations List" %}{% endblock %}
+
+{% block content %}
+<!--
+<p><a href="{% url cc-add_chw %}">{% trans "Create a CHW Account" %}</a></p>
+-->
+<div style="height:40px">
+<h2>{% trans "All Locations" %}</a></h2>
+</div>
+<table class="cclist on">
+<thead>
+<tr>
+<th>{% trans "Location" %}</th><th>{% trans "Number of Patients" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for location, num_patient in paginator.object_list %}
+<tr>
+    <td>{{ location.name }}</td>
+    <td>{{ num_patient }}</td>
+{% endfor %}
+</tbody>
+</table>
+
+<table class="pagnav">
+<tr>
+<td>
+  {% if paginator.has_previous %}
+  <a href="?page={{ paginator.previous_page_number }}">{% trans "Previous" %}</a>
+  {% endif %}
+</td>
+<td>{% block trans %}Page {{paginator.number }} of {{paginator.paginator.num_pages }}{% endblock %}</td>
+<td>
+  {% if paginator.has_next %}
+  <a href="?page={{ paginator.next_page_number }}">{% trans "Next" %}</a>
+  {% endif %}
+</td>
+</table>
+
+
+{% endblock %}

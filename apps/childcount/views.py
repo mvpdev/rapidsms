@@ -512,3 +512,17 @@ def change_chw(request, chw):
     info['chw'] = chw
     return render_to_response(\
                 request, 'childcount/change_chw.html', info)
+
+
+@login_required
+def list_location(request):
+    NUM_PER_PAGE = 50
+    info = {}
+    locations = [(loc, Patient.objects.filter(location=loc).count()) \
+                    for loc in Location.objects.all().order_by('name')]
+    info.update({'locations': locations})
+    paginator = Paginator(locations, NUM_PER_PAGE)
+    page = int(request.GET.get('page', 1))
+    info.update({'paginator':paginator.page(page)})
+
+    return render_to_response(request, 'childcount/list_locations.html', info)

@@ -45,7 +45,10 @@ urlpatterns = patterns('',
     url(r'^childcount/chws.json/?$', views.chw_json),
     url(r'^childcount/add_chw/?$', views.add_chw, name='cc-add_chw'),
     url(r'^childcount/list_chw/?$', views.list_chw, name='cc-list_chw'),
-    url(r'^childcount/change_chw/(?P<chw>[a-zA-Z0-9\-\_\.]*)/?$', views.change_chw, name='cc-change_chw'),
+    url(r'^childcount/change_chw/(?P<chw>[a-zA-Z0-9\-\_\.]*)/?$', \
+        views.change_chw, name='cc-change_chw'),
+    url(r'^childcount/list_location/?$', views.list_location, \
+        name='cc-list_location'),
     url(r'^childcount/indicators/?$', views.indicators, name='cc-indicators'),
 
     url(r'^childcount/dataentry/?$', views.dataentry, name='cc-dataentry'),
