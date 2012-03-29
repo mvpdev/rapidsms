@@ -23,7 +23,7 @@
 <tbody>
 {% for location, num_patient in paginator.object_list %}
 <tr>
-    <td>{{ location.name }}</td>
+    <td><a href="{% url cc-patients-by-location location.pk %}">{{ location.name }}</a></td>
     <td>{{ num_patient }}</td>
 {% endfor %}
 </tbody>
