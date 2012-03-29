@@ -56,9 +56,17 @@ try:
     from childcount.forms.HIVTestForm import HIVTestForm
     from childcount.forms.DBSResultForm import DBSResultForm
     from childcount.forms.CD4ResultForm import CD4ResultForm
-    
+
     from childcount.forms.PrimarySchoolAttendanceForm import PrimarySchoolAttendanceForm
     from childcount.forms.SecondarySchoolAttendanceForm import SecondarySchoolAttendanceForm
+
+    #TLI specific
+    from childcount.forms.LabTestForm import LabTestForm
+    from childcount.forms.SpecimenForm import SpecimenForm
+    from childcount.forms.InsuranceNumberForm import InsuranceNumberForm
+    from childcount.forms.LabProgressForm import LabProgressForm
+    from childcount.forms.LabResultsForm import LabResultsForm
+    #EndTLI
 
 except ImportError:
     pass

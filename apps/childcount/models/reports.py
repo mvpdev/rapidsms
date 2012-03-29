@@ -33,6 +33,9 @@ from childcount.models import Patient
 from childcount.models import Encounter
 from childcount.models import Vaccine
 
+from childcount.models import LabTest
+from childcount.models import LabTestResults
+
 from childcount.utils import send_msg
 
 class AgeQuerySet(PolymorphicQuerySet):
@@ -1737,7 +1740,6 @@ class PatientStatusReport(CCReport):
                                     db_index=True)
     reason = models.CharField(_(u"Reason"), max_length=100, blank=True,
                                 null=True, db_index=True)
-
 reversion.register(PatientStatusReport, follow=['ccreport_ptr'])
 
 
@@ -1773,3 +1775,131 @@ class SchoolAttendanceReport(CCReport):
                                           "attencing school"))
 
 reversion.register(SchoolAttendanceReport, follow=['ccreport_ptr'])
+
+
+class LabReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_labreport'
+        verbose_name = _(u"Lab Test Report")
+        verbose_name_plural = _(u"Lab Test Reports")
+
+    STATUS_INCOMING = 'IC'
+    STATUS_INPROGRESS = 'IP'
+    STATUS_STALLED =  'SS'
+    STATUS_CANCELLED = 'CC'
+    STATUS_RESULTS = 'RS'
+
+    STATUS_CHOICES = (
+        (STATUS_INCOMING, _(u"Incoming")),
+        (STATUS_INPROGRESS, _(u"Inprogress")),
+        (STATUS_STALLED, _(u"Stalled")),
+        (STATUS_CANCELLED, _(u"Cancelled")),
+        (STATUS_RESULTS, _(u"Results")))
+
+    PRO_RECEIVED = 'R'
+    PRO_INSUFFICIENT = 'IQ'
+    PRO_BADQUALITY =  'BQ'
+    PRO_WRONGTYPE = 'WT'
+    PRO_NOSAMPLE = 'NS'
+
+    PROGRESS_CHOICES = (
+        (PRO_RECEIVED, _(u"Received")),
+        (PRO_INSUFFICIENT, _(u"Insufficient Quantity")),
+        (PRO_BADQUALITY, _(u"Bad Quality")),
+        (PRO_WRONGTYPE, _(u"Wrong Type")),
+        (PRO_NOSAMPLE, _(u"No sample")))
+
+
+    lab_test = models.ForeignKey('LabTest', verbose_name=_(u"Lab Test"))
+    status = models.CharField(_(u'Status'), choices = STATUS_CHOICES, \
+                                max_length=4, default = STATUS_INCOMING)
+    sample_no = models.CharField(_('Sample Number'), max_length = 30, blank = True, \
+                                unique = True)
+    progress_status = models.CharField(_(u'Progress Status'), max_length=2, \
+                                        choices = PROGRESS_CHOICES, \
+                                        default = PRO_NOSAMPLE)
+    results = models.CharField(_('Results'), max_length = 30, blank = True) 
+
+    def __unicode__(self):
+        return u"%s >> %s" % (self.lab_test.name, self.encounter.patient)
+
+    def get_omrs_dict(self):
+        igive = {}
+        
+        if self.lab_test.code.upper() == 'TB':
+                igive.update({'test_sputum_for_acid_fast_bacilli': True})
+        if self.lab_test.code.upper() == 'WB':
+                igive.update({'test_whitecell': True})
+        if self.lab_test.code.upper() == 'PL':
+                igive.update({'test_platelets': True})
+        if self.lab_test.code.upper() == 'ES':
+                igive.update({'test_erythrocyte': True})
+        if self.lab_test.code.upper() == 'RB':
+                igive.update({'test_serum_glucose_rb': True})
+        if self.lab_test.code.upper() == 'FB':
+                igive.update({'test_serum_fasting_fb': True})
+        if self.lab_test.code.upper() == 'WT':
+                igive.update({'test_widaltest': True})
+        if self.lab_test.code.upper() == 'G6':
+                igive.update({'test_G6PD': True})
+        if self.lab_test.code.upper() == 'MP':
+                igive.update({'test_malaria_smear_qualitative': True})
+        if self.lab_test.code.upper() == 'HB':
+                igive.update({'test_hemoglobin': True})
+        if self.lab_test.code.upper() == 'CD':
+                igive.update({'test_cd4': True})
+        if self.lab_test.code.upper() == 'HP':
+                igive.update({'test_hepatitisb': True})
+        if self.lab_test.code.upper() == 'SY':
+                igive.update({'test_vdrl': True})
+        if self.lab_test.code.upper() == 'RF':
+                igive.update({'test_rhesus': True})
+        if self.lab_test.code.upper() == 'SK':
+                igive.update({'test_sickle_cell': True})
+        if self.lab_test.code.upper() == 'BG':
+                igive.update({'test_bloodgroup': True})
+                   
+        return igive
+reversion.register(LabReport, follow=['ccreport_ptr'])
+
+
+class SpecimenReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_specimenrpt'
+        verbose_name = _(u"Specimen Report")
+        verbose_name_plural = _(u"Specimen Reports")
+
+    blood_tubes = models.PositiveSmallIntegerField(_(u"Blood Tubes"), \
+                                    help_text=_(u"Number of blood Tubes"),\
+                                    default=0)
+    sputum_sample = models.PositiveSmallIntegerField(_(u"Sputum sample"), \
+                                    help_text=_(u"Sputum sample"),\
+                                    default=0)
+    stool_sample = models.PositiveSmallIntegerField(_(u"Stool Sample"),\
+                                    default=0)
+    urine_sample = models.PositiveSmallIntegerField(_(u"Urine Sample"), \
+                                    default=0)
+reversion.register(SpecimenReport, follow=['ccreport_ptr'])
+
+
+class InsuranceNumberReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_insrpt'
+        verbose_name = _(u"Insurance Report")
+        verbose_name_plural = _(u"Insurance Reports")
+
+    insurance_no = models.CharField(_(u"Insurance Number"), max_length = 20, \
+                                        blank = True)
+
+    def __unicode__(self):
+        return u"%s: %s" % (\
+                self._meta.get_field_by_name('insurance_no')[0].verbose_name, \
+                self.insurance_no)
+
+reversion.register(InsuranceNumberReport, follow=['ccreport_ptr'])

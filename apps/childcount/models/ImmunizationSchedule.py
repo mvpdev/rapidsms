@@ -59,8 +59,9 @@ class ImmunizationSchedule(models.Model):
 
     def __unicode__(self):
         return _(u"After %(period_nb)s %(period_type)s: %(immun)s") \
-                 % (self.period, self.period_type, \
-                    self.immunization)
+                 % {'period_nb': self.period, \
+                    'period_type': self.period_type, \
+                    'immun': self.immunization}
 
     @classmethod
     def generate_schedule(cls, kid):
