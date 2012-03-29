@@ -15,7 +15,10 @@
 
 <div class="list-header">
 <h2 class="ptitle">{% trans "Patient List" %}{% if search %}: <em>{{ search }}</em>{% endif %} | 
-<a href="/childcount/patients/edit/">{% trans "Edit Patient" %}</a></h2>
+<a href="/childcount/patients/edit/">{% trans "Edit Patient" %}</a> |
+{% if chw %}
+<a href="{% url childcount.views.change_chw chw %}">{% trans "Change CHW" %}</a>
+{% endif %}</h2>
 <div class="searchbox">
 	<form action="/childcount/patients" method="get">
 	<input type="text" id="patient_search" name="patient_search">
