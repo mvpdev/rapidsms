@@ -238,14 +238,16 @@ def list_chw(request):
     return render_to_response(request, 'childcount/list_chw.html', info)
 
 @login_required
-def patient(request):
+def patient(request, chw=None):
     '''Patients page '''
     MAX_PAGE_PER_PAGE = 30
     DEFAULT_PAGE = 1
-
+    patients = Patient.objects.all()
+    if chw is not None:
+        patients = Patient.objects.filter(chw__username=chw)
 
     info = {}
-    patients = Patient.objects.all()
+    
     try:
         search = request.GET.get('patient_search','')
     except:

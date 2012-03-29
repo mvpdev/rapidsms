@@ -38,6 +38,8 @@ urlpatterns = patterns('',
     url(r'^childcount/patients/?$', views.patient, name='cc-patients'),
     url(r'^childcount/patients/edit/((?P<healthid>[a-zA-Z0-9]+)/)?$',
         views.edit_patient, name='cc-edit_patient'),
+    url(r'^childcount/patients/((?P<chw>[a-zA-Z0-9]+)/)?$', \
+        views.patient, name='cc-patients'),
     url(r'^childcount/patients/(?P<page>\d+)/?$', views.patient),
 
     url(r'^childcount/chws.json/?$', views.chw_json),
