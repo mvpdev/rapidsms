@@ -8,3 +8,5 @@ from mgvmrs.forms.OpenMRSOverFiveForm import *
 from mgvmrs.forms.OpenMRSConsultationForm import *
 from mgvmrs.forms.OpenMRSHouseholdForm import *
 from mgvmrs.forms.OpenMRSANCForm import *
+from mgvmrs.forms.OpenMRSLabRequestForm import *
+

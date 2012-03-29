@@ -238,14 +238,16 @@ def list_chw(request):
     return render_to_response(request, 'childcount/list_chw.html', info)
 
 @login_required
-def patient(request):
+def patient(request, chw=None):
     '''Patients page '''
     MAX_PAGE_PER_PAGE = 30
     DEFAULT_PAGE = 1
-
-
     info = {}
     patients = Patient.objects.all()
+    if chw is not None:
+        patients = Patient.objects.filter(chw__username=chw)
+        info['chw'] = chw
+    
     try:
         search = request.GET.get('patient_search','')
     except:
@@ -453,8 +455,6 @@ def indicators(request):
             'report_pk': Report.objects.get(classname='IndicatorChart').pk
         })
 
-    
-
 
 '''
 @login_required
@@ -479,3 +479,36 @@ def autocomplete(request):
 '''
 
 
+class ChangeCHWForm(forms.Form):
+    chw = forms.ChoiceField(choices=[(chw.id, chw.full_name()) \
+                                       for chw in CHW.objects.all()])
+
+
+def change_chw(request, chw):
+    info = {}
+    try:
+        chw = CHW.objects.get(username=chw)
+    except CHW.DoesNotExist:
+        return redirect(index)
+    if request.method == 'POST':
+        form = ChangeCHWForm(request.POST)
+        if form.is_valid():
+            chw_id = form.cleaned_data['chw']
+            try:
+                nchw = CHW.objects.get(id=chw_id)
+            except CHW.DoesNotExist:
+                info['status'] = _(u"CHW does not exist!")
+            else:
+                patients = Patient.objects.filter(chw=chw)
+                count = patients.count()
+                patients.update(chw=nchw)
+                status = _(u"%(num)s patients have been migrated to %(chw)s" \
+                    % {'num': count, 'chw': nchw.full_name()})
+                info['status'] = status
+                form = None
+    else:
+        form = ChangeCHWForm()
+    info['form'] = form
+    info['chw'] = chw
+    return render_to_response(\
+                request, 'childcount/change_chw.html', info)
