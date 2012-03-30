@@ -75,15 +75,15 @@ class DeathForm(CCForm):
                 .filter(household__pk=patient.pk)\
                 .exclude(pk=patient.pk)\
                 .order_by('dob')
+            if hh.count() > 0:
+                new_head = hh[0]
+                n = hh.update(household=new_head)
 
-            new_head = hh[0]
-            n = hh.update(household=new_head)
-
-            msg += _(" Changed head of household for %(n)d family " \
-                    "member(s) to %(hid)s (%(hh)s)") % \
-                {'hh': new_head.full_name(), \
-                'hid':new_head.health_id.upper(),
-                'n': n}
+                msg += _(" Changed head of household for %(n)d family " \
+                        "member(s) to %(hid)s (%(hh)s)") % \
+                    {'hh': new_head.full_name(), \
+                    'hid':new_head.health_id.upper(),
+                    'n': n}
 
         patient.status = Patient.STATUS_DEAD
         patient.save()
