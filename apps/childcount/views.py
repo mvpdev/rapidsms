@@ -480,7 +480,8 @@ def autocomplete(request):
 
 
 class ChangeCHWForm(forms.Form):
-    chw = forms.ChoiceField(choices=[(chw.id, chw.full_name()) \
+    chw = forms.ChoiceField(choices=[(chw.id, \
+                                '%s (%s)' % (chw.full_name(), chw.username)) \
                                 for chw in CHW.objects.filter(is_active=True)])
 
 

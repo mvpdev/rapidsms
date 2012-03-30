@@ -6,7 +6,7 @@
 {% block content %}
 <div style="margin-top: 2em">
 {% if form %}
-    <b>{% blocktrans %} Change {{ chw }}'s patients to{% endblocktrans %}</b>
+    <b>{% trans "Change" %} {{ chw }} ({{ chw.username }})'s {% trans "patients to" %}</b>
     <form action="{% url cc-change_chw chw.username %}" method="post">
     {{ form.as_p }}
     <input type="submit" value="Submit" />
