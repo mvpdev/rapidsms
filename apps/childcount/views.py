@@ -571,9 +571,10 @@ def list_location(request):
     return render_to_response(request, 'childcount/list_locations.html', info)
 
 
-class ChangeLocationForm(forms.Form):
-    location = forms.ChoiceField(choices=[(loc.pk, loc.name) \
-                                       for loc in Location.objects.all()])
+class ChangeCHWByLocationForm(forms.Form):
+    chw = forms.ChoiceField(choices=[(chw.id, \
+                                '%s (%s)' % (chw.full_name(), chw.username)) \
+                                for chw in CHW.objects.filter(is_active=True)])
 
 
 def change_chw_by_location(request, location):
@@ -583,7 +584,7 @@ def change_chw_by_location(request, location):
     except Location.DoesNotExist:
         return redirect(index)
     if request.method == 'POST':
-        form = ChangeCHWForm(request.POST)
+        form = ChangeCHWByLocationForm(request.POST)
         if form.is_valid():
             chw_id = form.cleaned_data['chw']
             try:
@@ -602,7 +603,7 @@ def change_chw_by_location(request, location):
                     reverse('cc-patients-chw', \
                     kwargs={'chw': nchw.username}))
     else:
-        form = ChangeCHWForm()
+        form = ChangeCHWByLocationForm()
     info['form'] = form
     info['location'] = location
     return render_to_response(\
