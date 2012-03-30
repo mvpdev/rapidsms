@@ -1,19 +1,159 @@
 {% extends base_template %}
+
 {% load i18n %}
 
-{% block title %}{% trans "Change CHW" %}{% endblock %}
+{% block javascripts %}
+<link rel="stylesheet" type="text/css" href="/static/childcount/stylesheets/cc_ui_tables.css" media="all" />
+{% endblock javascripts %}
+
+{% block page_stylesheets %}
+{{ block.super }}
+<style type="text/css">
+#chwsbmt { display: inline-block;
+    float: right;
+    text-align: right;
+    }
+</style>
+{% endblock page_stylesheets %}
+
+{% block title %}{% trans "Patient List" %}{% endblock %}
 
 {% block content %}
-<div style="margin-top: 2em">
+
+<div class="list-header">
+<h2 class="ptitle">{% trans "Patient List" %}
+{% if location %}
+<a href="{% url cc-change_location location.pk %}">
+{% blocktrans %}Assign Patients in {{ location }} to CHW {% endblocktrans %}</a>
+{% endif %}
+</h2>
+</div>
+<script type="text/javascript">
+$('div.list-header a.send').click(function(evt){
+	var button = $(evt.target);
+	button.blur();
+	evt.preventDefault();
+	button.parent().find('form').submit();
+})
+</script>
+
 {% if form %}
     <b>{% trans "Change" %} {{ chw }} ({{ chw.username }})'s {% trans "patients to" %}</b>
     <form action="{% url cc-change_chw chw.username %}" method="post">
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    {{form.chw}}
+    <div>
+    <a href="#" class="select-all">Select All</a> | 
+    <a href="#" class="deselect-all">Deselect All</a>
+    <span id="chwsbmt"><input id="changechwsubmit" type="submit" value="{% trans "Change CHW for Selected patients" %}" /></span>
+    </div>
+<table style="width:100%" class="patient-list cclist">
+<thead>
+<tr>
+<th>{% trans "ID" %}</th>
+<th>{% trans "Patient Name" %}</th>
+<th></th>
+<th>{% trans "DOB" %}</th>
+<th>{% trans "Location" %}</th>
+<th>{% trans "CHW" %}</th>
+</thead>
+<tbody>
+{% for patient in patients.object_list %}
+<tr>
+<td class="health-id"><label for="id_patients_{{patient.pk}}">
+<input class="pcheckbox" type="checkbox" name="patients" value="{{patient.pk}}" id="id_patients_{{patient.pk}}" />
+{{patient.health_id}}</label></td>
+<td>{{patient.last_name}}, {{patient.first_name}}</td>
+<td>{{patient.humanised_age}}</td>
+<td>{{patient.dob}}</td>
+<td>{{patient.location.name}}</td>
+<td>{{patient.chw}}</td>
+</tr>
+{% endfor %}
+<tr colspan='6'><p class='it info'>{% blocktrans %}{{rcount}} results found.{% endblocktrans %} <!-- Displaying results {{rstart}}-{{rend}}. --></p></tr>
+</tbody>
+<script type="text/javascript">
+<!--
+$('table.patient-list').addClass('on');
+$('table.patient-list tbody').delegate('a', 'click', function(evt){evt.stopImmediatePropagation()})
+$('table.patient-list tbody tr').click(function(evt){
+    if($(this).find('input.pcheckbox').attr('checked') == '')
+    {
+        $(this).find('input.pcheckbox').attr('checked', 'checked');
+    }
+    else
+    {
+        $(this).find('input.pcheckbox').removeAttr('checked');
+    }
+})
+$('a.select-all').click(function(evt){
+    evt.stopImmediatePropagation();
+    $('table.patient-list tbody tr').find('input.pcheckbox').attr('checked', 'checked');
+    return false
+})
+$('a.deselect-all').click(function(evt){
+    evt.stopImmediatePropagation();
+    $('table.patient-list tbody tr').find('input.pcheckbox').removeAttr('checked');
+    return false
+})
+
+$('#changechwsubmit').click(function(evt){
+    chkd = $('table.patient-list tbody tr').find('input.pcheckbox:checked').length
+    if(chkd == 0)
+        return false;
+    
+    return confirm("{% trans "Are you sure you want to change CHW for" %} " + chkd + " {% trans "selected patients?" %}");
+    return false;
+})
+-->
+</script>
+</table>
+
     </form>
 {% endif %}
-{% if status %}
-    <div class="message">{{ status }}</div>
+{% if is_paginated %}
+<hr>
+<div class="paginator" id ='paginator'>
+  {% ifnotequal  page 1 %}
+<span class="next"><a href="?page=1" title="{% trans "First Page" %}">{% trans "First" %}</a></span>
+ {%endifnotequal%}
+ 
+{% if has_previous %}<span class="prev"><a href="?page={{previous}}" title="{% trans "Previous Page" %}">&laquo; {% trans "Previous" %}</a></span>{% else %}<span class="prev-na">&laquo; {% trans "Previous" %}</span>{% endif %}
+ 
+{% if not in_leading_range %}
+    {% for num in pages_outside_trailing_range %}
+        <span class="page"><a href="?page={{ num }}" >{{ num }}</a></span>
+    {% endfor %}
+    ...
 {% endif %}
+ 
+{% for num in page_numbers %}
+  {% ifequal num page %}
+    <span class="curr" title="Current Page">{{ num }}</span>
+  {% else %}
+    <span class="page"><a href="?page={{ num }}" title="{% blocktrans %}Page {{ num }}{% endblocktrans %}">{{ num }}</a></span>
+  {% endifequal %}
+{% endfor %}
+ 
+{% if not in_trailing_range %}
+    ...
+    {% for num in pages_outside_leading_range reversed %}
+        <span class="page"><a href="?page={{ num }}" >{{ num }}</a></span>
+    {% endfor %}
+
+{% endif %}
+ 
+{% if has_next %}<span class="next"><a href="?page={{ next }}" title="{% trans "Next Page" %}">{% trans "Next" %} &raquo;</a></span>{% else %}<span class="next-na">{% trans "Next" %} &raquo;</span>{% endif %}
+
+  {% ifnotequal  page  last_page %}
+<span class="next"><a href="?page={{last_page}}" title="{% trans "Last Page" %}"> {% trans "Last" %}</a></span>
+ {%endifnotequal%}
+
+</div> 
+{% endif %}
+
 </div>
+<div id='ch-r'>
+</div>
+</div>
+<div style="clear:both;"></div>
 {% endblock %}

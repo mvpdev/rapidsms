@@ -483,8 +483,10 @@ class ChangeCHWForm(forms.Form):
     chw = forms.ChoiceField(choices=[(chw.id, \
                                 '%s (%s)' % (chw.full_name(), chw.username)) \
                                 for chw in CHW.objects.filter(is_active=True)])
+    patients = forms.MultipleChoiceField(widget=forms.widgets.CheckboxSelectMultiple)
 
 
+@login_required
 def change_chw(request, chw):
     info = {}
     try:
@@ -493,24 +495,64 @@ def change_chw(request, chw):
         return redirect(index)
     if request.method == 'POST':
         form = ChangeCHWForm(request.POST)
+        form.fields['patients'].choices = [(p.pk, p.health_id) \
+                                    for p in Patient.objects.filter(chw=chw)]
         if form.is_valid():
             chw_id = form.cleaned_data['chw']
+            pids = form.cleaned_data['patients']
+            patients = Patient.objects.filter(chw=chw, pk__in=pids)
             try:
                 nchw = CHW.objects.get(id=chw_id)
             except CHW.DoesNotExist:
                 info['status'] = _(u"CHW does not exist!")
             else:
-                patients = Patient.objects.filter(chw=chw)
                 count = patients.count()
                 patients.update(chw=nchw)
                 status = _(u"%(num)s patients have been migrated to %(chw)s" \
                     % {'num': count, 'chw': nchw.full_name()})
                 info['status'] = status
-                form = None
+                # form = None
     else:
         form = ChangeCHWForm()
+    patients = Patient.objects.filter(chw=chw)
+    form.fields['patients'].choices = [(p.pk, p.health_id) for p in patients]
     info['form'] = form
     info['chw'] = chw
+    MAX_PAGE_PER_PAGE = 30
+    DEFAULT_PAGE = 1
+    paginator = Paginator(patients, MAX_PAGE_PER_PAGE)
+
+    try:
+        page = int(request.GET.get('page', DEFAULT_PAGE))
+    except:
+        page = DEFAULT_PAGE
+    
+    info['rcount'] = patients.count()
+    info['rstart'] = paginator.per_page * page
+    info['rend'] = (page + 1 * paginator.per_page) - 1
+    
+    
+    try:
+        info['patients'] = paginator.page(page)
+    except:
+        info['patients'] = paginator.page(paginator.num_pages)
+
+    #get the requested page, if its out of range display last page
+    try:
+        current_page = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        current_page = paginator.page(paginator.num_pages)
+
+    nextlink, prevlink = {}, {}
+
+    if paginator.num_pages > 1:
+        nextlink['page'] = info['patients'].next_page_number()
+        prevlink['page'] = info['patients'].previous_page_number()
+
+        info.update(pagenator(paginator, current_page))
+
+    info['prevlink'] = urlencode(prevlink)
+    info['nextlink'] = urlencode(nextlink)
     return render_to_response(\
                 request, 'childcount/change_chw.html', info)
 
