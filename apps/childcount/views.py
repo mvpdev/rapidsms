@@ -25,7 +25,7 @@ from django.utils import simplejson
 from django.template import Context, loader
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group
-from django.db.models import F, Q
+from django.db.models import F, Q, Count
 
 from reporters.models import PersistantConnection, PersistantBackend
 from locations.models import Location
@@ -229,7 +229,9 @@ def list_chw(request):
 
     CHWS_PER_PAGE = 50
     info = {}
-    chews = CHW.objects.all().order_by('first_name')
+    k = CHW.objects.annotate(patient_count=Count('patient'))
+    n =[pk.pk for pk in k.filter(is_active=False, patient_count=0)]
+    chews = CHW.objects.exclude(pk__in=n).order_by('-is_active', 'first_name')
     info.update({'chews': chews})
     paginator = Paginator(chews, CHWS_PER_PAGE)
     page = int(request.GET.get('page', 1))

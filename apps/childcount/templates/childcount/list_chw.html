@@ -20,6 +20,7 @@
 <tr>
 <th>{% trans "Username" %}</th><th>{% trans "First Name" %}</th><th>{% trans "Last Name" %}</th>
 <th>{% trans "Location" %}</th><th>{% trans "Active?" %}</th>
+<th>{% trans "# of patients" %}</th>
 </tr>
 </thead>
 <tbody>
@@ -30,6 +31,7 @@
     <td>{{ chw.last_name }}</td>
     <td>{{ chw.location }}</td>
     <td class="center">{% if chw.is_active %}{% trans "Y" %}{% else %}{% trans "N" %}{% endif %}</td>
+    <td>{{ chw.patient_set.count }}</td>
 </tr>
 {% endfor %}
 </tbody>
