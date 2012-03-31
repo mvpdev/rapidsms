@@ -193,6 +193,10 @@ class App (rapidsms.app.App):
                 try:
                     edate = datetime.strptime(message.encounter_date, \
                                              "%Y-%m-%d")
+                    if self.is_ethiopian_date:
+                        gdate = EthiopianDateConverter.date_to_gregorian(edate)
+                        edate = datetime.strptime(gdate.strftime('%Y-%m-%d'), \
+                                                 "%Y-%m-%d")
                     # set it to midday on that day...
                     message.date = edate + timedelta(hours=12)
                 except ValueError:
