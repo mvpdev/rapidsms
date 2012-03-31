@@ -228,13 +228,10 @@ class ReportDefinition(PrintedReport):
                 encounter__encounter_date__lt=report.encounter.encounter_date)\
                 .latest()
         except NutritionReport.DoesNotExist:
-            if report.muac is None and report.weight is not None:
-                return u"%s kg." % report.weight
-            elif report.muac is None:
-                return u""
-            return u"%s %d" % (report.verbose_state, report.muac)
+            pass
         else:
-            if last_muac.muac:
+            if last_muac.muac and report.muac is not None \
+                                            and last_muac.muac is not None):
                 mdiff = report.muac - last_muac.muac
                 if mdiff > 0:
                     return u"%s %d (+%d)" % (report.verbose_state, report.muac, \
@@ -242,7 +239,11 @@ class ReportDefinition(PrintedReport):
                 else:
                     return u"%s %d (%d)" % (report.verbose_state, report.muac, \
                                                 mdiff)
-            return u"%s %d" % (report.verbose_state, report.muac)
+        if report.muac is None and report.weight is not None:
+            return u"%s kg." % report.weight
+        elif report.muac is None:
+            return u""
+        return u"%s %d" % (report.verbose_state, report.muac)
 
     def _child_fever_report(self, child, report):
         return report.rdt_result
