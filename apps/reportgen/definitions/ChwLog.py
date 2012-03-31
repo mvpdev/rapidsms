@@ -231,7 +231,7 @@ class ReportDefinition(PrintedReport):
             pass
         else:
             if last_muac.muac and report.muac is not None \
-                                            and last_muac.muac is not None):
+                                            and last_muac.muac is not None:
                 mdiff = report.muac - last_muac.muac
                 if mdiff > 0:
                     return u"%s %d (+%d)" % (report.verbose_state, report.muac, \
