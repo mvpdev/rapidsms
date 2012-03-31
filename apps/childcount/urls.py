@@ -38,11 +38,21 @@ urlpatterns = patterns('',
     url(r'^childcount/patients/?$', views.patient, name='cc-patients'),
     url(r'^childcount/patients/edit/((?P<healthid>[a-zA-Z0-9]+)/)?$',
         views.edit_patient, name='cc-edit_patient'),
+    url(r'^childcount/patients/(?P<chw>[a-zA-Z0-9]+)/?$', \
+        views.patient, name='cc-patients-chw'),
     url(r'^childcount/patients/(?P<page>\d+)/?$', views.patient),
 
     url(r'^childcount/chws.json/?$', views.chw_json),
     url(r'^childcount/add_chw/?$', views.add_chw, name='cc-add_chw'),
     url(r'^childcount/list_chw/?$', views.list_chw, name='cc-list_chw'),
+    url(r'^childcount/change_chw/(?P<chw>[a-zA-Z0-9\-\_\.]*)/?$', \
+        views.change_chw, name='cc-change_chw'),
+    url(r'^childcount/list_location/?$', views.list_location, \
+        name='cc-list_location'),
+    url(r'^childcount/change_location/(?P<location>\d+)/?$', \
+        views.change_chw_by_location, name='cc-change_location'),
+    url(r'^childcount/patient-by-location/(?P<location>\d+)/?$', \
+        views.patient_by_location, name='cc-patients-by-location'),
     url(r'^childcount/indicators/?$', views.indicators, name='cc-indicators'),
 
     url(r'^childcount/dataentry/?$', views.dataentry, name='cc-dataentry'),

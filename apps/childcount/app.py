@@ -5,6 +5,7 @@
 import re
 import time
 from datetime import date, datetime, timedelta
+from ethiopian_date import EthiopianDateConverter
 
 from django.utils.translation import ugettext as _, activate
 from django.utils.translation import ungettext
@@ -36,6 +37,7 @@ class App (rapidsms.app.App):
 
     commands = []
     forms = []
+    is_ethiopian_date = False
 
     def configure(self, title='ChildCount', tab_link='/childcount', \
                   forms=None, commands=None):
@@ -55,6 +57,12 @@ class App (rapidsms.app.App):
                     self.commands.append(eval(command))
                 except:
                     self.debug(_(u'%s command not found.') % command)
+        try:
+            is_ethiopian_dt = Cfg.objects.get(key='inputs_ethiopian_date')
+        except Cfg.DoesNotExist:
+           self.is_ethiopian_date = False
+        else:
+            self.is_ethiopian_date = (is_ethiopian_dt.value.lower() == 'true')
 
     def start(self):
         self.command_mapper = KeywordMapper()
@@ -148,7 +156,10 @@ class App (rapidsms.app.App):
                 message.respond(_(u"Problem getting encounter_date from "\
                                    "backend."), 'error')
                 return handled
-
+            if self.is_ethiopian_date:
+                gdate = EthiopianDateConverter.date_to_gregorian(edate)
+                edate = datetime.strptime(gdate.strftime('%Y-%m-%d'), \
+                                         "%Y-%m-%d")
             # Don't allow future dates
             if edate.date() > date.today():
                 message.respond(_(u"You cannot select an encounter date that is "
@@ -182,6 +193,10 @@ class App (rapidsms.app.App):
                 try:
                     edate = datetime.strptime(message.encounter_date, \
                                              "%Y-%m-%d")
+                    if self.is_ethiopian_date:
+                        gdate = EthiopianDateConverter.date_to_gregorian(edate)
+                        edate = datetime.strptime(gdate.strftime('%Y-%m-%d'), \
+                                                 "%Y-%m-%d")
                     # set it to midday on that day...
                     message.date = edate + timedelta(hours=12)
                 except ValueError:

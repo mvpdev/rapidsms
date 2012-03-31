@@ -1,4 +1,5 @@
 {% extends base_template %}
+
 {% load i18n %}
 
 {% block javascripts %}
@@ -7,6 +8,12 @@
 
 {% block page_stylesheets %}
 {{ block.super }}
+<style type="text/css">
+#chwsbmt { display: inline-block;
+    float: right;
+    text-align: right;
+    }
+</style>
 {% endblock page_stylesheets %}
 
 {% block title %}{% trans "Patient List" %}{% endblock %}
@@ -14,22 +21,12 @@
 {% block content %}
 
 <div class="list-header">
-<h2 class="ptitle">{% trans "Patient List" %}{% if search %}: <em>{{ search }}</em>{% endif %} | 
-<a href="/childcount/patients/edit/">{% trans "Edit Patient" %}</a> |
-{% if chw %}
-<a href="{% url childcount.views.change_chw chw %}">{% trans "Change CHW" %}</a>
-{% endif %}
+<h2 class="ptitle">{% trans "Patient List" %}
 {% if location %}
 <a href="{% url cc-change_location location.pk %}">
 {% blocktrans %}Assign Patients in {{ location }} to CHW {% endblocktrans %}</a>
 {% endif %}
 </h2>
-<div class="searchbox">
-	<form action="/childcount/patients" method="get">
-	<input type="text" id="patient_search" name="patient_search">
-	</form>
-</div>
-<a href="#" class="send">{% trans "Search" %}</a>
 </div>
 <script type="text/javascript">
 $('div.list-header a.send').click(function(evt){
@@ -40,8 +37,15 @@ $('div.list-header a.send').click(function(evt){
 })
 </script>
 
-
-
+{% if form %}
+    <b>{% trans "Change" %} {{ chw }} ({{ chw.username }})'s {% trans "patients to" %}</b>
+    <form action="{% url cc-change_chw chw.username %}" method="post">
+    {{form.chw}}
+    <div>
+    <a href="#" class="select-all">Select All</a> | 
+    <a href="#" class="deselect-all">Deselect All</a>
+    <span id="chwsbmt"><input id="changechwsubmit" type="submit" value="{% trans "Change CHW for Selected patients" %}" /></span>
+    </div>
 <table style="width:100%" class="patient-list cclist">
 <thead>
 <tr>
@@ -55,8 +59,10 @@ $('div.list-header a.send').click(function(evt){
 <tbody>
 {% for patient in patients.object_list %}
 <tr>
-<td class="health-id">{{patient.health_id}}</td>
-<td><a href="/childcount/patients/edit/{{patient.health_id}}">{{patient.last_name}}, {{patient.first_name}}</a></td>
+<td class="health-id"><label for="id_patients_{{patient.pk}}">
+<input class="pcheckbox" type="checkbox" name="patients" value="{{patient.pk}}" id="id_patients_{{patient.pk}}" />
+{{patient.health_id}}</label></td>
+<td>{{patient.last_name}}, {{patient.first_name}}</td>
 <td>{{patient.humanised_age}}</td>
 <td>{{patient.dob}}</td>
 <td>{{patient.location.name}}</td>
@@ -70,12 +76,40 @@ $('div.list-header a.send').click(function(evt){
 $('table.patient-list').addClass('on');
 $('table.patient-list tbody').delegate('a', 'click', function(evt){evt.stopImmediatePropagation()})
 $('table.patient-list tbody tr').click(function(evt){
-    window.location.href=$(this).find('a').attr('href');
+    if($(this).find('input.pcheckbox').attr('checked') == '')
+    {
+        $(this).find('input.pcheckbox').attr('checked', 'checked');
+    }
+    else
+    {
+        $(this).find('input.pcheckbox').removeAttr('checked');
+    }
+})
+$('a.select-all').click(function(evt){
+    evt.stopImmediatePropagation();
+    $('table.patient-list tbody tr').find('input.pcheckbox').attr('checked', 'checked');
+    return false
+})
+$('a.deselect-all').click(function(evt){
+    evt.stopImmediatePropagation();
+    $('table.patient-list tbody tr').find('input.pcheckbox').removeAttr('checked');
+    return false
+})
+
+$('#changechwsubmit').click(function(evt){
+    chkd = $('table.patient-list tbody tr').find('input.pcheckbox:checked').length
+    if(chkd == 0)
+        return false;
+    
+    return confirm("{% trans "Are you sure you want to change CHW for" %} " + chkd + " {% trans "selected patients?" %}");
+    return false;
 })
 -->
 </script>
 </table>
 
+    </form>
+{% endif %}
 {% if is_paginated %}
 <hr>
 <div class="paginator" id ='paginator'>

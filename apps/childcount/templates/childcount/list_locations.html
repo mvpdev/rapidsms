@@ -5,34 +5,26 @@
 <link rel="stylesheet" type="text/css" href="/static/childcount/stylesheets/cc_ui_tables.css" media="all" />
 {% endblock %}
 
-{% block title %}{% trans "CHW List" %}{% endblock %}
+{% block title %}{% trans "Locations List" %}{% endblock %}
 
 {% block content %}
 <!--
 <p><a href="{% url cc-add_chw %}">{% trans "Create a CHW Account" %}</a></p>
 -->
 <div style="height:40px">
-<h2>{% trans "All Community Health Workers" %} - <a href="{% url cc-add_chw %}">{% trans "Add CHW" %}</a> |
- <a href="{% url cc-list_location %}">{% trans "Locations" %}</a></h2>
+<h2>{% trans "All Locations" %}</a></h2>
 </div>
 <table class="cclist on">
 <thead>
 <tr>
-<th>{% trans "Username" %}</th><th>{% trans "First Name" %}</th><th>{% trans "Last Name" %}</th>
-<th>{% trans "Location" %}</th><th>{% trans "Active?" %}</th>
-<th>{% trans "# of patients" %}</th>
+<th>{% trans "Location" %}</th><th>{% trans "Number of Patients" %}</th>
 </tr>
 </thead>
 <tbody>
-{% for chw in paginator.object_list %}
+{% for location, num_patient in paginator.object_list %}
 <tr>
-    <td><a href="{% url cc-patients-chw chw.username%}">{{ chw.username }}</a></td>
-    <td>{{ chw.first_name }}</td>
-    <td>{{ chw.last_name }}</td>
-    <td>{{ chw.location }}</td>
-    <td class="center">{% if chw.is_active %}{% trans "Y" %}{% else %}{% trans "N" %}{% endif %}</td>
-    <td>{{ chw.patient_set.count }}</td>
-</tr>
+    <td><a href="{% url cc-patients-by-location location.pk %}">{{ location.name }}</a></td>
+    <td>{{ num_patient }}</td>
 {% endfor %}
 </tbody>
 </table>

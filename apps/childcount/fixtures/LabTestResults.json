@@ -1,0 +1,497 @@
+[
+    {
+        "pk": 1, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "A+", 
+            "omrs_conceptid": 690
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 2, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "A-", 
+            "omrs_conceptid": 692
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "B+", 
+            "omrs_conceptid": 694
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "B-", 
+            "omrs_conceptid": 696
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "AB+", 
+            "omrs_conceptid": 1230
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "AB-", 
+            "omrs_conceptid": 1231
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "O+", 
+            "omrs_conceptid": 699
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 1, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "O-", 
+            "omrs_conceptid": 701
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 2, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Positive", 
+            "omrs_conceptid": 703
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 2, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Negative", 
+            "omrs_conceptid": 664
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 15, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Positive", 
+            "omrs_conceptid": 703
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 15, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Negative", 
+            "omrs_conceptid": 664
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 16, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Reactive", 
+            "omrs_conceptid": 1228
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 16, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Non-Reactive", 
+            "omrs_conceptid": 1229
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 16, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Poor Quality Sample", 
+            "omrs_conceptid": 1304
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 17, 
+            "units": "g/dl", 
+            "ref_range": "12-18[M]", 
+            "result_type": "decimal", 
+            "omrs_conceptid": 21
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 17, 
+            "units": "", 
+            "ref_range": "11-16[F]", 
+            "result_type": "number", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 4, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Negative", 
+            "omrs_conceptid": 664
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 4, 
+            "units": "+", 
+            "ref_range": "", 
+            "result_type": "One Plus", 
+            "omrs_conceptid": 1362
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 4, 
+            "units": "++", 
+            "ref_range": "", 
+            "result_type": "Two Plus", 
+            "omrs_conceptid": 1363
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 5, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "No Defect", 
+            "omrs_conceptid": 160233
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 5, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Partial Defect", 
+            "omrs_conceptid": 160234
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 5, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Total Defect", 
+            "omrs_conceptid": 160235
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 6, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Reactive", 
+            "omrs_conceptid": 1228
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 6, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Non-reactive", 
+            "omrs_conceptid": 1229
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 7, 
+            "units": "mmol/l", 
+            "ref_range": "3.6-6.4", 
+            "result_type": "decimal number", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 8, 
+            "units": "mmol/l", 
+            "ref_range": "3.2 -11.0", 
+            "result_type": "decimal number", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 9, 
+            "units": "mm/h", 
+            "ref_range": "3-5[M], 4-7[F]", 
+            "result_type": "decimal number", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 10, 
+            "units": "", 
+            "ref_range": "1500-4000", 
+            "result_type": "decimal number", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "", 
+            "ref_range": "2.5-8.5", 
+            "result_type": "decimal number", 
+            "omrs_conceptid": 678
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "%", 
+            "ref_range": "40-75", 
+            "result_type": "Neutrophils", 
+            "omrs_conceptid": 1136
+        }
+    }, 
+    {
+        "pk": 38, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "%", 
+            "ref_range": "25-40", 
+            "result_type": "Lymphocytes", 
+            "omrs_conceptid": 1338
+        }
+    }, 
+    {
+        "pk": 39, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "%", 
+            "ref_range": "1-6", 
+            "result_type": "Monocytes", 
+            "omrs_conceptid": 1339
+        }
+    }, 
+    {
+        "pk": 40, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "%", 
+            "ref_range": "22-10", 
+            "result_type": "Eosinophils", 
+            "omrs_conceptid": 1340
+        }
+    }, 
+    {
+        "pk": 41, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 11, 
+            "units": "%", 
+            "ref_range": "0-1", 
+            "result_type": "Basophils", 
+            "omrs_conceptid": 1341
+        }
+    }, 
+    {
+        "pk": 42, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 12, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Negative", 
+            "omrs_conceptid": 664
+        }
+    }, 
+    {
+        "pk": 43, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 12, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "One Plus", 
+            "omrs_conceptid": 1362
+        }
+    }, 
+    {
+        "pk": 44, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 12, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Two Plus", 
+            "omrs_conceptid": 1363
+        }
+    }, 
+    {
+        "pk": 45, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 4, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Three Plus", 
+            "omrs_conceptid": 1364
+        }
+    }, 
+    {
+        "pk": 46, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 12, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Three Plus", 
+            "omrs_conceptid": 1364
+        }
+    }, 
+    {
+        "pk": 47, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 13, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Short Message", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 48, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 13, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Short Message", 
+            "omrs_conceptid": null
+        }
+    }, 
+    {
+        "pk": 49, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 18, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Negative", 
+            "omrs_conceptid": 664
+        }
+    }, 
+    {
+        "pk": 50, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 18, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Positive", 
+            "omrs_conceptid": 703
+        }
+    }, 
+    {
+        "pk": 51, 
+        "model": "childcount.labtestresults", 
+        "fields": {
+            "test": 18, 
+            "units": "", 
+            "ref_range": "", 
+            "result_type": "Intermediate", 
+            "omrs_conceptid": 1138
+        }
+    }
+]

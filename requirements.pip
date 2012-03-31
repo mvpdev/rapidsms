@@ -1,0 +1,14 @@
+Django==1.1.1
+django-reversion==1.2.1
+South==0.7
+numpy
+pep8
+django-celery==2.3.3
+python-dateutil<2.0
+ethiopian_date
+mysql-python
+django_extensions
+babel
+reportlab==2.3
+gdata==2.0.16
+xlwt==0.7.1
