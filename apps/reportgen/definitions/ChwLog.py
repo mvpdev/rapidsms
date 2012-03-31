@@ -228,6 +228,8 @@ class ReportDefinition(PrintedReport):
                 encounter__encounter_date__lt=report.encounter.encounter_date)\
                 .latest()
         except NutritionReport.DoesNotExist:
+            if report.muac is None:
+                return u""
             return u"%s %d" % (report.verbose_state, report.muac)
         else:
             if last_muac.muac:
