@@ -75,6 +75,10 @@ class NutritionForm(CCForm):
         muac = int(self.params[1])
         if muac == 0:
             muac = None
+            if len(self.params) < 4:
+                raise ParseError(\
+                            _(u"Not enough info. Expected: | muac | oedema " \
+                                    "| weight (mandatory) |"))
         elif muac < 50:
             raise BadValue(_(u"MUAC too low. If correct, refer child to " \
                              "clinic IMMEDIATELY!"))
