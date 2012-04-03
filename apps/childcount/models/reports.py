@@ -1764,15 +1764,6 @@ class SchoolAttendanceReport(CCReport):
     attending_school = models.PositiveSmallIntegerField( \
                                 _(u"#School aged Pupils Attending school "), \
                                 db_index=True, default=0)
-    attendschool_other = models.PositiveSmallIntegerField(_(u"#Under/Over  " \
-                                "school age Pupils Attending school "), \
-                                db_index=True, default=0)
-    school_type = models.CharField(_(u"School Level"), max_length=1, \
-                            choices=SCHOOL_CHOICES, blank=False, null=True, \
-                            db_index=True)
-    reason = models.ManyToManyField('CodedItem', \
-                                          verbose_name=_(u"Reason for not " \
-                                          "attencing school"))
 
 reversion.register(SchoolAttendanceReport, follow=['ccreport_ptr'])
 
