@@ -32,3 +32,5 @@ from bednet import DistributionPoints
 
 from LabTest import LabTest
 from LabTestResults import LabTestResults
+
+from OMRSErrorLog import OMRSErrorLog

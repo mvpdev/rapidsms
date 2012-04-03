@@ -115,3 +115,11 @@ admin.site.register(LabTest)
 admin.site.register(LabTestResults)
 admin.site.register(LabReport)
 admin.site.register(InsuranceNumberReport)
+
+
+class OMRSErrorLogAdmin(VersionAdmin):
+    list_filter = ['error_type']
+    list_display = ('__unicode__', 'error_type', 'updated_on')
+    search_fields = ['encounter__patient__health_id', 'chw__clinic__code']
+admin.site.register(OMRSErrorLog, OMRSErrorLogAdmin)
+
