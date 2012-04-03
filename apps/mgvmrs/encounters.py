@@ -7,7 +7,7 @@ from datetime import datetime
 from rapidsms.webui import settings
 from django.db.models import Q
 
-from childcount.models import Encounter, Patient
+from childcount.models import Encounter, Patient, OMRSErrorLog
 from childcount.models.reports import CCReport, PregnancyReport, LabReport, \
                          PregnancyRegistrationReport, AppointmentReport
 
@@ -160,6 +160,11 @@ def send_to_omrs(router, *args, **kwargs):
             router.log('DEBUG', \
                           u"Successfuly sent XForm to OpenMRS: %s" % encounter)
         except OpenMRSTransmissionError, e:
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
+            errl.error_message = omrsform.render()
+            errl.save()
+
             router.log('DEBUG', '==> Transmission error')
             router.log('DEBUG', omrsform.render())
             router.log('DEBUG', e)
@@ -167,6 +172,11 @@ def send_to_omrs(router, *args, **kwargs):
             # Don't modify this encounter, just let 
             # it get sent later on
         except OpenMRSXFormsModuleError, e:
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_XFORM_ERROR
+            errl.error_message = omrsform.render()
+            errl.save()
+
             router.log('DEBUG', '==> XForms Module error')
             router.log('DEBUG', omrsform.render())
             router.log('DEBUG', e)
