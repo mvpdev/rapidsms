@@ -101,11 +101,15 @@ def index(request):
         dashboard_template_names = Configuration.objects.get(key='dashboard_sections').value.split()
     except:
         dashboard_template_names = ['highlight_stats_bar',]
-    
-    info['dashboard_data'] = dashboard_gather_data(dashboard_template_names)
-    info['section_templates'] = ["%s/%s.html" % (DASHBOARD_TEMPLATE_DIRECTORY, ds) for ds in dashboard_template_names]
-    
+    info['section_templates'] = dashboard_template_names
     return render_to_response(request, "childcount/dashboard.html", info)
+
+
+def get_dashboard_section(request, section_name):
+    info = {}
+    info['dashboard_data'] = dashboard_gather_data([section_name])
+    info['section_templates'] = "%s/%s.html" % (DASHBOARD_TEMPLATE_DIRECTORY, section_name)
+    return render_to_response(request, info['section_templates'], info)
 
 
 def site_summary(request, report='site', format='json'):
