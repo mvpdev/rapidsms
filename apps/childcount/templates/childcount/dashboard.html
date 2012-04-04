@@ -11,18 +11,15 @@
 {% endblock page_stylesheets %}
 
 {% block javascripts %}
-<script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.core.js"></script>
+<!-- <script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.core.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.widget.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/jquery.ui.accordion.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/raphael-min.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/g.raphael.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/g.pie.js"></script>
 <script type="text/javascript" language="javascript" src="/static/childcount/scripts/g.line.js"></script>
+-->
 
-<script type="text/javascript" charset="utf-8">
-	/*- makes cclist tables look prettier --*/
-	$(function(){$('table.cclist').addClass('on')})
-</script>
 
 {% endblock javascripts %}
 
@@ -31,9 +28,20 @@
 
 {% block content %}
 
-{% for section_template_name in section_templates %}
-	{% include section_template_name %}
-{% endfor %}
-
+<script type="text/javascript" charset="utf-8">
+	/*- makes cclist tables look prettier --*/
+	$(function(){$('table.cclist').addClass('on')})
+	$(function(){
+	    {% for section_template_name in section_templates %}
+	    $.get("{%url cc-dashboard-section section_template_name %}",
+	        function(data, resp){
+	            if(resp == 'success')
+    	            $("div#body-main-content").append(data);
+    	        else
+    	            console.log(resp)
+	    });
+	    {% endfor %}
+	})
+</script>
 <!-- Current language: {{ lang }} -->
 {% endblock %}
