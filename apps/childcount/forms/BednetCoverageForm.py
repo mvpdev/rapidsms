@@ -66,4 +66,4 @@ class BednetCoverageForm(CCForm):
                            "observed") % \
                            {'patient': patient, 'sites': bnr.sleeping_sites, \
                             'nets': bnr.function_nets, \
-                            'er': function_nets_observed}
+                            'er': bnr.function_nets_observed}
