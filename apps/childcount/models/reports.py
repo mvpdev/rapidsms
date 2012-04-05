@@ -1274,7 +1274,7 @@ class BedNetReport(CCReport):
     function_nets_observed = models.PositiveSmallIntegerField( \
                                 _(u"Functioning bednet observed"), \
                                 help_text=_(u"Number of functioning bednet" \
-                                " observed "),db_index=True)
+                                " observed "), db_index=True)
 
     def summary(self):
         return u"%s: %d, %s: %d" % \
@@ -1282,6 +1282,13 @@ class BedNetReport(CCReport):
              self.sleeping_sites, \
              self._meta.get_field_by_name('function_nets')[0].verbose_name, \
              self.function_nets)
+
+    def get_omrs_dict(self):
+        return {
+            'sleeping_sites': self.sleeping_sites,
+            'bednets': self.function_nets,
+            'function_nets_observed': self.function_nets_observed,
+        }
 
 reversion.register(BedNetReport, follow=['ccreport_ptr'])
 
@@ -1325,6 +1332,12 @@ class BednetUtilization(CCReport):
              self._meta.get_field_by_name('child_lastnite')[0].verbose_name, \
              self.child_lastnite)
 
+    def get_omrs_dict(self):
+        return {
+            'slept_underfive_lastnight': self.child_underfive,
+            'undernet_underfive_lastnight': self.child_lastnite,
+        }
+        
 reversion.register(BednetUtilization, follow=['ccreport_ptr'])
 
 
@@ -1352,6 +1365,12 @@ class BednetUtilizationPregnancy(CCReport):
              self.slept_lastnite, \
              self._meta.get_field_by_name('slept_underbednet')[0].verbose_name, \
              self.slept_underbednet)
+
+    def get_omrs_dict(self):
+        return {
+            'pregnant_slept_lastnight': self.slept_lastnite,
+            'pregnant_undernet_lastnight': self.slept_underbednet,
+        }
 
 reversion.register(BednetUtilizationPregnancy, follow=['ccreport_ptr'])
 
@@ -1392,10 +1411,9 @@ class SanitationReport(CCReport):
         (SHARE_YES, _(u"Yes")),
         (SHARE_NO, _(u"No")),
         (SHARE_UNKNOWN, _(u"Unknown")))
-        
 
     toilet_lat = models.CharField(_(u"Toilet Type"), max_length=2, \
-                              choices=TOILET_LAT_CHOICES,\
+                              choices=TOILET_LAT_CHOICES, \
                               db_index=True)
     share_toilet = models.CharField(_(u"Share?"), max_length=1, \
                                         choices=SHARE_CHOICES,\
