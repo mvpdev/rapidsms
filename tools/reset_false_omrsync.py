@@ -49,6 +49,8 @@ for e in encounters:
     e.save()
     revision.end()
     if c % 100 == 0:
-        print "DONE: ", c, "of", t
-
-print "FINISHED: ", c, "of", t
+        print "DONE: ", c, "of", t, "%d%%" % round((round(c)/t)*100)
+if c > 0:
+    print "FINISHED: ", c, "of", t, "%d%%" % round((round(c)/t)*100)
+else:
+    print "FINISHED: ", c, "of", t
