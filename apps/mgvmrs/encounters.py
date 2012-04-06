@@ -51,12 +51,17 @@ def send_to_omrs(router, *args, **kwargs):
         individual_id = int(conf['individual_id'])
         household_id = int(conf['household_id'])
         location_id = int(conf['location_id'])
-        labrequest_id = int(conf['labrequest_id'])
         identifier_type = int(conf['identifier_type'])
         # provider is a fallback if CHW has no OMRS ID in DB.
         provider_id = int(conf['provider_id'])
     except KeyError:
         raise Exception("Invalid [mgvmrs] configuration")
+    # mandatory only if lab module is deployed
+    try;
+        labrequest_id = int(conf['labrequest_id'])
+    except KeyError:
+        router.log('DEBUG', "If lab module is enabled please configure "\
+                    "labrequest_id in local.ini")
 
     # this one is not fatal
     try:
