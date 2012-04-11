@@ -41,7 +41,7 @@ class HouseholdHeadCommand(CCCommand):
         except Patient.DoesNotExist:
             self.message.respond(_(u"Patient with ID %(hid)s "\
                                     "does not exist") % \
-                {'hid': member.upper()})
+                {'hid': member.upper()}, 'error')
             return True
 
         old_hh = member.household
@@ -51,7 +51,7 @@ class HouseholdHeadCommand(CCCommand):
         except Patient.DoesNotExist:
             self.message.respond(_(u"Patient with ID %(hid)s "\
                                     "does not exist") % \
-                {'hid': new_hid.upper()})
+                {'hid': new_hid.upper()}, 'error')
             return True
 
         n = Patient\
