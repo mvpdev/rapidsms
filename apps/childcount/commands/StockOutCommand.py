@@ -59,7 +59,7 @@ class StockOutCommand(CCCommand):
                                     " Please check if your stock out quantity "
                                     "is correct." %\
                                     {'loc': loc, 'sp': bns.start_point,
-                                    'q': quantity}))
+                                    'q': quantity}), 'error')
             else:
                 bns.chw = chw
                 bns.end_point = quantity
@@ -68,5 +68,6 @@ class StockOutCommand(CCCommand):
                                 "; Starting Point: %(sp)s; Issued: %(issued)s"
                                 "" % {'loc': loc, 'sp': bns.start_point,
                                 'q': quantity,
-                                'issued': bns.start_point - bns.quantity}))
+                                'issued': bns.start_point - bns.quantity}),
+                                'success')
         return True
