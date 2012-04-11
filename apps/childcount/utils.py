@@ -766,6 +766,16 @@ def get_indicators():
         indicators.append({'name': imp.NAME, 'inds': mems, 'slug': modname})
     return indicators
 
+
+def send_sms(reporters, name, msg):
+    for r in reporters:
+        alert = SmsAlert(reporter=r, msg=_("ChildCount Alert! ")+msg)
+        sms_alert = alert.send()
+
+        sms_alert.name = name
+        sms_alert.save()
+
+
 def alert_health_team(name, msg):
     groups = ("Health Coordinator", \
             "Health Facilitator", \
@@ -773,12 +783,21 @@ def alert_health_team(name, msg):
     reporters = Reporter\
         .objects\
         .filter(user_ptr__groups__name__in=groups)
-
-    for r in reporters:
-        alert = SmsAlert(reporter=r, msg=_("ChildCount Alert! ")+msg)
-        sms_alert = alert.send()
-
-        sms_alert.name = name
-        sms_alert.save()
+    send_sms(reporters, name, msg)
         
 
+def alert_nutrition_team(name, msg):
+    groups = ("Nutritionist",)
+    reporters = Reporter\
+        .objects\
+        .filter(user_ptr__groups__name__in=groups)
+    print reporters
+    send_sms(reporters, name, msg)
+        
+
+def alert_va_specialist(name, msg):
+    groups = ("VA Specialist",)
+    reporters = Reporter\
+        .objects\
+        .filter(user_ptr__groups__name__in=groups)
+    send_sms(reporters, name, msg)
