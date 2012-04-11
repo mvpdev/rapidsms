@@ -28,7 +28,8 @@ class LangCommand(CCCommand):
             self.message.respond(_(u"Your language preference is set " \
                                     "to: %(lang)s. Change it by sending your " \
                                     "new language preference code.") \
-                                    % {'lang': chw.language.upper()})
+                                    % {'lang': chw.language.upper()}, \
+                                    'success')
             return True
 
         newlang = self.params[1].strip()
@@ -36,13 +37,14 @@ class LangCommand(CCCommand):
         if chw.language == newlang:
             self.message.respond(_(u"Your language preference is already " \
                                     "set to: %(lang)s.") \
-                                    % {'lang': chw.language.upper()})
+                                    % {'lang': chw.language.upper()}, \
+                                    'success')
             return True
 
         if newlang not in self.KEYWORDS:
             self.message.respond(_(u"That language preference code " \
                                     "(%(code)s) is not valid.") \
-                                    % {'code': newlang.upper()})
+                                    % {'code': newlang.upper()}, 'success')
             return True
 
         oldlang = chw.language
@@ -53,6 +55,6 @@ class LangCommand(CCCommand):
         self.message.respond(_(u"Your language preference has been changed " \
                                 "from %(old)s to %(new)s. ") % \
                                 {'old': oldlang.upper(), \
-                                 'new': chw.language.upper()})
+                                 'new': chw.language.upper()}, 'success')
 
         return True
