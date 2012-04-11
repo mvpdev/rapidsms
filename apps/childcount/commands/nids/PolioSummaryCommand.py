@@ -78,7 +78,7 @@ class PolioSummaryCommand(CCCommand):
             resp += u"%(loc)s: %(vacc)s/%(total)s - %(percentage)s%%. " % \
                     {'loc': loc['chw__location__name'],
                     'vacc': loc['chw__count'], 'total': t, 'percentage': p}
-        self.message.respond(resp)
+        self.message.respond(resp, 'success')
         if self.params.__len__() > 1 and self.params[1].lower() == 'all':
             for chw in CHW.objects.all():
                 try:
