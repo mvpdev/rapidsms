@@ -18,7 +18,7 @@ from childcount.utils import clean_names, DOBProcessor
 from childcount.exceptions import BadValue, ParseError
 from childcount.forms.utils import MultipleChoiceField
 from childcount.models import DeadPerson, Patient
-from childcount.utils import alert_health_team
+from childcount.utils import alert_health_team, alert_va_specialist
 
 class DeathCommand(CCCommand):
 
@@ -189,4 +189,5 @@ class DeathCommand(CCCommand):
                      'name': death.full_name()}
             print "$$$$$$%s" % chw
             alert_health_team("death_command", msg)
+            alert_va_specialist("death_command", msg)
         return True
