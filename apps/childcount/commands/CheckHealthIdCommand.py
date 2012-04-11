@@ -67,14 +67,12 @@ class CheckHealthIdCommand(CCCommand):
             resp += _(u" is valid but no patient has been registered "
                         "with this ID.")
         elif health_id_obj.status == HealthId.STATUS_ISSUED:
-            resp += _(u" is marked as belonging to a patient, but that \
-                        patient is unknown.")
+            resp += _(u" is marked as belonging to a patient, but that "
+                        "patient is unknown.")
         elif health_id_obj.status == HealthId.STATUS_REVOKED:
-            resp += _(u" is in the database but is marked as UNUSABLE.",
-                        'error')
+            resp += _(u" is in the database but is marked as UNUSABLE.")
         else:
-            raise BadValue("Health ID is marked with an invalid status.",
-                        'error')
+            raise BadValue("Health ID is marked with an invalid status.")
 
-        self.message.respond(resp)
+        self.message.respond(resp, 'success')
         return True
