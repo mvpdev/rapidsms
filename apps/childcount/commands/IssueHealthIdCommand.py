@@ -32,7 +32,7 @@ class IssueHealthIdCommand(CCCommand):
             self.message.respond(_(u"You still have: %(health_id)s") %
                             {'health_id': ', '.join([h.health_id.health_id \
                                 for h in CHWHealthId.objects.filter(chw=chw,\
-                                                                used=False)])})
+                                                    used=False)])}, 'error')
         else:
             #issue 5 ids
             list = CHWHealthId.objects.filter(chw=None, used=False)
@@ -52,6 +52,6 @@ class IssueHealthIdCommand(CCCommand):
                 self.message.respond(_(u"Health IDs: %(health_id)s") %
                                         {'health_id':\
                                             ', '.join([h.health_id.health_id \
-                                                        for h in ids])})
+                                                    for h in ids])}, 'success')
 
         return True
