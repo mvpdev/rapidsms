@@ -16,7 +16,8 @@ from childcount.exceptions import Inapplicable
 from childcount.models import Configuration
 from childcount.models.reports import DeathReport, PregnancyReport
 from childcount.models import Patient, Encounter
-from childcount.utils import DOBProcessor, alert_health_team
+from childcount.utils import DOBProcessor
+from childcount.utils import alert_va_specialist, alert_health_team
 
 from reporters.models import Reporter
 
@@ -129,4 +130,4 @@ class DeathForm(CCForm):
                      'chw': drep.encounter.patient.chw}
 
         alert_health_team("death_alert", msg)
-
+        alert_va_specialist("death_alert", msg)
