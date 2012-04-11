@@ -50,7 +50,7 @@ class RelocateCommand(CCCommand):
             new_chw = CHW.objects.get(pk = self.message.chw)
         except CHW.DoesNotExist:
             self.message.respond(_(u"CHW with ID %(id)d does not exist") % \
-                {'id': self.message.chw})
+                {'id': self.message.chw}, 'error')
             return True
 
         loc_code = self.params[1]
