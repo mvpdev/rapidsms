@@ -64,7 +64,8 @@ class LookupCommand(CCCommand):
         # no results
         if not results:
             self.message.respond(_(u"No matching patient found. Please " \
-                                   "retry with only first or last name."))
+                                   "retry with only first or last name."), \
+                                   'error')
             return True
 
         # One results (best case)
@@ -73,7 +74,7 @@ class LookupCommand(CCCommand):
             self.message.respond(_(u"ID# %(name)s from " \
                                    "%(location)s") % { \
                                    'name': patient, \
-                                   'location': patient.location})
+                                   'location': patient.location}, 'success')
             return True
 
         # multiple results
@@ -89,6 +90,6 @@ class LookupCommand(CCCommand):
         self.message.respond(
             _(u"%(intro)s: %(list)s") \
                % {'list': u", ".join(names[:10]), \
-                  'intro': intro})
+                  'intro': intro}, 'success')
 
         return True
