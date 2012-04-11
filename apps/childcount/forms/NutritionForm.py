@@ -11,7 +11,7 @@ from childcount.models import Encounter
 from childcount.models.reports import NutritionReport
 from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.forms.utils import MultipleChoiceField
-from childcount.utils import send_msg
+from childcount.utils import alert_health_team, alert_nutrition_team
 
 
 class NutritionForm(CCForm):
@@ -152,19 +152,9 @@ class NutritionForm(CCForm):
                         'mobile': self.chw.connection().identity, \
                         'msg': self.response}
             #alert facilitators
-            try:
-                g = Group.objects.get(name='Facilitator')
-                for user in g.user_set.all():
-                    send_msg(user.reporter, msg)
-            except Group.DoesNotExist:
-                pass
+            alert_health_team('malnutrition', msg)
             #alert nutritionists
-            try:
-                g = Group.objects.get(name='Nutritionist')
-                for user in g.user_set.all():
-                    send_msg(user.reporter, msg)
-            except Group.DoesNotExist:
-                pass
+            alert_nutrition_team('malnutrition', msg)
         #TODO Referral / Case
         '''
         if mr.status == NutritionReport.STATUS_SEVERE:
