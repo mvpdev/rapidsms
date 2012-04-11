@@ -94,9 +94,10 @@ class DeathForm(CCForm):
         # If patient is in priority group, send alert about death
         # to HC Staff and Health Team
         print "$$$$$$%s" % self._is_alert_eligible(dr)
+        alert_msg = self._alert_msg(dr)
         if self._is_alert_eligible(dr):
-            self._send_alert(dr)
-
+            alert_health_team("death_alert", alert_msg)
+        alert_va_specialist("death_alert", alert_msg)
 
     def _is_alert_eligible(self, drep): 
         """Check if patient is in priority group (under age 5 or 
@@ -119,15 +120,15 @@ class DeathForm(CCForm):
 
         return False
 
-    def _send_alert(self, drep):
+    def _alert_msg(self, drep):
+        chw = drep.encounter.patient.chw
         msg = _("Patient %(patient)s "\
                 "from %(loc)s (%(loc_code)s) died on %(dod)s. " \
-                "Contact CHW %(chw)s for more information.") % \
+                "Contact CHW %(chw)s (%(mobile)s) for more information.") % \
                     {'patient': drep.encounter.patient,
                      'loc': drep.encounter.patient.location.name,
                      'loc_code': drep.encounter.patient.location.code.upper(),
                      'dod': dates.format_date(drep.death_date, 'short'),
-                     'chw': drep.encounter.patient.chw}
-
-        alert_health_team("death_alert", msg)
-        alert_va_specialist("death_alert", msg)
+                     'chw': chw,
+                     'mobile': chw.connection().identity}
+        return msg
