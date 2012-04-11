@@ -30,6 +30,6 @@ class WhoCommand(CCCommand):
             _(u"You are registered as %(full_name)s from %(location)s with " \
                "alias @%(alias)s.") \
                % {'full_name': chw.full_name(), 'location': chw.location, \
-                  'alias': chw.alias})
+                  'alias': chw.alias}, 'success')
 
         return True
