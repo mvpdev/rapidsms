@@ -58,7 +58,6 @@ try:
     from childcount.forms.CD4ResultForm import CD4ResultForm
 
     from childcount.forms.PrimarySchoolAttendanceForm import PrimarySchoolAttendanceForm
-    from childcount.forms.SecondarySchoolAttendanceForm import SecondarySchoolAttendanceForm
 
     #TLI specific
     from childcount.forms.LabTestForm import LabTestForm

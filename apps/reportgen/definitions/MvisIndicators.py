@@ -26,6 +26,7 @@ from childcount.indicators import follow_up
 from childcount.indicators import household
 from childcount.indicators import bed_net_coverage
 from childcount.indicators import bed_net_utilization
+from childcount.indicators import school_attendance
 
 from childcount.models import Patient
 
@@ -103,6 +104,11 @@ class ReportDefinition(PrintedReport):
             bed_net_utilization.Total,
             bed_net_utilization.ChildrenUsing,
             bed_net_utilization.Children,
+        )),
+       (_("School Attendance"), (
+            school_attendance.Total,
+            school_attendance.PrimarySchoolAged,
+            school_attendance.PrimarySchoolAttending,
         )),
     )
 
