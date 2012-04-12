@@ -1439,6 +1439,7 @@ class DrinkingWaterReport(CCReport):
     PROTECTED_SPRING = 'PS'
     UNPROTECTED_SPRING = 'UP'
     RAIN_COLLECTION = 'RW'
+    RIVER_CANAL = 'RV'
     SURFACE_WATER = 'SU'
     OTHER = 'Z'
 
@@ -1451,7 +1452,8 @@ class DrinkingWaterReport(CCReport):
         (PROTECTED_SPRING, _(u'Protected Spring')),
         (UNPROTECTED_SPRING, _(u'Unprotected spring')),
         (RAIN_COLLECTION, _(u'Rain water collection')),
-        (SURFACE_WATER, _(u'Surface water (river, dam, lake, pond, stream')),
+        (RIVER_CANAL, _(u'River/Canal')),
+        (SURFACE_WATER, _(u'Surface water (dam, lake, pond, stream')),
         (OTHER, _(u'Other')))
 
     TREATMENT_METHOD_BOIL = 'BW'
