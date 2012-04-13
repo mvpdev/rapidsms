@@ -37,6 +37,7 @@ from childcount.helpers import site
 
 from reportgen.timeperiods import FourWeeks, Month, TwelveMonths
 from reportgen.models import Report
+from childcount.models.reports import LabReport
 
 
 form_config = Configuration.objects.get(key='dataentry_forms').value
@@ -462,6 +463,94 @@ def indicators(request):
         })
 
 
+@login_required
+@permission_required('childcount.add_chw')
+def lab(request):
+    '''Patients page '''
+    MAX_PAGE_PER_PAGE = 30
+    DEFAULT_PAGE = 1
+
+
+    info = {}
+
+    try:
+        status = request.GET.get('status','')
+    except:
+        status = ''
+        
+    if status == 'progress':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_INCOMING)
+        
+    elif status == 'results':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_RESULTS)
+        
+    elif status == 'stalled':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_STALLED)
+        
+    else:
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_INCOMING)
+
+    
+    try:
+        search = request.GET.get('lab_search','')
+    except:
+        search = ''
+    
+    '''
+    if search:
+        if len(search.split()) > 1:
+            labreport = LabReport.objects\
+                        .filter(status=LabReport.STATUS_INCOMING)
+            labreport = patients.filter(Q(first_name__search=search,\
+                               last_name__search=search) | \
+                               Q(health_id__search=search))
+           
+        else:
+            labreport = LabReport.objects\
+                        .filter(status=LabReport.STATUS_INCOMING)
+
+    '''
+    paginator = Paginator(labreport, MAX_PAGE_PER_PAGE)
+
+    try:
+        page = int(request.GET.get('page', DEFAULT_PAGE))
+    except:
+        page = DEFAULT_PAGE
+    
+    info['rcount'] = labreport.count()
+    info['rstart'] = paginator.per_page * page
+    info['rend'] = (page + 1 * paginator.per_page) - 1
+    
+    
+    try:
+        info['labreport'] = paginator.page(page)
+    except:
+        info['labreport'] = paginator.page(paginator.num_pages)
+
+    #get the requested page, if its out of range display last page
+    try:
+        current_page = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        current_page = paginator.page(paginator.num_pages)
+
+    nextlink, prevlink = {}, {}
+
+    if paginator.num_pages > 1:
+        nextlink['page'] = info['labreport'].next_page_number()
+        prevlink['page'] = info['labreport'].previous_page_number()
+
+        info.update(pagenator(paginator, current_page))
+
+    if search != '':
+        info['search'] = search
+        nextlink['search'] = search
+        prevlink['search'] = search
+    
+    info['prevlink'] = urlencode(prevlink)
+    info['nextlink'] = urlencode(nextlink)
+   
+    return render_to_response(\
+                request, 'childcount/lab.html', info)
 '''
 @login_required
 def autocomplete(request):

@@ -1793,8 +1793,8 @@ class LabReport(CCReport):
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_labreport'
-        verbose_name = _(u"Lab Test Report")
-        verbose_name_plural = _(u"Lab Test Reports")
+        verbose_name = _(u"TLI: Requested LabTest Report")
+        verbose_name_plural = _(u"TLI: Requested LabTest Reports")
 
     STATUS_INCOMING = 'IC'
     STATUS_INPROGRESS = 'IP'
