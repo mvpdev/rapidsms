@@ -71,6 +71,9 @@ $(function(){
                 if(data == "doesnotexist"){
                     msg = "{% trans "Record does not exist!" %}"
                 }
+                if(data == "duplicate"){
+                    msg = "{% trans "Record already exists! Please use a different identity and/or backend." %}"
+                }
                 $("#statusmsg").html(msg);
                 setTimeout(function(){document.location.reload()}, 3000);
             });

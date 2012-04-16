@@ -25,6 +25,7 @@ from django.utils import simplejson
 from django.template import Context, loader
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group
+from django.db import IntegrityError
 from django.db.models import F, Q, Count
 
 from reporters.models import PersistantConnection, PersistantBackend
@@ -719,12 +720,15 @@ def change_chw_connections(request, chw):
                     pc.delete()
                     info['status'] = u"deleted"
             else:
-                obj, created = PersistantConnection\
-                                .objects.get_or_create(backend=be,
-                                identity=identity, reporter=chw.reporter_ptr)
-                if created:
-                    obj.save()
-                info['status'] = u"updated"
+                try:
+                    obj, created = PersistantConnection\
+                                    .objects.get_or_create(backend=be,
+                                    identity=identity, reporter=chw.reporter_ptr)
+                    if created:
+                        obj.save()
+                    info['status'] = u"updated"
+                except IntegrityError:
+                    info['status'] = u"duplicate"
         else:
             info['status'] = u"invalid"
         if request.is_ajax():
