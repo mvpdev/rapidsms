@@ -1,0 +1,108 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block title %}{% trans "Change CHW Phone Number/Identity" %}{% endblock %}
+
+{% block content %}
+<div style="margin-top: 2em">
+    <div id="statusmsg" class="message" style="display: inline">{{ status }}</div>
+    <form id="connectionsfrm" name='connectionsfrm' action>
+<table id="connectionstbl">
+    <tr>
+        <td>Backend</td>
+        <td>Identity</td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td><select name="backend">
+            {% for backend in backends %}
+                    <option value="{{backend}}">{{backend}}</option>
+            {% endfor %}
+        </select>
+        </td>
+        <td><input name="identity" value="{{connection.identity}}" type="text" /></td>
+        <td><a href="#" class="btn-update">{% trans "Save" %}</a>
+            <a href="#" class="btn-delete">{% trans "Delete" %}</a>
+        </td> 
+    <tr>
+
+{% for connection in connections %}
+    <tr>
+        <td><select name="backend">
+            {% for backend in backends %}
+                {% ifequal connection.backend backend %}
+                    <option value="{{backend}}" selected="selected">{{backend}}</option>
+                {% else %}
+                    <option value="{{backend}}">{{backend}}</option>
+                {% endifequal%}
+            {% endfor %}
+        </select>
+        </td>
+        <td><input name="identity" value="{{connection.identity}}" type="text" /></td>
+        <td><a href="#" class="btn-update">{% trans "Save" %}</a>
+            <a href="#" class="btn-delete">{% trans "Delete" %}</a>
+        </td> 
+    <tr>
+{% endfor %}
+</table>
+</form>
+<script type="text/javascript">
+$(function(){
+    $('form')[0].reset()
+    $("#connectionstbl tr").find("a.btn-update").click(function(evt){
+        console.log("Updating");
+        button = $(evt.target)
+        trow = $(button.parents("tr")[0])
+        identity = trow.find("input[name='identity']")
+        phone = identity[0].value
+        backend = $(trow).find("select")[0].value
+        if(phone == ''){
+            $("#statusmsg").html("{% trans "Please enter phone number!" %}")
+            return false;
+        }
+        $.post("{% url cc-chw-connections chw.username %}",
+            {identity: phone, backend: backend, perform: 'update'},
+            function(data){
+                console.log(data);
+                msg = data
+                if (data == "updated"){
+                    msg = "{% trans "Record updated successfully." %}"
+                }
+                if(data == "doesnotexist"){
+                    msg = "{% trans "Record does not exist!" %}"
+                }
+                $("#statusmsg").html(msg);
+                setTimeout(function(){document.location.reload()}, 3000);
+            });
+        return false;
+    });
+    $("#connectionstbl tr").find("a.btn-delete").click(function(evt){
+        console.log("Updating");
+        button = $(evt.target)
+        trow = $(button.parents("tr")[0])
+        identity = trow.find("input[name='identity']")
+        phone = identity[0].value
+        backend = $(trow).find("select")[0].value
+        if(phone == ''){
+            return false;
+        }
+        $.post("{% url cc-chw-connections chw.username %}",
+            {identity: phone, backend: backend, perform: 'delete'},
+            function(data){
+                console.log(data);
+                msg = data
+                if (data == "deleted"){
+                    msg = "{% trans "Record deleted." %}"
+                }
+                if(data == "doesnotexist"){
+                    msg = "Record does not exist!"
+                }
+                $("#statusmsg").html(msg)
+                setTimeout(function(){document.location.reload()}, 3000);
+            });
+        return false;
+    });
+});
+</script>
+</div>
+{% endblock %}

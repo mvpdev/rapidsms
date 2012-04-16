@@ -686,3 +686,51 @@ def patient_by_location(request, location=None):
 
     return render_to_response(\
                 request, 'childcount/patient.html', info)
+
+
+class PersistantConnectionForm(forms.Form):
+    backend = forms.ChoiceField(choices=[(backend.slug, backend.title) for \
+                                backend in PersistantBackend\
+                                .objects.all()])
+    identity = forms.CharField(max_length=30)
+    perform = forms.CharField(required=False)
+
+
+@login_required
+def change_chw_connections(request, chw):
+    '''Change a CHWs phone number, connection identiy...'''
+    chw = CHW.objects.get(username__iexact=chw)
+    info = {}
+    if request.method == 'POST':
+        form = PersistantConnectionForm(request.POST)
+        if form.is_valid():
+            identity = form.cleaned_data['identity']
+            backend = form.cleaned_data['backend']
+            action = form.cleaned_data['perform']
+            be = PersistantBackend.objects.get(slug=backend)
+            if action == 'delete':
+                try:
+                    pc = PersistantConnection\
+                                .objects.get(reporter=chw.reporter_ptr,
+                                identity=identity, backend=be)
+                except PersistantConnection.DoesNotExist:
+                    info['status'] = u"doesnotexist"
+                else:
+                    pc.delete()
+                    info['status'] = u"deleted"
+            else:
+                obj, created = PersistantConnection\
+                                .objects.get_or_create(backend=be,
+                                identity=identity, reporter=chw.reporter_ptr)
+                if created:
+                    obj.save()
+                info['status'] = u"updated"
+        else:
+            info['status'] = u"invalid"
+        if request.is_ajax():
+            return HttpResponse(info['status'])
+    info['chw'] = chw
+    info['connections'] = chw.connections.all()
+    info['backends'] = PersistantBackend.objects.all()
+    return render_to_response(\
+                request, 'childcount/chw_connections.html', info)
