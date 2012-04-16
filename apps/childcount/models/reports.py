@@ -1793,8 +1793,8 @@ class LabReport(CCReport):
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_labreport'
-        verbose_name = _(u"TLI: Requested LabTest Report")
-        verbose_name_plural = _(u"TLI: Requested LabTest Reports")
+        verbose_name = _(u"Lab Test Report")
+        verbose_name_plural = _(u"Lab Test Reports")
 
     STATUS_INCOMING = 'IC'
     STATUS_INPROGRESS = 'IP'
@@ -1831,7 +1831,6 @@ class LabReport(CCReport):
     progress_status = models.CharField(_(u'Progress Status'), max_length=2, \
                                         choices = PROGRESS_CHOICES, \
                                         default = PRO_NOSAMPLE)
-    results = models.CharField(_('Results'), max_length = 30, blank = True) 
 
     def __unicode__(self):
         return u"%s >> %s" % (self.lab_test.name, self.encounter.patient)
@@ -1874,6 +1873,23 @@ class LabReport(CCReport):
                    
         return igive
 reversion.register(LabReport, follow=['ccreport_ptr'])
+
+
+class LabResultsReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_labresults'
+        verbose_name = _(u"LAB Result Report")
+        verbose_name_plural = _(u"LAB Result Reports")
+
+    labtest = models.ForeignKey('LabReport', verbose_name=_(u"Lab Test"))
+    results = models.CharField(_('Results'), max_length = 50, blank = True) 
+    
+    def __unicode__(self):
+        return u"%s >> %s" % (self.labtest.lab_test.name, self.results)
+        
+reversion.register(LabResultsReport, follow=['ccreport_ptr'])
 
 
 class SpecimenReport(CCReport):

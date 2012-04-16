@@ -20,9 +20,9 @@ class PrimarySchoolAttendanceForm(CCForm):
     """
 
     KEYWORDS = {
-        'en': ['sp'],
-        'rw': ['sp'],
-        'fr': ['sp'],
+        'en': ['sa'],
+        'rw': ['sa'],
+        'fr': ['sa'],
     }
     ENCOUNTER_TYPE = Encounter.TYPE_HOUSEHOLD
 
