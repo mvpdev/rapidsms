@@ -1,0 +1,9 @@
+{% load i18n %}{
+'id': 'S', 
+'fields': [
+        {'id': 'healthid', 'type': 'f', 'name': "{% trans "ID" %}", 'title': "{% trans "Head of Household HEALTH ID" %}"},
+        {'id': 'school_attendance', 'type': 's', 'name': "{% trans "SA" %}", 'title': "{% trans "School Attendance Section" %}"},
+        {'id': 'num_school_aged', 'type': 'f', 'name': "{% trans "How many primary school aged children in the household?" %}", 'title': "{% trans "How many primary school aged children in the household?" %}"},
+        {'id': 'num_attending', 'type': 'f', 'name': "{% trans "How many of this are attending school?" %}", 'title': "{% trans "How many of this are attending school?" %}"},
+    ]
+}
