@@ -1,0 +1,16 @@
+{% load i18n %}{
+'id': 'E', 
+'fields': [
+        {'id': 'healthid', 'type': 'f', 'name': "{% trans "ID" %}", 'title': "{% trans "Head of Household HEALTH ID" %}"},
+        {'id': 'bednet_coverage', 'type': 's', 'name': "{% trans "BC" %}", 'title': "{% trans "Bednet Coverage" %}"},
+        {'id': 'num_sleeping_sites', 'type': 'f', 'name': "{% trans "# Sleeping Sites" %}", 'title': "{% trans "Number of sleeping sites" %}"},
+        {'id': 'num_func_nets', 'type': 'f', 'name': "{% trans "# Nets" %}", 'title': "{% trans "Number of functioning bednets" %}"},
+        {'id': 'num_func_nets_observed', 'type': 'f', 'name': "{% trans "# Functioning Nets" %}", 'title': "{% trans "Number of functioning bednets observed" %}"},
+        {'id': 'bednet_utilization', 'type': 's', 'name': "{% trans "BU" %}", 'title': "{% trans "Bednet Utilization  (Under-5)" %}"},
+        {'id': 'num_u5_slept_hh', 'type': 'f', 'name': "{% trans "# U5 Slept" %}", 'title': "{% trans "How many children under 5 years slept in this household last night?" %}"},
+        {'id': 'num_u5_slept_unet', 'type': 'f', 'name': "{% trans "# U5 Under Net" %}", 'title': "{% trans "How many children under 5 years slept under a bednet in this HH last night?" %}"},
+        {'id': 'bednet_utilization_preg', 'type': 's', 'name': "{% trans "BP" %}", 'title': "{% trans "Bednet Utilization  (Pregnancy)" %}"},
+        {'id': 'num_preg_slept', 'type': 'f', 'name': "{% trans "# Preg Slept" %}", 'title': "{% trans "How many pregnancy women slept in this household last night?" %}"},
+        {'id': 'num_preg_slept_unet', 'type': 'f', 'name': "{% trans "# Preg Under Net" %}", 'title': "{% trans "How many pregnant women slept under a bednet in this HH last night?" %}"},
+    ]
+}
