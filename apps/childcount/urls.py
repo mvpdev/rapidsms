@@ -68,4 +68,9 @@ urlpatterns = patterns('',
 
     url(r'^childcount/dashboard-section/(?P<section_name>[a-z_]*)/$',
         views.get_dashboard_section, name='cc-dashboard-section'),
+
+    url(r'^childcount/lab/?$', views.lab, name='cc-lab'),
+    
+    #url(r'^childcount/upload-healthid-file', uploadhealthids.upload_file, name='cc-upload-hids'),
+
 )

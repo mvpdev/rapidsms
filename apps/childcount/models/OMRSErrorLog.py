@@ -31,7 +31,7 @@ class OMRSErrorLog(models.Model):
         verbose_name_plural = _(u"OMRS Error")
 
     encounter = models.ForeignKey(Encounter, verbose_name=_(u"Encounter"))
-    error_type = models.PositiveSmallIntegerField(_("Task state"), blank=False,
+    error_type = models.PositiveSmallIntegerField(_("Error Type"), blank=False,
                                 null=False, unique=False, choices=ERROR_CHOICES)
     error_message = models.TextField(_("Error message"), null=True)
     updated_on = models.DateTimeField(auto_now=True)
