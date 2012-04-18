@@ -7,6 +7,9 @@ from django.db import connection
 from django.utils.translation import ugettext as _
 
 from indicator import Indicator
+
+from django.db.models import F, Q
+from django.db.models.aggregates import Sum
 from indicator import QuerySetType
 
 from childcount.models import Patient
