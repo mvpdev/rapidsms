@@ -133,6 +133,10 @@ def send_to_omrs(router, *args, **kwargs):
 	    router.log('DEBUG', encounter.pk)
 	    router.log('DEBUG', encounter.patient)
 	    router.log('DEBUG', encounter.patient.health_id)
+	    if encounter.patient.last_name == '':
+	        encounter.patient.last_name = encounter.patient.first_name
+	        encounter.patient.save()
+
         omrsform = omrsformclass(create, encounter.patient.health_id, \
                                     location_id,
                                     provider,
