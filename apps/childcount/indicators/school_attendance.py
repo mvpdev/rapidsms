@@ -23,7 +23,7 @@ class Total(Indicator):
     type_out    = int
 
     slug        = "total"
-    short_name  = _("Total")
+    short_name  = _("# School Attendance reports")
     long_name   = _("Total number of School Attendance reports "\
                     "for unique households during this period")
 
