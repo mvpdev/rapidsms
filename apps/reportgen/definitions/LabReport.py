@@ -204,7 +204,7 @@ class ReportDefinition(PrintedReport):
 
                 #Results
                 row.append([Paragraph(_('<b>+QR</b>'), styleH3)])
-                row.append([Paragraph(re.results, styleH3)])
+                row.append([Paragraph('', styleH3)])
 
                 rows.append(row)
 
