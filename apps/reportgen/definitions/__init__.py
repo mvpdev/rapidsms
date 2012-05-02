@@ -7,7 +7,7 @@ __all__ = ('MvisIndicators','ChwList','Utilization',\
     'ChwReport', 'ChwManagerReport', 'PerformanceCharts',
     'IndicatorChart', 'ChwLog', 'PMTCTDefaulters', 'SpotCheck', \
     'VitalEventsReport', 'IdentityCards', 'SmsUsage', 'PList', \
-    'ChwHouseholdVisitCoverage')
+    'ChwHouseholdVisitCoverage', 'LabReport')
 
 # This is the way we get the celery workers
 # to register all of the ReportDefinition tasks
