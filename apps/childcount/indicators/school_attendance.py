@@ -53,6 +53,7 @@ class PrimarySchoolAged(Indicator):
             .objects\
             .filter(encounter__patient__in=data_in,\
                 encounter__encounter_date__range=(period.start, period.end))\
+            .exclude(household_pupil=-1)\
             .distinct()\
             .aggregate(total=Sum('household_pupil'))['total'] or 0
 
