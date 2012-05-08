@@ -106,7 +106,7 @@ msgstr ""
 #, python-format
 msgid ""
 "Error: You tried to send househould forms for someone who is not head "
-"ofhousehold. You must send the forms with the head of household health ID."
+"of household. You must send the forms with the head of household health ID."
 "Their head of household health ID is %(hoh)s (Health ID: %(hohid)s)"
 msgstr ""
 "Erreur. Vous avez tenté d'envoyer des formulaires pour le foyer à quelqu'un "
