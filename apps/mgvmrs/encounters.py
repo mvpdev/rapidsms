@@ -83,7 +83,7 @@ def send_to_omrs(router, *args, **kwargs):
         .objects\
         .filter(Q(sync_omrs__isnull=True) | Q(sync_omrs=None))\
         .order_by('?')[0:200]
-
+    router.log('DEBUG', 'ready to send %s encounters!.' % encounters.count())
     for encounter in encounters:
         # loop only on closed Encounters
         if encounter.is_open:
