@@ -13,7 +13,8 @@ from childcount.models.reports import CCReport, PregnancyReport, LabReport, \
 
 from mgvmrs.forms import OpenMRSTransmissionError, OpenMRSConsultationForm, \
                          OpenMRSHouseholdForm, OpenMRSANCForm, \
-                         OpenMRSXFormsModuleError, OpenMRSLabRequestForm
+                         OpenMRSXFormsModuleError, OpenMRSLabRequestForm, \
+                         UnexpectedValueError
 from mgvmrs.utils import transmit_form
 from mgvmrs.models import User
 
@@ -136,18 +137,24 @@ def send_to_omrs(router, *args, **kwargs):
 	    if encounter.patient.last_name == '':
 	        encounter.patient.last_name = encounter.patient.first_name
 	        encounter.patient.save()
-
-        omrsform = omrsformclass(create, encounter.patient.health_id, \
-                                    location_id,
-                                    provider,
-                                    encounter.encounter_date, \
-                                    encounter.patient.dob, \
-                                    bool(encounter.patient.estimated_dob), \
-                                    encounter.patient.last_name, \
-                                    encounter.patient.first_name, '', \
-                                    encounter.patient.gender, \
-                                    encounter.patient.location.name.title(), \
-                                    '1065')
+        try:
+            omrsform = omrsformclass(create, encounter.patient.health_id, \
+                                        location_id,
+                                        provider,
+                                        encounter.encounter_date, \
+                                        encounter.patient.dob, \
+                                        bool(encounter.patient.estimated_dob), \
+                                        encounter.patient.last_name, \
+                                        encounter.patient.first_name, '', \
+                                        encounter.patient.gender, \
+                                        encounter.patient.location.name.title(), \
+                                        '1065')
+        except UnexpectedValueError, e:
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
+            errl.error_message = omrsform.render()
+            errl.save()
+            continue
         # assign site-specific ID
         omrsform.openmrs__form_id = form_id
         omrsform.patient___identifier_type = identifier_type
