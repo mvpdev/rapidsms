@@ -1779,7 +1779,7 @@ class SchoolAttendanceReport(CCReport):
         (SECONDARY_SCHOOL, _(u"Secondary School")))
 
         
-    household_pupil = models.PositiveSmallIntegerField(_(u"#School aged " \
+    household_pupil = models.SmallIntegerField(_(u"#School aged " \
                                 "Pupils "), db_index=True, default=0)
     attending_school = models.PositiveSmallIntegerField( \
                                 _(u"#School aged Pupils Attending school "), \

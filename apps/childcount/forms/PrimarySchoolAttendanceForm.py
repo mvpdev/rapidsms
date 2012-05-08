@@ -38,11 +38,16 @@ class PrimarySchoolAttendanceForm(CCForm):
         except SchoolAttendanceReport.DoesNotExist:
             psa = SchoolAttendanceReport(encounter=self.encounter)
         psa.form_group = self.form_group
-
-        if not self.params[1].isdigit():
+        sa1 = self.params[1]
+        if not sa1.isdigit() and sa1.upper() != 'N':
             raise ParseError(_(u"| Number of primary school aged pupils in " \
-                                "the household must be entered as a number."))
-
+                                "the household must be entered as a number." \
+                                " OR 'N' for school not in session"))
+        else:
+            psa.household_pupil = -1
+            psa.save()
+            self.response = _("School NOT in Session.")
+            return True
         psa.household_pupil = int(self.params[1])
 
         if not self.params[2].isdigit():
