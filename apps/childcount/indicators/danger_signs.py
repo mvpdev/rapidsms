@@ -73,7 +73,10 @@ class UnderFiveDiarrheaUncomplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated(period, data_in).count()
+        if _under_five_diarrhea_uncomplicated(period, data_in):
+            return _under_five_diarrhea_uncomplicated(period, data_in).count()
+        else:
+           return 0
 
 def _under_five_diarrhea_uncomplicated_getting(period, data_in, drug_code):
     return _under_five_diarrhea_uncomplicated(period, data_in)\
@@ -91,7 +94,10 @@ class UnderFiveDiarrheaUncomplicatedGivenOrs(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R').count()
+        if _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R'):
+            return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R').count()
+        else:
+            return 0
 
 class UnderFiveDiarrheaUncomplicatedGivenOrsPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
@@ -116,7 +122,10 @@ class UnderFiveDiarrheaUncomplicatedGivenZinc(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z').count()
+        if _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z'):
+           return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z').count()
+        else:
+           return 0
 
 class UnderFiveDiarrheaUncomplicatedGivenZincPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
