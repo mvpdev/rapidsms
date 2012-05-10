@@ -50,10 +50,7 @@ class ReportDefinition(PrintedReport):
         total = chws.count() + 1
         self.set_progress(0)
         for chw in chws:
-            if SchoolAttendanceReport\
-                    .objects\
-                    .filter(household_pupil__gt=F('attending_school'), \
-                    encounter__chw=chw).count() == 0:
+            if self._not_attending_school(time_period, chw).count() == 0:
                 continue
             stitle = full_name = chw.full_name()
             if rformat == 'xls':
@@ -64,7 +61,7 @@ class ReportDefinition(PrintedReport):
             time_string = _(u"For: %s") % time_period.title
             doc.add_element(Paragraph(u"%s; %s" % (full_name, time_string)))
             table = self._create_table()
-            self._add_chw_to_table(table, chw)
+            self._add_chw_to_table(table, chw, time_period)
             doc.add_element(table)
 
             current += 1
@@ -74,6 +71,13 @@ class ReportDefinition(PrintedReport):
         self.set_progress(100)
 
         return rval
+
+    def _not_attending_school(self, period, chw):
+        return SchoolAttendanceReport\
+            .objects\
+            .filter(household_pupil__gt=F('attending_school'), \
+            encounter__encounter_date__range=(period.start, period.end), \
+            encounter__chw=chw)
 
     def _create_table(self):
         table = Table(4)
@@ -85,12 +89,9 @@ class ReportDefinition(PrintedReport):
 
         return table
 
-    def _add_chw_to_table(self, table, chw):
+    def _add_chw_to_table(self, table, chw, time_period):
         """ add chw to table """
-        reports = SchoolAttendanceReport\
-                    .objects\
-                    .filter(household_pupil__gt=F('attending_school'), \
-                    encounter__chw=chw)
+        reports = self._not_attending_school(time_period, chw)
         for report in reports:
             not_attending = report.household_pupil - report.attending_school
             table.add_row([
