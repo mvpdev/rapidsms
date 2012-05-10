@@ -60,7 +60,7 @@ with open('users.csv') as f:
             user = User.objects.get(chw__username=username)
             user.openmrs_id = int(openmrs_id)
             user.save()
-            print openmrs_id, username, user.chw
+            print openmrs_id, username, user.chw, "\n"
         except User.DoesNotExist:
             unknown += username + ';'
     print unknown
