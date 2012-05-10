@@ -47,9 +47,9 @@ revision.start()
 ### INTO OUTFILE '/tmp/users.csv' 
 ### FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 ###   LINES TERMINATED BY '\n'
-###
+### FROM users;
 
-FROM users;
+
 with open('users.csv') as f:
     unknown = '';
     for line in f:
