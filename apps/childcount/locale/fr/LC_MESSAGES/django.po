@@ -5103,11 +5103,11 @@ msgstr "Préservatifs"
 
 #: models/CodedItem.py:57
 msgid "ij"
-msgstr "Ij?"
+msgstr "ij"
 
 #: models/CodedItem.py:58
 msgid "ip"
-msgstr "Ip?"
+msgstr "ip"
 
 #: models/CodedItem.py:59
 msgid "iud"
@@ -5187,19 +5187,19 @@ msgstr "bco"
 
 #: models/CodedItem.py:72
 msgid "B Complex"
-msgstr "B Complex??"
+msgstr "B Complex"
 
 #: models/CodedItem.py:73
 msgid "arv"
-msgstr "Arv??"
+msgstr "arv"
 
 #: models/CodedItem.py:73
 msgid "ARV"
-msgstr "ARV?"
+msgstr "ARV"
 
 #: models/CodedItem.py:74
 msgid "azt"
-msgstr "Azt?"
+msgstr "azt"
 
 #: models/CodedItem.py:74
 msgid "AZT"
@@ -5798,7 +5798,7 @@ msgstr "Vivant"
 
 #: models/Patient.py:67 models/reports.py:1757
 msgid "Relocated"
-msgstr "Déménagé, muté or transféré… context?"
+msgstr "Déménagé"
 
 #: models/Patient.py:68
 msgid "Dead"
@@ -5921,11 +5921,11 @@ msgstr "Poids à la naissance (kg)"
 
 #: models/reports.py:322
 msgid "+N"
-msgstr "+N?"
+msgstr "+N"
 
 #: models/reports.py:327
 msgid "+T"
-msgstr "+T?"
+msgstr "+T"
 
 #: models/reports.py:332
 #, python-format
@@ -6988,7 +6988,7 @@ msgstr ""
 #: templates/childcount/change_chw.html:41
 #: templates/childcount/data_entry.html:83
 msgid "Change"
-msgstr "Changer or changement.. context ?"
+msgstr "Changer"
 
 #: templates/childcount/change_chw.html:41
 #, fuzzy
@@ -7082,7 +7082,7 @@ msgstr "Dernier"
 #: templates/childcount/patient.html:20
 #, fuzzy
 msgid "Change CHW"
-msgstr "Changer or changement.. context ?"
+msgstr "Changer CHW"
 
 #: templates/childcount/change_locations.html:9
 #, python-format
@@ -7142,7 +7142,7 @@ msgstr "Date"
 
 #: templates/childcount/data_entry.html:33
 msgid "free"
-msgstr "Libre or gratuit..context?"
+msgstr "Libre"
 
 #: templates/childcount/data_entry.html:35
 msgid "message"
@@ -7183,7 +7183,7 @@ msgstr "Message :"
 
 #: templates/childcount/data_entry.html:105
 msgid "Response Log"
-msgstr "Messages reçus meaning, context ?"
+msgstr "Messages reçus"
 
 #: templates/childcount/edit_patient.html:16
 #: templates/childcount/edit_patient.html:23
