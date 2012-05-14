@@ -154,6 +154,8 @@ def send_to_omrs(router, *args, **kwargs):
             errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
             errl.error_message = e
             errl.save()
+            router.log('DEBUG', '==> UnexpectedValueError')
+            router.log('DEBUG', e)
             continue
         # assign site-specific ID
         omrsform.openmrs__form_id = form_id
