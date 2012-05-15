@@ -79,10 +79,13 @@ def send_to_omrs(router, *args, **kwargs):
     # request 200 non-synced Encounters
     # Order by random so that one screwed up encounter
     # doesn't block the whole queue
+    NUM_ENCOUNTERS = 200
+    if kwargs.has_key('num_encounters'):
+        NUM_ENCOUNTERS = int(kwargs['num_encounters'])
     encounters = Encounter\
         .objects\
         .filter(Q(sync_omrs__isnull=True) | Q(sync_omrs=None))\
-        .order_by('?')[0:200]
+        .order_by('?')[0:NUM_ENCOUNTERS]
     router.log('DEBUG', 'ready to send %s encounters!.' % encounters.count())
     for encounter in encounters:
         # loop only on closed Encounters
