@@ -45,6 +45,12 @@ class DLOG():
     def log(self, level, msg):
         print >>sys.stderr, level.upper(), msg
 
-log = DLOG()
-log.log('debug', "STARTING MANUAL OMRS SYNC")
-send_to_omrs(log)
+
+if __name__ == "__main__":
+    num_encounters = 200
+    if sys.argv.__len__() > 1:
+        params = sys.argv[1:]
+        num_encounters = int(params[0])
+    log = DLOG()
+    log.log('debug', "STARTING MANUAL OMRS SYNC")
+    send_to_omrs(log, num_encounters=num_encounters)
