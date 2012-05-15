@@ -5158,7 +5158,7 @@ msgstr "Perte de poids"
 
 #: models/CodedItem.py:52 models/CodedItem.py:67
 msgid "z"
-msgstr "Z"
+msgstr "z"
 
 #: models/CodedItem.py:52 models/reports.py:1405 models/reports.py:1457
 #: models/reports.py:1474
@@ -5183,7 +5183,7 @@ msgstr "ip"
 
 #: models/CodedItem.py:59
 msgid "iud"
-msgstr "diu"
+msgstr "iud"
 
 #: models/CodedItem.py:59
 msgid "Intra-uterine Device"
@@ -5279,7 +5279,7 @@ msgstr "AZT"
 
 #: models/CodedItem.py:75
 msgid "lb"
-msgstr "Ib"
+msgstr "lb"
 
 #: models/CodedItem.py:75
 msgid "Albendazole"
@@ -5314,7 +5314,7 @@ msgstr ""
 #: models/CodedItem.py:82
 #, fuzzy
 msgid "fd"
-msgstr "f"
+msgstr "fd"
 
 #: models/CodedItem.py:82
 msgid "Female Drop Out"
@@ -5323,7 +5323,7 @@ msgstr ""
 #: models/CodedItem.py:83
 #, fuzzy
 msgid "fl"
-msgstr "f"
+msgstr "fl"
 
 #: models/CodedItem.py:83
 msgid "Female, Never been to school and but likely"
@@ -5332,7 +5332,7 @@ msgstr ""
 #: models/CodedItem.py:84
 #, fuzzy
 msgid "fn"
-msgstr "f"
+msgstr "fn"
 
 #: models/CodedItem.py:84
 msgid "Female, Never been to school and not likely"
@@ -5376,7 +5376,7 @@ msgstr "Planning familial"
 
 #: models/CodedItem.py:93
 msgid "nut"
-msgstr "noix"
+msgstr "nut"
 
 #: models/CodedItem.py:94
 msgid "ed"
