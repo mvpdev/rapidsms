@@ -36,7 +36,7 @@ from django.db import IntegrityError
 
 
 from reversion import revision
-from childcount.models import Encounter
+from childcount.models import Encounter, Patient
 
 # reset omrs_sync=False to None for resending to omrs
 encounters = Encounter.objects.filter(sync_omrs=False)
@@ -54,3 +54,7 @@ if c > 0:
     print "FINISHED: ", c, "of", t, "%d%%" % round((round(c)/t)*100)
 else:
     print "FINISHED: ", c, "of", t
+
+for p in Patient.objects.filter(last_name=''):
+    p.last_name = p.first_name
+    p.save()
