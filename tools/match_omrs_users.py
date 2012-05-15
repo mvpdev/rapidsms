@@ -62,7 +62,16 @@ with open('users.csv') as f:
             user.save()
             print openmrs_id, username, user.chw, "\n"
         except User.DoesNotExist:
-            unknown += username + ';'
+            try:
+                chw = CHW.objects.filter(username=username.lower())
+            except:
+                unknown += username + ';'
+            else:
+                user = User()
+                user.chw = chw
+                user.openmrs_id = int(openmrs_id)
+                user.save()
+                print openmrs_id, username, user.chw, "CHW Link\n"
     print unknown
 revision.end()
 
