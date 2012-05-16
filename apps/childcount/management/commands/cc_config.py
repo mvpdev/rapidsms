@@ -45,8 +45,19 @@ class Command(BaseCommand):
                 obj.save()
                 print key, u":", value
                 return
+            elif command == 'del' and params.__len__() > 1:
+                key = params[1]
+                try:
+                    obj = Configuration.objects.get(key=key)
+                except Configuration.DoesNotExist, e:
+                    print key, u"Does not exist"
+                else:
+                    obj.delete()
+                    print key, u": successfully deleted."
+                return
         print (u"------------------------------\n"
                 "View/Change CC+ configurations\n"
                 "------------------------------\n\n"
                 "USAGE:\n------\n\trapidsms cc_config show [key]\n"
-                "\trapidsms cc_config set key value\n")
+                "\trapidsms cc_config set key value\n"
+                "\trapidsms cc_config del key\n")
