@@ -113,6 +113,7 @@ class ReportDefinition(PrintedReport):
             school_attendance.Total,
             school_attendance.PrimarySchoolAged,
             school_attendance.PrimarySchoolAttending,
+            school_attendance.NumberOfHouseholdsWithRecordedSchoolNotInSession,
         )),
     )
 

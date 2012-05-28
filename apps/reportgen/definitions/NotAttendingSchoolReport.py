@@ -12,7 +12,7 @@ from django.db.models import Count
 from ccdoc import Document, Table, Text, Section, Paragraph
 
 from locations.models import Location
-from childcount.models import CHW, Patient
+from childcount.models import CHW, Patient, SchoolAttendanceReport
 
 from reportgen.utils import render_doc_to_file
 from reportgen.PrintedReport import PrintedReport
@@ -26,9 +26,8 @@ _variants.extend(_locations)
 
 
 class ReportDefinition(PrintedReport):
-    """ list all Patients """
-    title = 'Patient List'
-    filename = 'patient_list_2'
+    title = 'Children Not Attending School'
+    filename = 'children_not_attending_school'
     formats = ['html', 'pdf', 'xls']
     variants = _variants
 
@@ -51,6 +50,8 @@ class ReportDefinition(PrintedReport):
         total = chws.count() + 1
         self.set_progress(0)
         for chw in chws:
+            if self._not_attending_school(time_period, chw).count() == 0:
+                continue
             stitle = full_name = chw.full_name()
             if rformat == 'xls':
                 stitle = chw.username
@@ -59,63 +60,42 @@ class ReportDefinition(PrintedReport):
             # Time period string
             time_string = _(u"For: %s") % time_period.title
             doc.add_element(Paragraph(u"%s; %s" % (full_name, time_string)))
-            table = self._create_patient_table()
-            self._add_chw_to_table(table, chw)
+            table = self._create_table()
+            self._add_chw_to_table(table, chw, time_period)
             doc.add_element(table)
 
             current += 1
-            self.set_progress(100.0*current/total)
+            self.set_progress(100.0 * current/total)
 
         rval = render_doc_to_file(filepath, rformat, doc)
         self.set_progress(100)
 
         return rval
 
-    def _create_patient_table(self):
-        table = Table(6)
+    def _not_attending_school(self, period, chw):
+        return SchoolAttendanceReport\
+            .objects\
+            .filter(household_pupil__gt=F('attending_school'), \
+            encounter__encounter_date__range=(period.start, period.end), \
+            encounter__chw=chw)
+
+    def _create_table(self):
+        table = Table(4)
         table.add_header_row([
             Text(_(u'LOC')),
             Text(_(u'HID')),
             Text(_(u'Name')),
-            Text(_(u'Gen.')),
-            Text(_(u'Age')),
-            Text(_(u'HOH'))])
+            Text(_(u'# Not Attending'))])
 
         return table
 
-    def _add_chw_to_table(self, table, chw):
+    def _add_chw_to_table(self, table, chw, time_period):
         """ add chw to table """
-       
-        l = chw.location or chw.clinic
-        if l:
-            location = u"%(village)s/%(code)s" \
-                       % {'village': l.name.title(),
-                          'code': l.code.upper()}
-        else:
-            location = u"--"
-        households = chw\
-                .patient_set\
-                .filter(pk=F('household__pk'))\
-                .order_by('location__code','last_name')
-        for household in households:
+        reports = self._not_attending_school(time_period, chw)
+        for report in reports:
+            not_attending = report.household_pupil - report.attending_school
             table.add_row([
-                Text(location, bold=True),
-                Text(household.health_id.upper(), bold=True),
-                Text(household.full_name(), bold=True),
-                Text(household.gender, bold=True),
-                Text(household.humanised_age(), bold=True),
-                Text(u"HOH", bold=True)])
-            hs = chw\
-                    .patient_set\
-                    .filter(household=household)\
-                    .exclude(health_id=household.health_id)\
-                    .order_by('last_name')\
-                    .filter(status=Patient.STATUS_ACTIVE)
-            for patient in hs:
-                table.add_row([
-                    Text(location),
-                    Text(patient.health_id.upper()),
-                    Text(patient.full_name()),
-                    Text(patient.gender),
-                    Text(patient.humanised_age()),
-                    Text(u"")])
+                Text(report.encounter.patient.location),
+                Text(report.encounter.patient.health_id.upper()),
+                Text(report.encounter.patient.full_name()),
+                Text(not_attending)])

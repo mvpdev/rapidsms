@@ -302,7 +302,7 @@ class App (rapidsms.app.App):
                                    pre_processed_form_objects)
             if len(patient_forms) == 0 and not patient.is_head_of_household():
                 message.respond(_(u"Error: You tried to send househould " \
-                                  "forms for someone who is not head of" \
+                                  "forms for someone who is not head of " \
                                   "household. You must send the forms with " \
                                   "the head of household health ID." \
                                   "Their head of household health ID " \

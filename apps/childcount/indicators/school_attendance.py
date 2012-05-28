@@ -1,5 +1,5 @@
 '''
-Sanitation Report
+School Attendance
 '''
 
 from django.db import connection
@@ -53,6 +53,7 @@ class PrimarySchoolAged(Indicator):
             .objects\
             .filter(encounter__patient__in=data_in,\
                 encounter__encounter_date__range=(period.start, period.end))\
+            .exclude(household_pupil=-1)\
             .distinct()\
             .aggregate(total=Sum('household_pupil'))['total'] or 0
 
@@ -74,3 +75,23 @@ class PrimarySchoolAttending(Indicator):
                 encounter__encounter_date__range=(period.start, period.end))\
             .distinct()\
             .aggregate(total=Sum('attending_school'))['total'] or 0
+
+
+class NumberOfHouseholdsWithRecordedSchoolNotInSession(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "totalnotinsession"
+    short_name  = _("# Households School NOT in Session")
+    long_name   = _("Number of unique households with a recorded SA1=\"N\""
+                    " [School NOT in Session] during time period")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return SchoolAttendanceReport\
+            .objects\
+            .filter(encounter__patient__in=data_in, household_pupil=-1, \
+                encounter__encounter_date__range=(period.start, period.end))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()

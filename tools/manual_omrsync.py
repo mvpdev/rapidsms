@@ -33,39 +33,24 @@ from django.db import IntegrityError
 ###
 ### END - SETUP RAPIDSMS ENVIRONMENT
 ###
+import logging
+import logging.handlers
+import random
 
-from childcount.models import Configuration
+from reversion import revision
+from mgvmrs.encounters import send_to_omrs
 
 
-def usage():
-    print ("USAGE:\n\tpython tools/cc_configuration.py show [key]\n"
-            "\tpython tools/cc_configuration.py set key value\n")
+class DLOG():
+    def log(self, level, msg):
+        print >>sys.stderr, level.upper(), msg
 
 
 if __name__ == "__main__":
+    num_encounters = 200
     if sys.argv.__len__() > 1:
         params = sys.argv[1:]
-        command = params[0]
-        if command == 'show':
-            if params.__len__() > 1:
-                key = params[1]
-                try:
-                    cfg = Configuration.objects.get(key__iexact=key)
-                except Configuration.DoesNotExist:
-                    print "Unknown config key: %s" % key
-                else:
-                    print key, ":", cfg.value
-            else:
-                for cfg in Configuration.objects.all():
-                    print cfg.key, cfg.value
-        elif command == 'set' and params.__len__() > 2:
-            key = params[1]
-            value = ' '.join(params[2:])
-            obj, created = Configuration.objects.get_or_create(key=key)
-            obj.value = value
-            obj.save()
-            print key, ":", value
-        else:
-            usage()
-    else:
-        usage()
+        num_encounters = int(params[0])
+    log = DLOG()
+    log.log('debug', "STARTING MANUAL OMRS SYNC")
+    send_to_omrs(log, num_encounters=num_encounters)

@@ -877,6 +877,9 @@ class NutritionReport(CCReport):
         verbose_name = _(u"Nutrition Report")
         verbose_name_plural = _(u"Nutrition Reports")
 
+    MUAC_MODERATE = 125
+    MUAC_SEVERE = 110
+
     STATUS_MODERATE = 1
     STATUS_SEVERE = 2
     STATUS_SEVERE_COMP = 3
@@ -907,14 +910,26 @@ class NutritionReport(CCReport):
                                  choices=STATUS_CHOICES, blank=True, null=True,\
                                 db_index=True)
 
+    def __init__(self, *args, **kwargs):
+        super(NutritionReport, self).__init__(*args, **kwargs)
+        try:
+            from childcount.models import Configuration
+            moderate = int(Configuration.get('muac_moderate'))
+            severe = int(Configuration.get('muac_severe'))
+            self.MUAC_MODERATE = moderate
+            self.MUAC_SEVERE = severe
+        except:
+            # use default values
+            pass
+
     def diagnose(self):
         '''Diagnosis of the patient'''
         self.status = self.STATUS_HEALTHY
         if self.muac is None or self.muac == 0:
             self.status = None
-        elif self.oedema == 'Y' or self.muac < 110:
+        elif self.oedema == 'Y' or self.muac < self.MUAC_SEVERE + 1:
             self.status = self.STATUS_SEVERE
-        elif self.muac < 125:
+        elif self.muac < self.MUAC_MODERATE + 1:
             self.status = self.STATUS_MODERATE
         print (self.muac, self.oedema, self.status)
 
@@ -1779,7 +1794,7 @@ class SchoolAttendanceReport(CCReport):
         (SECONDARY_SCHOOL, _(u"Secondary School")))
 
         
-    household_pupil = models.PositiveSmallIntegerField(_(u"#School aged " \
+    household_pupil = models.SmallIntegerField(_(u"#School aged " \
                                 "Pupils "), db_index=True, default=0)
     attending_school = models.PositiveSmallIntegerField( \
                                 _(u"#School aged Pupils Attending school "), \
