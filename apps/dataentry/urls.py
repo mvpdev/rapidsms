@@ -11,4 +11,5 @@ import dataentry.views as views
 urlpatterns = patterns('',
     url(r'^dataentry$', views.index),
     url(r'^dataentry/proxypost/?$', views.post_proxy),
+    url(r'^dataentry/commcare/?$', views.post_commcare),
 )
