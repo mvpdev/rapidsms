@@ -15,6 +15,8 @@
     
     {% if patient___patient_id %}
     <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+    {% else %}
+        <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id"/>
     {% endif %}
     <patient_identifier.identifier_type openmrs_table="patient_identifier" openmrs_attribute="identifier_type">{{ patient___identifier_type }}</patient_identifier.identifier_type>
     <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>
