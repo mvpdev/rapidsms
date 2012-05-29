@@ -127,7 +127,7 @@
    <number_of_observed_functioning_bednets_in_the_household openmrs_concept="160252^Number of observed functioning bednets in the household^99DCT" openmrs_datatype="NM">
        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>{{ function_nets_observed }} </value>
+       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ function_nets_observed }} </value>
     </number_of_observed_functioning_bednets_in_the_household>
    {% endif %}
    
@@ -135,7 +135,7 @@
     <number_of_children_lt_5_years_old_who_slept_in_household_the_past_night openmrs_concept="160312^Number of children &lt; 5 years old who slept in household the past night^99DCT" openmrs_datatype="NM">
       <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
       <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-      <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>{{ slept_underfive_lastnight }} </value>
+      <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ slept_underfive_lastnight }} </value>
     </number_of_children_lt_5_years_old_who_slept_in_household_the_past_night>
     {% endif %}
     
@@ -151,7 +151,7 @@
     <number_of_pregnant_women_who_slept_in_household_the_past_night openmrs_concept="160254^Number of pregnant women who slept in household the past night^99DCT" openmrs_datatype="NM">
        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>{{ pregnant_slept_lastnight }} </value>
+       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ pregnant_slept_lastnight }} </value>
     </number_of_pregnant_women_who_slept_in_household_the_past_night>
     {% endif %}
     
@@ -159,7 +159,7 @@
     <number_of_pregnant_women_who_slept_under_a_bednet_in_household_the_past_night openmrs_concept="160255^Number of pregnant women who slept under a bednet in household the past night^99DCT" openmrs_datatype="NM">
        <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
        <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>{{ pregnant_undernet_lastnight }} </value>
+       <value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">{{ pregnant_undernet_lastnight }} </value>
     </number_of_pregnant_women_who_slept_under_a_bednet_in_household_the_past_night>
      {% endif %}
 
