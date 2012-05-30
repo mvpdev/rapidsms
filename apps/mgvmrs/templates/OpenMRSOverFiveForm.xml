@@ -12,7 +12,11 @@
     <patient.family_name openmrs_table="patient_name" openmrs_attribute="family_name">{{ patient___family_name }}</patient.family_name>
     <patient.given_name openmrs_table="patient_name" openmrs_attribute="given_name">{{ patient___given_name }}</patient.given_name>
     <patient.middle_name openmrs_table="patient_name" openmrs_attribute="middle_name">{{ patient___middle_name }}</patient.middle_name>
+    {% if patient___patient_id %}
     <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+    {% else %}
+        <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id"/>
+    {% endif %}
     <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>
     <patient.sex openmrs_table="patient" openmrs_attribute="gender">{{ patient___sex }}</patient.sex>
   </patient>

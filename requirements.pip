@@ -12,3 +12,4 @@ babel
 reportlab==2.3
 gdata==2.0.16
 xlwt==0.7.1
+simplejson

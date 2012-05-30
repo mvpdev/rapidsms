@@ -164,7 +164,7 @@ def send_to_omrs(router, *args, **kwargs):
         omrsform.openmrs__form_id = form_id
         omrsform.patient___identifier_type = identifier_type
         omrsform.patient__in_cluster_id = in_cluster_attribute_id
-        omrsform.patient___patient_id = encounter.patient.pk
+        # omrsform.patient___patient_id = encounter.patient.pk
 
         # each report contains reference to OMRS fields
         for report in reports:

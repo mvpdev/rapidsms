@@ -70,6 +70,7 @@ class OpenMRSFormInterface(object):
     patient__village = None
     patient__in_cluster = '1067^UNKNOWN^99DCT'
     patient__in_cluster_id = 10
+    patient___patient_id = None
 
     # Encounter Informations
     encounter___encounter_datetime = None
