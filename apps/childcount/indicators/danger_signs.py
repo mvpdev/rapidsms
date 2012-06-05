@@ -285,7 +285,11 @@ class UnderFiveFeverComplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_complicated(period, data_in).count()
+        rs = _under_five_fever_complicated(period, data_in)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 
 class UnderFiveFeverComplicatedReferred(Indicator):
@@ -300,9 +304,12 @@ class UnderFiveFeverComplicatedReferred(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_complicated(period, data_in)\
-            .filter(encounter__ccreport__referralreport__urgency__isnull=False)\
-            .count()
+        rs = _under_five_fever_complicated(period, data_in)\
+                .filter(encounter__ccreport__referralreport__urgency__isnull=False)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 class UnderFiveFeverComplicatedReferredPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
