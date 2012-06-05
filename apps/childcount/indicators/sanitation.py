@@ -44,7 +44,7 @@ class UniqueHousehold(Indicator):
     type_out    = int
 
     slug        = "uniqueSANReports"
-    short_name  = _("Unique +SAN Reports")
+    short_name  = _("#Unique +SAN Reports")
     long_name   = _("Total number of Unique sanitation reports")
 
     @classmethod
@@ -64,7 +64,7 @@ class UsingImprovedSanitation(Indicator):
     type_out    = int
 
     slug        = "improvedSanitation"
-    short_name  = _("Using Improved Sanitation")
+    short_name  = _("#Using Improved Sanitation")
     long_name   = _("Total number of Unique household Using Improved Sanitation")
 
     @classmethod
@@ -84,7 +84,7 @@ class ImprovedSanitationDontshare(Indicator):
     type_out    = int
 
     slug        = "improvedSanitationdontshare"
-    short_name  = _("Using Improved Sanitation dont share")
+    short_name  = _("#Using Improved Sanitation dont share")
     long_name   = _("Total number of Unique household Using Improved " \
                     "Sanitation and dont share")
 
@@ -98,4 +98,25 @@ class ImprovedSanitationDontshare(Indicator):
                 toilet_lat__in=improved, \
                 share_toilet=share)\
             .latest_for_patient().distinct()\
+            .count()
+
+         
+class UniqueOneEightyDays(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "unique_oneeighty_days"
+    short_name  = _("Uniq. Sanitation Report 180d")
+    long_name   = _("Total number of Sanitation to unique households "\
+                    "in the 180 days ending at the end of this time period")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return SanitationReport\
+            .objects\
+            .filter(encounter__patient__in=data_in,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(180))\
+            .values('encounter__patient')\
+            .distinct()\
             .count()
