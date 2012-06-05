@@ -57,10 +57,6 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__chw=chw,
                             encounter__patient__status=Patient.STATUS_ACTIVE)
             if plist:
-                doc.add_element(Section(u"%s : %s" % (chw, chw.location.name)))
-                doc.add_element(Paragraph(u"Period: %s to %s" % \
-                                        (period.start.strftime("%d %B, %Y"), \
-                                        period.end.strftime("%d %B, %Y"))))
                 t = Table(5)
                 t.add_header_row([
                     Text(unicode(_(u"Date Recorded"))),
