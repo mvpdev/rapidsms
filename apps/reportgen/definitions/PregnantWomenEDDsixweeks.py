@@ -56,7 +56,7 @@ class ReportDefinition(PrintedReport):
         t.add_header_row([
                     Text(unicode(_(u"Date Recorded"))),
                     Text(unicode(_(u"Patient"))),
-                    Text(unicode(_(u"Pregnancy Months"))),
+                    Text(unicode(_(u"EDD"))),
                     Text(unicode(_(u"CHW"))),
                     Text(unicode(_(u"Location")))])
                    
@@ -74,8 +74,9 @@ class ReportDefinition(PrintedReport):
                         Text(unicode(row.expected_on)),
                         Text(unicode(row.encounter.patient.chw)),
                         Text(unicode(row.encounter.patient.chw.location))])
-                doc.add_element(t)
                 # doc.add_element(PageBreak())
                 current += 1
                 self.set_progress(100.0*current/total)
+                
+        doc.add_element(t)
         return render_doc_to_file(filepath, rformat, doc)

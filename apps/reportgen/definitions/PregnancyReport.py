@@ -72,8 +72,10 @@ class ReportDefinition(PrintedReport):
                         Text(unicode(row.pregnancy_month)),
                         Text(unicode(row.encounter.patient.chw)),
                         Text(unicode(row.encounter.patient.chw.location))])
-                doc.add_element(t)
+                        
                 # doc.add_element(PageBreak())
                 current += 1
                 self.set_progress(100.0*current/total)
+                
+        doc.add_element(t)
         return render_doc_to_file(filepath, rformat, doc)
