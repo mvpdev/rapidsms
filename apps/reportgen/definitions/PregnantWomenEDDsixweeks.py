@@ -51,7 +51,15 @@ class ReportDefinition(PrintedReport):
         self.set_progress(0)
         end_date = period.start + relativedelta(weeks=6)
         start_date = period.start
-        
+
+        t = Table(5)
+        t.add_header_row([
+                    Text(unicode(_(u"Date Recorded"))),
+                    Text(unicode(_(u"Patient"))),
+                    Text(unicode(_(u"Pregnancy Months"))),
+                    Text(unicode(_(u"CHW"))),
+                    Text(unicode(_(u"Location")))])
+                   
         for chw in chws:
             plist = AntenatalVisitReport.objects.filter(\
                             expected_on__lt=end_date,
@@ -59,14 +67,6 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__chw=chw,
                             encounter__patient__status=Patient.STATUS_ACTIVE)
             if plist:
-
-                t = Table(5)
-                t.add_header_row([
-                    Text(unicode(_(u"Date Recorded"))),
-                    Text(unicode(_(u"Patient"))),
-                    Text(unicode(_(u"EDD"))),
-                    Text(unicode(_(u"CHW"))),
-                    Text(unicode(_(u"Location")))])
                 for row in plist:
                     t.add_row([
                         Text(unicode(row.encounter.encounter_date.strftime('%d-%m-%Y'))),

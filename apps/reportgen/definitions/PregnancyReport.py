@@ -49,6 +49,14 @@ class ReportDefinition(PrintedReport):
         total = chws.count() + 1
         self.set_progress(0)
 
+        t = Table(5)
+        t.add_header_row([
+                    Text(unicode(_(u"Date Recorded"))),
+                    Text(unicode(_(u"Patient"))),
+                    Text(unicode(_(u"Pregnancy Months"))),
+                    Text(unicode(_(u"CHW"))),
+                    Text(unicode(_(u"Location")))])
+
         for chw in chws:
             plist = PregnancyReport.objects.filter(\
                             encounter__encounter_date__lte=period.end,
@@ -57,13 +65,6 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__chw=chw,
                             encounter__patient__status=Patient.STATUS_ACTIVE)
             if plist:
-                t = Table(5)
-                t.add_header_row([
-                    Text(unicode(_(u"Date Recorded"))),
-                    Text(unicode(_(u"Patient"))),
-                    Text(unicode(_(u"Pregnancy Months"))),
-                    Text(unicode(_(u"CHW"))),
-                    Text(unicode(_(u"Location")))])
                 for row in plist:
                     t.add_row([
                         Text(unicode(row.encounter.encounter_date.strftime('%d-%m-%Y'))),
