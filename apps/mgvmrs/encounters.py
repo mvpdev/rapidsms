@@ -61,8 +61,7 @@ def send_to_omrs(router, *args, **kwargs):
     try:
         labrequest_id = int(conf['labrequest_id'])
     except KeyError:
-        router.log('DEBUG', "If lab module is enabled please configure "\
-                    "labrequest_id in local.ini")
+        pass
 
     # this one is not fatal
     try:
@@ -133,10 +132,6 @@ def send_to_omrs(router, *args, **kwargs):
             provider = provider_id
 
         # create form
-	    router.log('DEBUG', 'mgvmrs: Starting encounter processing...')
-	    router.log('DEBUG', encounter.pk)
-	    router.log('DEBUG', encounter.patient)
-	    router.log('DEBUG', encounter.patient.health_id)
 	    if encounter.patient.last_name == '':
 	        encounter.patient.last_name = encounter.patient.first_name
 	        encounter.patient.save()
@@ -157,8 +152,7 @@ def send_to_omrs(router, *args, **kwargs):
             errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
             errl.error_message = e
             errl.save()
-            router.log('DEBUG', '==> UnexpectedValueError')
-            router.log('DEBUG', e)
+            router.log('DEBUG', "==> UnexpectedValueError %s" % encounter)
             continue
         # assign site-specific ID
         omrsform.openmrs__form_id = form_id
@@ -186,10 +180,9 @@ def send_to_omrs(router, *args, **kwargs):
             errl.error_message = omrsform.render()
             errl.save()
 
-            router.log('DEBUG', '==> Transmission error')
-            router.log('DEBUG', omrsform.render())
-            router.log('DEBUG', e)
-           
+            router.log('DEBUG', u"==> Transmission error %s" % encounter)
+            # router.log('DEBUG', omrsform.render())
+
             # Don't modify this encounter, just let 
             # it get sent later on
         except OpenMRSXFormsModuleError, e:
@@ -198,9 +191,8 @@ def send_to_omrs(router, *args, **kwargs):
             errl.error_message = omrsform.render()
             errl.save()
 
-            router.log('DEBUG', '==> XForms Module error')
-            router.log('DEBUG', omrsform.render())
-            router.log('DEBUG', e)
+            router.log('DEBUG', u"==> XForms Module error %s" % encounter)
+            #router.log('DEBUG', omrsform.render())
 
             # Mark this encounter sync_omrs=False
             # so that we don't try to send it again.

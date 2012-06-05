@@ -34,17 +34,27 @@ from django.db import IntegrityError
 ### END - SETUP RAPIDSMS ENVIRONMENT
 ###
 import logging
-import logging.handlers
-import random
 
-from reversion import revision
 from mgvmrs.encounters import send_to_omrs
 
+logger = logging.getLogger('manual_omrs_sync')
+logger.setLevel(logging.DEBUG)
+ch = logging.FileHandler("manual_omrs_sync.log")
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
 
 class DLOG():
     def log(self, level, msg):
-        print >>sys.stderr, level.upper(), msg
-
+        level = getattr(logging, level.upper())
+        logger.log(level, msg)
 
 if __name__ == "__main__":
     num_encounters = 200
