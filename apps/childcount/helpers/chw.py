@@ -60,9 +60,9 @@ def report_indicators():
         'title': _("Sanitation and Drinking Water"),
         'columns': [
             {'name': _("+SAN/Households (180 days)"), \
-                         'ind': sanitation.UniqueOneEightyDays+"/"+registration.Household},
+                 'ind': str(sanitation.UniqueOneEightyDays)+"/"+str(registration.Household)},
             {'name': _("+DW/Households (180 days)"),  \
-                         'ind': drinking_water.UniqueOneEightyDays+"/"+registration.Household},
+                 'ind': str(drinking_water.UniqueOneEightyDays)+"/"+str(registration.Household)},
         ]
     },
     {
