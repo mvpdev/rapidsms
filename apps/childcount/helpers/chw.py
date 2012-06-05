@@ -24,6 +24,8 @@ from childcount.indicators import under_one
 from childcount.indicators import nutrition
 from childcount.indicators import fever
 from childcount.indicators import medicine_given
+from childcount.indicators import sanitation
+from childcount.indicators import drinking_water
 
 from childcount.models import Patient
 from childcount.models.reports import PregnancyReport
@@ -52,6 +54,15 @@ def report_indicators():
             {'name': _("Women Using FP"), 'ind': family_planning.Using},
             {'name': _("Women Starting FP (or Never Registered)"),
                 'ind': family_planning.Starting},
+        ]
+    },
+    {
+        'title': _("Sanitation and Drinking Water"),
+        'columns': [
+            {'name': _("+SAN/Households (180 days)"), \
+                         'ind': sanitation.UniqueOneEightyDays+"/"+registration.Household},
+            {'name': _("+DW/Households (180 days)"),  \
+                         'ind': drinking_water.UniqueOneEightyDays+"/"+registration.Household},
         ]
     },
     {
