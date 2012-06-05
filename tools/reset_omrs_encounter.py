@@ -40,8 +40,7 @@ revision.start()
 
 i = 0
 for encounter in Encounter.objects.all():
-    i +=1
-	encounter.sync_omrs__isnull = True
+    i += 1
     encounter.sync_omrs = None
     encounter.save()
 
