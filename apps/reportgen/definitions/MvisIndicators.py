@@ -29,7 +29,7 @@ from childcount.indicators import bed_net_utilization
 from childcount.indicators import bed_net_utilization_pregnancy as bednet_p
 from childcount.indicators import school_attendance
 from childcount.indicators import sanitation
-#from childcount.indicators import drinking_water
+from childcount.indicators import drinking_water
 
 from childcount.models import Patient
 
@@ -117,10 +117,15 @@ class ReportDefinition(PrintedReport):
             school_attendance.PrimarySchoolAttending,
             school_attendance.NumberOfHouseholdsWithRecordedSchoolNotInSession,
         )),
-        (_("Sanitation +SAN"), (
+        (_("Sanitation (+SAN)"), (
             sanitation.UniqueHousehold,
             sanitation.UsingImprovedSanitation,
             sanitation.ImprovedSanitationDontshare,
+        )),
+        (_("Drinking Water"), (
+            drinking_water.UniqueHousehold,
+            drinking_water.UsingImprovedDrinkingWater,
+            drinking_water.TreatWater,
         )),
     )
 
