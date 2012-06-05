@@ -28,7 +28,7 @@ def post_proxy(request):
     if not request.method == 'POST':
         return HttpResponse(u"POST?")
 
-    conf = settings.RAPIDSMS_CONF['commcare']
+    conf = settings.RAPIDSMS_APPS['dataentry']
     url = "http://%s:%s" % (conf["host"], conf["port"])
 
     data = request.POST.urlencode()
@@ -45,8 +45,15 @@ def post_commcare(request):
     if not request.method == 'POST':
         return HttpResponse(u"POST?")
 
-    #conf = settings.RAPIDSMS_APPS['commcare']
-    url = "http://%s:%s" % ("localhost", 1339)
+    conf = {}
+
+    try:
+        conf = settings.RAPIDSMS_CONF['commcare']
+    except:
+        conf['port']  = 1339
+        conf['host'] = 'localhost'
+
+    url = "http://%s:%s" % (conf["host"], conf["port"])
 
     data = request.POST.urlencode()
     print data
