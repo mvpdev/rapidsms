@@ -49,6 +49,14 @@ class ReportDefinition(PrintedReport):
         total = chws.count() + 1
         self.set_progress(0)
 
+        t = Table(5)
+        t.add_header_row([
+                    Text(unicode(_(u"Date Recorded"))),
+                    Text(unicode(_(u"Patient"))),
+                    Text(unicode(_(u"Pregnancy Months"))),
+                    Text(unicode(_(u"CHW"))),
+                    Text(unicode(_(u"Location")))])
+
         for chw in chws:
             plist = PregnancyReport.objects.filter(\
                             encounter__encounter_date__lte=period.end,
@@ -57,17 +65,6 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__chw=chw,
                             encounter__patient__status=Patient.STATUS_ACTIVE)
             if plist:
-                doc.add_element(Section(u"%s : %s" % (chw, chw.location.name)))
-                doc.add_element(Paragraph(u"Period: %s to %s" % \
-                                        (period.start.strftime("%d %B, %Y"), \
-                                        period.end.strftime("%d %B, %Y"))))
-                t = Table(5)
-                t.add_header_row([
-                    Text(unicode(_(u"Date Recorded"))),
-                    Text(unicode(_(u"Patient"))),
-                    Text(unicode(_(u"Pregnancy Months"))),
-                    Text(unicode(_(u"CHW"))),
-                    Text(unicode(_(u"Location")))])
                 for row in plist:
                     t.add_row([
                         Text(unicode(row.encounter.encounter_date.strftime('%d-%m-%Y'))),
@@ -75,8 +72,10 @@ class ReportDefinition(PrintedReport):
                         Text(unicode(row.pregnancy_month)),
                         Text(unicode(row.encounter.patient.chw)),
                         Text(unicode(row.encounter.patient.chw.location))])
-                doc.add_element(t)
+                        
                 # doc.add_element(PageBreak())
                 current += 1
                 self.set_progress(100.0*current/total)
+                
+        doc.add_element(t)
         return render_doc_to_file(filepath, rformat, doc)
