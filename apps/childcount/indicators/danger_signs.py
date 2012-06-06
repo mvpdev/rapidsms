@@ -163,7 +163,11 @@ class UnderFiveFeverUncomplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_uncomplicated(period, data_in).count()
+        rs = _under_five_fever_uncomplicated(period, data_in)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 class UnderFiveFeverUncomplicatedRdt(Indicator):
     type_in     = QuerySetType(Patient)
@@ -182,10 +186,12 @@ class UnderFiveFeverUncomplicatedRdt(Indicator):
         N = FeverReport.RDT_NEGATIVE
         P = FeverReport.RDT_POSITIVE
         U = FeverReport.RDT_UNKNOWN
-
-        return rpts\
-            .filter(encounter__ccreport__feverreport__rdt_result__in=(N, P, U))\
-            .count()
+        rs = rpts\
+            .filter(encounter__ccreport__feverreport__rdt_result__in=(N, P, U))
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 def _under_five_fever_uncomplicated_rdt_value(period, data_in, value):
     Y = FeverReport.RDT_POSITIVE
@@ -195,9 +201,12 @@ def _under_five_fever_uncomplicated_rdt_value(period, data_in, value):
     if value not in (Y,N,U):
         raise ValueError(_("Invalid RDT value"))
 
-    return _under_five_fever_uncomplicated(period, data_in)\
-        .filter(encounter__ccreport__feverreport__rdt_result=value)\
-        .count()
+    rs = _under_five_fever_uncomplicated(period, data_in)\
+        .filter(encounter__ccreport__feverreport__rdt_result=value)
+    if rs:
+        return rs.count()
+    else:
+        return 0
 
 class UnderFiveFeverUncomplicatedRdtPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
