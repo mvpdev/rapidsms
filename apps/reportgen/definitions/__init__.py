@@ -4,7 +4,7 @@
 __all__ = ('MvisIndicators','ChwList','Utilization',\
     'PatientList', 'Malnutrition', 'MedicineGivenReport', \
     'StatsDataEntry', 'Operational', 'StatsOmrs', 'PregnancyReport', \
-    'ChwReport', 'ChwManagerReport', 'PerformanceCharts',
+    'ChwReport', 'ChwManagerReport', 'PerformanceCharts', 'UnderFive', \
     'IndicatorChart', 'ChwLog', 'PMTCTDefaulters', 'SpotCheck', \
     'VitalEventsReport', 'IdentityCards', 'SmsUsage', 'PList', \
     'ChwHouseholdVisitCoverage', 'LabReport', 'NotAttendingSchoolReport', \
