@@ -50,6 +50,13 @@ class SixMonths(PeriodType):
         relative_title = _("6 months starting %(start)d months ago") % \
                 {'start': index+6}
 
+        title = _("%(start)s to %(end)s (Monthly)") % \
+            {'start': start_date.strftime("%b %Y"),
+            'end': end_date.strftime("%b %Y")}
+
+        relative_title = _("6 months starting %(start)d months ago") % \
+                {'start': index+6}
+                
         return Period(title, relative_title, \
             start_date, end_date, sub_periods)
 
