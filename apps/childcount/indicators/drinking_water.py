@@ -107,7 +107,8 @@ class TreatWater(Indicator):
 class UniqueOneEightyDays(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
-
+    total_column = False
+    
     slug        = "unique_oneeighty_days"
     short_name  = _("Uniq. Drinking Water Report 180d")
     long_name   = _("Total number of Drinking Water to unique households "\
