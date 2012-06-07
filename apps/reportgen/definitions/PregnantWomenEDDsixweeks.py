@@ -65,7 +65,8 @@ class ReportDefinition(PrintedReport):
                             expected_on__lt=end_date,
                             expected_on__gt=start_date,
                             encounter__patient__chw=chw,
-                            encounter__patient__status=Patient.STATUS_ACTIVE)
+                            encounter__patient__status=Patient.STATUS_ACTIVE)\
+                            .latest_for_patient().distinct()
             if plist:
                 for row in plist:
                     t.add_row([
