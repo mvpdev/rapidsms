@@ -26,8 +26,8 @@ _variants.extend(_locations)
 
 
 class ReportDefinition(PrintedReport):
-    title = _(u"Pregnancy Report")
-    filename = 'PregnancyReport'
+    title = _(u"Under Five Report")
+    filename = 'underfive'
     formats = ['pdf', 'html', 'xls']
     variants = _variants
 
@@ -49,12 +49,7 @@ class ReportDefinition(PrintedReport):
         total = chws.count() + 1
         self.set_progress(0)
 
-        t = Table(4)
-        t.add_header_row([
-                    Text(_(u'HID')),
-                    Text(_(u'Name')),
-                    Text(_(u'Gen.')),
-                    Text(_(u'Age'))])
+
 
         for chw in chws:
             plist = Patient.objects.filter(\
@@ -63,18 +58,25 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__chw=chw,
                             encounter__patient__status=Patient.STATUS_ACTIVE)\
                             .under_five(period.end,period.start)
-
             if plist:
+                doc.add_element(Section(u"%s : %s" % (chw, chw.location.name)))
+                doc.add_element(Paragraph(u"Period: %s to %s" % \
+                                        (period.start.strftime("%d %B, %Y"), \
+                                        period.end.strftime("%d %B, %Y"))))
+                t = Table(4)
+                t.add_header_row([
+                            Text(_(u'HID')),
+                            Text(_(u'Name')),
+                            Text(_(u'Gen.')),
+                            Text(_(u'Age'))])
                 for row in plist:
                     t.add_row([
                         Text(unicode(row.health_id.upper())),
                         Text(unicode(row.full_name())),
                         Text(unicode(row.gender)),
-                        Text(unicode(row.patient.age))])
-                        
+                        Text(unicode(row.humanised_age))])
+                doc.add_element(t)
                 # doc.add_element(PageBreak())
                 current += 1
                 self.set_progress(100.0*current/total)
-                
-        doc.add_element(t)
         return render_doc_to_file(filepath, rformat, doc)
