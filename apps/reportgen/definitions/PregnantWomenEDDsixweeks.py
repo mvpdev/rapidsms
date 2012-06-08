@@ -52,6 +52,10 @@ class ReportDefinition(PrintedReport):
         end_date = period.start + relativedelta(weeks=6)
         start_date = period.start
 
+        doc.add_element(Paragraph(u"Period: %s to %s" % \
+                                        (period.start.strftime("%d %B, %Y"), \
+                                        period.end.strftime("%d %B, %Y"))))
+                                        
         t = Table(5)
         t.add_header_row([
                     Text(unicode(_(u"Date Recorded"))),
@@ -72,7 +76,7 @@ class ReportDefinition(PrintedReport):
                     t.add_row([
                         Text(unicode(row.encounter.encounter_date.strftime('%d-%m-%Y'))),
                         Text(unicode(row.encounter.patient)),
-                        Text(unicode(row.expected_on)),
+                        Text(unicode(row.expected_on.strftime('%d-%m-%Y'))),
                         Text(unicode(row.encounter.patient.chw)),
                         Text(unicode(row.encounter.patient.chw.location))])
                 # doc.add_element(PageBreak())
