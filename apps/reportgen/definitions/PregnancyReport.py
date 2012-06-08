@@ -63,7 +63,8 @@ class ReportDefinition(PrintedReport):
                             encounter__encounter_date__gte=period.start,
                             pregnancy_month__lte=9,
                             encounter__patient__chw=chw,
-                            encounter__patient__status=Patient.STATUS_ACTIVE)
+                            encounter__patient__status=Patient.STATUS_ACTIVE)\
+                            .latest_for_patient().distinct()
             if plist:
                 for row in plist:
                     t.add_row([
