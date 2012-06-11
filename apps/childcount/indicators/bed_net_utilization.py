@@ -2,6 +2,8 @@
 Bed net utilization
 '''
 
+from datetime import timedelta
+
 from django.db.models import F, Q
 from django.db.models.aggregates import Sum
 from django.utils.translation import ugettext as _
@@ -98,8 +100,8 @@ class UniqueOneEightyDays(Indicator):
     total_column = False
     
     slug        = "unique_oneeighty_days"
-    short_name  = _("Uniq. Household reports for 180d")
-    long_name   = _("Total number of School attendance to unique households "\
+    short_name  = _("Uniq. Household Bednet reports for 180d")
+    long_name   = _("Total number of Bednet Utilization to unique households "\
                     "in the 180 days ending at the end of this time period")
 
     @classmethod

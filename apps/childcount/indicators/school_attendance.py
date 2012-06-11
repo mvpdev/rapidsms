@@ -2,6 +2,8 @@
 School Attendance
 '''
 
+from datetime import timedelta
+
 from django.db import connection
 
 from django.utils.translation import ugettext as _
