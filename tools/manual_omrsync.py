@@ -39,7 +39,7 @@ from mgvmrs.encounters import send_to_omrs
 
 logger = logging.getLogger('manual_omrs_sync')
 logger.setLevel(logging.DEBUG)
-ch = logging.FileHandler("manual_omrs_sync.log")
+ch = logging.FileHandler("/var/log/manual_omrs_sync.log")
 ch.setLevel(logging.DEBUG)
 
 # create formatter
