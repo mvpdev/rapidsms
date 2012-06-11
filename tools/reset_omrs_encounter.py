@@ -38,16 +38,18 @@ from datetime import datetime
 
 revision.start()
 
-i = 0
-for encounter in Encounter.objects.all():
-    i += 1
-    encounter.sync_omrs = None
-    encounter.save()
+if __name__ == "__main__":
+    updated = 0
+    if sys.argv.__len__() > 1:
+        params = sys.argv[1:]
+        from_date = datetime.strptime(params[0], '%Y%m%d')
+        updated = Encounter.objects\
+                    .filter(encounter_date__gt=from_date)\
+                    .update(sync_omrs=None)
+    else:
+        updated = Encounter.objects.filter().update(sync_omrs=None)
 
-if i == 0:
-	print "No encounters " 
-else:
-	print "%d Encounters have been reset to False " % i
+    print "%d Encounters have been reset." % updated
 
 revision.end()
 
