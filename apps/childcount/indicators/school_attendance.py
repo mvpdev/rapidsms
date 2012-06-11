@@ -95,3 +95,24 @@ class NumberOfHouseholdsWithRecordedSchoolNotInSession(Indicator):
             .values('encounter__patient')\
             .distinct()\
             .count()
+
+class UniqueOneEightyDays(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+    total_column = False
+    
+    slug        = "unique_oneeighty_days"
+    short_name  = _("Uniq. Household reports for 180d")
+    long_name   = _("Total number of School attendance to unique households "\
+                    "in the 180 days ending at the end of this time period")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return SchoolAttendanceReport\
+            .objects\
+            .filter(encounter__patient__in=data_in,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(180))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()
