@@ -185,18 +185,13 @@ class ReportDefinition(PrintedReport):
                     col += 1
 
                 # Write value for period as a whole
-                try:
-                    total_column = pair['ind'].total_column
-                except:
-                    total_column = True
+                value = ind['ind'](self._period, patient_set)
+                if is_perc: value = float(value)
 
-                if total_column:
-                    value = ind['ind'](self._period, patient_set)
-                    if is_perc: value = float(value)
-
-                    self._write(row, col, value, end_perc_style if is_perc \
+                self._write(row, col, value, end_perc_style if is_perc \
                                             else end_norm_style)
-                    col += 1
+                col += 1
+                    
             col += 1
 
     def _add_lines(self, row):
@@ -237,17 +232,11 @@ class ReportDefinition(PrintedReport):
                     self._write(self._DATE_ROW, col, sp.title)
                     col += 1
 
-                try:
-                    total_column = pair['ind'].total_column
-                except:
-                    total_column = True
-
-                if total_column:
-                    self._write(self._DATE_ROW, 
+                self._write(self._DATE_ROW, 
                         col, 
-                        self._period.title,
-                        self._end_section)
-                    col += 1
+                self._period.title,
+                self._end_section)
+                col += 1
 
             self._add_spacer(col)
             self._ws.col(col).set_style(self._end_section)
