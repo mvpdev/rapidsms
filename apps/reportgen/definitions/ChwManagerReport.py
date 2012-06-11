@@ -91,6 +91,10 @@ class ReportDefinition(PrintedReport):
         self._total_perc_style.num_format_str = '0.0%'
 
     def generate(self, period, rformat, title, filepath, data):
+        # check if XLS limits are exceeded
+        if rformat.lower() == 'xls' and self.num_cols(period) > 254:
+            raise Exception(_(u"Error: Maximum XLS column limit exceeded."
+                                u"Please select a shorter time period."))
         self._setup_styles()
 
         self._period = period
@@ -280,4 +284,15 @@ class ReportDefinition(PrintedReport):
             style=Style.default_style):
         self._ws.write_merge(r1, r2, c1, c2, \
             self._safe_value(text), style)
+
+    def num_cols(self, period):
+        _indicators = helpers.chw.report_indicators()
+        c = 0
+        for group in _indicators:
+            for col in group['columns']:
+                for dt in period.sub_periods():
+                    c += 1
+                c += 1
+            c += 1
+        return c
         
