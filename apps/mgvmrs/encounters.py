@@ -81,6 +81,9 @@ def send_to_omrs(router, *args, **kwargs):
     NUM_ENCOUNTERS = 200
     if kwargs.has_key('num_encounters'):
         NUM_ENCOUNTERS = int(kwargs['num_encounters'])
+    httpConn = None
+    if kwargs.has_key('conn'):
+        httpConn = kwargs['conn']
     encounters = Encounter\
         .objects\
         .filter(Q(sync_omrs__isnull=True) | Q(sync_omrs=None))\
@@ -169,7 +172,10 @@ def send_to_omrs(router, *args, **kwargs):
 
         # send xform to omrs and change sync status
         try:
-            transmit_form(omrsform)
+            if httpConn:
+                transmit_form(omrsform, httpConn)
+            else:
+                transmit_form(omrsform)
             encounter.sync_omrs = True
             encounter.save()
             router.log('DEBUG', \

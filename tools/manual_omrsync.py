@@ -5,11 +5,15 @@
 ###
 ### START - SETUP RAPIDSMS ENVIRONMENT
 ###
+import httplib
 
 import sys, os
 from os import path
 
 # figure out where all the extra libs (rapidsms and contribs) are
+from mgvmrs.forms.OpenMRSFormInterface import OpenMRSTransmissionError
+from mgvmrs.utils import openmrs_config
+
 libs=[os.path.abspath('lib'),os.path.abspath('apps')] # main 'rapidsms/lib'
 try:
     for f in os.listdir('contrib'):
@@ -61,6 +65,18 @@ if __name__ == "__main__":
     if sys.argv.__len__() > 1:
         params = sys.argv[1:]
         num_encounters = int(params[0])
-    log = DLOG()
-    log.log('debug', "STARTING MANUAL OMRS SYNC")
-    send_to_omrs(log, num_encounters=num_encounters)
+    try:
+        conn = httplib.HTTPConnection("%(server)s:%(port)s"\
+        % {'server': openmrs_config['server'],\
+           'port': openmrs_config['server_port']})
+        # TODO: identify appropriate exceptions
+    except:
+        raise OpenMRSTransmissionError("Unable to connect to server.")
+    else:
+        log = DLOG()
+        log.log('debug', "STARTING MANUAL OMRS SYNC")
+        try:
+            send_to_omrs(log, num_encounters=num_encounters, conn=conn)
+        except Exception, e:
+            log.log('error', e)
+        conn.close()

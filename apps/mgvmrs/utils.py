@@ -39,7 +39,7 @@ except Configuration.DoesNotExist:
     openmrs_config['path_store_xforms'] = u"/tmp"
 
 
-def transmit_form(form):
+def transmit_form(form, httpConn=None):
     ''' send a Form to the OpenMRS system
 
     raise OpenMRSTransmissionError on error '''
@@ -52,13 +52,16 @@ def transmit_form(form):
 
     headers = {"Content-type": "text/xml", "Accept": "text/plain"}
 
-    try:
-        conn = httplib.HTTPConnection("%(server)s:%(port)s" \
-                                  % {'server': openmrs_config['server'], \
-                                     'port': openmrs_config['server_port']})
-    # TODO: identify appropriate exceptions
-    except:
-        raise OpenMRSTransmissionError("Unable to connect to server.")
+    if httpConn is None:
+        try:
+            conn = httplib.HTTPConnection("%(server)s:%(port)s" \
+                                      % {'server': openmrs_config['server'], \
+                                         'port': openmrs_config['server_port']})
+        # TODO: identify appropriate exceptions
+        except:
+            raise OpenMRSTransmissionError("Unable to connect to server.")
+    else:
+        conn = httpConn
     xform_path = openmrs_config['path_xform_post'] \
                         % {'username': openmrs_config['user'], \
                            'password': openmrs_config['password']}
@@ -80,7 +83,8 @@ def transmit_form(form):
                                        % {'code': response.status, \
                                           'reason': response.reason,\
                                           'data': data})
-    conn.close()
+    if httpConn is None:
+        conn.close()
 
     # we assume data went to OMRS now ; we shoult thus record the file.
     if openmrs_config['store_xforms']:
