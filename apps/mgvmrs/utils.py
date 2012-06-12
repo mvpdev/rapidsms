@@ -67,9 +67,10 @@ def transmit_form(form, httpConn=None):
                            'password': openmrs_config['password']}
     try:
         conn.request("POST", xform_path, xml_form, headers)
-    except:
-        raise OpenMRSTransmissionError("Unable to query URI path. %(path)s" \
-                                        % {'path': xform_path})
+    except Exception, e:
+        raise OpenMRSTransmissionError(e)
+        # raise OpenMRSTransmissionError("Unable to query URI path. %(path)s" \
+        #s                                % {'path': xform_path})
 
     response = conn.getresponse()
     data = response.read()

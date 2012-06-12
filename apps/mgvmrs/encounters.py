@@ -187,6 +187,7 @@ def send_to_omrs(router, *args, **kwargs):
             errl.save()
 
             router.log('DEBUG', u"==> Transmission error %s" % encounter)
+            router.log('DEBUG', u"==> Transmission error %s" % e)
             # router.log('DEBUG', omrsform.render())
 
             # Don't modify this encounter, just let 
