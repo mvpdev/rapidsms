@@ -11,8 +11,7 @@ import sys, os
 from os import path
 
 # figure out where all the extra libs (rapidsms and contribs) are
-from mgvmrs.forms.OpenMRSFormInterface import OpenMRSTransmissionError
-from mgvmrs.utils import openmrs_config
+
 
 libs=[os.path.abspath('lib'),os.path.abspath('apps')] # main 'rapidsms/lib'
 try:
@@ -40,6 +39,8 @@ from django.db import IntegrityError
 import logging
 
 from mgvmrs.encounters import send_to_omrs
+from mgvmrs.forms.OpenMRSFormInterface import OpenMRSTransmissionError
+from mgvmrs.utils import openmrs_config
 
 logger = logging.getLogger('manual_omrs_sync')
 logger.setLevel(logging.DEBUG)
