@@ -11,7 +11,7 @@ from childcount.models import Encounter
 from childcount.models.reports import NutritionReport
 from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.forms.utils import MultipleChoiceField
-from childcount.utils import send_msg
+from childcount.utils import alert_health_team, alert_nutrition_team
 
 
 class NutritionForm(CCForm):
@@ -34,6 +34,8 @@ class NutritionForm(CCForm):
 
     MAX_WEIGHT = 100
     MIN_WEIGHT = 3
+    MAX_MUAC = 250
+    MIN_MUAC = 50
 
     def process(self, patient):
         oedema_field = MultipleChoiceField()
@@ -79,10 +81,10 @@ class NutritionForm(CCForm):
                 raise ParseError(\
                             _(u"Not enough info. Expected: | muac | oedema " \
                                     "| weight (mandatory) |"))
-        elif muac < 50:
+        elif muac < self.MIN_MUAC:
             raise BadValue(_(u"MUAC too low. If correct, refer child to " \
                              "clinic IMMEDIATELY!"))
-        elif muac > 250:
+        elif muac > self.MAX_MUAC:
             raise BadValue(_(u"MUAC too high. Correct and resend."))
 
         oedema_field.set_language(self.chw.language)
@@ -152,38 +154,6 @@ class NutritionForm(CCForm):
                         'mobile': self.chw.connection().identity, \
                         'msg': self.response}
             #alert facilitators
-            try:
-                g = Group.objects.get(name='Facilitator')
-                for user in g.user_set.all():
-                    send_msg(user.reporter, msg)
-            except Group.DoesNotExist:
-                pass
+            alert_health_team('malnutrition', msg)
             #alert nutritionists
-            try:
-                g = Group.objects.get(name='Nutritionist')
-                for user in g.user_set.all():
-                    send_msg(user.reporter, msg)
-            except Group.DoesNotExist:
-                pass
-        #TODO Referral / Case
-        '''
-        if mr.status == NutritionReport.STATUS_SEVERE:
-            info = {}
-            info.update({'last_name': patient.last_name,
-                         'first_name': patient.first_name,
-                         'age': patient.age(),
-                         'zone': patient.zone})
-            rf = Referral(patient=patient)
-            info.update({'refid': rf.referral_id})
-
-            expires_on = datetime.now() + timedelta(15)
-            case = Case(patient=patient, expires_on=expires_on)
-            case.save()
-
-            response = _('SAM> Last, First (AGE) LOCATION has acute '\
-                     'malnutrition. Please refer child to clinic '\
-                     'IMMEDIATELY. (%(refid)s')
-            #setup alert
-            # SAM> Last, First (AGE), LOCATION has SAM. CHW NAME -
-            #CHWMOBILE. (REFID)
-        '''
+            alert_nutrition_team('malnutrition', msg)

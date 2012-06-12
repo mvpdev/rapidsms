@@ -47,9 +47,9 @@ revision.start()
 ### INTO OUTFILE '/tmp/users.csv' 
 ### FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 ###   LINES TERMINATED BY '\n'
-###
+### FROM users;
 
-FROM users;
+
 with open('users.csv') as f:
     unknown = '';
     for line in f:
@@ -60,9 +60,18 @@ with open('users.csv') as f:
             user = User.objects.get(chw__username=username)
             user.openmrs_id = int(openmrs_id)
             user.save()
-            print openmrs_id, username, user.chw
+            print openmrs_id, username, user.chw, "\n"
         except User.DoesNotExist:
-            unknown += username + ';'
+            try:
+                chw = CHW.objects.filter(username=username.lower())
+            except:
+                unknown += username + ';'
+            else:
+                user = User()
+                user.chw = chw
+                user.openmrs_id = int(openmrs_id)
+                user.save()
+                print openmrs_id, username, user.chw, "CHW Link\n"
     print unknown
 revision.end()
 

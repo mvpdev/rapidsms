@@ -79,3 +79,5 @@ celerybeat-schedule
 
 *.sql
 *.bz2
+*.idea
+*.mysh

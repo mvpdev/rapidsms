@@ -90,7 +90,7 @@ msgstr ""
 
 #: app.py:289
 #, python-format
-msgid "Error: You tried to send househould forms for someone who is not head ofhousehold. You must send the forms with the head of household health ID.Their head of household health ID is %(hoh)s (Health ID: %(hohid)s)"
+msgid "Error: You tried to send househould forms for someone who is not head of household. You must send the forms with the head of household health ID.Their head of household health ID is %(hoh)s (Health ID: %(hohid)s)"
 msgstr ""
 "Ikosa: wagerageje kohereza amafishi y'umuntu udakuriye urugo. Amafishi "
 "yoherezwa agomba kuba ariho nomero y'ubuzima y'ukuriye urugo. Nomero "
@@ -224,7 +224,7 @@ msgstr "BYANZE GUCAMO: ntibijyanye."
 msgid "There is no patient with                 health ID %(hid)s"
 msgstr "Nta murwayi ufite nomero y'ubuzima %(hid)s"
 
-#: tasks.py:194
+#: tasks.py:196
 #, python-format
 msgid "Please follow up with %(person)s for %(signs)s"
 msgstr "Kurikirana %(person)s kubera uko %(signs)s"
@@ -3638,7 +3638,7 @@ msgstr "Kwibeshya"
 #: indicators/message.py:73
 #, , python-format
 msgid "% Err"
-msgstr " % ry'ubutumwa bw'amakosa"
+msgstr " % Err ry'ubutumwa bw'amakosa"
 
 #: indicators/message.py:74
 msgid "Percentage of messages from server that indicate an error"

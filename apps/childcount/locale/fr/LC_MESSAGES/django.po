@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Childcount+\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-30 13:52+0300\n"
+"POT-Creation-Date: 2012-05-10 15:53+0300\n"
 "PO-Revision-Date: 2011-11-21 12:45-0000\n"
 "Last-Translator: Casey Iiams-Hauser <cbi2103@columbia.edu>\n"
 "Language-Team: French <FR@li.org>\n"
@@ -47,7 +47,7 @@ msgstr ""
 "%(fname)s, vous devez sélectionner un autre ASC  que vous-même en  bas de "
 "l'écran de saisie de données."
 
-#: app.py:156 app.py:199
+#: app.py:156 app.py:203
 msgid "Problem getting encounter_date from backend."
 msgstr "Problème pour trouver la date de consultation dans le backend."
 
@@ -61,7 +61,7 @@ msgstr ""
 msgid "You must register before you can send reports."
 msgstr "Vous devez vous inscrire avant de pouvoir envoyer des rapports"
 
-#: app.py:230
+#: app.py:234
 #, python-format
 msgid ""
 "Error: Message not understood. Your message must start with a single health "
@@ -72,11 +72,11 @@ msgstr ""
 "identifiant de santé, suivi d'un espace puis d’un %(pre)s, puis le mot clé "
 "du formulaire que vous voulez envoyer."
 
-#: app.py:248
+#: app.py:252
 msgid "Not a recognised form."
 msgstr "Formulaire non reconnu."
 
-#: app.py:262
+#: app.py:266
 #, python-format
 msgid ""
 "Error occurred while processing %(frm)s: %(e)s Please correct and send all "
@@ -85,14 +85,14 @@ msgstr ""
 "Une erreur s'est produite lors du traitement de %(frm)s: %(e)s Veuillez la "
 "corriger et envoyer les informations à nouveau."
 
-#: app.py:276
+#: app.py:280
 #, python-format
 msgid "%(id)s is not a valid health ID. Please correct and try again."
 msgstr ""
 "%(id)s n'est pas un identifiant de santé valide. Veuillez le corriger et "
 "réessayer."
 
-#: app.py:282
+#: app.py:286
 #, python-format
 msgid ""
 "Patient %(health_id)s is assigned to CHW %(real_chw)s.  You [%(fake_chw)s] "
@@ -102,11 +102,11 @@ msgstr ""
 "[%(fake_chw)s] ne pouvez soumettre des formulaires que pour vos propre "
 "patients."
 
-#: app.py:300
+#: app.py:304
 #, python-format
 msgid ""
-"Error: You tried to send househould forms for someone who is not head "
-"ofhousehold. You must send the forms with the head of household health ID."
+"Error: You tried to send househould forms for someone who is not head of "
+"household. You must send the forms with the head of household health ID."
 "Their head of household health ID is %(hoh)s (Health ID: %(hohid)s)"
 msgstr ""
 "Erreur. Vous avez tenté d'envoyer des formulaires pour le foyer à quelqu'un "
@@ -114,41 +114,41 @@ msgstr ""
 "l’identifiant  de santé du chef de famille. L’identifiant de santé du chef "
 "de famille est %(hoh)s (Identifiant de santé: %(hohid)s)"
 
-#: app.py:325
+#: app.py:329
 msgid "This form is only for head of households."
 msgstr "Ce formulaire est uniquement pour le chef de famille."
 
-#: app.py:405
+#: app.py:409
 msgid " Successfully processed:"
 msgstr " Traité avec succès:"
 
-#: app.py:420
+#: app.py:424
 msgid " You must resend the form."
 msgstr " Vous devez renvoyer le terme."
 
-#: app.py:422
+#: app.py:426
 msgid " You must resend the forms."
 msgstr " Vous devez renvoyer les termes."
 
-#: app.py:442
+#: app.py:446
 msgid "One form failed."
 msgstr "Echec d'un formulaire."
 
-#: app.py:444
+#: app.py:448
 #, python-format
 msgid "%d forms failed."
 msgstr "%d formulaires ont échoué"
 
-#: app.py:447
+#: app.py:451
 msgid "One successful."
 msgstr "Un formulaire traité avec succès"
 
-#: app.py:449
+#: app.py:453
 #, python-format
 msgid "%d forms successful."
 msgstr "%d formulaires traités avec succès"
 
-#: app.py:479
+#: app.py:483
 msgid "Database Error: please notify the system administrator"
 msgstr ""
 "Erreur de base de données: veuillez informer l'administrateur du système"
@@ -178,9 +178,9 @@ msgid "# of Pregnant Women"
 msgstr "# de femmes enceintes"
 
 #: dashboard_sections.py:57 models/reports.py:282 models/reports.py:808
-#: models/reports.py:897 models/reports.py:985 models/reports.py:1394
-#: models/reports.py:1455 models/reports.py:1463 models/reports.py:1577
-#: models/reports.py:1633 models/reports.py:1641
+#: models/reports.py:897 models/reports.py:985 models/reports.py:1413
+#: models/reports.py:1475 models/reports.py:1483 models/reports.py:1597
+#: models/reports.py:1653 models/reports.py:1661
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -292,20 +292,20 @@ msgstr "Vous avez tenté de charger %(cls)s sans définir %(k)s."
 msgid "%(k)s must be a dictionary in %(cls)s."
 msgstr "%(k)s doit être un dictionnaire dans %(cls)s."
 
-#: utils.py:778
+#: utils.py:772
 msgid "ChildCount Alert! "
 msgstr "Compte rendu ChildCount"
 
-#: views.py:95
+#: views.py:97
 msgid "ChildCount+ Dashboard"
 msgstr "Tableau de bord ChildCount+"
 
-#: views.py:507 views.py:593
+#: views.py:603 views.py:689
 #, fuzzy
 msgid "CHW does not exist!"
 msgstr "ASC avec l’identifiant  %(id)d n'existe pas"
 
-#: views.py:511 views.py:598
+#: views.py:607 views.py:694
 #, python-format
 msgid "%(num)s patients have been migrated to %(chw)s"
 msgstr ""
@@ -397,9 +397,8 @@ msgid " is valid but no patient has been registered with this ID."
 msgstr " est valide mais il n'y a pas de patient enregistré sous ce numéro."
 
 #: commands/CheckHealthIdCommand.py:70
-msgid ""
-" is marked as belonging to a patient, but that                         "
-"patient is unknown."
+#, fuzzy
+msgid " is marked as belonging to a patient, but that patient is unknown."
 msgstr "est marqué comme appartenant à un patient, mais ce patient est inconnu"
 
 #: commands/CheckHealthIdCommand.py:73
@@ -564,11 +563,11 @@ msgstr "%(name)s %(sex)s/%(age)s a déjà été soumis par %(chw)s."
 msgid "You successfuly reported the death of %(death)s."
 msgstr "Vous avez signalé le décès de %(death)s avec succès"
 
-#: commands/DeathCommand.py:184
-#, python-format
+#: commands/DeathCommand.py:182
+#, fuzzy, python-format
 msgid ""
-"Patient %(name)s (age: %(age)s) died on %(dod)s. Contact CHW %(chw)s for "
-"more information."
+"Patient %(name)s (age: %(age)s) died on %(dod)s. Contact CHW %(chw)s "
+"(%(mobile)s) for more information."
 msgstr ""
 "Le patient %(name)s (age: %(age)s) est décédé le %(dod)s . Contacter l’ASC "
 "%(chw)s  pour plus d’information"
@@ -604,7 +603,7 @@ msgstr "Code de lieu inconnu %(loc)s."
 msgid "No Stockin for %(loc)s."
 msgstr "Pas d'entrée de stock pour %(loc)s."
 
-#: commands/GetStockCommand.py:51
+#: commands/GetStockCommand.py:52
 #, python-format
 msgid "%(loc)s: Starting Point: %(sp)s, Balance: %(bal)s."
 msgstr "%(loc)s: Point de départ: %(sp)s, Solde: %(bal)s."
@@ -655,17 +654,17 @@ msgstr ""
 "Votre choix de langue a été enregistré sous: %(lang)s. Vous pouvez le "
 "changer en envoyant le code de votre nouveau choix de langue."
 
-#: commands/LangCommand.py:37
+#: commands/LangCommand.py:38
 #, python-format
 msgid "Your language preference is already set to: %(lang)s."
 msgstr "Votre choix de langue est déjà enregistré sous: %(lang)s"
 
-#: commands/LangCommand.py:43
+#: commands/LangCommand.py:45
 #, python-format
 msgid "That language preference code (%(code)s) is not valid."
 msgstr "Le code du choix de  langue (%(code)s) n'est pas valide."
 
-#: commands/LangCommand.py:53
+#: commands/LangCommand.py:55
 #, python-format
 msgid "Your language preference has been changed from %(old)s to %(new)s. "
 msgstr "Votre préférence de langue a été changée de %(old)s à  %(new)s. "
@@ -703,17 +702,17 @@ msgstr ""
 "Aucun patient correspondant trouvé. Veuillez réessayer avec soit le prénom, "
 "soit le nom de famille"
 
-#: commands/LookupCommand.py:73
+#: commands/LookupCommand.py:74
 #, python-format
 msgid "ID# %(name)s from %(location)s"
 msgstr "ID# %(name)s de %(location)s"
 
-#: commands/LookupCommand.py:86
+#: commands/LookupCommand.py:87
 #, python-format
 msgid "%(total)s matches"
 msgstr "%(total)s résultats correspondants"
 
-#: commands/LookupCommand.py:90
+#: commands/LookupCommand.py:91
 #, python-format
 msgid "%(intro)s: %(list)s"
 msgstr "%(intro)s: %(list)s"
@@ -1198,7 +1197,7 @@ msgstr ""
 "%(sites)d enfant(s) ont dormi ici la nuit dernière. %(nets)d ont dormi sous "
 "une moustiquaire. Accrochées: %(han)s"
 
-#: forms/BirthForm.py:65
+#: forms/BirthForm.py:72
 #, python-format
 msgid ""
 "Patient is %(age)s old. You can not submit birth reports for patients over "
@@ -1207,12 +1206,12 @@ msgstr ""
 "Le patient a %(age)s. Vous ne pouvez pas soumettre de rapport de naissance "
 "pour les patients de plus de 90 jours."
 
-#: forms/BirthForm.py:72
+#: forms/BirthForm.py:79
 #, python-format
 msgid "A birth report for %(p)s was already submited by %(chw)s."
 msgstr "Un rapportde naissance pour %(p)s a déjà été soumis par %(chw)s."
 
-#: forms/BirthForm.py:77
+#: forms/BirthForm.py:84
 msgid ""
 "Not enough info. Expected: | Mom Health ID | delivered in health facility | "
 "weight(kg)(optional) |"
@@ -1220,7 +1219,7 @@ msgstr ""
 "Pas assez d'information. Requis: | Identifiant de santé de la mère | "
 "accouchement en centre de santé | poids(kg)(facultatif)"
 
-#: forms/BirthForm.py:101
+#: forms/BirthForm.py:108
 #, python-format
 msgid ""
 "Could not find mother / guardian with health ID %(id)s. You must register "
@@ -1229,7 +1228,7 @@ msgstr ""
 "Mère / tuteur introuvable avec l’identifiant de santé %(id)s. Vous devez "
 "enregistrer la mère d'abord."
 
-#: forms/BirthForm.py:106
+#: forms/BirthForm.py:113
 #, python-format
 msgid ""
 "The mother / guardian you specified is too young to be a mother.(%(hh)s)"
@@ -1237,38 +1236,38 @@ msgstr ""
 "La mère / tuteur que vous avez spécifié est trop jeune pour être mère."
 "(%(hh)s)"
 
-#: forms/BirthForm.py:112
+#: forms/BirthForm.py:119
 #, python-format
 msgid "| Delivered in health facility? | must be %(choices)s."
 msgstr "|Accouchement en infrastructure de santé?| doit être %(choices)s."
 
-#: forms/BirthForm.py:126
+#: forms/BirthForm.py:133
 #, python-format
 msgid "Birth weight can not be greater than %(max)skg."
 msgstr "Le poids de naissance ne peut pas être supérieur à %(max)skg."
 
-#: forms/BirthForm.py:130
+#: forms/BirthForm.py:137
 #, python-format
 msgid "Birth weight can not be less than %(min)skg."
 msgstr "Le poids de naissance ne peut pas être inférieur à %(min)skg."
 
-#: forms/BirthForm.py:134
+#: forms/BirthForm.py:141
 msgid "Unkown value. Weight should be a number"
 msgstr "Valeur inconnue. Le poids devrait être en chiffres."
 
-#: forms/BirthForm.py:137
+#: forms/BirthForm.py:144
 msgid "Delivered in health facility"
 msgstr "Accouchement en  infrastructure de santé"
 
-#: forms/BirthForm.py:139
+#: forms/BirthForm.py:146
 msgid "Home delivery"
 msgstr "Accouchement à la maison"
 
-#: forms/BirthForm.py:141
+#: forms/BirthForm.py:148
 msgid "Unkown delivery location"
 msgstr "Lieu de l'accouchement inconnu"
 
-#: forms/BirthForm.py:145
+#: forms/BirthForm.py:152
 #, python-format
 msgid ", %(weight)skg birth weight"
 msgstr "%(weight)skgpoids de naissance "
@@ -1327,37 +1326,37 @@ msgstr ""
 msgid "Danger signs: %(ds)s"
 msgstr "Signes de danger: %(ds)s"
 
-#: forms/DeathForm.py:41
+#: forms/DeathForm.py:42
 msgid "Not enough info. Expected: date of death."
 msgstr "Pas assez d'information. Requis: date de décès"
 
-#: forms/DeathForm.py:55
+#: forms/DeathForm.py:56
 #, python-format
 msgid "A death report for %(p)s was already submited by %(chw)s."
 msgstr "Un rapport de décès pour %(p)s a déjà été soumis par %(chw)s."
 
-#: forms/DeathForm.py:64
+#: forms/DeathForm.py:65
 #, python-format
 msgid "Could not understand date of death: %(dod)s."
 msgstr "Impossible de  comprendre la date de décès: %(dod)s."
 
-#: forms/DeathForm.py:71
+#: forms/DeathForm.py:72
 #, fuzzy, python-format
 msgid "Died on %(dod)s."
 msgstr "Décédé(e) le %(dod)s"
 
-#: forms/DeathForm.py:82
+#: forms/DeathForm.py:83
 #, python-format
 msgid ""
 " Changed head of household for %(n)d family member(s) to %(hid)s (%(hh)s)"
 msgstr ""
 "Changement de chef de ménage pour %(n)d membre(s) de famille %(hid)s (%(hh)s)"
 
-#: forms/DeathForm.py:122
-#, python-format
+#: forms/DeathForm.py:125
+#, fuzzy, python-format
 msgid ""
 "Patient %(patient)s from %(loc)s (%(loc_code)s) died on %(dod)s. Contact CHW "
-"%(chw)s for more information."
+"%(chw)s (%(mobile)s) for more information."
 msgstr ""
 "Patient %(patient)s, habitant à  %(loc)s (%(loc_code)s) décédé le %(dod)s. "
 "Contacter l’ASC %(chw)s pour plus d’information"
@@ -1863,20 +1862,20 @@ msgid ""
 "INPROGRESS"
 msgstr ""
 
-#: forms/LabResultsForm.py:75
+#: forms/LabResultsForm.py:78
 #, python-format
 msgid "Test Result (%(codes)s) outside valid range. Result should be %(exp)s."
 msgstr ""
 
-#: forms/LabResultsForm.py:84 forms/LabResultsForm.py:100
-#: forms/LabResultsForm.py:121
+#: forms/LabResultsForm.py:87 forms/LabResultsForm.py:106
+#: forms/LabResultsForm.py:130
 #, python-format
 msgid ""
 "Lab Results for %(hh)s, req %(sn)s                                     "
 "%(test)s: %(res)s  "
 msgstr ""
 
-#: forms/LabResultsForm.py:133
+#: forms/LabResultsForm.py:142
 #, python-format
 msgid "Lab Results for %(hh)s, req %(sn)s  %(test)s: %(res)s"
 msgstr ""
@@ -1974,80 +1973,85 @@ msgstr "Pas assez d'information. Requis: | PB | œdème | poids (facultatif) |"
 msgid "| MUAC | must be entered as a number."
 msgstr "| PB | doit être entré en chiffres"
 
-#: forms/NutritionForm.py:79
+#: forms/NutritionForm.py:80
+#, fuzzy
+msgid "Not enough info. Expected: | muac | oedema | weight (mandatory) |"
+msgstr "Pas assez d'information. Requis: | PB | œdème | poids (facultatif) |"
+
+#: forms/NutritionForm.py:83
 msgid "MUAC too low. If correct, refer child to clinic IMMEDIATELY!"
 msgstr ""
 "PB est trop bas. Si l’information est correcte, veuillez diriger l'enfant "
 "vers un centre de santé IMMEDIATEMENT!"
 
-#: forms/NutritionForm.py:82
+#: forms/NutritionForm.py:86
 msgid "MUAC too high. Correct and resend."
 msgstr "PB trop élevé. Veuillez le Corriger et le renvoyer."
 
-#: forms/NutritionForm.py:87
+#: forms/NutritionForm.py:91
 #, python-format
 msgid "| Oedema | must be %(choices)s."
 msgstr "| Œdème | doit être %(choices)s."
 
-#: forms/NutritionForm.py:100
+#: forms/NutritionForm.py:104
 #, python-format
 msgid "Weight can not be greater than %(max)skg."
 msgstr "Le poids ne peut pas être supérieur à %(max)skg."
 
-#: forms/NutritionForm.py:104
+#: forms/NutritionForm.py:108
 #, python-format
 msgid "Weight can not be less than %(min)skg."
 msgstr "Le poids ne peut pas être inférieur à %(min)skg."
 
-#: forms/NutritionForm.py:108
+#: forms/NutritionForm.py:112
 msgid "Unkown value. Weight should be entered as a number."
 msgstr "Valeur inconnue. Le poids doit être entré en chiffres."
 
-#: forms/NutritionForm.py:117
+#: forms/NutritionForm.py:121
 msgid "MUAC not taken, "
 msgstr "PB non mesuré,"
 
-#: forms/NutritionForm.py:119
+#: forms/NutritionForm.py:123
 #, python-format
 msgid "MUAC of %(muac)smm, "
 msgstr "PB de %(muac)smm, "
 
-#: forms/NutritionForm.py:122
+#: forms/NutritionForm.py:126
 msgid "Oedema present."
 msgstr "Œdèmes présents."
 
-#: forms/NutritionForm.py:124
+#: forms/NutritionForm.py:128
 msgid "No signs of oedema."
 msgstr "Pas de signe d'œdèmes."
 
-#: forms/NutritionForm.py:126
+#: forms/NutritionForm.py:130
 msgid "Oedema unkown."
 msgstr "Présence d'œdèmes inconnue."
 
-#: forms/NutritionForm.py:129
+#: forms/NutritionForm.py:133
 #, python-format
 msgid ", Weight %(w)skg"
 msgstr ", Poids %(w)skg"
 
-#: forms/NutritionForm.py:131 forms/NutritionForm.py:142 models/reports.py:888
+#: forms/NutritionForm.py:135 forms/NutritionForm.py:146 models/reports.py:888
 msgid "SAM+"
 msgstr "MAS+"
 
-#: forms/NutritionForm.py:133 models/reports.py:886
+#: forms/NutritionForm.py:137 models/reports.py:886
 msgid "MAM"
 msgstr "MAM"
 
-#: forms/NutritionForm.py:135 forms/NutritionForm.py:144
+#: forms/NutritionForm.py:139 forms/NutritionForm.py:148
 #: indicators/nutrition.py:108 indicators/nutrition.py:126
 #: models/reports.py:887
 msgid "SAM"
 msgstr "MAS"
 
-#: forms/NutritionForm.py:137
+#: forms/NutritionForm.py:141
 msgid "HEALTHY"
 msgstr "SAIN"
 
-#: forms/NutritionForm.py:145
+#: forms/NutritionForm.py:149
 #, python-format
 msgid ""
 "%(status)s>%(child)s, %(location)s has %(status)s. %(msg)s CHW no: %(mobile)s"
@@ -2257,29 +2261,39 @@ msgstr ""
 "%(married)s, a eu %(pregnancies)s grossesses et %(children)s vivent  avec "
 "elle."
 
-#: forms/PrimarySchoolAttendanceForm.py:31
-msgid ""
-"Not enough info. Expected:   | number of primary school aged pupils in the "
-"household | number of primary school aged pupils  atttending school | number "
-"of under/over pupils atttending  primary school | reason for not attending "
-"school |"
-msgstr ""
-
-#: forms/PrimarySchoolAttendanceForm.py:47
+#: forms/PrimarySchoolAttendanceForm.py:37
 #, fuzzy
 msgid ""
 "| Number of primary school aged pupils in the household must be entered as a "
-"number."
+"number. OR 'N' for school not in session"
 msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
 
-#: forms/PrimarySchoolAttendanceForm.py:53
+#: forms/PrimarySchoolAttendanceForm.py:43
+msgid "School NOT in Session."
+msgstr ""
+
+#: forms/PrimarySchoolAttendanceForm.py:46
+#, fuzzy
+msgid ""
+"Not enough info. Expected:   | number of primary school aged pupils in the "
+"household | number attending primary school "
+msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
+
+#: forms/PrimarySchoolAttendanceForm.py:51
+#, fuzzy
+msgid ""
+"| Number of primary school aged pupils in the household must be a number "
+"greater than or equal to 0 OR the letter 'N'"
+msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
+
+#: forms/PrimarySchoolAttendanceForm.py:57
 #, fuzzy
 msgid ""
 "| Number of primary school aged pupils  atttending primary school must be "
 "entered as a number."
 msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
 
-#: forms/PrimarySchoolAttendanceForm.py:59
+#: forms/PrimarySchoolAttendanceForm.py:63
 #, fuzzy
 msgid ""
 "The number of school aged pupils atttending  primary school cannot be "
@@ -2288,53 +2302,10 @@ msgstr ""
 "Le nombre de femmes utilisant une contraception peut pas être supérieur au "
 "nombre total de femmes."
 
-#: forms/PrimarySchoolAttendanceForm.py:65
-#, fuzzy
-msgid ""
-"| Number of under/over school aged pupils  atttending primary school must be "
-"entered  as a number."
-msgstr ""
-"| nombre d’autres  personnes sous traitement | doit être entré en chiffres"
-
-#: forms/PrimarySchoolAttendanceForm.py:73
-#: forms/SecondarySchoolAttendanceForm.py:73
+#: forms/PrimarySchoolAttendanceForm.py:69
+#: forms/SecondarySchoolAttendanceForm.py:61
 #, python-format
-msgid ""
-"%(pupil)d school aged Pupil, %(attend)d attending school, %(over_attend)d "
-"under/over  age attending school"
-msgstr ""
-
-#: forms/PrimarySchoolAttendanceForm.py:83
-msgid ""
-"After entering number of under/over school  aged pupils attending primary "
-"school, you  must state reason for those not attending"
-msgstr ""
-
-#: forms/PrimarySchoolAttendanceForm.py:89
-#: forms/SecondarySchoolAttendanceForm.py:89
-#, fuzzy
-msgid ""
-"You must specify %(num)d reason for not   attending school code(s). One for "
-"each of the %(num)s pupil not attending school"
-msgstr ""
-"Vous devez spécifier %(num)d code(s) de méthode decontraception. Un pour "
-"chacune des %(num)s femmes utilisant une contraception moderne."
-
-#: forms/PrimarySchoolAttendanceForm.py:108
-#, fuzzy, python-format
-msgid ""
-"Unkown Reason for not attending school code(s): %(codes)s No Primary school "
-"attendance recorded."
-msgstr ""
-"Code(s) de méthode de contraception inconnu: %(codes)s Pas de contraception "
-"enregistrée."
-
-#: forms/PrimarySchoolAttendanceForm.py:120
-#: forms/SecondarySchoolAttendanceForm.py:120
-#, python-format
-msgid ""
-"%(pupil)d school aged Pupil, %(attend)d attending school, %(over_attend)d "
-"under/over  age attending school: %(r_string)s"
+msgid "%(pupil)d school aged Pupil, %(attend)d attending school "
 msgstr ""
 
 #: forms/ReferralForm.py:46
@@ -2553,21 +2524,20 @@ msgid "Unkown if up-to-date on immunisations."
 msgstr "Pas d'information sur la mise à jour des vaccins"
 
 #: forms/SecondarySchoolAttendanceForm.py:31
+#, fuzzy
 msgid ""
 "Not enough info. Expected:   | number of secondary school aged pupils in the "
-"household | number of secondary school aged pupils  atttending school | "
-"number of under/over pupils atttending  secondary school | reason for not "
-"attending school |"
-msgstr ""
+"household | number attending secondary school "
+msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
 
-#: forms/SecondarySchoolAttendanceForm.py:47
+#: forms/SecondarySchoolAttendanceForm.py:43
 #, fuzzy
 msgid ""
 "| Number of secondary school aged pupils in the household must be entered as "
 "a number."
 msgstr "| Nombre d'enfants vivants avec elle | doit être entré en chiffres."
 
-#: forms/SecondarySchoolAttendanceForm.py:53
+#: forms/SecondarySchoolAttendanceForm.py:49
 #, fuzzy
 msgid ""
 "| Number of secondary school aged pupils  atttending secondary school must "
@@ -2575,7 +2545,7 @@ msgid ""
 msgstr ""
 "| nombre d’autres  personnes sous traitement | doit être entré en chiffres"
 
-#: forms/SecondarySchoolAttendanceForm.py:59
+#: forms/SecondarySchoolAttendanceForm.py:55
 #, fuzzy
 msgid ""
 "The number of school aged pupils atttending  secondary school cannot be "
@@ -2584,29 +2554,6 @@ msgid ""
 msgstr ""
 "Le nombre de femmes utilisant une contraception peut pas être supérieur au "
 "nombre total de femmes."
-
-#: forms/SecondarySchoolAttendanceForm.py:65
-#, fuzzy
-msgid ""
-"| Number of under/over school aged pupils  atttending secondary school must "
-"be entered  as a number."
-msgstr ""
-"| nombre d’autres  personnes sous traitement | doit être entré en chiffres"
-
-#: forms/SecondarySchoolAttendanceForm.py:83
-msgid ""
-"After entering number of under/over school  aged pupils attending secondary "
-"school, you  must state reason for those not attending"
-msgstr ""
-
-#: forms/SecondarySchoolAttendanceForm.py:108
-#, fuzzy, python-format
-msgid ""
-"Unkown Reason for not attending school code(s): %(codes)s No secondary "
-"school attendance recorded."
-msgstr ""
-"Code(s) de thème de conseil/ orientation inconnu: %(codes)s Pas de visite de "
-"foyer enregistrée"
 
 #: forms/SickMembersForm.py:39
 msgid ""
@@ -2989,11 +2936,11 @@ msgstr ""
 msgid " Top performer was %(top)s with %(max)s."
 msgstr "le plus performant était %(top)s with %(max)s"
 
-#: indicators/appointment.py:14 models/reports.py:1519
+#: indicators/appointment.py:14 models/reports.py:1539
 msgid "Appointment"
 msgstr "Rendez-vous"
 
-#: indicators/appointment.py:21 models/reports.py:1520
+#: indicators/appointment.py:21 models/reports.py:1540
 msgid "Appointments"
 msgstr "Rendez-vous"
 
@@ -3153,11 +3100,13 @@ msgid "Bed Net Utilization"
 msgstr "Utilisation des moustiquaires"
 
 #: indicators/bed_net_utilization.py:26
+#: indicators/bed_net_utilization_pregnancy.py:26
 #, fuzzy
 msgid "Bed Net Util. Reports"
 msgstr "Rapport d'utilisation des  moustiquaires"
 
 #: indicators/bed_net_utilization.py:27
+#: indicators/bed_net_utilization_pregnancy.py:27
 msgid ""
 "Total number of bed net utiliaztion reports for unique households during "
 "this period"
@@ -3166,10 +3115,12 @@ msgstr ""
 "différents pendant cette période"
 
 #: indicators/bed_net_utilization.py:44
+#: indicators/bed_net_utilization_pregnancy.py:44
 msgid "% Cov"
 msgstr "%couverture"
 
 #: indicators/bed_net_utilization.py:45
+#: indicators/bed_net_utilization_pregnancy.py:45
 msgid ""
 "Percentage of households monitored for bed net utilization during this period"
 msgstr ""
@@ -3202,6 +3153,45 @@ msgstr "% d'enfants utilisant une moustiquaire"
 #: indicators/bed_net_utilization.py:89
 #, fuzzy
 msgid "Percentage of under fives monitored who used bed nets"
+msgstr "Pourcentage des moins de 5 ans suivis utilisant des moustiquaires"
+
+#: indicators/bed_net_utilization_pregnancy.py:19
+#, fuzzy
+msgid "BedNet Utilization Pregnant"
+msgstr "Rapport d'utilisation de moustiquaires"
+
+#: indicators/bed_net_utilization_pregnancy.py:55
+#, fuzzy
+msgid "# pregnant"
+msgstr "Mois de grossesse"
+
+#: indicators/bed_net_utilization_pregnancy.py:56
+#, fuzzy
+msgid ""
+"Total number of Pregnant Women monitored this period for bed net utilization"
+msgstr ""
+"nombre total d'enfants suivis durant cette période pour l'utilisation des "
+"moustiquaires"
+
+#: indicators/bed_net_utilization_pregnancy.py:72
+#, fuzzy
+msgid "# Pregnancy Using bednet"
+msgstr "Les enfants ont dormi sous une moustiquaire"
+
+#: indicators/bed_net_utilization_pregnancy.py:73
+#, fuzzy
+msgid "Total number of Pregnant Women using a bed net this period"
+msgstr ""
+"nombre total d'enfants utilisant une moustiquaire pendant cette période"
+
+#: indicators/bed_net_utilization_pregnancy.py:88
+#, fuzzy
+msgid "% Pregnant Using Net"
+msgstr "% d'enfants utilisant une moustiquaire"
+
+#: indicators/bed_net_utilization_pregnancy.py:89
+#, fuzzy
+msgid "Percentage of Pregnant Women monitored who used bed nets"
 msgstr "Pourcentage des moins de 5 ans suivis utilisant des moustiquaires"
 
 #: indicators/birth.py:20
@@ -3344,11 +3334,11 @@ msgstr ""
 "nombre total de rapports de signes de danger enregistrés pour des diarrhées "
 "simples chez des enfants de moins de 5 ans"
 
-#: indicators/danger_signs.py:87
+#: indicators/danger_signs.py:90
 msgid "U5 Dr Uncompl w/ ORS"
 msgstr "Moins de 5 ans ayant une diarrhée simple avec SRO"
 
-#: indicators/danger_signs.py:88
+#: indicators/danger_signs.py:91
 msgid ""
 "Total number of danger signs reports for U5s with uncomplicated diarrhea who "
 "were treated with ORS"
@@ -3356,20 +3346,20 @@ msgstr ""
 "nombre total de rapports de signes de danger pour des diarrhées simples chez "
 "des enfants de moins de 5 ans qui ont été traités par SRO"
 
-#: indicators/danger_signs.py:100
+#: indicators/danger_signs.py:106
 msgid "%U5 Dr Uncompl w/ORS"
 msgstr "%Moins de 5 ans ayant une diarrhée simple  traités avec SRO"
 
-#: indicators/danger_signs.py:101
+#: indicators/danger_signs.py:107
 #, fuzzy
 msgid "Percentage of under fives with uncomplicated diarrhea getting ORS"
 msgstr "Pourcentage de moins de 5ans avec une diarrhée simple traités avec SRO"
 
-#: indicators/danger_signs.py:112
+#: indicators/danger_signs.py:118
 msgid "U5 Dr Uncompl w/ Zinc"
 msgstr "Moins de 5 ans ayant une diarrhée simple traités avec du zinc"
 
-#: indicators/danger_signs.py:113
+#: indicators/danger_signs.py:119
 msgid ""
 "Total number of danger signs reports for U5s with uncomplicated diarrhea who "
 "were treated with Zinc"
@@ -3377,31 +3367,31 @@ msgstr ""
 "nombre total de rapports de signes de danger  pour des enfants de moins de 5 "
 "ans avec une diarrhée simple traitée avec du zinc"
 
-#: indicators/danger_signs.py:125
+#: indicators/danger_signs.py:134
 msgid "%U5 Dr Uncompl w/Zinc"
 msgstr "% de moins de 5 ans ayant une diarrhée simple  traitée avec du zinc"
 
-#: indicators/danger_signs.py:126
+#: indicators/danger_signs.py:135
 #, fuzzy
 msgid "Percentage of under fives with uncomplicated diarrhea getting Zinc"
 msgstr ""
 "Pourcentage de moins de 5ans  avec une diarrhée simple traitée avec du zinc"
 
-#: indicators/danger_signs.py:151
+#: indicators/danger_signs.py:160
 msgid "U5 Fv Uncompl"
 msgstr "moins 5 ans avec fièvre simple"
 
-#: indicators/danger_signs.py:152
+#: indicators/danger_signs.py:161
 msgid "Total number of danger signs reports for U5s with uncomplicated fever"
 msgstr ""
 "nombre total de rapports de signes de danger  pour des enfants de  moins de "
 "5 ans avec une fièvre simple "
 
-#: indicators/danger_signs.py:164
+#: indicators/danger_signs.py:173
 msgid "U5 Fv Uncompl RDT"
 msgstr "moins 5 ans avec fièvre simple avec TDR"
 
-#: indicators/danger_signs.py:165
+#: indicators/danger_signs.py:174
 msgid ""
 "Total number of danger signs reports for U5s with uncomplicated fever with "
 "an RDT result"
@@ -3409,26 +3399,26 @@ msgstr ""
 "nombre total de rapports de signes de danger  pour des enfants de  moins de "
 "5 ans avec une fièvre simple  ayant subi un  TDR"
 
-#: indicators/danger_signs.py:187
+#: indicators/danger_signs.py:196
 msgid "Invalid RDT value"
 msgstr "Valeur de TDR non valide"
 
-#: indicators/danger_signs.py:197
+#: indicators/danger_signs.py:206
 #, fuzzy
 msgid "%U5 Fv Uncompl RDT"
 msgstr "% de moins 5 ans avec une fièvre simple  avec TDR"
 
-#: indicators/danger_signs.py:198
+#: indicators/danger_signs.py:207
 #, fuzzy
 msgid "Percentage of under fives with uncomplicated fever getting an RDT"
 msgstr ""
 "Pourcentage de moins de 5 ans avec une fièvre simple  ayant subi un TDR"
 
-#: indicators/danger_signs.py:209
+#: indicators/danger_signs.py:218
 msgid "U5 Fv Uncompl RDT+"
 msgstr "moins de 5 ans ayant une fièvre simple avec un TDR positif"
 
-#: indicators/danger_signs.py:210
+#: indicators/danger_signs.py:219
 msgid ""
 "Total number of danger signs reports for U5s with uncomplicated fever with a "
 "positive RDT result"
@@ -3436,12 +3426,12 @@ msgstr ""
 "nombre total de rapports de signes de danger  pour  des enfants de moins de "
 "5 ans ayant une fièvre simple  avec  un  TDR positif"
 
-#: indicators/danger_signs.py:223
+#: indicators/danger_signs.py:232
 #, fuzzy
 msgid "%U5 Fv Uncompl RDT+"
 msgstr "%moins de 5 ans ayant une fièvre simple avec un TDR positif"
 
-#: indicators/danger_signs.py:224
+#: indicators/danger_signs.py:233
 #, fuzzy
 msgid ""
 "Percentage of under fives with uncomplicated fever whose RDT result was "
@@ -3450,11 +3440,11 @@ msgstr ""
 "Pourcentage de moins de 5ans avec une fièvre simple  dont le résultat TDR "
 "était positif"
 
-#: indicators/danger_signs.py:235
+#: indicators/danger_signs.py:244
 msgid "U5 Fv Uncompl RDT-"
 msgstr "moins de 5 ans ayant une fièvre avec un TDR négatif"
 
-#: indicators/danger_signs.py:236
+#: indicators/danger_signs.py:245
 msgid ""
 "Total number of danger signs reports for U5s with uncomplicated fever with a "
 "negative RDT result"
@@ -3462,22 +3452,22 @@ msgstr ""
 "nombre total de rapports de signes de danger  pour des enfants de  moins de "
 "5 ans ayant une fièvre simple  avec  un  résultat TDR négatif"
 
-#: indicators/danger_signs.py:273
+#: indicators/danger_signs.py:282
 #, fuzzy
 msgid "U5 Fv Compl"
 msgstr "moins de 5 ans ayant une fièvre sévère"
 
-#: indicators/danger_signs.py:274
+#: indicators/danger_signs.py:283
 msgid "Total number of danger signs reports for U5s with complicated fever"
 msgstr ""
 "nombre total de rapports de signes de danger pour des enfants de  moins de 5 "
 "ans avec une fièvre sévère"
 
-#: indicators/danger_signs.py:287
+#: indicators/danger_signs.py:296
 msgid "U5 Fv Compl Ref"
 msgstr "moins de 5 ans avec fièvre sévère ayant été référés"
 
-#: indicators/danger_signs.py:288
+#: indicators/danger_signs.py:297
 msgid ""
 "Total number of danger signs reports for U5s with complicated fever where "
 "the patient was referred"
@@ -3485,12 +3475,12 @@ msgstr ""
 "nombre total de rapports de signes de danger pour des enfants de  moins de 5 "
 "ans avec une fièvre sévère où le patient a été référé"
 
-#: indicators/danger_signs.py:302
+#: indicators/danger_signs.py:311
 #, fuzzy
 msgid "%U5 Fv Compl Ref"
 msgstr "% de moins de 5 ans avec fièvre sévère ayant été référés"
 
-#: indicators/danger_signs.py:303
+#: indicators/danger_signs.py:312
 #, fuzzy
 msgid ""
 "Percentage of under fives with complicated fever who were referred to a "
@@ -3499,11 +3489,11 @@ msgstr ""
 "Pourcentage de moins de 5 ans avec une fièvre sévère ayant été référés à un "
 "centre de santé"
 
-#: indicators/danger_signs.py:314
+#: indicators/danger_signs.py:323
 msgid "U5 Fv Compl Ref FU"
 msgstr "moins de 5 ans avec fièvre sévère ayant été référés et suivis "
 
-#: indicators/danger_signs.py:315
+#: indicators/danger_signs.py:324
 msgid ""
 "Total number of danger signs reports for U5s with complicated fever where "
 "the patient was referred and then had a follow-up visit between 18 and 72 "
@@ -4577,6 +4567,60 @@ msgstr "hygiène sanitaire"
 msgid "Total number of sanitation reports"
 msgstr "Nombre total de rapport de sanitaires ??"
 
+#: indicators/school_attendance.py:18
+#, fuzzy
+msgid "School Attendance"
+msgstr "rapport de grossesse Sauri"
+
+#: indicators/school_attendance.py:26
+#, fuzzy
+msgid "# School Attendance reports"
+msgstr "rapport de grossesse Sauri"
+
+#: indicators/school_attendance.py:27
+#, fuzzy
+msgid ""
+"Total number of School Attendance reports for unique households during this "
+"period"
+msgstr ""
+"Nombre total de rapports de couverture en moustiquaire enregistrés pour des "
+"foyers différents durant cette période"
+
+#: indicators/school_attendance.py:46
+msgid "# SchoolAgedKids"
+msgstr ""
+
+#: indicators/school_attendance.py:47
+#, fuzzy
+msgid "Total number of school aged children in a particular household"
+msgstr "nombre total de visites de foyers différents avec  retard"
+
+#: indicators/school_attendance.py:66
+msgid "# pupils"
+msgstr ""
+
+#: indicators/school_attendance.py:67
+#, fuzzy
+msgid ""
+"Total number of children currently attending school at last visit for unique "
+"households during time period"
+msgstr ""
+"Nombre total de rapports d’utilisation de moustiquaires pour des foyers  "
+"différents pendant cette période"
+
+#: indicators/school_attendance.py:85
+msgid "# Households School NOT in Session"
+msgstr ""
+
+#: indicators/school_attendance.py:86
+#, fuzzy
+msgid ""
+"Number of unique households with a recorded SA1=\"N\" [School NOT in "
+"Session] during time period"
+msgstr ""
+"Nombre total de foyers différents suivis et ayant une couverture en "
+"moustiquaires connue pendant cette période"
+
 #: indicators/under_one.py:16
 #, fuzzy
 msgid "Under One / Under Five"
@@ -4746,7 +4790,7 @@ msgstr "Agents de Santé Communautaires"
 msgid "Manager"
 msgstr "Manager"
 
-#: models/CHW.py:34 models/Clinic.py:22
+#: models/CHW.py:34 models/Clinic.py:22 templates/childcount/lab.html:51
 msgid "Clinic"
 msgstr "Centre de Santé"
 
@@ -4804,11 +4848,11 @@ msgstr "Cas"
 msgid "Cases"
 msgstr "Cas"
 
-#: models/Case.py:38 models/Referral.py:34 models/reports.py:1527
+#: models/Case.py:38 models/Referral.py:34 models/reports.py:1547
 msgid "Open"
 msgstr "Ouvert"
 
-#: models/Case.py:39 models/Referral.py:35 models/reports.py:1528
+#: models/Case.py:39 models/Referral.py:35 models/reports.py:1548
 msgid "Closed"
 msgstr "Fermé"
 
@@ -4826,8 +4870,8 @@ msgid "Type of case"
 msgstr "Type de cas"
 
 #: models/Case.py:57 models/HealthId.py:39 models/Patient.py:116
-#: models/Referral.py:39 models/reports.py:906 models/reports.py:1535
-#: models/reports.py:1739 models/reports.py:1816
+#: models/Referral.py:39 models/reports.py:906 models/reports.py:1555
+#: models/reports.py:1759 models/reports.py:1827
 #: templates/childcount/data_entry.html:49
 msgid "Status"
 msgstr "Statut"
@@ -5114,16 +5158,16 @@ msgstr "Perte de poids"
 
 #: models/CodedItem.py:52 models/CodedItem.py:67
 msgid "z"
-msgstr "Z"
+msgstr "z"
 
-#: models/CodedItem.py:52 models/reports.py:1386 models/reports.py:1437
-#: models/reports.py:1454
+#: models/CodedItem.py:52 models/reports.py:1405 models/reports.py:1457
+#: models/reports.py:1474
 msgid "Other"
 msgstr "Autre"
 
 #: models/CodedItem.py:56
 msgid "cd"
-msgstr "ps"
+msgstr "cd"
 
 #: models/CodedItem.py:56
 msgid "Condoms"
@@ -5131,15 +5175,15 @@ msgstr "Préservatifs"
 
 #: models/CodedItem.py:57
 msgid "ij"
-msgstr "Ij?"
+msgstr "ij"
 
 #: models/CodedItem.py:58
 msgid "ip"
-msgstr "Ip?"
+msgstr "ip"
 
 #: models/CodedItem.py:59
 msgid "iud"
-msgstr "diu"
+msgstr "iud"
 
 #: models/CodedItem.py:59
 msgid "Intra-uterine Device"
@@ -5147,7 +5191,7 @@ msgstr "Dispositif intra-utérin"
 
 #: models/CodedItem.py:60
 msgid "pl"
-msgstr "co"
+msgstr "pl"
 
 #: models/CodedItem.py:60
 msgid "Oral contraception"
@@ -5215,19 +5259,19 @@ msgstr "bco"
 
 #: models/CodedItem.py:72
 msgid "B Complex"
-msgstr "B Complex??"
+msgstr "B Complex"
 
 #: models/CodedItem.py:73
 msgid "arv"
-msgstr "Arv??"
+msgstr "arv"
 
 #: models/CodedItem.py:73
 msgid "ARV"
-msgstr "ARV?"
+msgstr "ARV"
 
 #: models/CodedItem.py:74
 msgid "azt"
-msgstr "Azt?"
+msgstr "azt"
 
 #: models/CodedItem.py:74
 msgid "AZT"
@@ -5235,7 +5279,7 @@ msgstr "AZT"
 
 #: models/CodedItem.py:75
 msgid "lb"
-msgstr "Ib"
+msgstr "lb"
 
 #: models/CodedItem.py:75
 msgid "Albendazole"
@@ -5270,7 +5314,7 @@ msgstr ""
 #: models/CodedItem.py:82
 #, fuzzy
 msgid "fd"
-msgstr "f"
+msgstr "fd"
 
 #: models/CodedItem.py:82
 msgid "Female Drop Out"
@@ -5279,7 +5323,7 @@ msgstr ""
 #: models/CodedItem.py:83
 #, fuzzy
 msgid "fl"
-msgstr "f"
+msgstr "fl"
 
 #: models/CodedItem.py:83
 msgid "Female, Never been to school and but likely"
@@ -5288,7 +5332,7 @@ msgstr ""
 #: models/CodedItem.py:84
 #, fuzzy
 msgid "fn"
-msgstr "f"
+msgstr "fn"
 
 #: models/CodedItem.py:84
 msgid "Female, Never been to school and not likely"
@@ -5332,7 +5376,7 @@ msgstr "Planning familial"
 
 #: models/CodedItem.py:93
 msgid "nut"
-msgstr "noix"
+msgstr "nut"
 
 #: models/CodedItem.py:94
 msgid "ed"
@@ -5499,7 +5543,7 @@ msgstr ""
 #: templates/childcount/change_chw.html:56
 #: templates/childcount/list_chw.html:22
 #: templates/childcount/list_locations.html:20
-#: templates/childcount/patient.html:52
+#: templates/childcount/patient.html:53
 msgid "Location"
 msgstr "Lieu"
 
@@ -5547,7 +5591,8 @@ msgstr "Nom"
 msgid "Age"
 msgstr "âge"
 
-#: models/Encounter.py:27 models/FormGroup.py:41 models/reports.py:187
+#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:33
+#: models/reports.py:187
 msgid "Encounter"
 msgstr "Consultation"
 
@@ -5561,7 +5606,7 @@ msgstr "Date de consultation"
 
 #: models/Encounter.py:41 models/bednet/DistributionPoints.py:28
 #: templates/childcount/change_chw.html:57
-#: templates/childcount/patient.html:53
+#: templates/childcount/patient.html:54
 msgid "CHW"
 msgstr "ASC"
 
@@ -5636,7 +5681,7 @@ msgid "Total Consultation Forms"
 msgstr "Total Formulaires de consultation"
 
 #: models/HealthId.py:18 models/HealthId.py:32 models/Patient.py:72
-#: templates/childcount/edit_patient.html:69
+#: templates/childcount/edit_patient.html:69 templates/childcount/lab.html:52
 msgid "Health ID"
 msgstr "Identifiant de santé"
 
@@ -5741,14 +5786,14 @@ msgstr "Nom du vaccin"
 msgid "After %(period_nb)s %(period_type)s: %(immun)s"
 msgstr ""
 
-#: models/LabTest.py:17 models/LabTestResults.py:23 models/reports.py:1815
+#: models/LabTest.py:17
 #, fuzzy
-msgid "Lab Test"
+msgid "TLI: LabTest"
 msgstr "Test VIH"
 
 #: models/LabTest.py:18
 #, fuzzy
-msgid "Lab Tests"
+msgid "TLI: LabTests"
 msgstr "Tests VIH"
 
 #: models/LabTest.py:21
@@ -5772,13 +5817,18 @@ msgstr ""
 
 #: models/LabTestResults.py:19
 #, fuzzy
-msgid "Lab Test Result"
-msgstr "Résulat du test"
+msgid "TLI: LabTest answers"
+msgstr "Rapports sur les moustiquaires"
 
 #: models/LabTestResults.py:20
 #, fuzzy
-msgid "Lab Test Results"
-msgstr "Résulat du test"
+msgid "TLI: LabTest Answers"
+msgstr "Rapports sur les moustiquaires"
+
+#: models/LabTestResults.py:23 models/reports.py:1826 models/reports.py:1886
+#, fuzzy
+msgid "Lab Test"
+msgstr "Test VIH"
 
 #: models/LabTestResults.py:24
 #, fuzzy
@@ -5794,17 +5844,39 @@ msgstr ""
 msgid "Results Range "
 msgstr "Résultats reçus"
 
+#: models/OMRSErrorLog.py:23
+msgid "Transmission Error"
+msgstr ""
+
+#: models/OMRSErrorLog.py:24
+msgid "XForm Module Error"
+msgstr ""
+
+#: models/OMRSErrorLog.py:30 models/OMRSErrorLog.py:31
+msgid "OMRS Error"
+msgstr ""
+
+#: models/OMRSErrorLog.py:34
+#, fuzzy
+msgid "Error Type"
+msgstr "message"
+
+#: models/OMRSErrorLog.py:36
+#, fuzzy
+msgid "Error message"
+msgstr "message"
+
 #: models/Patient.py:50 templates/childcount/base.html:38
 msgid "Patients"
 msgstr "Patients"
 
-#: models/Patient.py:66 models/reports.py:1736
+#: models/Patient.py:66 models/reports.py:1756
 msgid "Alive"
 msgstr "Vivant"
 
-#: models/Patient.py:67 models/reports.py:1737
+#: models/Patient.py:67 models/reports.py:1757
 msgid "Relocated"
-msgstr "Déménagé, muté or transféré… context?"
+msgstr "Déménagé"
 
 #: models/Patient.py:68
 msgid "Dead"
@@ -5900,16 +5972,16 @@ msgstr "rapports de naissance"
 #: models/reports.py:280 models/reports.py:464 models/reports.py:474
 #: models/reports.py:670 models/reports.py:680 models/reports.py:699
 #: models/reports.py:806 models/reports.py:814 models/reports.py:895
-#: models/reports.py:1392 models/reports.py:1461 models/reports.py:1575
-#: models/reports.py:1631 models/reports.py:1639 models/reports.py:1684
+#: models/reports.py:1411 models/reports.py:1481 models/reports.py:1595
+#: models/reports.py:1651 models/reports.py:1659 models/reports.py:1704
 msgid "Yes"
 msgstr "Oui"
 
 #: models/reports.py:281 models/reports.py:465 models/reports.py:475
 #: models/reports.py:671 models/reports.py:681 models/reports.py:700
 #: models/reports.py:807 models/reports.py:815 models/reports.py:896
-#: models/reports.py:1393 models/reports.py:1462 models/reports.py:1576
-#: models/reports.py:1632 models/reports.py:1640 models/reports.py:1685
+#: models/reports.py:1412 models/reports.py:1482 models/reports.py:1596
+#: models/reports.py:1652 models/reports.py:1660 models/reports.py:1705
 msgid "No"
 msgstr "Non"
 
@@ -5927,11 +5999,11 @@ msgstr "Poids à la naissance (kg)"
 
 #: models/reports.py:322
 msgid "+N"
-msgstr "+N?"
+msgstr "+N"
 
 #: models/reports.py:327
 msgid "+T"
-msgstr "+T?"
+msgstr "+T"
 
 #: models/reports.py:332
 #, python-format
@@ -6418,478 +6490,482 @@ msgstr "Nombre de moustiquaires fonctionnelles"
 msgid "Number of functioning bednet observed "
 msgstr "Nombre de moustiquaires fonctionnelles"
 
-#: models/reports.py:1293
+#: models/reports.py:1300
 #, fuzzy
 msgid "Extended Bednet Report"
 msgstr "rapport "
 
-#: models/reports.py:1294
+#: models/reports.py:1301
 #, fuzzy
 msgid "Extended Bednet Reports"
 msgstr "Comptes-rendus de moustiquaire"
 
-#: models/reports.py:1296
+#: models/reports.py:1303
 #, fuzzy
 msgid "Number of people"
 msgstr "Nombre de personnes "
 
-#: models/reports.py:1297
+#: models/reports.py:1304
 #, fuzzy
 msgid "Number of people who are sleeping in the household"
 msgstr "Nombre de personnes  dans le foyer"
 
-#: models/reports.py:1308
+#: models/reports.py:1315
 msgid "Bednet utilization Report"
 msgstr "Rapport d'utilisation de moustiquaires"
 
-#: models/reports.py:1309
+#: models/reports.py:1316
 msgid "Bednet utilization reports"
 msgstr "Rapports d'utilisation de moustiquaires"
 
-#: models/reports.py:1311
+#: models/reports.py:1318
 msgid "children under five "
 msgstr "enfants de moins de 5 ans"
 
-#: models/reports.py:1312
+#: models/reports.py:1319
 msgid "Number of children under five who slept here last night."
 msgstr "Nombre d'enfants de moins de 5 ans qui ont dormi ici la nuit dernière."
 
-#: models/reports.py:1315
+#: models/reports.py:1322
 msgid "Children slept under bednet"
 msgstr "Les enfants ont dormi sous une moustiquaire"
 
-#: models/reports.py:1318
+#: models/reports.py:1325
 msgid "Number of children under five who slept under bednet last night."
 msgstr ""
 "Nombre d'enfants de moins de 5 ans qui ont dormi sous une moustiquaire la "
 "nuit dernière."
 
-#: models/reports.py:1336
+#: models/reports.py:1349
 #, fuzzy
 msgid "Bednet Utilization (Pregnancy) Report"
 msgstr "Rapport d'utilisation de moustiquaires"
 
-#: models/reports.py:1337
+#: models/reports.py:1350
 #, fuzzy
 msgid "Bednet Utilization (Pregnancy) reports"
 msgstr "Rapports d'utilisation de moustiquaires"
 
-#: models/reports.py:1339
+#: models/reports.py:1352
 #, fuzzy
 msgid "Pregnant women"
 msgstr " femmes enceintes"
 
-#: models/reports.py:1340
+#: models/reports.py:1353
 #, fuzzy
 msgid "Pregnant women who slept here last night."
 msgstr "Nombre d'enfants de moins de 5 ans qui ont dormi ici la nuit dernière."
 
-#: models/reports.py:1343
+#: models/reports.py:1356
 #, fuzzy
 msgid "#Pregnant women under bednet"
 msgstr "Les enfants ont dormi sous une moustiquaire"
 
-#: models/reports.py:1346
+#: models/reports.py:1359
 #, fuzzy
 msgid "Number of Pregnant women who slept under bednet last night."
 msgstr ""
 "Nombre d'enfants de moins de 5 ans qui ont dormi sous une moustiquaire la "
 "nuit dernière."
 
-#: models/reports.py:1364
+#: models/reports.py:1383
 msgid "Sanitation Report"
 msgstr "Rapport de conditions sanitaires"
 
-#: models/reports.py:1365
+#: models/reports.py:1384
 msgid "Sanitation Reports"
 msgstr "Rapports de conditions sanitaires"
 
-#: models/reports.py:1378
+#: models/reports.py:1397
 msgid "Flush"
 msgstr "Tirer la chasse d'eau"
 
-#: models/reports.py:1379
+#: models/reports.py:1398
 msgid "Ventilated Improved Pit Latrine"
 msgstr "Latrines à fosses ventilées et améliorées"
 
-#: models/reports.py:1380
+#: models/reports.py:1399
 msgid "Pit Latrine with slab"
 msgstr "Latrines à fosses pavées"
 
-#: models/reports.py:1381
+#: models/reports.py:1400
 msgid "Pit Latrine without slab"
 msgstr "Latrines à fosses non pavées"
 
-#: models/reports.py:1382
+#: models/reports.py:1401
 msgid "Compositing Pit Toilet"
 msgstr "Toilettes avec sciure"
 
-#: models/reports.py:1383
+#: models/reports.py:1402
 msgid "Bucket"
 msgstr "Seau"
 
-#: models/reports.py:1384
+#: models/reports.py:1403
 msgid "Hanging Toilet Latrine"
 msgstr "Toilettes suspendues"
 
-#: models/reports.py:1385
+#: models/reports.py:1404
 msgid "No facility"
 msgstr "Pas de toilettes"
 
-#: models/reports.py:1397
+#: models/reports.py:1415
 msgid "Toilet Type"
 msgstr "Type de toilettes"
 
-#: models/reports.py:1400
+#: models/reports.py:1418
 msgid "Share?"
 msgstr ""
 
-#: models/reports.py:1403
+#: models/reports.py:1421
 msgid "Do you share the toilet "
 msgstr ""
 
-#: models/reports.py:1413
+#: models/reports.py:1431
 msgid "Drinking Water Report"
 msgstr "Rapport d’eau potable"
 
-#: models/reports.py:1414
+#: models/reports.py:1432
 msgid "Drinking Water Reports"
 msgstr "Rapports d’eau potable"
 
-#: models/reports.py:1428
+#: models/reports.py:1447
 msgid "Piped water into dwelling or yard/plot"
 msgstr "Adduction d'eau dans un logement ou cour/jardin"
 
-#: models/reports.py:1429
+#: models/reports.py:1448
 msgid "Public Tap/Standpipe"
 msgstr "Robinet public/tube"
 
-#: models/reports.py:1430
+#: models/reports.py:1449
 msgid "Tube well / Borehole"
 msgstr "Puits tubulaire / trou de forage"
 
-#: models/reports.py:1431
+#: models/reports.py:1450
 msgid "Protected dug well"
 msgstr "Puits creusé protégé"
 
-#: models/reports.py:1432
+#: models/reports.py:1451
 msgid "Unprotected Dug well"
 msgstr "Puits creusé non protégé"
 
-#: models/reports.py:1433
+#: models/reports.py:1452
 msgid "Protected Spring"
 msgstr "Source protégée"
 
-#: models/reports.py:1434
+#: models/reports.py:1453
 msgid "Unprotected spring"
 msgstr "Source non protégée"
 
-#: models/reports.py:1435
+#: models/reports.py:1454
 msgid "Rain water collection"
 msgstr "Collecte de l'eau de pluie"
 
-#: models/reports.py:1436
-msgid "Surface water (river, dam, lake, pond, stream"
+#: models/reports.py:1455
+msgid "River/Canal"
+msgstr ""
+
+#: models/reports.py:1456
+#, fuzzy
+msgid "Surface water (dam, lake, pond, stream"
 msgstr "Eau de surface (rivière, fleuve, barrage, lac, étang, ruisseau)"
 
-#: models/reports.py:1448
+#: models/reports.py:1468
 msgid "Boil water"
 msgstr "Faire bouillir l'eau"
 
-#: models/reports.py:1449
+#: models/reports.py:1469
 #, fuzzy
 msgid "Bleach/chlorine"
 msgstr "Javel/chlore acheté(e)"
 
-#: models/reports.py:1450
+#: models/reports.py:1470
 msgid "Strain it through cloth"
 msgstr "Filtrer par chiffon/tissu"
 
-#: models/reports.py:1451
+#: models/reports.py:1471
 msgid "Use water filter: sand/ceramic"
 msgstr "Utilisez un filtre pour l'eau: sable/céramique"
 
-#: models/reports.py:1452
+#: models/reports.py:1472
 msgid "Solar disinfection"
 msgstr "Désinfection solaire"
 
-#: models/reports.py:1453
+#: models/reports.py:1473
 msgid "Let it stand and settle"
 msgstr "Laisser reposer en position verticale"
 
-#: models/reports.py:1465
+#: models/reports.py:1485
 msgid "Water Source"
 msgstr "Source d'eau"
 
-#: models/reports.py:1468
+#: models/reports.py:1488
 msgid "Treat Water?"
 msgstr ""
 
-#: models/reports.py:1471
+#: models/reports.py:1491
 msgid "Treatment method"
 msgstr "Méthode de traitement"
 
-#: models/reports.py:1472
+#: models/reports.py:1492
 msgid "What do you use to make it safer to drink"
 msgstr "qu’utilisez vous pour rendre l’eau plus potable ?"
 
-#: models/reports.py:1485
+#: models/reports.py:1505
 msgid "Bednet Distribution Report"
 msgstr "Rapport de distribution de moustiquaires"
 
-#: models/reports.py:1486
+#: models/reports.py:1506
 msgid "Betnet Distribution Reports"
 msgstr "Rapports de distribution de moustiquaires"
 
-#: models/reports.py:1488
+#: models/reports.py:1508
 msgid "Bed net received"
 msgstr "Moustiquaires reçues"
 
-#: models/reports.py:1499
+#: models/reports.py:1519
 msgid "Initial Antenatal Visit Report"
 msgstr "Rapport de visites prénatales initiales"
 
-#: models/reports.py:1500
+#: models/reports.py:1520
 msgid "Initial Antenatal Visit Reports"
 msgstr "Rapports de visites prénatales initiales"
 
-#: models/reports.py:1502
+#: models/reports.py:1522
 msgid "Expected Date of Delivery"
 msgstr "Date prévue de l'accouchement"
 
-#: models/reports.py:1529
+#: models/reports.py:1549
 msgid "Pending Clinic Visit"
 msgstr "Visites au  ?? centre de santé?en attente"
 
-#: models/reports.py:1531
+#: models/reports.py:1551
 msgid "Next appointment"
 msgstr "Prochain rendez-vous"
 
-#: models/reports.py:1533
+#: models/reports.py:1553
 msgid "Date closed"
 msgstr "Date confirmée"
 
-#: models/reports.py:1538
+#: models/reports.py:1558
 msgid "Is the appointment still open or closed?"
 msgstr "Est-ce que le rendez-vous est encore incertainou confirmé?"
 
-#: models/reports.py:1568
+#: models/reports.py:1588
 msgid "Pregnancy Registration"
 msgstr "Enregistrement de grossesse"
 
-#: models/reports.py:1569
+#: models/reports.py:1589
 msgid "Pregnancy Registrations"
 msgstr "Enregistrements de grossesse"
 
-#: models/reports.py:1579
+#: models/reports.py:1599
 msgid "Married?"
 msgstr "Marié(e)?"
 
-#: models/reports.py:1582 models/reports.py:1584
+#: models/reports.py:1602 models/reports.py:1604
 msgid "Number of Pregancies"
 msgstr "Nombre de grossesses"
 
-#: models/reports.py:1591
+#: models/reports.py:1611
 msgid "Husband"
 msgstr "Epoux"
 
-#: models/reports.py:1592
+#: models/reports.py:1612
 msgid "The husband to this pregnant woman"
 msgstr "L'époux de lcette femme enceinte"
 
-#: models/reports.py:1623
+#: models/reports.py:1643
 msgid "HIV Test"
 msgstr "Test VIH"
 
-#: models/reports.py:1624
+#: models/reports.py:1644
 msgid "HIV Tests"
 msgstr "Tests VIH"
 
-#: models/reports.py:1634
+#: models/reports.py:1654
 msgid "No Consent"
 msgstr "Pas de consentement"
 
-#: models/reports.py:1643
+#: models/reports.py:1663
 msgid "HIV+?"
 msgstr "VIH positif?"
 
-#: models/reports.py:1645
+#: models/reports.py:1665
 msgid "Blood drawn?"
 msgstr "sang prélevé?"
 
-#: models/reports.py:1678
+#: models/reports.py:1698
 msgid "DBS Result"
 msgstr "Résultat de TSS"
 
-#: models/reports.py:1679
+#: models/reports.py:1699
 msgid "DBS Results"
 msgstr "Résultats de TSS"
 
-#: models/reports.py:1686
+#: models/reports.py:1706
 msgid "Test Result"
 msgstr "Résulat du test"
 
-#: models/reports.py:1711
+#: models/reports.py:1731
 msgid "CD4 Result"
 msgstr "Résultat de CD4"
 
-#: models/reports.py:1712
+#: models/reports.py:1732
 msgid "CD4 Results"
 msgstr "Résultats de CD4"
 
-#: models/reports.py:1714
+#: models/reports.py:1734
 msgid "CD4 Count"
 msgstr "Compte CD4"
 
-#: models/reports.py:1729
+#: models/reports.py:1749
 msgid "Patient status Report"
 msgstr "Rapport du statut du patient"
 
-#: models/reports.py:1730
+#: models/reports.py:1750
 msgid "Patients status Report"
 msgstr "Compte-rendu de la liste des patients"
 
-#: models/reports.py:1741
+#: models/reports.py:1761
 msgid "Reason"
 msgstr "Raison"
 
-#: models/reports.py:1751 models/reports.py:1752
+#: models/reports.py:1771 models/reports.py:1772
 #, fuzzy
 msgid "School Attendance Report"
 msgstr "rapport de grossesse Sauri"
 
-#: models/reports.py:1758
+#: models/reports.py:1778
 msgid "Primary School"
 msgstr ""
 
-#: models/reports.py:1759
+#: models/reports.py:1779
 msgid "Secondary School"
 msgstr ""
 
-#: models/reports.py:1762
+#: models/reports.py:1782
 msgid "#School aged Pupils "
 msgstr ""
 
-#: models/reports.py:1765
+#: models/reports.py:1785
 msgid "#School aged Pupils Attending school "
 msgstr ""
 
-#: models/reports.py:1767
-msgid "#Under/Over  school age Pupils Attending school "
-msgstr ""
-
-#: models/reports.py:1770
-msgid "School Level"
-msgstr ""
-
-#: models/reports.py:1774
-msgid "Reason for not attencing school"
-msgstr ""
-
-#: models/reports.py:1785
+#: models/reports.py:1796
 #, fuzzy
 msgid "Lab Test Report"
 msgstr "Rapports sur les moustiquaires"
 
-#: models/reports.py:1786
+#: models/reports.py:1797
 #, fuzzy
 msgid "Lab Test Reports"
 msgstr "Rapports sur les moustiquaires"
 
-#: models/reports.py:1795
+#: models/reports.py:1806 templates/childcount/lab.html:22
 msgid "Incoming"
 msgstr ""
 
-#: models/reports.py:1796
+#: models/reports.py:1807
 msgid "Inprogress"
 msgstr ""
 
-#: models/reports.py:1797
+#: models/reports.py:1808 templates/childcount/lab.html:25
 msgid "Stalled"
 msgstr ""
 
-#: models/reports.py:1798
+#: models/reports.py:1809
 msgid "Cancelled"
 msgstr ""
 
-#: models/reports.py:1799 models/reports.py:1823
+#: models/reports.py:1810 models/reports.py:1887
+#: templates/childcount/lab.html:24
 #, fuzzy
 msgid "Results"
 msgstr "Résultats de TSS"
 
-#: models/reports.py:1808
+#: models/reports.py:1819
 #, fuzzy
 msgid "Received"
 msgstr "Résultats reçus"
 
-#: models/reports.py:1809
+#: models/reports.py:1820
 #, fuzzy
 msgid "Insufficient Quantity"
 msgstr "Quantité finale"
 
-#: models/reports.py:1810
+#: models/reports.py:1821
 msgid "Bad Quality"
 msgstr ""
 
-#: models/reports.py:1811
+#: models/reports.py:1822
 msgid "Wrong Type"
 msgstr ""
 
-#: models/reports.py:1812
+#: models/reports.py:1823
 msgid "No sample"
 msgstr ""
 
-#: models/reports.py:1818
+#: models/reports.py:1829
 #, fuzzy
 msgid "Sample Number"
 msgstr "Numéro de téléphone :"
 
-#: models/reports.py:1820
+#: models/reports.py:1831
 msgid "Progress Status"
 msgstr ""
 
-#: models/reports.py:1873
+#: models/reports.py:1883
+#, fuzzy
+msgid "LAB Result Report"
+msgstr "Rapports sur les moustiquaires"
+
+#: models/reports.py:1884
+#, fuzzy
+msgid "LAB Result Reports"
+msgstr "Rapports sur les moustiquaires"
+
+#: models/reports.py:1900
 #, fuzzy
 msgid "Specimen Report"
 msgstr "rapport de médicaments donnés"
 
-#: models/reports.py:1874
+#: models/reports.py:1901
 #, fuzzy
 msgid "Specimen Reports"
 msgstr "rapports de fièvre"
 
-#: models/reports.py:1876
+#: models/reports.py:1903
 msgid "Blood Tubes"
 msgstr ""
 
-#: models/reports.py:1877
+#: models/reports.py:1904
 #, fuzzy
 msgid "Number of blood Tubes"
 msgstr "Nombre de moustiquaires disponibles"
 
-#: models/reports.py:1879 models/reports.py:1880
+#: models/reports.py:1906 models/reports.py:1907
 msgid "Sputum sample"
 msgstr ""
 
-#: models/reports.py:1882
+#: models/reports.py:1909
 msgid "Stool Sample"
 msgstr ""
 
-#: models/reports.py:1884
+#: models/reports.py:1911
 msgid "Urine Sample"
 msgstr ""
 
-#: models/reports.py:1894
+#: models/reports.py:1921
 #, fuzzy
 msgid "Insurance Report"
 msgstr "rapport pour des moins d'un an"
 
-#: models/reports.py:1895
+#: models/reports.py:1922
 #, fuzzy
 msgid "Insurance Reports"
 msgstr "rapports pour des moins d'un an"
 
-#: models/reports.py:1897
+#: models/reports.py:1924
 #, fuzzy
 msgid "Insurance Number"
 msgstr "Numéro de téléphone :"
@@ -6981,6 +7057,10 @@ msgstr "Message"
 msgid "Upload Health IDs"
 msgstr "télécharger les identifiants de santé"
 
+#: templates/childcount/base.html:41
+msgid "Lab Interface "
+msgstr ""
+
 #: templates/childcount/bednet.html:86 templates/childcount/chw.html:87
 msgid "Some stuff"
 msgstr "certains trucs"
@@ -6993,7 +7073,7 @@ msgid "Patient List"
 msgstr "Liste des patients"
 
 #: templates/childcount/change_chw.html:27
-#: templates/childcount/patient.html:24
+#: templates/childcount/patient.html:25
 #, python-format
 msgid "Assign Patients in %(location)s to CHW "
 msgstr ""
@@ -7001,7 +7081,7 @@ msgstr ""
 #: templates/childcount/change_chw.html:41
 #: templates/childcount/data_entry.html:83
 msgid "Change"
-msgstr "Changer or changement.. context ?"
+msgstr "Changer"
 
 #: templates/childcount/change_chw.html:41
 #, fuzzy
@@ -7013,22 +7093,22 @@ msgid "Change CHW for Selected patients"
 msgstr ""
 
 #: templates/childcount/change_chw.html:52
-#: templates/childcount/patient.html:48
+#: templates/childcount/patient.html:49
 msgid "ID"
 msgstr "identifiant"
 
 #: templates/childcount/change_chw.html:53
-#: templates/childcount/patient.html:49
+#: templates/childcount/patient.html:50
 msgid "Patient Name"
 msgstr "Nom du patient"
 
 #: templates/childcount/change_chw.html:55
-#: templates/childcount/patient.html:51
+#: templates/childcount/patient.html:52
 msgid "DOB"
 msgstr "DDN"
 
 #: templates/childcount/change_chw.html:72
-#: templates/childcount/patient.html:66
+#: templates/childcount/patient.html:67
 #, python-format
 msgid "%(rcount)s results found."
 msgstr "résultats.%(rcount)s "
@@ -7042,52 +7122,52 @@ msgid "selected patients?"
 msgstr ""
 
 #: templates/childcount/change_chw.html:117
-#: templates/childcount/patient.html:83
+#: templates/childcount/patient.html:84
 msgid "First Page"
 msgstr "Première page"
 
 #: templates/childcount/change_chw.html:117
-#: templates/childcount/patient.html:83
+#: templates/childcount/patient.html:84
 msgid "First"
 msgstr "Premier"
 
 #: templates/childcount/change_chw.html:120
-#: templates/childcount/patient.html:86
+#: templates/childcount/patient.html:87
 msgid "Previous Page"
 msgstr "Page précédente"
 
 #: templates/childcount/change_chw.html:120
-#: templates/childcount/list_chw.html:42
+#: templates/childcount/list_chw.html:44
 #: templates/childcount/list_locations.html:36
-#: templates/childcount/patient.html:86
+#: templates/childcount/patient.html:87
 msgid "Previous"
 msgstr "Précédent"
 
 #: templates/childcount/change_chw.html:133
-#: templates/childcount/patient.html:99
+#: templates/childcount/patient.html:100
 #, python-format
 msgid "Page %(num)s"
 msgstr "Page %(num)s"
 
 #: templates/childcount/change_chw.html:145
-#: templates/childcount/patient.html:111
+#: templates/childcount/patient.html:112
 msgid "Next Page"
 msgstr "Page suivante"
 
 #: templates/childcount/change_chw.html:145
-#: templates/childcount/list_chw.html:48
+#: templates/childcount/list_chw.html:50
 #: templates/childcount/list_locations.html:42
-#: templates/childcount/patient.html:111
+#: templates/childcount/patient.html:112
 msgid "Next"
 msgstr "Suivant"
 
 #: templates/childcount/change_chw.html:148
-#: templates/childcount/patient.html:114
+#: templates/childcount/patient.html:115
 msgid "Last Page"
 msgstr "Dernière page"
 
 #: templates/childcount/change_chw.html:148
-#: templates/childcount/patient.html:114
+#: templates/childcount/patient.html:115
 msgid "Last"
 msgstr "Dernier"
 
@@ -7095,11 +7175,50 @@ msgstr "Dernier"
 #: templates/childcount/patient.html:20
 #, fuzzy
 msgid "Change CHW"
-msgstr "Changer or changement.. context ?"
+msgstr "Changer CHW"
 
 #: templates/childcount/change_locations.html:9
 #, python-format
 msgid " Change the CHW of patients in %(location)s to "
+msgstr ""
+
+#: templates/childcount/chw_connections.html:4
+#: templates/childcount/chw_connections.html:7
+msgid "Change CHW Phone Number/Identity"
+msgstr ""
+
+#: templates/childcount/chw_connections.html:25
+#: templates/childcount/chw_connections.html:43
+#: templates/childcount/edit_patient.html:65
+msgid "Save"
+msgstr "sauvegarder"
+
+#: templates/childcount/chw_connections.html:26
+#: templates/childcount/chw_connections.html:44
+msgid "Delete"
+msgstr ""
+
+#: templates/childcount/chw_connections.html:61
+#, fuzzy
+msgid "Please enter phone number!"
+msgstr "Numéro de téléphone portable"
+
+#: templates/childcount/chw_connections.html:70
+#, fuzzy
+msgid "Record updated successfully."
+msgstr "Un formulaire traité avec succès"
+
+#: templates/childcount/chw_connections.html:73
+#, fuzzy
+msgid "Record does not exist!"
+msgstr "ASC avec l’identifiant  %(id)d n'existe pas"
+
+#: templates/childcount/chw_connections.html:76
+msgid "Record already exists! Please use a different identity and/or backend."
+msgstr ""
+
+#: templates/childcount/chw_connections.html:99
+msgid "Record deleted."
 msgstr ""
 
 #: templates/childcount/data_entry.html:8
@@ -7117,7 +7236,7 @@ msgstr "Date"
 
 #: templates/childcount/data_entry.html:33
 msgid "free"
-msgstr "Libre or gratuit..context?"
+msgstr "Libre"
 
 #: templates/childcount/data_entry.html:35
 msgid "message"
@@ -7158,7 +7277,7 @@ msgstr "Message :"
 
 #: templates/childcount/data_entry.html:105
 msgid "Response Log"
-msgstr "Messages reçus meaning, context ?"
+msgstr "Messages reçus"
 
 #: templates/childcount/edit_patient.html:16
 #: templates/childcount/edit_patient.html:23
@@ -7202,10 +7321,6 @@ msgstr "Modifier"
 msgid "again"
 msgstr "encore"
 
-#: templates/childcount/edit_patient.html:65
-msgid "Save"
-msgstr "sauvegarder"
-
 #: templates/childcount/indicators.html:67
 msgid "Back to top"
 msgstr "retour vers le haut de la page"
@@ -7243,6 +7358,42 @@ msgstr "graphique"
 msgid "Indicator graph"
 msgstr "Graphique des Indicateurs meaning??"
 
+#: templates/childcount/lab.html:17
+msgid "TLI "
+msgstr ""
+
+#: templates/childcount/lab.html:23
+msgid "In progress"
+msgstr ""
+
+#: templates/childcount/lab.html:26
+msgid "REPORTS"
+msgstr ""
+
+#: templates/childcount/lab.html:34 templates/childcount/patient.html:33
+msgid "Search"
+msgstr "Rechercher"
+
+#: templates/childcount/lab.html:49
+#, fuzzy
+msgid "Date of Request"
+msgstr "Date du décès"
+
+#: templates/childcount/lab.html:50
+#, fuzzy
+msgid "Requisition Number"
+msgstr "Chiffres récents"
+
+#: templates/childcount/lab.html:53
+#, fuzzy
+msgid "Test Type"
+msgstr "Type de toilettes"
+
+#: templates/childcount/lab.html:54
+#, fuzzy
+msgid "Patient name"
+msgstr "Nom du patient"
+
 #: templates/childcount/list_chw.html:8
 msgid "CHW List"
 msgstr "Liste des ASCs"
@@ -7272,11 +7423,16 @@ msgstr "Nom de famille"
 msgid "Active?"
 msgstr "Actif?"
 
-#: templates/childcount/list_chw.html:32
+#: templates/childcount/list_chw.html:23
+#, fuzzy
+msgid "# of patients"
+msgstr "# de patients"
+
+#: templates/childcount/list_chw.html:33
 msgid "Y"
 msgstr "Oui"
 
-#: templates/childcount/list_chw.html:32
+#: templates/childcount/list_chw.html:33
 msgid "N"
 msgstr "Non"
 
@@ -7324,9 +7480,10 @@ msgstr "Vous n'êtes pas autorisé à consulter cette section"
 msgid "Please log in to ChildCount+"
 msgstr "Veuillez vous connecter à ChildCount+"
 
-#: templates/childcount/patient.html:32
-msgid "Search"
-msgstr "Rechercher"
+#: templates/childcount/patient.html:21
+#, fuzzy
+msgid "Change CHW Phone Number"
+msgstr "No de téléphone portable"
 
 #: templates/childcount/uploadhealthids.html:5
 msgid "Upload the Health ID File"
@@ -7346,17 +7503,63 @@ msgstr "Graphique de nutrition"
 msgid "Recent Numbers"
 msgstr "Chiffres récents"
 
-#: templates/childcount/dashboard_sections/registration_chart.html:3
+#: templates/childcount/dashboard_sections/registration_chart.html:6
 msgid "Registration Chart"
 msgstr "Graphique des enregistrements"
 
-#: templates/childcount/dashboard_sections/registration_chart.html:22
+#: templates/childcount/dashboard_sections/registration_chart.html:25
 msgid "Number of Days Ago"
 msgstr "nombre de jours écoulés depuis"
 
-#: templates/childcount/dashboard_sections/registration_chart.html:23
+#: templates/childcount/dashboard_sections/registration_chart.html:26
 msgid "Total number of patients"
 msgstr "Nombre total de patients"
+
+#, fuzzy
+#~ msgid "Lab Test Result"
+#~ msgstr "Résulat du test"
+
+#, fuzzy
+#~ msgid "Lab Test Results"
+#~ msgstr "Résulat du test"
+
+#, fuzzy
+#~ msgid ""
+#~ "| Number of under/over school aged pupils  atttending primary school must "
+#~ "be entered  as a number."
+#~ msgstr ""
+#~ "| nombre d’autres  personnes sous traitement | doit être entré en chiffres"
+
+#, fuzzy
+#~ msgid ""
+#~ "You must specify %(num)d reason for not   attending school code(s). One "
+#~ "for each of the %(num)s pupil not attending school"
+#~ msgstr ""
+#~ "Vous devez spécifier %(num)d code(s) de méthode decontraception. Un pour "
+#~ "chacune des %(num)s femmes utilisant une contraception moderne."
+
+#, fuzzy
+#~ msgid ""
+#~ "Unkown Reason for not attending school code(s): %(codes)s No Primary "
+#~ "school attendance recorded."
+#~ msgstr ""
+#~ "Code(s) de méthode de contraception inconnu: %(codes)s Pas de "
+#~ "contraception enregistrée."
+
+#, fuzzy
+#~ msgid ""
+#~ "| Number of under/over school aged pupils  atttending secondary school "
+#~ "must be entered  as a number."
+#~ msgstr ""
+#~ "| nombre d’autres  personnes sous traitement | doit être entré en chiffres"
+
+#, fuzzy
+#~ msgid ""
+#~ "Unkown Reason for not attending school code(s): %(codes)s No secondary "
+#~ "school attendance recorded."
+#~ msgstr ""
+#~ "Code(s) de thème de conseil/ orientation inconnu: %(codes)s Pas de visite "
+#~ "de foyer enregistrée"
 
 #~ msgid "| Number of bednets received earlier | must be a number."
 #~ msgstr ""
@@ -7506,9 +7709,6 @@ msgstr "Nombre total de patients"
 
 #~ msgid "Num"
 #~ msgstr "Num"
-
-#~ msgid "Mobile Phone Number"
-#~ msgstr "No de téléphone portable"
 
 #~ msgid "Head of Household HEALTH ID"
 #~ msgstr "id de santé du chef de famille"

@@ -25,6 +25,7 @@ from django.utils import simplejson
 from django.template import Context, loader
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User, Group
+from django.db import IntegrityError
 from django.db.models import F, Q, Count
 
 from reporters.models import PersistantConnection, PersistantBackend
@@ -37,6 +38,7 @@ from childcount.helpers import site
 
 from reportgen.timeperiods import FourWeeks, Month, TwelveMonths
 from reportgen.models import Report
+from childcount.models.reports import LabReport
 
 
 form_config = Configuration.objects.get(key='dataentry_forms').value
@@ -101,11 +103,15 @@ def index(request):
         dashboard_template_names = Configuration.objects.get(key='dashboard_sections').value.split()
     except:
         dashboard_template_names = ['highlight_stats_bar',]
-    
-    info['dashboard_data'] = dashboard_gather_data(dashboard_template_names)
-    info['section_templates'] = ["%s/%s.html" % (DASHBOARD_TEMPLATE_DIRECTORY, ds) for ds in dashboard_template_names]
-    
+    info['section_templates'] = dashboard_template_names
     return render_to_response(request, "childcount/dashboard.html", info)
+
+
+def get_dashboard_section(request, section_name):
+    info = {}
+    info['dashboard_data'] = dashboard_gather_data([section_name])
+    info['section_templates'] = "%s/%s.html" % (DASHBOARD_TEMPLATE_DIRECTORY, section_name)
+    return render_to_response(request, info['section_templates'], info)
 
 
 def site_summary(request, report='site', format='json'):
@@ -458,6 +464,94 @@ def indicators(request):
         })
 
 
+@login_required
+@permission_required('childcount.add_chw')
+def lab(request):
+    '''Patients page '''
+    MAX_PAGE_PER_PAGE = 30
+    DEFAULT_PAGE = 1
+
+
+    info = {}
+
+    try:
+        status = request.GET.get('status','')
+    except:
+        status = ''
+        
+    if status == 'progress':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_INCOMING)
+        
+    elif status == 'results':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_RESULTS)
+        
+    elif status == 'stalled':
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_STALLED)
+        
+    else:
+        labreport = LabReport.objects.filter(status=LabReport.STATUS_INCOMING)
+
+    
+    try:
+        search = request.GET.get('lab_search','')
+    except:
+        search = ''
+    
+    '''
+    if search:
+        if len(search.split()) > 1:
+            labreport = LabReport.objects\
+                        .filter(status=LabReport.STATUS_INCOMING)
+            labreport = patients.filter(Q(first_name__search=search,\
+                               last_name__search=search) | \
+                               Q(health_id__search=search))
+           
+        else:
+            labreport = LabReport.objects\
+                        .filter(status=LabReport.STATUS_INCOMING)
+
+    '''
+    paginator = Paginator(labreport, MAX_PAGE_PER_PAGE)
+
+    try:
+        page = int(request.GET.get('page', DEFAULT_PAGE))
+    except:
+        page = DEFAULT_PAGE
+    
+    info['rcount'] = labreport.count()
+    info['rstart'] = paginator.per_page * page
+    info['rend'] = (page + 1 * paginator.per_page) - 1
+    
+    
+    try:
+        info['labreport'] = paginator.page(page)
+    except:
+        info['labreport'] = paginator.page(paginator.num_pages)
+
+    #get the requested page, if its out of range display last page
+    try:
+        current_page = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        current_page = paginator.page(paginator.num_pages)
+
+    nextlink, prevlink = {}, {}
+
+    if paginator.num_pages > 1:
+        nextlink['page'] = info['labreport'].next_page_number()
+        prevlink['page'] = info['labreport'].previous_page_number()
+
+        info.update(pagenator(paginator, current_page))
+
+    if search != '':
+        info['search'] = search
+        nextlink['search'] = search
+        prevlink['search'] = search
+    
+    info['prevlink'] = urlencode(prevlink)
+    info['nextlink'] = urlencode(nextlink)
+   
+    return render_to_response(\
+                request, 'childcount/lab.html', info)
 '''
 @login_required
 def autocomplete(request):
@@ -682,3 +776,54 @@ def patient_by_location(request, location=None):
 
     return render_to_response(\
                 request, 'childcount/patient.html', info)
+
+
+class PersistantConnectionForm(forms.Form):
+    backend = forms.ChoiceField(choices=[(backend.slug, backend.title) for \
+                                backend in PersistantBackend\
+                                .objects.all()])
+    identity = forms.CharField(max_length=30)
+    perform = forms.CharField(required=False)
+
+
+@login_required
+def change_chw_connections(request, chw):
+    '''Change a CHWs phone number, connection identiy...'''
+    chw = CHW.objects.get(username__iexact=chw)
+    info = {}
+    if request.method == 'POST':
+        form = PersistantConnectionForm(request.POST)
+        if form.is_valid():
+            identity = form.cleaned_data['identity']
+            backend = form.cleaned_data['backend']
+            action = form.cleaned_data['perform']
+            be = PersistantBackend.objects.get(slug=backend)
+            if action == 'delete':
+                try:
+                    pc = PersistantConnection\
+                                .objects.get(reporter=chw.reporter_ptr,
+                                identity=identity, backend=be)
+                except PersistantConnection.DoesNotExist:
+                    info['status'] = u"doesnotexist"
+                else:
+                    pc.delete()
+                    info['status'] = u"deleted"
+            else:
+                try:
+                    obj, created = PersistantConnection\
+                                    .objects.get_or_create(backend=be,
+                                    identity=identity, reporter=chw.reporter_ptr)
+                    if created:
+                        obj.save()
+                    info['status'] = u"updated"
+                except IntegrityError:
+                    info['status'] = u"duplicate"
+        else:
+            info['status'] = u"invalid"
+        if request.is_ajax():
+            return HttpResponse(info['status'])
+    info['chw'] = chw
+    info['connections'] = chw.connections.all()
+    info['backends'] = PersistantBackend.objects.all()
+    return render_to_response(\
+                request, 'childcount/chw_connections.html', info)

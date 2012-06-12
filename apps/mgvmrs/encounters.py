@@ -7,13 +7,14 @@ from datetime import datetime
 from rapidsms.webui import settings
 from django.db.models import Q
 
-from childcount.models import Encounter, Patient
+from childcount.models import Encounter, Patient, OMRSErrorLog
 from childcount.models.reports import CCReport, PregnancyReport, LabReport, \
                          PregnancyRegistrationReport, AppointmentReport
 
 from mgvmrs.forms import OpenMRSTransmissionError, OpenMRSConsultationForm, \
                          OpenMRSHouseholdForm, OpenMRSANCForm, \
-                         OpenMRSXFormsModuleError, OpenMRSLabRequestForm
+                         OpenMRSXFormsModuleError, OpenMRSLabRequestForm, \
+                         UnexpectedValueError
 from mgvmrs.utils import transmit_form
 from mgvmrs.models import User
 
@@ -51,12 +52,16 @@ def send_to_omrs(router, *args, **kwargs):
         individual_id = int(conf['individual_id'])
         household_id = int(conf['household_id'])
         location_id = int(conf['location_id'])
-        labrequest_id = int(conf['labrequest_id'])
         identifier_type = int(conf['identifier_type'])
         # provider is a fallback if CHW has no OMRS ID in DB.
         provider_id = int(conf['provider_id'])
     except KeyError:
         raise Exception("Invalid [mgvmrs] configuration")
+    # mandatory only if lab module is deployed
+    try:
+        labrequest_id = int(conf['labrequest_id'])
+    except KeyError:
+        pass
 
     # this one is not fatal
     try:
@@ -73,11 +78,14 @@ def send_to_omrs(router, *args, **kwargs):
     # request 200 non-synced Encounters
     # Order by random so that one screwed up encounter
     # doesn't block the whole queue
+    NUM_ENCOUNTERS = 200
+    if kwargs.has_key('num_encounters'):
+        NUM_ENCOUNTERS = int(kwargs['num_encounters'])
     encounters = Encounter\
         .objects\
         .filter(Q(sync_omrs__isnull=True) | Q(sync_omrs=None))\
-        .order_by('?')[0:200]
-
+        .order_by('?')[0:NUM_ENCOUNTERS]
+    router.log('DEBUG', 'ready to send %s encounters!.' % encounters.count())
     for encounter in encounters:
         # loop only on closed Encounters
         if encounter.is_open:
@@ -124,26 +132,33 @@ def send_to_omrs(router, *args, **kwargs):
             provider = provider_id
 
         # create form
-	    router.log('DEBUG', 'mgvmrs: Starting encounter processing...')
-	    router.log('DEBUG', encounter.pk)
-	    router.log('DEBUG', encounter.patient)
-	    router.log('DEBUG', encounter.patient.health_id)
-        omrsform = omrsformclass(create, encounter.patient.health_id, \
-                                    location_id,
-                                    provider,
-                                    encounter.encounter_date, \
-                                    encounter.patient.dob, \
-                                    bool(encounter.patient.estimated_dob), \
-                                    encounter.patient.last_name, \
-                                    encounter.patient.first_name, '', \
-                                    encounter.patient.gender, \
-                                    encounter.patient.location.name.title(), \
-                                    '1065')
+	    if encounter.patient.last_name == '':
+	        encounter.patient.last_name = encounter.patient.first_name
+	        encounter.patient.save()
+        try:
+            omrsform = omrsformclass(create, encounter.patient.health_id, \
+                                        location_id,
+                                        provider,
+                                        encounter.encounter_date, \
+                                        encounter.patient.dob, \
+                                        bool(encounter.patient.estimated_dob), \
+                                        encounter.patient.last_name, \
+                                        encounter.patient.first_name, '', \
+                                        encounter.patient.gender, \
+                                        encounter.patient.location.name.title(), \
+                                        '1065')
+        except UnexpectedValueError, e:
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
+            errl.error_message = e
+            errl.save()
+            router.log('DEBUG', "==> UnexpectedValueError %s" % encounter)
+            continue
         # assign site-specific ID
         omrsform.openmrs__form_id = form_id
         omrsform.patient___identifier_type = identifier_type
         omrsform.patient__in_cluster_id = in_cluster_attribute_id
-        omrsform.patient___patient_id = encounter.patient.pk
+        # omrsform.patient___patient_id = encounter.patient.pk
 
         # each report contains reference to OMRS fields
         for report in reports:
@@ -160,16 +175,24 @@ def send_to_omrs(router, *args, **kwargs):
             router.log('DEBUG', \
                           u"Successfuly sent XForm to OpenMRS: %s" % encounter)
         except OpenMRSTransmissionError, e:
-            router.log('DEBUG', '==> Transmission error')
-            router.log('DEBUG', omrsform.render())
-            router.log('DEBUG', e)
-           
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
+            errl.error_message = omrsform.render()
+            errl.save()
+
+            router.log('DEBUG', u"==> Transmission error %s" % encounter)
+            # router.log('DEBUG', omrsform.render())
+
             # Don't modify this encounter, just let 
             # it get sent later on
         except OpenMRSXFormsModuleError, e:
-            router.log('DEBUG', '==> XForms Module error')
-            router.log('DEBUG', omrsform.render())
-            router.log('DEBUG', e)
+            errl = OMRSErrorLog(encounter=encounter)
+            errl.error_type = OMRSErrorLog.OPENMRS_XFORM_ERROR
+            errl.error_message = omrsform.render()
+            errl.save()
+
+            router.log('DEBUG', u"==> XForms Module error %s" % encounter)
+            #router.log('DEBUG', omrsform.render())
 
             # Mark this encounter sync_omrs=False
             # so that we don't try to send it again.

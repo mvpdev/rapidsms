@@ -46,10 +46,11 @@ class GetStockCommand(CCCommand):
                                         created_on__year=today.year,
                                         location=loc)
         except BednetStock.DoesNotExist:
-            self.message.respond(_(u"No Stockin for %(loc)s." % {'loc': loc}))
+            self.message.respond(_(u"No Stockin for %(loc)s." % {'loc': loc}),
+                                    'error')
         else:
             self.message.respond(_(u"%(loc)s: Starting Point: %(sp)s, "
                             "Balance: %(bal)s." % {'loc': loc,
                             'sp': bns.start_point,
-                            'bal': bns.quantity}))
+                            'bal': bns.quantity}), 'success')
         return True

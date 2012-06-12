@@ -73,7 +73,10 @@ class UnderFiveDiarrheaUncomplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated(period, data_in).count()
+        if _under_five_diarrhea_uncomplicated(period, data_in):
+            return _under_five_diarrhea_uncomplicated(period, data_in).count()
+        else:
+           return 0
 
 def _under_five_diarrhea_uncomplicated_getting(period, data_in, drug_code):
     return _under_five_diarrhea_uncomplicated(period, data_in)\
@@ -91,7 +94,10 @@ class UnderFiveDiarrheaUncomplicatedGivenOrs(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R').count()
+        if _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R'):
+            return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'R').count()
+        else:
+            return 0
 
 class UnderFiveDiarrheaUncomplicatedGivenOrsPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
@@ -116,7 +122,10 @@ class UnderFiveDiarrheaUncomplicatedGivenZinc(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z').count()
+        if _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z'):
+           return _under_five_diarrhea_uncomplicated_getting(period, data_in, 'Z').count()
+        else:
+           return 0
 
 class UnderFiveDiarrheaUncomplicatedGivenZincPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
@@ -154,7 +163,11 @@ class UnderFiveFeverUncomplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_uncomplicated(period, data_in).count()
+        rs = _under_five_fever_uncomplicated(period, data_in)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 class UnderFiveFeverUncomplicatedRdt(Indicator):
     type_in     = QuerySetType(Patient)
@@ -173,10 +186,12 @@ class UnderFiveFeverUncomplicatedRdt(Indicator):
         N = FeverReport.RDT_NEGATIVE
         P = FeverReport.RDT_POSITIVE
         U = FeverReport.RDT_UNKNOWN
-
-        return rpts\
-            .filter(encounter__ccreport__feverreport__rdt_result__in=(N, P, U))\
-            .count()
+        rs = rpts\
+            .filter(encounter__ccreport__feverreport__rdt_result__in=(N, P, U))
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 def _under_five_fever_uncomplicated_rdt_value(period, data_in, value):
     Y = FeverReport.RDT_POSITIVE
@@ -186,9 +201,12 @@ def _under_five_fever_uncomplicated_rdt_value(period, data_in, value):
     if value not in (Y,N,U):
         raise ValueError(_("Invalid RDT value"))
 
-    return _under_five_fever_uncomplicated(period, data_in)\
-        .filter(encounter__ccreport__feverreport__rdt_result=value)\
-        .count()
+    rs = _under_five_fever_uncomplicated(period, data_in)\
+        .filter(encounter__ccreport__feverreport__rdt_result=value)
+    if rs:
+        return rs.count()
+    else:
+        return 0
 
 class UnderFiveFeverUncomplicatedRdtPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
@@ -276,7 +294,11 @@ class UnderFiveFeverComplicated(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_complicated(period, data_in).count()
+        rs = _under_five_fever_complicated(period, data_in)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 
 class UnderFiveFeverComplicatedReferred(Indicator):
@@ -291,9 +313,12 @@ class UnderFiveFeverComplicatedReferred(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        return _under_five_fever_complicated(period, data_in)\
-            .filter(encounter__ccreport__referralreport__urgency__isnull=False)\
-            .count()
+        rs = _under_five_fever_complicated(period, data_in)\
+                .filter(encounter__ccreport__referralreport__urgency__isnull=False)
+        if rs:
+            return rs.count()
+        else:
+            return 0
 
 class UnderFiveFeverComplicatedReferredPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)

@@ -11,6 +11,7 @@ from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.models import Patient, Encounter
 from childcount.models.reports import BirthReport
 from childcount.models.reports import AppointmentReport
+from childcount.models import Configuration as Cfg
 from childcount.forms.utils import MultipleChoiceField
 
 
@@ -60,8 +61,14 @@ class BirthForm(CCForm):
         days, weeks, months = patient.age_in_days_weeks_months(\
             self.encounter.encounter_date.date())
         humanised = patient.humanised_age()
-
-        if days > 90:
+        try:
+            allow_rpt = Cfg.objects.get(\
+                key='allow_birth_reports_after_90_days')
+        except Cfg.DoesNotExist:
+            allow_rpts_after_90days = False
+        else:
+            allow_rpts_after_90days = (allow_rpt.value.lower() == 'true')
+        if allow_rpts_after_90days is False and days > 90:
             raise Inapplicable(_(u"Patient is %(age)s old. You can not " \
                                   "submit birth reports for patients over " \
                                   "90 days old.") % {'age': humanised})
@@ -151,7 +158,7 @@ class BirthForm(CCForm):
         patient.save()
 
         #is mother hiv exposed?
-        if patient.mother.hiv_status:
+        if patient.mother and patient.mother.hiv_status:
             #mark child as hiv exposed
             patient.hiv_exposed = True
             patient.save()

@@ -92,5 +92,5 @@ class NIDSCommand(CCCommand):
         if reported.__len__():
             resp += _(u"Already reported: %(patients)s. " % {'patients':
                 ', '.join([p.health_id.upper() for p in reported])})
-        self.message.respond(resp)
+        self.message.respond(resp, 'success')
         return True

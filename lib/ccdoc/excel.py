@@ -58,7 +58,7 @@ class ExcelGenerator(Generator):
     def _render_section(self, section):
         self.row += 1
         if self.has_section:
-            s = self.workbook.add_sheet(section.text)
+            s = self.workbook.add_sheet(section.section_name)
             self.row = 0
             self.col = 0
             self.sheets.append(s)

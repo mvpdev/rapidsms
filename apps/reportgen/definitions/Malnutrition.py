@@ -13,7 +13,7 @@ from ccdoc import Document, Table, Paragraph, \
 from childcount.models import CHW, Clinic
 from childcount.models import Patient
 from childcount.models.reports import NutritionReport
-from childcount.helpers.patient import latest_muac_date
+from childcount.helpers.patient import latest_muac_date, latest_muac_raw
 
 from reportgen.utils import render_doc_to_file
 from reportgen.PrintedReport import PrintedReport
@@ -22,13 +22,17 @@ class ReportDefinition(PrintedReport):
     title = _(u"Malnutrition Report")
     filename = 'malnutrition'
     formats = ['pdf','html']
+    variants = [(c.name, c.code, {'clinic_pk': c.pk}) \
+                                for c in Clinic.objects.all()]
 
     def generate(self, period, rformat, title, filepath, data):
         doc = Document(title)
         doc.add_element(PageBreak())
-
-        clinics = Clinic.objects.all()
-
+        if 'clinic_pk' not in data:
+            clinic_pk = data['clinic_pk']
+            clinics = Clinic.objects.filter(pk=clinic__pk)
+        else:
+            clinics = Clinic.objects.all()
         total = clinics.count()
         for i,clinic in enumerate(clinics):
             self.set_progress(100.0*i/total)
@@ -65,29 +69,34 @@ class ReportDefinition(PrintedReport):
                             Q(oedema__in=NutritionReport.OEDEMA_YES))\
                     .latest()
             except NutritionReport.DoesNotExist:
-                no_report.append(u)
-            else:
-                # If there's no muac, flag child for muac
-                if r.muac is None or r.status is None:
+                lr = latest_muac_raw(period, u)
+                if lr is None:
                     no_report.append(u)
                     continue
-
-                if r.status != NutritionReport.STATUS_HEALTHY:
-                    output.append(r)
                 else:
-                    # Child is healthy
-                    pass
+                    r = lr
+            r = NutritionReport.objects\
+                        .filter(encounter__patient=u).latest()
+            # If there's no muac, flag child for muac
+            if r.muac is None or r.status is None:
+                no_report.append(u)
+                continue
 
-                # If the muac figure is old, add this report to the To-do
-                # list.
-                if (r.encounter.encounter_date + timedelta(90)) <= period.end:
-                    no_report.append(u)
+            if r.status != NutritionReport.STATUS_HEALTHY:
+                output.append(r)
+            else:
+                # Child is healthy
+                pass
+
+            # If the muac figure is old, add this report to the To-do
+            # list.
+            if (r.encounter.encounter_date + timedelta(90)) <= period.end:
+                no_report.append(u)
         
         return (output, no_report)
 
     def _malnutrition_table(self, period, clinic):
         (malnourished, unknown) = self._malnourished_by_clinic(period, clinic)
-
         table = Table(8, \
             Text(_(u"Children U5 Flagged as Malnourished as of %s") %
                 period.end.strftime("%d %b %Y")))

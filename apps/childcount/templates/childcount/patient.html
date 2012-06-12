@@ -17,7 +17,8 @@
 <h2 class="ptitle">{% trans "Patient List" %}{% if search %}: <em>{{ search }}</em>{% endif %} | 
 <a href="/childcount/patients/edit/">{% trans "Edit Patient" %}</a> |
 {% if chw %}
-<a href="{% url childcount.views.change_chw chw %}">{% trans "Change CHW" %}</a>
+<a href="{% url childcount.views.change_chw chw %}">{% trans "Change CHW" %}</a> | 
+<a href="{% url cc-chw-connections chw %}">{% trans "Change CHW Phone Number" %}</a>
 {% endif %}
 {% if location %}
 <a href="{% url cc-change_location location.pk %}">

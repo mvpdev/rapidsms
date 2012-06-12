@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version="1.0" encoding="UTF-8" ?>
       <form id="{{ openmrs__form_id }}" 
       name="Lab Request form" version="1.0" 
       xmlns:openmrs="http://localhost:8080/openmrs/moduleServlet/formentry/forms/schema/86-1" 
@@ -16,7 +16,11 @@
           <patient.family_name openmrs_table="patient_name" openmrs_attribute="family_name">{{ patient___family_name }}</patient.family_name>
           <patient.given_name openmrs_table="patient_name" openmrs_attribute="given_name">{{ patient___given_name }}</patient.given_name>
           <patient.middle_name openmrs_table="patient_name" openmrs_attribute="middle_name">{{ patient___middle_name }}</patient.middle_name>
-          <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+    {% if patient___patient_id %}
+    <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id">{{ patient___patient_id }}</patient.patient_id>
+    {% else %}
+        <patient.patient_id openmrs_table="patient" openmrs_attribute="patient_id"/>
+    {% endif %}
           <patient_identifier.identifier_type openmrs_table="patient_identifier" openmrs_attribute="identifier_type">{{ patient___identifier_type }}</patient_identifier.identifier_type>
           <patient.medical_record_number openmrs_table="patient_identifier" openmrs_attribute="identifier">{{ patient___medical_record_number }}</patient.medical_record_number>          
           <person_attribute{{ patient__in_cluster_id }}>{{ patient__in_cluster }}</person_attribute{{ patient__in_cluster_id }}>
@@ -30,8 +34,8 @@
         <orders>
           <laboratory_orders openmrs_concept="1283^LABORATORY ORDERS^99DCT" openmrs_datatype="ZZ">
             <tests_ordered openmrs_concept="1271^TESTS ORDERED^99DCT" openmrs_datatype="CWE" multiple="1">
-              <date xsi:nil="true"></date>
-              <time xsi:nil="true"></time>
+              <date xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+              <time xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
               <blood_group openmrs_concept="300^BLOOD TYPING^99DCT">{% if test_bloodgroup %}true{% else %}false{% endif %}</blood_group>
               <sickling_test openmrs_concept="160225^Sickle cell screening test^99DCT">{% if test_sickle_cell %}true{% else %}false{% endif %}</sickling_test>
               <rhesus_factor openmrs_concept="160232^Rhesus blood grouping test^99DCT">{% if test_rhesus %}true{% else %}false{% endif %}</rhesus_factor>
@@ -48,7 +52,7 @@
               <platelets openmrs_concept="729^PLATELETS^99DCT">{% if test_platelets %}true{% else %}false{% endif %}</platelets>
               <white_blood_cells openmrs_concept="678^WHITE BLOOD CELLS^99DCT">{% if test_whitecell %}true{% else %}false{% endif %}</white_blood_cells>
               <sputum_for_acid_fast_bacilli openmrs_concept="307^SPUTUM FOR ACID FAST BACILLI^99DCT">{% if test_sputum_for_acid_fast_bacilli %}true{% else %}false{% endif %}</sputum_for_acid_fast_bacilli>
-              <xforms_value xsi:nil="true" />
+              <xforms_value xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
             </tests_ordered>
           </laboratory_orders>
         </orders>

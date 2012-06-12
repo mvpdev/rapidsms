@@ -5,7 +5,7 @@
 from django.utils.translation import ugettext as _
 
 from childcount.forms import CCForm
-from childcount.models import BednetUtilization
+from childcount.models.reports import BednetUtilization
 from childcount.models import Patient, Encounter
 from childcount.exceptions import ParseError, BadValue, Inapplicable
 from childcount.forms.utils import MultipleChoiceField

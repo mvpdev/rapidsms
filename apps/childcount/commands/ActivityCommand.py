@@ -147,7 +147,7 @@ class ActivityCommand(CCCommand):
 
         else:
             self.message.respond(_(u"Use ACTIVITY followed by WEEK, MONTH, or "\
-                                    "the 3-letter month code."))
+                                    "the 3-letter month code."), 'error')
             return True
             
         patients = chw.patient_set.all()
@@ -172,4 +172,4 @@ class ActivityCommand(CCCommand):
                                 ", %(ufive)d under 5y, %(underone)d under "\
                                 "1y, %(unine)d under 9m, "\
                                 "%(tclient)d total" \
-                                " registered clients") % p)
+                                " registered clients") % p, 'success')

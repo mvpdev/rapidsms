@@ -24,6 +24,12 @@ from childcount.indicators import under_one
 from childcount.indicators import nutrition
 from childcount.indicators import fever
 from childcount.indicators import medicine_given
+from childcount.indicators import sanitation
+from childcount.indicators import drinking_water
+from childcount.indicators import bed_net_utilization_pregnancy
+from childcount.indicators import bed_net_utilization
+from childcount.indicators import bed_net_coverage
+from childcount.indicators import school_attendance
 
 from childcount.models import Patient
 from childcount.models.reports import PregnancyReport
@@ -52,6 +58,22 @@ def report_indicators():
             {'name': _("Women Using FP"), 'ind': family_planning.Using},
             {'name': _("Women Starting FP (or Never Registered)"),
                 'ind': family_planning.Starting},
+        ]
+    },
+    {
+        'title': _("Sanitation and Drinking Water"),
+        'columns': [
+            {'name': _("+SAN (180 days)"), \
+                         'ind': sanitation.UniqueOneEightyDays},
+            {'name': _("+DW (180 days)"),  \
+                         'ind': drinking_water.UniqueOneEightyDays},
+        ]
+    },
+    {
+        'title': _("School Attendance"),
+        'columns': [
+            {'name': _("School Attendance (180 days)"), \
+                         'ind': school_attendance.UniqueOneEightyDays},
         ]
     },
     {
@@ -96,6 +118,12 @@ def report_indicators():
             {'name': _("Tested RDTs"), 'ind': fever.Total},
             {'name': _("Positive RDTs"), 'ind': fever.RdtPositive},
             {'name': _("Anti-malarials Given"), 'ind': medicine_given.Antimalarial},
+            {'name': _("Bednet Coverage (180days)"), \
+                    'ind': bed_net_coverage.UniqueOneEightyDays},
+            {'name': _("Bednet Utilization (180days)"), \
+                    'ind': bed_net_utilization.UniqueOneEightyDays},
+            {'name': _("Bednet Utilization Pregnancy (180days)"),  \
+                    'ind': bed_net_utilization_pregnancy.UniqueOneEightyDays},
         ]
     },
     {

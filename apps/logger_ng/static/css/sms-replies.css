@@ -37,7 +37,7 @@ table.msgs {
     height: 18px;
     background-image: url("../icons/dots.png");
     background-position: center top; }
-    table.msgs div.status.good {
+    table.msgs div.status.good,table.msgs div.status.success {
       background-position: 0 54px; }
     table.msgs div.status.pending {
 	  background-repeat: no-repeat;

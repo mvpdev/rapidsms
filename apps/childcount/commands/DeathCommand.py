@@ -18,7 +18,7 @@ from childcount.utils import clean_names, DOBProcessor
 from childcount.exceptions import BadValue, ParseError
 from childcount.forms.utils import MultipleChoiceField
 from childcount.models import DeadPerson, Patient
-from childcount.utils import alert_health_team
+from childcount.utils import alert_health_team, alert_va_specialist
 
 class DeathCommand(CCCommand):
 
@@ -179,14 +179,15 @@ class DeathCommand(CCCommand):
         self.message.respond(_("You successfuly reported the death of "\
                                 "%(death)s.") % {'death': death}, 'success')
 
-
+        msg = _("Patient %(name)s (age: %(age)s) died on %(dod)s. "\
+                "Contact CHW %(chw)s (%(mobile)s) for more information.") % \
+                {'chw': chw,
+                 'mobile': chw.connection().identity,
+                 'dod': dates.format_date(death.dod, 'short'),
+                 'age': death.humanised_age(),
+                 'name': death.full_name()}
         if death.years() < 5:
-            msg = _("Patient %(name)s (age: %(age)s) died on %(dod)s. "\
-                    "Contact CHW %(chw)s for more information.") % \
-                    {'chw': chw,
-                     'dod': dates.format_date(death.dod, 'short'),
-                     'age': death.humanised_age(),
-                     'name': death.full_name()}
             print "$$$$$$%s" % chw
             alert_health_team("death_command", msg)
+        alert_va_specialist("death_command", msg)
         return True

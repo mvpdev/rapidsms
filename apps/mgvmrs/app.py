@@ -57,7 +57,13 @@ class App (rapidsms.app.App):
             return False
 
         message.respond(u"Launching Encounters queue processing.")
-        send_to_omrs(self.router)
-        message.respond(u"Encounters queue processed.")
+        try:
+            send_to_omrs(self.router)
+        except Exception, e:
+            message.respond(u"OMRS process queue has been stopped "\
+                            "due to: %s" % e)
+            self.log("DEBUG", e)
+        else:
+            message.respond(u"Encounters queue processed.")
 
         

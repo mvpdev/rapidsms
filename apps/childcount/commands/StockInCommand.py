@@ -62,5 +62,6 @@ class StockInCommand(CCCommand):
         self.message.respond(_(u"%(loc)s has received %(q)s%(additional)s"
                                 " nets for distribution. Starting Point:"
                                 "%(sp)s" % {'loc': loc, 'sp': bns.start_point,
-                                'q': quantity, 'additional': additional}))
+                                'q': quantity, 'additional': additional}),
+                                'success')
         return True

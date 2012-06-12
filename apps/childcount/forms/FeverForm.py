@@ -20,7 +20,7 @@ from childcount.models.reports import DangerSignsReport
 from childcount.models.reports import ReferralReport
 from childcount.models.reports import MedicineGivenReport
 from childcount.forms.utils import MultipleChoiceField
-from childcount.utils import send_msg
+from childcount.utils import alert_health_team
 from childcount.exceptions import ParseError, Inapplicable
 
 
@@ -161,9 +161,4 @@ class FeverForm(CCForm):
                                     'chw' : self.chw,
                                     'mobile': self.chw.connection().identity})
             #alert facilitators
-            try:
-                g = Group.objects.get(name='Facilitator')
-                for user in g.user_set.all():
-                    send_msg(user.reporter, msg)
-            except Group.DoesNotExist:
-                pass
+            alert_health_team('feverform', msg)

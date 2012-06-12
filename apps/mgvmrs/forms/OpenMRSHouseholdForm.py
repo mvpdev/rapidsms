@@ -45,6 +45,12 @@ class OpenMRSHouseholdForm(OpenMRSFormInterface):
         'number_of_women_given_bc_pills': (OpenMRSFormInterface.T_NM, None),
         'sleeping_sites': (OpenMRSFormInterface.T_NM, None),
         'bednets': (OpenMRSFormInterface.T_NM, None),
+        'function_nets_observed': (OpenMRSFormInterface.T_NM, None),
+        'slept_underfive_lastnight': (OpenMRSFormInterface.T_NM, None),
+        'undernet_underfive_lastnight': (OpenMRSFormInterface.T_NM, None),
+        'pregnant_slept_lastnight': (OpenMRSFormInterface.T_NM, None),
+        'pregnant_undernet_lastnight': (OpenMRSFormInterface.T_NM, None),
+        
     }
 
 

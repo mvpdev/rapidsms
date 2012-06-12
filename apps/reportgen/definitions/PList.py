@@ -72,24 +72,14 @@ class ReportDefinition(PrintedReport):
         return rval
 
     def _create_patient_table(self):
-        table = Table(5)
+        table = Table(6)
         table.add_header_row([
             Text(_(u'LOC')),
+            Text(_(u'HID')),
             Text(_(u'Name')),
             Text(_(u'Gen.')),
             Text(_(u'Age')),
             Text(_(u'HOH'))])
-
-        '''table.set_column_width(4, 0)
-        table.set_column_width(14, 3)
-        table.set_column_width(4, 4)
-
-        # column alignments
-        table.set_alignment(Table.ALIGN_LEFT, column=0)
-        table.set_alignment(Table.ALIGN_LEFT, column=1)
-        table.set_alignment(Table.ALIGN_LEFT, column=2)
-        table.set_alignment(Table.ALIGN_LEFT, column=3)
-        table.set_alignment(Table.ALIGN_CENTER, column=4)'''
 
         return table
 
@@ -110,6 +100,7 @@ class ReportDefinition(PrintedReport):
         for household in households:
             table.add_row([
                 Text(location, bold=True),
+                Text(household.health_id.upper(), bold=True),
                 Text(household.full_name(), bold=True),
                 Text(household.gender, bold=True),
                 Text(household.humanised_age(), bold=True),
@@ -123,6 +114,7 @@ class ReportDefinition(PrintedReport):
             for patient in hs:
                 table.add_row([
                     Text(location),
+                    Text(patient.health_id.upper()),
                     Text(patient.full_name()),
                     Text(patient.gender),
                     Text(patient.humanised_age()),

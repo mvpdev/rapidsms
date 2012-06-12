@@ -38,6 +38,8 @@ class App (rapidsms.app.App):
        outgoing_message = be.message(pconn.identity, post["text"])
        sent = outgoing_message.send()
        message = LoggedMessage.objects.get(pk=outgoing_message.logger_id)
+       message.status = LoggedMessage.STATUS_INFO
+       message.save()
        alert.outgoing_message = message
        alert.save()
        

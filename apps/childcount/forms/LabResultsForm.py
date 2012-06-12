@@ -7,7 +7,7 @@ from datetime import date, datetime
 
 from childcount.forms import CCForm
 from childcount.models import Encounter
-from childcount.models.reports import LabReport
+from childcount.models.reports import LabReport, LabResultsReport
 
 from childcount.models import LabTest
 from childcount.models import LabTestResults
@@ -53,6 +53,9 @@ class LabResultsForm(CCForm):
             raise ParseError(_(u"You can only send report of LabTest that " \
                                  "have been received and marked INPROGRESS"))
 
+        labresults = LabResultsReport(encounter=self.encounter)
+        labresults.form_group = self.form_group
+
         #Get test that was done
         test = labtest.lab_test
         #check If test has predefined results
@@ -91,8 +94,11 @@ class LabResultsForm(CCForm):
                                     }
 
                 labtest.status = LabReport.STATUS_RESULTS
-                labtest.results = results_string
                 labtest.save()
+                
+                labresults.labtest = labtest
+                labresults.results = results_string
+                labresults.save()
 
                 #Alert originator of the Message
                 if labtest.encounter.chw:
@@ -115,9 +121,12 @@ class LabResultsForm(CCForm):
             results_string = ', '.join([res for res in self.params[2:]])
 
             labtest.status = LabReport.STATUS_RESULTS
-            labtest.results = results_string
-
             labtest.save()
+            
+            labresults.labtest = labtest
+            labresults.results = results_string
+            labresults.save()
+                
             self.response = _(u"Lab Results for %(hh)s, req %(sn)s \
                                     %(test)s: %(res)s  ") \
                                   % {'hh': \

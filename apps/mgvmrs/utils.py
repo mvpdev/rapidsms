@@ -59,14 +59,14 @@ def transmit_form(form):
     # TODO: identify appropriate exceptions
     except:
         raise OpenMRSTransmissionError("Unable to connect to server.")
-
-    try:
-        conn.request("POST", openmrs_config['path_xform_post'] \
+    xform_path = openmrs_config['path_xform_post'] \
                         % {'username': openmrs_config['user'], \
-                           'password': openmrs_config['password']}, \
-                        xml_form, headers)
+                           'password': openmrs_config['password']}
+    try:
+        conn.request("POST", xform_path, xml_form, headers)
     except:
-        raise OpenMRSTransmissionError("Unable to query URI path.")
+        raise OpenMRSTransmissionError("Unable to query URI path. %(path)s" \
+                                        % {'path': xform_path})
 
     response = conn.getresponse()
     data = response.read()

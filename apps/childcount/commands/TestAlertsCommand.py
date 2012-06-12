@@ -74,5 +74,5 @@ class TestAlertsCommand(CCCommand):
                 self.message.respond(_(u"%(chw)s will be notified at" \
                                         " %(time)s") % \
                                 {'chw': chw, \
-                                'time': send_at})
+                                'time': send_at}, 'success')
         return True

@@ -89,6 +89,9 @@ class App(rapidsms.app.App):
                 # Set the response_to foreign key of this logged outgoing
                 # message to the incoming message that it was copied from.
                 msg.response_to = orig_msg
+                # set status for incoming message
+                orig_msg.status = msg.status
+                orig_msg.save()
 
         msg.save()
 

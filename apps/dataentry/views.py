@@ -32,6 +32,31 @@ def post_proxy(request):
     url = "http://%s:%s" % (conf["host"], conf["port"])
 
     data = request.POST.urlencode()
+    print data
+    req = urllib2.Request(url, data)
+    stream = urllib2.urlopen(req)
+
+    return HttpResponse(stream.read(), mimetype="application/json")
+    
+
+def post_commcare(request):
+    ''' HTTP proxy to forward AJAX calls to dataentry backend '''
+
+    if not request.method == 'POST':
+        return HttpResponse(u"POST?")
+
+    conf = {}
+
+    try:
+        conf = settings.RAPIDSMS_CONF['commcare']
+    except:
+        conf['port']  = 1339
+        conf['host'] = 'localhost'
+
+    url = "http://%s:%s" % (conf["host"], conf["port"])
+
+    data = request.POST.urlencode()
+    print data
     req = urllib2.Request(url, data)
     stream = urllib2.urlopen(req)
 

@@ -877,6 +877,9 @@ class NutritionReport(CCReport):
         verbose_name = _(u"Nutrition Report")
         verbose_name_plural = _(u"Nutrition Reports")
 
+    MUAC_MODERATE = 125
+    MUAC_SEVERE = 110
+
     STATUS_MODERATE = 1
     STATUS_SEVERE = 2
     STATUS_SEVERE_COMP = 3
@@ -907,14 +910,26 @@ class NutritionReport(CCReport):
                                  choices=STATUS_CHOICES, blank=True, null=True,\
                                 db_index=True)
 
+    def __init__(self, *args, **kwargs):
+        super(NutritionReport, self).__init__(*args, **kwargs)
+        try:
+            from childcount.models import Configuration
+            moderate = int(Configuration.get('muac_moderate'))
+            severe = int(Configuration.get('muac_severe'))
+            self.MUAC_MODERATE = moderate
+            self.MUAC_SEVERE = severe
+        except:
+            # use default values
+            pass
+
     def diagnose(self):
         '''Diagnosis of the patient'''
         self.status = self.STATUS_HEALTHY
         if self.muac is None or self.muac == 0:
             self.status = None
-        elif self.oedema == 'Y' or self.muac < 110:
+        elif self.oedema == 'Y' or self.muac < self.MUAC_SEVERE + 1:
             self.status = self.STATUS_SEVERE
-        elif self.muac < 125:
+        elif self.muac < self.MUAC_MODERATE + 1:
             self.status = self.STATUS_MODERATE
         print (self.muac, self.oedema, self.status)
 
@@ -1274,7 +1289,7 @@ class BedNetReport(CCReport):
     function_nets_observed = models.PositiveSmallIntegerField( \
                                 _(u"Functioning bednet observed"), \
                                 help_text=_(u"Number of functioning bednet" \
-                                " observed "),db_index=True)
+                                " observed "), db_index=True)
 
     def summary(self):
         return u"%s: %d, %s: %d" % \
@@ -1282,6 +1297,13 @@ class BedNetReport(CCReport):
              self.sleeping_sites, \
              self._meta.get_field_by_name('function_nets')[0].verbose_name, \
              self.function_nets)
+
+    def get_omrs_dict(self):
+        return {
+            'sleeping_sites': self.sleeping_sites,
+            'bednets': self.function_nets,
+            'function_nets_observed': self.function_nets_observed,
+        }
 
 reversion.register(BedNetReport, follow=['ccreport_ptr'])
 
@@ -1325,6 +1347,12 @@ class BednetUtilization(CCReport):
              self._meta.get_field_by_name('child_lastnite')[0].verbose_name, \
              self.child_lastnite)
 
+    def get_omrs_dict(self):
+        return {
+            'slept_underfive_lastnight': self.child_underfive,
+            'undernet_underfive_lastnight': self.child_lastnite,
+        }
+        
 reversion.register(BednetUtilization, follow=['ccreport_ptr'])
 
 
@@ -1352,6 +1380,12 @@ class BednetUtilizationPregnancy(CCReport):
              self.slept_lastnite, \
              self._meta.get_field_by_name('slept_underbednet')[0].verbose_name, \
              self.slept_underbednet)
+
+    def get_omrs_dict(self):
+        return {
+            'pregnant_slept_lastnight': self.slept_lastnite,
+            'pregnant_undernet_lastnight': self.slept_underbednet,
+        }
 
 reversion.register(BednetUtilizationPregnancy, follow=['ccreport_ptr'])
 
@@ -1392,10 +1426,9 @@ class SanitationReport(CCReport):
         (SHARE_YES, _(u"Yes")),
         (SHARE_NO, _(u"No")),
         (SHARE_UNKNOWN, _(u"Unknown")))
-        
 
     toilet_lat = models.CharField(_(u"Toilet Type"), max_length=2, \
-                              choices=TOILET_LAT_CHOICES,\
+                              choices=TOILET_LAT_CHOICES, \
                               db_index=True)
     share_toilet = models.CharField(_(u"Share?"), max_length=1, \
                                         choices=SHARE_CHOICES,\
@@ -1421,6 +1454,7 @@ class DrinkingWaterReport(CCReport):
     PROTECTED_SPRING = 'PS'
     UNPROTECTED_SPRING = 'UP'
     RAIN_COLLECTION = 'RW'
+    RIVER_CANAL = 'RV'
     SURFACE_WATER = 'SU'
     OTHER = 'Z'
 
@@ -1433,7 +1467,8 @@ class DrinkingWaterReport(CCReport):
         (PROTECTED_SPRING, _(u'Protected Spring')),
         (UNPROTECTED_SPRING, _(u'Unprotected spring')),
         (RAIN_COLLECTION, _(u'Rain water collection')),
-        (SURFACE_WATER, _(u'Surface water (river, dam, lake, pond, stream')),
+        (RIVER_CANAL, _(u'River/Canal')),
+        (SURFACE_WATER, _(u'Surface water (dam, lake, pond, stream')),
         (OTHER, _(u'Other')))
 
     TREATMENT_METHOD_BOIL = 'BW'
@@ -1759,20 +1794,11 @@ class SchoolAttendanceReport(CCReport):
         (SECONDARY_SCHOOL, _(u"Secondary School")))
 
         
-    household_pupil = models.PositiveSmallIntegerField(_(u"#School aged " \
+    household_pupil = models.SmallIntegerField(_(u"#School aged " \
                                 "Pupils "), db_index=True, default=0)
     attending_school = models.PositiveSmallIntegerField( \
                                 _(u"#School aged Pupils Attending school "), \
                                 db_index=True, default=0)
-    attendschool_other = models.PositiveSmallIntegerField(_(u"#Under/Over  " \
-                                "school age Pupils Attending school "), \
-                                db_index=True, default=0)
-    school_type = models.CharField(_(u"School Level"), max_length=1, \
-                            choices=SCHOOL_CHOICES, blank=False, null=True, \
-                            db_index=True)
-    reason = models.ManyToManyField('CodedItem', \
-                                          verbose_name=_(u"Reason for not " \
-                                          "attencing school"))
 
 reversion.register(SchoolAttendanceReport, follow=['ccreport_ptr'])
 
@@ -1820,7 +1846,6 @@ class LabReport(CCReport):
     progress_status = models.CharField(_(u'Progress Status'), max_length=2, \
                                         choices = PROGRESS_CHOICES, \
                                         default = PRO_NOSAMPLE)
-    results = models.CharField(_('Results'), max_length = 30, blank = True) 
 
     def __unicode__(self):
         return u"%s >> %s" % (self.lab_test.name, self.encounter.patient)
@@ -1863,6 +1888,23 @@ class LabReport(CCReport):
                    
         return igive
 reversion.register(LabReport, follow=['ccreport_ptr'])
+
+
+class LabResultsReport(CCReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_labresults'
+        verbose_name = _(u"LAB Result Report")
+        verbose_name_plural = _(u"LAB Result Reports")
+
+    labtest = models.ForeignKey('LabReport', verbose_name=_(u"Lab Test"))
+    results = models.CharField(_('Results'), max_length = 50, blank = True) 
+    
+    def __unicode__(self):
+        return u"%s >> %s" % (self.labtest.lab_test.name, self.results)
+        
+reversion.register(LabResultsReport, follow=['ccreport_ptr'])
 
 
 class SpecimenReport(CCReport):

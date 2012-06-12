@@ -67,7 +67,7 @@ class LLNSummaryCommand(CCCommand):
                 bns.start_point, k[item], remaining, bns.end_point)
             _jn = u', '
         if _str != '':
-            self.message.respond(_str)
+            self.message.respond(_str, 'success')
             # facilitators
             try:
                 g = Group.objects.get(name='Facilitator')

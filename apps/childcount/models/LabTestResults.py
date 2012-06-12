@@ -16,8 +16,8 @@ class LabTestResults(models.Model):
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_labtestresults'
-        verbose_name = _(u"Lab Test Result")
-        verbose_name_plural = _(u"Lab Test Results")
+        verbose_name = _(u"TLI: LabTest answers")
+        verbose_name_plural = _(u"TLI: LabTest Answers")
 
    
     test = models.ForeignKey('LabTest', verbose_name=_(u"Lab Test"))

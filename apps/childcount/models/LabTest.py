@@ -14,8 +14,8 @@ class LabTest(models.Model):
     class Meta:
         app_label = 'childcount'
         db_table = 'cc_labtest'
-        verbose_name = _(u"Lab Test")
-        verbose_name_plural = _(u"Lab Tests")
+        verbose_name = _(u"TLI: LabTest")
+        verbose_name_plural = _(u"TLI: LabTests")
 
    
     name = models.CharField(_(u"Test Name"), max_length=30)
