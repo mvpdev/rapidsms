@@ -33,6 +33,10 @@ class DeathCommand(CCCommand):
     gender_field = MultipleChoiceField()
     gender_field.add_choice('en', DeadPerson.GENDER_MALE, 'M')
     gender_field.add_choice('en', DeadPerson.GENDER_FEMALE, 'F')
+    gender_field.add_choice('fr', DeadPerson.GENDER_MALE, 'M')
+    gender_field.add_choice('fr', DeadPerson.GENDER_FEMALE, 'F')
+    gender_field.add_choice('rw', DeadPerson.GENDER_MALE, 'M')
+    gender_field.add_choice('rw', DeadPerson.GENDER_FEMALE, 'F')
 
     SURNAME_FIRST = False
 
