@@ -696,7 +696,7 @@ def change_chw_by_location(request, location):
                 info['status'] = status
                 form = None
                 return HttpResponseRedirect(\
-                    reverse('cc-patients-chw', \
+                    reverse('cc-patients', \
                     kwargs={'chw': nchw.username}))
     else:
         form = ChangeCHWByLocationForm()

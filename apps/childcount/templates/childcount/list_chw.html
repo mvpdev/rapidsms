@@ -26,7 +26,7 @@
 <tbody>
 {% for chw in paginator.object_list %}
 <tr>
-    <td><a href="{% url cc-patients-chw chw.username%}">{{ chw.username }}</a></td>
+    <td><a href="{% url cc-patients chw.username%}">{{ chw.username }}</a></td>
     <td>{{ chw.first_name }}</td>
     <td>{{ chw.last_name }}</td>
     <td>{{ chw.location }}</td>
