@@ -135,6 +135,9 @@ def send_to_omrs(router, *args, **kwargs):
 	    if encounter.patient.last_name == '':
 	        encounter.patient.last_name = encounter.patient.first_name
 	        encounter.patient.save()
+        if encounter.patient.first_name == '':
+            encounter.patient.first_name = encounter.patient.last_name
+            encounter.patient.save()
         try:
             omrsform = omrsformclass(create, encounter.patient.health_id, \
                                         location_id,
