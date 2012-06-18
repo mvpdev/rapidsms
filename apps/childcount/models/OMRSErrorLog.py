@@ -16,12 +16,16 @@ from childcount.models import Encounter
 
 class OMRSErrorLog(models.Model):
 
+    OPENMRS_UNKOWN_ERROR = 0
     OPENMRS_TRANSMISSION_ERROR = 1
     OPENMRS_XFORM_ERROR = 2
+    OPENMRS_UNEXPECTEDVALUE_ERROR = 3
 
     ERROR_CHOICES = (
+        (OPENMRS_UNKOWN_ERROR,    _("UnKnown Error")),
         (OPENMRS_TRANSMISSION_ERROR,    _("Transmission Error")),
         (OPENMRS_XFORM_ERROR,    _("XForm Module Error")),
+        (OPENMRS_UNEXPECTEDVALUE_ERROR,    _("UnexpectedValueError")),
     )
 
     class Meta:
