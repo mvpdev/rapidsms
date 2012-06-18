@@ -50,6 +50,8 @@ class OpenMRSHouseholdForm(OpenMRSFormInterface):
         'undernet_underfive_lastnight': (OpenMRSFormInterface.T_NM, None),
         'pregnant_slept_lastnight': (OpenMRSFormInterface.T_NM, None),
         'pregnant_undernet_lastnight': (OpenMRSFormInterface.T_NM, None),
+        'attend_school': (OpenMRSFormInterface.T_NM, None),
+        'dont_attend_school': (OpenMRSFormInterface.T_NM, None),
         
     }
 

@@ -1800,6 +1800,15 @@ class SchoolAttendanceReport(CCReport):
                                 _(u"#School aged Pupils Attending school "), \
                                 db_index=True, default=0)
 
+    def get_omrs_dict(self):
+        igive = {}
+        if self.household_pupil != -1:
+            dont_attend = self.household_pupil - self.attending_school
+            igive.update({'attend_school': attending_school})
+            igive.update({'dont_attend_school': dont_attend})
+            
+        return igive
+
 reversion.register(SchoolAttendanceReport, follow=['ccreport_ptr'])
 
 
