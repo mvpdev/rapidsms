@@ -52,6 +52,11 @@ class OpenMRSHouseholdForm(OpenMRSFormInterface):
         'pregnant_undernet_lastnight': (OpenMRSFormInterface.T_NM, None),
         'attend_school': (OpenMRSFormInterface.T_NM, None),
         'dont_attend_school': (OpenMRSFormInterface.T_NM, None),
+        'toilet_facility': (OpenMRSFormInterface.T_NM, None),
+        'share_toilet_facility': (OpenMRSFormInterface.T_CWE, (YES, NO)),
+        'water_source': (OpenMRSFormInterface.T_NM, None),
+        'treat_water':  (OpenMRSFormInterface.T_CWE, (YES, NO)),
+        'treat_water_method': (OpenMRSFormInterface.T_NM, None),
         
     }
 

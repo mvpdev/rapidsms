@@ -1434,7 +1434,18 @@ class SanitationReport(CCReport):
                                         choices=SHARE_CHOICES,\
                                         db_index=True, default=SHARE_UNKNOWN, \
                                     help_text=_(u"Do you share the toilet "))
-                                
+    def get_omrs_dict(self):
+        if self.share_toilet == self.SHARE_YES:
+            share = OpenMRSHouseholdForm.YES
+        else:
+            share = OpenMRSHouseholdForm.NO
+        san = {
+            'share_toilet_facility': share,
+        }
+        san.update({'toilet_facility': self.toilet_lat})
+
+        return san
+                                        
 reversion.register(SanitationReport, follow=['ccreport_ptr'])
 
 
@@ -1509,6 +1520,19 @@ class DrinkingWaterReport(CCReport):
                                 blank=True, db_index=True, \
                                 default=TREATMENT_METHOD_DONTKNOW)
 
+    def get_omrs_dict(self):
+        if self.treat_water == self.TREAT_YES:
+            treat = OpenMRSHouseholdForm.YES
+        else:
+            treat = OpenMRSHouseholdForm.NO
+        info = {
+            'treat_water': treat,
+        }
+        info.update({'treat_water_method': self.treatment_method})
+        info.update({'water_source': self.water_source})
+
+        return info
+        
 reversion.register(DrinkingWaterReport, follow=['ccreport_ptr'])
 
 
@@ -1804,7 +1828,7 @@ class SchoolAttendanceReport(CCReport):
         igive = {}
         if self.household_pupil != -1:
             dont_attend = self.household_pupil - self.attending_school
-            igive.update({'attend_school': attending_school})
+            igive.update({'attend_school': self.attending_school})
             igive.update({'dont_attend_school': dont_attend})
             
         return igive
