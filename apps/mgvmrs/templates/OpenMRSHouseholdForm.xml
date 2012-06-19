@@ -171,7 +171,7 @@
         <time xsi:nil="true"></time>
         <value xsi:nil="true">{{ attend_school }}</value>
     </total_children_age_between_3_and_20_years_attending_school>
-    {% if attend_school %}
+     {% endif %}
     
     {% if dont_attend_school %}
     <school_age_but_not_in_school openmrs_concept="159467^School age but not in school^99DCT" openmrs_datatype="ZZ">
@@ -179,7 +179,48 @@
         <time xsi:nil="true"></time>
         <value xsi:nil="true">{{ dont_attend_school }}</value>
     </school_age_but_not_in_school>
-    {% if dont_attend_school %}
+     {% endif %}
+    
+    {% if toilet_facility %}
+    <type_of_toilet_facility openmrs_concept="159741^type of toilet facility^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true"></date>
+        <time xsi:nil="true"></time>
+        <value xsi:nil="true">{{ toilet_facility }}</value>
+    </type_of_toilet_facility>
+     {% endif %}
+
+    {% if share_toilet_facility %}       
+    <toilet_slash_latrine_shared_with_other_households openmrs_concept="160258^Toilet/latrine shared with other household(s)^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true"></date>
+        <time xsi:nil="true"></time>
+        <value xsi:nil="true">{{ share_toilet_facility }}</value>
+    </toilet_slash_latrine_shared_with_other_households>
+     {% endif %}
+
+    {% if water_source %}      
+    <primary_source_of_water_used_for_drinking openmrs_concept="1511^PRIMARY SOURCE OF WATER USED FOR DRINKING^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true"></date>
+        <time xsi:nil="true"></time>
+        <value xsi:nil="true">{{ water_source }}</value>
+    </primary_source_of_water_used_for_drinking>
+     {% endif %}
+          
+    {% if treat_water %}  
+    <drinking_water_treatment_performed openmrs_concept="160313^Drinking water treatment performed^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true"></date>
+        <time xsi:nil="true"></time>
+        <value xsi:nil="true">{{ treat_water }}</value>
+    </drinking_water_treatment_performed>
+      {% endif %}
+         
+    {% if treat_water_method %}  
+    <type_of_drinking_water_treatment openmrs_concept="160316^Type of drinking water treatment^99DCT" openmrs_datatype="CWE" multiple="0">
+        <date xsi:nil="true"></date>
+        <time xsi:nil="true"></time>
+        <value xsi:nil="true">{{ treat_water_method }}</value>
+    </type_of_drinking_water_treatment>
+     {% endif %}
+         
   </obs>
   <other/>
 </form>
