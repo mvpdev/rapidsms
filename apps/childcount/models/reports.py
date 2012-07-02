@@ -912,14 +912,17 @@ class NutritionReport(CCReport):
 
     def __init__(self, *args, **kwargs):
         super(NutritionReport, self).__init__(*args, **kwargs)
+        from childcount.models import Configuration
         try:
-            from childcount.models import Configuration
             moderate = int(Configuration.get('muac_moderate'))
-            severe = int(Configuration.get('muac_severe'))
             self.MUAC_MODERATE = moderate
-            self.MUAC_SEVERE = severe
-        except:
+        except Configuration.DoesNotExist:
             # use default values
+            pass
+        try:
+            severe = int(Configuration.get('muac_severe'))
+            self.MUAC_SEVERE = severe
+        except Configuration.DoesNotExist:
             pass
 
     def diagnose(self):
