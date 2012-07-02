@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: STAGE G\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-15 16:56+0300\n"
+"POT-Creation-Date: 2012-07-02 09:20+0300\n"
 "PO-Revision-Date: 2011-07-01 15:50+0300\n"
 "Last-Translator: Temesgen G <tngebeyehu@gmail.com>\n"
 "Language-Team: CHILD COUNT TEAM\n"
@@ -419,87 +419,87 @@ msgid ""
 "%(d)d."
 msgstr ""
 
-#: commands/DeathCommand.py:46
+#: commands/DeathCommand.py:50
 msgid ""
 "dead person names | gender | age or DOB | date_of_death | [head_of_household]"
 msgstr ""
 
-#: commands/DeathCommand.py:49
+#: commands/DeathCommand.py:53
 #, python-format
 msgid "Not enough information. Expected: %(keyword)s %(expected)s"
 msgstr ""
 
-#: commands/DeathCommand.py:65 forms/PatientRegistrationForm.py:120
+#: commands/DeathCommand.py:69 forms/PatientRegistrationForm.py:120
 #, python-format
 msgid "You must indicate gender after the name with a %(choices)s."
 msgstr ""
 
-#: commands/DeathCommand.py:74 forms/PatientRegistrationForm.py:129
+#: commands/DeathCommand.py:78 forms/PatientRegistrationForm.py:129
 #, python-format
 msgid "Message not understood. Expected: %(expected)s"
 msgstr ""
 
-#: commands/DeathCommand.py:82 forms/PatientRegistrationForm.py:156
+#: commands/DeathCommand.py:86 forms/PatientRegistrationForm.py:156
 #, python-format
 msgid "Could not understand age or date_of_birth of %(string)s."
 msgstr ""
 
-#: commands/DeathCommand.py:90 forms/PatientRegistrationForm.py:164
+#: commands/DeathCommand.py:94 forms/PatientRegistrationForm.py:164
 msgid "You must provide a patient name before their sex."
 msgstr "ቅድሚ ፆታ ናይ ሕሙም ስም ኣቐድም።"
 
-#: commands/DeathCommand.py:107
+#: commands/DeathCommand.py:111
 msgid "You must provide the date of death"
 msgstr "ዝሞትሉ ዕለት ኣእቲ"
 
-#: commands/DeathCommand.py:109 commands/DeathCommand.py:117
+#: commands/DeathCommand.py:113 commands/DeathCommand.py:121
 #, python-format
 msgid ""
 "Could not understand date_of_death of %(string)s. Please provide an exact "
 "date of death in the format DDMMYY."
 msgstr ""
 
-#: commands/DeathCommand.py:123
+#: commands/DeathCommand.py:127
 #, python-format
 msgid "Could not understand date_of_death of %(string)s."
 msgstr ""
 
-#: commands/DeathCommand.py:141 forms/PatientRegistrationForm.py:203
+#: commands/DeathCommand.py:145 forms/PatientRegistrationForm.py:203
 #, python-format
 msgid ""
 "Could not find head of household with health ID %(id)s. You must first "
 "register the head of household."
 msgstr ""
 
-#: commands/DeathCommand.py:148 forms/PatientRegistrationForm.py:210
+#: commands/DeathCommand.py:152 forms/PatientRegistrationForm.py:210
 #, python-format
 msgid ""
 "The head of household you specified is too young to be a head of household "
 "(%(hh)s)."
 msgstr ""
 
-#: commands/DeathCommand.py:154
+#: commands/DeathCommand.py:158
 #, python-format
 msgid ""
 "The head of household you specified (%(hh)s) is not a head of household. "
 "Their head of household is (%(hhhh)s). "
 msgstr ""
 
-#: commands/DeathCommand.py:168 forms/PatientRegistrationForm.py:233
+#: commands/DeathCommand.py:172 forms/PatientRegistrationForm.py:233
 msgid "you"
 msgstr ""
 
-#: commands/DeathCommand.py:171
+#: commands/DeathCommand.py:175
 #, python-format
 msgid "%(name)s %(sex)s/%(age)s was already reported by %(chw)s. "
 msgstr ""
 
-#: commands/DeathCommand.py:179
+#: commands/DeathCommand.py:183
 #, python-format
 msgid "You successfuly reported the death of %(death)s."
 msgstr ""
 
-#: commands/DeathCommand.py:182
+#: commands/DeathCommand.py:186
 #, python-format
 msgid ""
 "Patient %(name)s (age: %(age)s) died on %(dod)s. Contact CHW %(chw)s "
@@ -5097,7 +5097,7 @@ msgstr ""
 msgid "Age"
 msgstr ""
 
-#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:33
+#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:37
 #: models/reports.py:187
 msgid "Encounter"
 msgstr ""
@@ -5341,23 +5341,32 @@ msgstr ""
 msgid "Results Range "
 msgstr ""
 
-#: models/OMRSErrorLog.py:23
+#: models/OMRSErrorLog.py:25
+#, fuzzy
+msgid "UnKnown Error"
+msgstr "ኣይፍለጥን"
+
+#: models/OMRSErrorLog.py:26
 msgid "Transmission Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:24
+#: models/OMRSErrorLog.py:27
 msgid "XForm Module Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:30 models/OMRSErrorLog.py:31
+#: models/OMRSErrorLog.py:28
+msgid "UnexpectedValueError"
+msgstr ""
+
+#: models/OMRSErrorLog.py:34 models/OMRSErrorLog.py:35
 msgid "OMRS Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:34
+#: models/OMRSErrorLog.py:38
 msgid "Error Type"
 msgstr ""
 
-#: models/OMRSErrorLog.py:36
+#: models/OMRSErrorLog.py:40
 msgid "Error message"
 msgstr ""
 

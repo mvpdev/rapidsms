@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Childcount+\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-15 16:56+0300\n"
+"POT-Creation-Date: 2012-07-02 09:20+0300\n"
 "PO-Revision-Date: 2011-11-12 14:50+0300\n"
 "Last-Translator: benjamin <ben.rukundo@yahoo.fr>\n"
 "Language-Team: Kinyarwanda\n"
@@ -467,42 +467,42 @@ msgstr ""
 "Kuri ubu umujyanama w'ubuzima ukurikirana aba %(n)d barwayi ni %(chw)s "
 "itariki bahuriraho %(y)d-%(m)d-%(d)d."
 
-#: commands/DeathCommand.py:46
+#: commands/DeathCommand.py:50
 msgid ""
 "dead person names | gender | age or DOB | date_of_death | [head_of_household]"
 msgstr ""
 "noms des personnes décédées | genre | âge ou DDN | date_du_décès | "
 "[chef_de_ménage]"
 
-#: commands/DeathCommand.py:49
+#: commands/DeathCommand.py:53
 #, python-format
 msgid "Not enough information. Expected: %(keyword)s %(expected)s"
 msgstr "Amakuru adahagije. Hategerejwe: %(keyword)s %(expected)s"
 
-#: commands/DeathCommand.py:65 forms/PatientRegistrationForm.py:120
+#: commands/DeathCommand.py:69 forms/PatientRegistrationForm.py:120
 #, python-format
 msgid "You must indicate gender after the name with a %(choices)s."
 msgstr "Ugomba kwerekana igitsina nyuma y'izina rifite %(choices)s"
 
-#: commands/DeathCommand.py:74 forms/PatientRegistrationForm.py:129
+#: commands/DeathCommand.py:78 forms/PatientRegistrationForm.py:129
 #, python-format
 msgid "Message not understood. Expected: %(expected)s"
 msgstr "Ubutumwa ntibusobanutse. Hategerejwe: %(expected)s"
 
-#: commands/DeathCommand.py:82 forms/PatientRegistrationForm.py:156
+#: commands/DeathCommand.py:86 forms/PatientRegistrationForm.py:156
 #, python-format
 msgid "Could not understand age or date_of_birth of %(string)s."
 msgstr "Ntitwashoboye kumenya imyaka cyangwa itariki y'amavuko ya %(string)s."
 
-#: commands/DeathCommand.py:90 forms/PatientRegistrationForm.py:164
+#: commands/DeathCommand.py:94 forms/PatientRegistrationForm.py:164
 msgid "You must provide a patient name before their sex."
 msgstr "Ugomba kubanza izina ry'umurwayi mbere y'igitsina."
 
-#: commands/DeathCommand.py:107
+#: commands/DeathCommand.py:111
 msgid "You must provide the date of death"
 msgstr "Ugomba kugaragaza itariki yapfiriyeho"
 
-#: commands/DeathCommand.py:109 commands/DeathCommand.py:117
+#: commands/DeathCommand.py:113 commands/DeathCommand.py:121
 #, python-format
 msgid ""
 "Could not understand date_of_death of %(string)s. Please provide an exact "
@@ -511,12 +511,12 @@ msgstr ""
 "Ntitwashoboye kumenya itariki y'urupfu rwa %(string)s: andika neza itariki "
 "y'urupfu ubanze itariki ukurikizeho ukwezi haheruke umwaka."
 
-#: commands/DeathCommand.py:123
+#: commands/DeathCommand.py:127
 #, python-format
 msgid "Could not understand date_of_death of %(string)s."
 msgstr "Ntitwashoboye kumenya itariki %(string)s yapfiriye"
 
-#: commands/DeathCommand.py:141 forms/PatientRegistrationForm.py:203
+#: commands/DeathCommand.py:145 forms/PatientRegistrationForm.py:203
 #, python-format
 msgid ""
 "Could not find head of household with health ID %(id)s. You must first "
@@ -525,7 +525,7 @@ msgstr ""
 "Ntitwashoboye kubona ukuriye urugo ufite nomero %(id)s. Ukuriye urugo agomba "
 "kubanza kwinjizwa mu cyuma."
 
-#: commands/DeathCommand.py:148 forms/PatientRegistrationForm.py:210
+#: commands/DeathCommand.py:152 forms/PatientRegistrationForm.py:210
 #, python-format
 msgid ""
 "The head of household you specified is too young to be a head of household "
@@ -534,7 +534,7 @@ msgstr ""
 "Uwo wavuze ko akuriye urugo afite imyaka mike cyane ku buryo adashobora "
 "kugira urugo (%(hh)s)."
 
-#: commands/DeathCommand.py:154
+#: commands/DeathCommand.py:158
 #, python-format
 msgid ""
 "The head of household you specified (%(hh)s) is not a head of household. "
@@ -542,21 +542,21 @@ msgid ""
 msgstr ""
 "Ukuriye urugo wavuze (%(hh)s) siwe urukuriye. Ukuriye urugo ni (%(hhhh)s)."
 
-#: commands/DeathCommand.py:168 forms/PatientRegistrationForm.py:233
+#: commands/DeathCommand.py:172 forms/PatientRegistrationForm.py:233
 msgid "you"
 msgstr "mwebwe"
 
-#: commands/DeathCommand.py:171
+#: commands/DeathCommand.py:175
 #, python-format
 msgid "%(name)s %(sex)s/%(age)s was already reported by %(chw)s. "
 msgstr "%(name)s %(sex)s/%(age)s byamaze kugaragazwa muri raporo ya %(chw)s"
 
-#: commands/DeathCommand.py:179
+#: commands/DeathCommand.py:183
 #, python-format
 msgid "You successfuly reported the death of %(death)s."
 msgstr "Raporo yawe yagaragaje neza urupfu rwa %(death)s"
 
-#: commands/DeathCommand.py:182
+#: commands/DeathCommand.py:186
 #, fuzzy, python-format
 msgid ""
 "Patient %(name)s (age: %(age)s) died on %(dod)s. Contact CHW %(chw)s "
@@ -5735,7 +5735,7 @@ msgstr "Izina"
 msgid "Age"
 msgstr "Age"
 
-#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:33
+#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:37
 #: models/reports.py:187
 msgid "Encounter"
 msgstr "Isuzuma"
@@ -5984,23 +5984,32 @@ msgstr ""
 msgid "Results Range "
 msgstr "Ibisubizo byabonetse"
 
-#: models/OMRSErrorLog.py:23
+#: models/OMRSErrorLog.py:25
+#, fuzzy
+msgid "UnKnown Error"
+msgstr "Ntibisobanutse namba."
+
+#: models/OMRSErrorLog.py:26
 msgid "Transmission Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:24
+#: models/OMRSErrorLog.py:27
 msgid "XForm Module Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:30 models/OMRSErrorLog.py:31
+#: models/OMRSErrorLog.py:28
+msgid "UnexpectedValueError"
+msgstr ""
+
+#: models/OMRSErrorLog.py:34 models/OMRSErrorLog.py:35
 msgid "OMRS Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:34
+#: models/OMRSErrorLog.py:38
 msgid "Error Type"
 msgstr ""
 
-#: models/OMRSErrorLog.py:36
+#: models/OMRSErrorLog.py:40
 #, fuzzy
 msgid "Error message"
 msgstr "Ubutumwa"

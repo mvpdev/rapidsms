@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Childcount+\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-15 16:56+0300\n"
+"POT-Creation-Date: 2012-07-02 09:20+0300\n"
 "PO-Revision-Date: 2011-11-21 12:45-0000\n"
 "Last-Translator: Casey Iiams-Hauser <cbi2103@columbia.edu>\n"
 "Language-Team: French <FR@li.org>\n"
@@ -473,42 +473,42 @@ msgstr ""
 "Changement de l'ASC pour %(n)d patients vers%(chw)s avec comme date de "
 "consultation %(y)d-%(m)d-%(d)d."
 
-#: commands/DeathCommand.py:46
+#: commands/DeathCommand.py:50
 msgid ""
 "dead person names | gender | age or DOB | date_of_death | [head_of_household]"
 msgstr ""
 "noms des personnes décédées | sexe | âge ou DDN | date_du_décès | "
 "[chef_de_famille]"
 
-#: commands/DeathCommand.py:49
+#: commands/DeathCommand.py:53
 #, python-format
 msgid "Not enough information. Expected: %(keyword)s %(expected)s"
 msgstr "Pas assez d'information. Requis: %(keyword)s %(expected)s"
 
-#: commands/DeathCommand.py:65 forms/PatientRegistrationForm.py:120
+#: commands/DeathCommand.py:69 forms/PatientRegistrationForm.py:120
 #, python-format
 msgid "You must indicate gender after the name with a %(choices)s."
 msgstr "Vous devez indiquer le sexe après le nom avec un %(choices)s."
 
-#: commands/DeathCommand.py:74 forms/PatientRegistrationForm.py:129
+#: commands/DeathCommand.py:78 forms/PatientRegistrationForm.py:129
 #, python-format
 msgid "Message not understood. Expected: %(expected)s"
 msgstr "Message non compris. Requis: %(expected)s"
 
-#: commands/DeathCommand.py:82 forms/PatientRegistrationForm.py:156
+#: commands/DeathCommand.py:86 forms/PatientRegistrationForm.py:156
 #, python-format
 msgid "Could not understand age or date_of_birth of %(string)s."
 msgstr "Impossible de  comprendre l'âge ou la date_de_naissance %(string)s."
 
-#: commands/DeathCommand.py:90 forms/PatientRegistrationForm.py:164
+#: commands/DeathCommand.py:94 forms/PatientRegistrationForm.py:164
 msgid "You must provide a patient name before their sex."
 msgstr "Vous devez stipuler le nom du patient avant le sexe"
 
-#: commands/DeathCommand.py:107
+#: commands/DeathCommand.py:111
 msgid "You must provide the date of death"
 msgstr "Vous devez fournir la date de décès"
 
-#: commands/DeathCommand.py:109 commands/DeathCommand.py:117
+#: commands/DeathCommand.py:113 commands/DeathCommand.py:121
 #, python-format
 msgid ""
 "Could not understand date_of_death of %(string)s. Please provide an exact "
@@ -517,12 +517,12 @@ msgstr ""
 "Impossible de  comprendre la date_de_décès de %(string)s. Veuillez fournir "
 "une date exacte de décès au format JJMMAA."
 
-#: commands/DeathCommand.py:123
+#: commands/DeathCommand.py:127
 #, python-format
 msgid "Could not understand date_of_death of %(string)s."
 msgstr "Impossible de  comprendre la date_de_décès de %(string)s."
 
-#: commands/DeathCommand.py:141 forms/PatientRegistrationForm.py:203
+#: commands/DeathCommand.py:145 forms/PatientRegistrationForm.py:203
 #, python-format
 msgid ""
 "Could not find head of household with health ID %(id)s. You must first "
@@ -531,7 +531,7 @@ msgstr ""
 "Impossible de trouver un chef de famille avec l’identifiant de santé %(id)s. "
 "Vous devez d’abord enregistrer le chef de famille."
 
-#: commands/DeathCommand.py:148 forms/PatientRegistrationForm.py:210
+#: commands/DeathCommand.py:152 forms/PatientRegistrationForm.py:210
 #, python-format
 msgid ""
 "The head of household you specified is too young to be a head of household "
@@ -540,7 +540,7 @@ msgstr ""
 "Le chef de famille que vous avez spécifié est trop jeune pour être chef de "
 "famille (%(hh)s)."
 
-#: commands/DeathCommand.py:154
+#: commands/DeathCommand.py:158
 #, python-format
 msgid ""
 "The head of household you specified (%(hh)s) is not a head of household. "
@@ -549,21 +549,21 @@ msgstr ""
 "Le chef de ménage que vous avez spécifié (%(hh)s) n'est pas un chef de "
 "ménage. Leur chef de ménage est (%(hhhh)s)."
 
-#: commands/DeathCommand.py:168 forms/PatientRegistrationForm.py:233
+#: commands/DeathCommand.py:172 forms/PatientRegistrationForm.py:233
 msgid "you"
 msgstr "Vous"
 
-#: commands/DeathCommand.py:171
+#: commands/DeathCommand.py:175
 #, python-format
 msgid "%(name)s %(sex)s/%(age)s was already reported by %(chw)s. "
 msgstr "%(name)s %(sex)s/%(age)s a déjà été soumis par %(chw)s."
 
-#: commands/DeathCommand.py:179
+#: commands/DeathCommand.py:183
 #, python-format
 msgid "You successfuly reported the death of %(death)s."
 msgstr "Vous avez signalé le décès de %(death)s avec succès"
 
-#: commands/DeathCommand.py:182
+#: commands/DeathCommand.py:186
 #, fuzzy, python-format
 msgid ""
 "Patient %(name)s (age: %(age)s) died on %(dod)s. Contact CHW %(chw)s "
@@ -5770,7 +5770,7 @@ msgstr "Nom"
 msgid "Age"
 msgstr "âge"
 
-#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:33
+#: models/Encounter.py:27 models/FormGroup.py:41 models/OMRSErrorLog.py:37
 #: models/reports.py:187
 msgid "Encounter"
 msgstr "Consultation"
@@ -6023,24 +6023,33 @@ msgstr ""
 msgid "Results Range "
 msgstr "Résultats reçus"
 
-#: models/OMRSErrorLog.py:23
+#: models/OMRSErrorLog.py:25
+#, fuzzy
+msgid "UnKnown Error"
+msgstr "Inconnu"
+
+#: models/OMRSErrorLog.py:26
 msgid "Transmission Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:24
+#: models/OMRSErrorLog.py:27
 msgid "XForm Module Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:30 models/OMRSErrorLog.py:31
+#: models/OMRSErrorLog.py:28
+msgid "UnexpectedValueError"
+msgstr ""
+
+#: models/OMRSErrorLog.py:34 models/OMRSErrorLog.py:35
 msgid "OMRS Error"
 msgstr ""
 
-#: models/OMRSErrorLog.py:34
+#: models/OMRSErrorLog.py:38
 #, fuzzy
 msgid "Error Type"
 msgstr "message"
 
-#: models/OMRSErrorLog.py:36
+#: models/OMRSErrorLog.py:40
 #, fuzzy
 msgid "Error message"
 msgstr "message"
