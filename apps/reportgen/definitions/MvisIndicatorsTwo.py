@@ -45,11 +45,11 @@ class ReportDefinition(PrintedReport):
         )),
          (_("Pregnancy"), (
             registration.HasPregnancy,
-            household.HasPregnancy,
+            household.PregnancyUnique_visit,
         )),
         (_("Neonatal"), (
             registration.HasNeonatal,
-            household.HasNeonatal,
+            household.NeonatalUnique_visit,
         )),
     )
 

@@ -268,8 +268,6 @@ class UnderFiveUnique_visit(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         households =  data_in\
-            .created_before(period.end)\
-            .alive(period.start, period.end)\
             .under_five(period.start, period.end)\
             .values('household')\
             .distinct()
@@ -284,7 +282,7 @@ class UnderFiveUnique_visit(Indicator):
             .count()
 
 
-class HasPregnancy(Indicator):
+class PregnancyUnique_visit(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
 
@@ -309,7 +307,7 @@ class HasPregnancy(Indicator):
             .count()
 
 
-class HasNeonatal(Indicator):
+class NeonatalUnique_visit(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
 
@@ -320,8 +318,6 @@ class HasNeonatal(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         households =  data_in\
-            .created_before(period.end)\
-            .alive(period.start, period.end)\
             .neonatal(period.start, period.end)\
             .values('household')\
             .distinct()

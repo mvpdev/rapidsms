@@ -166,8 +166,6 @@ class HasUnderFive(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         households =  data_in\
-            .created_before(period.end)\
-            .alive(period.start, period.end)\
             .under_five(period.start, period.end)\
             .values('household')\
             .distinct()
@@ -208,8 +206,6 @@ class HasNeonatal(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         households =  data_in\
-            .created_before(period.end)\
-            .alive(period.start, period.end)\
             .neonatal(period.start, period.end)\
             .values('household')\
             .distinct()
