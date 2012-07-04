@@ -230,3 +230,109 @@ class OnTimePerc(IndicatorPercentage):
     cls_num     = OnTime
     cls_den     = registration.Household
 
+
+class HasUnderFive(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "hasunderfive"
+    short_name  = _("Underfive")
+    long_name   = _("Total Unique Visits for last 30 days")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .alive(period.start, period.end)\
+            .under_five(period.start, period.end)\
+            .value('household')\
+            .distinct()
+
+        return HouseholdVisitReport\
+            .objects\
+            .filter(encounter__patient__health_id__in=households,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(30))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()
+
+
+class UnderFiveUnique_visit(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "hasunderfive"
+    short_name  = _("Unique Household Visit #UnderFive")
+    long_name   = _("Unique Household Visits with UnderFive for last 30 days")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .under_five(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return HouseholdVisitReport\
+            .objects\
+            .filter(encounter__patient__health_id__in=households,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(30))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()
+
+
+class HasPregnancy(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "haspregnancy"
+    short_name  = _("Unique Household Visit #Pregnancy")
+    long_name   = _("Unique Household visit with Pregnancy for last 30 days")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .pregnant(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return HouseholdVisitReport\
+            .objects\
+            .filter(encounter__patient__health_id__in=households,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(30))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()
+
+
+class HasNeonatal(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "hasneonatal"
+    short_name  = _("Unique Household Visit #Neonatal")
+    long_name   = _("Unique Household visit with Neonatal for last 7 days")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .neonatal(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return HouseholdVisitReport\
+            .objects\
+            .filter(encounter__patient__health_id__in=households,\
+                encounter__encounter_date__lte=period.end,
+                encounter__encounter_date__gt=period.end - timedelta(7))\
+            .values('encounter__patient')\
+            .distinct()\
+            .count()

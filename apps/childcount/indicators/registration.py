@@ -154,3 +154,68 @@ class Mobile(Indicator):
             .exclude(mobile__isnull=True)\
             .count()
 
+
+class HasUnderFive(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "hasunderfive"
+    short_name  = _("Household with Underfive")
+    long_name   = _("Total Household with underfive as at period end")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .under_five(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return data_in.filter(health_id__in=households)\
+            .distinct()\
+            .count()
+
+
+class HasPregnancy(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "haspregnancy"
+    short_name  = _("Household with Pregnancy")
+    long_name   = _("Total Household with Pregnancy as at period end")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .pregnant(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return data_in.filter(health_id__in=households)\
+            .distinct()\
+            .count()
+
+
+class HasNeonatal(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "hasneonatal"
+    short_name  = _("Household with Neonatal")
+    long_name   = _("Total Household with Neonatal as at period end")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        households =  data_in\
+            .created_before(period.end)\
+            .alive(period.start, period.end)\
+            .neonatal(period.start, period.end)\
+            .values('household')\
+            .distinct()
+
+        return data_in.filter(health_id__in=households)\
+            .distinct()\
+            .count()
