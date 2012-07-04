@@ -295,8 +295,6 @@ class HasPregnancy(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         households =  data_in\
-            .created_before(period.end)\
-            .alive(period.start, period.end)\
             .pregnant(period.start, period.end)\
             .values('household')\
             .distinct()
