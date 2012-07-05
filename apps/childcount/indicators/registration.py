@@ -160,7 +160,7 @@ class HasUnderFive(Indicator):
     type_out    = int
 
     slug        = "hasunderfive"
-    short_name  = _("Household with Underfive")
+    short_name  = _("HH with under 5")
     long_name   = _("Total Household with underfive as at period end")
 
     @classmethod
@@ -180,7 +180,7 @@ class HasPregnancy(Indicator):
     type_out    = int
 
     slug        = "haspregnancy"
-    short_name  = _("Household with Pregnancy")
+    short_name  = _("HH with pregnancy")
     long_name   = _("Total Household with Pregnancy as at period end")
 
     @classmethod
@@ -200,7 +200,7 @@ class HasNeonatal(Indicator):
     type_out    = int
 
     slug        = "hasneonatal"
-    short_name  = _("Household with Neonatal")
+    short_name  = _("HH with neonate")
     long_name   = _("Total Household with Neonatal as at period end")
 
     @classmethod

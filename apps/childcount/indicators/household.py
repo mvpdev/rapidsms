@@ -236,7 +236,7 @@ class HasUnderFive(Indicator):
     type_out    = int
 
     slug        = "hasunderfive"
-    short_name  = _("Underfive")
+    short_name  = _("HH with under 5 visited last 30 days")
     long_name   = _("Total Unique Visits for last 30 days")
 
     @classmethod
@@ -262,7 +262,7 @@ class UnderFiveUnique_visit(Indicator):
     type_out    = int
 
     slug        = "hasunderfive"
-    short_name  = _("Unique Household Visit #UnderFive")
+    short_name  = _("HH with under 5 visited last 30 days")
     long_name   = _("Unique Household Visits with UnderFive for last 30 days")
 
     @classmethod
@@ -287,7 +287,7 @@ class PregnancyUnique_visit(Indicator):
     type_out    = int
 
     slug        = "haspregnancy"
-    short_name  = _("Unique Household Visit #Pregnancy")
+    short_name  = _("HH with pregnancy visited last 30 days")
     long_name   = _("Unique Household visit with Pregnancy for last 30 days")
 
     @classmethod
@@ -312,7 +312,7 @@ class NeonatalUnique_visit(Indicator):
     type_out    = int
 
     slug        = "hasneonatal"
-    short_name  = _("Unique Household Visit #Neonatal")
+    short_name  = _("HH with neonate visited last 7 days")
     long_name   = _("Unique Household visit with Neonatal for last 7 days")
 
     @classmethod
