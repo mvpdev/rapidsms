@@ -139,6 +139,35 @@ used in the CHW reports.
 """
 
 
+def report_indicators_two():
+    return (
+    {
+        'title': _("Under Five"),
+        'columns': [
+            {'name': _("HH with under 5"), 'ind': registration.HasUnderFive},
+            {'name': _("HH with under 5 visited last 30 days"), \
+                                     'ind': household.UnderFiveUnique_visit},
+        ]
+    },
+    {
+        'title': _("Pregnancy"),
+        'columns': [
+            {'name': _("HH with pregnancy"), 'ind': registration.HasPregnancy},
+            {'name': _("HH with pregnancy visited last 30 days"), \
+                            'ind': household.UnderFiveUnique_visit},
+        ]
+    },
+    {
+        'title': _("Neonatal"),
+        'columns': [
+            {'name': _("HH with neonate"), 'ind': registration.HasNeonatal},
+            {'name': _("HH with neonate visited last 7 days"), \
+                            'ind': household.NeonatalUnique_visit},
+        ]
+    },
+)
+
+
 def pregnant_needing_anc(period, chw):
     """Get a list of women assigned to this CHW
     who are in their 2nd or 3rd trimester of pregnancy
