@@ -165,12 +165,9 @@ class HasUnderFive(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        households =  data_in\
+        return data_in\
             .under_five(period.start, period.end)\
             .values('household')\
-            .distinct()
-
-        return data_in.filter(health_id__in=households)\
             .distinct()\
             .count()
 
@@ -185,12 +182,9 @@ class HasPregnancy(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        households =  data_in\
+        return data_in\
             .pregnant(period.start, period.end)\
             .values('household')\
-            .distinct()
-
-        return data_in.filter(health_id__in=households)\
             .distinct()\
             .count()
 
@@ -205,11 +199,8 @@ class HasNeonatal(Indicator):
 
     @classmethod
     def _value(cls, period, data_in):
-        households =  data_in\
+        return data_in\
             .neonatal(period.start, period.end)\
             .values('household')\
-            .distinct()
-
-        return data_in.filter(health_id__in=households)\
             .distinct()\
             .count()
