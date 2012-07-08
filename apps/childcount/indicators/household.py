@@ -244,7 +244,7 @@ class HasUnderFive(Indicator):
         households =  data_in\
             .alive(period.start, period.end)\
             .under_five(period.start, period.end)\
-            .value('household')\
+            .values('household__health_id')\
             .distinct()
 
         return HouseholdVisitReport\
@@ -269,7 +269,7 @@ class UnderFiveUnique_visit(Indicator):
     def _value(cls, period, data_in):
         households =  data_in\
             .under_five(period.start, period.end)\
-            .values('household')\
+            .values('household__health_id')\
             .distinct()
 
         return HouseholdVisitReport\
@@ -294,7 +294,7 @@ class PregnancyUnique_visit(Indicator):
     def _value(cls, period, data_in):
         households =  data_in\
             .pregnant(period.start, period.end)\
-            .values('household')\
+            .values('household__health_id')\
             .distinct()
 
         return HouseholdVisitReport\
@@ -319,14 +319,14 @@ class NeonatalUnique_visit(Indicator):
     def _value(cls, period, data_in):
         households =  data_in\
             .neonatal(period.start, period.end)\
-            .values('household')\
+            .values('household__health_id')\
             .distinct()
 
         return HouseholdVisitReport\
             .objects\
             .filter(encounter__patient__health_id__in=households,\
                 encounter__encounter_date__lte=period.end,
-                encounter__encounter_date__gt=period.end - timedelta(7))\
+                encounter__encounter_date__gte=period.end - timedelta(7))\
             .values('encounter__patient')\
             .distinct()\
             .count()
