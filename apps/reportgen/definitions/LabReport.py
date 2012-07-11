@@ -267,7 +267,7 @@ class ReportDefinition(PrintedReport):
             Text(_(u'Requisition Progress')),
             Text(_(u'Reg. progress Code')),
             Text(_(u'Results ')),
-            Text(_(u''))])
+            Text(u'')])
 
         return table
 
