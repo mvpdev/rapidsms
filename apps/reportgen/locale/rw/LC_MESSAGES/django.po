@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-30 17:39+0300\n"
+"POT-Creation-Date: 2012-07-11 17:41+0300\n"
 "PO-Revision-Date: 2011-11-12 17:02+0300\n"
 "Last-Translator: benjamin <ben.rukundo@yahoo.fr>\n"
 "Language-Team: Kinyarwanda\n"
@@ -51,20 +51,72 @@ msgstr "Raporo zitangwa zisabwe"
 msgid "Variant not found"
 msgstr "Byatuyobeye"
 
+#: ccgdata/utils.py:22 ccgdata/utils.py:38 ccgdata/utils.py:56
+#: ccgdata/utils.py:71
+msgid "ccgdata is not an instance of CCGData."
+msgstr ""
+
+#: ccgdata/utils.py:99 ccgdata/utils.py:135
+msgid "Error: Unable to login to google docs"
+msgstr ""
+
+#: ccgdata/utils.py:112 ccgdata/utils.py:147
+msgid "Update in progress"
+msgstr ""
+
+#: ccgdata/utils.py:119 ccgdata/utils.py:154
+#, python-format
+msgid "Last Update @ %(now)s"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:53 definitions/ChwReport.py:63
+#: definitions/NotAttendingSchoolReport.py:61 definitions/PList.py:60
+#, python-format
+msgid "For: %s"
+msgstr "wa: %s"
+
+#: definitions/ChwHouseholdVisitCoverage.py:66
+#, python-format
+msgid "Total number of HH assigned: %(num)s \t"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:68
+#, python-format
+msgid "Total Number of Under-5s: %(num)s \t"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:69
+#, python-format
+msgid "Total Number of Pregnant Women: %(num)s"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "HH ID"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "NAME OF HOUSEHOLD HEAD"
+msgstr ""
+
+#: definitions/ChwHouseholdVisitCoverage.py:73
+msgid "LOCATION"
+msgstr ""
+
 #: definitions/ChwList.py:66
 msgid "ID"
 msgstr "Nomero"
 
-#: definitions/ChwList.py:67
-#: definitions/ChwLog.py:104
-#: definitions/ChwLog.py:151
-#: definitions/ChwLog.py:292
-#: definitions/PatientList.py:64
+#: definitions/ChwList.py:67 definitions/ChwLog.py:104
+#: definitions/ChwLog.py:151 definitions/ChwLog.py:297
+#: definitions/LabReport.py:261 definitions/NotAttendingSchoolReport.py:87
+#: definitions/PList.py:79 definitions/PatientList.py:64
+#: definitions/UnderFive.py:69
 msgid "Name"
 msgstr "Izina"
 
-#: definitions/ChwList.py:68
-#: definitions/PMTCTDefaulters.py:73
+#: definitions/ChwList.py:68 definitions/PMTCTDefaulters.py:73
+#: definitions/PregnancyReport.py:62
+#: definitions/PregnantWomenEDDsixweeks.py:65
 msgid "Location"
 msgstr "Aho abarizwa"
 
@@ -92,21 +144,19 @@ msgstr "Abagore batwite"
 msgid "HOUSEHOLD"
 msgstr "Urugo"
 
-#: definitions/ChwLog.py:103
-#: definitions/ChwLog.py:150
-#: definitions/ChwLog.py:291
-#: definitions/ChwLog.py:355
+#: definitions/ChwLog.py:103 definitions/ChwLog.py:150
+#: definitions/ChwLog.py:296 definitions/ChwLog.py:360
 #: definitions/PMTCTDefaulters.py:69
 msgid "Date"
 msgstr "Itariki"
 
-#: definitions/ChwLog.py:105
-#: definitions/PatientList.py:58
+#: definitions/ChwLog.py:105 definitions/NotAttendingSchoolReport.py:86
+#: definitions/PList.py:78 definitions/PatientList.py:58
+#: definitions/SpotCheck.py:304 definitions/UnderFive.py:68
 msgid "HID"
 msgstr "Nomero y'urugo"
 
-#: definitions/ChwLog.py:106
-#: models/Report.py:25
+#: definitions/ChwLog.py:106 models/Report.py:25
 msgid "Reports"
 msgstr "Raporo"
 
@@ -114,14 +164,13 @@ msgstr "Raporo"
 msgid "Comments"
 msgstr "Icyo wakongeraho"
 
-#: definitions/ChwLog.py:152
-#: definitions/ChwLog.py:293
+#: definitions/ChwLog.py:152 definitions/ChwLog.py:298
 msgid "Gender"
 msgstr "Igitsina"
 
-#: definitions/ChwLog.py:153
-#: definitions/ChwLog.py:294
-#: definitions/PatientList.py:71
+#: definitions/ChwLog.py:153 definitions/ChwLog.py:299
+#: definitions/LabReport.py:262 definitions/PList.py:81
+#: definitions/PatientList.py:71 definitions/UnderFive.py:71
 msgid "Age"
 msgstr "Imyaka"
 
@@ -129,8 +178,7 @@ msgstr "Imyaka"
 msgid "Mother"
 msgstr "Nyina"
 
-#: definitions/ChwLog.py:155
-#: definitions/ChwLog.py:295
+#: definitions/ChwLog.py:155 definitions/ChwLog.py:300
 msgid "Next Apt"
 msgstr "Gahunda y'isizumwa itaha"
 
@@ -146,46 +194,42 @@ msgstr "MUAC(+/-)"
 msgid "Immunized"
 msgstr "Yarakingiwe"
 
-#: definitions/ChwLog.py:159
-#: definitions/ChwLog.py:298
+#: definitions/ChwLog.py:159 definitions/ChwLog.py:303
 #: definitions/ChwReport.py:123
 msgid "Danger Signs"
 msgstr "Ibimenyetso byo kumererwa nabi"
 
-#: definitions/ChwLog.py:160
-#: definitions/ChwLog.py:299
-#: definitions/ChwLog.py:360
+#: definitions/ChwLog.py:160 definitions/ChwLog.py:304
+#: definitions/ChwLog.py:365
 msgid "PID"
 msgstr "Nomero y'umurwayi"
 
-#: definitions/ChwLog.py:161
-#: definitions/ChwLog.py:300
-#: definitions/ChwLog.py:361
+#: definitions/ChwLog.py:161 definitions/ChwLog.py:305
+#: definitions/ChwLog.py:366
 msgid "Forms"
 msgstr "Amafishi"
 
-#: definitions/ChwLog.py:296
-#: timeperiods/definitions/Month.py:15
+#: definitions/ChwLog.py:301 timeperiods/definitions/Month.py:15
 msgid "Month"
 msgstr "Ukwezi"
 
-#: definitions/ChwLog.py:297
+#: definitions/ChwLog.py:302
 msgid "# ANC Visits"
 msgstr "# Gahunda yo gusuzuma abagore batwite"
 
-#: definitions/ChwLog.py:356
+#: definitions/ChwLog.py:361
 msgid "Household"
 msgstr "Urugo"
 
-#: definitions/ChwLog.py:357
+#: definitions/ChwLog.py:362
 msgid "Available"
 msgstr "Abahari"
 
-#: definitions/ChwLog.py:358
+#: definitions/ChwLog.py:363
 msgid "# Children"
 msgstr "# Abana"
 
-#: definitions/ChwLog.py:359
+#: definitions/ChwLog.py:364
 msgid "Counseling"
 msgstr "Ubujyanama"
 
@@ -193,34 +237,34 @@ msgstr "Ubujyanama"
 msgid "CHW Manager Report"
 msgstr "Raporo y'umuyobozi w'abajyanama b'ubuzima"
 
-#: definitions/ChwManagerReport.py:102
-#: models/GeneratedReport.py:63
+#: definitions/ChwManagerReport.py:96
+msgid ""
+"Error: Maximum XLS column limit exceeded.Please select a shorter time period."
+msgstr ""
+
+#: definitions/ChwManagerReport.py:106 models/GeneratedReport.py:61
 #: models/Report.py:24
 msgid "Report"
 msgstr "Raporo"
 
-#: definitions/ChwManagerReport.py:249
+#: definitions/ChwManagerReport.py:254 definitions/SmsUsage.py:37
 msgid "CHW Name"
 msgstr "Izina ry'umujyanama w'ubuzima"
 
-#: definitions/ChwManagerReport.py:250
+#: definitions/ChwManagerReport.py:255 definitions/SmsUsage.py:37
 msgid "Clinic"
 msgstr "Ivuriro"
 
-#: definitions/ChwManagerReport.py:263
+#: definitions/ChwManagerReport.py:268
 msgid "Millennium Village"
 msgstr "Umudugudu w'ikinyejana"
-
-#: definitions/ChwReport.py:63
-#, python-format
-msgid "For: %s"
-msgstr "wa: %s"
 
 #: definitions/ChwReport.py:76
 msgid "Indicators"
 msgstr "Ibipimo"
 
-#: definitions/ChwReport.py:78
+#: definitions/ChwReport.py:78 definitions/MedicineGivenReport.py:66
+#: definitions/MvisIndicators.py:146
 msgid "Indicator"
 msgstr "Igipimo"
 
@@ -229,44 +273,34 @@ msgid "Tot/Avg"
 msgstr "Igiteranyo/Ikigereranyo"
 
 #: definitions/ChwReport.py:112
-msgid "Patients Referred in the Previous 45 days (or Given Medicine) and Lacking an On-Time Follow-Up Visit"
+msgid ""
+"Patients Referred in the Previous 45 days (or Given Medicine) and Lacking an "
+"On-Time Follow-Up Visit"
 msgstr ""
 "Abarwayi bakorewe transiferi mu minsi 45 ishize (cyangwa bahawe imiti) "
 "bakaba batarabonetse muri gahunda y'ikurikiranasuzuma."
 
-#: definitions/ChwReport.py:118
-#: definitions/ChwReport.py:164
-#: definitions/ChwReport.py:197
-#: definitions/ChwReport.py:228
-#: definitions/Malnutrition.py:96
-#: definitions/Malnutrition.py:141
+#: definitions/ChwReport.py:118 definitions/ChwReport.py:164
+#: definitions/ChwReport.py:197 definitions/ChwReport.py:228
+#: definitions/Malnutrition.py:105 definitions/Malnutrition.py:150
 msgid "Loc Code"
 msgstr "Code y'aho babarizwa"
 
-#: definitions/ChwReport.py:119
-#: definitions/ChwReport.py:165
-#: definitions/ChwReport.py:198
-#: definitions/ChwReport.py:229
-#: definitions/Malnutrition.py:97
-#: definitions/Malnutrition.py:142
+#: definitions/ChwReport.py:119 definitions/ChwReport.py:165
+#: definitions/ChwReport.py:198 definitions/ChwReport.py:229
+#: definitions/Malnutrition.py:106 definitions/Malnutrition.py:151
 msgid "Health ID"
 msgstr "Nomero y'ubuzima"
 
-#: definitions/ChwReport.py:120
-#: definitions/ChwReport.py:166
-#: definitions/ChwReport.py:199
-#: definitions/ChwReport.py:230
-#: definitions/Malnutrition.py:98
-#: definitions/Malnutrition.py:143
+#: definitions/ChwReport.py:120 definitions/ChwReport.py:166
+#: definitions/ChwReport.py:199 definitions/ChwReport.py:230
+#: definitions/Malnutrition.py:107 definitions/Malnutrition.py:152
 msgid "Name / Age"
 msgstr "Izina / Imyaka"
 
-#: definitions/ChwReport.py:121
-#: definitions/ChwReport.py:168
-#: definitions/ChwReport.py:202
-#: definitions/ChwReport.py:234
-#: definitions/Malnutrition.py:102
-#: definitions/Malnutrition.py:145
+#: definitions/ChwReport.py:121 definitions/ChwReport.py:168
+#: definitions/ChwReport.py:202 definitions/ChwReport.py:234
+#: definitions/Malnutrition.py:111 definitions/Malnutrition.py:154
 msgid "Household Head"
 msgstr "Ukuriye urugo"
 
@@ -330,18 +364,15 @@ msgstr ""
 "Abana batapimwe MUAC mu kwezi 1 gushize (Imirire mibi mu ibara cy'umutuku) "
 "cyangwa amezi 3 (bameze neza)"
 
-#: definitions/ChwReport.py:231
-#: definitions/Malnutrition.py:99
+#: definitions/ChwReport.py:231 definitions/Malnutrition.py:108
 msgid "Last MUAC"
 msgstr "Ibipimo bya MUAC biheruka"
 
-#: definitions/ChwReport.py:232
-#: definitions/Malnutrition.py:100
+#: definitions/ChwReport.py:232 definitions/Malnutrition.py:109
 msgid "MUAC Status"
 msgstr "Icyiciro uwapimwe MUAC arimo"
 
-#: definitions/ChwReport.py:233
-#: definitions/Malnutrition.py:101
+#: definitions/ChwReport.py:233 definitions/Malnutrition.py:110
 msgid "Od."
 msgstr "Kubyimbirwa"
 
@@ -358,6 +389,30 @@ msgstr ""
 msgid "%(status)s [%(muac)d]"
 msgstr "%(status)s [%(muac)d]"
 
+#: definitions/IdentityCards.py:57
+#, fuzzy, python-format
+msgid "No card for %s."
+msgstr "Nta raporo kuri %s."
+
+#: definitions/IdentityCards.py:98
+msgid "ID Cards for:"
+msgstr ""
+
+#: definitions/IdentityCards.py:109
+#, fuzzy
+msgid "Health ID Card"
+msgstr "Nomero y'ubuzima"
+
+#: definitions/IdentityCards.py:124
+#, python-format
+msgid "DOB: %s"
+msgstr ""
+
+#: definitions/IdentityCards.py:128
+#, fuzzy
+msgid "HH"
+msgstr "Nomero y'urugo"
+
 #: definitions/IndicatorChart.py:74
 msgid "Indicator not found!"
 msgstr "Nta gipimo cyabonetse!"
@@ -366,8 +421,7 @@ msgstr "Nta gipimo cyabonetse!"
 msgid "Can only generate PDF for indicator chart"
 msgstr "Nta kindi gishyirwa muri PDF keretse imbonerahamwe y'ibipimo"
 
-#: definitions/IndicatorChart.py:82
-#: definitions/PerformanceCharts.py:61
+#: definitions/IndicatorChart.py:82 definitions/PerformanceCharts.py:61
 msgid "Generated on: "
 msgstr "yakozwe kuwa:"
 
@@ -377,88 +431,266 @@ msgid "For period: %s."
 msgstr "Ku gihe: %s"
 
 #: definitions/IndicatorChart.py:96
-msgid "Cannot produce indicator chart for indicators that do not accept a QuerySet as an argument."
+msgid ""
+"Cannot produce indicator chart for indicators that do not accept a QuerySet "
+"as an argument."
 msgstr "Ntishobora gusohora imbonerahamwe ya bene ubu bwoko bw'ibipimo"
 
 #: definitions/IndicatorChart.py:117
 msgid " over time"
 msgstr "igihe cy'inyongera"
 
+#: definitions/LabReport.py:45
+msgid "LABS IN PROGRESS "
+msgstr ""
+
+#: definitions/LabReport.py:113
+#, fuzzy, python-format
+msgid "<b>%(name)s  (Generated on %(gen_datetime)s)</b>"
+msgstr "<b>%(name)s - %(title)s (Byakozwe kuwa %(gen_datetime)s)</b> "
+
+#: definitions/LabReport.py:128
+msgid "<b>Date of Req</b>"
+msgstr ""
+
+#: definitions/LabReport.py:131
+#, fuzzy
+msgid "<b>MVP Health ID</b>"
+msgstr "Nomero y'ubuzima"
+
+#: definitions/LabReport.py:133
+#, fuzzy
+msgid "<b>Name</b>"
+msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
+
+#: definitions/LabReport.py:135
+msgid "<b><b>Age</b>"
+msgstr ""
+
+#: definitions/LabReport.py:137 definitions/LabReport.py:263
+msgid "Sex (M/F)"
+msgstr ""
+
+#: definitions/LabReport.py:141
+msgid "<b>Requesting Facility</b>"
+msgstr ""
+
+#: definitions/LabReport.py:145
+msgid "<b>Test Required </b>"
+msgstr ""
+
+#: definitions/LabReport.py:149
+#, fuzzy
+msgid "<b>Sample #</b>"
+msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
+
+#: definitions/LabReport.py:152
+msgid "<b>Requisition Progress</b>"
+msgstr ""
+
+#: definitions/LabReport.py:156 definitions/LabReport.py:268
+msgid "Reg. progress Code"
+msgstr ""
+
+#: definitions/LabReport.py:159
+msgid "<b>Results</b>"
+msgstr ""
+
+#: definitions/LabReport.py:202 definitions/LabReport.py:227
+msgid "<b>+QP</b>"
+msgstr ""
+
+#: definitions/LabReport.py:206 definitions/LabReport.py:230
+msgid "<b>+QR</b>"
+msgstr ""
+
+#: definitions/LabReport.py:259
+msgid "Date of Req"
+msgstr ""
+
+#: definitions/LabReport.py:260
+#, fuzzy
+msgid "MVP Health ID"
+msgstr "Nomero y'ubuzima"
+
+#: definitions/LabReport.py:264
+msgid "Requesting Facility"
+msgstr ""
+
+#: definitions/LabReport.py:265
+msgid "Test Required"
+msgstr ""
+
+#: definitions/LabReport.py:266
+msgid "Sample #"
+msgstr ""
+
+#: definitions/LabReport.py:267
+msgid "Requisition Progress"
+msgstr ""
+
+#: definitions/LabReport.py:269
+msgid "Results "
+msgstr ""
+
 #: definitions/Malnutrition.py:22
 msgid "Malnutrition Report"
 msgstr "Raporo y'abafite ibibazo by'imirire"
 
-#: definitions/Malnutrition.py:92
+#: definitions/Malnutrition.py:101
 #, python-format
 msgid "Children U5 Flagged as Malnourished as of %s"
 msgstr "Abana batagejeje imyaka 5 bazahajwe n'imirire mibi mu rwego %s"
 
-#: definitions/Malnutrition.py:103
-#: definitions/Malnutrition.py:146
-#: definitions/PMTCTDefaulters.py:72
+#: definitions/Malnutrition.py:112 definitions/Malnutrition.py:155
+#: definitions/PMTCTDefaulters.py:72 definitions/PregnancyReport.py:61
+#: definitions/PregnantWomenEDDsixweeks.py:64
 msgid "CHW"
 msgstr "Umujyanama w'ubuzima"
 
-#: definitions/Malnutrition.py:117
+#: definitions/Malnutrition.py:126
 msgid "Unknown"
 msgstr "Ntawamenya"
 
-#: definitions/Malnutrition.py:122
+#: definitions/Malnutrition.py:131
 msgid " -- No MUAC"
 msgstr "Nta MUAC"
 
-#: definitions/Malnutrition.py:137
+#: definitions/Malnutrition.py:146
 #, python-format
 msgid "Children U5 without MUAC in 90 Days Ending %s"
 msgstr ""
 "Abana batagejeje imyaka itanu batapimwe MUAC mu minsi 90 irangirana na %s"
 
-#: definitions/Malnutrition.py:144
+#: definitions/Malnutrition.py:153
 msgid "Latest MUAC"
 msgstr "Ibipimo bya MUAC biheruka"
 
-#: definitions/MvisIndicators.py:31
+#: definitions/MedicineGivenReport.py:49
+#, fuzzy
+msgid "Medicine Given Report "
+msgstr "+G (Umuti watanzwe)"
+
+#: definitions/MedicineGivenReport.py:72
+#, fuzzy, python-format
+msgid "Medicine Given Report: %s"
+msgstr "+G (Umuti watanzwe)"
+
+#: definitions/MedicineGivenReport.py:84
+msgid "Number of RDT+"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:87
+msgid "Number of Cortem given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:90
+msgid "Number of ORS given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:93
+msgid "Number of Zinc given"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:97
+msgid "Number of Under-5 children screened with MUACs"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:100
+msgid "Number of those U5 screened who have reading of 120 and + mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:106
+msgid ""
+"Number of those U5 screened who have reading ofless than 120 but more than "
+"115mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:111
+msgid "Number of those U5 screened who have reading of less than 115mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:115
+msgid "Number of Under-1 children screened with MUACs"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:119
+#: definitions/MedicineGivenReport.py:124
+msgid "Number of those U1 screened who have reading of 120 and + mm"
+msgstr ""
+
+#: definitions/MedicineGivenReport.py:129
+msgid "Number of those U1 screened who have reading of less than 115mmrow)"
+msgstr ""
+
+#: definitions/MvisIndicators.py:37
 msgid "MVIS Indicators"
 msgstr "Ibipimo ngenderwaho bya MVIS"
 
-#: definitions/MvisIndicators.py:36
+#: definitions/MvisIndicators.py:42
 msgid "Vital Events"
 msgstr "Gahunda ntakumirwa"
 
-#: definitions/MvisIndicators.py:44
+#: definitions/MvisIndicators.py:50
 msgid "Reproductive and maternal health"
 msgstr "Ubuzima bw'imyororokere n'ubw'umubyeyi"
 
-#: definitions/MvisIndicators.py:54
+#: definitions/MvisIndicators.py:60
 msgid "Child nutrition"
 msgstr "Imirire y'abana"
 
-#: definitions/MvisIndicators.py:63
+#: definitions/MvisIndicators.py:69
 msgid "Child health - immunization/diarrhea/malaria (infants and under-5's)"
 msgstr ""
 "Ubuzima bw'abana - urukingo/impiswi/malariya (impinja n'abana batagejeje "
 "imyaka 5)"
 
-#: definitions/MvisIndicators.py:79
+#: definitions/MvisIndicators.py:85
 msgid "Malaria (Over 5's)"
 msgstr "Malariya (Abana barengeje imyaka 5)"
 
-#: definitions/MvisIndicators.py:85
+#: definitions/MvisIndicators.py:92
 msgid "CHW performance"
 msgstr "Imikorere y'abajyanama b'ubuzima"
 
-#: definitions/MvisIndicators.py:95
+#: definitions/MvisIndicators.py:102
 msgid "Bednet coverage and utilization"
 msgstr "Itangwa n'imikoreshereze y'inzitiramibu"
 
-#: definitions/MvisIndicators.py:115
+#: definitions/MvisIndicators.py:114
+msgid "School Attendance"
+msgstr ""
+
+#: definitions/MvisIndicators.py:120
+msgid "Sanitation (+SAN)"
+msgstr ""
+
+#: definitions/MvisIndicators.py:125
+msgid "Drinking Water"
+msgstr ""
+
+#: definitions/MvisIndicators.py:141
 #, python-format
 msgid "MVIS Indicators: %s"
 msgstr "Ibipimo ngenderwaho bya MV: %s"
 
-#: definitions/MvisIndicators.py:117
+#: definitions/MvisIndicators.py:144
 msgid "Category"
 msgstr "Icyiciro"
+
+#: definitions/MvisIndicators.py:145
+#, fuzzy
+msgid "Sub-Category"
+msgstr "Icyiciro"
+
+#: definitions/NotAttendingSchoolReport.py:85 definitions/PList.py:77
+#: definitions/PatientList.py:52
+msgid "LOC"
+msgstr "Aho abarizwa"
+
+#: definitions/NotAttendingSchoolReport.py:88
+msgid "# Not Attending"
+msgstr ""
 
 #: definitions/Operational.py:100
 #, python-format
@@ -469,13 +701,22 @@ msgstr "<b>%(name)s - %(title)s (Byakozwe kuwa %(gen_datetime)s)</b> "
 msgid "<b>CHW Name</b>"
 msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
 
+#: definitions/PList.py:80 definitions/PatientList.py:68
+#: definitions/UnderFive.py:70
+msgid "Gen."
+msgstr "Byakozwe."
+
+#: definitions/PList.py:82
+msgid "HOH"
+msgstr ""
+
 #: definitions/PMTCTDefaulters.py:29
 msgid "PMTCT Defaulters"
 msgstr ""
 "Abacikirije gahunda ifasha ababyeyi babana n'ubwandu kutanduza abana batwite"
 
-#: definitions/PMTCTDefaulters.py:70
-#: definitions/SpotCheck.py:250
+#: definitions/PMTCTDefaulters.py:70 definitions/PregnancyReport.py:59
+#: definitions/PregnantWomenEDDsixweeks.py:62 definitions/SpotCheck.py:310
 msgid "Patient"
 msgstr "Umurwayi"
 
@@ -490,14 +731,6 @@ msgstr "Ntiyibukijwe"
 #: definitions/PMTCTDefaulters.py:78
 msgid "Not Reminded"
 msgstr "Ntiyibukijwe"
-
-#: definitions/PatientList.py:52
-msgid "LOC"
-msgstr "Aho abarizwa"
-
-#: definitions/PatientList.py:68
-msgid "Gen."
-msgstr "Byakozwe."
 
 #: definitions/PatientList.py:100
 #, python-format
@@ -526,86 +759,165 @@ msgstr "Ibyemera gushyirwa muri PDF ni imbonerahamwe z'imikorere gusa"
 msgid "For period %s."
 msgstr "Z'igihe %s"
 
-#: definitions/SpotCheck.py:77
+#: definitions/PregnancyReport.py:29
+#, fuzzy
+msgid "Pregnancy Report"
+msgstr "+PD (abagore batwite banditswe)"
+
+#: definitions/PregnancyReport.py:58
+#: definitions/PregnantWomenEDDsixweeks.py:61
+msgid "Date Recorded"
+msgstr ""
+
+#: definitions/PregnancyReport.py:60
+#, fuzzy
+msgid "Pregnancy Months"
+msgstr "+P (Igihe umugore amara atwite)"
+
+#: definitions/PregnantWomenEDDsixweeks.py:29
+msgid "Pregnancy Women with EDD of less than 6 weeks"
+msgstr ""
+
+#: definitions/PregnantWomenEDDsixweeks.py:63
+msgid "EDD"
+msgstr ""
+
+#: definitions/SmsUsage.py:42
+#, python-format
+msgid "% Error"
+msgstr ""
+
+#: definitions/SmsUsage.py:68
+msgid "All CHWs"
+msgstr ""
+
+#: definitions/SpotCheck.py:85
 #, python-format
 msgid "(Generated on %(gen_datetime)s)"
 msgstr "(Zakozwe kuwa %(gen_datetime)s)"
 
-#: definitions/SpotCheck.py:144
-msgid "+U"
+#: definitions/SpotCheck.py:156
+msgid "<b>+U</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:147
-msgid "+S"
+#: definitions/SpotCheck.py:161
+msgid "<b>+S</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:152
-msgid "+P"
+#: definitions/SpotCheck.py:168
+msgid "<b>+P</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:157
-msgid "+N"
+#: definitions/SpotCheck.py:175
+#, fuzzy
+msgid "<b>+N</b>"
+msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
+
+#: definitions/SpotCheck.py:180
+msgid "<b>+T</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:160
-msgid "+T"
+#: definitions/SpotCheck.py:186
+msgid "<b>+M</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:164
-msgid "+M"
+#: definitions/SpotCheck.py:198
+msgid "<b>+F</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:174
-msgid "+F"
+#: definitions/SpotCheck.py:203
+msgid "<b>+G</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:177
-msgid "+G"
+#: definitions/SpotCheck.py:210
+msgid "<b>+R</b>"
 msgstr ""
 
-#: definitions/SpotCheck.py:182
-msgid "+R"
-msgstr ""
-
-#: definitions/SpotCheck.py:189
+#: definitions/SpotCheck.py:219
 msgid "[No HHV]"
 msgstr "[Nta gahunda yo gusura ingo]"
 
-#: definitions/SpotCheck.py:198
-msgid "+V "
+#: definitions/SpotCheck.py:228
+msgid "<b>+V</b> "
 msgstr ""
 
-#: definitions/SpotCheck.py:207
-msgid " +K "
+#: definitions/SpotCheck.py:239
+msgid " <b>+K</b> "
 msgstr ""
 
-#: definitions/SpotCheck.py:230
-msgid "Checked On (DDMMYY)"
-msgstr "Isuzuma ryo kuwa (Umunsi + Ukwezi + Umwaka)"
+#: definitions/SpotCheck.py:261
+msgid ""
+"Date HH Visited\n"
+"<em>(DDMMYY)</em>"
+msgstr ""
 
-#: definitions/SpotCheck.py:238
+#: definitions/SpotCheck.py:288
+msgid ""
+"Avail.\n"
+"(Y-N)"
+msgstr ""
+
+#: definitions/SpotCheck.py:293
 msgid "Loc."
 msgstr "Aho bikorewe."
 
-#: definitions/SpotCheck.py:242
-msgid "HHID"
-msgstr "Nomero y'urugo"
-
-#: definitions/SpotCheck.py:246
+#: definitions/SpotCheck.py:298
 msgid "Last HH Visit"
 msgstr "Gahunda iheruka yo gusura ingo"
 
-#: definitions/SpotCheck.py:257
+#: definitions/SpotCheck.py:317
 msgid "Visit Summary"
 msgstr "Inshamake ya gahunda y'isura"
 
-#: definitions/SpotCheck.py:262
+#: definitions/SpotCheck.py:323
 msgid "Notes"
 msgstr "Icyitonderwa"
 
-#: definitions/SpotCheck.py:272
-msgid "Prepared By: ____________________ Submitted On: ____________________"
+#: definitions/SpotCheck.py:332
+msgid "<b>Total</b>"
+msgstr ""
+
+#: definitions/SpotCheck.py:333
+msgid "OK"
+msgstr ""
+
+#: definitions/SpotCheck.py:334
+#, fuzzy
+msgid "Not Available"
+msgstr "Abahari"
+
+#: definitions/SpotCheck.py:335
+msgid "Bad"
+msgstr ""
+
+#: definitions/SpotCheck.py:336 definitions/Utilization.py:120
+msgid "Total"
+msgstr "Igiteranyo"
+
+#: definitions/SpotCheck.py:357
+#, fuzzy
+msgid "General Comments:"
+msgstr "yakozwe kuwa:"
+
+#: definitions/SpotCheck.py:358
+#, fuzzy
+msgid "Overall Performance:"
+msgstr "Imikorere y'abajyanama b'ubuzima"
+
+#: definitions/SpotCheck.py:372
+#, fuzzy, python-format
+msgid "Generated on %(gen_datetime)s"
+msgstr "(Zakozwe kuwa %(gen_datetime)s)"
+
+#: definitions/SpotCheck.py:375
+#, fuzzy
+msgid ""
+"Prepared By: ___________________________ Submitted On: _____/_____/_________"
 msgstr "Bikozwe na: _____________________________ Bitangwa kuwa:"
+
+#: definitions/SpotCheck.py:429
+msgid "<b>CHW made no household visits during this time period.</b>"
+msgstr ""
 
 #: definitions/StatsDataEntry.py:15
 msgid "You successfuly registered "
@@ -643,251 +955,258 @@ msgstr "Ya:"
 msgid "OpenMRS Sync Data"
 msgstr ""
 
-#: definitions/Utilization.py:106
+#: definitions/UnderFive.py:29
+#, fuzzy
+msgid "Under Five Report"
+msgstr "Raporo yakozwe"
+
+#: definitions/Utilization.py:114
 msgid "Indicator:"
 msgstr "Igipimo:"
 
-#: definitions/Utilization.py:112
-msgid "Total"
-msgstr "Igiteranyo"
-
-#: definitions/Utilization.py:113
+#: definitions/Utilization.py:121
 msgid "Average"
 msgstr "Ikigereranyo"
 
-#: definitions/Utilization.py:114
+#: definitions/Utilization.py:122
 msgid "Median"
 msgstr "Kimwe cya kabiri"
 
-#: definitions/Utilization.py:136
+#: definitions/Utilization.py:144
 msgid "Total Clients Reg."
 msgstr "Umubare w'abarwayi banditswe"
 
-#: definitions/Utilization.py:160
+#: definitions/Utilization.py:168
 msgid "+NEW (Patient)"
 msgstr "+NEW (Umurwayi Mushya)"
 
-#: definitions/Utilization.py:163
+#: definitions/Utilization.py:171
 msgid "+BIR (Birth)"
 msgstr "+BIR (Amavuko)"
 
-#: definitions/Utilization.py:166
+#: definitions/Utilization.py:174
 msgid "+DDA (Death)"
 msgstr "+DDA (Urupfu)"
 
-#: definitions/Utilization.py:169
+#: definitions/Utilization.py:177
 msgid "+DDB (Dead Person)"
 msgstr "+DDB (Nyakwigendera)"
 
-#: definitions/Utilization.py:172
+#: definitions/Utilization.py:180
 msgid "+SBM (Still Birth misc)"
 msgstr "+SBM (abana bavutse bapfuye cyangwa inda zavuyemo)"
 
-#: definitions/Utilization.py:175
+#: definitions/Utilization.py:183
 msgid "+V (Household Visit)"
 msgstr "+V (Gahunda yo gusura ingo)"
 
-#: definitions/Utilization.py:178
+#: definitions/Utilization.py:186
 msgid "+E (Sick Members)"
 msgstr "+E (Abarwayi baba mu rugo)"
 
-#: definitions/Utilization.py:182
+#: definitions/Utilization.py:190
 msgid "+L (BC Pill)"
 msgstr "+L (Ikinini gifasha kuringaniza urubyaro)"
 
-#: definitions/Utilization.py:185
+#: definitions/Utilization.py:193
 msgid "+K (Family Planning)"
 msgstr "+K (Kuringaniza urubyaro)"
 
-#: definitions/Utilization.py:188
+#: definitions/Utilization.py:196
 msgid "+U (Follow Up)"
 msgstr "+U (Gukurikirana)"
 
-#: definitions/Utilization.py:191
+#: definitions/Utilization.py:199
 msgid "+S (Danger Signs)"
 msgstr "+S (Ibimenyetso byo kumererwa nabi)"
 
-#: definitions/Utilization.py:194
+#: definitions/Utilization.py:202
 msgid "+P (Pregnancy)"
 msgstr "+P (Igihe umugore amara atwite)"
 
-#: definitions/Utilization.py:197
+#: definitions/Utilization.py:205
 msgid "+N (Neonatal)"
 msgstr "+N  (abana bavutse)"
 
-#: definitions/Utilization.py:200
+#: definitions/Utilization.py:208
 msgid "+T (Under One)"
 msgstr "+T (Utagejeje ku mwaka)"
 
-#: definitions/Utilization.py:204
+#: definitions/Utilization.py:212
 msgid "+M (Nutrition)"
 msgstr "+M (Imirire)"
 
-#: definitions/Utilization.py:207
+#: definitions/Utilization.py:215
 msgid "+F (Fever)"
 msgstr "+F (Umuriro)"
 
-#: definitions/Utilization.py:210
+#: definitions/Utilization.py:218
 msgid "+G (Medicine Given)"
 msgstr "+G (Umuti watanzwe)"
 
-#: definitions/Utilization.py:213
+#: definitions/Utilization.py:221
 msgid "+R (Referral)"
 msgstr "+R (Transiferi)"
 
-#: definitions/Utilization.py:216
+#: definitions/Utilization.py:224
 msgid "+PD (Pregnancy Reg)"
 msgstr "+PD (abagore batwite banditswe)"
 
-#: definitions/Utilization.py:219
+#: definitions/Utilization.py:227
 msgid "+PF (Antenatal Visit)"
 msgstr "+PF (Gahunda yo gusura ababyeyi batwite)"
 
-#: definitions/Utilization.py:222
+#: definitions/Utilization.py:230
 msgid "+HT (HIV Test)"
 msgstr "+HT (Ikizami cya virusi itera sida)"
 
-#: definitions/Utilization.py:226
+#: definitions/Utilization.py:234
 msgid "+AP (Appointment)"
 msgstr "+AP (Guhabwa gahunda)"
 
-#: definitions/Utilization.py:229
+#: definitions/Utilization.py:237
 msgid "+CD (CD4 Result)"
 msgstr "+CD (igisubizo cy'ikizami cya CD4)"
 
-#: definitions/Utilization.py:232
+#: definitions/Utilization.py:240
 msgid "+DB (DBS Result)"
 msgstr "+DB (igisubizo cy'ipimwa cy'igihe inda izavukira)"
 
-#: definitions/Utilization.py:387
+#: definitions/Utilization.py:395
 msgid "Adult Men Reg."
 msgstr "+Abagabo bakuze banditswe"
 
-#: definitions/Utilization.py:389
+#: definitions/Utilization.py:397
 msgid "Adult Women Reg."
 msgstr "+Abagore bakuze banditswe"
 
-#: definitions/Utilization.py:419
+#: definitions/Utilization.py:427
 msgid "Under 5 Registered."
 msgstr "Abana batagejeje imyaka itanu banditswe"
 
-#: definitions/Utilization.py:449
+#: definitions/Utilization.py:457
 msgid "SMS error rate."
 msgstr "Igipimo cy'ubutumwa bugufi bwagaragayemo amakosa"
 
-#: definitions/Utilization.py:486
-#, python-format
-msgid "%s of days with SMS / month."
+#: definitions/Utilization.py:494
+#, fuzzy, python-format
+msgid "% of days with SMS / month."
 msgstr "%s Ijanisha ry'iminsi yakiriweho ubutumwa bugufi / ukwezi"
 
-#: models/GeneratedReport.py:37
-#: models/GeneratedReport.py:45
+#: definitions/VitalEventsReport.py:18
+#, fuzzy
+msgid "Vital Events Report "
+msgstr "Gahunda ntakumirwa"
+
+#: definitions/VitalEventsReport.py:41
+#, python-format
+msgid "VITAL EVENTS: %s"
+msgstr ""
+
+#: models/GeneratedReport.py:35 models/GeneratedReport.py:43
 msgid "Pending"
 msgstr "Yegereje"
 
-#: models/GeneratedReport.py:38
-#: models/GeneratedReport.py:46
+#: models/GeneratedReport.py:36 models/GeneratedReport.py:44
 msgid "Started"
 msgstr "yatangiye"
 
-#: models/GeneratedReport.py:39
-#: models/GeneratedReport.py:47
+#: models/GeneratedReport.py:37 models/GeneratedReport.py:45
 msgid "Retrying"
 msgstr "Yongeye"
 
-#: models/GeneratedReport.py:40
-#: models/GeneratedReport.py:48
+#: models/GeneratedReport.py:38 models/GeneratedReport.py:46
 msgid "Failed"
 msgstr "Yananiranye"
 
-#: models/GeneratedReport.py:41
-#: models/GeneratedReport.py:49
+#: models/GeneratedReport.py:39 models/GeneratedReport.py:47
 msgid "Succeeded"
 msgstr "Yaciyemo"
 
-#: models/GeneratedReport.py:56
+#: models/GeneratedReport.py:54
 msgid "Generated Report"
 msgstr "Raporo yakozwe"
 
-#: models/GeneratedReport.py:57
+#: models/GeneratedReport.py:55
 msgid "Generated Reports"
 msgstr "Raporo zakozwe"
 
-#: models/GeneratedReport.py:65
+#: models/GeneratedReport.py:63
 msgid "Reference to the report to be generated"
 msgstr "Gutegereza raporo izakorwa"
 
-#: models/GeneratedReport.py:67
+#: models/GeneratedReport.py:65
 msgid "Filename"
 msgstr "Izina rya dosiye"
 
-#: models/GeneratedReport.py:69
+#: models/GeneratedReport.py:67
 msgid "Location of generated report file"
 msgstr "Dosiye raporo yakozwe ibitsemo"
 
-#: models/GeneratedReport.py:70
-#: models/Report.py:28
+#: models/GeneratedReport.py:68 models/Report.py:28
 msgid "Title"
 msgstr "Umutwe"
 
-#: models/GeneratedReport.py:72
+#: models/GeneratedReport.py:70
 msgid "Full title of report"
 msgstr "Inyito yuzuye ya raporo"
 
-#: models/GeneratedReport.py:73
+#: models/GeneratedReport.py:71
 msgid "File format"
 msgstr "Forume dosiye yakozwemo"
 
-#: models/GeneratedReport.py:75
+#: models/GeneratedReport.py:73
 msgid "File format of report (e.g., PDF)"
 msgstr "Forume raporo yakozwemo (urugero: PDF)"
 
-#: models/GeneratedReport.py:76
+#: models/GeneratedReport.py:74
 msgid "Period title"
 msgstr "Umutwe w'igihe"
 
-#: models/GeneratedReport.py:78
+#: models/GeneratedReport.py:76
 msgid "Description of the time period for the report (e.g., \"January 2011\")"
 msgstr "Igisobanuro ku gihe raporo yakorewe (urugero., \\\"Mutarama 2011\\\")"
 
-#: models/GeneratedReport.py:80
+#: models/GeneratedReport.py:78
 msgid "Variant title"
 msgstr "Umutwe w'igikorwaho raporo"
 
-#: models/GeneratedReport.py:82
+#: models/GeneratedReport.py:80
 msgid "Description of the variant for the report (e.g., \"Ntungu Clinic\")"
 msgstr "Igisobanuro ku gikorwaho raporo (urugero., \\\"Ntungu Clinic\\\")"
 
-#: models/GeneratedReport.py:84
+#: models/GeneratedReport.py:82
 msgid "Progress"
 msgstr "Aho bigeze"
 
-#: models/GeneratedReport.py:86
+#: models/GeneratedReport.py:84
 msgid "Task state"
 msgstr "Icyo gukora"
 
-#: models/GeneratedReport.py:88
+#: models/GeneratedReport.py:86
 msgid "Task ID"
 msgstr "Nomero y'igikorwa"
 
-#: models/GeneratedReport.py:90
-msgid "The task identifier used internally by RabbitMQ and celeryd to identify the task used to generate this report."
+#: models/GeneratedReport.py:88
+msgid ""
+"The task identifier used internally by RabbitMQ and celeryd to identify the "
+"task used to generate this report."
 msgstr ""
 "Icyuma kibigenewe kiragaragaza icyakozwe ngo iyi raporo ishobore kuboneka"
 
-#: models/GeneratedReport.py:93
+#: models/GeneratedReport.py:91
 msgid "Started at"
 msgstr "Byatangiye"
 
-#: models/GeneratedReport.py:94
+#: models/GeneratedReport.py:92
 msgid "Finished at"
 msgstr "Birangira"
 
-#: models/GeneratedReport.py:95
+#: models/GeneratedReport.py:93
 msgid "Error message"
 msgstr "Ubutumwa burimo ikosa"
 
-#: models/GeneratedReport.py:99
+#: models/GeneratedReport.py:97
 #, python-format
 msgid "<Generated: %(title)s, (%(fname)s), ID: %(pk)d>"
 msgstr "<yakozwe: %(title)s, (%(fname)s), Nomero: %(pk)d>"
@@ -909,7 +1228,7 @@ msgstr "Inyito y'imfashanyigisho raporo yatekererejwemo"
 msgid "Could not import report definition named \"%s\"."
 msgstr "Kwimura raporo y'ibisobanuro yiswe \"%s\" byananiranye"
 
-#: timeperiods/__init__.py:28
+#: timeperiods/__init__.py:32
 #, python-format
 msgid "No period type with code %s"
 msgstr "Nta bwoko bw'igihe bufite code %s"
@@ -948,11 +1267,13 @@ msgid "Week of %(start)s"
 msgstr "Icyumweru cya %(start)s"
 
 #: timeperiods/definitions/FourWeeks.py:52
+#: timeperiods/definitions/ThirteenWeeks.py:56
 #, python-format
 msgid "Weeks %(start)s to %(end)s"
 msgstr "Ibyumweru %(start)s kugeza %(end)s"
 
 #: timeperiods/definitions/FourWeeks.py:55
+#: timeperiods/definitions/ThirteenWeeks.py:59
 #, python-format
 msgid "Monday %(n)d week(s) ago"
 msgstr "Kuwa mbere %(n) icyumweru (ibyumweru) bishize"
@@ -998,6 +1319,29 @@ msgstr "Ukwezi (buri munsi)"
 msgid "One calendar month X months ago (by day)"
 msgstr "Ukwezi kumwe X amezi ashize (umunsi ku munsi)"
 
+#: timeperiods/definitions/QuarterByMonth.py:16
+#, fuzzy
+msgid "Quarter (by Month)"
+msgstr "Amezi 12 (ukwezi ku kwezi)"
+
+#: timeperiods/definitions/QuarterByMonth.py:17
+#, fuzzy
+msgid "Quarter starting X months ago"
+msgstr "Ibihembwe bine uhereye X amezi ashize"
+
+#: timeperiods/definitions/QuarterByMonth.py:46
+#: timeperiods/definitions/SixMonths.py:46
+#: timeperiods/definitions/SixMonths.py:53
+#: timeperiods/definitions/TwelveMonths.py:43
+#, python-format
+msgid "%(start)s to %(end)s (Monthly)"
+msgstr "%(start)s kugeza %(end)s (buri kwezi)"
+
+#: timeperiods/definitions/QuarterByMonth.py:50
+#, fuzzy, python-format
+msgid "Quarter starting %(start)d months ago"
+msgstr "Amezi 2 uhereye %(start)d"
+
 #: timeperiods/definitions/SevenYearsByQuarter.py:13
 msgid "7 Years (by Quarter)"
 msgstr "Imyaka 7 (igihembwe ku gihembwe)"
@@ -1010,6 +1354,38 @@ msgstr "Imyaka irindwi uhereye X imyaka ishize"
 #, python-format
 msgid "7 years starting %(start)d years ago"
 msgstr "Imyaka 7 uhereye %(start)d imyaka ishize"
+
+#: timeperiods/definitions/SixMonths.py:16
+#, fuzzy
+msgid "6 Months (by Month)"
+msgstr "Amezi 12 (ukwezi ku kwezi)"
+
+#: timeperiods/definitions/SixMonths.py:17
+#, fuzzy
+msgid "Six calendar months starting X months ago"
+msgstr "Amezi cumi n'abiri y'umwaka uhereye X amezi ashize"
+
+#: timeperiods/definitions/SixMonths.py:50
+#: timeperiods/definitions/SixMonths.py:57
+#, fuzzy, python-format
+msgid "6 months starting %(start)d months ago"
+msgstr "Amezi 2 uhereye %(start)d"
+
+#: timeperiods/definitions/ThirteenWeeks.py:15
+msgid "Thirteen Weeks"
+msgstr ""
+
+#: timeperiods/definitions/ThirteenWeeks.py:16
+#, fuzzy
+msgid "Set of Last Thirteen seven-day weeks starting on a Monday X weeks ago"
+msgstr ""
+"Ibyumweru bine by'iminsi irindwi irindwi uhereye kuwa mbere X ibyumweru "
+"bishize"
+
+#: timeperiods/definitions/ThirteenWeeks.py:34
+#, fuzzy, python-format
+msgid "%(start)s - %(end)s"
+msgstr "%(start)s kugeza %(end)s"
 
 #: timeperiods/definitions/ThreeYearsByQuarter.py:13
 msgid "3 Years (by Quarter)"
@@ -1031,11 +1407,6 @@ msgstr "Amezi 12 (ukwezi ku kwezi)"
 #: timeperiods/definitions/TwelveMonths.py:14
 msgid "Twelve calendar months starting X months ago"
 msgstr "Amezi cumi n'abiri y'umwaka uhereye X amezi ashize"
-
-#: timeperiods/definitions/TwelveMonths.py:43
-#, python-format
-msgid "%(start)s to %(end)s (Monthly)"
-msgstr "%(start)s kugeza %(end)s (buri kwezi)"
 
 #: timeperiods/definitions/TwelveMonths.py:47
 #: timeperiods/definitions/TwelveMonthsByQuarter.py:47
@@ -1073,3 +1444,6 @@ msgstr "%(start)s na %(end)s"
 #, python-format
 msgid "2 months starting %(start)d months ago"
 msgstr "Amezi 2 uhereye %(start)d"
+
+#~ msgid "Checked On (DDMMYY)"
+#~ msgstr "Isuzuma ryo kuwa (Umunsi + Ukwezi + Umwaka)"
