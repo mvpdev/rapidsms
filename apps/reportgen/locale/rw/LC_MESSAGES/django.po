@@ -347,7 +347,7 @@ msgstr "Kubyimbirwa"
 
 #: definitions/ChwReport.py:245
 msgid "[No MUAC]"
-msgstr "[No MUAC]"
+msgstr "[Nta MUAC]"
 
 #: definitions/ChwReport.py:246
 msgid "U"
@@ -419,7 +419,7 @@ msgstr "Ibipimo bya MUAC biheruka"
 
 #: definitions/MvisIndicators.py:31
 msgid "MVIS Indicators"
-msgstr "Ibipimo ngenderwaho bya MV"
+msgstr "Ibipimo ngenderwaho bya MVIS"
 
 #: definitions/MvisIndicators.py:36
 msgid "Vital Events"
