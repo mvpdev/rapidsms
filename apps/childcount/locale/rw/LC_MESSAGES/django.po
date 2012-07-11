@@ -303,7 +303,7 @@ msgstr "Nta mujyanama ukoresha nomero %(id)d ubaho."
 #: views.py:607 views.py:694
 #, python-format
 msgid "%(num)s patients have been migrated to %(chw)s"
-msgstr ""
+msgstr "Abarwayi %(num)s bimuriwe kwa %(chw)s"
 
 #: charts/utils.py:14
 msgid "chart"
@@ -328,7 +328,7 @@ msgid ""
 "%(ufive)d under 5y, %(underone)d under 1y, %(unine)d under 9m, %(tclient)d "
 "total registered clients"
 msgstr ""
-"(%(sdate)s->%(edate)s): %(numhvisit)d gahunda yo husura ingo, %(muac)d MUAC "
+"(%(sdate)s->%(edate)s): %(numhvisit)d gahunda yo gusura ingo, %(muac)d MUAC "
 "(%(severemuac)d Imirire mibi mu ibara ritukura/Imirire mibi mu ibara "
 "ry'umuhondo) %(rdt)d RDT. Ufite %(household)d ingo, %(ufive)d batagejeje "
 "imyaka 5, %(underone)d batagejeje umwaka 1, %(unine)d batagejeje amezi 9, "
@@ -403,7 +403,7 @@ msgstr "iri mu bubiko rusange bw'amakuru ariko yanditseho ko IDAKORESHWA"
 #: commands/ChownCommand.py:37 commands/HouseholdHeadCommand.py:26
 msgid ""
 "Cannot run chown command from cell phone. Use the computer interface instead."
-msgstr "Ibyo wifuza ntibishoboka ukoresheje mobile. Ahubwo koresha mudasobwa"
+msgstr "Ibyo wifuza ntibishoboka ukoresheje telefone igendanwa. Ahubwo koresha mudasobwa"
 
 #: commands/ChownCommand.py:44
 msgid "Lookup command requires at least one health ID."
@@ -5984,7 +5984,12 @@ msgstr ""
 msgid "Results Range "
 msgstr "Ibisubizo byabonetse"
 
-#: models/OMRSErrorLog.py:23
+#: models/OMRSErrorLog.py:25
+#, fuzzy
+msgid "UnKnown Error"
+msgstr "Ntibisobanutse namba."
+
+#: models/OMRSErrorLog.py:26
 msgid "Transmission Error"
 msgstr ""
 
