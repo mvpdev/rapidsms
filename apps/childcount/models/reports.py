@@ -1449,6 +1449,44 @@ class SanitationReport(CCReport):
 reversion.register(SanitationReport, follow=['ccreport_ptr'])
 
 
+class ExtendedSanitationReport(SanitationReport):
+
+    class Meta:
+        app_label = 'childcount'
+        db_table = 'cc_extsanitation_rpt'
+        verbose_name = _(u"Sanitation Report")
+        verbose_name_plural = _(u"Sanitation Reports")
+ 
+    FACILITY_YES = 'Y'
+    FACILITY_NO = 'N'
+    FACILITY_UNKNOWN = 'U'
+    FACILITY_CHOICES = (
+        (FACILITY_YES, _(u"Yes")),
+        (FACILITY_NO, _(u"No")),
+        (FACILITY_UNKNOWN, _(u"Unknown")))
+
+    USE_SOAP = "S"
+    USE_ASH = "AS"
+    USE_WATER = "OWR"
+    USE_CHOICES = (
+        (USE_SOAP, _("Soap")),
+        (USE_WATER, _("Ash")),
+        (USE_ASH, _("Only Water")))
+    
+    handwash_facility = models.CharField(_(u"Hand Wash Facility"), \
+                                choices=FACILITY_CHOICES, max_length=1, \
+                                default=FACILITY_UNKNOWN, \
+                                help_text=_(u"Hand Wash Facility"))
+    wash_handwith = models.CharField(_(u"Wash Hand with"), max_length=4, \
+                                choices=USE_CHOICES, default=USE_WATER,\
+                                help_text=_(u"Hand Wash Facility"))
+    shower = models.CharField(_(u"Have Shower"), choices=FACILITY_CHOICES, \
+                                    default=FACILITY_UNKNOWN, max_length=4, \
+                                    help_text=_(u"Have shower Facility"))
+
+reversion.register(ExtendedSanitationReport, follow=['ccreport_ptr'])
+
+                              
 class DrinkingWaterReport(CCReport):
 
     class Meta:

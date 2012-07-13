@@ -67,5 +67,8 @@ try:
     from childcount.forms.LabResultsForm import LabResultsForm
     #EndTLI
 
+    #Koraro specific
+    from childcount.forms.ExtendedSanitationForm import ExtendedSanitationForm
+    
 except ImportError:
     pass

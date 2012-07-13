@@ -1,0 +1,16 @@
+{% load i18n %}{
+'id': 'D', 
+'fields': [
+        {'id': 'healthid', 'type': 'f', 'name': "{% trans "ID" %}", 'title': "{% trans "Head of Household HEALTH ID" %}"},
+        {'id': 'san', 'type': 's', 'name': "{% trans "SAN" %}", 'title': "{% trans "Sanitation Section" %}"},
+        {'id': 'toilet_type', 'type': 'f', 'name': "{% trans "Toilet Type" %}", 'title': "{% trans "What kind of toilet facility do the members of your HH usually use?" %}"},
+        {'id': 'shared', 'type': 'f', 'name': "{% trans "Shared?" %}", 'title': "{% trans "Do you share this facility with other households?  [Y-N-U]" %}"},
+        {'id': 'faility_handwash', 'type': 'f', 'name': "{% trans "Handwash Facility?" %}", 'title': "{% trans " Is there hand washing facility near the toilet?" %}"},
+        {'id': 'wash_with', 'type': 'f', 'name': "{% trans "Wash Hand with" %}", 'title': "{% trans "What do your household members use to wash their hands after using toilet?" %}"},
+        {'id': 'shower', 'type': 'f', 'name': "{% trans "Have Shower" %}", 'title': "{% trans "Is there shower in the household?" %}"},
+        {'id': 'dw', 'type': 's', 'name': "{% trans "DW" %}", 'title': "{% trans "Drinking Water Section" %}"},
+        {'id': 'main_water_source', 'type': 'f', 'name': "{% trans "Main Water Source" %}", 'title': "{% trans "What is the main source of drinking-water for members of your household?" %}"},
+        {'id': 'treated', 'type': 'f', 'name': "{% trans "Treated?" %}", 'title': "{% trans "Do you treat your water in any way to make it safer to drink? [Y-N-U]" %}"},
+        {'id': 'measure_taken', 'type': 'f', 'name': "{% trans "Safety Measure Taken" %}", 'title': "{% trans "What do you usually do to the water to make it safer to drink?" %}"},
+    ]
+}

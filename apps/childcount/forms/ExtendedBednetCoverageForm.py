@@ -78,7 +78,6 @@ class ExtendedBednetCoverageForm(CCForm):
         if bnr.function_nets < 0:
             raise ValueError(_("| Number of functioning nets cannot be negative."))
 
-
         if not self.params[5].isdigit():
             raise ParseError(_(u"| Number of damaged bednets received " \
                                 "must be a  number."))
