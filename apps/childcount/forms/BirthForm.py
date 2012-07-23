@@ -149,7 +149,7 @@ class BirthForm(CCForm):
 
         self.response = cd_string
         if weight:
-            self.response += _(", %(weight)skg birth weight") % \
+            self.response += _(u", %(weight)skg birth weight") % \
                               {'weight': weight}
 
         br.clinic_delivery = cd_db

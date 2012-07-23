@@ -146,7 +146,7 @@ class PatientRegistrationForm(CCForm):
                                       "or the age, in months, for children " \
                                       "under two years."))
                 elif patient.dob > date.today():
-                    raise BadValue(_("The birth date you gave %(bdate)s) " \
+                    raise BadValue(_(u"The birth date you gave %(bdate)s) " \
                                      "is in the future!  Please try reentering " \
                                      "the date with the full year " \
                                      "(like 2009 instead of 09).") % \
@@ -274,5 +274,5 @@ class PatientRegistrationForm(CCForm):
         except:
             pass
 
-        self.response = _("You successfuly registered %(patient)s.") % \
+        self.response = _(u"You successfuly registered %(patient)s.") % \
                     {'patient': patient}

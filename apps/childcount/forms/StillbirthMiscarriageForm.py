@@ -88,11 +88,11 @@ class StillbirthMiscarriageForm(CCForm):
         sbmr.incident_date = doi
         sbmr.save()
 
-        self.response = _("Stillbirth or miscarriage on %(doi)s.") % \
+        self.response = _(u"Stillbirth or miscarriage on %(doi)s.") % \
                          {'doi': doi}
         sbmr.setup_reminders()
 
-        msg = _("%(patient)s from %(location)s (%(loc_code)s) "\
+        msg = _(u"%(patient)s from %(location)s (%(loc_code)s) "\
                 "had a %(summary)s. " \
                 "You may contact CHW %(chw)s for details.") % \
                 {'patient': sbmr.encounter.patient,

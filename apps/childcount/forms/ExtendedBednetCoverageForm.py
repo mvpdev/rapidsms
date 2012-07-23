@@ -52,7 +52,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
         bnr.people = int(self.params[1])
         if bnr.people < 0:
-            raise ValueError(_("| Number of people cannot be negative."))
+            raise ValueError(_(u"| Number of people cannot be negative."))
 
         if not self.params[2].isdigit():
             raise ParseError(_(u"| Number of sleeping sites must be " \
@@ -60,7 +60,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
         bnr.sleeping_sites = int(self.params[2])
         if bnr.sleeping_sites < 0:
-            raise ValueError(_("| Number of sleeping sites cannot be negative."))
+            raise ValueError(_(u"| Number of sleeping sites cannot be negative."))
 
         if not self.params[3].isdigit():
             raise ParseError(_(u"| Number of bednets received earlier " \
@@ -68,7 +68,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
         bnr.earlier_nets = int(self.params[3])
         if bnr.earlier_nets < 0:
-            raise ValueError(_("| Number of nets given earlier cannot be negative."))
+            raise ValueError(_(u"| Number of nets given earlier cannot be negative."))
 
         if not self.params[4].isdigit():
             raise ParseError(_(u"| Number of available " \
@@ -76,7 +76,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
         bnr.function_nets = int(self.params[4])
         if bnr.function_nets < 0:
-            raise ValueError(_("| Number of functioning nets cannot be negative."))
+            raise ValueError(_(u"| Number of functioning nets cannot be negative."))
 
         if not self.params[5].isdigit():
             raise ParseError(_(u"| Number of damaged bednets received " \
@@ -84,7 +84,7 @@ class ExtendedBednetCoverageForm(CCForm):
 
         bnr.damaged_nets = int(self.params[5])
         if bnr.damaged_nets < 0:
-            raise ValueError(_("| Number of damage nets cannot be negative.")) 
+            raise ValueError(_(u"| Number of damage nets cannot be negative."))
         bnr.save()
 
         self.response = _(u"%(patient)s: %(p)d people, "\

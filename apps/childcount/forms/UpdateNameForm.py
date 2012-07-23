@@ -44,6 +44,6 @@ class UpdateNameForm(CCForm):
         patient.save()
 
         #display response
-        self.response = _("You successfuly changed name of %(patient)s to "  \
+        self.response = _(u"You successfuly changed name of %(patient)s to "  \
                           "%(newname)s") % {'patient': pname,  \
                             'newname': newname}
