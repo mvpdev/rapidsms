@@ -232,7 +232,7 @@ msgstr "Nta murwayi ufite nomero y'ubuzima %(hid)s"
 #: tasks.py:162
 #, fuzzy, python-format
 msgid "Please follow up on %s for fever."
-msgstr "Kurikirana %(person)s kubera uko %(signs)s"
+msgstr "Kurikirana %s kubera y'uko afite umuriro"
 
 #: tasks.py:201
 #, python-format
