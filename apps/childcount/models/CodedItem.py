@@ -73,6 +73,7 @@ class CodedItem(models.Model):
         'arv': (_('arv'), _(u"ARV")),
         'azt': (_('azt'), _(u"AZT")),
         'lb': (_('lb'), _(u"Albendazole")),
+        'ab': (_('ab'), _(u"Antibiotic Drugs")),
     }
 
     school = {
