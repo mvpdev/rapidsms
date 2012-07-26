@@ -71,5 +71,5 @@ class InactivatePatientForm(CCForm):
 
         psr.save()
 
-        self.response = _("%(patient)s status updated") % \
+        self.response = _(u"%(patient)s status updated") % \
                            {'patient': patient}

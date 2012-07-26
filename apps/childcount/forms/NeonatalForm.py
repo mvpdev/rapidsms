@@ -39,7 +39,7 @@ class NeonatalForm(CCForm):
 
         visits = self.params[1]
         if not visits.isdigit():
-            raise BadValue(_("| Clinic visits since birth | must be entered " \
+            raise BadValue(_(u"| Clinic visits since birth | must be entered " \
                              "as a number"))
         visits = int(visits)
 

@@ -152,7 +152,7 @@ class SauriPregnancyForm(CCForm):
 
         month = self.params[1]
         if not month.isdigit() or int(month) not in range(1, 10):
-            raise BadValue(_("Month of pregnancy must be a number between "\
+            raise BadValue(_(u"Month of pregnancy must be a number between "\
                                "1 and 9."))
         month = int(month)
 

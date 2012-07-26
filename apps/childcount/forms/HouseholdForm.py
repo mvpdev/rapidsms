@@ -65,7 +65,7 @@ class HouseholdForm(CCForm):
 
         patient.save()
 
-        self.response = _("You successfuly associated  %(patient)s with " \
+        self.response = _(u"You successfuly associated  %(patient)s with " \
                             " %(father)s , %(mother)s") %  \
                                 {'patient': patient, \
                                'father':  patient.household, \

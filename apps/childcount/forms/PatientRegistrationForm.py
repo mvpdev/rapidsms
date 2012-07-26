@@ -6,7 +6,7 @@ import re
 from datetime import date, datetime
 
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, activate
 
 from locations.models import Location
 
@@ -76,8 +76,8 @@ class PatientRegistrationForm(CCForm):
             health_id_obj = HealthId.objects.get(health_id__iexact=health_id, \
                                                  status__in=valid_statuses)
         except HealthId.DoesNotExist:
-            raise BadValue(_(u"That health ID (%(id)s) is not valid." % \
-                              {'id': health_id.upper()}))
+            raise BadValue(_(u"That health ID (%(id)s) is not valid.") %\
+                           {'id': health_id.upper()})
 
         patient = Patient()
         patient.health_id = health_id
@@ -146,7 +146,7 @@ class PatientRegistrationForm(CCForm):
                                       "or the age, in months, for children " \
                                       "under two years."))
                 elif patient.dob > date.today():
-                    raise BadValue(_("The birth date you gave %(bdate)s) " \
+                    raise BadValue(_(u"The birth date you gave %(bdate)s) " \
                                      "is in the future!  Please try reentering " \
                                      "the date with the full year " \
                                      "(like 2009 instead of 09).") % \
@@ -274,5 +274,5 @@ class PatientRegistrationForm(CCForm):
         except:
             pass
 
-        self.response = _("You successfuly registered %(patient)s.") % \
+        self.response = _(u"You successfuly registered %(patient)s.") % \
                     {'patient': patient}

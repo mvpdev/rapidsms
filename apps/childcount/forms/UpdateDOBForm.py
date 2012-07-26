@@ -57,5 +57,5 @@ class UpdateDOBForm(CCForm):
         patient.save
 
         #display response
-        self.response = _("You successfuly changed DOB of %(patient)s ") \
+        self.response = _(u"You successfuly changed DOB of %(patient)s ") \
                            % {'patient': patient}

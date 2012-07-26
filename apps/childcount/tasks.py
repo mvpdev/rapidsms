@@ -145,6 +145,7 @@ def daily_late_fever_reminder():
                                 rdt_result=FeverReport.RDT_POSITIVE, \
                             encounter__patient__status=Patient.STATUS_ACTIVE)\
                                 .order_by('encounter__chw')
+    frs = FeverReport.objects.filter().order_by('encounter__chw')
     current_reporter = None
     data = {}
     for report in frs:
@@ -156,6 +157,8 @@ def daily_late_fever_reminder():
         if not current_reporter or current_reporter != report.encounter.chw:
             current_reporter = report.encounter.chw
             data[current_reporter] = []
+        # change to CHW language
+        activate(report.encounter.chw.language)
         _msg = _(u"Please follow up on %s for fever.") % report.encounter.patient
         data[current_reporter].append(_msg)
         print current_reporter, _msg
@@ -193,6 +196,8 @@ def daily_danger_sign_reminder():
         if not current_reporter or current_reporter != report.encounter.chw:
             current_reporter = report.encounter.chw
             data[current_reporter] = []
+        # change to CHW language
+        activate(report.encounter.chw.language)
         _msg = _(u"Please follow up with %(person)s for %(signs)s") % \
             {'person': report.encounter.patient,
             'signs': report.short_summary()}

@@ -102,17 +102,6 @@ class FeverForm(CCForm):
                                     'plural': (tabs > 1) and 's' or ''}
             self._short_msg = _("Positive RDT result. ")
             self.response = self._short_msg + instructions
-
-            '''alert = \
-                _("MRDT> Child %(last_name)s, %(first_name)s, "\
-                "%(gender)s/%(age)s (%(zone)s) has MALARIA%(danger)s. "\
-                      "CHW: ..." % info)
-
-            expires_on = datetime.now() + timedelta(7)
-            case = Case(patient=patient, expires_on=expires_on, \
-                        type=Case.TYPE_FEVER)
-            case.save()
-            '''
         elif rdt == FeverReport.RDT_NEGATIVE:
             self.response = _(u"Negative RDT result.")
             self._short_msg = self.response

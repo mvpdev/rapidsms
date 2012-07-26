@@ -29,4 +29,4 @@ class VerbalAutopsyForm(CCForm):
         va = VerbalAutopsyReport(encounter=self.encounter)
         va.done = True
         va.save()
-        self.response = _("Verbal autopsy complete!")
+        self.response = _(u"Verbal autopsy complete!")

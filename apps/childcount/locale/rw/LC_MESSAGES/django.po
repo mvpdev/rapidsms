@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Childcount+\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 17:25+0300\n"
+"POT-Creation-Date: 2012-07-23 11:19+0300\n"
 "PO-Revision-Date: 2011-11-12 14:50+0300\n"
 "Last-Translator: benjamin <ben.rukundo@yahoo.fr>\n"
 "Language-Team: Kinyarwanda\n"
@@ -175,8 +175,8 @@ msgstr "# w'abagore batwite."
 
 #: dashboard_sections.py:57 models/reports.py:282 models/reports.py:808
 #: models/reports.py:900 models/reports.py:1000 models/reports.py:1428
-#: models/reports.py:1490 models/reports.py:1498 models/reports.py:1612
-#: models/reports.py:1668 models/reports.py:1676
+#: models/reports.py:1466 models/reports.py:1539 models/reports.py:1547
+#: models/reports.py:1674 models/reports.py:1730 models/reports.py:1738
 msgid "Unknown"
 msgstr "Ntibisobanutse namba."
 
@@ -229,28 +229,28 @@ msgstr "BYANZE GUCAMO: ntibijyanye."
 msgid "There is no patient with                 health ID %(hid)s"
 msgstr "Nta murwayi ufite nomero y'ubuzima %(hid)s"
 
-#: tasks.py:159
+#: tasks.py:162
 #, fuzzy, python-format
 msgid "Please follow up on %s for fever."
-msgstr "Kurikirana %(person)s kubera uko %(signs)s"
+msgstr "Kurikirana %s kubera y'uko afite umuriro"
 
-#: tasks.py:196
+#: tasks.py:201
 #, python-format
 msgid "Please follow up with %(person)s for %(signs)s"
 msgstr "Kurikirana %(person)s kubera uko %(signs)s"
 
-#: tasks.py:238
+#: tasks.py:243
 #, python-format
 msgid "The following clients are due for MUAC: %(ids)s"
 msgstr "Abarwayi bakurikira bagomba gukorerwa ikizamini cya MUAC: %(ids)s"
 
-#: tasks.py:310
+#: tasks.py:315
 #, python-format
 msgid "Remind the following to go for ANC at health center: %(list)s."
 msgstr ""
 "Ibutsa aba bagore batwite kujya kwipimisha inda ku kigo nderabuzima: %(list)s"
 
-#: tasks.py:366
+#: tasks.py:371
 #, python-format
 msgid ""
 "Please send %(patient)s to the health center for their appointment on "
@@ -258,7 +258,7 @@ msgid ""
 msgstr ""
 "Ohereza %(patient)s ku kigo nderabuzima kubonana na muganga kuwa %(apt_date)s"
 
-#: tasks.py:437
+#: tasks.py:442
 #, python-format
 msgid ""
 "Please send %(patient)s to the health center on for their failed appointment "
@@ -858,27 +858,27 @@ msgstr "Birasaba nibura nomero imwe y'ubuzima"
 msgid "Configuration Error: Please contact system administrator."
 msgstr "Ikosa rikomeye: Itabaze ushinzwe ikoranabuhanga."
 
-#: commands/nids/NIDSCommand.py:82
+#: commands/nids/NIDSCommand.py:83
 #, python-format
 msgid "Successful: %(patients)s. "
 msgstr "Biciyemo: %(patients)s."
 
-#: commands/nids/NIDSCommand.py:84
+#: commands/nids/NIDSCommand.py:85
 #, python-format
 msgid "Over 59m: %(patients)s. "
 msgstr "Birenze iminota 59: %(patients)s."
 
-#: commands/nids/NIDSCommand.py:87
+#: commands/nids/NIDSCommand.py:88
 #, python-format
 msgid "Inactive: %(patients)s. "
 msgstr "Bibagiranye: %(patients)s."
 
-#: commands/nids/NIDSCommand.py:90
+#: commands/nids/NIDSCommand.py:91
 #, python-format
 msgid "Invalid HealthID: %(hid)s. "
 msgstr "Nomero y'ubuzima itemewe: %(hid)s."
 
-#: commands/nids/NIDSCommand.py:93
+#: commands/nids/NIDSCommand.py:94
 #, python-format
 msgid "Already reported: %(patients)s. "
 msgstr "Hari raporo byagaragayemo: %(patients)s."
@@ -1446,15 +1446,15 @@ msgstr "Umubare w'inzitiramibu zihari ugomba kuba umubare."
 msgid "| Number of functioning nets cannot be negative."
 msgstr "Umubare w'uinzitiramibu zikoreshwa ntushobora kurutwa na zero."
 
-#: forms/ExtendedBednetCoverageForm.py:83
+#: forms/ExtendedBednetCoverageForm.py:82
 msgid "| Number of damaged bednets received must be a  number."
 msgstr "Umubare w'inzitiramibu zatanzwe zitari nzima ugomba kuba umubare."
 
-#: forms/ExtendedBednetCoverageForm.py:88
+#: forms/ExtendedBednetCoverageForm.py:87
 msgid "| Number of damage nets cannot be negative."
 msgstr "Umubare w'inzitiramibu zangiritse ntugomba kurutwa na zero."
 
-#: forms/ExtendedBednetCoverageForm.py:91
+#: forms/ExtendedBednetCoverageForm.py:90
 #, python-format
 msgid ""
 "%(patient)s: %(p)d people, %(sites)d sleeping site(s), %(er)d net(s) given "
@@ -1463,6 +1463,45 @@ msgstr ""
 "%(patient)s: %(p)d people, %(sites)d uburyamo(s), %(er)d inzitiramibu(s) "
 "zatanzwe mbere, %(nets)d inzitiramibu(s) zihari, %(dm)d inzitiramibu "
 "zangiritse(s)."
+
+#: forms/ExtendedSanitationForm.py:131 forms/SanitationForm.py:94
+msgid ""
+"Not enough info. Expected: | kind of toilet facility | how many share? |"
+msgstr ""
+"Amakuru adahagije. Igitegerejwe: | ubwoko bw'inyubako y'ubwiherero | Bwakira "
+"abantu bangahe? |"
+
+#: forms/ExtendedSanitationForm.py:136 forms/SanitationForm.py:99
+#, python-format
+msgid "| Toilet type | must be %(choices)s."
+msgstr "| Ubwoko bw'ubwiherero | hitamo %(choices)s. "
+
+#: forms/ExtendedSanitationForm.py:143 forms/SanitationForm.py:106
+#, fuzzy, python-format
+msgid "| Do you share toilet? | must be %s."
+msgstr "Hari abo musangiye ubwiherero ? / andika umubare cyangwa %(choices)s."
+
+#: forms/ExtendedSanitationForm.py:150
+#, fuzzy, python-format
+msgid "| Is there hand washing facility? | must be %s."
+msgstr ""
+"Umubyeyi / umurera wanditse afite imyaka mike cyane itamwemerera kuba "
+"umubyeyi. (%(choices)s)."
+
+#: forms/ExtendedSanitationForm.py:158
+#, fuzzy, python-format
+msgid "| What do they wash hand with? | must be %s."
+msgstr "Hari abo musangiye ubwiherero ? / andika umubare cyangwa %(choices)s."
+
+#: forms/ExtendedSanitationForm.py:164
+#, fuzzy, python-format
+msgid "| Is there shower?  | must be %s."
+msgstr "Hari abo musangiye ubwiherero ? / andika umubare cyangwa %(choices)s."
+
+#: forms/ExtendedSanitationForm.py:170 forms/SanitationForm.py:113
+#, python-format
+msgid "Primary Sanitation: %(san)s Share: %(share)s "
+msgstr "Ibikoresho b'ibanze by'isukura: %(san)s Ababikoresha: %(share)s"
 
 #: forms/FamilyPlanningForm.py:32
 msgid ""
@@ -1569,19 +1608,19 @@ msgstr ""
 msgid "Positive RDT result. "
 msgstr "Igisubizo cya RDT kiri positifu."
 
-#: forms/FeverForm.py:117
+#: forms/FeverForm.py:106
 msgid "Negative RDT result."
 msgstr "Igisubizo cya RDT kiri negatifu."
 
-#: forms/FeverForm.py:120
+#: forms/FeverForm.py:109
 msgid "Unknown RDT result."
 msgstr "Igisubizo cya RDT kidasobanutse."
 
-#: forms/FeverForm.py:149
+#: forms/FeverForm.py:138
 msgid " Given: "
 msgstr "Hatanzwe:"
 
-#: forms/FeverForm.py:154
+#: forms/FeverForm.py:143
 #, python-format
 msgid ""
 "%(patient)s has %(msg)s %(danger_signs)s.%(meds)s %(referral)s %(chw)s "
@@ -2043,7 +2082,7 @@ msgstr "Iyo nomero y'ubuzima yamaze guhabwa %(patient)s na %(chw)s"
 #: forms/PatientRegistrationForm.py:79
 #, python-format
 msgid "That health ID (%(id)s) is not valid."
-msgstr "Iyo nomero y'ubuzima (%(id)s ntibaho."
+msgstr "Iyo nomero y'ubuzima (%(id)s) ntibaho."
 
 #: forms/PatientRegistrationForm.py:89
 msgid "| location | patient names | gender | age or DOB | head_of_household |"
@@ -2307,28 +2346,6 @@ msgstr "Ivuriro ry'ibanze ryoherezwaho (amasaha24)"
 #: forms/ReferralForm.py:66 models/reports.py:1075
 msgid "Convenient Referral"
 msgstr "Ivuriro ribereye transiferi"
-
-#: forms/SanitationForm.py:94
-msgid ""
-"Not enough info. Expected: | kind of toilet facility | how many share? |"
-msgstr ""
-"Amakuru adahagije. Igitegerejwe: | ubwoko bw'inyubako y'ubwiherero | Bwakira "
-"abantu bangahe? |"
-
-#: forms/SanitationForm.py:99
-#, python-format
-msgid "| Toilet type | must be %(choices)s."
-msgstr "| Ubwoko bw'ubwiherero | hitamo %(choices)s. "
-
-#: forms/SanitationForm.py:106
-#, fuzzy, python-format
-msgid "| Do you share toilet? | must be %s."
-msgstr "Hari abo musangiye ubwiherero ? / andika umubare cyangwa %(choices)s."
-
-#: forms/SanitationForm.py:113
-#, python-format
-msgid "Primary Sanitation: %(san)s Share: %(share)s "
-msgstr "Ibikoresho b'ibanze by'isukura: %(san)s Ababikoresha: %(share)s"
 
 #: forms/SauriPregnancyForm.py:134
 msgid "Only female patients can be pregnant."
@@ -2786,7 +2803,8 @@ msgstr ""
 msgid "No Follow-Up Visits (never or after 7 days)"
 msgstr "Nta kurikirana ryabaye (habe na rimwe cyangwa nyuma y'iminsi 7)"
 
-#: helpers/chw.py:94 indicators/pregnancy.py:15 models/Case.py:47
+#: helpers/chw.py:94 helpers/chw.py:153 indicators/pregnancy.py:15
+#: models/Case.py:47
 msgid "Pregnancy"
 msgstr "Igihe umugore amara atwite"
 
@@ -2810,7 +2828,7 @@ msgstr "Impinja zizwi zavukiye mu ivuriro"
 msgid "Neonatal Reports (within 7 days)"
 msgstr "Raporo z'abana bavutse (mu gihe cy'iminsi 7)"
 
-#: helpers/chw.py:106
+#: helpers/chw.py:106 helpers/chw.py:145
 msgid "Under Five"
 msgstr "Munsi y'imyaka itanu"
 
@@ -2873,6 +2891,35 @@ msgstr "Abana batagejeje imyaka itanu bafite ikibazo cyo guhitwa"
 #: helpers/chw.py:133
 msgid "ORS Given"
 msgstr "ORS zatanzwe"
+
+#: helpers/chw.py:147 indicators/registration.py:163
+msgid "HH with under 5"
+msgstr ""
+
+#: helpers/chw.py:148 indicators/household.py:239 indicators/household.py:265
+msgid "HH with under 5 visited last 30 days"
+msgstr ""
+
+#: helpers/chw.py:155 indicators/registration.py:180
+#, fuzzy
+msgid "HH with pregnancy"
+msgstr "Igihe umugore amara atwite"
+
+#: helpers/chw.py:156 indicators/household.py:290
+msgid "HH with pregnancy visited last 30 days"
+msgstr ""
+
+#: helpers/chw.py:161 indicators/neonatal.py:14
+msgid "Neonatal"
+msgstr "Abavutse"
+
+#: helpers/chw.py:163 indicators/registration.py:197
+msgid "HH with neonate"
+msgstr ""
+
+#: helpers/chw.py:164 indicators/household.py:315
+msgid "HH with neonate visited last 7 days"
+msgstr ""
 
 #: helpers/patient.py:80
 msgid "None"
@@ -2937,11 +2984,11 @@ msgstr ""
 msgid " Top performer was %(top)s with %(max)s."
 msgstr "Uwarushije abandi ni %(top)s yabonye %(max)s."
 
-#: indicators/appointment.py:14 models/reports.py:1554
+#: indicators/appointment.py:14 models/reports.py:1616
 msgid "Appointment"
 msgstr "Gahunda"
 
-#: indicators/appointment.py:21 models/reports.py:1555
+#: indicators/appointment.py:21 models/reports.py:1617
 msgid "Appointments"
 msgstr "Za gahunda"
 
@@ -4130,6 +4177,22 @@ msgstr "% rya gahunda zo gusura ingo zubahirije igihe"
 msgid "Percentage of households getting an on-time visit"
 msgstr "Ijanisha ry'ingo zashyizwe kuri gahunda y'isura"
 
+#: indicators/household.py:240
+msgid "Total Unique Visits for last 30 days"
+msgstr ""
+
+#: indicators/household.py:266
+msgid "Unique Household Visits with UnderFive for last 30 days"
+msgstr ""
+
+#: indicators/household.py:291
+msgid "Unique Household visit with Pregnancy for last 30 days"
+msgstr ""
+
+#: indicators/household.py:316
+msgid "Unique Household visit with Neonatal for last 7 days"
+msgstr ""
+
 #: indicators/medicine_given.py:10
 msgid "Medicine Given"
 msgstr "imiti yatanzwe"
@@ -4241,10 +4304,6 @@ msgstr ""
 "Umubare w'iminsi ishize kuva mudasobwa ihuza imiyoboro yakiriye ubutumwa "
 "buturutse aho abakoresha ibi byuma binjiriza amakuru"
 
-#: indicators/neonatal.py:14
-msgid "Neonatal"
-msgstr "Abavutse"
-
 #: indicators/neonatal.py:22
 msgid "Number of neonatal reports"
 msgstr "Umubare wa raporo ku bana bavutse"
@@ -4277,7 +4336,7 @@ msgstr ""
 "Ijanisha rya raporo ku bana bavutse zatanzwe mu gihe cy'iminsi irindwi "
 "y'ivuka ry'abarwayi bavutse muri iki gihe"
 
-#: indicators/nutrition.py:19 models/CodedItem.py:93
+#: indicators/nutrition.py:19 models/CodedItem.py:94
 msgid "Nutrition"
 msgstr "Imirire"
 
@@ -4647,6 +4706,18 @@ msgstr "Telefone igendanwa"
 msgid "Total registered patients with mobile number"
 msgstr "Umubare w'abarwayi banditswe bafite nomero ya telefone igendanwa"
 
+#: indicators/registration.py:164
+msgid "Total Household with underfive as at period end"
+msgstr ""
+
+#: indicators/registration.py:181
+msgid "Total Household with Pregnancy as at period end"
+msgstr ""
+
+#: indicators/registration.py:198
+msgid "Total Household with Neonatal as at period end"
+msgstr ""
+
 #: indicators/sanitation.py:17
 msgid "Sanitation"
 msgstr "Isukura"
@@ -4994,11 +5065,11 @@ msgstr "Ikibazo"
 msgid "Cases"
 msgstr "Ibibazo"
 
-#: models/Case.py:38 models/Referral.py:34 models/reports.py:1562
+#: models/Case.py:38 models/Referral.py:34 models/reports.py:1624
 msgid "Open"
 msgstr "Bitararangira"
 
-#: models/Case.py:39 models/Referral.py:35 models/reports.py:1563
+#: models/Case.py:39 models/Referral.py:35 models/reports.py:1625
 msgid "Closed"
 msgstr "Byarangiye"
 
@@ -5016,8 +5087,8 @@ msgid "Type of case"
 msgstr "Iyihe ntera"
 
 #: models/Case.py:57 models/HealthId.py:39 models/Patient.py:116
-#: models/Referral.py:39 models/reports.py:909 models/reports.py:1570
-#: models/reports.py:1774 models/reports.py:1842
+#: models/Referral.py:39 models/reports.py:909 models/reports.py:1632
+#: models/reports.py:1836 models/reports.py:1913
 #: templates/childcount/data_entry.html:49
 msgid "Status"
 msgstr "Icyiciro"
@@ -5146,7 +5217,7 @@ msgstr "Kumagara"
 msgid "dr"
 msgstr "dr"
 
-#: models/CodedItem.py:32 models/CodedItem.py:92
+#: models/CodedItem.py:32 models/CodedItem.py:93
 msgid "fp"
 msgstr "fp"
 
@@ -5214,7 +5285,7 @@ msgstr "pa"
 msgid "Abdominal / pelvic pain"
 msgstr "Ububabare bwo mu nda"
 
-#: models/CodedItem.py:41 models/CodedItem.py:95
+#: models/CodedItem.py:41 models/CodedItem.py:96
 msgid "ph"
 msgstr "ph"
 
@@ -5306,8 +5377,8 @@ msgstr "Gutakaza ibiro"
 msgid "z"
 msgstr "z"
 
-#: models/CodedItem.py:52 models/reports.py:1420 models/reports.py:1472
-#: models/reports.py:1489
+#: models/CodedItem.py:52 models/reports.py:1420 models/reports.py:1521
+#: models/reports.py:1538
 msgid "Other"
 msgstr "Ibindi"
 
@@ -5431,158 +5502,166 @@ msgstr "lb"
 msgid "Albendazole"
 msgstr "Albendazole"
 
-#: models/CodedItem.py:79
+#: models/CodedItem.py:76
+msgid "ab"
+msgstr ""
+
+#: models/CodedItem.py:76
+msgid "Antibiotic Drugs"
+msgstr ""
+
+#: models/CodedItem.py:80
 #, fuzzy
 msgid "ml"
 msgstr "#mal"
 
-#: models/CodedItem.py:79
+#: models/CodedItem.py:80
 msgid "Male, Never been to school and but likely"
 msgstr ""
 
-#: models/CodedItem.py:80
+#: models/CodedItem.py:81
 #, fuzzy
 msgid "md"
 msgstr "Dmgd"
 
-#: models/CodedItem.py:80
+#: models/CodedItem.py:81
 msgid "Male Drop Out"
 msgstr ""
 
-#: models/CodedItem.py:81
+#: models/CodedItem.py:82
 msgid "mn"
 msgstr ""
 
-#: models/CodedItem.py:81
+#: models/CodedItem.py:82
 msgid "Male, Never been to school and not likely"
 msgstr ""
 
-#: models/CodedItem.py:82
+#: models/CodedItem.py:83
 #, fuzzy
 msgid "fd"
 msgstr "f"
 
-#: models/CodedItem.py:82
+#: models/CodedItem.py:83
 msgid "Female Drop Out"
 msgstr ""
 
-#: models/CodedItem.py:83
+#: models/CodedItem.py:84
 #, fuzzy
 msgid "fl"
 msgstr "f"
 
-#: models/CodedItem.py:83
+#: models/CodedItem.py:84
 msgid "Female, Never been to school and but likely"
 msgstr ""
 
-#: models/CodedItem.py:84
+#: models/CodedItem.py:85
 #, fuzzy
 msgid "fn"
 msgstr "f"
 
-#: models/CodedItem.py:84
+#: models/CodedItem.py:85
 msgid "Female, Never been to school and not likely"
 msgstr ""
 
-#: models/CodedItem.py:88
+#: models/CodedItem.py:89
 msgid "bp"
 msgstr "bp"
 
-#: models/CodedItem.py:88
+#: models/CodedItem.py:89
 msgid "Birth plan"
 msgstr "Kubyara kuri gahunda"
 
-#: models/CodedItem.py:89
+#: models/CodedItem.py:90
 msgid "bf"
 msgstr "bf"
 
-#: models/CodedItem.py:89
+#: models/CodedItem.py:90
 msgid "Breast-feeding"
 msgstr "Konka"
 
-#: models/CodedItem.py:90
+#: models/CodedItem.py:91
 msgid "bn"
 msgstr "bn"
 
-#: models/CodedItem.py:90
+#: models/CodedItem.py:91
 msgid "Bednet"
 msgstr "Inzitiramibu"
 
-#: models/CodedItem.py:91
+#: models/CodedItem.py:92
 msgid "ec"
 msgstr "ec"
 
-#: models/CodedItem.py:91
+#: models/CodedItem.py:92
 msgid "Environmental cleanliness"
 msgstr "Isuku y'aho batuye"
 
-#: models/CodedItem.py:92 models/CodedItem.py:118
+#: models/CodedItem.py:93 models/CodedItem.py:119
 msgid "Family planning"
 msgstr "Imirire"
 
-#: models/CodedItem.py:93
+#: models/CodedItem.py:94
 msgid "nut"
 msgstr "nut"
 
-#: models/CodedItem.py:94
+#: models/CodedItem.py:95
 msgid "ed"
 msgstr "ed"
 
-#: models/CodedItem.py:94
+#: models/CodedItem.py:95
 msgid "General education"
 msgstr "Uburezi rusange"
 
-#: models/CodedItem.py:95
+#: models/CodedItem.py:96
 msgid "Public health"
 msgstr "Ubuzima rusange"
 
-#: models/CodedItem.py:96
+#: models/CodedItem.py:97
 msgid "im"
 msgstr "im"
 
-#: models/CodedItem.py:96
+#: models/CodedItem.py:97
 msgid "Immunisations"
 msgstr "Inkingo"
 
-#: models/CodedItem.py:97
+#: models/CodedItem.py:98
 msgid "sh"
 msgstr "sh"
 
-#: models/CodedItem.py:97
+#: models/CodedItem.py:98
 msgid "Sanitation & Hygiene"
 msgstr "Isuku n'isukura"
 
-#: models/CodedItem.py:111 models/CodedItemTranslation.py:26
+#: models/CodedItem.py:112 models/CodedItemTranslation.py:26
 msgid "Coded Item"
 msgstr "Ikintu kibonwa n'uzi code gusa"
 
-#: models/CodedItem.py:112
+#: models/CodedItem.py:113
 msgid "Coded Items"
 msgstr "Ikimenyetso cyo kumererwa nabi"
 
-#: models/CodedItem.py:117 models/DangerSignTranslation.py:27
+#: models/CodedItem.py:118 models/DangerSignTranslation.py:27
 msgid "Danger sign"
 msgstr "Ikimenyetso cyo kumererwa nabi"
 
-#: models/CodedItem.py:119
+#: models/CodedItem.py:120
 msgid "Medicine"
 msgstr "Umuti"
 
-#: models/CodedItem.py:120
+#: models/CodedItem.py:121
 msgid "Reason for not attending school"
 msgstr ""
 
-#: models/CodedItem.py:121
+#: models/CodedItem.py:122
 msgid "Counseling topic"
 msgstr "Ingingo y'ibiganiro by'ubujyanama"
 
-#: models/CodedItem.py:123 models/CodedItemTranslation.py:27
+#: models/CodedItem.py:124 models/CodedItemTranslation.py:27
 #: models/DangerSignTranslation.py:26 models/LabTest.py:22
 #: models/Vaccine.py:18
 msgid "Code"
 msgstr "Code"
 
-#: models/CodedItem.py:124 models/Encounter.py:49 models/reports.py:400
+#: models/CodedItem.py:125 models/Encounter.py:49 models/reports.py:400
 msgid "Type"
 msgstr "ubwoko"
 
@@ -5967,7 +6046,7 @@ msgstr ""
 msgid "TLI: LabTest Answers"
 msgstr ""
 
-#: models/LabTestResults.py:23 models/reports.py:1841 models/reports.py:1901
+#: models/LabTestResults.py:23 models/reports.py:1912 models/reports.py:1972
 #, fuzzy
 msgid "Lab Test"
 msgstr "Ikizamini cy'agakoko gatera ubwandu bwa sida"
@@ -6020,11 +6099,11 @@ msgstr "Ubutumwa"
 msgid "Patients"
 msgstr "abarwayi"
 
-#: models/Patient.py:66 models/reports.py:1771
+#: models/Patient.py:66 models/reports.py:1833
 msgid "Alive"
 msgstr "ariho"
 
-#: models/Patient.py:67 models/reports.py:1772
+#: models/Patient.py:67 models/reports.py:1834
 msgid "Relocated"
 msgstr "yimuwe"
 
@@ -6121,16 +6200,18 @@ msgstr "Raporo ku bana bavutse"
 #: models/reports.py:280 models/reports.py:464 models/reports.py:474
 #: models/reports.py:670 models/reports.py:680 models/reports.py:699
 #: models/reports.py:806 models/reports.py:814 models/reports.py:898
-#: models/reports.py:1426 models/reports.py:1496 models/reports.py:1610
-#: models/reports.py:1666 models/reports.py:1674 models/reports.py:1719
+#: models/reports.py:1426 models/reports.py:1464 models/reports.py:1545
+#: models/reports.py:1672 models/reports.py:1728 models/reports.py:1736
+#: models/reports.py:1781
 msgid "Yes"
 msgstr "Yego"
 
 #: models/reports.py:281 models/reports.py:465 models/reports.py:475
 #: models/reports.py:671 models/reports.py:681 models/reports.py:700
 #: models/reports.py:807 models/reports.py:815 models/reports.py:899
-#: models/reports.py:1427 models/reports.py:1497 models/reports.py:1611
-#: models/reports.py:1667 models/reports.py:1675 models/reports.py:1720
+#: models/reports.py:1427 models/reports.py:1465 models/reports.py:1546
+#: models/reports.py:1673 models/reports.py:1729 models/reports.py:1737
+#: models/reports.py:1782
 msgid "No"
 msgstr "Oya"
 
@@ -6707,11 +6788,11 @@ msgstr "Abana baraye mu nzitiramibu"
 msgid "Number of Pregnant women who slept under bednet last night."
 msgstr "Umubare w'abana batagejeje ku myaka itanu baraye baraye mu nzitiramibu"
 
-#: models/reports.py:1398
+#: models/reports.py:1398 models/reports.py:1457
 msgid "Sanitation Report"
 msgstr "Raporo y'ibikoresho by'isukura"
 
-#: models/reports.py:1399
+#: models/reports.py:1399 models/reports.py:1458
 msgid "Sanitation Reports"
 msgstr "Raporo z'ibikoresho by'isukura"
 
@@ -6759,352 +6840,384 @@ msgstr ""
 msgid "Do you share the toilet "
 msgstr ""
 
-#: models/reports.py:1446
+#: models/reports.py:1472
+msgid "Soap"
+msgstr ""
+
+#: models/reports.py:1473
+#, fuzzy
+msgid "Ash"
+msgstr "sh"
+
+#: models/reports.py:1474
+#, fuzzy
+msgid "Only Water"
+msgstr "Amazi"
+
+#: models/reports.py:1476 models/reports.py:1479 models/reports.py:1482
+#, fuzzy
+msgid "Hand Wash Facility"
+msgstr "Kwa muganga"
+
+#: models/reports.py:1480
+msgid "Wash Hand with"
+msgstr ""
+
+#: models/reports.py:1483
+msgid "Have Shower"
+msgstr ""
+
+#: models/reports.py:1485
+#, fuzzy
+msgid "Have shower Facility"
+msgstr "Kwa muganga"
+
+#: models/reports.py:1495
 msgid "Drinking Water Report"
 msgstr "Raporo ku mazi yo kunywa"
 
-#: models/reports.py:1447
+#: models/reports.py:1496
 msgid "Drinking Water Reports"
 msgstr "Raporo ku mazi yo kunywa"
 
-#: models/reports.py:1462
+#: models/reports.py:1511
 msgid "Piped water into dwelling or yard/plot"
 msgstr "Impombo zigeza amazi mu nzu cyangwa mu rugo"
 
-#: models/reports.py:1463
+#: models/reports.py:1512
 msgid "Public Tap/Standpipe"
 msgstr "Robine rusange / Kano"
 
-#: models/reports.py:1464
+#: models/reports.py:1513
 msgid "Tube well / Borehole"
 msgstr "Iriba"
 
-#: models/reports.py:1465
+#: models/reports.py:1514
 msgid "Protected dug well"
 msgstr "Iriba rikoreye neza"
 
-#: models/reports.py:1466
+#: models/reports.py:1515
 msgid "Unprotected Dug well"
 msgstr "Iriba ridakoreye neza"
 
-#: models/reports.py:1467
+#: models/reports.py:1516
 msgid "Protected Spring"
 msgstr "Isoko izitiye"
 
-#: models/reports.py:1468
+#: models/reports.py:1517
 msgid "Unprotected spring"
 msgstr "Isoko itazitiye"
 
-#: models/reports.py:1469
+#: models/reports.py:1518
 msgid "Rain water collection"
 msgstr "Gutega amazi y'imvura"
 
-#: models/reports.py:1470
+#: models/reports.py:1519
 msgid "River/Canal"
 msgstr ""
 
-#: models/reports.py:1471
+#: models/reports.py:1520
 #, fuzzy
 msgid "Surface water (dam, lake, pond, stream"
 msgstr "Amazi areka (umugezi utemba, ikidamu, ikiyaga, ikidendezi, isoko)"
 
-#: models/reports.py:1483
+#: models/reports.py:1532
 msgid "Boil water"
 msgstr "Guteka amazi"
 
-#: models/reports.py:1484
+#: models/reports.py:1533
 #, fuzzy
 msgid "Bleach/chlorine"
 msgstr "Imiti isukura amazi igurwa"
 
-#: models/reports.py:1485
+#: models/reports.py:1534
 msgid "Strain it through cloth"
 msgstr "Kuyayunguruza igitambaro"
 
-#: models/reports.py:1486
+#: models/reports.py:1535
 msgid "Use water filter: sand/ceramic"
 msgstr "Gukoresha icyuma kiyungurura amazi: umucanga / amasarabwayi"
 
-#: models/reports.py:1487
+#: models/reports.py:1536
 msgid "Solar disinfection"
 msgstr "Kwicisha mikorobe imirasire y'izuba"
 
-#: models/reports.py:1488
+#: models/reports.py:1537
 msgid "Let it stand and settle"
 msgstr "Kuyatereka agacayuka"
 
-#: models/reports.py:1500
+#: models/reports.py:1549
 msgid "Water Source"
 msgstr "Amazi y'isoko"
 
-#: models/reports.py:1503
+#: models/reports.py:1552
 msgid "Treat Water?"
 msgstr ""
 
-#: models/reports.py:1506
+#: models/reports.py:1555
 msgid "Treatment method"
 msgstr "Uburyo bwo kuyasukura"
 
-#: models/reports.py:1507
+#: models/reports.py:1556
 msgid "What do you use to make it safer to drink"
 msgstr "Usukuza iki amazi yo kunywa"
 
-#: models/reports.py:1520
+#: models/reports.py:1582
 msgid "Bednet Distribution Report"
 msgstr "raporo y'itangwa ry'inzitiramibu"
 
-#: models/reports.py:1521
+#: models/reports.py:1583
 msgid "Betnet Distribution Reports"
 msgstr "Raporo z'itangwa ry'inzitiramibu"
 
-#: models/reports.py:1523
+#: models/reports.py:1585
 msgid "Bed net received"
 msgstr "Inzitiramibu zakiriwe"
 
-#: models/reports.py:1534
+#: models/reports.py:1596
 msgid "Initial Antenatal Visit Report"
 msgstr "Raporo y'isuzuma ry'ibanze ry'ababyeyi batwite"
 
-#: models/reports.py:1535
+#: models/reports.py:1597
 msgid "Initial Antenatal Visit Reports"
 msgstr "Raporo z'isuzuma ry'ibanze ry'ababyeyi batwite"
 
-#: models/reports.py:1537
+#: models/reports.py:1599
 msgid "Expected Date of Delivery"
 msgstr "Itariki umubyeyi ashobora kuzabyariraho"
 
-#: models/reports.py:1564
+#: models/reports.py:1626
 msgid "Pending Clinic Visit"
 msgstr "Gahunda itaha yo kujya ku ivuriro"
 
-#: models/reports.py:1566
+#: models/reports.py:1628
 msgid "Next appointment"
 msgstr "Gahunda itaha"
 
-#: models/reports.py:1568
+#: models/reports.py:1630
 msgid "Date closed"
 msgstr "Itariki yarenze"
 
-#: models/reports.py:1573
+#: models/reports.py:1635
 msgid "Is the appointment still open or closed?"
 msgstr "Gahunda yo gusuzuma iracyariho cyangwa igihe cyararenze ?"
 
-#: models/reports.py:1603
+#: models/reports.py:1665
 msgid "Pregnancy Registration"
 msgstr "Kwandika abagore batwite"
 
-#: models/reports.py:1604
+#: models/reports.py:1666
 msgid "Pregnancy Registrations"
 msgstr "Kwandika abagore batwite"
 
-#: models/reports.py:1614
+#: models/reports.py:1676
 msgid "Married?"
 msgstr "Yarashatse ?"
 
-#: models/reports.py:1617 models/reports.py:1619
+#: models/reports.py:1679 models/reports.py:1681
 msgid "Number of Pregancies"
 msgstr "Umubire w'inda atwise"
 
-#: models/reports.py:1626
+#: models/reports.py:1688
 msgid "Husband"
 msgstr "Umugabo we"
 
-#: models/reports.py:1627
+#: models/reports.py:1689
 msgid "The husband to this pregnant woman"
 msgstr "Umugabo w'uyu mubyeyi  (umugore utwite)"
 
-#: models/reports.py:1658
+#: models/reports.py:1720
 msgid "HIV Test"
 msgstr "Ikizamini cy'agakoko gatera ubwandu bwa sida"
 
-#: models/reports.py:1659
+#: models/reports.py:1721
 msgid "HIV Tests"
 msgstr "Ibizamini by'agakoko gatera ubwandu bwa sida"
 
-#: models/reports.py:1669
+#: models/reports.py:1731
 msgid "No Consent"
 msgstr "atari ku bushake"
 
-#: models/reports.py:1678
+#: models/reports.py:1740
 msgid "HIV+?"
 msgstr "Abana n'ubwandu ?"
 
-#: models/reports.py:1680
+#: models/reports.py:1742
 msgid "Blood drawn?"
 msgstr "Yafashwe amaraso ?"
 
-#: models/reports.py:1713
+#: models/reports.py:1775
 msgid "DBS Result"
 msgstr "Igisubizo cya DBS"
 
-#: models/reports.py:1714
+#: models/reports.py:1776
 msgid "DBS Results"
 msgstr "Ibisubizo bya DBS"
 
-#: models/reports.py:1721
+#: models/reports.py:1783
 msgid "Test Result"
 msgstr "Igisubizo cy'ikizami"
 
-#: models/reports.py:1746
+#: models/reports.py:1808
 msgid "CD4 Result"
 msgstr "Igisubizo cy'ikizami cya CD4 (abasirikare barinda umubiri)"
 
-#: models/reports.py:1747
+#: models/reports.py:1809
 msgid "CD4 Results"
 msgstr "Ibisubizo by'ibizami bya CD4 (abasirikare barinda umubiri)"
 
-#: models/reports.py:1749
+#: models/reports.py:1811
 msgid "CD4 Count"
 msgstr "Kubara CD4 (abasirikare barinda umubiri)"
 
-#: models/reports.py:1764
+#: models/reports.py:1826
 msgid "Patient status Report"
 msgstr "Raporo y'icyiciro umurwayi abarizwamo"
 
-#: models/reports.py:1765
+#: models/reports.py:1827
 msgid "Patients status Report"
 msgstr "Raporo y'ibyiciro abarwayi babarizwamo"
 
-#: models/reports.py:1776
+#: models/reports.py:1838
 msgid "Reason"
 msgstr "Ibisobanuro"
 
-#: models/reports.py:1786 models/reports.py:1787
+#: models/reports.py:1848 models/reports.py:1849
 #, fuzzy
 msgid "School Attendance Report"
 msgstr "Compte-rendu de grossesse Sauri"
 
-#: models/reports.py:1793
+#: models/reports.py:1855
 msgid "Primary School"
 msgstr ""
 
-#: models/reports.py:1794
+#: models/reports.py:1856
 msgid "Secondary School"
 msgstr ""
 
-#: models/reports.py:1797
+#: models/reports.py:1859
 msgid "#School aged Pupils "
 msgstr ""
 
-#: models/reports.py:1800
+#: models/reports.py:1862
 msgid "#School aged Pupils Attending school "
 msgstr ""
 
-#: models/reports.py:1811
+#: models/reports.py:1882
 #, fuzzy
 msgid "Lab Test Report"
 msgstr "Raporo ku nzitiramibu"
 
-#: models/reports.py:1812
+#: models/reports.py:1883
 #, fuzzy
 msgid "Lab Test Reports"
 msgstr "Raporo ku nzitiramibu"
 
-#: models/reports.py:1821 templates/childcount/lab.html:22
+#: models/reports.py:1892 templates/childcount/lab.html:22
 msgid "Incoming"
 msgstr ""
 
-#: models/reports.py:1822
+#: models/reports.py:1893
 msgid "Inprogress"
 msgstr ""
 
-#: models/reports.py:1823 templates/childcount/lab.html:25
+#: models/reports.py:1894 templates/childcount/lab.html:25
 msgid "Stalled"
 msgstr ""
 
-#: models/reports.py:1824
+#: models/reports.py:1895
 msgid "Cancelled"
 msgstr ""
 
-#: models/reports.py:1825 models/reports.py:1902
+#: models/reports.py:1896 models/reports.py:1973
 #: templates/childcount/lab.html:24
 #, fuzzy
 msgid "Results"
 msgstr "Ibisubizo bya DBS"
 
-#: models/reports.py:1834
+#: models/reports.py:1905
 #, fuzzy
 msgid "Received"
 msgstr "Ibisubizo byabonetse"
 
-#: models/reports.py:1835
+#: models/reports.py:1906
 #, fuzzy
 msgid "Insufficient Quantity"
 msgstr "Umubare w'izo basigaranye"
 
-#: models/reports.py:1836
+#: models/reports.py:1907
 msgid "Bad Quality"
 msgstr ""
 
-#: models/reports.py:1837
+#: models/reports.py:1908
 msgid "Wrong Type"
 msgstr ""
 
-#: models/reports.py:1838
+#: models/reports.py:1909
 msgid "No sample"
 msgstr ""
 
-#: models/reports.py:1844
+#: models/reports.py:1915
 #, fuzzy
 msgid "Sample Number"
 msgstr "Nomero ya telefone:"
 
-#: models/reports.py:1846
+#: models/reports.py:1917
 msgid "Progress Status"
 msgstr ""
 
-#: models/reports.py:1898
+#: models/reports.py:1969
 #, fuzzy
 msgid "LAB Result Report"
 msgstr "Raporo ku nzitiramibu"
 
-#: models/reports.py:1899
+#: models/reports.py:1970
 #, fuzzy
 msgid "LAB Result Reports"
 msgstr "Raporo ku nzitiramibu"
 
-#: models/reports.py:1915
+#: models/reports.py:1986
 #, fuzzy
 msgid "Specimen Report"
 msgstr "Raporo y'umuti watanzwe"
 
-#: models/reports.py:1916
+#: models/reports.py:1987
 #, fuzzy
 msgid "Specimen Reports"
 msgstr "Amaraporo ku bapimwe umuriro"
 
-#: models/reports.py:1918
+#: models/reports.py:1989
 msgid "Blood Tubes"
 msgstr ""
 
-#: models/reports.py:1919
+#: models/reports.py:1990
 #, fuzzy
 msgid "Number of blood Tubes"
 msgstr "Number of available bednets"
 
-#: models/reports.py:1921 models/reports.py:1922
+#: models/reports.py:1992 models/reports.py:1993
 msgid "Sputum sample"
 msgstr ""
 
-#: models/reports.py:1924
+#: models/reports.py:1995
 msgid "Stool Sample"
 msgstr ""
 
-#: models/reports.py:1926
+#: models/reports.py:1997
 msgid "Urine Sample"
 msgstr ""
 
-#: models/reports.py:1936
+#: models/reports.py:2007
 #, fuzzy
 msgid "Insurance Report"
 msgstr "Raporo y'impinja zitagejeje ku mwaka"
 
-#: models/reports.py:1937
+#: models/reports.py:2008
 #, fuzzy
 msgid "Insurance Reports"
 msgstr "Raporo z'impinja zitagejeje ku mwaka"
 
-#: models/reports.py:1939
+#: models/reports.py:2010
 #, fuzzy
 msgid "Insurance Number"
 msgstr "Nomero ya telefone:"

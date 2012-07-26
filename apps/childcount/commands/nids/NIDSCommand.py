@@ -60,8 +60,9 @@ class NIDSCommand(CCCommand):
         try:
             phase = Configuration.get('polio_round')
         except Configuration.DoesNotExist:
-            raise CCException(_(u"Configuration Error: Please contact system"
-                                " administrator."))
+            self.message.respond(_(u"Configuration Error: Please contact system"
+                                " administrator."), 'error')
+            return True
         for patient in patients:
             try:
                 rpt = PolioCampaignReport.objects.get(patient=patient,

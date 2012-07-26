@@ -52,13 +52,13 @@ class PregnancyForm(CCForm):
 
         month = self.params[1]
         if not month.isdigit() or int(month) not in range(1, 10):
-            raise BadValue(_("Month of pregnancy must be a number between "\
+            raise BadValue(_(u"Month of pregnancy must be a number between "\
                                "1 and 9"))
         month = int(month)
 
         anc_visits = self.params[2]
         if not anc_visits.isdigit():
-            raise ParseError(_('Number of ANC visits must be a number'))
+            raise ParseError(_(u'Number of ANC visits must be a number'))
         anc_visits = int(anc_visits)
 
         if anc_visits != 0 and len(self.params) < 4:
