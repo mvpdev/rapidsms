@@ -6,7 +6,7 @@ __all__ = ('MvisIndicators', 'MvisIndicatorsTwo','ChwList','Utilization',\
     'StatsDataEntry', 'Operational', 'StatsOmrs', 'PregnancyReport', \
     'ChwReport', 'ChwManagerReport', 'ChwManagerReportTwo', 'UnderFive', \
     'IndicatorChart', 'ChwLog', 'PMTCTDefaulters', 'SpotCheck', \
-    'VitalEventsReport', 'IdentityCards', 'SmsUsage', 'PList', \
+    'VitalEventsReport', 'IdentityCards', 'SmsUsage', 'PList', 'NewReport', \
     'ChwHouseholdVisitCoverage', 'LabReport', 'NotAttendingSchoolReport', \
     'PerformanceCharts', 'PregnantWomenEDDsixweeks')
 
