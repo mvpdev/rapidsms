@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-11 17:41+0300\n"
+"POT-Creation-Date: 2012-07-27 12:40+0300\n"
 "PO-Revision-Date: 2011-11-12 17:02+0300\n"
 "Last-Translator: benjamin <ben.rukundo@yahoo.fr>\n"
 "Language-Team: Kinyarwanda\n"
@@ -237,34 +237,41 @@ msgstr "Ubujyanama"
 msgid "CHW Manager Report"
 msgstr "Raporo y'umuyobozi w'abajyanama b'ubuzima"
 
-#: definitions/ChwManagerReport.py:96
+#: definitions/ChwManagerReport.py:96 definitions/ChwManagerReportTwo.py:96
 msgid ""
 "Error: Maximum XLS column limit exceeded.Please select a shorter time period."
 msgstr ""
 
-#: definitions/ChwManagerReport.py:106 models/GeneratedReport.py:61
-#: models/Report.py:24
+#: definitions/ChwManagerReport.py:106 definitions/ChwManagerReportTwo.py:106
+#: models/GeneratedReport.py:61 models/Report.py:24
 msgid "Report"
 msgstr "Raporo"
 
-#: definitions/ChwManagerReport.py:254 definitions/SmsUsage.py:37
+#: definitions/ChwManagerReport.py:254 definitions/ChwManagerReportTwo.py:254
+#: definitions/SmsUsage.py:37
 msgid "CHW Name"
 msgstr "Izina ry'umujyanama w'ubuzima"
 
-#: definitions/ChwManagerReport.py:255 definitions/SmsUsage.py:37
+#: definitions/ChwManagerReport.py:255 definitions/ChwManagerReportTwo.py:255
+#: definitions/SmsUsage.py:37
 msgid "Clinic"
 msgstr "Ivuriro"
 
-#: definitions/ChwManagerReport.py:268
+#: definitions/ChwManagerReport.py:268 definitions/ChwManagerReportTwo.py:268
 msgid "Millennium Village"
 msgstr "Umudugudu w'ikinyejana"
+
+#: definitions/ChwManagerReportTwo.py:23
+#, fuzzy
+msgid "CHW Manager Report (Latest)"
+msgstr "Raporo y'umuyobozi w'abajyanama b'ubuzima"
 
 #: definitions/ChwReport.py:76
 msgid "Indicators"
 msgstr "Ibipimo"
 
 #: definitions/ChwReport.py:78 definitions/MedicineGivenReport.py:66
-#: definitions/MvisIndicators.py:146
+#: definitions/MvisIndicators.py:146 definitions/MvisIndicatorsTwo.py:70
 msgid "Indicator"
 msgstr "Igipimo"
 
@@ -390,7 +397,7 @@ msgid "%(status)s [%(muac)d]"
 msgstr "%(status)s [%(muac)d]"
 
 #: definitions/IdentityCards.py:57
-#, fuzzy, python-format
+#, python-format
 msgid "No card for %s."
 msgstr "Nta raporo kuri %s."
 
@@ -398,8 +405,8 @@ msgstr "Nta raporo kuri %s."
 msgid "ID Cards for:"
 msgstr ""
 
+#
 #: definitions/IdentityCards.py:109
-#, fuzzy
 msgid "Health ID Card"
 msgstr "Nomero y'ubuzima"
 
@@ -408,8 +415,8 @@ msgstr "Nomero y'ubuzima"
 msgid "DOB: %s"
 msgstr ""
 
+#
 #: definitions/IdentityCards.py:128
-#, fuzzy
 msgid "HH"
 msgstr "Nomero y'urugo"
 
@@ -445,21 +452,21 @@ msgid "LABS IN PROGRESS "
 msgstr ""
 
 #: definitions/LabReport.py:113
-#, fuzzy, python-format
+#, python-format
 msgid "<b>%(name)s  (Generated on %(gen_datetime)s)</b>"
-msgstr "<b>%(name)s - %(title)s (Byakozwe kuwa %(gen_datetime)s)</b> "
+msgstr "<b>%(name)s (Byakozwe kuwa %(gen_datetime)s)</b> "
 
 #: definitions/LabReport.py:128
 msgid "<b>Date of Req</b>"
 msgstr ""
 
+#
 #: definitions/LabReport.py:131
-#, fuzzy
 msgid "<b>MVP Health ID</b>"
 msgstr "Nomero y'ubuzima"
 
+#
 #: definitions/LabReport.py:133
-#, fuzzy
 msgid "<b>Name</b>"
 msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
 
@@ -479,8 +486,8 @@ msgstr ""
 msgid "<b>Test Required </b>"
 msgstr ""
 
+#
 #: definitions/LabReport.py:149
-#, fuzzy
 msgid "<b>Sample #</b>"
 msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
 
@@ -508,8 +515,8 @@ msgstr ""
 msgid "Date of Req"
 msgstr ""
 
+#
 #: definitions/LabReport.py:260
-#, fuzzy
 msgid "MVP Health ID"
 msgstr "Nomero y'ubuzima"
 
@@ -566,15 +573,15 @@ msgstr ""
 msgid "Latest MUAC"
 msgstr "Ibipimo bya MUAC biheruka"
 
+#
 #: definitions/MedicineGivenReport.py:49
-#, fuzzy
 msgid "Medicine Given Report "
 msgstr "+G (Umuti watanzwe)"
 
 #: definitions/MedicineGivenReport.py:72
-#, fuzzy, python-format
+#, python-format
 msgid "Medicine Given Report: %s"
-msgstr "+G (Umuti watanzwe)"
+msgstr "+G (Umuti watanzwe): %s"
 
 #: definitions/MedicineGivenReport.py:84
 msgid "Number of RDT+"
@@ -674,14 +681,40 @@ msgstr ""
 msgid "MVIS Indicators: %s"
 msgstr "Ibipimo ngenderwaho bya MV: %s"
 
-#: definitions/MvisIndicators.py:144
+#: definitions/MvisIndicators.py:144 definitions/MvisIndicatorsTwo.py:68
 msgid "Category"
 msgstr "Icyiciro"
 
-#: definitions/MvisIndicators.py:145
-#, fuzzy
+#
+#: definitions/MvisIndicators.py:145 definitions/MvisIndicatorsTwo.py:69
 msgid "Sub-Category"
 msgstr "Icyiciro"
+
+#: definitions/MvisIndicatorsTwo.py:37
+#, fuzzy
+msgid "MVIS Indicators Two"
+msgstr "Ibipimo ngenderwaho bya MVIS"
+
+#
+#: definitions/MvisIndicatorsTwo.py:42
+#, fuzzy
+msgid "Under Five"
+msgstr "Raporo yakozwe"
+
+#: definitions/MvisIndicatorsTwo.py:46
+#, fuzzy
+msgid "Neonatal"
+msgstr "+N  (abana bavutse)"
+
+#: definitions/MvisIndicatorsTwo.py:50
+#, fuzzy
+msgid "Pregnancy"
+msgstr "+P (Igihe umugore amara atwite)"
+
+#: definitions/MvisIndicatorsTwo.py:65
+#, fuzzy, python-format
+msgid "MVIS Indicators (NEW): %s"
+msgstr "Ibipimo ngenderwaho bya MV: %s"
 
 #: definitions/NotAttendingSchoolReport.py:85 definitions/PList.py:77
 #: definitions/PatientList.py:52
@@ -755,12 +788,12 @@ msgid "Can only generate PDF for performance charts"
 msgstr "Ibyemera gushyirwa muri PDF ni imbonerahamwe z'imikorere gusa"
 
 #: definitions/PerformanceCharts.py:63
-#, fuzzy, python-format
+#, python-format
 msgid "For period %s."
 msgstr "Z'igihe %s"
 
+#
 #: definitions/PregnancyReport.py:29
-#, fuzzy
 msgid "Pregnancy Report"
 msgstr "+PD (abagore batwite banditswe)"
 
@@ -769,8 +802,8 @@ msgstr "+PD (abagore batwite banditswe)"
 msgid "Date Recorded"
 msgstr ""
 
+#
 #: definitions/PregnancyReport.py:60
-#, fuzzy
 msgid "Pregnancy Months"
 msgstr "+P (Igihe umugore amara atwite)"
 
@@ -808,8 +841,8 @@ msgstr ""
 msgid "<b>+P</b>"
 msgstr ""
 
+#
 #: definitions/SpotCheck.py:175
-#, fuzzy
 msgid "<b>+N</b>"
 msgstr "<b>Izina ry'umujyanama w'ubuzima </b> "
 
@@ -881,8 +914,8 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
+#
 #: definitions/SpotCheck.py:334
-#, fuzzy
 msgid "Not Available"
 msgstr "Abahari"
 
@@ -894,23 +927,23 @@ msgstr ""
 msgid "Total"
 msgstr "Igiteranyo"
 
+#
 #: definitions/SpotCheck.py:357
-#, fuzzy
 msgid "General Comments:"
 msgstr "yakozwe kuwa:"
 
+#
 #: definitions/SpotCheck.py:358
-#, fuzzy
 msgid "Overall Performance:"
 msgstr "Imikorere y'abajyanama b'ubuzima"
 
 #: definitions/SpotCheck.py:372
-#, fuzzy, python-format
+#, python-format
 msgid "Generated on %(gen_datetime)s"
 msgstr "(Zakozwe kuwa %(gen_datetime)s)"
 
+#
 #: definitions/SpotCheck.py:375
-#, fuzzy
 msgid ""
 "Prepared By: ___________________________ Submitted On: _____/_____/_________"
 msgstr "Bikozwe na: _____________________________ Bitangwa kuwa:"
@@ -955,8 +988,8 @@ msgstr "Ya:"
 msgid "OpenMRS Sync Data"
 msgstr ""
 
+#
 #: definitions/UnderFive.py:29
-#, fuzzy
 msgid "Under Five Report"
 msgstr "Raporo yakozwe"
 
@@ -1089,12 +1122,12 @@ msgid "SMS error rate."
 msgstr "Igipimo cy'ubutumwa bugufi bwagaragayemo amakosa"
 
 #: definitions/Utilization.py:494
-#, fuzzy, python-format
+#, python-format
 msgid "% of days with SMS / month."
-msgstr "%s Ijanisha ry'iminsi yakiriweho ubutumwa bugufi / ukwezi"
+msgstr ""
 
+#
 #: definitions/VitalEventsReport.py:18
-#, fuzzy
 msgid "Vital Events Report "
 msgstr "Gahunda ntakumirwa"
 
@@ -1319,13 +1352,13 @@ msgstr "Ukwezi (buri munsi)"
 msgid "One calendar month X months ago (by day)"
 msgstr "Ukwezi kumwe X amezi ashize (umunsi ku munsi)"
 
+#
 #: timeperiods/definitions/QuarterByMonth.py:16
-#, fuzzy
 msgid "Quarter (by Month)"
 msgstr "Amezi 12 (ukwezi ku kwezi)"
 
+#
 #: timeperiods/definitions/QuarterByMonth.py:17
-#, fuzzy
 msgid "Quarter starting X months ago"
 msgstr "Ibihembwe bine uhereye X amezi ashize"
 
@@ -1338,7 +1371,7 @@ msgid "%(start)s to %(end)s (Monthly)"
 msgstr "%(start)s kugeza %(end)s (buri kwezi)"
 
 #: timeperiods/definitions/QuarterByMonth.py:50
-#, fuzzy, python-format
+#, python-format
 msgid "Quarter starting %(start)d months ago"
 msgstr "Amezi 2 uhereye %(start)d"
 
@@ -1355,19 +1388,19 @@ msgstr "Imyaka irindwi uhereye X imyaka ishize"
 msgid "7 years starting %(start)d years ago"
 msgstr "Imyaka 7 uhereye %(start)d imyaka ishize"
 
+#
 #: timeperiods/definitions/SixMonths.py:16
-#, fuzzy
 msgid "6 Months (by Month)"
 msgstr "Amezi 12 (ukwezi ku kwezi)"
 
+#
 #: timeperiods/definitions/SixMonths.py:17
-#, fuzzy
 msgid "Six calendar months starting X months ago"
 msgstr "Amezi cumi n'abiri y'umwaka uhereye X amezi ashize"
 
 #: timeperiods/definitions/SixMonths.py:50
 #: timeperiods/definitions/SixMonths.py:57
-#, fuzzy, python-format
+#, python-format
 msgid "6 months starting %(start)d months ago"
 msgstr "Amezi 2 uhereye %(start)d"
 
@@ -1375,15 +1408,15 @@ msgstr "Amezi 2 uhereye %(start)d"
 msgid "Thirteen Weeks"
 msgstr ""
 
+#
 #: timeperiods/definitions/ThirteenWeeks.py:16
-#, fuzzy
 msgid "Set of Last Thirteen seven-day weeks starting on a Monday X weeks ago"
 msgstr ""
 "Ibyumweru bine by'iminsi irindwi irindwi uhereye kuwa mbere X ibyumweru "
 "bishize"
 
 #: timeperiods/definitions/ThirteenWeeks.py:34
-#, fuzzy, python-format
+#, python-format
 msgid "%(start)s - %(end)s"
 msgstr "%(start)s kugeza %(end)s"
 
