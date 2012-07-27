@@ -145,7 +145,6 @@ def daily_late_fever_reminder():
                                 rdt_result=FeverReport.RDT_POSITIVE, \
                             encounter__patient__status=Patient.STATUS_ACTIVE)\
                                 .order_by('encounter__chw')
-    frs = FeverReport.objects.filter().order_by('encounter__chw')
     current_reporter = None
     data = {}
     for report in frs:
