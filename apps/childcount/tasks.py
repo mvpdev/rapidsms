@@ -119,9 +119,9 @@ def daily_fever_reminder():
         if not current_reporter or current_reporter != report.encounter.chw:
             current_reporter = report.encounter.chw
             data[current_reporter] = []
-        _msg = "%s +U F" % report.encounter.patient
-        data[current_reporter].append(_msg)
-        print current_reporter, _msg
+        msg = "%s +U F" % report.encounter.patient
+        data[current_reporter].append(msg)
+        print current_reporter, msg
 
     for key in data:
         msg = ', ' . join(data.get(key))
@@ -159,9 +159,10 @@ def daily_late_fever_reminder():
             data[current_reporter] = []
         # change to CHW language
         activate(report.encounter.chw.language)
-        _msg = _(u"Please follow up on %s for fever.") % report.encounter.patient
-        data[current_reporter].append(_msg)
-        print current_reporter, _msg
+
+        msg = _(u"Please follow up on %s for fever.") % report.encounter.patient
+        data[current_reporter].append(msg)
+        print current_reporter, msg
 
     for key in data:
         msg = ', ' . join(data.get(key))
@@ -198,11 +199,11 @@ def daily_danger_sign_reminder():
             data[current_reporter] = []
         # change to CHW language
         activate(report.encounter.chw.language)
-        _msg = _(u"Please follow up with %(person)s for %(signs)s") % \
+        msg = _(u"Please follow up with %(person)s for %(signs)s") % \
             {'person': report.encounter.patient,
             'signs': report.short_summary()}
-        data[current_reporter].append(_msg)
-        print current_reporter, _msg
+        data[current_reporter].append(msg)
+        print current_reporter, msg
 
     for key in data:
         msg = ', ' . join(data.get(key))
