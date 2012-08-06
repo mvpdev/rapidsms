@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
-# maintainer: ukanga
+# maintainer: Katembu
 
 import time
 from datetime import datetime, date, timedelta
@@ -60,49 +60,59 @@ class ReportDefinition(PrintedReport):
         return rval
 
     def _create_patient_table(self):
-        table = Table(9)
+        table = Table(12)
         table.add_header_row([
             Text(_(u'location')),
             Text(_(u'hid')),
-            Text(_(u'name')),
+            Text(_(u'first_name')),
+            Text(_(u'last_name')),
             Text(_(u'gender')),
             Text(_(u'bod')),
             Text(_(u'edob')),
             Text(_(u'age')),
             Text(_(u'hoh')),
-            Text(_(u'chw'))])
+            Text(_(u'chw')),
+            Text(_(u'chwname')),
+            Text(_(u'commcare_id'))])
 
         return table
 
-    def _add_data_to_table(self, table, chw):
+    def _add_data_to_table(self, table, schw):
         """ add data to table """
 
-        if chw == 'hoh':
+        if schw == 'hoh':
             households = Patient.objects.filter(pk=F('household__pk'),
                  status=Patient.STATUS_ACTIVE)\
                 .order_by('chw', 'location__code')
-        if chw == 'child':
+        if schw == 'child':
             under_five = date.today() - timedelta(days=5*365)
             households = Patient.objects.filter(
                             status=Patient.STATUS_ACTIVE,
                             dob__gte=under_five)\
                 .order_by('chw', 'location__code')
 
-        if chw == 'pregnancy':
+        if schw == 'pregnancy':
             end = datetime.now()
             start = end - relativedelta(months=9)
             households = Patient.objects.all() \
                             .order_by('chw', 'location__code') \
                             .pregnant(start, end)
-     
+
         for household in households:
+            try:
+                hh = household.household.health_id.upper()
+            except:
+                hh = "UNKNOWN"
             table.add_row([
                 Text(household.location.name, bold=True),
                 Text(household.health_id.upper(), bold=True),
-                Text(household.full_name(), bold=True),
-                Text(household.gender, bold=True),
+                Text(household.first_name, bold=True),
+                Text(household.last_name, bold=True),
+                Text(household.get_gender_display().lower(), bold=True),
                 Text(household.dob, bold=True),
                 Text(household.estimated_dob, bold=True),
                 Text(household.humanised_age(), bold=True),
-                Text(household.household.health_id.upper(), bold=True),
-                Text(household.chw.alias, bold=True)])
+                Text(hh, bold=True),
+                Text(household.chw.alias, bold=True),
+                Text(household.chw.full_name(), bold=True),
+                Text("", bold=True)])
