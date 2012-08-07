@@ -468,7 +468,6 @@ class Patient(models.Model):
                     row['end_date'] = row['start_date'] + timedelta(9*30.4375)
                     data[p.pk].append(row)
 
-            print data
             return data
                   
         def pregnant_months(self, start, end, start_month, end_month, 
@@ -556,9 +555,9 @@ class Patient(models.Model):
                 months_since = days_since/30.4375
                 current_month = months_since + pr.pregnancy_month
 
-                print "Considering patient [%s]" % p.health_id.upper()
+                # "Considering patient [%s]" % p.health_id.upper()
                 if not (current_month >= start_month and current_month <= end_month):
-                    print 'not in right month... %f' % current_month
+                    # 'not in right month... %f' % current_month
                     continue
 
                 # If we are not including women who have already delivered,
@@ -578,7 +577,7 @@ class Patient(models.Model):
                     # If the birthreport has been found, then she's no longer
                     # pregnant
                     if b.count() > 0:
-                        print 'birth at on %s' % b[0].dob
+                        # 'birth at on %s' % b[0].dob
                         continue
 
                 if not include_stillbirth:
@@ -593,10 +592,10 @@ class Patient(models.Model):
                     # If there was a stillbirth/misscariage, then she's
                     # no longer pregnant
                     if sbm.count() > 0:
-                        print 'stillbirth'
+                        # 'stillbirth'
                         continue
                 
-                print '*PR submitted now %f (was %f on %s #%d)' % \
+                # '*PR submitted now %f (was %f on %s #%d)' % \
                         (current_month, pr.pregnancy_month, \
                             pr.encounter.encounter_date, pr.pk)
                 pks.add(p.pk)
