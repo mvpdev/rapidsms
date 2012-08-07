@@ -71,7 +71,6 @@ def recent_numbers():
     generated_report_data = {'month': site.summary_stats(month), \
                             'last_month': site.summary_stats(last_month) }
    
-    print generated_report_data
     recent_numbers_columns = [[_(u"This Month (to date)"), 'month'], [_(u"Last Month"), 'last_month']]
     named_rows = [[_(u"+SAM / MAM"),"num_mam_sam"], [_(u"RDT+"), 'num_rdt']]
    
