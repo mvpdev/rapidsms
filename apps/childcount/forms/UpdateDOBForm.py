@@ -2,7 +2,7 @@
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: katembu
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, activate
 
 from childcount.utils import DOBProcessor
 from childcount.forms import CCForm
@@ -28,7 +28,7 @@ class UpdateDOBForm(CCForm):
     def process(self, patient):
         dob = None
         lang = self.message.reporter.language
-
+	activate(lang)
         if len(self.params) < 2:
             raise BadValue(_(u"Not enough info. Expected: New DOB."))
 
@@ -54,7 +54,7 @@ class UpdateDOBForm(CCForm):
 
         patient.estimated_dob = variance > 1
 
-        patient.save
+        patient.save()
 
         #display response
         self.response = _(u"You successfuly changed DOB of %(patient)s ") \
