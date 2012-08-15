@@ -53,8 +53,6 @@ class ReportDefinition(PrintedReport):
             row.append(unicode(ind.short_name))
 
             for t in sub_periods:
-                print "Indicator %s.%s in %s - %s" % \
-                   (str(ind.__module__), ind.slug, t.start, t.end)
                 row.append(ind(t, patients))
           
             table.add_row([Text(c) for c in row])
@@ -79,10 +77,7 @@ class ReportDefinition(PrintedReport):
             row.append(unicode(ind.short_name))
 
             for t in sub_periods:
-                # print "Indicator %s.%s in %s - %s" % \
-                #   (str(ind.__module__), ind.slug, t.start, t.end)
                 x = ind(t, patients)
                 row.append(x)
-                print t, x
             data.append(row)
         return data

@@ -122,9 +122,7 @@ class ReportDefinition(PrintedReport):
         for encounter in encounters:
             patient = encounter.patient
             rpts = encounter.ccreport_set.all()
-            print rpts
             result = self._explode_ccreports(rpts)
-            print result
             reports = u', '.join([c.__class__.__name__ \
                                 for c in encounter.ccreport_set.all()])
             table.add_row([Text(u"%s" \

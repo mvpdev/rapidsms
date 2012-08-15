@@ -173,7 +173,6 @@ class ReportDefinition(PrintedReport):
                     current += 1.0
 
                     for pair in group['columns']:
-                        print pair['name']
                         value = pair['ind'](period, chw.patient_set.all())
                         row.append(Paragraph(format_val(pair['ind'], value), styleN))
                     self.set_progress((100.0*current)/total)
@@ -187,7 +186,6 @@ class ReportDefinition(PrintedReport):
                 self.set_progress((100.0*current)/total)
                 current += 1
                 for pair in group['columns']:
-                    print pair['name']
                     value = pair['ind'](period, patients)
                     row.append(Paragraph(format_val(pair['ind'], value), styleN))
             rows.append(row)

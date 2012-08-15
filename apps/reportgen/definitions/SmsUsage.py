@@ -31,8 +31,6 @@ class ReportDefinition(PrintedReport):
             subtitle = time_period.title, \
             landscape=True)
         self.period = time_period
-        print self.period.title
-        print self.period.sub_periods()
     
         header_row = [Text(_(u'CHW Name')), Text(_('Clinic'))]
 

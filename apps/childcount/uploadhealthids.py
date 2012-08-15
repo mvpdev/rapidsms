@@ -60,8 +60,7 @@ def load_healthids(filename):
                     HealthId.objects.create(
                         health_id = line,
                         status = HealthId.STATUS_GENERATED)
-                    print "Adding health ID %s" % (line)
                     c += 1
                 except IntegrityError:
-                    print "Skipping health ID %s" % (line)
+                    pass
     return c

@@ -234,7 +234,6 @@ def polio_malefemale_summary(request, phase=1, cformat='png'):
                     created_on__lt=next_day, patient__gender=gender,
                     phase=phase).count()})
             cats.append(current_day.strftime("%A %d"))
-        print smdata
         sdata = ()
         for row in smdata:
             sdata += row['count'],
@@ -298,12 +297,10 @@ def daily_summary_per_location(request, phase=1, cformat='png'):
                     phase=phase,
                     patient__chw__location=location).count()})
             cats.append(current_day.strftime("%A %d"))
-        print smdata
         sdata = ()
         for row in smdata:
             sdata += row['count'],
         data.append(sdata)
-    print start_date, end_date
     d.chart.data = data
     d.chart.categoryAxis.categoryNames = cats
     d.chart.valueAxis.valueStep = 50
@@ -529,7 +526,6 @@ def polio_locations_barchart(request, phase=1, cformat='png'):
     for row in smdata:
         data += row['chw__count'],
         cats.append(row['chw__location__name'])
-        print row['chw__count'], row['chw__location__name']
 
     d.chart.data = [data]
     d.chart.categoryAxis.categoryNames = cats
