@@ -1,5 +1,5 @@
 #!/bin/bash
-
+### BEGIN INIT INFO
 # Provides:          rapidsms daemon instance
 # Required-Start:    $all
 # Required-Stop:     $all
@@ -10,6 +10,7 @@
 ### END INIT INFO
 
 # set -e
+
 
 ME=`readlink -f $0`
 WHERE_AM_I=`dirname $ME`
@@ -26,7 +27,8 @@ ROUTER_PID_FILE=/var/run/${NAME}_router.pid
 WEBSERVER_PORT=8000
 WEBSERVER_IP=127.0.0.1
 START_ROUTER=1
-START_WEBSERVER=1
+START_WEBSERVER=0
+VENV_ACTIVATE_PATH=$WHERE_AM_I/../../project_env/bin/activate
 ############### END EDIT ME ##################
 
 # try to source $NAME for orders
@@ -35,6 +37,8 @@ if [ -f /etc/default/$NAME ] ; then
 fi
 
 test -x $DAEMON || exit 0
+
+source $VENV_ACTIVATE_PATH
 
 do_start() {
     if [ "${START_ROUTER}" -eq 1 ] ; then
