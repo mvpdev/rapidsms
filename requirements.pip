@@ -16,3 +16,4 @@ gdata==2.0.16
 xlwt==0.7.1
 simplejson
 -e git://github.com/ukanga/django-staticfiles.git@cc-specific#egg=django-staticfiles
+pyserial
