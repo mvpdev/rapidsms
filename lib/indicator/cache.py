@@ -46,7 +46,7 @@ def cache_simple(func, timeout=60*60*2):
 
         # Simple value is in the cache
         if cached is not None:
-            print "Got cached value!"
+            # "Got cached value!"
             # Cached value is a list of pks
             return cached
             
@@ -81,7 +81,7 @@ def cache_indicator(cls, ind_func, period, data_in):
 
     # First, make sure we want to execute the caching logic
     if not cls.cache:
-        print "skipping cache"
+        # "skipping cache"
         return ind_func(period, data_in)
 
     if not cls.type_out in CACHEABLE_TYPES:
@@ -117,7 +117,7 @@ def cache_indicator(cls, ind_func, period, data_in):
     # Look for a cached value
     cached = cache.get(cache_key)
     if cached is not None:
-        print "Got cached indicator"
+        # "Got cached indicator"
         return cached
 
     
@@ -126,7 +126,7 @@ def cache_indicator(cls, ind_func, period, data_in):
         raise ValueError(_("Cannot cache function that returns a value "\
                             "of None"))
 
-    print "Saving in %s=%s" % (cache_key, str(cache_val))
+    # "Saving in %s=%s" % (cache_key, str(cache_val))
     cache.set(cache_key, cache_val, cls.valid_for)
 
     return cache_val

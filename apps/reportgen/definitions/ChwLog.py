@@ -11,7 +11,7 @@ from ccdoc import Document, Table, Paragraph, \
 
 from locations.models import Location
 
-from childcount.models import CHW, Encounter
+from childcount.models import CHW, Encounter, Patient
 from childcount.models.reports import NutritionReport, SPregnancy, \
     AppointmentReport, FeverReport, UnderOneReport, SUnderOne, \
     DangerSignsReport, MedicineGivenReport, ReferralReport, \
@@ -55,6 +55,7 @@ class ReportDefinition(PrintedReport):
             encounters = Encounter.objects\
                                 .filter(encounter_date__gte=period.start, \
                                 encounter_date__lte=period.end, \
+                                patient__status = Patient.STATUS_ACTIVE, \
                                 patient__chw=chw).order_by('encounter_date')
             if encounters:
                 doc.add_element(Section(u"%s: %s" % (chw, chw.location.name), section_name=chw.username))
@@ -122,9 +123,7 @@ class ReportDefinition(PrintedReport):
         for encounter in encounters:
             patient = encounter.patient
             rpts = encounter.ccreport_set.all()
-            print rpts
             result = self._explode_ccreports(rpts)
-            print result
             reports = u', '.join([c.__class__.__name__ \
                                 for c in encounter.ccreport_set.all()])
             table.add_row([Text(u"%s" \

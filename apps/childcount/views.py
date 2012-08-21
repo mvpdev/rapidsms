@@ -87,16 +87,12 @@ def dashboard_gather_data(dashboard_template_names):
             data[tname] = getattr(dashboard_sections, tname)()
         except AttributeError:
             data[tname] = False
-            print tname
     return data
 
-print ">>>>>>>>>>%s" % get_language()
 @login_required
 def index(request):
     '''Dashboard page '''
     info = {'title': _(u"ChildCount+ Dashboard")}
-    print ">>>>>>>>>>>>>>>%s" % get_language()
-    print ">>>>>>>>>>>>>>>%s" % check_for_language('ti')
     info['lang'] = get_language()
 
     try:
@@ -127,7 +123,6 @@ def site_summary(request, report='site', format='json'):
         elif report == 'week':
             period = FourWeeks.periods()[0].sub_periods()[0]
         else:
-            print report
             return HttpResponse(status=400)
 
         if format == 'json':
@@ -395,9 +390,7 @@ def edit_patient(request, healthid):
         if request.method == 'POST':
             form = PatientForm(request.POST, instance=patient)
             if form.is_valid():
-                print 'saving'
-                print form.save(commit=True)
-                print patient.household
+                form.save(commit=True)
                 return render_to_response(request,
                     'childcount/edit_patient.html', { \
                     'health_id': healthid.upper(),

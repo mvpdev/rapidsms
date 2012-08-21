@@ -2,7 +2,7 @@
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: rgaudin
 
-from datetime import datetime
+import traceback
 
 from rapidsms.webui import settings
 from django.db.models import Q
@@ -153,9 +153,10 @@ def send_to_omrs(router, *args, **kwargs):
         except UnexpectedValueError, e:
             errl = OMRSErrorLog(encounter=encounter)
             errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
-            errl.error_message = e
+            errl.error_message = '%s\n%s' % (e, traceback.format_exc())
             errl.save()
-            router.log('DEBUG', "==> UnexpectedValueError %s" % encounter)
+            router.log('DEBUG', "==> UnexpectedValueError %s\n%s"\
+                        % (encounter, traceback.format_exc()))
             continue
         # assign site-specific ID
         omrsform.openmrs__form_id = form_id
@@ -180,10 +181,12 @@ def send_to_omrs(router, *args, **kwargs):
         except OpenMRSTransmissionError, e:
             errl = OMRSErrorLog(encounter=encounter)
             errl.error_type = OMRSErrorLog.OPENMRS_TRANSMISSION_ERROR
-            errl.error_message = omrsform.render()
+            errl.error_message = '%s\n%s' % (omrsform.render(),
+                                             traceback.format_exc())
             errl.save()
 
-            router.log('DEBUG', u"==> Transmission error %s" % encounter)
+            router.log('DEBUG', u"==> Transmission error %s\n%s"\
+                        % (encounter, traceback.format_exc()))
             # router.log('DEBUG', omrsform.render())
 
             # Don't modify this encounter, just let 
@@ -191,10 +194,12 @@ def send_to_omrs(router, *args, **kwargs):
         except OpenMRSXFormsModuleError, e:
             errl = OMRSErrorLog(encounter=encounter)
             errl.error_type = OMRSErrorLog.OPENMRS_XFORM_ERROR
-            errl.error_message = omrsform.render()
+            errl.error_message = '%s\n%s' % (omrsform.render(),
+                                             traceback.format_exc())
             errl.save()
 
-            router.log('DEBUG', u"==> XForms Module error %s" % encounter)
+            router.log('DEBUG', u"==> XForms Module error %s\n%s"\
+                        % (encounter, traceback.format_exc()))
             #router.log('DEBUG', omrsform.render())
 
             # Mark this encounter sync_omrs=False

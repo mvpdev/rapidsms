@@ -108,8 +108,6 @@ class ReportDefinition(PrintedReport):
             subtitle=time_period.title, \
             landscape=True)
         self.period = time_period
-        print self.period.title
-        print self.period.sub_periods()
 
         header_row = [Text(_(u'Indicator:'))]
 
@@ -509,7 +507,6 @@ class ReportDefinition(PrintedReport):
                 rate_day = (nb_day_per_month * 100) / 1
 
             total_day += nb_day_per_month
-            print total_day
             liste_day_rate.append(rate_day)
 
         sms_per_year = LoggedMessage.incoming.filter(date__gte=self.period.start,\

@@ -84,7 +84,6 @@ class ReportDefinition(PrintedReport):
                 for patient in hs:
                     self.add_card(c, width, height, patient)
                     i += 1
-                    print (i, total)
                     self.set_progress(100.0*i/total)
         c.save()
 
