@@ -98,7 +98,6 @@ def _follow_up_between(period, data_in, delta_start, delta_end):
     # For each referral report that is eligible for
     # follow-up
     for elig in eligs:
-        print "Considering elig rpt %s" % elig
 
         # All FollowUpReports for this patient after the referral
         f = FollowUpReport\
@@ -110,16 +109,13 @@ def _follow_up_between(period, data_in, delta_start, delta_end):
         # There has already been a follow-up counted for this patient,
         # so don't double-count
         if f.filter(encounter__encounter_date__lt=elig.encounter.encounter_date+delta_start):
-            print "\t\tFollowed previously on %s" % f[0].encounter.encounter_date
             continue
 
         if f.filter(encounter__encounter_date__gte=elig.encounter.encounter_date+delta_start,
                     encounter__encounter_date__lt=elig.encounter.encounter_date+delta_end):
-            print "\t\tFollowed on %s*" % f[0].encounter.encounter_date
             count += 1
             continue
             
-        print "\t\tNot followed" 
 
     return count
 

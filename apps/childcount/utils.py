@@ -745,7 +745,6 @@ def get_indicators():
     modules = glob.glob(os.path.dirname(__file__)+'/indicators/*.py')
     base = 'childcount.indicators.'
 
-    print modules
     modules.sort()
     indicators = []
     for m in modules:
@@ -791,7 +790,6 @@ def alert_nutrition_team(name, msg):
     reporters = Reporter\
         .objects\
         .filter(user_ptr__groups__name__in=groups)
-    print reporters
     send_sms(reporters, name, msg)
         
 

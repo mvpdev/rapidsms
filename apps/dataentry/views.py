@@ -32,7 +32,6 @@ def post_proxy(request):
     url = "http://%s:%s" % (conf["host"], conf["port"])
 
     data = request.POST.urlencode()
-    print data
     req = urllib2.Request(url, data)
     stream = urllib2.urlopen(req)
 
@@ -56,7 +55,6 @@ def post_commcare(request):
     url = "http://%s:%s" % (conf["host"], conf["port"])
 
     data = request.POST.urlencode()
-    print data
     req = urllib2.Request(url, data)
     stream = urllib2.urlopen(req)
 

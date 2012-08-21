@@ -79,7 +79,6 @@ class ReportDefinition(PrintedReport):
         i=0
         for i,ind in enumerate(self._indicators):
             title = ind.long_name
-            print title
 
             # Initialize data structure
             data = []
@@ -89,7 +88,6 @@ class ReportDefinition(PrintedReport):
             for t_index, sub_period in enumerate(self._sub_periods):
                 for c_index, c in enumerate(clinics):
                     val = ind(sub_period, Patient.objects.filter(chw__clinic=c))
-                    print "%s: %s = %s" % (title, c, val or '--')
 
                     data[t_index].append(val)
 

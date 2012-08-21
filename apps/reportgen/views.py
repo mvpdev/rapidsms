@@ -60,12 +60,12 @@ def _process_gen(request):
 
     for v in d.variants:
         if request.POST['variant_index'] == v[1]:
-            print "%s %s" % (request.POST['variant_index'], v)
+            # print "%s %s" % (request.POST['variant_index'], v)
             args['variant'] = v
             break
 
     if 'variant' not in args and request.POST['variant_index'] != 'X':
-        print "&&&%s" % args
+        # print "&&&%s" % args
         raise ValueError(_("Variant not found"))
         
     args['rformat'] = request.POST['rformat']
@@ -92,7 +92,7 @@ def _process_gen(request):
 
     args['generated_report'] = gr
 
-    print args
+    # print args
     try:
         r = d.apply_async(kwargs=args)
     except socket.error:

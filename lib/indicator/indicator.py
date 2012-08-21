@@ -118,7 +118,7 @@ class Indicator(object):
 
     def __new__(cls, period, data_in):
         cls._check_type(cls.type_in, data_in, _("input"))
-        print connection.queries
+        # print connection.queries
         data_out = cache_indicator(cls, cls._value, period, data_in)
         connection.queries = []
         cls._check_type(cls.type_out, data_out, _("output"))
