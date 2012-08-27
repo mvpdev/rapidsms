@@ -20,7 +20,7 @@ from reportgen.utils import render_doc_to_file
 from reportgen.PrintedReport import PrintedReport
 
 class ReportDefinition(PrintedReport):
-    title = _(u"CHW Manager Report (Latest)")
+    title = _(u"CHW Manager Report: Priority Household Visit")
     filename = 'chw_manager_report_'
     formats = ['xls']
 
