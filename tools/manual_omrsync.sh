@@ -7,5 +7,5 @@ then
     echo "manual_omrsync.py is running!." 
 else
     echo "starting manual_omrsync.py ..."
-    /home/mvp/sms/tools/manual_omrsync.py 10000 > /dev/null
+    /home/mvp/src/childcount/childcount/tools/manual_omrsync.py 10000 > /dev/null
 fi
