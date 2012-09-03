@@ -154,7 +154,7 @@ def report_indicators_two():
         'columns': [
             {'name': _("HH with pregnancy"), 'ind': registration.HasPregnancy},
             {'name': _("HH with pregnancy visited last 30 days"), \
-                            'ind': household.UnderFiveUnique_visit},
+                            'ind': household.PregnancyUnique_visit},
         ]
     },
     {

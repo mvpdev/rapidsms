@@ -123,10 +123,9 @@ class ReportDefinition(PrintedReport):
                 patients.append(household)
                 hs = Patient\
                     .objects\
-                    .filter(household=household)\
+                    .filter(household=household, status=Patient.STATUS_ACTIVE)\
                     .exclude(health_id=household.health_id)\
-                    .order_by('last_name')\
-                    .filter(status=Patient.STATUS_ACTIVE)
+                    .order_by('last_name')
 
                 patients.extend(hs)
 
