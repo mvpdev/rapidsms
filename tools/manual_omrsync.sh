@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # */5 * * * * /bin/bash /home/mvp/sms/tools/manual_omrsync.sh >/dev/null 2>&1
-cd /home/mvp/sms
+cd /home/mvp/src/childcount/childcount
 if ps aux | grep -v grep | grep manual_omrsync.py > /dev/null
 then
     echo "manual_omrsync.py is running!." 
