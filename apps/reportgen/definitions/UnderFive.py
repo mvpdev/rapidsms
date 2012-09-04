@@ -31,7 +31,7 @@ class ReportDefinition(PrintedReport):
     formats = ['pdf', 'html', 'xls']
     variants = _variants
 
-    def generate(self, period, rformat, title, filepath, data):
+    def generate(self, period, rformat, f, filepath, data):
         doc = Document(title, landscape=True, stick_sections=True)
         if 'loc_pk' not in data:
             raise ValueError('You must pass a Location PK as data')
@@ -59,7 +59,7 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__status=Patient.STATUS_ACTIVE)\
                             .under_five(period.end,period.start)
             if plist:
-                doc.add_element(Section(u"%s : %s" % (chw, chw.location.name)))
+                doc.add_element(Section(u"%s %s" % (chw, chw.location.name)))
                 doc.add_element(Paragraph(u"Period: %s to %s" % \
                                         (period.start.strftime("%d %B, %Y"), \
                                         period.end.strftime("%d %B, %Y"))))
