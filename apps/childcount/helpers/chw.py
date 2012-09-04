@@ -52,31 +52,6 @@ def report_indicators():
         ]
     },
     {
-        'title': _("Family Planning"),
-        'columns': [
-            {'name': _("Women 15-49 Seen"), 'ind': family_planning.Women},
-            {'name': _("Women Using FP"), 'ind': family_planning.Using},
-            {'name': _("Women Starting FP (or Never Registered)"),
-                'ind': family_planning.Starting},
-        ]
-    },
-    {
-        'title': _("Sanitation and Drinking Water"),
-        'columns': [
-            {'name': _("+SAN (180 days)"), \
-                         'ind': sanitation.UniqueOneEightyDays},
-            {'name': _("+DW (180 days)"),  \
-                         'ind': drinking_water.UniqueOneEightyDays},
-        ]
-    },
-    {
-        'title': _("School Attendance"),
-        'columns': [
-            {'name': _("School Attendance (180 days)"), \
-                         'ind': school_attendance.UniqueOneEightyDays},
-        ]
-    },
-    {
         'title': _("Follow Up"),
         'columns': [
             {'name': _("People with DSs"), 'ind': danger_signs.Total},
@@ -100,6 +75,45 @@ def report_indicators():
                 'ind': birth.DeliveredInClinic},
             {'name': _("Neonatal Reports (within 7 days)"), \
                 'ind': neonatal.WithinSevenDaysOfBirth},
+        ]
+    },
+    {
+        'title': _("Under Five"),
+        'columns': [
+            {'name': _("Children U5"), 'ind': registration.UnderFive},
+            {'name': _("Children U5 Known Immunized"),\
+                'ind': under_one.UnderFiveImmunizationUpToDate},
+            {'name': _("MUACs Taken"), 'ind': nutrition.Total},
+            {'name': _("Active SAM/MAM Cases"), 'ind': nutrition.SamOrMam},
+        ]
+    },
+    {
+        'title': _("Family Planning"),
+        'columns': [
+            {'name': _("Women 15-49 Seen"), 'ind': family_planning.Women},
+            {'name': _("Women Using FP"), 'ind': family_planning.Using},
+            {'name': _("Women Starting FP (or Never Registered)"),
+                'ind': family_planning.Starting},
+        ]
+    },
+)
+
+def extended_report_indicators():
+    return (
+    {
+        'title': _("Sanitation and Drinking Water"),
+        'columns': [
+            {'name': _("+SAN (180 days)"), \
+                         'ind': sanitation.UniqueOneEightyDays},
+            {'name': _("+DW (180 days)"),  \
+                         'ind': drinking_water.UniqueOneEightyDays},
+        ]
+    },
+    {
+        'title': _("School Attendance"),
+        'columns': [
+            {'name': _("School Attendance (180 days)"), \
+                         'ind': school_attendance.UniqueOneEightyDays},
         ]
     },
     {
@@ -137,7 +151,6 @@ def report_indicators():
 """The common set of :class:`indicator.Indicator` objects
 used in the CHW reports.
 """
-
 
 def report_indicators_two():
     return (
