@@ -58,7 +58,8 @@ class ReportDefinition(PrintedReport):
             doc.add_element(Section(stitle)) 
             # Time period string
             time_string = _(u"For: %s") % time_period.title
-            doc.add_element(Paragraph(u"%s; %s" % (full_name, time_string)))
+            doc.add_element(Paragraph(u"%s: %s; %s" % 
+                                (full_name, chw.location, time_string)))
             table = self._create_patient_table()
             self._add_chw_to_table(table, chw)
             doc.add_element(table)
@@ -99,7 +100,7 @@ class ReportDefinition(PrintedReport):
                 .order_by('location__code','last_name')
         for household in households:
             table.add_row([
-                Text(location, bold=True),
+                Text(household.location, bold=True),
                 Text(household.health_id.upper(), bold=True),
                 Text(household.full_name(), bold=True),
                 Text(household.gender, bold=True),
@@ -113,7 +114,7 @@ class ReportDefinition(PrintedReport):
                     .filter(status=Patient.STATUS_ACTIVE)
             for patient in hs:
                 table.add_row([
-                    Text(location),
+                    Text(patient.location),
                     Text(patient.health_id.upper()),
                     Text(patient.full_name()),
                     Text(patient.gender),
