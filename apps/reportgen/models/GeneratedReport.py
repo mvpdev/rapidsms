@@ -138,12 +138,12 @@ def delete_report(sender, **kwargs):
     if gr.filename == '':
         return True
     fn = os.path.join(PATH_TO_REPORTS, gr.filename)
-    print "Looking for <%s>" % fn
+    # "Looking for <%s>" % fn
     if os.path.exists(fn):
-        print "Deleting <%s>" % fn
+        # "Deleting <%s>" % fn
         os.unlink(fn)
     else:
-        print "no file found"
+        pass  # "no file found"
 
     return True
 
