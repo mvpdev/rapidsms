@@ -28,7 +28,7 @@ _variants.extend(_locations)
 
 class ReportDefinition(PrintedReport):
     """ list all Patients """
-    title = 'New Patient List'
+    title = 'Priority Patient List'
     filename = 'patient_list_2'
     formats = ['xls']
     variants = _variants
