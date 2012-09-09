@@ -59,7 +59,12 @@ class ReportDefinition(PrintedReport):
                             encounter__patient__status=Patient.STATUS_ACTIVE)\
                             .under_five(period.end,period.start)
             if plist:
-                doc.add_element(Section(u"%s %s" % (chw, chw.location.name)))
+                if rformat.lower() == 'xls':
+                    doc.add_element(Section(u"%s " % (chw)))
+                else:
+                    doc.add_element(Section(u"%s %s" % \
+                                            (chw, chw.location.name)))
+
                 doc.add_element(Paragraph(u"Period: %s to %s" % \
                                         (period.start.strftime("%d %B, %Y"), \
                                         period.end.strftime("%d %B, %Y"))))
