@@ -127,6 +127,18 @@ class ReportDefinition(PrintedReport):
             drinking_water.UsingImprovedDrinkingWater,
             drinking_water.TreatWater,
         )),
+        (_("Under Five"), (
+            registration.HasUnderFive,
+            household.UnderFiveUnique_visit,
+        )),
+        (_("Neonatal"), (
+            registration.HasNeonatal,
+            household.NeonatalUnique_visit,
+        )),
+        (_("Pregnancy"), (
+            registration.HasPregnancy,
+            household.PregnancyUnique_visit,
+        )),
     )
 
     def generate(self, time_period, rformat, title, filepath, data):
