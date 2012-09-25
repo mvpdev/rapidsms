@@ -301,6 +301,13 @@ class BirthReport(CCReport):
                      self.weight)
         return string
 
+    @property
+    def clinic_delivery_text(self):
+        for x, y in self.CLINIC_DELIVERY_CHOICES:
+            if self.clinic_delivery == x:
+                return y
+        return _(u"Unknown")
+
     def get_omrs_dict(self):
         igive = {}
         if self.weight:
