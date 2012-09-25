@@ -69,6 +69,7 @@ class RelocateCommand(CCCommand):
             except Patient.DoesNotExist:
                 self.message.respond(_(u"There is no location with code " \
                                         "%(code)s.") % {'code': loc_code}, 'error')
+                return True
 
         # Look up health id
         person = None
@@ -76,7 +77,8 @@ class RelocateCommand(CCCommand):
             person = Patient.objects.get(health_id=health_id)
         except Patient.DoesNotExist:
             self.message.respond(_(u"There is no person with " \
-                                    "ID %(hid)s.") % {'hid': health_id}, 'error')
+                                    "ID %(hid)s.") % {'hid': health_id}, 'error')            
+            return True
 
         members = Patient\
             .objects\
