@@ -18,7 +18,7 @@ def _fever_reports(period, data_in):
     return FeverReport\
             .objects\
             .filter(encounter__patient__in=data_in,\
-                encounter__encounter_date__range=(period.start, period.end))\
+                encounter__encounter_date__range=(period.start, period.end))
 
 class Total(Indicator):
     type_in     = QuerySetType(Patient)
