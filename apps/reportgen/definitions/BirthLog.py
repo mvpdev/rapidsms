@@ -2,14 +2,9 @@
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: ukanga
 
-import time
-from datetime import date
-
-from django.db.models import F
 from django.utils.translation import ugettext as _
-from django.db.models import Count
 
-from ccdoc import Document, Table, Text, Section, Paragraph
+from ccdoc import Document, Table, Text, Paragraph
 
 from locations.models import Location
 from childcount.models import BirthReport
@@ -24,7 +19,7 @@ _variants.extend(_locations)
 
 
 class ReportDefinition(PrintedReport):
-    """ list all Patients """
+    """ list all Births """
     title = 'Birth Log'
     filename = 'birth_log'
     formats = ['html', 'pdf', 'xls']
@@ -68,7 +63,7 @@ class ReportDefinition(PrintedReport):
         return rval
 
     def _create_table(self):
-        table = Table(10)
+        table = Table(11)
         table.add_header_row([
             Text(_(u'LOC')),
             Text(_(u'HID')),
@@ -78,22 +73,24 @@ class ReportDefinition(PrintedReport):
             Text(_(u'Age')),
             Text(_(u'HOH')),
             Text(_(u'Mother\'s HID')),
+            Text(_(u'Delivered in Health Facility')),
             Text(_(u'Encounter Date')),
             Text(_(u'CHW'))])
 
         return table
 
     def _add_report_to_table(self, table, report):
-        """ add chw to table """
+        """ add report to table """
         patient = report.encounter.patient
         table.add_row([
             Text(patient.location),
             Text(patient.health_id.upper()),
             Text(patient.full_name()),
             Text(patient.gender),
-            Text(patient.dob.strftime("%d%m%y")),
+            Text(patient.dob.strftime("%d/%m/%y")),
             Text(patient.humanised_age()),
             Text(patient.household.health_id.upper()),
             Text(patient.mother.health_id.upper()),
-            Text(report.encounter.encounter_date.date()),
+            Text(report.clinic_delivery_text),
+            Text(report.encounter.encounter_date.strftime("%d/%m/%y")),
             Text(patient.chw)])
