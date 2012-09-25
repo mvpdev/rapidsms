@@ -1,3 +1,5 @@
+import random
+import string
 import os
 
 from django.conf import settings
@@ -73,3 +75,7 @@ def register_fonts():
                        italic='FreeSerif' + ('' if is_eth else 'Italic'), \
                        boldItalic='FreeSerif' + ('' if is_eth else 'BoldItalic'))
 
+
+def str_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    """Generates random strings"""
+    return ''.join(random.choice(chars) for x in range(size))
