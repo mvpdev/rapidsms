@@ -9,7 +9,7 @@ from indicator import Indicator
 from indicator import IndicatorPercentage
 from indicator import QuerySetType
 
-from childcount.models import Patient
+from childcount.models import Patient, CodedItem
 from childcount.models.reports import DangerSignsReport
 from childcount.models.reports import FeverReport
 from childcount.models.reports import FollowUpReport
@@ -202,7 +202,25 @@ def _under_five_fever_uncomplicated_rdt_value(period, data_in, value):
         raise ValueError(_("Invalid RDT value"))
 
     rs = _under_five_fever_uncomplicated(period, data_in)\
-        .filter(encounter__ccreport__feverreport__rdt_result=value)
+    .filter(encounter__ccreport__feverreport__rdt_result=value)
+    if rs:
+        return rs.count()
+    else:
+        return 0
+
+def _under_five_fever_uncomplicated_rdt_value_given_antimalarial(period,
+                                                                 data_in,
+                                                                 value):
+    Y = FeverReport.RDT_POSITIVE
+    N = FeverReport.RDT_NEGATIVE
+    U = FeverReport.RDT_UNKNOWN
+
+    if value not in (Y,N,U):
+        raise ValueError(_("Invalid RDT value"))
+    act = CodedItem.objects.filter(code='ACT', type=CodedItem.TYPE_MEDICINE)
+    rs = _under_five_fever_uncomplicated(period, data_in)\
+        .filter(encounter__ccreport__feverreport__rdt_result=value)\
+        .filter(encounter__ccreport__medicinegivenreport__medicines=act)
     if rs:
         return rs.count()
     else:
@@ -245,6 +263,34 @@ class UnderFiveFeverUncomplicatedRdtPositivePerc(IndicatorPercentage):
     cls_num     = UnderFiveFeverUncomplicatedRdtPositive
     cls_den     = UnderFiveFeverUncomplicatedRdt
 
+
+class UnderFiveFeverUncomplicatedRdtPositiveGivenAntimalarial(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "under_five_fever_uncomplicated_rdt_positive_antimalarial"
+    short_name  = _("U5 Fv Uncompl RDT+ Given ACT")
+    long_name   = _("Total number of danger signs reports "\
+                    "for U5s with uncomplicated fever with "\
+                    "a positive RDT result and given ACT")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _under_five_fever_uncomplicated_rdt_value_given_antimalarial(
+            period, data_in, FeverReport.RDT_POSITIVE)
+
+class UnderFiveFeverUncomplicatedRdtPositiveGivenAntimalarialPerc(
+        IndicatorPercentage):
+    type_in     = QuerySetType(Patient)
+
+    slug        = "under_five_fever_uncomplicated_rdt_positive_perc"
+    short_name  = _("%U5 Fv Uncompl RDT+")
+    long_name   = _("Percentage of under fives with uncomplicated "\
+                    "fever whose RDT result was positive")
+
+    cls_num     = UnderFiveFeverUncomplicatedRdtPositiveGivenAntimalarial
+    cls_den     = UnderFiveFeverUncomplicatedRdt
+
 class UnderFiveFeverUncomplicatedRdtNegative(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
@@ -259,6 +305,21 @@ class UnderFiveFeverUncomplicatedRdtNegative(Indicator):
     def _value(cls, period, data_in):
         return _under_five_fever_uncomplicated_rdt_value(period,\
             data_in, FeverReport.RDT_NEGATIVE)
+
+class UnderFiveFeverUncomplicatedRdtNegativeGivenAntimalarial(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "under_five_fever_uncomplicated_rdt_negative"
+    short_name  = _("U5 Fv Uncompl RDT-")
+    long_name   = _("Total number of danger signs reports "\
+                    "for U5s with uncomplicated fever with "\
+                    "a negative RDT result")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _under_five_fever_uncomplicated_rdt_value_given_antimalarial(
+            period, data_in, FeverReport.RDT_NEGATIVE)
 
 def _under_five_fever_complicated(period, data_in):
     ds = DangerSignsReport\
