@@ -67,7 +67,7 @@ class ReportDefinition(PrintedReport):
             Text(_(u'AGE(Y/M).')),
             Text(_(u'HOH.')),
             Text(_(u'DOD')),
-            Text(_(u'-----')),
+            Text(_(u'S/M')),
             Text(_(u'Encounter Date')),
             Text(_(u'CHW'))])
 

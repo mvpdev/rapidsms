@@ -9,7 +9,7 @@ __all__ = ('MvisIndicators', 'MvisIndicatorsTwo','ChwList','Utilization',
     'VitalEventsReport', 'IdentityCards', 'SmsUsage', 'PList', 'NewReport',
     'ChwHouseholdVisitCoverage', 'LabReport', 'NotAttendingSchoolReport',
     'PerformanceCharts', 'PregnantWomenEDDsixweeks', 'BirthLog',
-    'PregnancyLog')
+    'PregnancyLog', 'MortalityLog')
 
 # This is the way we get the celery workers
 # to register all of the ReportDefinition tasks
