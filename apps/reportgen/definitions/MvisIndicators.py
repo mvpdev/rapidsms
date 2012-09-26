@@ -76,9 +76,11 @@ class ReportDefinition(PrintedReport):
             danger_signs.UnderFiveFeverUncomplicated,
             danger_signs.UnderFiveFeverUncomplicatedRdt,
             danger_signs.UnderFiveFeverUncomplicatedRdtPositive,
+            danger_signs.UnderFiveFeverUncomplicatedRdtPositiveGivenAntimalarial,
             fever.UnderFiveRdtPositiveGivenAntimalarial,
             fever.UnderFiveRdtNegativeGivenAntimalarial,
             danger_signs.UnderFiveFeverUncomplicatedRdtNegative,
+            danger_signs.UnderFiveFeverUncomplicatedRdtNegativeGivenAntimalarial,
             danger_signs.UnderFiveFeverComplicatedReferred,
             danger_signs.UnderFiveFeverComplicatedReferredFollowUp,
         )),
@@ -174,7 +176,7 @@ class ReportDefinition(PrintedReport):
           
                 table.add_row([Text(c) for c in row])
 
-                self.set_progress(100.0*count/n_inds)
+                self.set_progress(100.0 * count / n_inds)
                 count += 1
 
         doc.add_element(table)
