@@ -41,7 +41,7 @@ class IssueHealthIdCommand(CCCommand):
             else:
                 #get a random list of 5
                 if list.count() > 5:
-                    ids = random.sample(list, 5)
+                    ids = random.sample(list, 20)
                 else:
                     ids = random.sample(list, list.count())
                 for id in ids:
