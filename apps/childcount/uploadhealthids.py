@@ -12,7 +12,7 @@ from django.template import Template, Context, loader
 from django.contrib.auth.decorators import login_required, permission_required
 from django import forms
 from django.db import IntegrityError
-from childcount.models import HealthId
+from childcount.models import HealthId, CHWHealthId
 
 
 class UploadHealthIDFileForm(forms.Form):
@@ -57,10 +57,16 @@ def load_healthids(filename):
             for line in f:
                 line = line.strip()
                 try:
-                    HealthId.objects.create(
+                    hid = HealthId.objects.create(
                         health_id = line,
                         status = HealthId.STATUS_GENERATED)
                     c += 1
                 except IntegrityError:
                     pass
+
+                if hid:
+                    try:
+                        CHWHealthId.objects.create(health_id=hid)
+                    except:
+                        pass
     return c
