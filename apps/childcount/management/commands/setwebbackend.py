@@ -27,7 +27,7 @@ class Command(BaseCommand):
     'gsm': {'slug': 'pygsm', 'title': 'pyGSM'},
     'dataentry': {'slug': 'dataentry', 'title': 'dataentry'},
     'debackend': {'slug': 'debackend', 'title': 'debackend'},
-    'couchbackend': {'slug': 'couch', 'title': 'couch'}
+    'couch': {'slug': 'couch', 'title': 'couch'}
     }
 
 
@@ -97,11 +97,9 @@ class Command(BaseCommand):
         try:
             backend = PersistantBackend.objects.get(slug=backend_slug)
         except PersistantBackend.DoesNotExist:
-
             if not no_input:    
                 create = raw_input(u"There is no web backend in the database."
                                    u" Create one ?\n")
-                
             if create in confirm.strip().lower() in ('y', 'yes'):
                 pb = PersistantBackend(slug=backend_slug, title=backend_title)
                 pb.save()
@@ -109,7 +107,6 @@ class Command(BaseCommand):
             else:
                 print "Aborting"
                 sys.exit(0)
-
         # replace backends
         print 'Adding backend'
         c = 0
