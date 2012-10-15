@@ -140,6 +140,9 @@ class ReportDefinition(PrintedReport):
             household.PregnancyUnique_visit,
         )),
         (_("Malaria"), (
+            fever.UnderFiveRdt,
+            fever.UnderFiveRdtPositive,
+            fever.UnderFiveRdtNegative,
             fever.UnderFiveRdtPositiveGivenAntimalarial,
             fever.UnderFiveRdtNegativeGivenAntimalarial,
         ))
