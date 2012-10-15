@@ -77,8 +77,6 @@ class ReportDefinition(PrintedReport):
             danger_signs.UnderFiveFeverUncomplicatedRdt,
             danger_signs.UnderFiveFeverUncomplicatedRdtPositive,
             danger_signs.UnderFiveFeverUncomplicatedRdtPositiveGivenAntimalarial,
-            fever.UnderFiveRdtPositiveGivenAntimalarial,
-            fever.UnderFiveRdtNegativeGivenAntimalarial,
             danger_signs.UnderFiveFeverUncomplicatedRdtNegative,
             danger_signs.UnderFiveFeverUncomplicatedRdtNegativeGivenAntimalarial,
             danger_signs.UnderFiveFeverComplicatedReferred,
@@ -141,6 +139,10 @@ class ReportDefinition(PrintedReport):
             registration.HasPregnancy,
             household.PregnancyUnique_visit,
         )),
+        (_("Malaria"), (
+            fever.UnderFiveRdtPositiveGivenAntimalarial,
+            fever.UnderFiveRdtNegativeGivenAntimalarial,
+        ))
     )
 
     def generate(self, time_period, rformat, title, filepath, data):
