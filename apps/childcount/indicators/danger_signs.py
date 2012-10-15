@@ -311,7 +311,7 @@ class UnderFiveFeverUncomplicatedRdtNegativeGivenAntimalarial(Indicator):
     type_out    = int
 
     slug        = "under_five_fever_uncomplicated_rdt_negative"
-    short_name  = _("U5 Fv Uncompl RDT-")
+    short_name  = _("U5 Fv Uncompl RDT- Given ACT")
     long_name   = _("Total number of danger signs reports "\
                     "for U5s with uncomplicated fever with "\
                     "a negative RDT result")
