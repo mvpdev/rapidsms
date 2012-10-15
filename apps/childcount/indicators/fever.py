@@ -107,6 +107,49 @@ def _under_five_rdt(period, data_in):
     return _fever_reports(period, data_in).encounter_under_five()
 
 
+class UnderFiveRdt(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "under_five_rdt"
+    short_name  = _("U5 RDT")
+    long_name   = _("Total number of Fever reports for U5s")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _under_five_rdt(period, data_in).count()
+
+
+class UnderFiveRdtPositive(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "under_five_rdt_positive"
+    short_name  = _("U5 RDT+")
+    long_name   = _("Total number of Fever reports for U5s with RDT+")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _under_five_rdt(
+            period, data_in).filter(
+                rdt_result=FeverReport.RDT_POSITIVE).count()
+
+
+class UnderFiveRdtNegative(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "under_five_rdt_negative"
+    short_name  = _("U5 RDT-")
+    long_name   = _("Total number of Fever reports for U5s with RDT-")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _under_five_rdt(
+            period, data_in).filter(
+            rdt_result=FeverReport.RDT_NEGATIVE).count()
+
+
 class UnderFiveRdtPositiveGivenAntimalarial(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
