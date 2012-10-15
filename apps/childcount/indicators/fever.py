@@ -14,11 +14,13 @@ from childcount.indicators import danger_signs
 
 NAME = _("Fever")
 
+
 def _fever_reports(period, data_in):
     return FeverReport\
             .objects\
             .filter(encounter__patient__in=data_in,\
                 encounter__encounter_date__range=(period.start, period.end))
+
 
 class Total(Indicator):
     type_in     = QuerySetType(Patient)
@@ -31,6 +33,7 @@ class Total(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         return _fever_reports(period, data_in).count()
+
 
 class RdtPositive(Indicator):
     type_in     = QuerySetType(Patient)
@@ -46,6 +49,7 @@ class RdtPositive(Indicator):
             .filter(rdt_result=FeverReport.RDT_POSITIVE)\
             .count()
 
+
 class RdtPositivePerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
 
@@ -57,6 +61,7 @@ class RdtPositivePerc(IndicatorPercentage):
     cls_num     = RdtPositive
     cls_den     = Total
 
+
 def _rdt_value_given_antimalarial(period, data_in, value):
     values = [v[0] for v in FeverReport.RDT_CHOICES]
     if value not in values:
@@ -66,6 +71,7 @@ def _rdt_value_given_antimalarial(period, data_in, value):
     return _fever_reports(period, data_in)\
         .filter(rdt_result=value,\
             encounter__ccreport__medicinegivenreport__medicines__code='ACT')
+
 
 class RdtPositiveGivenAntimalarial(Indicator):
     type_in     = QuerySetType(Patient)
@@ -80,6 +86,26 @@ class RdtPositiveGivenAntimalarial(Indicator):
     def _value(cls, period, data_in):
         return _rdt_value_given_antimalarial(period, \
                             data_in, FeverReport.RDT_POSITIVE).count()
+
+
+class RdtPositiveGivenAntimalarial(Indicator):
+    type_in     = QuerySetType(Patient)
+    type_out    = int
+
+    slug        = "rdt_postive_given_antimalarial"
+    short_name  = _("RDT+ w/ ACT")
+    long_name   = _("Fever reports with a positive RDT result "\
+                    "where the patient was given antimalarials")
+
+    @classmethod
+    def _value(cls, period, data_in):
+        return _rdt_value_given_antimalarial(period,\
+            data_in, FeverReport.RDT_POSITIVE).count()
+
+
+def _under_five_rdt(period, data_in):
+    return _fever_reports(period, data_in).encounter_under_five()
+
 
 class UnderFiveRdtPositiveGivenAntimalarial(Indicator):
     type_in     = QuerySetType(Patient)
@@ -110,6 +136,7 @@ class UnderFiveRdtPositiveGivenAntimalarialPerc(IndicatorPercentage):
     cls_den     = danger_signs.UnderFiveFeverUncomplicatedRdtPositive
 """
 
+
 class UnderFiveRdtNegativeGivenAntimalarial(Indicator):
     type_in     = QuerySetType(Patient)
     type_out    = int
@@ -126,8 +153,10 @@ class UnderFiveRdtNegativeGivenAntimalarial(Indicator):
             .encounter_under_five()\
             .count()
 
+
 def _over_five_rdt(period, data_in):
     return _fever_reports(period, data_in).encounter_over_five()
+
 
 class OverFiveRdt(Indicator):
     type_in     = QuerySetType(Patient)
@@ -140,6 +169,7 @@ class OverFiveRdt(Indicator):
     @classmethod
     def _value(cls, period, data_in):
         return _over_five_rdt(period, data_in).count()
+
 
 class OverFiveRdtPositive(Indicator):
     type_in     = QuerySetType(Patient)
@@ -154,6 +184,7 @@ class OverFiveRdtPositive(Indicator):
         return _over_five_rdt(period, data_in)\
             .filter(rdt_result=FeverReport.RDT_POSITIVE)\
             .count()
+
 
 class OverFiveRdtNegative(Indicator):
     type_in     = QuerySetType(Patient)
@@ -186,6 +217,7 @@ class OverFiveRdtPositiveGivenAntimalarial(Indicator):
                 encounter__ccreport__medicinegivenreport__medicines__code='ACT')\
             .count()
 
+
 class OverFiveRdtPositiveGivenAntimalarialPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
     
@@ -196,6 +228,7 @@ class OverFiveRdtPositiveGivenAntimalarialPerc(IndicatorPercentage):
 
     cls_num     = OverFiveRdtPositiveGivenAntimalarial
     cls_den     = OverFiveRdtPositive
+
 
 class OverFiveRdtNegativeGivenAntimalarial(Indicator):
     type_in     = QuerySetType(Patient)
@@ -212,6 +245,7 @@ class OverFiveRdtNegativeGivenAntimalarial(Indicator):
             .filter(rdt_result=FeverReport.RDT_NEGATIVE,\
                 encounter__ccreport__medicinegivenreport__medicines__code='ACT')\
             .count()
+
 
 class OverFiveRdtNegativeGivenAntimalarialPerc(IndicatorPercentage):
     type_in     = QuerySetType(Patient)
