@@ -2,81 +2,102 @@
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 # maintainer: katembu
 
-USB_ROOT="/Volumes/usb-backup/"
-BACKUP_DIR="vms_backup"
-
 NOW=$(date +"%m_%d_%Y")
 
-directory="$USB_ROOT$BACKUP_DIR"
+#Get a Directory|Location to save Image. 
+#If it doesnot exist exit or use default
 
-#check if directory exists
-if [ -d $directory ]; 
+DIRECTORY="$2"
+
+if [ -z $DIRECTORY ]
 then
-	echo "Directory exists"
+    echo "Usage: {rsms|omrs|all} filelocation"
+    echo "Specify export location "
+    exit 1
 else 
-    echo "Creating VMS Backup Directory "
-	mkdir $directory
+	if [ ! -d $DIRECTORY ];
+	then
+	    echo "Location doesnot exist. Exiting"
+	    exit 1
+	fi  
 fi 
 
 
 backup_omrs_vm()
 {
-    #Clone Name
-    name="omrs_$NOW"
-    destination="$directory/$name.vdi"
 
-    #Locate OMRS VDI
-    LOC=$(locate omrs.vdi)
+    #Clone Name
+    VIMAGE="$1"
+    name="$DIRECTORY/$VIMAGE_$NOW.ovf"
 
     #STOP
-    echo "Stoping OMRS-VM for cloning "
-    VBoxManage controlvm omrs savestate
+    echo "Stop $VIMAGE VM for cloning "
+    VBoxManage controlvm omrs acpipowerbutton
 
-    #Make a clone and save in Backup Disk
-    #CHECK IF SIMILAR CLONE ALREADY EXIST
-    if [ -d $destination ]; 
+    #Export image to specified Disk
+    #CHECK IF SIMILAR IMAGE ALREADY EXIST
+    if [ -f $name ]; 
     then
-	    echo "Directory exists"
+	    echo "Similar Clone already exists"
     else 
-        echo "Creating OMRS  Backup clone "
-	    VBoxManage clonehd $LOC $destination --format VDI
-    fi 
+        echo "Creating $VIMAGE  Backup clone "
+	    VBoxManage export $VIMAGE -o $name
 
+    fi 
+    
     #restart - To add head or headless
-    echo "Restarting OMRS-VM "
-    VBoxManage startvm omrs --type headless
+    echo "Restarting $VIMAGE-VM "
+    VBoxManage startvm $VIMAGE --type headless
 }
 
 backup_rsms_vm()
 {
     #Clone Name
-    name="rsms_$NOW"
-    destination="$directory/$name.vdi"
-
-    #Locate OMRS VDI
-    LOC=$(locate rsms.vdi)
+    VIMAGE="$1"
+    name="$DIRECTORY/$VIMAGE_$NOW.ovf"
 
     #STOP
-    echo "Stop RSMS VM for cloning "
-    VBoxManage controlvm rsms savestate
+    echo "Stop $VIMAGE VM for cloning "
+    VBoxManage controlvm rsms acpipowerbutton
 
-    #Make a clone and save in Backup Disk
-    #CHECK IF SIMILAR CLONE ALREADY EXIST
-    if [ -d $destination ]; 
+    #Export image to specified Disk
+    #CHECK IF SIMILAR IMAGE ALREADY EXIST
+    if [ -f $name ]; 
     then
 	    echo "Similar Clone already exists"
     else 
-        echo "Creating RSMS backup clone"
-	    VBoxManage clonehd $LOC $destination --format VDI
+        echo "Creating $VIMAGE backup clone"
+	    VBoxManage export $VIMAGE -o $name
+
     fi 
 
     #restart - To add head or headless
-    echo "Restarting RSMS-VM "
-    VBoxManage startvm rsms --type headless
+    echo "Restarting $VIMAGE-VM "
+    VBoxManage startvm $VIMAGE --type headless
 
 
 }
 
-backup_omrs_vm
-backup_rsms_vm
+
+case "$1" in
+    omrs)
+	    echo "Backup $1 virtual machines"
+        backup_omrs_vm $1
+        ;;
+    
+    rsms)
+	    echo "Backup $1 virtual machines"
+        backup_rsms_vm $1
+        ;;
+    
+    all)
+	    echo "Backup both RSMS and OMRS virtual machines"
+	    backup_omrs_vm "omrs"
+        backup_rsms_vm "rsms"
+	;;
+    *)
+        echo "Usage: {rsms|omrs|all} filelocation" >&2
+        exit 1
+        ;;
+esac
 

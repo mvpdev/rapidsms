@@ -126,7 +126,10 @@ class ExtendedSanitationForm(CCForm):
 
         sanit_field.set_language(self.chw.language)
         sanit_share.set_language(self.chw.language)
-
+        shower_facility.set_language(self.chw.language)
+        handwash_facility.set_language(self.chw.language)
+        wash_handwith.set_language(self.chw.language)
+        
         if len(self.params) < 6:
             raise ParseError(_(u"Not enough info. Expected: | kind of " \
                                 "toilet facility | how many share? |"))
@@ -159,7 +162,7 @@ class ExtendedSanitationForm(CCForm):
                                 "be %s.") % wash_handwith.choices_string())
         snr.wash_handwith = wash_handwith.get_db_value(washhandwith)
 
-        shower = self.params[4]
+        shower = self.params[5]
         if not shower_facility.is_valid_choice(shower):
             raise ParseError(_(u"| Is there shower?  | must be %s.") \
                                     % shower_facility.choices_string())
