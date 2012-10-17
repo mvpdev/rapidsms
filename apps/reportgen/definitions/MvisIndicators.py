@@ -145,6 +145,9 @@ class ReportDefinition(PrintedReport):
             fever.UnderFiveRdtNegative,
             fever.UnderFiveRdtPositiveGivenAntimalarial,
             fever.UnderFiveRdtNegativeGivenAntimalarial,
+        )),
+        (_("CHW performance"), (
+            follow_up.Eligible,
         ))
     )
 
