@@ -26,7 +26,8 @@ class Command(BaseCommand):
     'pipe': {'slug': 'pipe', 'title': 'pipe'},
     'gsm': {'slug': 'pygsm', 'title': 'pyGSM'},
     'dataentry': {'slug': 'dataentry', 'title': 'dataentry'},
-    'debackend': {'slug': 'debackend', 'title': 'debackend'}
+    'debackend': {'slug': 'debackend', 'title': 'debackend'},
+    'couch': {'slug': 'couch', 'title': 'couch'}
     }
 
 
@@ -96,11 +97,9 @@ class Command(BaseCommand):
         try:
             backend = PersistantBackend.objects.get(slug=backend_slug)
         except PersistantBackend.DoesNotExist:
-
             if not no_input:    
-                create = raw_input(u"The is no web backend in the data base."\
+                create = raw_input(u"There is no web backend in the database."
                                    u" Create one ?\n")
-                
             if create in confirm.strip().lower() in ('y', 'yes'):
                 pb = PersistantBackend(slug=backend_slug, title=backend_title)
                 pb.save()
@@ -108,7 +107,6 @@ class Command(BaseCommand):
             else:
                 print "Aborting"
                 sys.exit(0)
-
         # replace backends
         print 'Adding backend'
         c = 0
@@ -130,7 +128,7 @@ class Command(BaseCommand):
                     added_count += 1
                 except:
                     c += 1
-        print
+            print "Processed %s " % reporter
         print '%s backends added' % added_count
         print '%s backends deleted' % deleted_count
        
