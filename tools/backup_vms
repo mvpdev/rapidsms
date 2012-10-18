@@ -33,6 +33,7 @@ backup_omrs_vm()
     #STOP
     echo "Stop $VIMAGE VM for cloning "
     VBoxManage controlvm omrs acpipowerbutton
+    sleep 90
 
     #Export image to specified Disk
     #CHECK IF SIMILAR IMAGE ALREADY EXIST
@@ -59,6 +60,7 @@ backup_rsms_vm()
     #STOP
     echo "Stop $VIMAGE VM for cloning "
     VBoxManage controlvm rsms acpipowerbutton
+    sleep 90
 
     #Export image to specified Disk
     #CHECK IF SIMILAR IMAGE ALREADY EXIST
