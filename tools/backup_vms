@@ -28,11 +28,12 @@ backup_omrs_vm()
 
     #Clone Name
     VIMAGE="$1"
-    name="$DIRECTORY/$VIMAGE_$NOW.ovf"
+    name="$DIRECTORY$VIMAGE-$NOW.ovf"
 
     #STOP
     echo "Stop $VIMAGE VM for cloning "
     VBoxManage controlvm omrs acpipowerbutton
+    sleep 90
 
     #Export image to specified Disk
     #CHECK IF SIMILAR IMAGE ALREADY EXIST
@@ -54,11 +55,12 @@ backup_rsms_vm()
 {
     #Clone Name
     VIMAGE="$1"
-    name="$DIRECTORY/$VIMAGE_$NOW.ovf"
+    name="$DIRECTORY$VIMAGE-$NOW.ovf"
 
     #STOP
     echo "Stop $VIMAGE VM for cloning "
     VBoxManage controlvm rsms acpipowerbutton
+    sleep 90
 
     #Export image to specified Disk
     #CHECK IF SIMILAR IMAGE ALREADY EXIST
