@@ -7733,11 +7733,11 @@ msgstr "# de patients"
 
 #: templates/childcount/list_chw.html:33
 msgid "Y"
-msgstr "Oui"
+msgstr "Y"
 
 #: templates/childcount/list_chw.html:33
 msgid "N"
-msgstr "Non"
+msgstr "N"
 
 #: templates/childcount/list_locations.html:8
 #, fuzzy
