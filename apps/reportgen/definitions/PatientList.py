@@ -105,7 +105,7 @@ class ReportDefinition(PrintedReport):
 
             households = chw\
                 .patient_set\
-                .filter(pk=F('household__pk'))\
+                .filter(pk=F('household__pk'), status=Patient.STATUS_ACTIVE)\
                 .order_by('location__code','last_name')
 
             if not households:
