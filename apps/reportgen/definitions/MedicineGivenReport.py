@@ -166,7 +166,8 @@ class ReportDefinition(PrintedReport):
         for sp in self.period.sub_periods():
             month = name\
                 .objects\
-                .filter(encounter__encounter_date__gte=sp.start,\
+                .filter(medicines__code='act', \
+                       encounter__encounter_date__gte=sp.start,\
                        encounter__encounter_date__lte=sp.end)
             list_month.append(month.count())
 
@@ -203,7 +204,7 @@ class ReportDefinition(PrintedReport):
         for sp in self.period.sub_periods():
             month = name\
                 .objects\
-                .filter(medicines__code='r', \
+                .filter(medicines__code='z', \
                         encounter__encounter_date__gte=sp.start,\
                        encounter__encounter_date__lte=sp.end)
             list_month.append(month.count())
