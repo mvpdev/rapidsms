@@ -177,6 +177,19 @@ class Patient(models.Model):
             years = months / 12
             return _(u"%(years)sy") % {'years': years}
 
+    def age_death(self, dod):
+        """return a string containing a human readable age"""
+        days, weeks, months = self.age_in_days_weeks_months(relative_to=dod)
+        if days < 21:
+            return _(u"%(days)sd") % {'days': days}
+        elif weeks < 12:
+            return _(u"%(weeks)sw") % {'weeks': weeks}
+        elif months < 60:
+            return _(u"%(months)sm") % {'months': months}
+        else:
+            years = months / 12
+            return _(u"%(years)sy") % {'years': years}
+
     def full_name(self):
         """Return the patients first and last names"""
         return ' '.join([self.first_name, self.last_name])
