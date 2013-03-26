@@ -94,7 +94,7 @@ class ReportDefinition(PrintedReport):
                     Text(unicode(row.encounter.patient.last_name)),
                     Text(unicode(row.encounter.patient.gender)),
                     Text(unicode(row.encounter.patient.dob)),
-                    Text(unicode(row.encounter.patient.humanised_age())),
+                    Text(unicode(row.encounter.patient.age_death(row.death_date))),
                     Text(unicode(row.encounter.patient.household.health_id)),
                     Text(unicode(row.death_date)),
                     Text(u"---"),
