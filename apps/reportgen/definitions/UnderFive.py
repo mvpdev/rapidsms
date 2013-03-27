@@ -31,7 +31,8 @@ class ReportDefinition(PrintedReport):
     formats = ['pdf', 'html', 'xls']
     variants = _variants
 
-    def generate(self, period, rformat, f, filepath, data):
+
+    def generate(self, period, rformat, title, filepath, data):
         doc = Document(title, landscape=True, stick_sections=True)
         if 'loc_pk' not in data:
             raise ValueError('You must pass a Location PK as data')
