@@ -27,6 +27,7 @@ class Total(Indicator):
             .objects\
             .filter(encounter__patient__in=data_in,\
                 encounter__encounter_date__range=(period.start, period.end))\
+            .values('encounter__patient').distinct()\
             .count()
                 
 
@@ -47,6 +48,7 @@ class WithinSevenDaysOfBirth(Indicator):
             .filter(encounter__patient__in=data_in,\
                 encounter__patient__dob__range=(period.start, period.end))\
             .encounter_age(1,7)\
+            .values('encounter__patient').distinct()\
             .count()
 
 class WithinSevenDaysOfBirthPerc(IndicatorPercentage):
