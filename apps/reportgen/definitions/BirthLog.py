@@ -82,6 +82,11 @@ class ReportDefinition(PrintedReport):
     def _add_report_to_table(self, table, report):
         """ add report to table """
         patient = report.encounter.patient
+        try:
+            mother_id = patient.mother.health_id.upper()
+        except:
+            mother_id = ""
+            
         table.add_row([
             Text(patient.location),
             Text(patient.health_id.upper()),
@@ -90,7 +95,7 @@ class ReportDefinition(PrintedReport):
             Text(patient.dob.strftime("%d/%m/%y")),
             Text(patient.humanised_age()),
             Text(patient.household.health_id.upper()),
-            Text(patient.mother.health_id.upper()),
+            Text(mother_id),
             Text(report.clinic_delivery_text),
             Text(report.encounter.encounter_date.strftime("%d/%m/%y")),
             Text(patient.chw)])
